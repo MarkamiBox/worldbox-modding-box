@@ -203,6 +203,60 @@ if (World.world.buildings.canBuildFrom(tile, asset, null, BuildPlacingType.New))
 
 Frage immer zuerst `canBuildFrom` ab. Ein Gebäude auf Wasser, auf ein anderes Gebäude oder auf ein von einer Stadt beanspruchtes Feld zu setzen, erzeugt eine Welt, die anfangs gut aussieht und drei Minuten später kaputtgeht :PES_OhShit:.
 
+
+## Städte das Gebäude bauen lassen
+
+Eine göttliche Kraft, die deinen Schrein platziert, ist ein netter Zeitvertreib. Ein Schrein, den Städte eigenständig bauen, sobald sie groß genug sind, ist eine Mod. Städte entscheiden anhand zweier Komponenten, was sie bauen, und dein Gebäude fehlt bisher in beiden:
+
+| | Was darin enthalten ist |
+| --- | --- |
+| Ein **Bauauftrag** (`AssetManager.city_build_orders`) | Eine Liste von Auftragsschlüsseln wie `order_temple` samt Einwohner- und Gebäudeanforderungen |
+| Eine **Architektur** (`AssetManager.architecture_library`) | Welches Gebäude ein Auftragsschlüssel für diese Rasse bedeutet: `order_temple` ist `temple_human` bei Menschen, etwas anderes bei Orks |
+
+Du erfindest also einen Auftragsschlüssel, bringst jeder Architektur bei, was er bedeutet, und fügst ihn den Bauaufträgen hinzu:
+
+```csharp Mods/HelloBox/Code/HelloBuildings.cs
+public const string ORDER = "order_hello_shrine";
+
+private static void AddToCities()
+{
+    BuildingAsset shrine = AssetManager.buildings.get(SHRINE);
+    if (shrine == null) return;
+
+    // Eigener Typ, damit die Stadt Schreine gegen ihr eigenes Limit zählt, nicht gegen Tempel
+    shrine.type = "type_hello_shrine";
+
+    // Die Architektursuche ist ein einfaches Wörterbuch: Ein unbekannter Schlüssel wirft einen Fehler für jede Stadt
+    // dieser Rasse. Lehre ihn allen Architekturen, auch denen, die ihn nie erreichen werden.
+    foreach (ArchitectureAsset architecture in AssetManager.architecture_library.list)
+    {
+        architecture.addBuildingOrderKey(ORDER, SHRINE);
+    }
+
+    foreach (CityBuildOrderAsset orders in AssetManager.city_build_orders.list)
+    {
+        if (orders.list.Exists(pOrder => pOrder.id == ORDER)) continue;
+
+        // dasselbe Limit wie beim Tempel: 1 Exemplar, 50 Einwohner, 15 Gebäude in der Stadt
+        orders.addBuilding(ORDER, 1, 50, 15);
+    }
+}
+```
+
+Rufe `AddToCities()` am Ende von `Initialize()` nach dem Klonen auf.
+
+Im Gegensatz zu vielem anderen in diesem Guide gibt es hier keine Start-Falle: `CityBehBuild.calcPossibleBuildings()` liest die Bauauftragsliste jeder Stadt jedes Mal neu aus, wenn sie über einen Bau nachdenkt. Ein beim Laden hinzugefügter Auftrag wird also sofort von der ersten prüfenden Stadt gesehen. Die Stadt muss dennoch die Baukosten (`cost`) bezahlen und jede Zahl der Bedingung erfüllen; kann sie das nicht, überspringt sie deinen Schrein lautlos :PES5_Hmmmm:.
+
+| Argument von `addBuilding(...)` | Was es bewirkt |
+| --- | --- |
+| `pID` | Der Auftragsschlüssel, nicht die Gebäude-ID |
+| `pLimitType` | Wie viele die Stadt besitzen darf. Der Tempel nutzt `1` |
+| `pPop` | Mindesteinwohnerzahl |
+| `pBuildings` | Mindestanzahl bereits vorhandener Gebäude in der Stadt |
+| `pCheckFullVillage` | Nur wenn alle Häuser voll belegt sind |
+| `pCheckHouseLimit` | Für Wohnhäuser: Überspringen, solange kein Wohnraummangel herrscht, Stopp am Häuserlimit |
+| `pMinZones` | Mindestgröße der Stadt in Zonen |
+
 ## Die Texte
 
 ```json Mods/HelloBox/Locales/en.json

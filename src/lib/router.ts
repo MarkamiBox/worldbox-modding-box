@@ -12,6 +12,9 @@ export function useRoute(): string {
     const onChange = () => {
       setSlug(current());
       window.scrollTo({ top: 0 });
+      (window as any).goatcounter?.count?.({
+        path: location.pathname + location.search + location.hash,
+      });
     };
     window.addEventListener('hashchange', onChange);
     return () => window.removeEventListener('hashchange', onChange);

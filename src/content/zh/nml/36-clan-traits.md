@@ -147,3 +147,17 @@ foreach (Clan clan in World.world.clans)
 
 > [!TIP] 家族规模有限，尽可放手施为
 > 一种文化能覆盖整片大陆；而一个家族仅局限于一家一姓，且 `limit_clan_members` 限制了其人数上限。在对世界整体平衡造成相同扰动的前提下，家族特质可以设计得比文化特质强悍得多。这使得家族成为安放各类震撼机制与超强特性的绝佳归宿 :PES5_Menace:。
+
+## 允许新创建的家族随机获得该特质
+
+除了通过代码手动授予外，家族特质还可以设置 `spawn_random_trait_allowed` 标志，以便在创建新家族时被自动随机抽取——这与文化的特质抽取机制完全一致。
+
+> [!WARNING] `spawn_random_trait_allowed` 仅在启动时读取一次
+> 新创立的家族是从一个候选池中随机抽取初始特质的，而该池是在游戏启动阶段由 `BaseTraitLibrary.linkAssets()` 构建完成的——彼时你的模组尚未加载。仅仅在特质上设置此布尔标志没有任何效果：它永远不会进入该池，新建家族也永远不会随机获得它。你必须手动将其以原版权重添加到池中：
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.clan_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` 字段为 `protected`，但在 NML 提供的 publicized 程序集下能够正常编译。默认的 `spawn_random_rate` 为 `5`：调大该数值可提高其随机抽取权重。

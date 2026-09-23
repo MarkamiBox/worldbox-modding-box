@@ -55,6 +55,17 @@ namespace HelloBox
 }
 ```
 
+
+> [!WARNING] `spawn_random_trait_allowed` wird nur einmal beim Start gelesen
+> Neue Religionen ziehen ihre Start-Traits aus einem Pool, den `BaseTraitLibrary.linkAssets()` während des Ladens aufbaut, bevor deine Mod existiert. Das Flag an deinem Trait zu setzen ändert für sich genommen nichts: Dein Trait landet nie in diesem Pool und wird einem Gründer nie zufällig verliehen. Füge ihn selbst hinzu, gewichtet nach Vanilla-Vorbild:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.religion_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` ist `protected`, kompiliert also gegen das publicized Assembly, mit dem NML deine Mod baut. `spawn_random_rate` steht standardmäßig auf `5`: Erhöhe den Wert, damit der Trait häufiger erscheint.
+
 ## Riten: das Feld `plot_id`
 
 Eine Religions-Eigenschaft mit einer `plot_id` wird zu einem **Ritus**. Die Religion sammelt ihre Riten in `possible_rites`, und Anführer sowie Priester versuchen sie eigenständig auszuführen, sobald die Bedingungen des Komplotts erfüllt sind.

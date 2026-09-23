@@ -147,3 +147,17 @@ foreach (Clan clan in World.world.clans)
 
 > [!TIP] 氏族は小規模。だからこそ大胆になれる
 > 文化は大陸全土を覆いますが、氏族は一つの家族に留まり、`limit_clan_members` によって規模の上限が抑えられます。文化特性と同じ世界バランスの枠内であれば、氏族特性ははるかに強力な効果を持たせることができます。劇的な能力を実装するには氏族こそが最高の舞台です :PES5_Menace:。
+
+## 新しい氏族が自然に特性を引き当てる
+
+自分で付与する以外にも、氏族特性は `spawn_random_trait_allowed` を設定することで、文化が初期特性を抽選するのと同じように、新しい氏族が結成される際に抽選対象にできます。
+
+> [!WARNING] `spawn_random_trait_allowed` はゲーム起動時に一度だけ読み込まれます
+> 新しい氏族は、ゲームロード中に `BaseTraitLibrary.linkAssets()` が構築するプールから初期特性を抽選します。これはあなたのModが存在するより前のタイミングです。特性にこのフラグを立てるだけでは何も変わりません。あなたの特性はそのプールに一度も入らず、新しい氏族に偶然付与されることもありません。バニラと同じ重み付けで、自分でプールに追加してください：
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.clan_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` は `protected` なので、NML がModのビルドに使うpublicize済みアセンブリに対してならコンパイルが通ります。`spawn_random_rate` の既定値は `5` です。数値を上げるほど出現頻度が上がります。

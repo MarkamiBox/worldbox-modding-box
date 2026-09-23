@@ -85,6 +85,16 @@ namespace HelloBox
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` is read once, at startup
+> New kingdoms roll their starting traits from a pool that `BaseTraitLibrary.linkAssets()` builds while the game loads, before your mod exists. Setting the flag on your trait changes nothing on its own: your trait is never in that pool, and it never turns up by chance. Put it in yourself, weighted the way vanilla does it:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.kingdoms_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` is `protected`, so this compiles against the publicized assembly NML already builds your mod with. `spawn_random_rate` defaults to `5`: raise it and the trait turns up more often.
+
 ## Making a policy that actually does something
 
 Since `base_stats` is out, a kingdom trait earns its keep one of two ways.

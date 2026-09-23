@@ -174,3 +174,17 @@ Un objeto `Language` expone también `cities`, `kingdoms` y `books`, que es lo q
 
 > [!TIP] Los libros son un sistema de entrega desaprovechado
 > Un libro escrito en tu idioma es una forma pausada y muy orgánica de otorgar un rasgo o estado. Circula por bibliotecas, atraviesa generaciones y el jugador contempla su difusión. Casi nadie crea mods para esto, lo cual lo convierte en una oportunidad perfecta :PES4_Classy:.
+
+## Nuevos idiomas que obtienen un rasgo por sí mismos
+
+Además de otorgarlo manualmente, un rasgo de idioma puede establecer `spawn_random_trait_allowed` para ser seleccionado cuando se forma un nuevo idioma, de la misma manera que una cultura selecciona sus rasgos iniciales.
+
+> [!WARNING] `spawn_random_trait_allowed` se lee una sola vez, al inicio
+> Los nuevos idiomas eligen sus rasgos iniciales de un grupo que `BaseTraitLibrary.linkAssets()` construye mientras se carga el juego, antes de que tu mod exista. Establecer la bandera en tu rasgo no cambia nada por sí solo: tu rasgo nunca estará en ese grupo y nunca aparecerá por casualidad en un nuevo idioma. Agrégalo tú mismo, con el peso que usa el juego vanilla:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.language_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` es `protected`, por lo que compila contra el ensamblado publicitado con el que NML ya compila tu mod. `spawn_random_rate` tiene un valor predeterminado de `5`: auméntalo y el rasgo aparecerá con más frecuencia.

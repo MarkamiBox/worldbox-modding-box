@@ -25,6 +25,9 @@ The game already has a place for it. Every unit, city, kingdom, building, item a
 
 Each type has its own table, so an `int` and a `string` under the same key do not collide. They still should not share a key, for your own sake.
 
+> [!NOTE] Storing something bigger than five primitives
+> NML has its own utility for stuffing an entire object into a unit's data, not just `int`/`long`/`float`/`string`/`bool`. I have never needed more than a counter or a flag, so I cannot walk you through it here. It exists, if a whole struct or list is what you need to remember.
+
 ## In HelloBox
 
 A trait that counts every hit its bearer lands, and hands out a reward once, at fifty:

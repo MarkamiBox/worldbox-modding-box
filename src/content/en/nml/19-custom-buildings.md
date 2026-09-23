@@ -206,6 +206,59 @@ if (World.world.buildings.canBuildFrom(tile, asset, null, BuildPlacingType.New))
 
 Always ask `canBuildFrom` first. Dropping a building on water, on another building, or on a tile a city has claimed for something else gives you a world that looks fine and breaks three minutes later :PES_OhShit:.
 
+## Making cities build it
+
+A god power that drops your shrine is fun for an afternoon. A shrine that towns build on their own, when they are big enough, is a mod. Cities pick what to build from two things, and your building is in neither yet:
+
+| | What it holds |
+| --- | --- |
+| A **build order** (`AssetManager.city_build_orders`) | A list of order keys like `order_temple`, with the population and building count each one needs |
+| An **architecture** (`AssetManager.architecture_library`) | Which building an order key means for this kind of creature: `order_temple` is `temple_human` for humans, something else for orcs |
+
+So you invent an order key, tell every architecture what it means, and add it to the build orders:
+
+```csharp Mods/HelloBox/Code/HelloBuildings.cs
+public const string ORDER = "order_hello_shrine";
+
+private static void AddToCities()
+{
+    BuildingAsset shrine = AssetManager.buildings.get(SHRINE);
+    if (shrine == null) return;
+
+    // A type of its own, so a city counts shrines against the limit, not temples
+    shrine.type = "type_hello_shrine";
+
+    // The architecture lookup is a plain dictionary: a key it does not know throws for every city
+    // of that creature. Teach it to all of them, even the ones that will never reach it.
+    foreach (ArchitectureAsset architecture in AssetManager.architecture_library.list)
+    {
+        architecture.addBuildingOrderKey(ORDER, SHRINE);
+    }
+
+    foreach (CityBuildOrderAsset orders in AssetManager.city_build_orders.list)
+    {
+        if (orders.list.Exists(pOrder => pOrder.id == ORDER)) continue;
+
+        // same limit the temple uses: 1, 50 people, 15 buildings in town
+        orders.addBuilding(ORDER, 1, 50, 15);
+    }
+}
+```
+
+Call `AddToCities()` at the end of `Initialize()`, after the clone.
+
+Unlike most of this guide, there is no startup trap here: `CityBehBuild.calcPossibleBuildings()` reads each city's build order list every time it thinks about building, so an order added at load is seen by the first city that looks. The city still has to afford the building's `cost` and meet every number in the order, and when it cannot, it skips your shrine without a word :PES5_Hmmmm:.
+
+| `addBuilding(...)` argument | What it does |
+| --- | --- |
+| `pID` | The order key, not the building id |
+| `pLimitType` | How many the city may have. The temple uses `1` |
+| `pPop` | Minimum population |
+| `pBuildings` | Minimum number of buildings already in town |
+| `pCheckFullVillage` | Only when every house is full |
+| `pCheckHouseLimit` | For houses: skip while housing is not tight yet, stop at the city's house limit |
+| `pMinZones` | Minimum city size, in zones |
+
 ## The text
 
 ```json Mods/HelloBox/Locales/en.json

@@ -137,6 +137,50 @@ public static class Patch_City_ArmyMax
 
 Ajusta, no asignes a ciegas. `__result *= 1.5f` funciona bien si otro mod parcheó el mismo método. `__result = 12f` destruye su trabajo y abre un debate hostil en tu sección de comentarios.
 
+
+## Modificar un número hardcodeado en el juego
+
+La mitad de las peticiones tipo "¿alguien puede hacer un mod que...?" son solo un número. "Las ciudades crecen demasiado" es esto, sacado directamente de la clase `City` del juego:
+
+```csharp Assembly-CSharp / City
+public int getZoneRange(bool pAllowCheat = true)
+{
+    if (pAllowCheat && DebugConfig.isOn(DebugOption.CityUnlimitedZoneRange))
+    {
+        return 999;
+    }
+    return 13;
+}
+```
+
+Un método que devuelve una constante es lo más fácil de modificar en el juego. No tocas la constante, ajustas lo que devuelve:
+
+```csharp Mods/HelloBox/Code/HelloPatches.cs
+using HarmonyLib;
+using UnityEngine;
+
+namespace HelloBox
+{
+    [HarmonyPatch(typeof(City), nameof(City.getZoneRange))]
+    public static class Patch_City_ZoneRange
+    {
+        private const float SCALE = 0.5f;   // ciudades a mitad de tamaño
+
+        public static void Postfix(ref int __result)
+        {
+            // 999 es la opción de depuración "unlimited zone range". No toques el truco del jugador
+            if (__result == 999) return;
+
+            __result = Mathf.Max(1, Mathf.RoundToInt(__result * SCALE));
+        }
+    }
+}
+```
+
+Coloca `SCALE` detrás de un control deslizante de **[Configuración del mod](#/nml/mod-config)** y los jugadores lo ajustarán ellos mismos.
+
+Encontrar el método es el verdadero trabajo. Busca en **dnSpy** el número que ves en el juego (13 zonas, 2 armas, 5 años) o el sustantivo de la regla ("zone", "limit", "max"). Una constante dentro de un método pequeño es un Postfix. Una constante oculta en medio de uno largo requiere un transpiler, ed ahí es donde se detiene esta página :PES2_Shrug:.
+
 ## Cancelar el método original
 
 Un Prefix que devuelve `bool` decide si el código original del juego se ejecuta o no:

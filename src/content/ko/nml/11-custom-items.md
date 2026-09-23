@@ -139,6 +139,30 @@ namespace HelloBox
 | `addSpell(id)` | 착용자가 시전할 수 있게 되는 주문 |
 | `addCombatAction(id)` | 착용자가 구사할 수 있게 되는 전투 기술 |
 
+## 장착 중에만 발동하는 효과
+
+"엠버 블레이드를 든 사람은 신속해진다"는 특성처럼 들리지만, 아이템에는 특성을 붙일 수 없습니다. 대신 위 표의 `action_special_effect`로 장착 중 일정 간격마다 코드를 실행할 수 있고, **상태 효과**는 내버려 두면 스스로 만료됩니다. 즉 아이템이 짧은 상태 효과를 주기적으로 다시 걸어 주고, 아이템을 빼면 상태 효과는 그대로 자연스럽게 사라집니다:
+
+```csharp Mods/HelloBox/Code/HelloItems.cs
+blade.special_effect_interval = 1f;
+blade.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
+{
+    Actor actor = pSelf as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    StatusAsset status = AssetManager.status.get(HelloStatus.CURSED);
+    if (status == null) return false;
+
+    // 3초 지속, 들고 있는 동안 매초 갱신. 검을 내려놓으면 자연히 사라짐
+    World.world.statuses.newStatus(actor, status, 3f);
+    return true;
+};
+```
+
+이 상태 효과에는 `allow_timer_reset = true`가 필요합니다(새로 만든 `StatusAsset`은 기본값이 true지만, 복제한 원본에 따라 false일 수 있습니다). 설정하지 않으면 미리 다시 걸어도 아무 효과가 없어 전투 중에 그대로 만료됩니다. HelloBox에서는 이 검이 착용자 자신을 저주하는데, 엠버 블레이드다운 동작입니다 :wbfacepalm:.
+
+특성을 쓰지 않는 이유: 특성은 무언가 제거하기 전까지 계속 남아 있으므로, 검이 사라진 걸 감지해서 제거하는 별도의 타이머가 필요해집니다. 상태 효과는 스스로 뒷정리를 합니다.
+
 ## 나만의 스프라이트 적용하기
 
 아이템은 두 가지 그래픽 리소스를 가지며, 각각 별개의 필드로 지정합니다:

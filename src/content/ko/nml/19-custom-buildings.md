@@ -203,6 +203,59 @@ if (World.world.buildings.canBuildFrom(tile, asset, null, BuildPlacingType.New))
 
 항상 사전에 `canBuildFrom` 을 호출해 확인하세요. 물 위나 다른 건물 위, 혹은 도시가 다른 용도로 예약해 둔 타일에 건물을 강제로 떨구면 처음 30초는 멀쩡해 보이다가 3분 뒤에 월드가 폭파됩니다 :PES_OhShit:.
 
+## 도시가 스스로 짓게 만들기
+
+신의 권능으로 신전을 하나 떨어뜨리는 건 한나절 재미일 뿐입니다. 도시가 충분히 커졌을 때 스스로 짓는 신전이야말로 모드입니다. 도시는 두 가지에서 무엇을 지을지 고르는데, 여러분의 건물은 아직 둘 중 어디에도 없습니다:
+
+| | 담고 있는 내용 |
+| --- | --- |
+| **빌드 오더** (`AssetManager.city_build_orders`) | `order_temple` 같은 주문 키 목록이며, 각 키마다 필요한 인구와 건물 수가 있습니다 |
+| **아키텍처** (`AssetManager.architecture_library`) | 특정 종족에게 주문 키가 어떤 건물을 뜻하는지. `order_temple`은 인간에게는 `temple_human`, 다른 종족에게는 다른 건물입니다 |
+
+그래서 여러분만의 주문 키를 하나 만들고, 모든 아키텍처에 그 의미를 알려준 뒤, 빌드 오더에 추가합니다:
+
+```csharp Mods/HelloBox/Code/HelloBuildings.cs
+public const string ORDER = "order_hello_shrine";
+
+private static void AddToCities()
+{
+    BuildingAsset shrine = AssetManager.buildings.get(SHRINE);
+    if (shrine == null) return;
+
+    // 전용 type을 부여해, 도시가 신전이 아니라 별도 한도로 셈
+    shrine.type = "type_hello_shrine";
+
+    // 아키텍처 조회는 그냥 Dictionary라서, 모르는 키는 해당 종족의 모든 도시에서 예외를 던집니다.
+    // 절대 도달하지 않을 종족에게도 미리 알려주세요.
+    foreach (ArchitectureAsset architecture in AssetManager.architecture_library.list)
+    {
+        architecture.addBuildingOrderKey(ORDER, SHRINE);
+    }
+
+    foreach (CityBuildOrderAsset orders in AssetManager.city_build_orders.list)
+    {
+        if (orders.list.Exists(pOrder => pOrder.id == ORDER)) continue;
+
+        // 신전과 같은 한도: 1개까지, 인구 50, 마을 건물 15채
+        orders.addBuilding(ORDER, 1, 50, 15);
+    }
+}
+```
+
+`AddToCities()`는 `Initialize()`의 끝, 복제 이후에 호출하세요.
+
+이 가이드의 다른 대부분과 달리 여기에는 시작 시점 함정이 없습니다. `CityBehBuild.calcPossibleBuildings()`는 도시가 건축을 고려할 때마다 빌드 오더 목록을 매번 다시 읽으므로, 로드 시 추가한 주문은 그것을 처음 보는 도시부터 바로 인식됩니다. 다만 도시는 여전히 건물의 `cost`를 감당할 수 있어야 하고 주문의 모든 조건을 충족해야 하며, 그렇지 못하면 아무 말 없이 여러분의 신전을 건너뜁니다 :PES5_Hmmmm:.
+
+| `addBuilding(...)` 인자 | 역할 |
+| --- | --- |
+| `pID` | 건물 id가 아니라 주문 키 |
+| `pLimitType` | 도시가 가질 수 있는 최대 개수. 신전은 `1` |
+| `pPop` | 최소 필요 인구 |
+| `pBuildings` | 마을에 이미 있어야 하는 최소 건물 수 |
+| `pCheckFullVillage` | 모든 집이 꽉 찼을 때만 |
+| `pCheckHouseLimit` | 주택용: 주거 여유가 있으면 건너뛰고, 도시의 주택 한도에서 멈춤 |
+| `pMinZones` | 최소 도시 크기 (구역 수) |
+
 ## 텍스트 로컬라이제이션
 
 ```json Mods/HelloBox/Locales/en.json

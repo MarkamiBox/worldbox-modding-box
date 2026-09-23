@@ -14,6 +14,19 @@ Trova il tuo sintomo nella tabella, cliccalo, leggi tre righe. Questa è l'inter
 
 ## Trova il tuo sintomo
 
+**Usare le mod (non crearle)**
+
+| Sintomo | |
+| --- | --- |
+| Testo rosso a fiumi, `Missing className: NeoModLoader (1).WorldBoxMod` | [salta](#testo-rosso-a-fiumi-missing-classname) |
+| NML funzionava, il gioco si è aggiornato, ora le mod sono rosse o "failed" | [salta](#le-mod-sono-rosse-o-failed-dopo-un-aggiornamento-del-gioco) |
+| Il gioco è su una versione vecchia e NML non si carica | [salta](#il-gioco-è-su-una-versione-vecchia) |
+| Il gioco è diventato lento o si blocca con le mod attive | [salta](#il-gioco-è-diventato-lento-o-si-blocca-con-le-mod-attive) |
+| Un mondo non si carica più | [salta](#un-mondo-non-si-carica-più) |
+| Una mod BepInEx è installata e non mostra nulla | [salta](#una-mod-bepinex-è-installata-e-non-mostra-nulla) |
+| Hai cancellato una mod ed è ancora lì | [salta](#hai-cancellato-una-mod-ed-è-ancora-lì) |
+| Il gioco non parte proprio | [salta](#il-gioco-non-parte-proprio) |
+
 **Non si carica nulla**
 
 | Sintomo | |
@@ -95,6 +108,58 @@ Trova il tuo sintomo nella tabella, cliccalo, leggi tre righe. Questa è l'inter
 | L'uso della memoria sale a ogni apertura del pannello | [vai](#l-uso-della-memoria-sale-a-ogni-apertura-del-pannello) |
 | Un nuovo valore predefinito non raggiunge i giocatori esistenti | [vai](#un-nuovo-valore-predefinito-non-raggiunge-i-giocatori-esistenti) |
 | Uno slider si muove ma la tua funzione di callback non viene eseguita | [vai](#uno-slider-si-muove-ma-la-tua-funzione-di-callback-non-viene-eseguita) |
+
+## Usare le mod
+
+Questo gruppo è per chi gioca con le mod, non per chi le crea. Tutto ciò che segue presuppone che sia tu a scrivere il codice.
+
+### Testo rosso a fiumi, missing className
+
+- **Cosa vedi**: Testo rosso che scorre sopra il gioco, `previous errors repeated`, `YOU SHOULD RESTART THE GAME`, e nel log `Missing className: NeoModLoader (1).WorldBoxMod`.
+- **Perché**: Il file non si chiama `NeoModLoader.dll`. Un browser che lo scarica una seconda volta aggiunge ` (1)`, e NML legge il proprio nome di file.
+- **Come risolvere**: Chiudi il gioco, cancella qualsiasi copia precedente, rinomina il file esattamente in `NeoModLoader.dll` e riavvia. Guida passo dopo passo su **[Installare NML](#/install-nml)**.
+
+### Le mod sono rosse o failed dopo un aggiornamento del gioco
+
+- **Cosa vedi**: La lista delle mod mostra una mod in rosso, "failed", `current failed, will load`, o `<Mod> has been disabled due to an error`. Prima dell'aggiornamento funzionava.
+- **Perché**: Le mod chiamano il codice del gioco. Quando WorldBox modifica quel codice, una mod creata per la versione precedente smette di compilare. NML non è il problema, è solo il messaggero.
+- **Come risolvere**: Cerca una versione più recente della mod (su GameBanana, ordina per **Updated**). Se non c'è una versione più recente, aspetta l'autore o gioca sulla vecchia versione del gioco, vedi **[le FAQ](#/install-nml)**. Non tenere due versioni della stessa mod in `Mods` "per sicurezza": entrano in conflitto.
+
+### Il gioco è su una versione vecchia
+
+- **Cosa vedi**: NML non si carica mai, oppure il log dice `MissingFieldException: Field not found: bool .Config.gameLoaded`. Il numero di versione nel menu principale è più vecchio di quello di cui parlano tutti.
+- **Perché**: Il gioco si trova su un **ramo beta** di Steam, di solito uno scelto tempo fa per provare un aggiornamento in anticipo, e l'NML che hai scaricato è creato per la versione attuale.
+- **Come risolvere**: Steam → clic destro su WorldBox → **Proprietà → Beta** → **Nessuna**. Lascia che Steam si aggiorni e riattiva la modalità sperimentale :PES2_Shrug:.
+
+### Il gioco è diventato lento o si blocca con le mod attive
+
+- **Cosa vedi**: FPS bassi, scatti o il mondo bloccato mentre i pulsanti rispondono ancora. Senza mod funziona benissimo.
+- **Perché**: Quasi sempre è una mod che esegue calcoli pesanti a ogni tick, solitamente una grossa mod di contenuti. Due mod che modificano la stessa cosa possono anche bloccarsi a vicenda.
+- **Come risolvere**: Disattiva metà delle tue mod, riavvia e prova. Se è ancora rotto: il colpevole è nella metà rimasta attiva. Continua a dimezzare finché non ne rimane una sola. Disattivarle è sufficiente, non serve cancellarle. Leggi la descrizione di quella mod per incompatibilità note e non eseguire mai due versioni della stessa mod (una completa e una "lite") insieme.
+
+### Un mondo non si carica più
+
+- **Cosa vedi**: Il salvataggio apre un mondo diverso, si blocca durante il caricamento o genera `NullReferenceException` durante il salvataggio o il caricamento.
+- **Perché**: Il mondo contiene creature, edifici o tratti di una mod che ora è disattivata, rimossa o non aggiornata. Il gioco trova identificatori che non conosce.
+- **Come risolvere**: Riattiva quella mod (o torna alla versione con cui è stato fatto il salvataggio), carica il mondo e rimuovi i contenuti moddati in gioco prima di togliere la mod. Tieni una copia dei mondi a cui tieni prima di provare una nuova mod di contenuti :PES_MonkaSweat:.
+
+### Una mod BepInEx è installata e non mostra nulla
+
+- **Cosa vedi**: La mod si trova in `BepInEx/plugins`, non compare nulla nel gioco e nessun file di configurazione appare in `BepInEx/config`.
+- **Perché**: O il file zip è stato inserito in `plugins` come zip, oppure l'oggetto manager di BepInEx viene distrutto dal gioco, cosa per cui alcune macchine richiedono un'impostazione specifica.
+- **Come risolvere**: Inserisci la **cartella all'interno** dello zip in `BepInEx/plugins`, non il file zip. Poi apri `BepInEx/config/BepInEx.cfg`, cerca `HideManagerGameObject = false`, modificalo in `true`, salva e riavvia. Configurazione di BepInEx: **[La console dal vivo](#/toolbox/bepinex-console)**.
+
+### Hai cancellato una mod ed è ancora lì
+
+- **Cosa vedi**: La cartella non c'è più in `Mods`, ma la mod si carica ancora.
+- **Perché**: Eri iscritto su Steam Workshop, e le mod dello Workshop risiedono nella cartella di Steam, non nella tua.
+- **Come risolvere**: Disiscriviti dalla sua pagina dello Workshop. Togliere la spunta non equivale a disiscriversi.
+
+### Il gioco non parte proprio
+
+- **Cosa vedi**: WorldBox si chiude o si blocca prima del menu principale, anche dopo aver rimosso le mod.
+- **Perché**: Un file del gioco stesso è stato danneggiato, spesso copiando qualcosa nella cartella sbagliata.
+- **Come risolvere**: Steam → clic destro su WorldBox → **Proprietà → File installati → Verifica integrità dei file di gioco**. Poi reinserisci NML e le tue mod una alla volta.
 
 ---
 

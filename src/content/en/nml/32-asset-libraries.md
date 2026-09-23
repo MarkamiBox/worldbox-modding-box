@@ -149,6 +149,9 @@ The game builds all 129 libraries at startup, then runs `post_init()` on them, *
 - **Anything a library does automatically in `post_init` has already happened.** Actor traits, for instance, get a default `path_icon` filled in there. Yours does not, because your trait did not exist yet. Set it yourself.
 - **Every vanilla asset already exists when your `OnModLoad` runs.** So `get("human")` works, `clone(..., "human")` works, and editing vanilla content in place works. You are never too early.
 
+> [!NOTE] Patching these methods does not touch vanilla content
+> `has`, `get`, `add`, `clone` and `post_init` all run on the 129 libraries during game startup, before NML loads a single mod. A Harmony patch on any of them only affects calls made *after* your mod loads. It never touches the vanilla registration that already happened by then. Want different vanilla content? Change it afterward with `get()`, the way the rest of this page does.
+
 ## The pattern every page after this one uses
 
 ```csharp Mods/HelloBox/Code/HelloSomething.cs

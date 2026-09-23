@@ -137,6 +137,49 @@ public static class Patch_City_ArmyMax
 
 代入ではなく調整をしてください。`__result *= 1.5f` なら他のModが同じメソッドをパッチしていても共存できます。`__result = 12f` と直接代入してしまうと他人のパッチ成果を握りつぶすことになり、コメント欄で喧嘩が始まります。
 
+## ゲームがハードコードした数値を変える
+
+「〜なModを作れる人いませんか」の半分は、単に1つの数字の話です。「都市が大きくなりすぎる」はまさにこれで、ゲーム自身の `City` クラスから直接：
+
+```csharp Assembly-CSharp / City
+public int getZoneRange(bool pAllowCheat = true)
+{
+    if (pAllowCheat && DebugConfig.isOn(DebugOption.CityUnlimitedZoneRange))
+    {
+        return 999;
+    }
+    return 13;
+}
+```
+
+定数を返すだけのメソッドは、ゲーム内で最も簡単にパッチできる対象です。定数そのものには触らず、出てくる値を調整します：
+
+```csharp Mods/HelloBox/Code/HelloPatches.cs
+using HarmonyLib;
+using UnityEngine;
+
+namespace HelloBox
+{
+    [HarmonyPatch(typeof(City), nameof(City.getZoneRange))]
+    public static class Patch_City_ZoneRange
+    {
+        private const float SCALE = 0.5f;   // 都市を半分の大きさに
+
+        public static void Postfix(ref int __result)
+        {
+            // 999はデバッグの「無制限ゾーン範囲」スイッチ。プレイヤーのチート設定を邪魔しない
+            if (__result == 999) return;
+
+            __result = Mathf.Max(1, Mathf.RoundToInt(__result * SCALE));
+        }
+    }
+}
+```
+
+`SCALE` を **[Mod設定](#/nml/mod-config)** のスライダーに繋げれば、プレイヤー自身が調整できます。
+
+本当に大変なのはメソッドを見つける作業です。ゲーム内で見た数値（13ゾーン、武器2つ、5年）や、ルールに出てくる名詞（"zone"、"limit"、"max"）を **dnSpy** で検索してください。小さなメソッドの中の定数ならPostfixで対応できます。長いメソッドの途中に埋め込まれた定数にはtranspilerが必要で、それはこのページの範囲外です :PES2_Shrug:。
+
 ## 元のメソッドのキャンセル
 
 `bool` を返すPrefixは、ゲーム本体のオリジナルコードを実行するかどうかを決定できます：
@@ -218,6 +261,9 @@ public static class Patch_Actor_StatDelta
 - **軽い判定を一番上に置く。** 頻繁に呼ばれるパッチの1行目は、すぐに `return` できる条件式にしてください。
 - **目的に対して最も狭いメソッドをパッチする。** 特性の移動速度のために `Actor.updateStats` をパッチするのは健全です。同じことのためにワールド全体の更新ループをパッチするとModをアンインストールされます。
 - **パッチは1つのファイルにまとめる。** 競合報告が上がってきたとき、調べたいのは12個のファイルではなく1個のファイルです。
+
+> [!NOTE] ライブラリの `has`、`get`、`add`、`clone`、`post_init` へのパッチは意味がありません
+> 影響するのは自分のModがロードされた後に行われる呼び出しだけで、その時点で既に完了しているバニラの登録処理には一切影響しません。**[アセットライブラリ](#/nml/asset-libraries)** を参照。
 
 ## ここでは扱わない内容
 

@@ -137,6 +137,50 @@ public static class Patch_City_ArmyMax
 
 Modifica, non assegnare ciecamente. `__result *= 1.5f` funziona pacificamente se un altro mod ha patchato lo stesso metodo. `__result = 12f` butta via il loro lavoro e apre discussioni nei tuoi commenti.
 
+
+## Modificare un numero hardcodato nel gioco
+
+La metà delle richieste del tipo "qualcuno può fare una mod che..." riguarda un singolo numero. "Le città crescono troppo" è proprio questo, preso direttamente dalla classe `City` del gioco:
+
+```csharp Assembly-CSharp / City
+public int getZoneRange(bool pAllowCheat = true)
+{
+    if (pAllowCheat && DebugConfig.isOn(DebugOption.CityUnlimitedZoneRange))
+    {
+        return 999;
+    }
+    return 13;
+}
+```
+
+Un metodo che restituisce una costante è la cosa più facile da modificare nel gioco. Non tocchi la costante, modifichi ciò che restituisce:
+
+```csharp Mods/HelloBox/Code/HelloPatches.cs
+using HarmonyLib;
+using UnityEngine;
+
+namespace HelloBox
+{
+    [HarmonyPatch(typeof(City), nameof(City.getZoneRange))]
+    public static class Patch_City_ZoneRange
+    {
+        private const float SCALE = 0.5f;   // città grandi la metà
+
+        public static void Postfix(ref int __result)
+        {
+            // 999 è l'opzione di debug "unlimited zone range". Non toccare il trucco del giocatore
+            if (__result == 999) return;
+
+            __result = Mathf.Max(1, Mathf.RoundToInt(__result * SCALE));
+        }
+    }
+}
+```
+
+Metti `SCALE` dietro uno slider di **[Configurazione mod](#/nml/mod-config)** e i giocatori lo regoleranno da soli.
+
+Trovare il metodo è il vero lavoro. Cerca in **dnSpy** il numero che vedi nel gioco (13 zone, 2 armi, 5 anni) o il sostantivo della regola ("zone", "limit", "max"). Una costante dentro un metodo piccolo è un Postfix. Una costante nascosta in mezzo a un metodo lungo richiede un transpiler, ed è qui che questa pagina si ferma :PES2_Shrug:.
+
 ## Annullare il metodo originale
 
 Un Prefix che restituisce `bool` decide se il codice originale del gioco deve essere eseguito o meno:

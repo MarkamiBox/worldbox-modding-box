@@ -137,6 +137,50 @@ public static class Patch_City_ArmyMax
 
 Ajuste, não atribua cegamente. `__result *= 1.5f` ainda funciona pacificamente se outro mod tiver alterado o mesmo método. `__result = 12f` joga o trabalho dele fora e cria discussões na sua seção de comentários.
 
+
+## Alterando um número fixo no jogo
+
+Metade dos pedidos do tipo "alguém pode fazer um mod que..." é apenas um número. "Cidades crescem demais" é isso, tirado diretamente da classe `City` do jogo:
+
+```csharp Assembly-CSharp / City
+public int getZoneRange(bool pAllowCheat = true)
+{
+    if (pAllowCheat && DebugConfig.isOn(DebugOption.CityUnlimitedZoneRange))
+    {
+        return 999;
+    }
+    return 13;
+}
+```
+
+Um método que retorna uma constante é a coisa mais fácil de alterar no jogo. Você não mexe na constante, altera o que ele retorna:
+
+```csharp Mods/HelloBox/Code/HelloPatches.cs
+using HarmonyLib;
+using UnityEngine;
+
+namespace HelloBox
+{
+    [HarmonyPatch(typeof(City), nameof(City.getZoneRange))]
+    public static class Patch_City_ZoneRange
+    {
+        private const float SCALE = 0.5f;   // cidades com metade do tamanho
+
+        public static void Postfix(ref int __result)
+        {
+            // 999 é a opção de debug "unlimited zone range". Não mexa no cheat do jogador
+            if (__result == 999) return;
+
+            __result = Mathf.Max(1, Mathf.RoundToInt(__result * SCALE));
+        }
+    }
+}
+```
+
+Coloque `SCALE` atrás de um slider na **[Configuração do mod](#/nml/mod-config)** e os jogadores poderão ajustá-lo sozinhos.
+
+Encontrar o método é o trabalho real. Procure no **dnSpy** pelo número que você vê no jogo (13 zonas, 2 armas, 5 anos) ou pelo substantivo da regra ("zone", "limit", "max"). Uma constante em um método pequeno é um Postfix. Uma constante oculta no meio de um método longo exige um transpiler, e é aí que esta página para :PES2_Shrug:.
+
 ## Cancelando o método original
 
 Um Prefix que retorna `bool` decide se o código original do jogo deve rodar ou não:

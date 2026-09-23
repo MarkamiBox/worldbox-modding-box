@@ -25,6 +25,10 @@ Il gioco offre già una sede perfetta per questo. Ogni unità, città, regno, ed
 
 Ogni tipo di dato ha la propria tabella dedicata, quindi un `int` e una `string` sotto la medesima chiave non collidono. Per chiarezza personale è comunque saggio non condividere le stesse chiavi.
 
+
+> [!NOTE] Memorizzare qualcosa di più grande di cinque tipi primitivi
+> NML dispone di una propria utility per salvare un intero oggetto nei dati di un'unità, non solo `int`/`long`/`float`/`string`/`bool`. Non ho mai avuto bisogno di più di un contatore o di un flag, quindi non posso guidarti qui. Esiste, nel caso avessi bisogno di ricordare un'intera struct o lista.
+
 ## In HelloBox
 
 Un tratto che conta ogni colpo andato a segno del portatore e assegna una ricompensa speciale una sola volta, al cinquantesimo colpo:

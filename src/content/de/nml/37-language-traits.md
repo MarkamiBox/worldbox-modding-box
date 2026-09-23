@@ -174,3 +174,17 @@ Ein `Language`-Objekt legt außerdem `cities`, `kingdoms` und `books` offen – 
 
 > [!TIP] Bücher sind ein unterschätztes Zustellsystem
 > Ein Buch in deiner Sprache ist ein entschleunigter, organischer Weg, um Eigenschaften oder Statuseffekte zu verteilen. Es wandert durch Bibliotheken, braucht Generationen und der Spieler beobachtet den Vorgang. Kaum jemand moddet das – genau deshalb lohnt es sich umso mehr :PES4_Classy:.
+
+## Neue Sprachen, die selbstständig Traits auswürfeln
+
+Abgesehen von der manuellen Vergabe kann ein Sprach-Trait `spawn_random_trait_allowed` setzen, um bei der Entstehung einer neuen Sprache ausgewürfelt zu werden – genau so, wie eine Kultur ihre Start-Traits wählt.
+
+> [!WARNING] `spawn_random_trait_allowed` wird nur einmal beim Start gelesen
+> Neue Sprachen ziehen ihre Start-Traits aus einem Pool, den `BaseTraitLibrary.linkAssets()` während des Ladens aufbaut, bevor deine Mod existiert. Das Flag an deinem Trait zu setzen ändert für sich genommen nichts: Dein Trait landet nie in diesem Pool und wird einer neuen Sprache nie zufällig verliehen. Füge ihn selbst hinzu, gewichtet nach Vanilla-Vorbild:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.language_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` ist `protected`, kompiliert also gegen das publicized Assembly, mit dem NML deine Mod baut. `spawn_random_rate` steht standardmäßig auf `5`: Erhöhe den Wert, damit der Trait häufiger erscheint.

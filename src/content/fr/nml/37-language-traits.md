@@ -174,3 +174,17 @@ L'objet `Language` propose également `cities`, `kingdoms` et `books`, indispens
 
 > [!TIP] Les livres sont un vecteur sous-exploité
 > Un livre rédigé dans votre langue constitue un moyen lent et organique de diffuser un trait ou un statut. Il transite par les bibliothèques, s'étend sur des générations et le joueur le voit opérer. Presque personne ne crée de mod sur cet aspect, ce qui en fait un sujet de prédilection :PES4_Classy:.
+
+## Nouvelles langues obtenant un trait d'elles-mêmes
+
+En plus de l'attribuer vous-même, un trait de langue peut définir `spawn_random_trait_allowed` pour être tiré au sort lors de la formation d'une nouvelle langue, de la même manière qu'une culture tire ses traits de départ.
+
+> [!WARNING] `spawn_random_trait_allowed` n'est lu qu'une seule fois, au démarrage
+> Les nouvelles langues tirent leurs traits de départ d'un pool que `BaseTraitLibrary.linkAssets()` construit pendant le chargement du jeu, avant que votre mod n'existe. Définir le drapeau sur votre trait ne change rien en soi : votre trait n'est jamais dans ce pool et n'apparaît jamais par hasard sur une nouvelle langue. Ajoutez-le vous-même, pondéré comme le fait le jeu vanilla :
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.language_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` est `protected`, donc cela compile contre l'assembly rendue publique avec laquelle NML compile déjà votre mod. `spawn_random_rate` vaut `5` par défaut : augmentez-le et le trait apparaîtra plus souvent.

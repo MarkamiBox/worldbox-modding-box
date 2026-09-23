@@ -55,6 +55,17 @@ namespace HelloBox
 }
 ```
 
+
+> [!WARNING] `spawn_random_trait_allowed` é lido apenas uma vez, na inicialização
+> Novas religiões sorteiam seus traços iniciais de um grupo que `BaseTraitLibrary.linkAssets()` constrói durante o carregamento do jogo, antes do seu mod existir. Definir a flag no seu traço não muda nada por si só: seu traço nunca estará nesse grupo e nunca aparecerá por acaso em um fundador. Adicione-o você mesmo, com o peso que o jogo vanilla usa:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.religion_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` é `protected`, portanto compila contra o assembly publicizado com o qual o NML já compila seu mod. `spawn_random_rate` tem o valor padrão de `5`: aumente-o para que o traço apareça com mais frequência.
+
 ## Ritos: o campo `plot_id`
 
 Um traço religioso provido de um `plot_id` torna-se um **rito**. A religião reúne seus ritos em `possible_rites`, e líderes e sacerdotes tentam realizá-los por conta própria assim que as condições da conspiração são atendidas.

@@ -174,3 +174,17 @@ Un'istanza di `Language` espone anche `cities`, `kingdoms` e `books`, fondamenta
 
 > [!TIP] I libri sono un veicolo di diffusione sottovalutato
 > Un libro scritto nella tua lingua è un metodo graduale e organico per dispensare tratti o status. Circola nelle biblioteche, richiede generazioni e il giocatore ne segue visivamente gli sviluppi. Quasi nessun modder lo sfrutta, ed è proprio per questo che merita farlo :PES4_Classy:.
+
+## Nuove lingue che estraggono un tratto da sole
+
+Oltre ad assegnarlo manualmente, un tratto di lingua può impostare `spawn_random_trait_allowed` per essere estratto alla formazione di una nuova lingua, nello stesso modo in cui una cultura sceglie i suoi tratti iniziali.
+
+> [!WARNING] `spawn_random_trait_allowed` viene letto una sola volta, all'avvio
+> Le nuove lingue pescano i loro tratti iniziali da un gruppo che `BaseTraitLibrary.linkAssets()` costruisce durante il caricamento del gioco, prima che la tua mod esista. Impostare il flag sul tuo tratto non cambia nulla da solo: il tuo tratto non è mai in quel gruppo e non apparirà mai per caso su una nuova lingua. Aggiungilo tu stesso, con il peso usato dal gioco vanilla:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.language_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` è `protected`, quindi compila contro l'assembly pubblicizzata con cui NML compila già la tua mod. `spawn_random_rate` ha valore predefinito `5`: aumentalo e il tratto apparirà più spesso.

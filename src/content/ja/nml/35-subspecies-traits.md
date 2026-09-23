@@ -73,6 +73,16 @@ namespace HelloBox
 
 ユニットの `mutation` ステータスが、これらの変異が発生する確率を決定します。**[ステータスリファレンス](#/nml/stats)** を参照してください。
 
+> [!WARNING] 抽選枠が構築されるのはゲーム起動時の一度きりです
+> `spawn_random_trait_allowed = true` を設定するだけでは不十分です。実際の抽選枠 `_pot_allowed_to_be_given_randomly` は、ゲームロード中に `BaseTraitLibrary.linkAssets()` が構築します。これはあなたのModが存在するより前のタイミングです。後から登録した特性はその枠に一度も入らず、変異で選ばれることはありません。バニラと同じ重み付けで、自分で追加してください：
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.subspecies_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` は `protected` なので、NML がModのビルドに使うpublicize済みアセンブリに対してならコンパイルが通ります。`spawn_random_rate` の既定値は `5` です。数値を上げるほど出現頻度が上がります。
+
 ## スプライト画像: 他のどの特性システムにもない要素
 
 ```csharp

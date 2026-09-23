@@ -139,6 +139,31 @@ namespace HelloBox
 | `addSpell(id)` | Um feitiço que o portador pode conjurar |
 | `addCombatAction(id)` | Uma manobra de combate concedida pela arma |
 
+
+## Um efeito enquanto é empunhado
+
+"Quem empunhar a Lâmina de Brasas fica Rápido" soa como um traço em um item. Itens não carregam traços, mas executam código em um temporizador enquanto estão equipados (`action_special_effect` da tabela acima), e um **status** expira por conta própria. Assim, o item fica reaplicando um status curto, e quando o item é retirado, o status simplesmente expira:
+
+```csharp Mods/HelloBox/Code/HelloItems.cs
+blade.special_effect_interval = 1f;
+blade.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
+{
+    Actor actor = pSelf as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    StatusAsset status = AssetManager.status.get(HelloStatus.CURSED);
+    if (status == null) return false;
+
+    // 3 segundos, renovado a cada segundo enquanto empunhado. Ao soltar a lâmina, ele desaparece
+    World.world.statuses.newStatus(actor, status, 3f);
+    return true;
+};
+```
+
+O status precisa de `allow_timer_reset = true` (o padrão para um novo `StatusAsset`, mas não para todos os vanilla dos quais você poderia clonar), senão reaplicá-lo antes do tempo não faz nada e ele expirará no meio do combate. No HelloBox, a lâmina amaldiçoa seu próprio portador, que é exatamente o que uma lâmina de brasas faria :wbfacepalm:.
+
+Por que não um traço: um traço permanece até que algo o remova, então você precisaria de um segundo temporizador para notar que a lâmina se foi e removê-lo. Um status se limpa sozinho.
+
 ## Seu próprio sprite
 
 Um item tem dois elementos visuais, e eles ficam em campos separados:

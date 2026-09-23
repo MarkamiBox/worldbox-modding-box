@@ -184,6 +184,16 @@ if (actor.hasTrait(HelloTraits.SWIFT))
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` はゲーム起動時に一度だけ読み込まれます
+> 新しく生まれるユニットは、ゲームロード中に `BaseTraitLibrary.linkAssets()` が構築するプールから初期特性を抽選します。これはあなたのModが存在するより前のタイミングです。特性にこのフラグを立てるだけでは何も変わりません。あなたの特性はそのプールに一度も入らず、新規ユニットに偶然付与されることもありません。バニラと同じ重み付けで、自分でプールに追加してください：
+>
+> ```csharp
+> swift.spawn_random_trait_allowed = true;
+> AssetManager.traits._pot_allowed_to_be_given_randomly.AddTimes(swift.spawn_random_rate, swift);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` は `protected` なので、NML がModのビルドに使うpublicize済みアセンブリに対してならコンパイルが通ります。`spawn_random_rate` の既定値は `5` です。数値を上げるほど出現頻度が上がります。
+
 ## 正常動作の確認
 
 ゲームを起動し、ユニットを開き、特性エディタを開き、`physique` タブを確認してください。見当たらない場合、ログを見れば原因が分かります。原因の大半は「`can_be_given` が false」「`group_id` が存在しない」「`path_icon` の参照先が存在しない」のいずれかです :wbreally:。

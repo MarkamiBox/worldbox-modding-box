@@ -50,8 +50,8 @@ worldbox/
 
 Start the game. If it worked, there is a new button with the NML logo among the tabs at the bottom, and an empty `Mods` folder next to `worldbox.exe`. If there is not, re-check step 2 :PES5_Hmmmm:.
 
-> [!TIP] Let Steam keep it updated
-> There is also an [NML item on the Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3080294469). Subscribing to it does not install NML on its own, but it does keep your copy up to date after you have done the manual install above.
+> [!NOTE] You do not need the Workshop copy too
+> NML already checks for a new version every time the game starts and replaces itself, so the manual install above stays current on its own. There is also an [NML item on the Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3080294469), but subscribing to it **next to** the manual copy you just installed is a common cause of "mods do not show up" and "a mod will not go away": the two copies fight. Pick one. And if you ever do subscribe to something on the Workshop, unticking it in the mod list is not the same as unsubscribing.
 
 ## 4. A text editor
 

@@ -137,6 +137,50 @@ public static class Patch_City_ArmyMax
 
 Anpassen, nicht blind zuweisen. `__result *= 1.5f` funktioniert auch dann noch friedlich, wenn eine andere Mod dieselbe Methode gepatcht hat. `__result = 12f` wirft deren Arbeit in den Müll und entfacht Diskussionen in deinem Kommentarbereich.
 
+
+## Einen fest im Spiel kodierten Wert ändern
+
+Die Hälfte aller Anfragen nach dem Motto "Kann jemand eine Mod machen, die..." dreht sich nur um eine einzige Zahl. "Städte wachsen zu groß" ist genau das, direkt aus der `City`-Klasse des Spiels:
+
+```csharp Assembly-CSharp / City
+public int getZoneRange(bool pAllowCheat = true)
+{
+    if (pAllowCheat && DebugConfig.isOn(DebugOption.CityUnlimitedZoneRange))
+    {
+        return 999;
+    }
+    return 13;
+}
+```
+
+Eine Methode, die eine Konstante zurückgibt, ist das Einfachste, was man im Spiel patchen kann. Du fasst nicht die Konstante an, sondern veränderst den Rückgabewert:
+
+```csharp Mods/HelloBox/Code/HelloPatches.cs
+using HarmonyLib;
+using UnityEngine;
+
+namespace HelloBox
+{
+    [HarmonyPatch(typeof(City), nameof(City.getZoneRange))]
+    public static class Patch_City_ZoneRange
+    {
+        private const float SCALE = 0.5f;   // Städte nur halb so groß
+
+        public static void Postfix(ref int __result)
+        {
+            // 999 ist die Debug-Option "unlimited zone range". Den Cheat des Spielers nicht antasten
+            if (__result == 999) return;
+
+            __result = Mathf.Max(1, Mathf.RoundToInt(__result * SCALE));
+        }
+    }
+}
+```
+
+Binde `SCALE` an einen Schieberegler in der **[Mod-Konfiguration](#/nml/mod-config)** und die Spieler können es selbst einstellen.
+
+Die eigentliche Arbeit besteht darin, die Methode zu finden. Suche in **dnSpy** nach der Zahl, die du im Spiel siehst (13 Zonen, 2 Waffen, 5 Jahre) oder nach dem Substantiv der Regel ("zone", "limit", "max"). Eine Konstante in einer kleinen Methode ist ein Postfix. Eine Konstante tief in einer langen Methode erfordert einen Transpiler, und an dieser Stelle macht diese Seite Halt :PES2_Shrug:.
+
 ## Die originale Methode abbrechen
 
 Ein Prefix mit dem Rückgabetyp `bool` entscheidet darüber, ob der spieleigene Code überhaupt ausgeführt wird:

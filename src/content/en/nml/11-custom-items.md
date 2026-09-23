@@ -140,6 +140,30 @@ namespace HelloBox
 
 The game turns those ids into objects once, at startup, before your mod loads. On an item you registered yourself, finish with `linkSpells()`, and set `decisions_assets` by hand (there is no link method for it), or the grant does nothing. See **[Custom AI](#/nml/custom-ai)**.
 
+## An effect while it is held
+
+"Whoever holds the Ember Blade becomes Swift" sounds like a trait on an item. Items do not carry traits, but they do run code on a timer while equipped, `action_special_effect` from the table above, and a **status** runs out on its own. So the item keeps re-applying a short status, and when the item is gone the status simply expires:
+
+```csharp Mods/HelloBox/Code/HelloItems.cs
+blade.special_effect_interval = 1f;
+blade.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
+{
+    Actor actor = pSelf as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    StatusAsset status = AssetManager.status.get(HelloStatus.CURSED);
+    if (status == null) return false;
+
+    // 3 seconds, refreshed every second while held. Drop the blade and it wears off
+    World.world.statuses.newStatus(actor, status, 3f);
+    return true;
+};
+```
+
+The status needs `allow_timer_reset = true` (the default for a new `StatusAsset`, but not for every vanilla one you might clone from), or re-applying it early does nothing and it still expires mid-fight. In HelloBox the blade curses its own wielder, which is exactly what an ember blade would do :wbfacepalm:.
+
+Why not a trait: a trait stays until something takes it away, so you would need a second timer to notice the blade is gone and remove it. A status cleans up after itself.
+
 ## Your own sprite
 
 An item has two pieces of art, and they are separate fields:

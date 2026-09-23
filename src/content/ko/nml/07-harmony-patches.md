@@ -137,6 +137,49 @@ public static class Patch_City_ArmyMax
 
 덮어쓰지 말고 조정하세요. `__result *= 1.5f`로 작성하면 다른 모드가 같은 메서드를 패치했더라도 조화롭게 작동합니다. `__result = 12f`처럼 고정값을 할당하면 그들의 작업물을 날려버리고 댓글 창에서 싸움이 벌어집니다.
 
+## 게임이 하드코딩한 숫자 바꾸기
+
+"~하는 모드 만들 수 있는 분?"의 절반은 그냥 숫자 하나 이야기입니다. "도시가 너무 커진다"가 바로 이 경우이며, 게임 자체의 `City` 클래스에서 그대로 가져온 것입니다:
+
+```csharp Assembly-CSharp / City
+public int getZoneRange(bool pAllowCheat = true)
+{
+    if (pAllowCheat && DebugConfig.isOn(DebugOption.CityUnlimitedZoneRange))
+    {
+        return 999;
+    }
+    return 13;
+}
+```
+
+상수를 반환하는 메서드는 게임에서 가장 쉽게 패치할 수 있는 대상입니다. 상수 자체를 건드리는 게 아니라 결과값을 조정합니다:
+
+```csharp Mods/HelloBox/Code/HelloPatches.cs
+using HarmonyLib;
+using UnityEngine;
+
+namespace HelloBox
+{
+    [HarmonyPatch(typeof(City), nameof(City.getZoneRange))]
+    public static class Patch_City_ZoneRange
+    {
+        private const float SCALE = 0.5f;   // 도시 크기를 절반으로
+
+        public static void Postfix(ref int __result)
+        {
+            // 999는 디버그용 "무제한 구역 범위" 스위치입니다. 플레이어의 치트는 건드리지 않습니다
+            if (__result == 999) return;
+
+            __result = Mathf.Max(1, Mathf.RoundToInt(__result * SCALE));
+        }
+    }
+}
+```
+
+`SCALE`을 **[모드 설정](#/nml/mod-config)** 슬라이더에 연결하면 플레이어가 직접 조정할 수 있습니다.
+
+진짜 어려운 부분은 해당 메서드를 찾는 것입니다. 게임에서 본 숫자(구역 13개, 무기 2개, 5년)나 규칙의 명사("zone", "limit", "max")를 **dnSpy**에서 검색하세요. 작은 메서드 안의 상수라면 Postfix로 간단히 해결됩니다. 긴 메서드 중간에 묻힌 상수라면 transpiler가 필요하며, 그건 이 페이지의 범위를 벗어납니다 :PES2_Shrug:.
+
 ## 원래 메서드 실행 취소하기
 
 `bool`을 반환하는 Prefix는 게임 원본 코드를 실행할지 여부를 결정합니다:
@@ -218,6 +261,9 @@ public static class Patch_Actor_StatDelta
 - **가벼운 검사를 가장 먼저 두세요.** 자주 호출되는 패치의 첫 줄은 즉시 `return`할 수 있는 탈출 조건이어야 합니다.
 - **목적에 맞는 가장 좁은 범위의 메서드를 패치하세요.** 특성의 이동 속도를 위해 `Actor.updateStats`를 패치하는 것은 훌륭합니다. 같은 목적을 위해 전체 월드 업데이트 루프를 패치하는 것은 유저가 모드를 삭제하게 만드는 지름길입니다.
 - **패치는 한 파일에 모아두세요.** 유저가 충돌 버그를 제보했을 때 여러분이 살펴보고 싶은 것은 12개의 파일이 아니라 1개의 파일입니다.
+
+> [!NOTE] 라이브러리의 `has`, `get`, `add`, `clone`, `post_init`을 패치해도 소용없습니다
+> 영향을 주는 건 모드가 로드된 이후에 발생하는 호출뿐이며, 그 시점에 이미 끝나버린 바닐라 등록에는 전혀 영향을 주지 못합니다. **[에셋 라이브러리](#/nml/asset-libraries)** 참고.
 
 ## 여기서 다루지 않는 내용
 

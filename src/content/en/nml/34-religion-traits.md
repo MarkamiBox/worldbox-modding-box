@@ -55,6 +55,16 @@ namespace HelloBox
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` is read once, at startup
+> New religions roll their starting traits from a pool that `BaseTraitLibrary.linkAssets()` builds while the game loads, before your mod exists. Setting the flag on your trait changes nothing on its own: your trait is never in that pool, and it never turns up on a founder by chance. Put it in yourself, weighted the way vanilla does it:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.religion_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` is `protected`, so this compiles against the publicized assembly NML already builds your mod with. `spawn_random_rate` defaults to `5`: raise it and the trait turns up more often.
+
 ## Rites: the `plot_id` field
 
 A religion trait with a `plot_id` becomes a **rite**. The religion collects its rites into `possible_rites`, and leaders and priests attempt them on their own when the plot's conditions are met.

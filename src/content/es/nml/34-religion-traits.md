@@ -55,6 +55,17 @@ namespace HelloBox
 }
 ```
 
+
+> [!WARNING] `spawn_random_trait_allowed` se lee una sola vez, al inicio
+> Las nuevas religiones eligen sus rasgos iniciales de un grupo que `BaseTraitLibrary.linkAssets()` construye mientras se carga el juego, antes de que tu mod exista. Establecer la bandera en tu rasgo no cambia nada por sí solo: tu rasgo nunca estará en ese grupo y nunca aparecerá por casualidad en un fundador. Agrégalo tú mismo, con el peso que usa el juego vanilla:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.religion_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` es `protected`, por lo que compila contra el ensamblado publicitado con el que NML ya compila tu mod. `spawn_random_rate` tiene un valor predeterminado de `5`: auméntalo y el rasgo aparecerá con más frecuencia.
+
 ## Ritos: el campo `plot_id`
 
 Un rasgo religioso con un `plot_id` se convierte en un **rito**. La religión almacena sus ritos en `possible_rites`, y los líderes y sacerdotes intentan llevarlos a cabo cuando se satisfacen las condiciones del complot.

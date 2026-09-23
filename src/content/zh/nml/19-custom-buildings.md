@@ -203,6 +203,60 @@ if (World.world.buildings.canBuildFrom(tile, asset, null, BuildPlacingType.New))
 
 永远先调用 `canBuildFrom` 进行可行性检查。强行把建筑扔在水面上、已有建筑物上方或者已被城市划作他用的地块上，会导致当前世界看似完好无损，却在三分钟后彻底崩溃 :PES_OhShit:。
 
+
+## 让城市自主建造该建筑
+
+用神力手动放置神龛玩一晚上确实很有趣。但让城市在规模壮大后自己规划并建造神龛，才是真正的模组体验。城市在决定建造什么时依赖于两套系统，而你的新建筑目前在两边都还不存在：
+
+| | 包含的内容 |
+| --- | --- |
+| **城市建造规划** (`AssetManager.city_build_orders`) | 一组建造指令 Key（例如 `order_temple`），以及每条指令对应的人口和建筑数量门槛 |
+| **种族建筑风格** (`AssetManager.architecture_library`) | 某个指令 Key 在特定种族下对应哪个具体建筑：人类的 `order_temple` 对应 `temple_human`，兽人则对应兽人神庙 |
+
+因此，你需要定义一个订单 Key，教会每种种族建筑风格它所指代的目标建筑，并将其注册到建造规划列表中：
+
+```csharp Mods/HelloBox/Code/HelloBuildings.cs
+public const string ORDER = "order_hello_shrine";
+
+private static void AddToCities()
+{
+    BuildingAsset shrine = AssetManager.buildings.get(SHRINE);
+    if (shrine == null) return;
+
+    // 自定义建筑类型，防止城市把神龛当作普通神庙统计
+    shrine.type = "type_hello_shrine";
+
+    // 建筑风格查找本质是一个简单的字典：未知的 Key 会导致该种族的每个城市在建造时报错。
+    // 因此必须将其添加到所有建筑风格中，即使某些种族永远不会建造它。
+    foreach (ArchitectureAsset architecture in AssetManager.architecture_library.list)
+    {
+        architecture.addBuildingOrderKey(ORDER, SHRINE);
+    }
+
+    foreach (CityBuildOrderAsset orders in AssetManager.city_build_orders.list)
+    {
+        if (orders.list.Exists(pOrder => pOrder.id == ORDER)) continue;
+
+        // 参考神庙的标准限制：上限 1 座，需要 50 人口，城市已有 15 座建筑
+        orders.addBuilding(ORDER, 1, 50, 15);
+    }
+}
+```
+
+在 `Initialize()` 的末尾、克隆建筑之后调用 `AddToCities()` 即可。
+
+与本指南中其他很多内容不同，这里没有任何隐藏的生命周期陷阱：`CityBehBuild.calcPossibleBuildings()` 每次评估建造机会时都会重新读取每个城市的建造规划列表，因此在模组加载时添加的订单会立刻对第一个进行建造判定的城市生效。城市仍然需要能够支付建筑的建造消耗 (`cost`) 并满足所有建造条件；如果无法满足，它会静默跳过神龛 :PES5_Hmmmm:。
+
+| `addBuilding(...)` 参数 | 作用说明 |
+| --- | --- |
+| `pID` | 建造订单 Key，而不是建筑本身的 ID |
+| `pLimitType` | 该城市最多允许建造几座此类建筑。神庙使用 `1` |
+| `pPop` | 所需的最低城市人口门槛 |
+| `pBuildings` | 城市中已存在的最低建筑总数门槛 |
+| `pCheckFullVillage` | 仅当所有现有民居住满时才允许建造 |
+| `pCheckHouseLimit` | 用于民居：在住房充足时跳过，达到房屋上限时停止 |
+| `pMinZones` | 城市所需占领的最低领地地块数量 |
+
 ## 文本与本地化
 
 ```json Mods/HelloBox/Locales/en.json

@@ -137,6 +137,50 @@ public static class Patch_City_ArmyMax
 
 Корректируйте, а не перезаписывайте наглухо. `__result *= 1.5f` прекрасно уживётся с другим модом, пропатчившим этот же метод. `__result = 12f` уничтожит их работу и породит споры в комментариях к моду.
 
+
+## Изменение захардкоженного числа в игре
+
+Половина запросов в духе «кто-нибудь может сделать мод, который...» — это просто одно число. «Города растут слишком большими» — это буквально вот этот метод из класса игры `City`:
+
+```csharp Assembly-CSharp / City
+public int getZoneRange(bool pAllowCheat = true)
+{
+    if (pAllowCheat && DebugConfig.isOn(DebugOption.CityUnlimitedZoneRange))
+    {
+        return 999;
+    }
+    return 13;
+}
+```
+
+Метод, возвращающий константу — самое простое, что можно пропатчить в игре. Вы не трогаете константу, а корректируете то, что он возвращает:
+
+```csharp Mods/HelloBox/Code/HelloPatches.cs
+using HarmonyLib;
+using UnityEngine;
+
+namespace HelloBox
+{
+    [HarmonyPatch(typeof(City), nameof(City.getZoneRange))]
+    public static class Patch_City_ZoneRange
+    {
+        private const float SCALE = 0.5f;   // города вдвое меньше
+
+        public static void Postfix(ref int __result)
+        {
+            // 999 — это опция отладки "unlimited zone range". Не ломайте чит игрока
+            if (__result == 999) return;
+
+            __result = Mathf.Max(1, Mathf.RoundToInt(__result * SCALE));
+        }
+    }
+}
+```
+
+Привяжите `SCALE` к ползунку в **[Конфигурации мода](#/nml/mod-config)**, и игроки смогут настраивать его сами.
+
+Найти метод — вот в чём настоящая работа. Ищите в **dnSpy** число, которое видите в игре (13 зон, 2 оружия, 5 лет), или существительное правила ("zone", "limit", "max"). Константа в маленьком методе — это Postfix. Константа, спрятанная в середине длинного метода, требует transpiler, и на этом данная страница останавливается :PES2_Shrug:.
+
 ## Отмена оригинального метода
 
 Prefix, возвращающий `bool`, решает, будет ли вообще выполняться оригинальный код игры:

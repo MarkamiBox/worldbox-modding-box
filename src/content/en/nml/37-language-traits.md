@@ -183,3 +183,17 @@ A `Language` also exposes `cities`, `kingdoms` and `books`, which is what you re
 
 > [!TIP] Books are an underused delivery system
 > A book written in your language is a slow, world-shaped way to hand out a trait or a status. It spreads through libraries, it takes generations, and the player sees it happen. Almost nobody mods this, which is exactly why it is worth doing :PES4_Classy:.
+
+## New languages rolling a trait on their own
+
+Besides handing it out yourself, a language trait can set `spawn_random_trait_allowed` to be rolled when a new language forms, the same way a culture rolls its starting traits.
+
+> [!WARNING] `spawn_random_trait_allowed` is read once, at startup
+> New languages roll their starting traits from a pool that `BaseTraitLibrary.linkAssets()` builds while the game loads, before your mod exists. Setting the flag on your trait changes nothing on its own: your trait is never in that pool, and it never turns up on a new language by chance. Put it in yourself, weighted the way vanilla does it:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.language_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` is `protected`, so this compiles against the publicized assembly NML already builds your mod with. `spawn_random_rate` defaults to `5`: raise it and the trait turns up more often.

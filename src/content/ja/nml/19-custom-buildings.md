@@ -203,6 +203,59 @@ if (World.world.buildings.canBuildFrom(tile, asset, null, BuildPlacingType.New))
 
 必ず事前に `canBuildFrom` で判定を行ってください。水上や他の建物の上、あるいは都市が別用途に確保しているタイルに無理やり建築物を配置すると、一見正常に見えても数分後に世界が崩壊します :PES_OhShit:。
 
+## 都市に自動で建てさせる
+
+神の力でシュラインを1つ落とすのは一時の楽しみに過ぎません。都市が十分に大きくなったとき自分で建ててくれるシュラインこそがModです。都市は次の2つから何を建てるかを選び、あなたの建物はまだそのどちらにも入っていません：
+
+| | 保持している内容 |
+| --- | --- |
+| **ビルドオーダー**（`AssetManager.city_build_orders`） | `order_temple` のような発注キーのリストで、それぞれ必要な人口と建物数を持つ |
+| **アーキテクチャ**（`AssetManager.architecture_library`） | ある種族にとって発注キーが何の建物を意味するか。`order_temple` は人間なら `temple_human`、他の種族なら別の建物 |
+
+そこで、独自の発注キーを1つ作り、すべてのアーキテクチャにその意味を教え、ビルドオーダーに追加します：
+
+```csharp Mods/HelloBox/Code/HelloBuildings.cs
+public const string ORDER = "order_hello_shrine";
+
+private static void AddToCities()
+{
+    BuildingAsset shrine = AssetManager.buildings.get(SHRINE);
+    if (shrine == null) return;
+
+    // 独自のtypeを持たせることで、都市はシュラインを神殿とは別枠で数える
+    shrine.type = "type_hello_shrine";
+
+    // アーキテクチャの参照はただのDictionaryで、知らないキーはその種族のすべての都市でスローする。
+    // 到達しない種族にも念のため教えておく。
+    foreach (ArchitectureAsset architecture in AssetManager.architecture_library.list)
+    {
+        architecture.addBuildingOrderKey(ORDER, SHRINE);
+    }
+
+    foreach (CityBuildOrderAsset orders in AssetManager.city_build_orders.list)
+    {
+        if (orders.list.Exists(pOrder => pOrder.id == ORDER)) continue;
+
+        // 神殿と同じ制限：1つまで、人口50、町の建物15棟
+        orders.addBuilding(ORDER, 1, 50, 15);
+    }
+}
+```
+
+`AddToCities()` は `Initialize()` の末尾、クローンの後に呼び出してください。
+
+このガイドの他の多くの部分と違い、ここには起動時トラップはありません。`CityBehBuild.calcPossibleBuildings()` は都市が建築を検討するたびにビルドオーダーのリストを読み直すので、ロード時に追加した発注は最初に見た都市からすぐ認識されます。それでも都市は建物の `cost` を払えて、発注の条件をすべて満たす必要があり、満たせなければ何も言わずシュラインを飛ばします :PES5_Hmmmm:。
+
+| `addBuilding(...)` の引数 | 役割 |
+| --- | --- |
+| `pID` | 建物IDではなく発注キー |
+| `pLimitType` | 都市が持てる上限数。神殿は `1` |
+| `pPop` | 必要な最低人口 |
+| `pBuildings` | 町にすでに必要な最低建物数 |
+| `pCheckFullVillage` | 家がすべて満室のときだけ |
+| `pCheckHouseLimit` | 住居用：住居に余裕があるうちはスキップし、都市の住居上限で止まる |
+| `pMinZones` | 必要な最低都市サイズ（ゾーン数） |
+
 ## テキスト設定
 
 ```json Mods/HelloBox/Locales/en.json

@@ -92,6 +92,11 @@ Siehst du dort kein `test_asset_load`, bist du im falschen Ordner. Geh zurück z
 
 **Wo du schon mal hier bist:** Wenn etwas mit **NCMS** im Namen da ist (zum Beispiel `NCMS_memload.dll` oder ein Ordner `NCMS`), lösch es. NCMS ist der alte Mod-Loader, er ist tot, und NML kann die alten NCMS-Mods sowieso ausführen :PES2_Shrug:.
 
+> [!WARNING] `NeoModLoader (1).dll` ist nicht `NeoModLoader.dll`
+> Hast du NML zweimal heruntergeladen oder lag bereits eine alte Kopie im Ordner? Windows benennt die neue Datei in `NeoModLoader (1).dll` um, anstatt sie zu überschreiben, und NML startet nicht: Roter Text überflutet den Bildschirm und fordert dich zum Neustart auf, während das Log `Missing className: NeoModLoader (1).WorldBoxMod` meldet. Schließe das Spiel, lösche die alte Datei, benenne die neue exakt in `NeoModLoader.dll` um (ohne Leerzeichen oder Nummern) und starte neu. Dieses eine Zeichen ist der häufigste Grund, warum NML "nicht funktioniert" :PESgn_SMH:.
+>
+> Wenn Windows das Löschen der alten Datei verweigert, weil sie "geöffnet ist", läuft das Spiel noch. Schließe es zuerst.
+
 > [!WARNING] Es gibt zwei Ordner namens Mods
 > Dieser hier, unter `worldbox_Data\StreamingAssets\Mods/`, ist nur für **NML selbst** (speziell `NeoModLoader.dll`) und sonst nichts. Der Ordner für deine **Mods** ist ein separater Ordner direkt im Hauptverzeichnis neben der `worldbox.exe` (`worldbox\Mods/`). Er existiert jetzt noch nicht; NML erstellt ihn automatisch beim ersten Spielstart. Eine Mod in `StreamingAssets\Mods/` oder NML in `worldbox\Mods/` abzulegen, ist der häufigste Fehler auf dieser Seite.
 
@@ -214,6 +219,9 @@ Dann kommt sie nicht in `Mods`. Installier BepInEx wie in **[Die Live-Konsole (B
 
 **NML oder NCMS?**
 NML. NCMS wird nicht mehr aktualisiert und läuft auf aktuellen Spielversionen nicht. NML führt die alten NCMS-Mods sowieso aus, du verlierst also nichts.
+
+**Ist NML ein Virus?**
+Nein. Browser warnen davor, weil eine `.dll`-Datei ein ausführbares Programm ist und nicht viele Leute diese Datei herunterladen. Lade sie ausschließlich über den obigen GitHub-Link herunter: Mods auf GameBanana werden von Moderatoren geprüft, während eine Datei aus einem Chat von niemandem geprüft wird :PESgn_ReadRules:.
 
 **Muss ich NML für jede Mod neu installieren?**
 Nein. Einmal reicht. Danach ist jede Mod nur ein Ordner in `Mods`.

@@ -174,3 +174,17 @@ Um objeto `Language` também disponibiliza `cities`, `kingdoms` e `books`, que �
 
 > [!TIP] Livros são um meio de entrega subutilizado
 > Um livro escrito no seu idioma é uma forma gradual e orgânica de espalhar um traço ou status. Ele circula por bibliotecas, atravessa gerações e o jogador assiste ao processo acontecer. Quase ninguém faz mods com isso, o que o torna uma excelente oportunidade :PES4_Classy:.
+
+## Novas línguas sorteando um traço por conta própria
+
+Além de concedê-lo manualmente, um traço de língua pode definir `spawn_random_trait_allowed` para ser sorteado quando uma nova língua se forma, da mesma forma que uma cultura sorteia seus traços iniciais.
+
+> [!WARNING] `spawn_random_trait_allowed` é lido apenas uma vez, na inicialização
+> Novas línguas sorteiam seus traços iniciais de um grupo que `BaseTraitLibrary.linkAssets()` constrói durante o carregamento do jogo, antes do seu mod existir. Definir a flag no seu traço não muda nada por si só: seu traço nunca estará nesse grupo e nunca aparecerá por acaso em uma nova língua. Adicione-o você mesmo, com o peso que o jogo vanilla usa:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.language_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` é `protected`, portanto compila contra o assembly publicizado com o qual o NML já compila seu mod. `spawn_random_rate` tem o valor padrão de `5`: aumente-o para que o traço apareça com mais frequência.

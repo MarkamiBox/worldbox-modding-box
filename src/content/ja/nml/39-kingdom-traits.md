@@ -85,6 +85,16 @@ namespace HelloBox
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` はゲーム起動時に一度だけ読み込まれます
+> 新しい王国は、ゲームロード中に `BaseTraitLibrary.linkAssets()` が構築するプールから初期特性を抽選します。これはあなたのModが存在するより前のタイミングです。特性にこのフラグを立てるだけでは何も変わりません。あなたの特性はそのプールに一度も入らず、偶然付与されることもありません。バニラと同じ重み付けで、自分でプールに追加してください：
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.kingdoms_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` は `protected` なので、NML がModのビルドに使うpublicize済みアセンブリに対してならコンパイルが通ります。`spawn_random_rate` の既定値は `5` です。数値を上げるほど出現頻度が上がります。
+
 ## 実際に効果を持つ政策を作成する
 
 `base_stats` が利用できない以上、王国特性が真価を発揮するには以下の2つのアプローチのいずれかをとります。

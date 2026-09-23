@@ -147,3 +147,17 @@ O clã de uma unidade está em `actor.clan`, e `actor.hasClan()` informa se ela 
 
 > [!TIP] Clãs são pequenos, pode ser generoso
 > Uma cultura abrange um continente; um clã abrange uma família, e `limit_clan_members` limita seu tamanho máximo. Um traço de clã pode ser muito mais forte que um traço cultural para o mesmo impacto no equilíbrio do mundo, tornando os clãs o lugar ideal para mecânicas dramáticas :PES5_Menace:.
+
+## Novos clãs sorteando um traço por conta própria
+
+Além de concedê-lo manualmente, um traço de clã pode definir `spawn_random_trait_allowed` para ser sorteado quando um novo clã se forma, da mesma forma que uma cultura sorteia seus traços iniciais.
+
+> [!WARNING] `spawn_random_trait_allowed` é lido apenas uma vez, na inicialização
+> Novos clãs sorteiam seus traços iniciais de um grupo que `BaseTraitLibrary.linkAssets()` constrói durante o carregamento do jogo, antes do seu mod existir. Definir a flag no seu traço não muda nada por si só: seu traço nunca estará nesse grupo e nunca aparecerá por acaso em um novo clã. Adicione-o você mesmo, com o peso que o jogo vanilla usa:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.clan_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` é `protected`, portanto compila contra o assembly publicizado com o qual o NML já compila seu mod. `spawn_random_rate` tem o valor padrão de `5`: aumente-o para que o traço apareça com mais frequência.

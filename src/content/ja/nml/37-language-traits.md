@@ -174,3 +174,17 @@ foreach (Language language in World.world.languages)
 
 > [!TIP] 書物は過小評価されている伝達システム
 > 自作の言語で書かれた本は、特性やステータス効果をじわじわと世界に定着させる有機的な手段です。図書館を通じて巡り、世代を超えて広がり、プレイヤーはその光景を見届けます。この仕組みに手をつけるMOD開発者は稀であり、だからこそ作る価値があります :PES4_Classy:。
+
+## 新しい言語が自然に特性を引き当てる
+
+自分で付与する以外にも、言語特性は `spawn_random_trait_allowed` を設定することで、文化が初期特性を抽選するのと同じように、新しい言語が生まれる際に抽選対象にできます。
+
+> [!WARNING] `spawn_random_trait_allowed` はゲーム起動時に一度だけ読み込まれます
+> 新しい言語は、ゲームロード中に `BaseTraitLibrary.linkAssets()` が構築するプールから初期特性を抽選します。これはあなたのModが存在するより前のタイミングです。特性にこのフラグを立てるだけでは何も変わりません。あなたの特性はそのプールに一度も入らず、新しい言語に偶然付与されることもありません。バニラと同じ重み付けで、自分でプールに追加してください：
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.language_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` は `protected` なので、NML がModのビルドに使うpublicize済みアセンブリに対してならコンパイルが通ります。`spawn_random_rate` の既定値は `5` です。数値を上げるほど出現頻度が上がります。

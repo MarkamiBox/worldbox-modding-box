@@ -139,6 +139,31 @@ namespace HelloBox
 | `addSpell(id)` | Ein Zauber, den der Träger wirken kann |
 | `addCombatAction(id)` | Ein Kampfmanöver, das der Gegenstand verleiht |
 
+
+## Ein Effekt, während der Gegenstand gehalten wird
+
+"Wer die Glutklinge führt, wird Schnell" klingt wie ein Trait auf einem Gegenstand. Gegenstände tragen jedoch keine Traits, aber sie führen per Timer Code aus, solange sie ausgerüstet sind (`action_special_effect` aus der obigen Tabelle), und ein **Status** läuft von selbst ab. Der Gegenstand wendet also fortlaufend einen kurzen Status an, und sobald die Klinge abgelegt wird, läuft der Status einfach aus:
+
+```csharp Mods/HelloBox/Code/HelloItems.cs
+blade.special_effect_interval = 1f;
+blade.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
+{
+    Actor actor = pSelf as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    StatusAsset status = AssetManager.status.get(HelloStatus.CURSED);
+    if (status == null) return false;
+
+    // 3 Sekunden, wird jede Sekunde erneuert, solange gehalten. Nach dem Loslassen verfliegt er
+    World.world.statuses.newStatus(actor, status, 3f);
+    return true;
+};
+```
+
+Der Status benötigt `allow_timer_reset = true` (Standard bei neuen `StatusAsset`, aber nicht bei allen Vanilla-Statuseffekten, von denen du klonen könntest), sonst bewirkt das erneute Anwenden nichts und er läuft mitten im Kampf ab. In HelloBox verflucht die Klinge ihren eigenen Träger – genau das, was eine Glutklinge tun würde :wbfacepalm:.
+
+Warum kein Trait: Ein Trait bleibt bestehen, bis ihn etwas aktiv entfernt. Du bräuchtest einen zweiten Timer, um zu bemerken, dass die Klinge weg ist, und ihn zu entfernen. Ein Status räumt sich selbst auf.
+
 ## Dein eigenes Sprite
 
 Ein Gegenstand besitzt zwei Grafiken, und es sind getrennte Felder:

@@ -25,6 +25,10 @@ Le jeu propose déjà un emplacement dédié. Chaque créature, ville, royaume, 
 
 Chaque type possède sa propre table interne, donc un `int` et une `string` sous la même clé n'entrent pas en collision. Ne partagez toutefois pas les mêmes clés, pour votre propre confort.
 
+
+> [!NOTE] Stocker quelque chose de plus grand que cinq types primitifs
+> NML dispose de son propre utilitaire pour intégrer un objet complet dans les données d'une unité, et pas seulement `int`/`long`/`float`/`string`/`bool`. Je n'ai jamais eu besoin de plus qu'un compteur ou un indicateur, je ne peux donc pas vous guider ici. Cela existe, si vous avez besoin de mémoriser une structure ou une liste entière.
+
 ## Dans HelloBox
 
 Un trait qui compte chaque coup porté par son porteur et lui octroie une récompense unique au cinquantième coup :

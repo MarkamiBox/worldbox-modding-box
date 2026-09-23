@@ -56,6 +56,17 @@ namespace HelloBox
 }
 ```
 
+
+> [!WARNING] `spawn_random_trait_allowed` se lee una sola vez, al inicio
+> Las nuevas culturas eligen sus rasgos iniciales de un grupo que `BaseTraitLibrary.linkAssets()` construye mientras se carga el juego, antes de que tu mod exista. Establecer la bandera en tu rasgo no cambia nada por sí solo: tu rasgo nunca estará en ese grupo y nunca aparecerá por casualidad en un fundador. Agrégalo tú mismo, con el peso que usa el juego vanilla:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.culture_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` es `protected`, por lo que compila contra el ensamblado publicitado con el que NML ya compila tu mod. `spawn_random_rate` tiene un valor predeterminado de `5`: auméntalo y el rasgo aparecerá con más frecuencia.
+
 Todo lo explicado en **[Rasgos personalizados](#/nml/custom-traits)** aplica aquí también: `add()` antes de las stats, `path_icon` no se rellena solo, los identificadores llevan prefijo. Lo que sigue es lo que hace únicos a los rasgos culturales.
 
 > [!WARNING] `base_stats` en un rasgo cultural afecta a todos

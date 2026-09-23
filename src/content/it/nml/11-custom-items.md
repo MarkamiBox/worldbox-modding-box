@@ -139,6 +139,31 @@ namespace HelloBox
 | `addSpell(id)` | Un incantesimo che l'oggetto permette di lanciare |
 | `addCombatAction(id)` | Una manovra marziale conferita dall'arma |
 
+
+## Un effetto finché viene impugnato
+
+"Chiunque impugni la Lama di Brace diventa Rapido" sembra un tratto su un oggetto. Gli oggetti non hanno tratti, ma eseguono codice con un timer mentre sono equipaggiati (`action_special_effect` dalla tabella sopra), e uno **stato** scade da solo. Quindi l'oggetto continua a riapplicare un breve stato, e quando l'oggetto scompare, lo stato semplicemente si estingue:
+
+```csharp Mods/HelloBox/Code/HelloItems.cs
+blade.special_effect_interval = 1f;
+blade.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
+{
+    Actor actor = pSelf as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    StatusAsset status = AssetManager.status.get(HelloStatus.CURSED);
+    if (status == null) return false;
+
+    // 3 secondi, rinnovato ogni secondo mentre impugnato. Lascia la lama e svanisce
+    World.world.statuses.newStatus(actor, status, 3f);
+    return true;
+};
+```
+
+Lo stato richiede `allow_timer_reset = true` (il valore predefinito per un nuovo `StatusAsset`, ma non per tutti quelli vanilla da cui potresti clonare), altrimenti riapplicarlo in anticipo non fa nulla e scadrà nel bel mezzo del combattimento. In HelloBox la lama maledice il suo stesso portatore, che è esattamente ciò che farebbe una lama di brace :wbfacepalm:.
+
+Perché non un tratto: un tratto rimane finché qualcosa non lo rimuove, quindi ti servirebbe un secondo timer per notare che la lama non c'è più e toglierlo. Uno stato si pulisce da solo.
+
 ## Il tuo sprite personalizzato
 
 Un oggetto possiede due elementi grafici distinti, ed essi sono campi separati:

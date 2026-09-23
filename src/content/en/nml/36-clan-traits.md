@@ -150,3 +150,17 @@ A unit's clan is on `actor.clan`, and `actor.hasClan()` tells you whether it has
 
 > [!TIP] Clans are small, so you can be generous
 > A culture covers a continent; a clan covers a family, and `limit_clan_members` caps how big it gets. A clan trait can be much stronger than a culture trait for the same amount of world-breaking, which makes clans the right home for the dramatic stuff :PES5_Menace:.
+
+## New clans rolling a trait on their own
+
+Besides handing it out yourself, a clan trait can set `spawn_random_trait_allowed` to be rolled when a new clan forms, the same way a culture rolls its starting traits.
+
+> [!WARNING] `spawn_random_trait_allowed` is read once, at startup
+> New clans roll their starting traits from a pool that `BaseTraitLibrary.linkAssets()` builds while the game loads, before your mod exists. Setting the flag on your trait changes nothing on its own: your trait is never in that pool, and it never turns up on a new clan by chance. Put it in yourself, weighted the way vanilla does it:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.clan_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` is `protected`, so this compiles against the publicized assembly NML already builds your mod with. `spawn_random_rate` defaults to `5`: raise it and the trait turns up more often.

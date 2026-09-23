@@ -92,6 +92,11 @@ Se lì dentro non vedi `test_asset_load`, sei nella cartella sbagliata. Torna al
 
 **Già che sei in questa cartella:** se c'è qualcosa con **NCMS** nel nome (per esempio `NCMS_memload.dll`, o una cartella chiamata `NCMS`), cancellalo. NCMS è il vecchio mod loader, è morto, e NML sa già far girare le vecchie mod NCMS :PES2_Shrug:.
 
+> [!WARNING] `NeoModLoader (1).dll` non è `NeoModLoader.dll`
+> Hai scaricato NML due volte o c'era già una vecchia copia in quella cartella? Windows rinomina il nuovo file in `NeoModLoader (1).dll` invece di sovrascriverlo, e NML rifiuterà di avviarsi: del testo rosso inonderà lo schermo chiedendoti di riavviare il gioco, e il log dirà `Missing className: NeoModLoader (1).WorldBoxMod`. Chiudi il gioco, cancella il vecchio file, rinomina il nuovo esattamente in `NeoModLoader.dll` - senza spazi né numeri - e ricomincia. Questo singolo carattere è la causa più comune per cui NML "non funziona" :PESgn_SMH:.
+>
+> Se Windows rifiuta di eliminare il vecchio file perché "è in uso", significa che il gioco è ancora in esecuzione. Chiudilo prima.
+
 > [!WARNING] Ci sono due cartelle che si chiamano Mods
 > Questa, dentro `worldbox_Data\StreamingAssets\Mods/`, è solo per **NML stesso** (nello specifico `NeoModLoader.dll`) e nient'altro. Quella in cui metterai le tue **mod** è una cartella separata, posizionata direttamente nella radice del gioco accanto a `worldbox.exe` (`worldbox\Mods/`). Non esiste ancora; NML la crea automaticamente al primo avvio del gioco. Mettere una mod dentro `StreamingAssets\Mods/`, o NML dentro `worldbox\Mods/`, è l'errore più comune su questa pagina.
 
@@ -196,7 +201,10 @@ Controllale in ordine. La prima risolve quasi tutti.
 | Nessun bottone NML, nessuna cartella `Mods` accanto a `worldbox.exe` | Experimental Mode è spenta. Attivala, riavvia. Anche dopo ogni aggiornamento del gioco |
 | Ancora niente, Experimental Mode è attiva | `NeoModLoader.dll` è nella cartella sbagliata. Deve stare in `worldbox_Data\StreamingAssets\Mods/`, accanto a `test_asset_load` |
 | Il file si chiama `NeoModLoader.dll.dll` o `NeoModLoader (1).dll` | Rinominalo esattamente `NeoModLoader.dll` |
-| NML c'è, ma una mod non compare | La mod è nella `Mods` sbagliata. Va in quella accanto a `worldbox.exe`, come cartella con dentro `mod.json`, non come `.zip` |
+| NML c'è, ma una mod non compare | La mod è nella `Mods` sbagliata. Va in quella accanto a `worldbox.exe`, come proprio archivio `.zip` o come cartella con dentro `mod.json` |
+| Testo rosso a fiumi che dice `YOU SHOULD RESTART THE GAME` | NML si chiama `NeoModLoader (1).dll` o simile. Vedi **[Passo 4](#passo-4-metti-nml-nel-posto-giusto)** |
+| NML dice che una mod "has been disabled due to an error" | La mod è rotta o troppo vecchia per la tua versione del gioco. Cerca un aggiornamento di quella mod, o chiedi al suo autore |
+| La versione nell'angolo del menu principale non cambia mai | Il tuo gioco è su un ramo beta di Steam. Vedi **[Risoluzione problemi](#/troubleshooting)** |
 | NML dice che una mod "has been disabled due to an error" | La mod è rotta o troppo vecchia per la tua versione del gioco. Cerca un aggiornamento di quella mod, o chiedi al suo autore |
 | Si è rotto tutto subito dopo un aggiornamento di WorldBox | Riattiva Experimental Mode. Poi aspetta che le mod si aggiornino: un aggiornamento del gioco spesso rompe le mod vecchie per qualche giorno |
 
@@ -215,6 +223,9 @@ Allora non va in `Mods`. Installa BepInEx come spiegato in **[La console dal viv
 **NML o NCMS?**
 NML. NCMS non viene più aggiornato e non funziona sulle versioni attuali del gioco. NML fa girare comunque le vecchie mod NCMS, quindi non perdi niente.
 
+**NML è un virus?**
+No. I browser avvisano perché un `.dll` è un programma e non molte persone scaricano questo file specifico. Scaricalo solo dal link GitHub sopra: le mod su GameBanana vengono controllate dai moderatori, mentre un file che qualcuno ti invia in chat non è controllato da nessuno :PESgn_ReadRules:.
+
 **Devo reinstallare NML per ogni mod?**
 No. Una volta basta. Dopo, ogni mod è solo una cartella in `Mods`.
 
@@ -222,6 +233,21 @@ No. Una volta basta. Dopo, ogni mod è solo una cartella in `Mods`.
 Di solito no. NML controlla se c'è una versione nuova ogni volta che il gioco parte e si sostituisce da solo (è il `NeoModLoader.AutoUpdate_memload.dll` che compare accanto a lui). Se mai non ci riesce, scarica il nuovo `NeoModLoader.dll` dallo stesso link e sostituisci quello vecchio a mano.
 
 **Le mod mi rovinano i salvataggi?**
-Possono. Un salvataggio fatto con una mod potrebbe non caricarsi bene dopo che l'hai tolta. Tieni una copia dei mondi a cui tieni prima di provare qualcosa di nuovo :PES_MonkaSweat:.
+Possono farlo. Un salvataggio fatto con una mod potrebbe non caricarsi bene dopo che l'hai tolta. Tieni una copia dei mondi a cui tieni prima di provare qualcosa di nuovo :PES_MonkaSweat:.
+
+**La mia mod preferita è obsoleta. Posso giocarci ancora?**
+Puoi aspettare il suo autore, oppure giocare sulla versione del gioco per cui è stata creata: su Steam, fai clic destro su WorldBox → **Proprietà → Beta**, e seleziona quel ramo. Avrai anche bisogno della versione corrispondente di NML, linkata nei messaggi fissati del canale di modding sul Discord di WorldBox. Mentre sei su un ramo beta, ogni mod creata per la versione attuale smetterà di funzionare. Per tornare indietro, seleziona **Nessuna** nello stesso menu.
+
+**Come aggiorno una mod?**
+Le mod dello Workshop si aggiornano da sole. Per tutto il resto: chiudi il gioco, cancella la vecchia cartella della mod (e il suo vecchio file `.zip`) da `Mods`, e inserisci il nuovo `.zip`.
+
+**Ho eliminato una mod ed è ancora nel gioco.**
+Proveniva dallo Steam Workshop. Togliere la spunta nella lista delle mod non è sufficiente: disiscriviti dalla sua pagina dello Workshop.
+
+**Posso modificare una mod per conto mio?**
+Se contiene una cartella `Code` piena di file `.cs`, sì: sono testo semplice, NML li compila ogni volta che il gioco si avvia, e le risorse grafiche risiedono in `GameResources`. Salva prima una copia dell'originale. Condividere la tua versione modificata è un'altra questione, chiedi all'autore. Una mod che include solo un `.dll` non può essere modificata direttamente, solo ricompilata dai suoi sorgenti.
+
+**Qualcuno che mi sta aiutando mi ha chiesto il log.**
+Incolla `%USERPROFILE%\AppData\LocalLow\mkarpenko\WorldBox` nella barra degli indirizzi di Esplora file e inviagli `Player.log`, il file vero e proprio, non uno screenshot. Se il gioco è appena crashato, invia invece `Player-prev.log`: riavviare il gioco sovrascrive `Player.log`.
 
 Vuoi fare mod invece di usarle soltanto? Si comincia da **[Da dove iniziare](#/getting-started)**.

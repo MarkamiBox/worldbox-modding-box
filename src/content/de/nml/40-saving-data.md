@@ -25,6 +25,10 @@ Das Spiel hat dafür bereits einen festen Platz. Jede Einheit, jede Stadt, jedes
 
 Jeder Datentyp hat seine eigene Tabelle, daher kollidieren ein `int` und ein `string` unter demselben Schlüssel nicht. Aus Gründen deiner eigenen geistigen Gesundheit sollten sie sich dennoch keinen Schlüssel teilen.
 
+
+> [!NOTE] Mehr als fünf primitive Datentypen speichern
+> NML bietet ein eigenes Hilfsmittel, um ein komplettes Objekt in den Daten einer Einheit zu speichern, nicht nur `int`/`long`/`float`/`string`/`bool`. Mehr als einen Zähler oder ein Flag habe ich nie gebraucht, daher kann ich dich hier nicht durchführen. Es existiert jedoch, falls du eine vollständige Struktur oder Liste sichern musst.
+
 ## In HelloBox
 
 Ein Merkmal, das jeden Treffer seines Trägers mitzählt und beim fünfzigsten Treffer genau einmal eine Belohnung vergibt:

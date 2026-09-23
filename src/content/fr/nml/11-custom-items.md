@@ -139,6 +139,31 @@ namespace HelloBox
 | `addSpell(id)` | Sort accordé au porteur |
 | `addCombatAction(id)` | Technique de combat accordée |
 
+
+## Un effet lorsqu'il est tenu en main
+
+"Quiconque tient la Lame de braise devient Rapide" ressemble à un trait attaché à un objet. Les objets ne portent pas de traits, mais ils exécutent du code sur un minuteur lorsqu'ils sont équipés (`action_special_effect` du tableau ci-dessus), et un **statut** expire de lui-même. L'objet réapplique donc en continu un statut court, et lorsque l'objet disparaît, le statut expire simplement :
+
+```csharp Mods/HelloBox/Code/HelloItems.cs
+blade.special_effect_interval = 1f;
+blade.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
+{
+    Actor actor = pSelf as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    StatusAsset status = AssetManager.status.get(HelloStatus.CURSED);
+    if (status == null) return false;
+
+    // 3 secondes, rafraîchi chaque seconde tant qu'il est tenu. Lâchez la lame et il s'estompe
+    World.world.statuses.newStatus(actor, status, 3f);
+    return true;
+};
+```
+
+Le statut nécessite `allow_timer_reset = true` (la valeur par défaut pour un nouveau `StatusAsset`, mais pas pour tous les statuts vanilla dont vous pourriez vous inspirer), sinon le réappliquer avant l'expiration ne fait rien et il s'éteindra en plein combat. Dans HelloBox, la lame maudit son propre porteur, ce qui est exactement ce que ferait une lame de braise :wbfacepalm:.
+
+Pourquoi pas un trait : un trait reste jusqu'à ce que quelque chose le retire, vous auriez donc besoin d'un second minuteur pour détecter que la lame a disparu et l'enlever. Un statut se nettoie tout seul.
+
 ## Ton propre sprite
 
 Un objet possède deux éléments graphiques, gérés par deux champs séparés :

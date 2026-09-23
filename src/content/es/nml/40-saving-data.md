@@ -25,6 +25,10 @@ El juego ya cuenta con un lugar pensado para esto. Cada unidad, ciudad, reino, e
 
 Cada tipo de dato cuenta con su propia tabla interna, de modo que un `int` y un `string` bajo la misma clave no colisionan. Aun así, por tu propia salud mental, no reutilices claves para tipos distintos.
 
+
+> [!NOTE] Almacenar algo más grande que cinco primitivos
+> NML tiene su propia utilidad para guardar un objeto completo en los datos de una unidad, no solo `int`/`long`/`float`/`string`/`bool`. Nunca he necesitado más que un contador o una bandera, así que no puedo guiarte aquí. Existe, por si necesitas recordar una estructura o lista completa.
+
 ## En HelloBox
 
 Un rasgo que cuenta cada golpe que asesta su portador y le otorga una recompensa única al llegar a cincuenta:

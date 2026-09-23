@@ -14,6 +14,19 @@ Find your symptom in the table, click it, read three lines. That is the whole pa
 
 ## Find your symptom
 
+**Using mods (not making them)**
+
+| Symptom | |
+| --- | --- |
+| Red text flood, `Missing className: NeoModLoader (1).WorldBoxMod` | [jump](#red-text-flood-missing-classname) |
+| NML worked, the game updated, now mods are red or "failed" | [jump](#mods-are-red-or-failed-after-a-game-update) |
+| The game is on an old version and NML will not load | [jump](#the-game-is-on-an-old-version) |
+| The game got slow, or freezes, with mods on | [jump](#the-game-got-slow-or-freezes-with-mods-on) |
+| A world will not load any more | [jump](#a-world-will-not-load-any-more) |
+| A BepInEx mod is installed and shows nothing | [jump](#a-bepinex-mod-is-installed-and-shows-nothing) |
+| You deleted a mod and it is still there | [jump](#you-deleted-a-mod-and-it-is-still-there) |
+| The game does not start at all | [jump](#the-game-does-not-start-at-all) |
+
 **Nothing loads**
 
 | Symptom | |
@@ -95,6 +108,60 @@ Find your symptom in the table, click it, read three lines. That is the whole pa
 | Memory climbs every time the panel opens | [jump](#memory-climbs-every-time-the-panel-opens) |
 | A new default never reaches existing players | [jump](#a-new-default-never-reaches-existing-players) |
 | A settings slider moves, your callback never runs | [jump](#a-settings-slider-moves-your-callback-never-runs) |
+
+---
+
+## Using mods
+
+This group is for people playing with mods, not writing them. Everything after it assumes you are the one writing the code.
+
+### Red text flood, missing className
+
+- **See**: Red text scrolling over the game, `previous errors repeated`, `YOU SHOULD RESTART THE GAME`, and in the log `Missing className: NeoModLoader (1).WorldBoxMod`.
+- **Why**: The file is not called `NeoModLoader.dll`. A browser downloading it a second time adds ` (1)`, and NML reads its own file name.
+- **Fix**: Close the game, delete any older copy, rename the file to exactly `NeoModLoader.dll`, start again. Full walkthrough on **[Install NML](#/install-nml)**.
+
+### Mods are red or failed after a game update
+
+- **See**: The mod list shows a mod in red, "failed", `current failed, will load`, or `<Mod> has been disabled due to an error`. It worked before the update.
+- **Why**: Mods call the game's own code. When WorldBox changes that code, a mod built for the old version stops compiling. NML is not the problem, it is only the messenger.
+- **Fix**: Look for a newer version of the mod (on GameBanana, sort by **Updated**). No newer version means wait for the author, or play the old game version, see **[the FAQ](#/install-nml)**. Do not keep two versions of the same mod in `Mods` "just in case": they fight.
+
+### The game is on an old version
+
+- **See**: NML never loads, or the log says `MissingFieldException: Field not found: bool .Config.gameLoaded`. The version number on the main menu is older than the one everybody else talks about.
+- **Why**: The game is on a Steam **beta branch**, usually one picked long ago to try an update early, and the NML you downloaded is made for the current version.
+- **Fix**: Steam → right-click WorldBox → **Properties → Betas** → **None**. Let Steam update, turn Experimental Mode back on :PES2_Shrug:.
+
+### The game got slow, or freezes, with mods on
+
+- **See**: Low FPS, stutters, or the world freezing while the buttons still work. Fine without mods.
+- **Why**: Nearly always one mod doing heavy work every tick, usually a big content mod. Two mods that change the same thing can also lock each other up.
+- **Fix**: Disable half your mods, restart, test. Still broken: the culprit is in the half that is on. Keep halving until one is left. Disabling is enough, no need to delete. Read that mod's description for known incompatibilities, and never run two versions of one mod (a full and a "lite" one) together.
+
+### A world will not load any more
+
+- **See**: The save opens a different world, stops while loading, or throws `NullReferenceException` while saving or loading.
+- **Why**: The world contains creatures, buildings or traits from a mod that is now off, removed or outdated. The game finds ids it does not know.
+- **Fix**: Turn that mod back on (or go back to the version the save was made with), load the world, and remove the modded content in game before removing the mod. Keep a copy of worlds you care about before trying a new content mod :PES_MonkaSweat:.
+
+### A BepInEx mod is installed and shows nothing
+
+- **See**: The mod is in `BepInEx/plugins`, nothing appears in game, and no config file of its own shows up in `BepInEx/config`.
+- **Why**: Either the zip was dropped into `plugins` as a zip, or BepInEx's manager object is being destroyed by the game, which some machines need a setting for.
+- **Fix**: Put the **folder inside** the zip into `BepInEx/plugins`, not the zip. Then open `BepInEx/config/BepInEx.cfg`, find `HideManagerGameObject = false`, change it to `true`, save, restart. Setting up BepInEx itself: **[The live console](#/toolbox/bepinex-console)**.
+
+### You deleted a mod and it is still there
+
+- **See**: The folder is gone from `Mods`, the mod still loads.
+- **Why**: It was subscribed on the Steam Workshop, and Workshop mods live in Steam's own folder, not in yours.
+- **Fix**: Unsubscribe on its Workshop page. Unticking it is not the same thing.
+
+### The game does not start at all
+
+- **See**: WorldBox closes or hangs before the main menu, even after taking your mods out.
+- **Why**: A file of the game itself got damaged, often by copying something into the wrong folder.
+- **Fix**: Steam → right-click WorldBox → **Properties → Installed Files → Verify integrity of game files**. Then put NML and your mods back one at a time.
 
 ---
 

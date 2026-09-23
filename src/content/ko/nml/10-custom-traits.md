@@ -184,6 +184,16 @@ if (actor.hasTrait(HelloTraits.SWIFT))
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed`는 게임 시작 시 딱 한 번만 읽힙니다
+> 새로 태어나는 유닛은 게임이 로드되는 동안 `BaseTraitLibrary.linkAssets()`가 만드는 풀에서 초기 특성을 뽑습니다. 이는 여러분의 모드가 존재하기도 전의 시점입니다. 특성에 이 플래그를 켜는 것만으로는 아무것도 바뀌지 않습니다. 여러분의 특성은 그 풀에 절대 들어가지 않으며, 새로 태어난 유닛에게 우연히 부여되는 일도 없습니다. 바닐라와 같은 가중치로 직접 넣어주세요:
+>
+> ```csharp
+> swift.spawn_random_trait_allowed = true;
+> AssetManager.traits._pot_allowed_to_be_given_randomly.AddTimes(swift.spawn_random_rate, swift);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly`는 `protected`이므로, NML이 모드를 빌드할 때 이미 사용하는 publicize된 어셈블리를 기준으로 컴파일됩니다. `spawn_random_rate`의 기본값은 `5`이며, 값을 올릴수록 더 자주 등장합니다.
+
 ## 정상 작동 여부 확인하기
 
 게임을 실행하고, 유닛 창을 열고, 특성 편집기를 연 뒤, `physique` 탭을 확인하세요. 보이지 않나요? 로그를 열어보면 이유가 나와 있으며, 십중팔구 다음 세 가지 중 하나입니다: `can_be_given`이 false이거나, `group_id`가 존재하지 않거나, `path_icon`이 빈 곳을 가리키고 있거나 :wbreally:.

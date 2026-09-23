@@ -73,6 +73,16 @@ namespace HelloBox
 
 유닛의 `mutation` 능력치가 이러한 현상이 일어날 확률을 결정합니다. **[스탯 레퍼런스](#/nml/stats)** 를 참고하세요.
 
+> [!WARNING] 추첨 풀은 게임 시작 시 딱 한 번만 만들어집니다
+> `spawn_random_trait_allowed = true`로 설정하는 것만으로는 부족합니다. 실제 추첨 풀인 `_pot_allowed_to_be_given_randomly`는 게임이 로드되는 동안 `BaseTraitLibrary.linkAssets()`가 만듭니다. 이는 여러분의 모드가 존재하기도 전의 시점입니다. 그 이후에 등록한 특성은 이 풀에 절대 들어가지 않으며, 돌연변이로 선택되는 일도 없습니다. 바닐라와 같은 가중치로 직접 추가해주세요:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.subspecies_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly`는 `protected`이므로, NML이 모드를 빌드할 때 이미 사용하는 publicize된 어셈블리를 기준으로 컴파일됩니다. `spawn_random_rate`의 기본값은 `5`이며, 값을 올릴수록 더 자주 등장합니다.
+
 ## 그래픽: 다른 특성 시스템에는 없는 독보적인 기능
 
 ```csharp

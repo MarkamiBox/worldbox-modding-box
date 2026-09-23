@@ -184,6 +184,16 @@ if (actor.hasTrait(HelloTraits.SWIFT))
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` is read once, at startup
+> New units roll their starting traits from a pool that `BaseTraitLibrary.linkAssets()` builds while the game loads, before your mod exists. Setting the flag on your trait changes nothing on its own: your trait is never in that pool, and it never turns up by chance on a freshly spawned unit. Put it in yourself, weighted the way vanilla does it:
+>
+> ```csharp
+> swift.spawn_random_trait_allowed = true;
+> AssetManager.traits._pot_allowed_to_be_given_randomly.AddTimes(swift.spawn_random_rate, swift);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` is `protected`, so this compiles against the publicized assembly NML already builds your mod with. `spawn_random_rate` defaults to `5`: raise it and the trait turns up more often.
+
 ## Check it worked
 
 Start the game, open a unit, open the trait editor, look in the `physique` tab. Not there? The log knows why, and the answer is nearly always one of three things: `can_be_given` is false, `group_id` does not exist, or `path_icon` points at nothing :wbreally:.

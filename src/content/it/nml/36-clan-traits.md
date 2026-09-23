@@ -147,3 +147,17 @@ Il clan di un'unità si trova su `actor.clan`, e `actor.hasClan()` ti dice se l'
 
 > [!TIP] I clan sono ristretti, quindi puoi essere generoso
 > Una cultura copre un continente; un clan copre una famiglia, e `limit_clan_members` ne limita le dimensioni complessive. Un tratto di clan può essere molto più incisivo di un tratto culturale senza compromettere la stabilità del mondo, il che rende i clan la sede perfetta per le idee più spettacolari :PES5_Menace:.
+
+## Nuovi clan che estraggono un tratto da soli
+
+Oltre ad assegnarlo manualmente, un tratto di clan può impostare `spawn_random_trait_allowed` per essere estratto alla formazione di un nuovo clan, nello stesso modo in cui una cultura sceglie i suoi tratti iniziali.
+
+> [!WARNING] `spawn_random_trait_allowed` viene letto una sola volta, all'avvio
+> I nuovi clan pescano i loro tratti iniziali da un gruppo che `BaseTraitLibrary.linkAssets()` costruisce durante il caricamento del gioco, prima che la tua mod esista. Impostare il flag sul tuo tratto non cambia nulla da solo: il tuo tratto non è mai in quel gruppo e non apparirà mai per caso su un nuovo clan. Aggiungilo tu stesso, con il peso usato dal gioco vanilla:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.clan_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` è `protected`, quindi compila contro l'assembly pubblicizzata con cui NML compila già la tua mod. `spawn_random_rate` ha valore predefinito `5`: aumentalo e il tratto apparirà più spesso.

@@ -55,6 +55,16 @@ namespace HelloBox
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` はゲーム起動時に一度だけ読み込まれます
+> 新しい宗教は、ゲームロード中に `BaseTraitLibrary.linkAssets()` が構築するプールから初期特性を抽選します。これはあなたのModが存在するより前のタイミングです。特性にこのフラグを立てるだけでは何も変わりません。あなたの特性はそのプールに一度も入らず、新しい創始者に偶然付与されることもありません。バニラと同じ重み付けで、自分でプールに追加してください：
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.religion_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` は `protected` なので、NML がModのビルドに使うpublicize済みアセンブリに対してならコンパイルが通ります。`spawn_random_rate` の既定値は `5` です。数値を上げるほど出現頻度が上がります。
+
 ## 儀式: `plot_id` フィールド
 
 `plot_id` を持つ宗教特性は**儀式**になります。宗教はその儀式を `possible_rites` に蓄積し、陰謀の実行条件が揃うと指導者や司祭が自律的にそれを試みます。

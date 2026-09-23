@@ -203,6 +203,60 @@ if (World.world.buildings.canBuildFrom(tile, asset, null, BuildPlacingType.New))
 
 Verifica sempre con `canBuildFrom` prima di procedere. Posizionare un edificio sull'acqua, su un'altra costruzione o su una tessera riservata dalla città produrrà un mondo apparentemente integro che crasherà tre minuti più tardi :PES_OhShit:.
 
+
+## Far costruire l'edificio alle città
+
+Un potere divino che fa comparire il tuo santuario è divertente per un'ora. Un santuario che le città costruiscono da sole, quando sono abbastanza grandi, è una mod. Le città scelgono cosa costruire da due elementi, e il tuo edificio non è ancora in nessuno dei due:
+
+| | Cosa contiene |
+| --- | --- |
+| Un **ordine di costruzione** (`AssetManager.city_build_orders`) | Un elenco di chiavi d'ordine come `order_temple`, con la popolazione e il numero di edifici richiesti per ciascuna |
+| Un'**architettura** (`AssetManager.architecture_library`) | Quale edificio indica una chiave d'ordine per quel tipo di creatura: `order_temple` è `temple_human` per gli umani, un'altra cosa per gli orchi |
+
+Quindi inventi una chiave d'ordine, insegni a ogni architettura cosa significa e la aggiungi agli ordini di costruzione:
+
+```csharp Mods/HelloBox/Code/HelloBuildings.cs
+public const string ORDER = "order_hello_shrine";
+
+private static void AddToCities()
+{
+    BuildingAsset shrine = AssetManager.buildings.get(SHRINE);
+    if (shrine == null) return;
+
+    // Un tipo proprio, così la città conta i santuari rispetto al proprio limite, non ai templi
+    shrine.type = "type_hello_shrine";
+
+    // La ricerca dell'architettura è un semplice dizionario: una chiave sconosciuta genera un errore per ogni città
+    // di quella creatura. Insegnala a tutte, anche a quelle che non la raggiungeranno mai.
+    foreach (ArchitectureAsset architecture in AssetManager.architecture_library.list)
+    {
+        architecture.addBuildingOrderKey(ORDER, SHRINE);
+    }
+
+    foreach (CityBuildOrderAsset orders in AssetManager.city_build_orders.list)
+    {
+        if (orders.list.Exists(pOrder => pOrder.id == ORDER)) continue;
+
+        // stesso limite usato dal tempio: 1, 50 abitanti, 15 edifici in città
+        orders.addBuilding(ORDER, 1, 50, 15);
+    }
+}
+```
+
+Chiama `AddToCities()` alla fine di `Initialize()`, dopo il clone.
+
+A differenza della maggior parte di questa guida, qui non c'è nessuna trappola all'avvio: `CityBehBuild.calcPossibleBuildings()` legge l'elenco degli ordini di costruzione di ogni città ogni volta che valuta di costruire, quindi un ordine aggiunto al caricamento è visibile dalla prima città che controlla. La città deve comunque poter pagare il `cost` dell'edificio e soddisfare ogni parametro dell'ordine; quando non può, salta il tuo santuario senza dire nulla :PES5_Hmmmm:.
+
+| Argomento di `addBuilding(...)` | Cosa fa |
+| --- | --- |
+| `pID` | La chiave d'ordine, non l'id dell'edificio |
+| `pLimitType` | Quanti ne può possedere la città. Il tempio usa `1` |
+| `pPop` | Popolazione minima |
+| `pBuildings` | Numero minimo di edifici già presenti in città |
+| `pCheckFullVillage` | Solo quando ogni casa è occupata |
+| `pCheckHouseLimit` | Per le case: ignora finché l'alloggio non scarseggia, fermati al limite di case della città |
+| `pMinZones` | Dimensione minima della città, in zone |
+
 ## I testi
 
 ```json Mods/HelloBox/Locales/en.json

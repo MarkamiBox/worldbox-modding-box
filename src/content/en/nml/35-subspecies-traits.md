@@ -73,6 +73,16 @@ This is how a subspecies trait gets into a world without you handing it out. The
 
 A unit's `mutation` stat is the chance of any of this happening. See **[Stats reference](#/nml/stats)**.
 
+> [!WARNING] The pot is read once, at startup
+> Setting `spawn_random_trait_allowed = true` is not enough on its own. `BaseTraitLibrary.linkAssets()` builds the actual pot, `_pot_allowed_to_be_given_randomly`, while the game loads, before your mod exists. A trait registered afterwards is never in it, and no mutation ever rolls it. Put it in yourself, weighted the way vanilla does it:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.subspecies_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` is `protected`, so this compiles against the publicized assembly NML already builds your mod with. `spawn_random_rate` defaults to `5`: raise it and the trait turns up more often.
+
 ## Art: the part no other trait system has
 
 ```csharp

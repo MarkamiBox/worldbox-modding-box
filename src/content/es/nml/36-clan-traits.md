@@ -147,3 +147,17 @@ El clan de una unidad está en `actor.clan`, y `actor.hasClan()` te indica si pe
 
 > [!TIP] Los clanes son pequeños, puedes ser generoso
 > Una cultura abarca un continente; un clan abarca una familia, y `limit_clan_members` limita su tamaño máximo. Un rasgo de clan puede ser mucho más poderoso que un rasgo cultural con el mismo nivel de impacto en el equilibrio del mundo, lo que convierte a los clanes en el hogar perfecto para ideas espectaculares :PES5_Menace:.
+
+## Nuevos clanes que obtienen un rasgo por sí mismos
+
+Además de otorgarlo manualmente, un rasgo de clan puede establecer `spawn_random_trait_allowed` para ser seleccionado cuando se forma un nuevo clan, de la misma manera que una cultura selecciona sus rasgos iniciales.
+
+> [!WARNING] `spawn_random_trait_allowed` se lee una sola vez, al inicio
+> Los nuevos clanes eligen sus rasgos iniciales de un grupo que `BaseTraitLibrary.linkAssets()` construye mientras se carga el juego, antes de que tu mod exista. Establecer la bandera en tu rasgo no cambia nada por sí solo: tu rasgo nunca estará en ese grupo y nunca aparecerá por casualidad en un nuevo clan. Agrégalo tú mismo, con el peso que usa el juego vanilla:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.clan_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` es `protected`, por lo que compila contra el ensamblado publicitado con el que NML ya compila tu mod. `spawn_random_rate` tiene un valor predeterminado de `5`: auméntalo y el rasgo aparecerá con más frecuencia.

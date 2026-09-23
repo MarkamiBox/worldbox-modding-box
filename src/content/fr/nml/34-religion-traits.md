@@ -55,6 +55,17 @@ namespace HelloBox
 }
 ```
 
+
+> [!WARNING] `spawn_random_trait_allowed` n'est lu qu'une seule fois, au démarrage
+> Les nouvelles religions tirent leurs traits de départ d'un pool que `BaseTraitLibrary.linkAssets()` construit pendant le chargement du jeu, avant que votre mod n'existe. Définir le drapeau sur votre trait ne change rien en soi : votre trait n'est jamais dans ce pool et n'apparaît jamais par hasard sur un fondateur. Ajoutez-le vous-même, pondéré comme le fait le jeu vanilla :
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.religion_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` est `protected`, donc cela compile contre l'assembly rendue publique avec laquelle NML compile déjà votre mod. `spawn_random_rate` vaut `5` par défaut : augmentez-le et le trait apparaîtra plus souvent.
+
 ## Rites : le champ `plot_id`
 
 Un trait de religion muni d'un `plot_id` devient un **rite**. La religion rassemble ses rites dans `possible_rites`, et les dirigeants et prêtres tentent de les accomplir de leur propre chef dès lors que les conditions du complot sont satisfaites.

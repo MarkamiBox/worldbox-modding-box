@@ -147,3 +147,17 @@ Le clan d'une unité se trouve dans `actor.clan`, et `actor.hasClan()` indique s
 
 > [!TIP] Les clans sont restreints, faites-vous plaisir
 > Une culture recouvre un continent entier ; un clan se résume à une famille, et `limit_clan_members` plafonne son effectif. Un trait de clan peut être bien plus puissant qu'un trait culturel sans pour autant briser l'équilibre du monde, ce qui fait des clans le terrain de jeu idéal pour des mécaniques spectaculaires :PES5_Menace:.
+
+## Nouveaux clans obtenant un trait d'eux-mêmes
+
+En plus de l'attribuer vous-même, un trait de clan peut définir `spawn_random_trait_allowed` pour être tiré au sort lors de la formation d'un nouveau clan, de la même manière qu'une culture tire ses traits de départ.
+
+> [!WARNING] `spawn_random_trait_allowed` n'est lu qu'une seule fois, au démarrage
+> Les nouveaux clans tirent leurs traits de départ d'un pool que `BaseTraitLibrary.linkAssets()` construit pendant le chargement du jeu, avant que votre mod n'existe. Définir le drapeau sur votre trait ne change rien en soi : votre trait n'est jamais dans ce pool et n'apparaît jamais par hasard sur un nouveau clan. Ajoutez-le vous-même, pondéré comme le fait le jeu vanilla :
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.clan_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` est `protected`, donc cela compile contre l'assembly rendue publique avec laquelle NML compile déjà votre mod. `spawn_random_rate` vaut `5` par défaut : augmentez-le et le trait apparaîtra plus souvent.

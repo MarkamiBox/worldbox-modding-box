@@ -152,6 +152,49 @@ public static class Patch_City_ArmyMax
 
 Adjust, do not assign. `__result *= 1.5f` still behaves if another mod patched the same method. `__result = 12f` throws their work away and starts an argument in your comments section.
 
+## Changing a number the game hard-codes
+
+Half the "can somebody make a mod that..." requests are one number. "Cities grow too big" is this, straight from the game's own `City`:
+
+```csharp Assembly-CSharp / City
+public int getZoneRange(bool pAllowCheat = true)
+{
+    if (pAllowCheat && DebugConfig.isOn(DebugOption.CityUnlimitedZoneRange))
+    {
+        return 999;
+    }
+    return 13;
+}
+```
+
+A method that returns a constant is the easiest thing in the game to change. You do not touch the constant, you adjust what comes out:
+
+```csharp Mods/HelloBox/Code/HelloPatches.cs
+using HarmonyLib;
+using UnityEngine;
+
+namespace HelloBox
+{
+    [HarmonyPatch(typeof(City), nameof(City.getZoneRange))]
+    public static class Patch_City_ZoneRange
+    {
+        private const float SCALE = 0.5f;   // half-size towns
+
+        public static void Postfix(ref int __result)
+        {
+            // 999 is the debug "unlimited zone range" switch. Leave the player's cheat alone
+            if (__result == 999) return;
+
+            __result = Mathf.Max(1, Mathf.RoundToInt(__result * SCALE));
+        }
+    }
+}
+```
+
+Put `SCALE` behind a slider from **[Mod settings](#/nml/mod-config)** and players tune it themselves.
+
+Finding the method is the real work. Search **dnSpy** for the number you see in game (13 zones, 2 weapons, 5 years), or for the noun in the rule ("zone", "limit", "max"). A constant sitting in a small method is a Postfix. A constant buried in the middle of a long one is a transpiler, and that is where this page stops :PES2_Shrug:.
+
 ## Cancelling the original
 
 A Prefix that returns `bool` decides whether the game's own code runs at all:
@@ -233,6 +276,9 @@ public static class Patch_Actor_StatDelta
 - **Cheap check first.** The first line of a hot patch should be the test that lets you `return`.
 - **Patch the narrowest method that does the job.** Patching `Actor.updateStats` for one trait's speed is fine. Patching the world update to do the same thing is how a mod gets uninstalled.
 - **Keep your patches in one file.** When somebody reports a conflict you want to read one file, not twelve.
+
+> [!NOTE] Patching a library's `has`, `get`, `add`, `clone` or `post_init` is pointless
+> It only affects calls made after your mod loads, never the vanilla registration that already happened by then. See **[Asset libraries](#/nml/asset-libraries)**.
 
 ## What we are not covering
 

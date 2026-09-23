@@ -137,6 +137,50 @@ public static class Patch_City_ArmyMax
 
 Ajustez, n'écrasez pas aveuglément. `__result *= 1.5f` fonctionne harmonieusement si un autre mod a patché la même méthode. `__result = 12f` jette son travail à la poubelle et déclenche une dispute dans vos commentaires.
 
+
+## Modifier un nombre codé en dur dans le jeu
+
+La moitié des demandes du type "quelqu'un peut-il faire un mod qui..." ne concerne qu'un seul nombre. "Les villes deviennent trop grandes" n'est rien d'autre que cela, tiré directement de la classe `City` du jeu :
+
+```csharp Assembly-CSharp / City
+public int getZoneRange(bool pAllowCheat = true)
+{
+    if (pAllowCheat && DebugConfig.isOn(DebugOption.CityUnlimitedZoneRange))
+    {
+        return 999;
+    }
+    return 13;
+}
+```
+
+Une méthode qui renvoie une constante est la chose la plus simple à modifier dans le jeu. Vous ne touchez pas à la constante, vous ajustez ce qui en sort :
+
+```csharp Mods/HelloBox/Code/HelloPatches.cs
+using HarmonyLib;
+using UnityEngine;
+
+namespace HelloBox
+{
+    [HarmonyPatch(typeof(City), nameof(City.getZoneRange))]
+    public static class Patch_City_ZoneRange
+    {
+        private const float SCALE = 0.5f;   // villes deux fois plus petites
+
+        public static void Postfix(ref int __result)
+        {
+            // 999 est l'option de débogage "unlimited zone range". Ne touchez pas au cheat du joueur
+            if (__result == 999) return;
+
+            __result = Mathf.Max(1, Mathf.RoundToInt(__result * SCALE));
+        }
+    }
+}
+```
+
+Placez `SCALE` derrière un curseur de **[Configuration du mod](#/nml/mod-config)** et les joueurs pourront l'ajuster eux-mêmes.
+
+Trouver la méthode est le vrai travail. Cherchez dans **dnSpy** le nombre que vous voyez en jeu (13 zones, 2 armes, 5 ans), ou le nom de la règle ("zone", "limit", "max"). Une constante située dans une petite méthode est un Postfix. Une constante enfouie au milieu d'une méthode longue nécessite un transpiler, et c'est là que cette page s'arrête :PES2_Shrug:.
+
 ## Annuler la méthode originale
 
 Un Prefix renvoyant un `bool` décide si le code original du jeu doit s'exécuter ou non :

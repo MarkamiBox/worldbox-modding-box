@@ -139,6 +139,31 @@ namespace HelloBox
 | `addSpell(id)` | 赋予持有者的主动施法技能 |
 | `addCombatAction(id)` | 赋予持有者的专属战斗特技 |
 
+
+## 手持时触发的被动效果
+
+“手持余烬之刃时获得迅捷”听起来像是写在物品上的特质。但物品本身并不支持特质，不过它们可以在装备期间按计时器触发执行代码（即上表中的 `action_special_effect`），而**状态效果**自身是带有持续时间的。因此，物品只需不断刷新一个短暂的状态效果，一旦物品被卸下或丢弃，状态自然就会结束：
+
+```csharp Mods/HelloBox/Code/HelloItems.cs
+blade.special_effect_interval = 1f;
+blade.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
+{
+    Actor actor = pSelf as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    StatusAsset status = AssetManager.status.get(HelloStatus.CURSED);
+    if (status == null) return false;
+
+    // 持续 3 秒，只要装备着每 1 秒刷新一次。丢掉武器后状态自然消失
+    World.world.statuses.newStatus(actor, status, 3f);
+    return true;
+};
+```
+
+状态需要设置 `allow_timer_reset = true`（新创建的 `StatusAsset` 默认为 true，但从原版克隆的某些状态可能不是），否则在到期前重复施加不会重置计时器，导致状态在战斗中中途断掉。在 HelloBox 中，余烬之刃会诅咒其持有者——正如一把烈焰燃烧的凶刃该做的那样 :wbfacepalm:。
+
+为什么不用特质：特质一旦加上就会永久存在，除非有专门的代码将其移除，这样你就不得不另外写一个定时器来检测武器是否离手。而状态效果会自动到期清理。
+
 ## 导入自定义贴图
 
 一件装备具有两套独立的视觉素材，并由两个不同的字段分别控制：

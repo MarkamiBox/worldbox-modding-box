@@ -147,3 +147,17 @@ Der Clan einer Einheit liegt auf `actor.clan`, und `actor.hasClan()` verrät dir
 
 > [!TIP] Clans sind klein, sei also ruhig großzügig
 > Eine Kultur erstreckt sich über einen ganzen Kontinent; ein Clan umfasst eine Familie, und `limit_clan_members` deckelt seine Größe. Eine Clan-Eigenschaft darf bei gleicher Welten-Balance wesentlich stärker sein als eine Kultur-Eigenschaft. Das macht Clans zum perfekten Zuhause für dramatische Effekte :PES5_Menace:.
+
+## Neue Clans, die selbstständig Traits auswürfeln
+
+Abgesehen von der manuellen Vergabe kann ein Clan-Trait `spawn_random_trait_allowed` setzen, um bei der Gründung eines neuen Clans ausgewürfelt zu werden – genau so, wie eine Kultur ihre Start-Traits wählt.
+
+> [!WARNING] `spawn_random_trait_allowed` wird nur einmal beim Start gelesen
+> Neue Clans ziehen ihre Start-Traits aus einem Pool, den `BaseTraitLibrary.linkAssets()` während des Ladens aufbaut, bevor deine Mod existiert. Das Flag an deinem Trait zu setzen ändert für sich genommen nichts: Dein Trait landet nie in diesem Pool und wird einem neuen Clan nie zufällig verliehen. Füge ihn selbst hinzu, gewichtet nach Vanilla-Vorbild:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.clan_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` ist `protected`, kompiliert also gegen das publicized Assembly, mit dem NML deine Mod baut. `spawn_random_rate` steht standardmäßig auf `5`: Erhöhe den Wert, damit der Trait häufiger erscheint.

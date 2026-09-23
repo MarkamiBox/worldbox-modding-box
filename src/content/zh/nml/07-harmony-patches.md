@@ -137,6 +137,50 @@ public static class Patch_City_ArmyMax
 
 按比例微调，不要粗暴赋值。使用 `__result *= 1.5f`，即使其他模组也 patch 了同一个方法，大家也能相安无事。如果直接来一句 `__result = 12f`，就会彻底毁掉别人的补丁成果，并引发评论区的一场口水战。
 
+
+## 修改游戏硬编码的数值
+
+社区里一半的“有没有人能做个模组……”的需求，其实都只是想改一个数字。“城市扩张范围太大了”其实就是游戏原版 `City` 类里的这么一个方法：
+
+```csharp Assembly-CSharp / City
+public int getZoneRange(bool pAllowCheat = true)
+{
+    if (pAllowCheat && DebugConfig.isOn(DebugOption.CityUnlimitedZoneRange))
+    {
+        return 999;
+    }
+    return 13;
+}
+```
+
+返回常数的方法是整个游戏中最容易打补丁的地方。你不需要修改常数本身，只需在补丁中调整它的返回值：
+
+```csharp Mods/HelloBox/Code/HelloPatches.cs
+using HarmonyLib;
+using UnityEngine;
+
+namespace HelloBox
+{
+    [HarmonyPatch(typeof(City), nameof(City.getZoneRange))]
+    public static class Patch_City_ZoneRange
+    {
+        private const float SCALE = 0.5f;   // 城市规模减半
+
+        public static void Postfix(ref int __result)
+        {
+            // 999 是“无限区域范围”调试选项。不要破坏玩家开启的作弊功能
+            if (__result == 999) return;
+
+            __result = Mathf.Max(1, Mathf.RoundToInt(__result * SCALE));
+        }
+    }
+}
+```
+
+把 `SCALE` 连接到 **[模组配置](#/nml/mod-config)** 中的滑块，玩家就能在游戏里自行调节。
+
+找到对应的方法才是真正的核心工作。在 **dnSpy** 中搜索你在游戏里看到的数值（13 个区域、2 把武器、5 年），或者规则的名词（"zone"、"limit"、"max"）。小方法里的常数用 Postfix 即可轻松搞定；藏在长方法中间的常数则需要使用 transpiler，这就超出本页的范畴了 :PES2_Shrug:。
+
 ## 拦截并阻止原方法执行
 
 返回 `bool` 类型的 Prefix 补丁能够决定游戏的原版代码是否执行：

@@ -14,6 +14,19 @@ Finde dein Symptom in der Tabelle, klicke darauf, lies drei Zeilen. Das ist die 
 
 ## Finde dein Symptom
 
+**Mods nutzen (nicht selbst erstellen)**
+
+| Symptom | |
+| --- | --- |
+| Roter Text überflutet Bildschirm, `Missing className: NeoModLoader (1).WorldBoxMod` | [springen](#roter-text-überflutet-bildschirm-missing-classname) |
+| NML lief, Spiel geupdatet, jetzt sind Mods rot oder "failed" | [springen](#mods-sind-rot-oder-failed-nach-einem-spiel-update) |
+| Spiel ist auf alter Version und NML lädt nicht | [springen](#das-spiel-ist-auf-einer-alten-version) |
+| Spiel wurde langsam oder friert mit Mods ein | [springen](#das-spiel-wurde-langsam-oder-friert-mit-mods-ein) |
+| Eine Welt lädt nicht mehr | [springen](#eine-welt-lädt-nicht-mehr) |
+| BepInEx-Mod ist installiert, zeigt aber nichts | [springen](#bepinex-mod-ist-installiert-und-zeigt-nichts) |
+| Mod gelöscht, aber sie ist immer noch da | [springen](#du-hast-eine-mod-gelöscht-und-sie-ist-immer-noch-da) |
+| Das Spiel startet überhaupt nicht | [springen](#das-spiel-startet-überhaupt-nicht) |
+
 **Nichts lädt**
 
 | Symptom | |
@@ -95,6 +108,58 @@ Finde dein Symptom in der Tabelle, klicke darauf, lies drei Zeilen. Das ist die 
 | Speicherverbrauch steigt bei jedem Öffnen des Panels | [springen](#speicherverbrauch-steigt-bei-jedem-öffnen-des-panels) |
 | Neuer Standardwert erreicht bestehende Spieler nicht | [springen](#neuer-standardwert-erreicht-bestehende-spieler-nicht) |
 | Einstellungs-Slider bewegt sich, aber Callback läuft nie | [springen](#einstellungs-slider-bewegt-sich-aber-callback-läuft-nie) |
+
+## Mods nutzen
+
+Diese Gruppe ist für Leute, die mit Mods spielen, nicht für Modder. Alles danach setzt voraus, dass du selbst den Code schreibst.
+
+### Roter Text überflutet Bildschirm, missing className
+
+- **Was du siehst**: Roter Text scrollt über das Spiel, `previous errors repeated`, `YOU SHOULD RESTART THE GAME`, und im Log `Missing className: NeoModLoader (1).WorldBoxMod`.
+- **Warum**: Die Datei heißt nicht `NeoModLoader.dll`. Ein Browser, der sie ein zweites Mal herunterlädt, hängt ` (1)` an, und NML liest seinen eigenen Dateinamen.
+- **Lösung**: Schließe das Spiel, lösche alte Kopien, benenne die Datei exakt in `NeoModLoader.dll` um, starte neu. Vollständige Anleitung unter **[NML installieren](#/install-nml)**.
+
+### Mods sind rot oder failed nach einem Spiel-Update
+
+- **Was du siehst**: Die Mod-Liste zeigt eine Mod in Rot, "failed", `current failed, will load` oder `<Mod> has been disabled due to an error`. Vor dem Update funktionierte sie.
+- **Warum**: Mods rufen Spielcode auf. Wenn WorldBox diesen Code ändert, kompiliert eine für die alte Version gebaute Mod nicht mehr. NML ist nicht das Problem, sondern nur der Überbringer der Nachricht.
+- **Lösung**: Suche nach einer neueren Version der Mod (auf GameBanana nach **Updated** sortieren). Gibt es keine, warte auf den Autor oder spiele auf der alten Version, siehe **[die FAQ](#/install-nml)**. Behalte nicht zwei Versionen derselben Mod in `Mods` "für alle Fälle": Sie beißen sich.
+
+### Das Spiel ist auf einer alten Version
+
+- **Was du siehst**: NML lädt nie, oder das Log meldet `MissingFieldException: Field not found: bool .Config.gameLoaded`. Die Versionsnummer im Hauptmenü ist älter als die, über die alle sprechen.
+- **Warum**: Das Spiel befindet sich auf einem Steam-**Beta-Zweig**, meist vor langer Zeit gewählt, um ein Update früher zu testen, und dein NML ist für die aktuelle Version gemacht.
+- **Lösung**: Steam → Rechtsklick auf WorldBox → **Eigenschaften → Betas** → **Keine**. Lass Steam updaten, schalte den experimentellen Modus wieder ein :PES2_Shrug:.
+
+### Das Spiel wurde langsam oder friert mit Mods ein
+
+- **Was du siehst**: Niedrige FPS, Ruckler oder die Welt friert ein, während Buttons noch reagieren. Ohne Mods läuft alles flüssig.
+- **Warum**: Fast immer führt eine Mod schwere Berechnungen in jedem Tick durch, meist eine große Content-Mod. Zwei Mods, die dasselbe ändern, können sich auch gegenseitig blockieren.
+- **Lösung**: Deaktiviere die Hälfte deiner Mods, starte neu, teste. Immer noch kaputt: Der Übeltäter ist in der aktiven Hälfte. Halbiere weiter, bis nur noch eine übrig ist. Deaktivieren reicht, Löschen ist nicht nötig. Lies die Mod-Beschreibung auf Inkompatibilitäten und nutze nie zwei Versionen einer Mod (eine Voll- und eine "Lite"-Version) gleichzeitig.
+
+### Eine Welt lädt nicht mehr
+
+- **Was du siehst**: Der Spielstand öffnet eine andere Welt, stoppt beim Laden oder wirft `NullReferenceException` beim Speichern oder Laden.
+- **Warum**: Die Welt enthält Kreaturen, Gebäude oder Traits einer Mod, die nun deaktiviert, entfernt oder veraltet ist. Das Spiel stößt auf unbekannte IDs.
+- **Lösung**: Aktiviere diese Mod wieder (oder wechsle auf die Version zurück, mit der gespeichert wurde), lade die Welt und entferne die gemoddeten Inhalte im Spiel, bevor du die Mod entfernst. Sichere wichtige Welten, bevor du neue Content-Mods ausprobierst :PES_MonkaSweat:.
+
+### BepInEx-Mod ist installiert und zeigt nichts
+
+- **Was du siehst**: Die Mod liegt in `BepInEx/plugins`, im Spiel erscheint nichts und in `BepInEx/config` taucht keine eigene Konfigurationsdatei auf.
+- **Warum**: Entweder wurde die Zip-Datei als Zip in `plugins` abgelegt, oder das Manager-Objekt von BepInEx wird vom Spiel zerstört, wofür manche Systeme eine Einstellung brauchen.
+- **Lösung**: Lege den **Ordner innerhalb** der Zip in `BepInEx/plugins`, nicht die Zip-Datei selbst. Öffne dann `BepInEx/config/BepInEx.cfg`, suche `HideManagerGameObject = false`, ändere es auf `true`, speichere und starte neu. Einrichtung von BepInEx selbst: **[Die Live-Konsole](#/toolbox/bepinex-console)**.
+
+### Du hast eine Mod gelöscht und sie ist immer noch da
+
+- **Was du siehst**: Der Ordner ist aus `Mods` verschwunden, aber die Mod lädt weiterhin.
+- **Warum**: Sie wurde im Steam Workshop abonniert, und Workshop-Mods liegen in Steams eigenem Ordner, nicht in deinem.
+- **Lösung**: Deabonniere sie auf ihrer Workshop-Seite. Das Häkchen zu entfernen ist nicht dasselbe.
+
+### Das Spiel startet überhaupt nicht
+
+- **Was du siehst**: WorldBox schließt sich oder hängt vor dem Hauptmenü, selbst nachdem du alle Mods entfernt hast.
+- **Warum**: Eine Datei des Spiels selbst wurde beschädigt, oft durch versehentliches Hineinkopieren in den falschen Ordner.
+- **Lösung**: Steam → Rechtsklick auf WorldBox → **Eigenschaften → Installierte Dateien → Integrität der Spieldateien überprüfen**. Füge NML und deine Mods danach einzeln nacheinander wieder hinzu.
 
 ---
 

@@ -139,6 +139,30 @@ namespace HelloBox
 | `addSpell(id)` | 装備者が使用可能になる呪文 |
 | `addCombatAction(id)` | 装備者に付与される戦闘アクション |
 
+## 装備中だけ発動する効果
+
+「Ember Bladeを持つ者はSwiftになる」というのは特性のように聞こえますが、アイテムに特性は付けられません。ただし上の表にある `action_special_effect` で装備中だけタイマー実行することはでき、**ステータス効果**は放っておけば自然に切れます。つまりアイテム側が短いステータスを一定間隔で再適用し続け、アイテムを外せばステータスはそのまま自然消滅します：
+
+```csharp Mods/HelloBox/Code/HelloItems.cs
+blade.special_effect_interval = 1f;
+blade.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
+{
+    Actor actor = pSelf as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    StatusAsset status = AssetManager.status.get(HelloStatus.CURSED);
+    if (status == null) return false;
+
+    // 3秒間、1秒ごとに更新。剣を手放せば自然に切れる
+    World.world.statuses.newStatus(actor, status, 3f);
+    return true;
+};
+```
+
+このステータスには `allow_timer_reset = true` が必要です（新規作成した `StatusAsset` では既定でtrueですが、クローン元によってはfalseの場合があります）。設定していないと、再適用が何もせず、途中で切れてしまいます。HelloBoxではこの剣は持ち主自身を呪う仕様で、まさにEmber Bladeらしい振る舞いです :wbfacepalm:。
+
+特性を使わない理由：特性は何かが取り除くまで残り続けるので、剣がなくなったことに気づいて剥がす別のタイマーが必要になります。ステータス効果は自分で後始末をしてくれます。
+
 ## カスタムスプライトの追加
 
 アイテムには2つの画像アセットがあり、それぞれ別のフィールドで指定します：

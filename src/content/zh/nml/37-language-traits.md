@@ -174,3 +174,17 @@ foreach (Language language in World.world.languages)
 
 > [!TIP] 书籍是一种被低估的传播渠道
 > 一本用你的语言撰写的书籍，是一种节奏缓慢、完美融入世界生态的特质与状态传播途径。它在图书馆间流通，历经世代更迭，玩家能真切见证这一演变。极少有 Mod 会涉足此领域，而这正是它值得一试的原因 :PES4_Classy:。
+
+## 允许新创建的语言随机获得该特质
+
+除了通过代码手动授予外，语言特质还可以设置 `spawn_random_trait_allowed` 标志，以便在创建新语言时被自动随机抽取——这与文化的特质抽取机制完全一致。
+
+> [!WARNING] `spawn_random_trait_allowed` 仅在启动时读取一次
+> 新诞生的语言是从一个候选池中随机抽取初始特质的，而该池是在游戏启动阶段由 `BaseTraitLibrary.linkAssets()` 构建完成的——彼时你的模组尚未加载。仅仅在特质上设置此布尔标志没有任何效果：它永远不会进入该池，新语言也永远不会随机获得它。你必须手动将其以原版权重添加到池中：
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.language_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` 字段为 `protected`，但在 NML 提供的 publicized 程序集下能够正常编译。默认的 `spawn_random_rate` 为 `5`：调大该数值可提高其随机抽取权重。

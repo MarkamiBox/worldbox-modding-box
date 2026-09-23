@@ -139,6 +139,31 @@ namespace HelloBox
 | `addSpell(id)` | Un hechizo que el portador puede lanzar |
 | `addCombatAction(id)` | Un movimiento de combate que otorga |
 
+
+## Un efecto mientras se sostiene
+
+"Quien empuñe la Hoja de Ascuas se vuelve Rápido" suena como un rasgo en un objeto. Los objetos no llevan rasgos, pero sí ejecutan código con un temporizador mientras están equipados (`action_special_effect` de la tabla anterior), y un **estado** expira por sí solo. Por lo tanto, el objeto continúa reaplicando un estado corto, y cuando el objeto desaparece, el estado simplemente se agota:
+
+```csharp Mods/HelloBox/Code/HelloItems.cs
+blade.special_effect_interval = 1f;
+blade.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
+{
+    Actor actor = pSelf as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    StatusAsset status = AssetManager.status.get(HelloStatus.CURSED);
+    if (status == null) return false;
+
+    // 3 segundos, renovado cada segundo mientras se sostiene. Al soltar la hoja, desaparece
+    World.world.statuses.newStatus(actor, status, 3f);
+    return true;
+};
+```
+
+El estado necesita `allow_timer_reset = true` (el valor predeterminado para un nuevo `StatusAsset`, pero no para todos los vanilla desde los que podrías clonar), o reaplicarlo antes de tiempo no hace nada y expirará en medio del combate. En HelloBox, la hoja maldice a su propio portador, que es exactamente lo que haría una hoja de ascuas :wbfacepalm:.
+
+Por qué no un rasgo: un rasgo permanece hasta que algo lo elimine, por lo que necesitarías un segundo temporizador para notar que la hoja ya no está y removerlo. Un estado se limpia solo.
+
 ## Tu propio sprite personalizado
 
 Un objeto tiene dos piezas de arte, y son campos independientes:

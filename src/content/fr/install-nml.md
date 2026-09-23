@@ -92,6 +92,11 @@ Si vous ne voyez pas `test_asset_load` là-dedans, vous êtes dans le mauvais do
 
 **Tant que vous êtes dans ce dossier :** s'il y a quoi que ce soit avec **NCMS** dans le nom (par exemple `NCMS_memload.dll`, ou un dossier `NCMS`), supprimez-le. NCMS est l'ancien chargeur de mods, il est mort, et NML sait déjà faire tourner les vieux mods NCMS :PES2_Shrug:.
 
+> [!WARNING] `NeoModLoader (1).dll` n'est pas `NeoModLoader.dll`
+> Vous avez téléchargé NML deux fois, ou une ancienne copie se trouvait déjà dans ce dossier ? Windows renomme le nouveau fichier `NeoModLoader (1).dll` au lieu de l'écraser, et NML refuse de démarrer : un texte rouge inonde l'écran en vous demandant de redémarrer le jeu, et le journal indique `Missing className: NeoModLoader (1).WorldBoxMod`. Fermez le jeu, supprimez l'ancien fichier, renommez le nouveau en exactement `NeoModLoader.dll` (sans espace ni chiffre) et recommencez. Ce simple caractère est la cause la plus courante pour laquelle NML "ne fonctionne pas" :PESgn_SMH:.
+>
+> Si Windows refuse de supprimer l'ancien fichier parce qu'il est "en cours d'utilisation", cela signifie que le jeu tourne toujours. Fermez-le d'abord.
+
 > [!WARNING] Il y a deux dossiers qui s'appellent Mods
 > Celui-ci, dans `worldbox_Data\StreamingAssets/`, est pour **NML lui-même** et rien d'autre. Celui où vous mettez les **mods** est un autre dossier, à côté de `worldbox.exe`. Il n'existe pas encore, NML le crée à l'étape suivante. Mettre un mod ici, ou NML là-bas, est l'erreur la plus courante de cette page.
 
@@ -214,6 +219,9 @@ Alors il ne va pas dans `Mods`. Installez BepInEx comme expliqué dans **[La con
 
 **NML ou NCMS ?**
 NML. NCMS n'est plus mis à jour et ne marche pas sur les versions actuelles du jeu. NML fait de toute façon tourner les vieux mods NCMS, vous ne perdez rien.
+
+**NML est-il un virus ?**
+Non. Les navigateurs émettent un avertissement car un fichier `.dll` est un programme et peu de gens téléchargent celui-ci. Téléchargez-le uniquement depuis le lien GitHub ci-dessus : les mods sur GameBanana sont vérifiés par ses modérateurs, tandis qu'un fichier envoyé dans un chat n'est vérifié par personne :PESgn_ReadRules:.
 
 **Faut-il réinstaller NML pour chaque mod ?**
 Non. Une fois suffit. Ensuite, chaque mod n'est qu'un dossier dans `Mods`.

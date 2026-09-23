@@ -92,6 +92,11 @@ worldbox/
 
 **既然来了：** 如果有名字带 **NCMS** 的东西（比如 `NCMS_memload.dll`，或者叫 `NCMS` 的文件夹），删掉。NCMS 是旧的模组加载器，已经死了，而且 NML 本来就能运行旧的 NCMS 模组 :PES2_Shrug:。
 
+> [!WARNING] `NeoModLoader (1).dll` 不是 `NeoModLoader.dll`
+> 不小心下载了两次 NML，或者文件夹里已经有一个旧副本？Windows 会将新文件重命名为 `NeoModLoader (1).dll` 而不是覆盖它，这会导致 NML 拒绝启动：屏幕上会刷满要求重启游戏的红字，并在日志中输出 `Missing className: NeoModLoader (1).WorldBoxMod`。关闭游戏，删除旧文件，将新文件精确重命名为 `NeoModLoader.dll`（不带任何空格或数字）后再试一次。多出来的这几个字符是导致 NML“无法工作”的最常见原因 :PESgn_SMH:。
+>
+> 如果 Windows 提示文件“正在使用”而无法删除，说明游戏仍在运行。请先关闭游戏。
+
 > [!WARNING] 有两个叫 Mods 的文件夹
 > 这个在 `worldbox_Data\StreamingAssets/` 里的，**只给 NML 自己用**。放 **模组** 的是另一个文件夹，在 `worldbox.exe` 旁边。它现在还不存在，下一步 NML 会创建它。把模组放在这里，或者把 NML 放到那边，是这一页最常见的错误。
 
@@ -196,7 +201,10 @@ worldbox/
 | 没有 NML 按钮，`worldbox.exe` 旁边也没有 `Mods` 文件夹 | Experimental Mode 没开。打开它，重启游戏。每次游戏更新后也要检查 |
 | 还是什么都没有，Experimental Mode 已经开了 | `NeoModLoader.dll` 放错文件夹了。它必须在 `worldbox_Data\StreamingAssets\Mods/` 里，和 `test_asset_load` 放在一起 |
 | 文件名变成了 `NeoModLoader.dll.dll` 或 `NeoModLoader (1).dll` | 把它精确地改名为 `NeoModLoader.dll` |
-| NML 在，但某个模组不出现 | 模组放错了 `Mods`。它应该放在 `worldbox.exe` 旁边那个里面，是一个里面有 `mod.json` 的文件夹，而不是 `.zip` |
+| NML 在，但某个模组不出现 | 模组放错了 `Mods` 文件夹。它应该放在 `worldbox.exe` 旁边的那个文件夹中，作为一个单独的 `.zip`，或者里面含有 `mod.json` 的文件夹 |
+| 满屏红字并提示 `YOU SHOULD RESTART THE GAME` | NML 文件名被命名成了 `NeoModLoader (1).dll` 或类似名字。参见 **[第 4 步](#第-4-步-把-nml-放到正确的位置)** |
+| NML 提示某个模组 "has been disabled due to an error" | 该模组已损坏，或者对当前游戏版本而言已过时。检查模组更新或联系作者 |
+| 主菜单角落的版本号从未更新 | 游戏处于 Steam 某个旧的测试分支（Beta）中。参见 **[疑难排查](#/troubleshooting)** |
 | NML 说某个模组 "has been disabled due to an error" | 这个模组坏了，或者对你的游戏版本来说太旧了。找找它的更新，或者去问作者 |
 | WorldBox 一更新就全坏了 | 重新打开 Experimental Mode。然后等你的模组更新：游戏更新经常会让旧模组坏上几天 |
 
@@ -214,6 +222,9 @@ worldbox/
 
 **NML 还是 NCMS？**
 NML。NCMS 已经停止更新，在当前版本的游戏上跑不起来。NML 照样能运行旧的 NCMS 模组，所以你什么都不会失去。
+
+**NML 是病毒吗？**
+不是。浏览器之所以会弹出警告，是因为 `.dll` 属于可执行程序，且下载该特定文件的用户数量并不像大型商业软件那么多。请务必仅从上方给出的 GitHub 链接下载：GameBanana 上的模组经过版主审核，而别人在私聊中发给你的文件则没有任何安全保障 :PESgn_ReadRules:.
 
 **每个模组都要重新装一次 NML 吗？**
 不用。装一次就够。之后每个模组都只是 `Mods` 里的一个文件夹。
