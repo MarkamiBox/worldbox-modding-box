@@ -185,8 +185,8 @@ export default function App() {
           target.tagName === 'TEXTAREA' ||
           target.isContentEditable);
 
-      // Press 'ù' or 'Ù' (when not typing) to toggle editing tools view
-      if (!isTyping && (e.key === 'ù' || e.key === 'Ù')) {
+      // Press 'ù' or 'Ù' (when not typing) to toggle editing tools view (dev mode only)
+      if (isDev && !isTyping && (e.key === 'ù' || e.key === 'Ù')) {
         e.preventDefault();
         setShowEditorTools((prev) => {
           const next = !prev;
@@ -209,18 +209,18 @@ export default function App() {
         e.preventDefault();
         setSearch((s) => !s);
       } else if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
-        if (!showEditorTools) return;
+        if (!isDev || !showEditorTools) return;
         e.preventDefault();
         setEditorOpen((s) => !s);
       } else if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'N' || e.key === 'n')) {
-        if (!showEditorTools) return;
+        if (!isDev || !showEditorTools) return;
         e.preventDefault();
         setNewPageOpen(true);
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [showEditorTools]);
+  }, [isDev, showEditorTools, lang]);
 
   const handleResetAll = () => {
     // 1. Reset sidebar & TOC widths and collapse states to default

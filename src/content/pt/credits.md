@@ -8,19 +8,16 @@ order: 10
 
 # Créditos e Agradecimentos :wblove:
 
-O modding de WorldBox não existiria sem a comunidade que cria coisas tão incríveis, quero deixar meu agradecimento mais sincero a todo mundo que tornou isso possível:
+Não há muito o que dizer, exceto que quero agradecer à comunidade deste jogo por todos os anos que gastei escrevendo código para este jogo  :wbbru:. Mas já que tive que fazer uma página para isso de qualquer forma, é melhor fazer uma longa lista de agradecimentos.  :PES5_Noted: 
 
 
-## A comunidade de modders
+## A Comunidade de Modders
 
-Esta é a parte que realmente importa. Cada ferramenta desta página é mantida por alguém, e cada truque deste guia foi descoberto antes por outra pessoa, que depois simplesmente "entregou de bandeja" :trollface:
+- **Todos que criam um mod.** Noventa por cento do que sei sobre este jogo aprendi abrindo a pasta `Code/` de outra pessoa, obrigado  :emoji_5:.
 
-- **Todo mundo que faz um mod.** Noventa por cento do que eu sei sobre este jogo eu aprendi abrindo a pasta `Code/` de outra pessoa às duas da manhã e pensando "ah, é *assim* que se faz". Valeu  :emoji_5:.
+- **Todos que respondem a perguntas.** Perdi a conta de quantas vezes tive que perguntar como um sistema funcionava e alguém respondeu depois de 7 dias úteis, obrigado pelo menos pela intenção, eu acho.  :304977-pepehang:
 
-- **Todo mundo que responde às perguntas.** Alguém pergunta por que o traço dele está invisível e você escreve a resposta inteira. É por isso que os modders novos ficam tempo suficiente para virar bons  :catgoodjob: .
-
-- **As pessoas que reportam bugs direito.** Com o log. Com os passos. Com a lista dos outros mods. Vocês são raros e são amados  :gold_star: .
-
+- **As pessoas que relatam bugs corretamente.** Com o log. Com as etapas. Com os outros mods listados. Vocês vão facilitar a vida do meu escravo de IA, obrigado da parte dele  :kekw:.
 ---
 
 ## O jogo e os desenvolvedores
@@ -35,15 +32,15 @@ Esta é a parte que realmente importa. Cada ferramenta desta página é mantida 
 ## Os artistas de Worldbox
 
 - **Os artistas do Discord de WorldBox**
-  - Pela montanha de emojis personalizados criados no Discord oficial de WorldBox. Sem eles, este tutorial ficaria horrível de verdade :wblove:.
+  - Pela montanha de emojis personalizados criados no Discord oficial de WorldBox. Sem eles, este tutorial ficaria horrível de verdade  :PES5_Dumb:
 
 ---
 
 ## Inspirações do guia e autores da comunidade
 
-Um agradecimento especial aos autores dos guias originais de modding e configuração no GameBanana, cuja clareza serviu de inspiração direta para o nosso capítulo de instalação do NML:
+Agradecimentos especiais aos autores dos guias de modding e configuração nos quais me inspirei para o meu capítulo de Instalação do NML:
 
-- **[Keymasterer ._.](https://gamebanana.com/members/2594582)**: Autor e escritor do guia original que inspirou a página de instalação do NML.
+- **[Keymasterer ._.](https://gamebanana.com/members/2594582)**: Autor e redator do guia que inspirou minha instalação passo a passo do NML.
 - **[ToonLunk](https://gamebanana.com/members/2712995)**: Revisor (proofreader) e colaborador do guia original.
 
 ---
@@ -73,6 +70,5 @@ Um agradecimento especial aos autores dos guias originais de modding e configura
 ## Os robôs
 
 - **[Claude](https://claude.ai)** e **[Gemini](https://gemini.google.com)**
-  - O trabalho pesado de escrever de verdade este guia. Eu sei o que o jogo faz depois de cinco anos quebrando ele; transformar isso em páginas que outra pessoa consegue ler é outro serviço, e esses dois fizeram a maior parte  :computer_emotiguy: .
-  - Eles também leram o código decompilado do jogo para eu não ter que rolar a `Assembly-CSharp.dll` pela quadringentésima vez atrás do nome de um campo  :PES2_LookNewspaper: .
-  - Tudo aqui foi conferido no jogo de verdade antes de subir. Quando um robô inventou com toda a confiança um método que não existe, a culpa é minha por não ter pego  :PES2_Lies: .
+  - O trabalho pesado de escrever de verdade este guia. Eu sei o que o jogo faz depois de cinco anos de bugs; transformar isso em páginas que outra pessoa consegue ler é outro serviço, e esses dois fizeram a maior parte  :computer_emotiguy: .
+  - Tudo aqui foi conferido no jogo de verdade, mas ainda existe a possibilidade de que uma lata-velha tenha inventado com confiança um método que não existe; a culpa é minha por não ter percebido  :PES2_Lies:.

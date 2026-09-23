@@ -8,19 +8,16 @@ order: 10
 
 # Créditos y Agradecimientos :wblove:
 
-El modding de WorldBox no existiría sin la comunidad que crea cosas tan increíbles, quiero expresar mi más profundo agradecimiento a todos los que lo han hecho posible:
+No hay mucho que decir, excepto que quiero agradecer a la comunidad de este juego por todos los años que he desperdiciado escribiendo código para este juego  :wbbru:. Pero ya que tenía que hacer una página para esto de todos modos, más vale hacer una larga lista de agradecimientos.  :PES5_Noted: 
 
 
 ## La comunidad de modders
 
-Esta es la parte que de verdad importa. Cada herramienta de esta página la mantiene alguien, y cada truco de esta guía lo descubrió antes otra persona y luego lo "regaló" :trollface:
+- **Todos los que crean un mod.** El noventa por ciento de lo que sé sobre este juego lo aprendí abriendo la carpeta `Code/` de alguien más, gracias  :emoji_5:.
 
-- **Todo el que hace un mod.** El noventa por ciento de lo que sé de este juego lo aprendí abriendo la carpeta `Code/` de otra persona a las dos de la mañana y pensando "ah, *así* se hace". Gracias  :emoji_5:.
+- **Todos los que responden preguntas.** He perdido la cuenta de cuántas veces he tenido que preguntar cómo funcionaba un sistema y alguien respondió después de 7 días hábiles, gracias al menos por la intención, supongo.  :304977-pepehang:
 
-- **Todo el que responde preguntas.** Alguien pregunta por qué su rasgo es invisible y tú escribes la respuesta entera. Por eso los modders nuevos aguantan lo suficiente como para volverse buenos  :catgoodjob: .
-
-- **La gente que reporta bugs como se debe.** Con el log. Con los pasos. Con la lista de los otros mods. Sois raros y sois queridos  :gold_star: .
-
+- **Las personas que reportan errores correctamente.** Con el registro. Con los pasos. Con los otros mods listados. Le harán la vida más fácil a mi esclavo de IA, gracias de su parte  :kekw:.
 ---
 
 ## El juego y sus desarrolladores
@@ -35,15 +32,15 @@ Esta es la parte que de verdad importa. Cada herramienta de esta página la mant
 ## Los artistas de Worldbox
 
 - **Los artistas del Discord de WorldBox**
-  - Por la montaña de emojis personalizados creados en el Discord oficial de WorldBox. Sin ellos, este tutorial se vería realmente mal :wblove:.
+  - Por la montaña de emojis personalizados creados en el Discord oficial de WorldBox. Sin ellos, este tutorial se vería realmente mal  :PES5_Dumb:
 
 ---
 
 ## Inspiraciones de la guía y autores de la comunidad
 
-Un agradecimiento especial a los autores de las guías originales de modding y configuración en GameBanana, cuya claridad sirvió de inspiración directa para nuestro capítulo de instalación de NML:
+Un agradecimiento especial a los autores de las guías de modding y configuración en las que me inspiré para mi capítulo de Instalación de NML:
 
-- **[Keymasterer ._.](https://gamebanana.com/members/2594582)**: Autor y redactor de la guía original en la que se inspiró la instalación paso a paso de NML.
+- **[Keymasterer ._.](https://gamebanana.com/members/2594582)**: Autor y escritor de la guía que inspiró mi instalación paso a paso de NML.
 - **[ToonLunk](https://gamebanana.com/members/2712995)**: Corrector (proofreader) y colaborador de la guía original.
 
 ---
@@ -73,6 +70,5 @@ Un agradecimiento especial a los autores de las guías originales de modding y c
 ## Los robots
 
 - **[Claude](https://claude.ai)** y **[Gemini](https://gemini.google.com)**
-  - El trabajo duro de escribir de verdad esta guía. Yo sé lo que hace el juego después de cinco años rompiéndolo; convertir eso en páginas que otra persona pueda leer es otro oficio, y estos dos hicieron la mayor parte  :computer_emotiguy: .
-  - También se leyeron el código decompilado del juego para que yo no tuviera que bajar por la `Assembly-CSharp.dll` por cuadringentésima vez buscando el nombre de un campo  :PES2_LookNewspaper: .
-  - Todo lo que hay aquí se comprobó contra el juego real antes de publicarse. Cuando un robot se inventó con toda seguridad un método que no existe, la culpa es mía por no pillarlo  :PES2_Lies: .
+  - El trabajo duro de escribir de verdad esta guía. Yo sé lo que hace el juego después de cinco años de bugs; convertir eso en páginas que otra persona pueda leer es otro oficio, y estos dos hicieron la mayor parte  :computer_emotiguy: .
+  - Todo lo que hay aquí se comprobó contra el juego real, pero todavía existe la posibilidad de que una chatarra se haya inventado con confianza un método que no existe; la culpa es mía por no haberlo detectado  :PES2_Lies:.

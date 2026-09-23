@@ -7,7 +7,7 @@ order: 1
 
 # Instalar o NML :wbhammer:
 
-O **NML** (NeoModLoader) é o programa que faz os mods de WorldBox funcionarem. O jogo sozinho não sabe carregar um mod, o NML faz isso por ele. Você instala o NML uma vez, e depois instalar um mod é só copiar uma pasta.
+O **NML** (NeoModLoader) é o programa que faz os mods de WorldBox funcionarem. Você instala o NML uma vez, e depois instalar um mod é só copiar uma pasta.
 
 Esta página parte do princípio de que você nunca fez nada disso. Se você sabe o que é um `.dll`, pule para **[a versão curta](#a-versão-curta)** :PES_OkHand:.
 
@@ -126,6 +126,33 @@ worldbox/
 │   └── Contents/Resources/Data/StreamingAssets/Mods/
 │       └── NeoModLoader.dll     <- o NML vai aqui
 └── Mods/                        <- seus mods vão aqui
+```
+
+---
+
+## Linux & Steam Deck
+
+A lógica é exatamente a mesma. O Steam no Linux instala o jogo no diretório do usuário, e no Steam Deck basta mudar primeiro para o Modo Desktop.
+
+1. **Experimental Mode**: exatamente como no Windows, **[Passo 1](#passo-1-ligue-o-experimental-mode)**.
+2. **Baixe** `NeoModLoader.dll` na [página oficial de releases](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest). É o mesmo arquivo para todas as plataformas.
+3. **Abra a pasta do WorldBox**:
+   - **Linux Desktop**: Steam → Biblioteca → clique com o botão direito no WorldBox → **Gerenciar → Explorar arquivos locais**.
+   - **Steam Deck**: Pressione o botão **STEAM → Ligar/Desligar → Mudar para a Área de Trabalho**. Abra o Steam no Modo Desktop, vá em Biblioteca → clique com o botão direito no WorldBox (ou trackpad esquerdo / gatilho) → **Gerenciar → Explorar arquivos locais**.
+   O caminho da pasta geralmente é:
+   ```text
+   ~/.local/share/Steam/steamapps/common/worldbox/
+   ```
+4. **Coloque o NML no lugar**: Abra `worldbox_Data → StreamingAssets → Mods` e arraste `NeoModLoader.dll` para lá. Exclua qualquer arquivo com `NCMS` no nome enquanto estiver lá.
+5. **Inicie o jogo** (no Steam Deck, você pode voltar para o Modo de Jogo) e verifique as mesmas coisas do **[Passo 5](#passo-5-abra-o-jogo-e-confira)**. A nova pasta `Mods` para os seus mods aparecerá na pasta principal do WorldBox, ao lado do executável.
+
+```text
+worldbox/
+├── worldbox_Data/
+│   └── StreamingAssets/
+│       └── Mods/
+│           └── NeoModLoader.dll     <- NML
+└── Mods/                            <- mods
 ```
 
 ---

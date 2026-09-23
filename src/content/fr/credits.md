@@ -8,19 +8,16 @@ order: 10
 
 # Crédits et Remerciements :wblove:
 
-Le modding de WorldBox n'existerait pas sans la communauté qui crée des choses aussi incroyables, je tiens à remercier du fond du cœur tous ceux qui ont rendu ça possible :
+Il n'y a pas grand-chose à dire, si ce n'est que je tiens à remercier la communauté de ce jeu pour toutes ces années passées à coder pour lui  :wbbru:. Mais comme je devais créer une page pour cela de toute façon, autant dresser une longue liste de remerciements.  :PES5_Noted: 
 
 
 ## La communauté des moddeurs
 
-C'est la partie qui compte vraiment. Chaque outil de cette page est maintenu par quelqu'un, et chaque astuce de ce guide a d'abord été trouvée par quelqu'un d'autre, qui l'a ensuite "offerte" :trollface:
+- **Tous ceux qui créent un mod.** Quatre-vingt-dix pour cent de ce que je sais sur ce jeu, je l'ai appris en ouvrant le dossier `Code/` de quelqu'un d'autre, merci  :emoji_5:.
 
-- **Tous ceux qui font un mod.** Quatre-vingt-dix pour cent de ce que je sais sur ce jeu, je l'ai appris en ouvrant le dossier `Code/` de quelqu'un d'autre à deux heures du matin en me disant "ah, c'est *comme ça* qu'on fait". Merci  :emoji_5:.
+- **Tous ceux qui répondent aux questions.** J'ai perdu le compte du nombre de fois où j'ai dû demander comment fonctionnait un système et où quelqu'un a répondu au bout de 7 jours ouvrés, merci au moins pour l'intention, j'imagine.  :304977-pepehang:
 
-- **Tous ceux qui répondent aux questions.** Quelqu'un demande pourquoi son trait est invisible, et tu tapes la réponse en entier. C'est exactement pour ça que les nouveaux moddeurs restent assez longtemps pour devenir bons  :catgoodjob: .
-
-- **Les gens qui signalent les bugs correctement.** Avec le log. Avec les étapes. Avec la liste des autres mods. Vous êtes rares et vous êtes aimés  :gold_star: .
-
+- **Ceux qui signalent les bugs correctement.** Avec le log. Avec les étapes. Avec les autres mods listés. Vous allez faciliter la vie de mon esclave IA, merci de sa part  :kekw:.
 ---
 
 ## Le jeu et ses développeurs
@@ -35,7 +32,7 @@ C'est la partie qui compte vraiment. Chaque outil de cette page est maintenu par
 ## Les artistes de Worldbox
 
 - **Les artistes du Discord WorldBox**
-  - Pour la montagne d'emojis personnalisés créés sur le Discord officiel de WorldBox. Sans eux, ce tutoriel aurait vraiment l'air très moche :wblove:.
+  - Pour la montagne d'emojis personnalisés créés sur le Discord officiel de WorldBox. Sans eux, ce tutoriel aurait vraiment l'air très moche  :PES5_Dumb:
 
 ---
 
@@ -73,6 +70,5 @@ Un grand merci aux auteurs des guides originaux de modding et de configuration s
 ## Les robots
 
 - **[Claude](https://claude.ai)** et **[Gemini](https://gemini.google.com)**
-  - Le gros du travail d'écriture de ce guide. Je sais ce que fait le jeu après cinq ans à le casser ; transformer ça en pages lisibles par quelqu'un d'autre est un autre métier, et ces deux-là en ont fait la majeure partie  :computer_emotiguy: .
-  - Ils ont aussi lu le code décompilé du jeu pour que je n'aie pas à faire défiler `Assembly-CSharp.dll` pour la quatre centième fois à la recherche d'un seul nom de champ  :PES2_LookNewspaper: .
-  - Tout ce qui est ici a été vérifié sur le vrai jeu avant d'être mis en ligne. Quand un robot a inventé avec beaucoup d'assurance une méthode qui n'existe pas, c'est ma faute de ne pas l'avoir vu  :PES2_Lies: .
+  - Le gros du travail d'écriture de ce guide. Je sais ce que fait le jeu après cinq ans de bugs ; transformer ça en pages lisibles par quelqu'un d'autre est un autre métier, et ces deux-là en ont fait la majeure partie  :computer_emotiguy: .
+  - Tout a été vérifié sur le vrai jeu, mais il reste toujours possible qu'un tas de ferraille ait inventé avec assurance une méthode qui n'existe pas, et c'est ma faute de ne pas l'avoir vu  :PES2_Lies:.

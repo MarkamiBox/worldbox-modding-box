@@ -275,6 +275,6 @@ Then go to **[Publishing your mod](#/nml/publishing)** and let other people brea
 
 ## Where to go next
 
-- Delete the parts of HelloBox you do not care about. It was a demo, not a product.
+- Delete the parts of HelloBox you do not care about. It was a demo, not a real mod.
 - Pick **one** of them and make it good. A mod that does one thing well beats one that does twelve things badly.
 - Read the vanilla code for whatever you picked (**[Reading the game's code](#/toolbox/reading-the-game-code)**). Everything you still do not know is written in there :PESgn_ReadRules:.

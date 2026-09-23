@@ -8,19 +8,16 @@ order: 10
 
 # Danksagung & Credits :wblove:
 
-WorldBox-Modding gäbe es nicht ohne die Community, die so tolle Sachen baut. Ich möchte mich bei allen bedanken, die das hier möglich gemacht haben:
+Es gibt nicht viel zu sagen, außer dass ich der Community dieses Spiels für all die Jahre danken möchte, die ich mit dem Schreiben von Code für dieses Spiel verschwendet habe  :wbbru:. Aber da ich sowieso eine Seite dafür erstellen musste, kann ich genauso gut eine lange Liste von Danksagungen verfassen.  :PES5_Noted: 
 
 
 ## Die Modder-Community
 
-Das ist der Teil, auf den es wirklich ankommt. Jedes Tool auf dieser Seite wird von jemandem gepflegt, und jeden Trick in diesem Guide hat zuerst jemand anderes herausgefunden und dann einfach "weitergegeben" :trollface:
+- **Jeder, der eine Mod erstellt.** Neunzig Prozent von dem, was ich über dieses Spiel weiß, habe ich gelernt, indem ich den `Code/`-Ordner von jemand anderem geöffnet habe, danke  :emoji_5:.
 
-- **Alle, die eine Mod bauen.** Neunzig Prozent von dem, was ich über dieses Spiel weiß, habe ich gelernt, indem ich um zwei Uhr nachts den `Code/`-Ordner von jemand anderem geöffnet habe und dachte "ach, *so* macht man das". Danke  :emoji_5:.
+- **Jeder, der Fragen beantwortet.** Ich habe den Überblick verloren, wie oft ich fragen musste, wie ein System funktioniert, und jemand nach 7 Werktagen geantwortet hat; danke zumindest für den Gedanken, schätze ich.  :304977-pepehang:
 
-- **Alle, die Fragen beantworten.** Jemand fragt, warum sein Trait unsichtbar ist, und du tippst die Antwort aus. Genau deshalb bleiben neue Modder lange genug dabei, um gut zu werden  :catgoodjob: .
-
-- **Die Leute, die Bugs richtig melden.** Mit Log. Mit den Schritten. Mit der Liste der anderen Mods. Ihr seid selten und ihr werdet geliebt  :gold_star: .
-
+- **Die Leute, die Fehler ordnungsgemäß melden.** Mit dem Protokoll. Mit den Schritten. Mit den anderen aufgeführten Mods. Ihr macht meinem KI-Sklaven das Leben leichter, danke von ihm  :kekw:.
 ---
 
 ## Das Spiel & die Entwickler
@@ -35,15 +32,15 @@ Das ist der Teil, auf den es wirklich ankommt. Jedes Tool auf dieser Seite wird 
 ## Die Worldbox-Künstler
 
 - **Die Künstler des WorldBox-Discord-Servers**
-  - Für den Berg an benutzerdefinierten Emojis aus dem offiziellen WorldBox-Discord. Ohne sie würde dieses Tutorial wirklich verdammt schlecht aussehen :wblove:.
+  - Für den Berg an benutzerdefinierten Emojis aus dem offiziellen WorldBox-Discord. Ohne sie würde dieses Tutorial wirklich verdammt schlecht aussehen  :PES5_Dumb:
 
 ---
 
 ## Inspirationen & Community-Autoren
 
-Ein besonderer Dank geht an die Autoren der ursprünglichen Modding- und Setup-Anleitungen auf GameBanana, deren präzise Erklärungen als zentrale Inspiration für unser NML-Installationskapitel dienten:
+Besonderer Dank gilt den Autoren der Modding- und Setup-Guides, von denen ich mich für mein Kapitel zur NML-Installation inspirieren ließ:
 
-- **[Keymasterer ._.](https://gamebanana.com/members/2594582)**: Autor und Verfasser der Originalanleitung, die als Vorbild für die NML-Installationsseite diente.
+- **[Keymasterer ._.](https://gamebanana.com/members/2594582)**: Autor und Verfasser des Leitfadens, der meine schrittweise NML-Installation inspirierte.
 - **[ToonLunk](https://gamebanana.com/members/2712995)**: Korrekturleser (Proofreader) und Mitwirkender der Originalanleitung.
 
 ---
@@ -73,6 +70,5 @@ Ein besonderer Dank geht an die Autoren der ursprünglichen Modding- und Setup-A
 ## Die Roboter
 
 - **[Claude](https://claude.ai)** & **[Gemini](https://gemini.google.com)**
-  - Die Schwerarbeit, diesen Guide tatsächlich zu schreiben. Ich weiß nach fünf Jahren Kaputtmachen, was das Spiel tut; daraus Seiten zu machen, die jemand anderes lesen kann, ist ein anderer Job, und den haben zum größten Teil diese beiden erledigt  :computer_emotiguy: .
-  - Sie haben auch den dekompilierten Spielcode gelesen, damit ich nicht zum vierhundertsten Mal durch `Assembly-CSharp.dll` scrollen musste, um einen einzigen Feldnamen zu finden  :PES2_LookNewspaper: .
-  - Alles hier wurde am echten Spiel geprüft, bevor es online ging. Wenn ein Roboter mit voller Überzeugung eine Methode erfunden hat, die es nicht gibt, ist das mein Fehler, weil ich es nicht gemerkt habe  :PES2_Lies: .
+  - Die Schwerarbeit, diesen Guide tatsächlich zu schreiben. Ich weiß nach fünf Jahren voller Bugs, was das Spiel tut; daraus Seiten zu machen, die jemand anderes lesen kann, ist ein anderer Job, und den haben zum größten Teil diese beiden erledigt  :computer_emotiguy: .
+  - Alles hier wurde am echten Spiel geprüft, aber es besteht immer noch die Möglichkeit, dass ein Blechhaufen selbstbewusst eine Methode erfunden hat, die gar nicht existiert; das geht auf meine Kappe, weil ich es nicht bemerkt habe  :PES2_Lies:.

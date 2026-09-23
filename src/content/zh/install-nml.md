@@ -7,7 +7,7 @@ order: 1
 
 # 安装 NML :wbhammer:
 
-**NML**（NeoModLoader）是让 WorldBox 模组跑起来的程序。游戏自己不会加载模组，是 NML 替它做的。NML 只需要装一次，之后装模组就是复制一个文件夹。
+**NML**（NeoModLoader）是让 WorldBox 模组跑起来的程序。NML 只需要装一次，之后装模组就是复制一个文件夹。
 
 这一页假设你从来没做过这种事。如果你知道 `.dll` 是什么，直接跳到 **[简短版](#简短版)** :PES_OkHand:。
 

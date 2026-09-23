@@ -8,18 +8,16 @@ order: 10
 
 # Credits & Acknowledgements :wblove:
 
-WorldBox modding wouldn't exist without the community that creates such amazing things, I'd like to express my deepest gratitude and appreciation to everyone who made this possible:
+There isn't much to say, except that I want to thank this game's community for all the years I've wasted writing code for this game  :wbbru:. But since I had to make a page for this anyway, I might as well make a long list of acknowledgments.  :PES5_Noted: 
 
 
 ## The Modders Community
 
-This is the part that actually matters. Every tool on this page is maintained by somebody, and every trick in this guide was figured out by somebody else first and then "handed over" :trollface:
+- **Everyone who make a mod.** Ninety percent of what I know about this game I learned by opening somebody else's `Code/`, Thanks  :emoji_5:.
 
-- **Everyone who make a mod.** Ninety percent of what I know about this game I learned by opening somebody else's `Code/` folder at two in the morning and going "oh, *that* is how you do it". Thanks  :emoji_5:.
+- **Everyone who answers questions.** I've lost count of how many times I've had to ask how a system worked and someone replied after 7 business days, thanks at least for the thought, I guess.  :304977-pepehang:
 
-- **Everyone who answers questions.** Somebody asks why their trait is invisible, and you type out the answer. That is the reason new modders stick around long enough to become good ones  :catgoodjob: .
-
-- **The people who report bugs properly.** With the log. With the steps. With the other mods listed. You are rare and you are loved  :gold_star: .
+- **The people who report bugs properly.** With the log. With the steps. With the other mods listed. You'll make life easier for my AI slave, thanks from him  :kekw:.
 
 ---
 
@@ -35,15 +33,15 @@ This is the part that actually matters. Every tool on this page is maintained by
 ## The Worldbox Artists
 
 - **The WorldBox Discord Artists**
-  - For the mountain of custom emojis created in the official WorldBox Discord. Without them, this tutorial would look like really bad :wblove:.
+  - For the mountain of custom emojis created in the official WorldBox Discord. Without them, this tutorial would look like really bad  :PES5_Dumb: 
 
 ---
 
 ## Guide Inspirations & Community Authors
 
-Special thanks to the authors of the original GameBanana WorldBox modding & setup guides, whose clear walkthroughs served as key inspiration for our Install NML chapter:
+Special thanks to the authors of the modding & setup guides, whose i took inspiration for my Install NML chapter:
 
-- **[Keymasterer ._.](https://gamebanana.com/members/2594582)**: Author and writer of the guide that inspired our step-by-step NML installation.
+- **[Keymasterer ._.](https://gamebanana.com/members/2594582)**: Author and writer of the guide that inspired my step-by-step NML installation.
 - **[ToonLunk](https://gamebanana.com/members/2712995)**: Proofreader and contributor on the original guide.
 
 ---
@@ -73,6 +71,5 @@ Special thanks to the authors of the original GameBanana WorldBox modding & setu
 ## The Robots
 
 - **[Claude](https://claude.ai)** & **[Gemini](https://gemini.google.com)**
-  - The heavy lifting of actually writing this guide. I know what the game does after five years of breaking it; turning that into pages somebody else can read is a different job, and these two did most of it  :computer_emotiguy: .
-  - They also read the decompiled game code so I did not have to scroll through `Assembly-CSharp.dll` for the four hundredth time looking for one field name  :PES2_LookNewspaper: .
-  - Everything here was checked against the real game before it went up. When a robot confidently invented a method that does not exist, that is on me for not catching it  :PES2_Lies: .
+  - The heavy lifting of actually writing this guide. I know what the game does after five years of bugs; turning that into pages somebody else can read is a different job, and these two did most of it  :computer_emotiguy: .
+  - Everything here was checked against the real game but there still a possibility that a clanker confidently invented a method that does not exist, that is on me for not catching it  :PES2_Lies:.

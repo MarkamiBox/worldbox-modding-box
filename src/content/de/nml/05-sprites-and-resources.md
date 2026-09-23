@@ -126,7 +126,7 @@ MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on th
 Der erste Befehl spielt den Sound an den angegebenen Weltkoordinaten ab. HelloBox spielt den Feuerball-Sound ab, wenn seine Kampfaktion einen Funken wirft, siehe **[Projektile, Zauber & Effekte](#/nml/projectiles-spells)**. Um Soundpfade zu finden, durchsuche den Spielcode nach `event:/SFX/`: Es gibt Hunderte, geordnet nach Geräuschkategorien.
 
 > [!NOTE] Eigene neue Sounds sind ein separates Projekt
-> FMOD-Events liegen in den vorkompilierten Sound-Banks des Spiels; Mods können diese nicht direkt erweitern. Eigene `.wav`-Dateien müssen selbst über eine Unity-`AudioSource` geladen und abgespielt werden, außerhalb der Lautstärkeregler des Spiels. Diese Anleitung behandelt dies nicht.
+> FMOD-Events liegen in den vorkompilierten Sound-Banks des Spiels; Mods können diese nicht direkt erweitern. Eigene `.wav`-Dateien müssen selbst über eine Unity-`AudioSource` geladen und abgespielt werden, außerhalb der Lautstärkeregler des Spiels. Diese Anleitung behandelt dies nicht, weil ich es nie gemoddet habe und nicht so tun werde, als hätte ich es getan.
 
 ## Übergib dem Spiel niemals ein Null-Sprite
 

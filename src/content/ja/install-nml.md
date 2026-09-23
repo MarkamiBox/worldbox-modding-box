@@ -7,7 +7,7 @@ order: 1
 
 # NMLのインストール :wbhammer:
 
-**NML**（NeoModLoader）は、WorldBoxのmodを動かすプログラムです。ゲームは自力でmodを読み込めないので、NMLが代わりにやります。NMLのインストールは一度だけ。そのあとmodを入れるのは、フォルダをコピーするだけです。
+**NML**（NeoModLoader）は、WorldBoxのmodを動かすプログラムです。NMLのインストールは一度だけ。そのあとmodを入れるのは、フォルダをコピーするだけです。
 
 このページは、こういう作業を一度もしたことがない人向けです。`.dll` が何か分かるなら **[短縮版](#短縮版)** へどうぞ :PES_OkHand:。
 
@@ -126,6 +126,33 @@ worldbox/
 │   └── Contents/Resources/Data/StreamingAssets/Mods/
 │       └── NeoModLoader.dll     <- NMLはここ
 └── Mods/                        <- modはここ
+```
+
+---
+
+## Linux & Steam Deck
+
+ロジックはまったく同じです。Linux版Steamはゲームをユーザーディレクトリにインストールし、Steam Deckでは最初にデスクトップモードに切り替えるだけです。
+
+1. **Experimental Mode**: Windowsと同様、**[手順1](#手順1-experimental-modeをオンにする)** を行います。
+2. **ダウンロード**: [公式リリースページ](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest) から `NeoModLoader.dll` をダウンロードします。全プラットフォーム共通の同一ファイルです。
+3. **WorldBoxフォルダを開く**:
+   - **デスクトップLinux**: Steam → ライブラリ → WorldBoxを右クリック → **管理 → ローカルファイルを閲覧**。
+   - **Steam Deck**: **STEAMボタン → 電源 → デスクトップに切り替え** を押します。デスクトップモードでSteamを開き、ライブラリ → WorldBoxを右クリック（または左トラックパッド / トリガー）→ **管理 → ローカルファイルを閲覧** を選択します。
+   通常のフォルダパス:
+   ```text
+   ~/.local/share/Steam/steamapps/common/worldbox/
+   ```
+4. **NMLを配置する**: `worldbox_Data → StreamingAssets → Mods` を開き、そこに `NeoModLoader.dll` をドラッグします。名前に `NCMS` が含まれるファイルがあれば削除してください。
+5. **ゲームを起動**:（Steam DeckではGaming Modeに戻して構いません）**[手順5](#手順5-ゲームを起動して確認する)** と同じ項目を確認します。Modを入れる新しい `Mods` フォルダが、実行ファイルの横のメインWorldBoxフォルダ内に表示されます。
+
+```text
+worldbox/
+├── worldbox_Data/
+│   └── StreamingAssets/
+│       └── Mods/
+│           └── NeoModLoader.dll     <- NML
+└── Mods/                            <- mod
 ```
 
 ---

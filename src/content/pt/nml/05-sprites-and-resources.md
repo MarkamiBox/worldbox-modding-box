@@ -126,7 +126,7 @@ MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on th
 O primeiro é reproduzido a partir daquele bloco do mundo. O HelloBox reproduz o som da bola de fogo quando sua ação de combate lança uma brasa, veja **[Projéteis, feitiços e efeitos](#/nml/projectiles-spells)**. Para encontrar caminhos, pesquise `event:/SFX/` no código do jogo: existem centenas, organizados em pastas pelo tipo de som.
 
 > [!NOTE] Novos sons personalizados são um projeto separado
-> Os eventos FMOD vivem nos bancos de som do jogo e um mod não pode adicioná-los diretamente. Tocar seus próprios arquivos `.wav` significa carregá-los em um `AudioSource` do Unity por conta própria, fora dos controles de volume do jogo. Este guia não cobre isso.
+> Os eventos FMOD vivem nos bancos de som do jogo e um mod não pode adicioná-los diretamente. Tocar seus próprios arquivos `.wav` significa carregá-los em um `AudioSource` do Unity por conta própria, fora dos controles de volume do jogo. Este guia não cobre isso, porque eu nunca o modifiquei e não vou fingir que fiz isso.
 
 ## Nunca entregue um sprite nulo para o jogo
 

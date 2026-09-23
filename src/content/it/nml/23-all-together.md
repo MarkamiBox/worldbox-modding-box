@@ -264,6 +264,6 @@ Vai poi a **[Pubblicare la tua mod](#/nml/publishing)** e lascia che siano gli a
 
 ## Prossimi passi
 
-- Elimina le parti di HelloBox che non ti servono. Era una dimostrazione, non un prodotto finito.
+- Elimina le parti di HelloBox che non ti servono. Era una demo, non una vera mod.
 - Scegli **un solo** aspetto e fallo al meglio. Una mod che fa una sola cosa perfettamente supera di gran lunga una che ne fa dodici male.
 - Studia il codice vanilla relativo a ciò che hai scelto (**[Leggere il codice di gioco](#/toolbox/reading-the-game-code)**). Tutto ciò che ancora non sai è scritto esattamente lì :PESgn_ReadRules:.

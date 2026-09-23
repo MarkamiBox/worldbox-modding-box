@@ -7,7 +7,7 @@ order: 1
 
 # NML installieren :wbhammer:
 
-**NML** (NeoModLoader) ist das Programm, das WorldBox-Mods zum Laufen bringt. Das Spiel kann allein keine Mod laden, NML erledigt das für es. Du installierst NML einmal, und danach heißt eine Mod installieren nur noch: einen Ordner kopieren.
+**NML** (NeoModLoader) ist das Programm, das WorldBox-Mods zum Laufen bringt. Du installierst NML einmal, und danach heißt eine Mod installieren nur noch: einen Ordner kopieren.
 
 Diese Seite geht davon aus, dass du so etwas noch nie gemacht hast. Wenn du weißt, was eine `.dll` ist, spring zur **[Kurzfassung](#die-kurzfassung)** :PES_OkHand:.
 

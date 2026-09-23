@@ -264,6 +264,6 @@ Rendez-vous ensuite sur **[Publier votre mod](#/nml/publishing)** et laissez les
 
 ## Et après ?
 
-- Supprimez les parties d'HelloBox dont vous n'avez pas l'utilité. C'était une démonstration, pas un produit fini.
+- Supprimez les parties d'HelloBox dont vous n'avez pas l'utilité. C'était une démo, pas un vrai mod.
 - Choisissez **un** seul domaine et peaufinez-le. Un mod qui fait une chose à la perfection surpasse un mod qui en fait douze de travers.
 - Lisez le code de base pour la mécanique choisie (**[Lire le code du jeu](#/toolbox/reading-the-game-code)**). Tout ce que vous ignorez encore s'y trouve consigné :PESgn_ReadRules:.
