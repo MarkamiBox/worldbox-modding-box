@@ -1,0 +1,227 @@
+---
+title: Installare NML
+group: NML Modding
+icon: :wbhammer:
+order: 1
+---
+
+# Installare NML :wbhammer:
+
+**NML** (NeoModLoader) è il programma che fa funzionare le mod di WorldBox. Il gioco da solo non sa caricare una mod, lo fa NML al posto suo. Installi NML una volta sola, e da lì in poi installare una mod vuol dire copiare una cartella.
+
+Questa pagina parte dal presupposto che tu non abbia mai fatto niente del genere. Se sai cos'è un `.dll`, salta alla **[versione corta](#la-versione-corta)** :PES_OkHand:.
+
+> [!NOTE] Windows, Mac e Linux (Steam Deck)
+> Le mod funzionano sulla **versione Steam per Windows, Mac e Linux** (incluso Steam Deck / SteamOS). Non su telefono, non su tablet, non su console.
+
+## La versione corta
+
+1. In gioco: **Impostazioni → Experimental Mode → attivo**.
+2. Scarica `NeoModLoader.dll` dalla [pagina ufficiale delle release](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest).
+3. Mettilo in `worldbox_Data/StreamingAssets/Mods/` dentro la cartella di WorldBox.
+4. Da quella stessa cartella cancella tutto quello che ha `NCMS` nel nome.
+5. Avvia il gioco. Le mod ora vanno nella cartella `Mods` accanto a `worldbox.exe`.
+
+Tutto qui. Il resto della pagina sono gli stessi cinque passi, con ogni clic scritto.
+
+---
+
+## Windows
+
+### Passo 1. Attiva Experimental Mode
+
+1. Avvia WorldBox normalmente, da Steam.
+2. Apri la finestra **Impostazioni** del gioco.
+3. Cerca nella lista **Experimental Mode** (con il gioco in italiano: **Modalità sperimentale**) e attivala.
+4. Chiudi il gioco.
+
+Senza questo interruttore il gioco non cerca nemmeno le mod. Nessun errore, nessun messaggio, semplicemente niente :PES5_Hmmmm:.
+
+> [!WARNING] Ci sono due cartelle che si chiamano Mods
+> Questa, dentro `worldbox_Data\StreamingAssets\Mods/`, è solo per **NML stesso** (nello specifico `NeoModLoader.dll`) e nient'altro. Quella in cui metterai le tue **mod** è una cartella separata, posizionata direttamente nella radice del gioco accanto a `worldbox.exe` (`worldbox\Mods/`). Non esiste ancora; NML la crea automaticamente al primo avvio del gioco. Mettere una mod dentro `StreamingAssets\Mods/`, o NML dentro `worldbox\Mods/`, è l'errore più comune su questa pagina.
+
+### Passo 2. Scarica NML
+
+1. Apri questo link: **[github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest)**. Punta sempre all'NML più recente, puoi salvarlo nei preferiti.
+2. Scorri fino alla sezione **Assets**. Se è chiusa, cliccala per aprirla.
+3. Clicca **NeoModLoader.dll**. Si scarica come qualsiasi altro file, di solito nella cartella **Download**.
+
+Ti serve solo quel file. La pagina elenca anche file che finiscono in `.pdb`, `.xml` e "Source code": ignorali.
+
+> [!WARNING] Solo da quel link
+> Un `.dll` è un programma. Scarica NML **solo** dalla pagina GitHub qui sopra, mai da un sito a caso o da un file che qualcuno ti ha mandato in chat. Se il browser ti chiede "mantenere questo file?", te lo chiede perché è un `.dll`, e da quella pagina la risposta è mantieni.
+
+### Passo 3. Apri la cartella di WorldBox
+
+È la cartella dove Steam ha installato il gioco. Non devi mai cercarla:
+
+1. Apri **Steam** e vai nella **Libreria**.
+2. **Clic destro** su WorldBox nella lista a sinistra.
+3. Clicca **Gestisci**, poi **Sfoglia file locali**.
+
+Si apre una finestra con i file del gioco. Sei nel posto giusto se vedi un file chiamato `worldbox` (o `worldbox.exe`) e una cartella chiamata `worldbox_Data`. Sulla maggior parte dei PC questa finestra è:
+
+```text
+C:\Program Files (x86)\Steam\steamapps\common\worldbox\
+```
+
+Tieni aperta questa finestra. Da qui in avanti, "la cartella di WorldBox" è questa.
+
+> [!TIP] Fai vedere a Windows le estensioni dei file
+> Di base Windows nasconde la fine dei nomi dei file, quindi `NeoModLoader.dll` appare solo come `NeoModLoader`. Così ogni guida diventa più difficile da seguire. Nella finestra della cartella clicca **Visualizza** in alto, poi spunta **Estensioni nomi file** (su Windows 11: **Visualizza → Mostra → Estensioni nomi file**). Non si rompe niente, vedi solo i nomi completi.
+
+### Passo 4. Metti NML nel posto giusto
+
+1. Nella cartella di WorldBox, doppio clic su **worldbox_Data**.
+2. Doppio clic su **StreamingAssets**.
+3. Doppio clic su **Mods**.
+4. Ora apri la cartella **Download** in una seconda finestra, e trascina **NeoModLoader.dll** in questa finestra `Mods`.
+
+Deve finire qui:
+
+```text
+worldbox/
+└── worldbox_Data/
+    └── StreamingAssets/
+        └── Mods/
+            ├── test_asset_load/     è del gioco, lasciala stare
+            └── NeoModLoader.dll     <- quello che hai appena aggiunto
+```
+
+Se lì dentro non vedi `test_asset_load`, sei nella cartella sbagliata. Torna alla cartella di WorldBox e riprova.
+
+**Già che sei in questa cartella:** se c'è qualcosa con **NCMS** nel nome (per esempio `NCMS_memload.dll`, o una cartella chiamata `NCMS`), cancellalo. NCMS è il vecchio mod loader, è morto, e NML sa già far girare le vecchie mod NCMS :PES2_Shrug:.
+
+> [!WARNING] Ci sono due cartelle che si chiamano Mods
+> Questa, dentro `worldbox_Data\StreamingAssets\Mods/`, è solo per **NML stesso** (nello specifico `NeoModLoader.dll`) e nient'altro. Quella in cui metterai le tue **mod** è una cartella separata, posizionata direttamente nella radice del gioco accanto a `worldbox.exe` (`worldbox\Mods/`). Non esiste ancora; NML la crea automaticamente al primo avvio del gioco. Mettere una mod dentro `StreamingAssets\Mods/`, o NML dentro `worldbox\Mods/`, è l'errore più comune su questa pagina.
+
+### Passo 5. Avvia il gioco e controlla
+
+Avvia WorldBox da Steam, e la prima volta dagli un po' più di tempo del solito.
+
+Hai fatto tutto giusto se:
+
+- Mentre il mondo carica, il gioco mostra il messaggio **Experimental mode is enabled**.
+- C'è un bottone nuovo con il **logo di NML** tra i bottoni delle schede in basso sullo schermo. Cliccalo: lì vive la lista delle tue mod.
+- Tornando nella cartella di WorldBox, c'è una nuova cartella vuota chiamata **Mods**, proprio accanto a `worldbox.exe`.
+- In `worldbox_Data\StreamingAssets\Mods/` NML ha creato una cartella **NML** per le sue cose. Non toccarla.
+
+Se non è successo niente di tutto questo, vai a **[Non ha funzionato](#non-ha-funzionato)**.
+
+---
+
+## Mac
+
+Gli stessi cinque passi. Cambia solo dove è nascosta la cartella, perché su Mac l'intero gioco è impacchettato in un'unica icona.
+
+1. **Experimental Mode**: esattamente come su Windows, **[Passo 1](#passo-1-attiva-experimental-mode)**. L'avviso sugli aggiornamenti vale anche per te.
+2. **Scarica** `NeoModLoader.dll` dalla [stessa pagina delle release](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest). È lo stesso file per Windows e Mac.
+3. **Apri la cartella di WorldBox**: Steam → Libreria → clic destro su WorldBox → **Gestisci → Sfoglia file locali**. Si apre una finestra del Finder.
+4. **Entra nell'app**: clic destro sull'icona dell'app **worldbox** e scegli **Mostra contenuto pacchetto**. Poi apri **Contents → Resources → Data → StreamingAssets → Mods**, e trascinaci dentro `NeoModLoader.dll`. Già che ci sei, cancella tutto quello che ha `NCMS` nel nome.
+5. **Avvia il gioco** e controlla le stesse cose del **[Passo 5](#passo-5-avvia-il-gioco-e-controlla)**. La nuova cartella `Mods` per le tue mod compare nella cartella di WorldBox, accanto all'app, non dentro.
+
+```text
+worldbox/
+├── worldbox.app/
+│   └── Contents/Resources/Data/StreamingAssets/Mods/
+│       └── NeoModLoader.dll     <- NML va qui
+└── Mods/                        <- le tue mod vanno qui
+```
+
+---
+
+## Linux & Steam Deck
+
+La logica è identica. Steam su Linux installa il gioco nella cartella utente, e su Steam Deck basta passare prima alla modalità Desktop.
+
+1. **Experimental Mode**: esattamente come su Windows, **[Passo 1](#passo-1-attiva-experimental-mode)**.
+2. **Scarica** `NeoModLoader.dll` dalla [pagina ufficiale delle release](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest). È lo stesso file per tutte le piattaforme.
+3. **Apri la cartella di WorldBox**:
+   - **Desktop Linux**: Steam → Libreria → clic destro su WorldBox → **Gestisci → Sfoglia file locali**.
+   - **Steam Deck**: Premi il tasto **STEAM → Spegni/Alimentazione → Passa a Desktop**. Apri Steam in modalità Desktop, vai nella Libreria → clic destro su WorldBox (o trackpad sinistro / grilletto) → **Gestisci → Sfoglia file locali**.
+   Di solito il percorso è:
+   ```text
+   ~/.local/share/Steam/steamapps/common/worldbox/
+   ```
+4. **Metti NML al suo posto**: Apri `worldbox_Data → StreamingAssets → Mods`, e trascinaci dentro `NeoModLoader.dll`. Se c'è qualcosa con `NCMS` nel nome, cancellalo.
+5. **Avvia il gioco** (su Steam Deck puoi tornare alla modalità Gioco) e controlla le stesse cose del **[Passo 5](#passo-5-avvia-il-gioco-e-controlla)**. La nuova cartella `Mods` per le tue mod compare nella cartella principale di WorldBox, accanto all'eseguibile.
+
+```text
+worldbox/
+├── worldbox_Data/
+│   └── StreamingAssets/
+│       └── Mods/
+│           └── NeoModLoader.dll     <- NML
+└── Mods/                            <- mods
+```
+
+---
+
+## Installare una mod
+
+Adesso la parte facile, quella che farai più e più volte.
+
+1. Scarica la mod. Prima leggi la descrizione: alcune mod hanno bisogno di qualcosa in più, e di solito l'autore lo dice.
+2. Su Windows: clic destro → **Estrai tutto**. Su Mac: doppio clic. Su Linux / Steam Deck: clic destro → **Estrai qui** (o usa Ark).
+3. Trascina la cartella che ottieni in **`worldbox\Mods/`**, quella accanto a `worldbox.exe`.
+4. Avvia il gioco.
+
+Una cartella di mod ha sempre un file chiamato `mod.json` da qualche parte dentro. È così che NML la riconosce. Se lo zip ti ha dato una cartella dentro una cartella va bene lo stesso, NML guarda dentro.
+
+```text
+worldbox/
+├── worldbox.exe
+└── Mods/
+    ├── SomeMod/
+    │   └── mod.json
+    └── AnotherMod/
+        └── mod.json
+```
+
+> [!TIP] Provalo con HelloBox
+> Non sei sicuro che funzioni? La mod che questa guida costruisce è un test già pronto. Scaricala da **[La mod completa](#/nml/all-together)**, estraila in `Mods`, avvia il gioco. Se compare una nuova scheda dei poteri piena di bottoni scemi, è tutto installato bene :wbpeak:.
+
+**Per togliere una mod**, chiudi il gioco e cancella la sua cartella da `Mods`. **Per spegnerla senza cancellarla**, usa la lista delle mod di NML in gioco.
+
+**Le mod dello Workshop** funzionano anche loro: iscriviti sullo Steam Workshop e NML le trova da solo, senza copiare niente.
+
+---
+
+## Non ha funzionato
+
+Controllale in ordine. La prima risolve quasi tutti.
+
+| Cosa vedi | Cosa fare |
+| --- | --- |
+| Nessun bottone NML, nessuna cartella `Mods` accanto a `worldbox.exe` | Experimental Mode è spenta. Attivala, riavvia. Anche dopo ogni aggiornamento del gioco |
+| Ancora niente, Experimental Mode è attiva | `NeoModLoader.dll` è nella cartella sbagliata. Deve stare in `worldbox_Data\StreamingAssets\Mods/`, accanto a `test_asset_load` |
+| Il file si chiama `NeoModLoader.dll.dll` o `NeoModLoader (1).dll` | Rinominalo esattamente `NeoModLoader.dll` |
+| NML c'è, ma una mod non compare | La mod è nella `Mods` sbagliata. Va in quella accanto a `worldbox.exe`, come cartella con dentro `mod.json`, non come `.zip` |
+| NML dice che una mod "has been disabled due to an error" | La mod è rotta o troppo vecchia per la tua versione del gioco. Cerca un aggiornamento di quella mod, o chiedi al suo autore |
+| Si è rotto tutto subito dopo un aggiornamento di WorldBox | Riattiva Experimental Mode. Poi aspetta che le mod si aggiornino: un aggiornamento del gioco spesso rompe le mod vecchie per qualche giorno |
+
+Ancora bloccato? **[Risoluzione problemi](#/troubleshooting)** ha la lista lunga, e **[Log e debugging](#/nml/logs-and-debugging)** mostra dove il gioco scrive cosa è andato storto. Quando chiedi aiuto, di' quali mod usi, cosa hai fatto subito prima che si rompesse, e incolla il testo dell'errore. "Non funziona" non è una cosa che qualcuno possa sistemare, me compreso :PESgn_ReadRules:.
+
+---
+
+## Le domande che fanno tutti
+
+**Posso usare NML e BepInEx insieme?**
+Sì. Non si danno fastidio. Due singole *mod* possono comunque litigare, ma è colpa delle mod, non dei loader.
+
+**La mod dice che vuole BepInEx, non NML.**
+Allora non va in `Mods`. Installa BepInEx come spiegato in **[La console dal vivo (BepInEx)](#/toolbox/bepinex-console)** (Windows), avvia il gioco una volta, e metti quella mod in `BepInEx\plugins/`. La descrizione della mod dice quale loader vuole.
+
+**NML o NCMS?**
+NML. NCMS non viene più aggiornato e non funziona sulle versioni attuali del gioco. NML fa girare comunque le vecchie mod NCMS, quindi non perdi niente.
+
+**Devo reinstallare NML per ogni mod?**
+No. Una volta basta. Dopo, ogni mod è solo una cartella in `Mods`.
+
+**Devo aggiornare NML?**
+Di solito no. NML controlla se c'è una versione nuova ogni volta che il gioco parte e si sostituisce da solo (è il `NeoModLoader.AutoUpdate_memload.dll` che compare accanto a lui). Se mai non ci riesce, scarica il nuovo `NeoModLoader.dll` dallo stesso link e sostituisci quello vecchio a mano.
+
+**Le mod mi rovinano i salvataggi?**
+Possono. Un salvataggio fatto con una mod potrebbe non caricarsi bene dopo che l'hai tolta. Tieni una copia dei mondi a cui tieni prima di provare qualcosa di nuovo :PES_MonkaSweat:.
+
+Vuoi fare mod invece di usarle soltanto? Si comincia da **[Da dove iniziare](#/getting-started)**.

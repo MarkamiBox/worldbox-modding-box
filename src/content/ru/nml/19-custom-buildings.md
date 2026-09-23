@@ -1,0 +1,216 @@
+---
+title: Кастомные постройки
+group: Игровой контент
+subgroup: Актеры, здания и ИИ
+icon: :wbcities:
+order: 142
+---
+
+# Кастомные постройки :wbcities:
+
+Постройки - это то место, где моддинг WorldBox перестает быть простым "измени одно число" и превращается в "у этого ассета сто сорок полей, и большинство из них ничего не делает для моей задачи" :PES2_Weary:.
+
+Поэтому мы не создаем постройки с нуля. Мы клонируем уже работающее здание.
+
+## Сначала клонируем, затем настраиваем
+
+`clone(newId, sourceId)` копирует каждое поле оригинала, переименовывает его **и сразу же регистрирует**. Эта последняя деталь очень важна:
+
+```csharp Mods/HelloBox/Code/HelloBuildings.cs
+namespace HelloBox
+{
+    public static class HelloBuildings
+    {
+        public const string SHRINE = "hello_shrine";
+
+        public static void Initialize()
+        {
+            if (AssetManager.buildings.has(SHRINE)) return;
+
+            BuildingAsset shrine = AssetManager.buildings.clone(SHRINE, "temple_human");
+
+            shrine.sprite_path = "buildings/hello_shrine";   // a folder, used exactly as written
+
+            // The game preloads every building's frames during its own startup, before your
+            // mod existed. Load this one now, or placing it throws "Index was out of range".
+            shrine.loadBuildingSprites();
+
+            // Same story for the atlas that recolours it in the owner's colour: the library
+            // links it in checkAtlasLink() at startup. Without it every frame throws.
+            shrine.atlas_asset = AssetManager.dynamic_sprites_library.get(shrine.atlas_id);
+            shrine.building_type = BuildingType.Building_Civ;
+            shrine.city_building = true;
+            shrine.has_kingdom_color = true;
+            shrine.max_houses = 0;                     // not housing, nobody lives here
+            shrine.housing_slots = 0;
+            shrine.draw_light_area = true;
+            shrine.draw_light_size = 0.6f;
+        }
+    }
+}
+```
+
+Все свойства, которые вы явно не задали, остаются точно такими же, как у `temple_human` - полностью рабочего городского здания. В этом и заключается весь трюк.
+
+> [!WARNING] Не вызывайте add() после clone()
+> `clone()` уже зарегистрировал копию. Вызов `AssetManager.buildings.add(shrine)` после этого зарегистрирует ее повторно, из-за чего библиотека удалит первую копию и выведет в лог `duplicate asset - overwriting...`. Это будет работать, но засоряет логи и станет первой вещью, на которую вам укажут при код-ревью.
+
+## Что брать за основу для клонирования
+
+В библиотеке есть как шаблоны вида `$…$`, так и готовые здания:
+
+| Источник | Назначение |
+| --- | --- |
+| `$building$` | Голый каркас здания |
+| `$city_building$` | Всё, что строит город. Используется для `well` и `mine` |
+| `$city_colored_building$` | То же самое, но с окраской в цвет королевства |
+| `$building_civ_human$` / `_elf$` / `_orc$` / `_dwarf$` | Городские здания конкретных рас |
+| `$building_creep$` | Биомные заражения (крип) |
+| `$mineral$` | Камни и рудные жилы |
+| `$resource$`, `$flora_small$` | Собираемые природные ресурсы |
+| `tree_green_1` | От него клонируются все стандартные деревья |
+
+Готовые постройки, которые стоит клонировать: `house_human_0` … `house_human_5`, `barracks_human`, `temple_human`, `library_human`, `market_human`, `docks_human`, `well`, `mine`, `mineral_stone`, `mineral_gold`.
+
+Потратить десять минут на поиск ближайшего аналога гораздо полезнее, чем целый вечер разбираться с неработающими полями.
+
+## Поля в зависимости от ваших задач
+
+### Тип постройки
+
+| Поле | Что делает |
+| --- | --- |
+| `building_type` | `Building_Civ`, `Building_Nature`, `Building_Tree`, `Building_Mineral`, `Building_Mob`, `Building_Creep`, `Building_Plant`, `Building_Fruits`, `Building_Hives`, `Building_Wheat` |
+| `city_building` | Принадлежит городу: получает цвета королевства, зоны и рабочие места |
+| `type` | Текстовый тег, по которому списки игры группируют здания |
+| `kingdom`, `civ_kingdom` | Ограничение по конкретной фракции |
+| `ignored_by_cities` | Города никогда не строят и не учитывают его |
+
+### Жилье и использование
+
+| Поле | Что делает |
+| --- | --- |
+| `max_houses`, `housing_slots`, `can_units_live_here` | Могут ли в нем жить жители и сколько |
+| `housing_happiness` | Бонус к счастью жителей |
+| `storage`, `storage_only_food`, `is_stockpile` | Работает ли как склад ресурсов |
+| `book_slots` | Вместимость книг в библиотеке |
+| `docks`, `boat_types`, `boat_type_fishing` … | Производство лодок |
+| `spawn_units`, `spawn_units_asset` | Спавнит существ |
+| `tower`, `tower_projectile`, `tower_projectile_reload` … | Функции атакующей башни |
+
+### Строительство и размещение
+
+| Поле | Что делает |
+| --- | --- |
+| `cost`, `construction_progress_needed` | Стоимость в ресурсах и время постройки |
+| `can_be_upgraded`, `upgrade_to`, `upgraded_from` … | Цепочки улучшений, как у домов `house_human_0` - `_5` |
+| `build_place_borders`, `build_place_center` … | Где в черте города оно строится |
+| `build_prefer_replace_house`, `check_for_close_building` … | Правила размещения и замены |
+| `limit_per_zone`, `limit_in_radius`, `limit_global` | Лимиты на количество построек |
+| `can_be_placed_on_liquid`, `can_be_placed_on_blocks` … | Правила проходимости и грунта |
+| `build_road_to` | Прокладывает ли город к нему дорогу |
+
+### Природа и рост
+
+| Поле | Что делает |
+| --- | --- |
+| `can_be_grown`, `vegetation_random_chance`, `is_vegetation` | Появляется ли само по себе со временем |
+| `growth_time`, `has_resources_grown_to_collect` | Циклы созревания плодов и урожая |
+| `biome_tags_growth`, `has_biome_tags` | В каких биомах может расти |
+| `resources_given`, `addResource(id, amount, pNewList)` | Ресурсы при сборе |
+| `can_be_chopped_down`, `gatherable` | Можно ли срубить или собрать |
+| `grow_creep` и родственные поля `grow_creep_*` | Логика разрастания заражения |
+
+### Урон и разрушение
+
+| Поле | Что делает |
+| --- | --- |
+| `burnable`, `affected_by_lava`, `affected_by_acid` … | Что наносит урон постройке |
+| `has_ruins_graphics`, `has_ruin_state`, `auto_remove_ruin` … | Что остается после уничтожения |
+| `can_be_demolished`, `can_be_abandoned`, `destroy_on_liquid` | Как удаляется с карты |
+| `loot_generation` | Какой лут выпадает при сносе |
+
+### Внешний вид
+
+| Поле | Что делает |
+| --- | --- |
+| `sprite_path` + `main_path` | Путь к спрайту |
+| `atlas_id`, `atlas_id_fallback_when_not_wobbly` | Используемый атлас спрайтов |
+| `scale_base`, `bonus_z`, `random_flip` | Масштаб, порядок отрисовки, отражение |
+| `shadow`, `shadow_bound`, `shadow_distortion` | Тень здания |
+| `has_kingdom_color` | Окрашивание в цвет королевства-владельца |
+| `draw_light_area`, `draw_light_size` | Свечение здания |
+| `has_special_animation_state`, `animation_speed` … | Анимации |
+
+### Поведение
+
+| Поле | Что делает |
+| --- | --- |
+| `step_action`, `has_step_action` | Собственный код на каждый тик постройки |
+| `base_stats` | Характеристики, даваемые зданием |
+| `priority` | Приоритет в очереди строительства города |
+
+## Спрайты
+
+Постройки ищут графику по адресу `main_path + sprite_path`, то есть `buildings/hello_shrine`. Положите PNG в `GameResources/buildings/hello_shrine.png`, и игра найдет его как родной. Задайте в `sprites.json` опорную точку снизу по центру (bottom-centre pivot), иначе ваше святилище будет левитировать над землей как призрак :aPES_GhostDance:. См. **[Спрайты и ресурсы](#/nml/sprites-and-resources)**.
+
+## Свой собственный спрайт
+
+Постройки - единственный ассет, который склеивает **два** поля воедино: `main_path + sprite_path`. Так как `main_path` по умолчанию уже равен `buildings/`, в `sprite_path` указывается только имя файла.
+
+```text Mods/HelloBox/
+HelloBox/
+└── GameResources/
+    └── buildings/
+        └── hello_shrine/
+            ├── main_0.png           the building itself
+            ├── construction_0.png   while a city is still building it
+            ├── ruin_0.png           what is left after it is destroyed
+            ├── mini_0.png           the minimap dot, one pixel per tile it covers
+            └── sprites.json         bottom-centre pivot
+```
+
+**Имена файлов — это и есть формат**. Загрузчик делит каждое имя по `_`: до него тип (`main`, `construction`, `ruin`, `disabled`, `spawn`, `special`), после — номер кадра анимации. `main_0`, `main_1`, `main_2` — анимация из трёх кадров. Файл с другим именем кадром не считается, а папка без `main_0` оставляет зданию нечего рисовать. `mini` — значок на миникарте: у `mini_0` должно быть ровно столько пикселей, сколько тайлов занимает здание, 5x4 для всего, что клонировано из `temple_human`. Без него миникарта кидает `NullReferenceException` в `Building.getColorForMinimap()` при каждой перерисовке.
+
+```csharp
+shrine.main_path = "buildings/";       // значение по умолчанию, меняется редко
+shrine.sprite_path = "hello_shrine";   // НЕ "buildings/hello_shrine"
+```
+
+Смешаете их, папка в `main_path` и пустой `sprite_path`, - и игра начнет искать `buildings/hello_shrine/hello_shrine` :aPES_BrainScratch:.
+
+> [!WARNING] Загрузите кадры сами, после того как задан путь
+> Игра заполняет `building_sprites` для каждого здания в собственной предзагрузке, которая идёт до вашего мода. У здания, зарегистрированного позже, список кадров пуст, и при первой постановке игра падает в `Building.setAnimData()` с `ArgumentOutOfRangeException: Index was out of range` :wbfacepalm:. Вызовите `shrine.loadBuildingSprites();`, как только задан `sprite_path`.
+>
+> Его брат — `atlas_asset`, атлас, который красит здание в цвет владельца. Библиотека привязывает его в `checkAtlasLink()`, тоже при старте. Без него здание ставится нормально, а потом кидает `NullReferenceException` в `DynamicSprites.getRecoloredBuilding()` **в каждом кадре, пока оно на экране**.
+
+
+Не забудьте выставить **опорную точку снизу по центру** в `sprites.json`, иначе святилище взлетит на воздух (см. **[Спрайты и ресурсы](#/nml/sprites-and-resources)**).
+
+## Размещение на карте
+
+Метод `World.world.buildings.addBuilding(...)` помечен как `internal`, поэтому компилируется только при ссылке на **publicized** библиотеку `Assembly-CSharp.dll` - см. примечание на странице **[Эффекты состояния](#/nml/status-effects)**:
+
+```csharp
+BuildingAsset asset = AssetManager.buildings.get(HelloBuildings.SHRINE);
+if (asset == null || tile == null) return;
+
+if (World.world.buildings.canBuildFrom(tile, asset, null, BuildPlacingType.New))
+{
+    World.world.buildings.addBuilding(asset, tile);
+}
+```
+
+Всегда предварительно проверяйте `canBuildFrom`. Спавн здания на воде, поверх другого строения или на зарезервированном городом тайле приведет к миру, который выглядит нормально первые тридцать секунд, а через три минуты намертво ломается :PES_OhShit:.
+
+## Тексты
+
+```json Mods/HelloBox/Locales/en.json
+{
+  "hello_shrine": "Shrine",
+  "hello_shrine_description": "Nobody remembers who built it. Everybody agrees it should not be touched."
+}
+```
+
+> [!TIP] Изучите оригинал перед клонированием
+> Откройте класс `BuildingLibrary` в **dnSpy** и посмотрите, чем отличаются `house_human_0`, `tree_green_1` и `mineral_stone`. Каждое ванильное здание создано там на чистом C#, что делает этот класс лучшей документацией по всем существующим полям :PES_Smart:.

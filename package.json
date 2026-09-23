@@ -1,0 +1,42 @@
+{
+  "name": "worldbox-modding-box",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "check-translations": "node scripts/check-translations.mjs",
+    "check-content": "node scripts/check-content.mjs",
+    "test": "node --experimental-strip-types src/utils/csharpCheck.test.ts && node --experimental-strip-types src/lib/naturalSearch.test.ts",
+    "preview": "vite preview",
+    "extract-game-api": "node scripts/extract-game-api.mjs",
+    "build-hellobox": "node scripts/build-hellobox.mjs"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@tiptap/extension-image": "^3.31.3",
+    "@tiptap/extension-placeholder": "^3.31.3",
+    "@tiptap/extension-table": "^3.31.3",
+    "@tiptap/pm": "^3.31.3",
+    "@tiptap/react": "^3.31.3",
+    "@tiptap/starter-kit": "^3.31.3",
+    "@types/prismjs": "^1.26.6",
+    "lucide-react": "^1.47.0",
+    "marked": "^18.0.13",
+    "prismjs": "^1.30.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0"
+  }
+}
