@@ -48,7 +48,7 @@ export function MobileDrawer({ open, onClose, slug, onNewPage }: MobileDrawerPro
             onClick={onClose}
             className="flex items-center gap-2.5 font-semibold text-fg"
           >
-            <img src="/logo.png" alt="Worldbox Modding-Box" className="w-5 h-5 rounded-md object-contain" />
+            <img src="./logo.png" alt="Worldbox Modding-Box" className="w-5 h-5 rounded-md object-contain" />
             <span className="text-sm">Worldbox Modding-Box</span>
           </a>
           <button

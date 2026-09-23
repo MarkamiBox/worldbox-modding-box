@@ -88,7 +88,7 @@ body {
 .prose h1 { font-size: 2.25rem; margin-top: 0; letter-spacing: -0.02em; }
 .prose h2 { font-size: 1.5rem; margin-top: 2.5rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--line); }
 .prose h3 { font-size: 1.15rem; margin-top: 2rem; }
-.prose a { color: var(--brand); text-decoration: none; }
+.prose a:not(.text-white) { color: var(--brand); text-decoration: none; }
 .prose a:hover { text-decoration: underline; }
 .prose strong { color: var(--fg); font-weight: 600; }
 .prose ul, .prose ol { padding-left: 1.4rem; }

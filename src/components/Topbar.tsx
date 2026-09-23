@@ -76,7 +76,7 @@ export function Topbar({
         </button>
 
         <a href={href('index')} className="flex items-center gap-2.5 font-semibold text-fg shrink-0 mr-4 hover:opacity-90 transition-opacity">
-          <img src="/logo.png" alt="Worldbox Modding-Box" className="w-6 h-6 rounded-md object-contain shadow-xs" />
+          <img src="./logo.png" alt="Worldbox Modding-Box" className="w-6 h-6 rounded-md object-contain shadow-xs" />
           <span>Worldbox Modding-Box</span>
         </a>
 
