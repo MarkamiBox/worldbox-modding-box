@@ -27,6 +27,42 @@ expect('unterminated string', has('Debug.Log("hello);', 'CS1010'));
 expect('unterminated char', has("char c = 'a;", 'CS1010'));
 expect('unterminated block comment', has('/* never ends\nint x = 1;', 'CS1035'));
 
+// ------------------------------------------------------ member-declaration shape (class bodies)
+
+const CLASS = (member: string) =>
+  `public abstract class AssetLibrary<T> : BaseAssetLibrary where T : Asset\n{\n    public List<T> list;\n    ${member}\n}`;
+
+expect(
+  'missing ; on a field, even though the line starts with a modifier',
+  has(CLASS('public Dictionary<string, T> dict'), 'CS1002'),
+);
+expect('that same field is quiet once the ; is back', !has(CLASS('public Dictionary<string, T> dict;'), 'CS1519'));
+expect(
+  'a garbage token in a class body is caught',
+  has('public class Foo\n{\n    public int x;\naaa\n}', 'CS1519'),
+);
+expect(
+  'a generic with the opening < deleted is caught',
+  has(CLASS('public Dictionaryring, T> dict;'), 'CS1519'),
+);
+expect('a builtin-type field is not a false alarm', !has(CLASS('public string id;'), 'CS1519'));
+expect('a bool property is not a false alarm', !has(CLASS('public bool Flag { get; set; }'), 'CS1519'));
+expect(
+  'a multi-variable declarator is not a false alarm',
+  !has('public class Foo\n{\n    int a, b, c;\n}', 'CS1519'),
+);
+expect(
+  'a qualified type name is not a false alarm',
+  !has('public class Foo\n{\n    public System.Collections.Generic.List<string> Items;\n}', 'CS1519'),
+);
+expect(
+  '`i < Defs.Length` in a for-loop is never read as a generic',
+  !has(
+    'public class Foo\n{\n    public void Run()\n    {\n        for (int i = 0; i < Defs.Length; i++) { }\n    }\n}',
+    'CS1519',
+  ),
+);
+
 // ---------------------------------------------------------------- WorldBox API errors
 
 expect('unknown AssetManager library', has('AssetManager.traitz.add(t);', 'WB001'));

@@ -18,6 +18,8 @@ interface Scan {
   mask: string;
   text: string;
   diagnostics: Diagnostic[];
+  /** Char ranges of real string/char literals (not comments), for the tokenizer below. */
+  strings: Array<{ start: number; end: number }>;
 }
 
 const OPEN: Record<string, string> = { '(': ')', '[': ']', '{': '}' };
@@ -41,6 +43,7 @@ function scan(code: string): Scan {
   const mask: string[] = new Array(code.length);
   const text: string[] = new Array(code.length);
   const stack: Array<{ ch: string; index: number }> = [];
+  const strings: Array<{ start: number; end: number }> = [];
 
   let i = 0;
   /** A comment: gone from both views. */
@@ -53,6 +56,7 @@ function scan(code: string): Scan {
       mask[k] = code[k] === '\n' ? '\n' : ' ';
       text[k] = code[k];
     }
+    strings.push({ start: from, end: to });
   };
 
   while (i < code.length) {
@@ -214,7 +218,7 @@ function scan(code: string): Scan {
     if (mask[k] === undefined) mask[k] = ' ';
     if (text[k] === undefined) text[k] = ' ';
   }
-  return { mask: mask.join(''), text: text.join(''), diagnostics };
+  return { mask: mask.join(''), text: text.join(''), diagnostics, strings };
 }
 
 /** Line endings that mean "this statement carries on below", so no semicolon is due yet. */
@@ -260,6 +264,363 @@ function checkSemicolons(code: string, mask: string): Diagnostic[] {
         message: 'Missing ; at the end of this statement.',
       });
     }
+  }
+  return out;
+}
+
+/**
+ * A small, bounded parser layer on top of the char-level scan above. It tokenizes the code and
+ * validates the *shape* of members inside a class/struct/interface/record body only — never
+ * method bodies, never top-level fragments, never generic expressions. That scope is deliberate:
+ * it is small enough to reason about and safe against the guide's own snippets, but it turns
+ * "the checker missed a missing ; because the line starts with `public`" into a real structural
+ * check instead of another regex patch.
+ */
+
+type TokenType = 'ident' | 'keyword' | 'punct' | 'string' | 'number';
+interface Token {
+  type: TokenType;
+  value: string;
+  index: number;
+}
+
+const KEYWORDS = new Set([
+  'abstract', 'as', 'async', 'await', 'base', 'bool', 'break', 'byte', 'case', 'catch', 'char',
+  'checked', 'class', 'const', 'continue', 'decimal', 'default', 'delegate', 'do', 'double',
+  'dynamic', 'else', 'enum', 'event', 'explicit', 'extern', 'false', 'finally', 'fixed', 'float',
+  'for', 'foreach', 'global', 'goto', 'if', 'implicit', 'in', 'init', 'int', 'interface',
+  'internal', 'is', 'lock', 'long', 'namespace', 'nameof', 'new', 'null', 'object', 'operator',
+  'out', 'override', 'params', 'partial', 'private', 'protected', 'public', 'readonly', 'record',
+  'ref', 'return', 'sbyte', 'sealed', 'short', 'sizeof', 'stackalloc', 'static', 'string',
+  'struct', 'switch', 'this', 'throw', 'true', 'try', 'typeof', 'uint', 'ulong', 'unchecked',
+  'unsafe', 'ushort', 'using', 'value', 'var', 'virtual', 'void', 'volatile', 'when', 'where',
+  'while', 'yield',
+]);
+
+/** Keywords that can lead a member declaration without being part of its type. */
+const MODIFIER_KEYWORDS = new Set([
+  'public', 'private', 'protected', 'internal', 'static', 'readonly', 'const', 'volatile', 'new',
+  'virtual', 'override', 'sealed', 'abstract', 'unsafe', 'extern', 'partial', 'event', 'async',
+  'required', 'ref', 'in', 'out', 'params',
+]);
+
+const TYPE_DECL_KEYWORDS = new Set(['class', 'struct', 'interface', 'record']);
+
+/** C# keywords that are also valid as the start of a type (the built-in aliases, plus var/dynamic). */
+const BUILTIN_TYPES = new Set([
+  'bool', 'byte', 'sbyte', 'char', 'decimal', 'double', 'float', 'int', 'uint', 'long', 'ulong',
+  'short', 'ushort', 'string', 'object', 'void', 'dynamic', 'var',
+]);
+
+const PUNCT_3 = new Set(['<<=', '>>=']);
+const PUNCT_2 = new Set([
+  '=>', '??', '?.', '::', '<<', '>>', '&&', '||', '==', '!=', '<=', '>=', '++', '--', '+=', '-=',
+  '*=', '/=', '%=', '&=', '|=', '^=',
+]);
+
+/** Tokenizes `mask` (comments already blanked, strings/chars already blanked-but-marked). */
+function tokenize(mask: string, strings: Array<{ start: number; end: number }>): Token[] {
+  const tokens: Token[] = [];
+  const stringEnd = new Map(strings.map((s) => [s.start, s.end]));
+  let i = 0;
+  while (i < mask.length) {
+    const c = mask[i];
+    const end = stringEnd.get(i);
+    if (end !== undefined) {
+      tokens.push({ type: 'string', value: mask.slice(i, end), index: i });
+      i = end;
+      continue;
+    }
+    if (/\s/.test(c)) {
+      i++;
+      continue;
+    }
+    if (/[A-Za-z_]/.test(c)) {
+      let j = i + 1;
+      while (j < mask.length && /[A-Za-z0-9_]/.test(mask[j])) j++;
+      const value = mask.slice(i, j);
+      tokens.push({ type: KEYWORDS.has(value) ? 'keyword' : 'ident', value, index: i });
+      i = j;
+      continue;
+    }
+    if (/[0-9]/.test(c)) {
+      let j = i + 1;
+      while (j < mask.length && /[0-9a-fA-FxX_.]/.test(mask[j])) j++;
+      tokens.push({ type: 'number', value: mask.slice(i, j), index: i });
+      i = j;
+      continue;
+    }
+    const three = mask.slice(i, i + 3);
+    const two = mask.slice(i, i + 2);
+    if (PUNCT_3.has(three)) {
+      tokens.push({ type: 'punct', value: three, index: i });
+      i += 3;
+      continue;
+    }
+    if (PUNCT_2.has(two)) {
+      tokens.push({ type: 'punct', value: two, index: i });
+      i += 2;
+      continue;
+    }
+    tokens.push({ type: 'punct', value: c, index: i });
+    i++;
+  }
+  return tokens;
+}
+
+/** Matches ( [ { with their close, best-effort. Only meaningful when the char-level scan found no mismatch. */
+function matchBrackets(tokens: Token[]): Map<number, number> {
+  const close = new Map<number, number>();
+  const openFor: Record<string, string> = { ')': '(', ']': '[', '}': '{' };
+  const stack: number[] = [];
+  for (let i = 0; i < tokens.length; i++) {
+    const t = tokens[i];
+    if (t.type !== 'punct') continue;
+    if (t.value === '(' || t.value === '[' || t.value === '{') stack.push(i);
+    else if (openFor[t.value]) {
+      const j = stack.pop();
+      if (j !== undefined && tokens[j].value === openFor[t.value]) close.set(j, i);
+    }
+  }
+  return close;
+}
+
+const GENERIC_INNER = new Set(['<', '>', ',', '.', '?', '[', ']']);
+
+/** Whether tokens[openIdx..] can close as a real generic argument list; null if it cannot. */
+function scanGeneric(tokens: Token[], openIdx: number): number | null {
+  let depth = 1;
+  let j = openIdx + 1;
+  while (j < tokens.length) {
+    const t = tokens[j];
+    if (t.type === 'punct' && t.value === '<') {
+      const prev = tokens[j - 1];
+      if (!prev || prev.type !== 'ident') return null;
+      depth++;
+      j++;
+      continue;
+    }
+    if (t.type === 'punct' && t.value === '>') {
+      depth--;
+      if (depth === 0) return j;
+      j++;
+      continue;
+    }
+    if (t.type === 'ident' || t.type === 'keyword') {
+      j++;
+      continue;
+    }
+    if (t.type === 'punct' && GENERIC_INNER.has(t.value)) {
+      j++;
+      continue;
+    }
+    return null;
+  }
+  return null;
+}
+
+/**
+ * Finds real generic argument lists: a '<' only counts when the token before it is an
+ * identifier and a lookahead finds a balanced, type-argument-shaped run up to a matching '>'.
+ * That is what keeps `a < b` and `x < Defs.Length` from ever being mistaken for a generic.
+ */
+function matchGenerics(tokens: Token[]): Map<number, number> {
+  const pairs = new Map<number, number>();
+  for (let i = 0; i < tokens.length; i++) {
+    const t = tokens[i];
+    if (t.type !== 'punct' || t.value !== '<') continue;
+    const prev = tokens[i - 1];
+    if (!prev || prev.type !== 'ident') continue;
+    const end = scanGeneric(tokens, i);
+    if (end !== null) pairs.set(i, end);
+  }
+  return pairs;
+}
+
+/** A '{' opens a type body when its header (back to the previous ; { or }) declares a type. */
+function isTypeBody(tokens: Token[], openIdx: number): boolean {
+  for (let i = openIdx - 1; i >= 0; i--) {
+    const t = tokens[i];
+    if (t.type === 'punct' && (t.value === ';' || t.value === '{' || t.value === '}')) return false;
+    if (t.type === 'keyword' && TYPE_DECL_KEYWORDS.has(t.value)) return true;
+  }
+  return false;
+}
+
+/**
+ * Checks one member-declaration span (the tokens between two boundaries inside a type body).
+ * `terminator` is '{' for a body, ';' for a statement-like member, or null if the span ran into
+ * the type's own closing brace without either — the missing-semicolon case.
+ */
+function checkDeclaratorShape(
+  code: string,
+  tokens: Token[],
+  start: number,
+  end: number,
+  generics: Map<number, number>,
+  brackets: Map<number, number>,
+  terminator: '{' | ';' | null,
+): Diagnostic | null {
+  let i = start;
+  while (i < end && tokens[i].type === 'punct' && tokens[i].value === '[') {
+    i = (brackets.get(i) ?? i) + 1;
+  }
+  if (i >= end) return null; // an attribute with nothing after it — the next span covers the rest
+
+  while (i < end && tokens[i].type === 'keyword' && MODIFIER_KEYWORDS.has(tokens[i].value)) i++;
+  if (i >= end) return null;
+
+  for (let k = i; k < end; k++) {
+    if (tokens[k].type === 'keyword' && TYPE_DECL_KEYWORDS.has(tokens[k].value)) return null; // nested type
+    if (tokens[k].type === 'punct' && tokens[k].value === '=>') return null; // expression-bodied member
+  }
+
+  const last = tokens[end - 1];
+  if (last && last.type === 'punct' && (last.value === ')' || last.value === ']')) return null; // method/indexer signature
+
+  const startsType = tokens[i].type === 'ident' || (tokens[i].type === 'keyword' && BUILTIN_TYPES.has(tokens[i].value));
+  if (!startsType) {
+    return {
+      ...at(code, tokens[i]?.index ?? tokens[end - 1].index),
+      severity: 'error',
+      ruleId: 'CS1519',
+      message: `Unexpected '${tokens[i]?.value ?? '}'}' here — expected a member (a field, property, or method).`,
+    };
+  }
+  i++; // the type's leading identifier
+
+  while (i < end) {
+    const t = tokens[i];
+    if (t.type === 'punct' && t.value === '.') {
+      i++;
+      if (i < end && (tokens[i].type === 'ident' || tokens[i].type === 'keyword')) i++;
+      continue;
+    }
+    if (t.type === 'punct' && t.value === '<' && generics.has(i)) {
+      i = generics.get(i)! + 1;
+      continue;
+    }
+    if (t.type === 'punct' && t.value === '[') {
+      const b = brackets.get(i);
+      if (b === undefined) break;
+      i = b + 1;
+      continue;
+    }
+    if (t.type === 'punct' && t.value === '?') {
+      i++;
+      continue;
+    }
+    break;
+  }
+
+  if (i >= end || tokens[i].type !== 'ident') {
+    if (terminator === '{') return null; // an indexer or other shape this pass does not model — do not guess
+    return {
+      ...at(code, (tokens[i] ?? tokens[end - 1]).index),
+      severity: 'error',
+      ruleId: 'CS1519',
+      message: `This does not look like a complete member — expected a name after the type.`,
+    };
+  }
+  i++; // the member name
+
+  while (i < end) {
+    const t = tokens[i];
+    if (t.type === 'punct' && t.value === ',') {
+      i++;
+      if (i >= end || tokens[i].type !== 'ident') {
+        return {
+          ...at(code, (tokens[i] ?? tokens[end - 1]).index),
+          severity: 'error',
+          ruleId: 'CS1519',
+          message: `Expected another name after ','.`,
+        };
+      }
+      i++;
+      continue;
+    }
+    if (t.type === 'punct' && t.value === '=') {
+      i = end; // do not validate the initializer expression itself
+      break;
+    }
+    return {
+      ...at(code, t.index),
+      severity: 'error',
+      ruleId: 'CS1519',
+      message: `Unexpected '${t.value}' here.`,
+    };
+  }
+
+  if (terminator === null) {
+    return {
+      ...at(code, tokens[end - 1].index + tokens[end - 1].value.length),
+      severity: 'error',
+      ruleId: 'CS1002',
+      message: 'Missing ; at the end of this member.',
+    };
+  }
+  return null;
+}
+
+function checkMembers(
+  code: string,
+  tokens: Token[],
+  openIdx: number,
+  closeIdx: number,
+  generics: Map<number, number>,
+  brackets: Map<number, number>,
+): Diagnostic[] {
+  const out: Diagnostic[] = [];
+  let spanStart = openIdx + 1;
+  let i = spanStart;
+
+  const flush = (spanEnd: number, terminator: '{' | ';' | null) => {
+    if (spanEnd > spanStart) {
+      const d = checkDeclaratorShape(code, tokens, spanStart, spanEnd, generics, brackets, terminator);
+      if (d) out.push(d);
+    }
+  };
+
+  while (i < closeIdx) {
+    const t = tokens[i];
+    if (t.type === 'punct' && t.value === ';') {
+      flush(i, ';');
+      i++;
+      spanStart = i;
+      continue;
+    }
+    if (t.type === 'punct' && (t.value === '(' || t.value === '[')) {
+      i = (brackets.get(i) ?? i) + 1;
+      continue;
+    }
+    if (t.type === 'punct' && t.value === '<' && generics.has(i)) {
+      i = generics.get(i)! + 1;
+      continue;
+    }
+    if (t.type === 'punct' && t.value === '{') {
+      flush(i, '{');
+      i = (brackets.get(i) ?? i) + 1;
+      spanStart = i;
+      continue;
+    }
+    i++;
+  }
+  flush(closeIdx, null);
+
+  return out;
+}
+
+/** Entry point: finds every class/struct/interface/record body and checks its members' shape. */
+function checkMemberDeclarations(code: string, mask: string, strings: Array<{ start: number; end: number }>): Diagnostic[] {
+  const tokens = tokenize(mask, strings);
+  const brackets = matchBrackets(tokens);
+  const generics = matchGenerics(tokens);
+  const out: Diagnostic[] = [];
+
+  for (const [openIdx, closeIdx] of brackets) {
+    if (tokens[openIdx].value !== '{') continue;
+    if (!isTypeBody(tokens, openIdx)) continue;
+    out.push(...checkMembers(code, tokens, openIdx, closeIdx, generics, brackets));
   }
   return out;
 }
@@ -471,11 +832,14 @@ export function checkCode(code: string, language = 'csharp'): Diagnostic[] {
   if (language === 'json') return checkJson(code);
   if (language !== 'csharp' && language !== 'cs' && language !== 'c#') return [];
 
-  const { mask, text, diagnostics } = scan(code);
+  const { mask, text, diagnostics, strings } = scan(code);
   const all = [...diagnostics];
 
   // A broken delimiter or string makes every later pass guess, so stop and report that first.
-  if (all.length === 0) all.push(...checkSemicolons(code, mask));
+  if (all.length === 0) {
+    all.push(...checkSemicolons(code, mask));
+    all.push(...checkMemberDeclarations(code, mask, strings));
+  }
   all.push(...checkWorldBoxApi(code, mask, text));
 
   return all.sort((a, b) => a.line - b.line || a.column - b.column);
