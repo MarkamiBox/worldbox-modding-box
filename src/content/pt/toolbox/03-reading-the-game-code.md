@@ -27,16 +27,16 @@ Esse único arquivo é o código do jogo inteiro. Na esquerda você tem a árvor
 
 ### 1. Procurar uma classe
 
-`Ctrl+Shift+K` pesquisa tipos. Digite `ActorTrait`, abra a classe e você verá cada campo configurável, com o tipo e o valor padrão:
+`Ctrl+Shift+K` busca tipos. Digite `ActorTrait`, abra, e você vê todos os campos que pode definir, com o tipo e o valor padrão:
 
 ```csharp Assembly-CSharp / ActorTrait
 public string path_icon;
 public string group_id;
-public float rate_birth;
+public int rate_birth;
 public bool can_be_cured;
 ```
 
-Essa lista *é* a documentação para a página de **[Traits personalizados](#/nml/custom-traits)**. O mesmo vale para `ItemAsset`, `BuildingAsset`, `StatusAsset` ou qualquer outra coisa.
+Essa lista *é* a documentação da página **[Traços personalizados](#/nml/custom-traits)**. Leia os **tipos** também: `rate_birth` é um `int`, então `rate_birth = 0.5f` não compila. O mesmo truque vale para `ItemAsset`, `BuildingAsset`, `StatusAsset`, qualquer coisa.
 
 ### 2. Checar a assinatura real de um método
 

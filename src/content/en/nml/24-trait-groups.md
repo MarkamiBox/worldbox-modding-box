@@ -8,7 +8,7 @@ order: 102
 
 # Trait groups & tabs :wbfamilies:
 
-Every trait belongs to a **group**, and the group is what draws a tab in the trait book. If you add six traits and dump them all in `miscellaneous`, they vanish into a list nobody scrolls.
+Every trait belongs to a **group**, and the group is what draws a tab in the trait book. If you add six traits and dump them all in `miscellaneous`, they vanish into a list nobody scrolls :PES4_Invisible:.
 
 A tab of your own costs four lines.
 
@@ -110,7 +110,7 @@ Editing a vanilla group in place keeps every vanilla trait that points at it wor
 
 ## The other six group libraries
 
-Actor traits are one of seven trait systems, and each has its own group library holding its own group class. The code on this page is identical for all of them, only the two names change:
+Actor traits are one of seven trait systems, and each has its own group library holding its own group class. The code on this page is identical for all of them, only the two names change. Learn it once, copy it six times:
 
 | Trait system | Group library | Group class | Page |
 | --- | --- | --- | --- |

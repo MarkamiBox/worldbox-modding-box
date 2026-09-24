@@ -144,10 +144,13 @@ if (group != null && index != -1)
 
 ## Quando seu código é executado
 
-O jogo constrói todas as 129 bibliotecas na inicialização, executa `post_init()` nelas e, **somente depois**, o NML carrega o seu mod. Duas consequências com as quais muitos tropeçam:
+O jogo monta as 129 bibliotecas na inicialização, depois roda `post_init()` nelas, **e só então** o NML carrega o seu mod. Duas consequências em que as pessoas tropeçam o tempo todo, eu incluído:
 
-- **Tudo o que uma biblioteca faz de forma automática no `post_init` já aconteceu.** Traços de atores, por exemplo, recebem um `path_icon` padrão nessa etapa. O seu não receberá, pois ele ainda não existia. Defina-o manualmente.
-- **Todos os assets vanilla já existem quando o seu `OnModLoad` roda.** Por isso `get("human")` funciona, `clone(..., "human")` funciona e editar conteúdo vanilla no local funciona. Você nunca chega cedo demais.
+- **Tudo o que uma biblioteca faz automaticamente no `post_init` já aconteceu.** Os traços de ator, por exemplo, recebem ali um `path_icon` padrão. O seu não, porque o seu traço ainda não existia. Defina você mesmo.
+- **Todo asset vanilla já existe quando o seu `OnModLoad` roda.** Então `get("human")` funciona, `clone(..., "human")` funciona, e editar conteúdo vanilla no lugar funciona. Você nunca chega cedo demais.
+
+> [!NOTE] Fazer patch nesses métodos não mexe no conteúdo vanilla
+> `has`, `get`, `add`, `clone` e `post_init` rodam todos nas 129 bibliotecas durante a inicialização do jogo, antes de o NML carregar um único mod. Um patch Harmony em qualquer um deles só afeta chamadas feitas *depois* que o seu mod carrega. Ele nunca mexe no registro vanilla que já aconteceu até lá. Quer conteúdo vanilla diferente? Mude depois com `get()`, como o resto desta página faz.
 
 ## O padrão que todas as páginas seguintes usam
 

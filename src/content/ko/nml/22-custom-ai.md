@@ -8,27 +8,26 @@ order: 144
 
 # 커스텀 AI & 행동 트리 :wbgoldenbrain:
 
-이제 가장 깊은 심연으로 들어섭니다. 이 가이드의 다른 모든 페이지는 게임에 *데이터와 사물*을 추가했습니다. 하지만 이 페이지는 **의사결정**을 추가합니다: 수천 마리의 다른 생명체와 부대끼는 월드 속에서, 생명체가 스스로 판단하고 영원히 수행할 행동을 결정하는 것이죠.
+이제 가장 깊은 심연으로 들어섭니다. 이 가이드의 다른 모든 페이지는 게임에 *데이터와 사물*을 추가했습니다. 하지만 이 페이지는 **의사결정**을 추가합니다: 수천 마리의 다른 생명체와 부대끼는 월드 속에서, 생명체가 스스로 판단하고 영원히 수행할 행동을 결정하는 것이죠. 부담 갖지 마세요 :PES_MonkaSweat:.
 
 ## 게임의 인공지능 동작 원리
 
-큰 단위에서 작은 단위로 이어지는 3단계 계층 구조입니다:
+큰 것에서 작은 것까지 세 개의 층, 그리고 그 옆에 붙어 있는 하나. 이걸 이해하는 데 인정하기 싫을 만큼 오래 걸렸습니다:
 
-| 계층 | 개념 | 보관 라이브러리 |
+| 층 | 무엇인가 | 라이브러리 |
 | --- | --- | --- |
-| **잡** (`ActorJob`) | 이 생명체가 수행할 전반적인 직업/역할: "시민으로 살아가기", "군인으로 복무하기" | `AssetManager.job_actor` |
-| **태스크** (`BehaviourTaskActor`) | 직업 내부의 구체적인 목표: "밥 먹으러 가기", "건물 짓기" | `AssetManager.tasks_actor` |
-| **행동** (`BehaviourActionActor`) | 매 틱마다 실행되어 다음 할 일을 반환하는 태스크의 세부 단계 | 태스크에 순차적으로 추가됨 |
+| **잡** (`ActorJob`) | 이 생명체가 전반적으로 하고 있는 일: "시민으로 살기", "군인으로 복무하기" | `AssetManager.job_actor` |
+| **태스크** (`BehaviourTaskActor`) | 잡 안의 구체적인 목표 하나: "밥 먹으러 가기", "저걸 짓기" | `AssetManager.tasks_actor` |
+| **행동** (`BehaviourActionActor`) | 태스크의 한 단계로, 매 틱 실행되며 다음에 할 일을 반환합니다 | 태스크에 추가됨 |
+| **결정** (`DecisionAsset`) | 언제 태스크를 시작할지: 생명체가 한가해질 때마다 저울질하는 선택지 | `AssetManager.decisions_library` |
 
-잡은 태스크들을 담고, 태스크는 행동(Behaviour)들을 담으며, 행동들은 누군가 멈추라고 할 때까지 순서대로 실행됩니다.
+잡은 태스크를 담고, 태스크는 행동을 담으며, 행동은 그중 하나가 멈추라고 할 때까지 순서대로 실행됩니다. 결정은 잡 옆에 있습니다: 한가한 생명체가 스스로 다음 태스크를 고르는 방법으로, 아래 **[결정](#결정-생명체가-스스로-태스크를-선택하게-만들기)**을 보세요.
 
 ## 행동(Behaviour) 작성하기
 
 행동은 메서드가 딱 하나뿐인 클래스입니다. 액터를 전달받아 작은 작업을 하나 수행한 뒤 `BehResult` 를 반환합니다:
 
-```csharp Mods/HelloBox/Code/HelloAI.cs
-using ai.behaviours;   // BehaviourTaskActor, BehaviourActionActor, BehResult, the vanilla behaviours
-
+```csharp
 namespace HelloBox
 {
     public class BehHelloDrive : BehaviourActionActor
@@ -37,55 +36,16 @@ namespace HelloBox
         {
             if (pActor == null || !pActor.isAlive()) return BehResult.Stop;
 
+            // decide something, write it onto the actor
             WorldTile target = HelloAI.PickTile(pActor);
             if (target == null) return BehResult.Stop;
 
             pActor.beh_tile_target = target;
-            return BehResult.Continue;
-        }
-    }
-
-    public static class HelloAI
-    {
-        public const string JOB = "hellobox_job";
-        public const string TASK = "hellobox_drive";
-
-        public static void Initialize()
-        {
-            BehaviourTaskActor drive = new BehaviourTaskActor
-            {
-                id = TASK,
-                ignore_fight_check = true,        // don't let the combat system hijack the task
-                locale_key = "task_unit_" + TASK
-            };
-
-            AssetManager.tasks_actor.add(drive);  // add first
-            drive.setIcon("ui/Icons/iconHelloDrive");    // then decorate
-            drive.addBeh(new BehHelloDrive());    // my decision
-            drive.addBeh(new BehGoToTileTarget()); // the game's own pathing does the walking
-
-            ActorJob job = new ActorJob { id = JOB };
-            job.addTask(TASK);
-            AssetManager.job_actor.add(job);
-        }
-
-        /** Where the creature should walk next. One random neighbour it can actually reach. */
-        public static WorldTile PickTile(Actor pActor)
-        {
-            WorldTile from = pActor.current_tile;
-            if (from == null) return null;
-
-            // the game's own helper: a random neighbour that is not across water
-            return from.getTileAroundThisOnSameIsland(from);
+            return BehResult.Continue;   // let the next behaviour in the task run
         }
     }
 }
 ```
-`PickTile` 이 이 연습의 전부입니다. 게임이 대신 해주지 않는 유일한 부분이고, 그 파일의 나머지는 전부 배선입니다.
-
-> [!WARNING] `beh_tile_target` 은 internal
-> behaviour가 쓰는 그 필드는 게임 어셈블리에서 `internal` 로 표시돼 있어서, 이건 **publicized** 된 `Assembly-CSharp.dll` 을 참조해야 컴파일됩니다 (**[상태 효과](#/nml/status-effects)** 의 메모 참고). 없으면 컴파일러가 이 줄을 거부하니, 대상은 자기 필드에 들고 있어야 합니다 :PES5_Noted:.
-
 
 | 결과값 | 의미 |
 | --- | --- |
@@ -154,7 +114,12 @@ namespace HelloBox
 }
 ```
 
-두 번째 행동을 눈여겨보세요: **바닐라 노드를 재사용하세요**. 타일로 걸어가기, 상태 부여하기, 건물 찾기, 대상 공격하기 등 게임에는 이미 수많은 행동 노드가 완성되어 있습니다. 판단만 직접 작성하고 힘든 실행 과정은 기존 코드를 빌려 쓰는 것이 한 달 걸릴 작업을 주말 이틀로 단축하는 비결입니다.
+`PickTile`이 이 연습의 핵심입니다: 게임이 아직 대신해 주지 않는 유일한 부분입니다. 그 파일의 나머지는 전부 배관 작업입니다.
+
+> [!WARNING] `beh_tile_target`은 internal입니다
+> 행동이 값을 쓰는 필드는 게임 어셈블리에서 `internal`로 표시되어 있으므로, 이 코드는 **퍼블리사이즈된** `Assembly-CSharp.dll`에 대해 컴파일됩니다(**[상태 이상](#/nml/status-effects)**의 참고를 보세요). 그게 없으면 컴파일러가 그 줄을 거부하므로, 목표를 여러분의 필드에 따로 보관해야 합니다 :PES5_Noted:.
+
+두 번째 행동에 주목하세요: **바닐라 노드를 재사용하세요**. 게임에는 타일까지 걷기, 상태 추가하기, 건물 찾기, 목표 공격하기 같은 행동이 있습니다. 판단은 직접 쓰고 실행은 빌려 오는 것, 그게 주말과 한 달의 차이입니다.
 
 ## 생명체가 실제로 내 잡을 실행하게 만들기
 
@@ -245,7 +210,7 @@ trait.decisions_assets = new DecisionAsset[] { AssetManager.decisions_library.ge
 
 ## 도시 직업
 
-시민은 자신의 두뇌가 아니라 도시로부터 일자리를 배정받습니다. 도시는 필요한 일감을 계산하고 직업 슬롯(건축가, 농부, 광부 등)을 열어 시민을 고용합니다. **시민 직업(Citizen Job)**은 이러한 슬롯 중 하나이며, 고용된 유닛은 동일한 ID의 `ActorJob`을 실행합니다.
+시민은 자신의 두뇌가 아니라 도시로부터 일자리를 배정받습니다. 도시는 필요한 일감을 계산하고 직업 슬롯(건축가, 농부, 광부 등)을 열어 시민을 고용합니다. **시민 직업(Citizen Job)**은 이러한 슬롯 중 하나이며, 고용된 유닛은 동일한 ID의 `ActorJob`을 실행합니다. 양쪽에 같은 id: 이게 비결의 전부입니다.
 
 ```csharp Mods/HelloBox/Code/HelloCityJobs.cs
 using ai.behaviours;   // CityBehCheckCitizenTasks
@@ -315,7 +280,7 @@ namespace HelloBox
 
 ## 텍스트
 
-태스크 이름은 유닛 정보 창에 "현재 하고 있는 일"로 표시되며, 결정은 자신이 시작하는 태스크의 이름을 그대로 차용합니다:
+태스크 이름은 유닛 정보 창에 "현재 하고 있는 일"로 표시되므로, 플레이어는 여러분이 쓴 어떤 줄보다 이걸 더 많이 읽게 됩니다. 결정은 자신이 시작하는 태스크의 이름을 그대로 차용합니다:
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -325,7 +290,7 @@ namespace HelloBox
 
 ## 프레임레이트를 지키기 위한 최적화 철칙
 
-월드에는 수천 마리의 유닛이 살 수 있습니다. 여러분의 행동 코드는 매 틱마다 그 수천 마리 위에서 실행됩니다.
+월드에는 수천 마리의 유닛이 살 수 있습니다. 여러분의 행동 코드는 매 틱마다 그 수천 마리 위에서 실행됩니다. "성능? 처음 들어 보는데, 먹는 건가요?"는 여러분의 모드가 그걸 먹어 치우기 전까지는 좋은 농담입니다. 제 것을 포함해 대부분의 모드는 매 틱마다 거대한 루프를 돌리고, 괜찮은 PC에서는 그래도 넘어갑니다. 행동(behaviour)은 그렇게 안 넘어갑니다.
 
 - **무거운 연산은 `execute` 안이 아니라 타이머에서 처리하세요.** 비싼 로직은 `Update()` 에서 타이머를 두고 간헐적으로 돌려 결과를 캐싱해 두고, `execute` 에서는 그 캐시를 읽기만 해야 합니다.
 - **부하를 분산시키세요.** 40마리를 제어한다면 한 프레임에 40마리를 다 돌리지 말고 4프레임에 걸쳐 10마리씩 나누어 연산하세요.

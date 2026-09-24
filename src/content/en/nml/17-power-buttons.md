@@ -340,7 +340,7 @@ namespace HelloBox
 That is the whole file: nine god powers, the tab, ten buttons and the icon helper. Every button is one feature this guide has taught. The sections below take it apart.
 
 
-`recalc()` is what sizes the tab around its buttons, and `sortButtons()` is what puts them in order. Both have to wait.
+`recalc()` is what sizes the tab around its buttons, and `sortButtons()` is what puts them in order. Both have to wait, and the game will not tell you why in a friendly way:
 
 > [!WARNING] Do not lay the tab out during `OnModLoad`
 > `PowersTab` reads its own parent in Unity's `Start()`, which has not run yet on the object `CreateTab` just handed you. Call `recalc()` there and the whole stage dies with `NullReferenceException` at `PowersTab.setNewWidth()`, your power never registers, and the tab never appears :wbfacepalm:.

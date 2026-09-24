@@ -148,10 +148,10 @@ public void Update()
 
 ## Recargar código sin reiniciar
 
-Reiniciar WorldBox para probar una sola línea modificada es el mayor coste de tiempo al crear mods. NML puede recompilar tu mod mientras el juego se ejecuta y sustituir los métodos que hayas marcado.
+Reiniciar WorldBox para probar una sola línea modificada es el mayor coste de tiempo al crear mods. Pregúntale a cualquiera que lo haya hecho cuarenta veces en una tarde. NML puede recompilar tu mod mientras el juego se ejecuta y sustituir los métodos que hayas marcado.
 
 1. Tu clase principal implementa `IReloadable`, que consiste en un único método: `Reload()`. La de HelloBox lo hace en **[El mod completo](#/nml/all-together)**.
-2. El botón de recarga solo se muestra mientras `Config.isEditor` sea `true`. HelloBox lo activa mediante un interruptor `DevReload` que viene en `false` por defecto.
+2. En el menú de mods activo de NML, el botón de recarga aparece automáticamente para cualquier mod que implemente `IReloadable`. (La antigua lista de mods pedía `Config.isEditor = true` para mostrar su botón, pero el menú principal no te obliga a pasar por ese aro.)
 3. Marca los métodos que quieras sustituir con `[Hotfixable]`, de `NeoModLoader.api.attributes`:
 
 ```csharp
@@ -166,8 +166,8 @@ public static WorldTile PickTile(Actor pActor)
 
 Luego modifica el método, guarda y pulsa el botón de recarga de tu mod en la lista de mods de NML. NML recompila, parchea los métodos marcados y llama a `Reload()`. Todo lo que no esté marcado seguirá ejecutando el código anterior.
 
-> [!WARNING] `Config.isEditor` es el propio interruptor del juego
-> Le dice a WorldBox que se está ejecutando dentro del editor de Unity, y varios sistemas actúan en consecuencia: algunas interfaces adoptan diseño móvil, algunos objetos se destruyen al iniciar. Actívalo para tus pruebas personales y jamás en un mod publicado.
+> [!NOTE] Si alguna vez activas `Config.isEditor`
+> `Config.isEditor` es el interruptor interno de Unity del juego. Si lo activas a mano, WorldBox cree que está dentro del editor de Unity y parte de la interfaz pasa a su diseño móvil. Con `IReloadable` en el NML moderno no lo necesitas, así que déjalo en paz.
 
 Lo que no puede hacer: callbacks de Unity como `Awake` y `Update`, constructores y cualquier cosa que el juego ya haya instanciado con el código anterior. Un asset registrado al inicio conserva los delegates asignados entonces, por lo que `Reload()` es el lugar donde reasignarlos tú mismo.
 

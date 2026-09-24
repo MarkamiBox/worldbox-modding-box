@@ -10,7 +10,7 @@ order: 106
 
 Une **culture** désigne l'ensemble des habitudes partagées par un groupe de cités. Elle détermine ce qu'elles construisent, ce qu'elles forgent, comment elles héritent, ce qu'elles lisent et ce qu'elles valorisent. Un trait de culture est l'une de ces habitudes.
 
-Parmi les sept systèmes de traits, la culture est celui qui a la portée la plus vaste. Une culture se propage avec les villes, survit à son fondateur et injecte ses statistiques dans absolument chaque unité qui lui est affiliée. Si vous cherchez un mod dont l'effet se diffuse dans le monde entier sur une heure de jeu, c'est cette bibliothèque qu'il vous faut.
+Parmi les sept systèmes de traits, la culture est celui qui a la portée la plus vaste. Une culture se propage avec les villes, survit à son fondateur et injecte ses statistiques dans absolument chaque unité qui lui est affiliée. Si vous cherchez un mod dont l'effet se diffuse dans le monde entier sur une heure de jeu, c'est cette bibliothèque qu'il vous faut. Grande portée, grande responsabilité :PES5_Menace:.
 
 | | |
 | --- | --- |
@@ -56,7 +56,17 @@ namespace HelloBox
 }
 ```
 
-Tout ce qui figure sur **[Traits personnalisés](#/nml/custom-traits)** s'applique ici également : appeler `add()` avant les stats, `path_icon` n'est pas complété à votre place, les identifiants sont préfixés. Voici ce qui rend les traits de culture uniques.
+> [!WARNING] `spawn_random_trait_allowed` n'est lu qu'une fois, au démarrage
+> Les nouvelles cultures tirent leurs traits de départ dans une réserve que `BaseTraitLibrary.linkAssets()` construit pendant le chargement du jeu, avant que votre mod n'existe. Activer l'option sur votre trait ne change rien à lui seul : votre trait n'est jamais dans cette réserve et n'apparaît jamais par hasard. Ajoutez-le vous-même, pondéré comme le fait le vanilla :
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.culture_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` est `protected`, donc ceci compile contre l'assembly publicisé avec lequel NML compile déjà votre mod. `spawn_random_rate` vaut `5` par défaut : augmentez-le et le trait apparaît plus souvent.
+
+Tout ce qui figure sur **[Traits personnalisés](#/nml/custom-traits)** s'applique ici également : appeler `add()` avant les stats, `path_icon` n'est pas complété à votre place, les identifiants sont préfixés. Voici ce qui rend les traits de culture uniques. Et c'est la partie amusante.
 
 > [!WARNING] `base_stats` sur un trait culturel touche tout le monde
 > `Actor.updateStats()` fusionne `culture.base_stats` dans chaque unité affiliée à cette culture. Chaque unité. Une doctrine accordant "+5 dégâts" armera aussi les boulangers.
@@ -73,7 +83,7 @@ trait.addWeaponSubtype("sword");         // préférer toute une classe d'armes
 trait.addWeaponSpecial("hello_relic");   // ou un identifiant d'objet spécifique
 ```
 
-Les deux méthodes d'aide activent `is_weapon_trait = true` pour vous. Le code d'artisanat consulte les préférences d'armes de la culture lorsqu'une ville décide quoi fabriquer ; cela remplace ainsi l'arme dans la main du soldat plutôt que de simplement modifier un chiffre. Dans le jeu de base, `bow_lovers` et `spear_lovers` fonctionnent exactement ainsi.
+Les deux méthodes d'aide activent `is_weapon_trait = true` pour vous. Le code d'artisanat consulte les préférences d'armes de la culture lorsqu'une ville décide quoi fabriquer ; cela remplace ainsi l'arme dans la main du soldat plutôt que de simplement modifier un chiffre. Dans le jeu de base, `bow_lovers` et `spear_lovers` fonctionnent exactement ainsi. Toute une culture de fans de lances, en deux lignes :PESgn_Noice:.
 
 | Champ | Description |
 | --- | --- |

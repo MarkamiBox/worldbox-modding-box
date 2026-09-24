@@ -73,32 +73,32 @@ Accanto alle tue immagini, un file `sprites.json` spiega a NML come ritagliare e
 
 ## Dove va posizionato ciascun tipo di grafica
 
-Questa è la tabella di riferimento su cui tutti tornano regolarmente. Ogni asset punta alla propria grafica con un campo differente, e alcuni di essi aggiungono silenziosamente una sottocartella prima del caricamento. Il valore che scrivi **non** è sempre il percorso su disco.
+Questa è la tabella a cui si torna sempre. Ogni asset punta alla sua grafica con un campo diverso, e alcuni aggiungono di nascosto una cartella davanti prima del caricamento, quindi il valore che scrivi **non** è sempre il percorso in cui si trova il file.
 
-| Asset | Campo | Dove salvare il file |
+| Asset | Campo | Il file va in |
 | --- | --- | --- |
-| Tratto, potere divino, regno, gruppo | `path_icon` | `GameResources/` + esattamente ciò che hai scritto |
-| Oggetto, impugnato in mano | `path_gameplay_sprite` | `GameResources/` + esattamente ciò che hai scritto |
+| Tratto, potere divino, regno, gruppo | `path_icon` | `GameResources/` + esattamente quello che hai scritto |
+| Oggetto, in mano a un'unità | `path_gameplay_sprite` | `GameResources/` + esattamente quello che hai scritto |
 | Edificio | `sprite_path` | Una **cartella**: `GameResources/` + `sprite_path` + `/`, con dentro `main_0.png`, `construction_0.png`, `ruin_0.png`. Con `sprite_path` vuoto è `main_path` + id, e `main_path` di default è `buildings/` |
-| Drop (bottino) | `path_texture` | Una **cartella**: `GameResources/` + esattamente ciò che hai scritto |
-| Nuvola | `path_sprites` | `GameResources/` + ciascun percorso presente nella lista |
-| Effetto di stato | `texture` | Una **cartella**: `GameResources/effects/` + ciò che hai scritto |
-| Proiettile | `texture` | Una **cartella**: `GameResources/effects/projectiles/` + ciò che hai scritto |
-| Risorsa, trasportata in mano | `path_gameplay_sprite` | Una **cartella**: `GameResources/items/resources/` + ciò che hai scritto |
-| Risorsa, icona inventario | `path_icon` | `GameResources/` + ciò che hai scritto (il gioco usa nomi semplici come `iconResBread`) |
-| Tile di terreno & Top Tile | *(nessun campo)* | `GameResources/tiles/<id_della_tile>/` |
+| Drop | `path_texture` | Una **cartella**: `GameResources/` + esattamente quello che hai scritto, un PNG per frame |
+| Nuvola | `path_sprites` | `GameResources/` + ogni percorso della lista |
+| Effetto di stato | `texture` | Una **cartella**: `GameResources/effects/` + quello che hai scritto, un PNG per frame |
+| Proiettile | `texture` | Una **cartella**: `GameResources/effects/projectiles/` + quello che hai scritto, un PNG per frame |
+| Risorsa, portata in mano | `path_gameplay_sprite` | Una **cartella**: `GameResources/items/resources/` + quello che hai scritto, un PNG per frame |
+| Risorsa, icona dell'inventario | `path_icon` | `GameResources/` + quello che hai scritto. Vanilla usa un nome semplice come `iconResBread`, quindi il file sta nella radice |
+| Casella e casella superiore | *(nessun campo)* | `GameResources/tiles/<the tile's id>/` |
 
-> [!WARNING] "Una cartella" non è una questione di stile
-> Ogni asset segnato come **cartella** qui sopra viene letto con `getSpriteList()`, che restituisce i frame *dentro* una cartella. Puntalo a un PNG singolo e torna vuoto: un drop cade invisibile, un proiettile lancia `ArgumentOutOfRangeException` in `QuantumSpriteLibrary.drawProjectiles()`, uno status lancia a ogni frame. Un frame solo va benissimo, deve solo stare nella sua cartella: `drops/hello_ember/hello_ember_0.png` :wbfacepalm:.
+> [!WARNING] "Una cartella" non è una scelta di stile
+> Ogni asset segnato come **cartella** qui sopra viene letto con `getSpriteList()`, che restituisce i frame *dentro* una cartella. Puntalo a un singolo PNG e torna vuoto: un drop cade invisibile, un proiettile lancia `ArgumentOutOfRangeException` in `QuantumSpriteLibrary.drawProjectiles()`, uno stato va in errore a ogni frame. Un solo frame va benissimo, deve solo stare in una cartella tutta sua: `drops/hello_ember/hello_ember_0.png` :wbfacepalm:.
 
-Tre particolarità da tenere bene a mente:
+Tre di questi mordono:
 
-- **Stati e proiettili antepongono una cartella.** Scrivere `texture = "effects/status/myThing"` farà cercare il file in `effects/effects/status/myThing`, che non esiste. Gli stati vanilla usano nomi semplici: `fx_status_burning_t`.
-- **Le tile ignorano completamente questi campi.** La grafica di una tile viene cercata in base al suo **ID** in una cartella dedicata, poiché una tile ha diverse varianti. `hello_moss` richiede la cartella `GameResources/tiles/hello_moss/` con i PNG al suo interno.
-- **Gli edifici non incollano, ma hanno un ripiego.** `sprite_path` viene usato esattamente com'è: `"buildings/hello_shrine"` significa `GameResources/buildings/hello_shrine/`. Se lo lasci vuoto il gioco usa `main_path` + id, quindi una cartella scritta in `main_path` diventa `buildings/hello_shrine/hello_shrine` :PESgn_Bruh:.
+- **Stato e proiettile aggiungono una cartella davanti.** Scrivere `texture = "effects/status/myThing"` su uno stato fa cercare al gioco `effects/effects/status/myThing`, che non esiste. Gli stati vanilla usano un nome semplice: `fx_status_burning_t`.
+- **Le caselle ignorano del tutto i campi.** La grafica di una casella si trova tramite il suo **id**, in una cartella sua, perché una casella ha più varianti. `hello_moss` vuol dire `GameResources/tiles/hello_moss/` con dentro i tuoi PNG.
+- **Gli edifici non incollano nulla, ma hanno un piano B.** `sprite_path` viene usato così com'è: `"buildings/hello_shrine"` vuol dire `GameResources/buildings/hello_shrine/`. Lascialo vuoto e il gioco usa `main_path` + id, quindi una cartella scritta in `main_path` diventa `buildings/hello_shrine/hello_shrine` :PESgn_Bruh:.
 
 > [!TIP] Copia il percorso da un asset vanilla
-> Scegli l'elemento vanilla più simile, leggi il suo campo su **[UnityExplorer](#/toolbox/unity-explorer)** o con la **[Ricerca icone](#/tools/icons)** e imitane la struttura. È il modo più rapido e sicuro per non sbagliare :PESgn_Noice:.
+> Prendi la cosa vanilla più simile, leggi il suo campo in **[UnityExplorer](#/toolbox/unity-explorer)** o con la **[Ricerca percorsi sprite](#/tools/icons)**, e riproduci la forma esatta. È più veloce che ragionarci, ed è giusto al primo colpo :PESgn_Noice:.
 
 ## Leggere un file direttamente dal disco
 
@@ -123,26 +123,42 @@ MusicBox.playSound("event:/SFX/WEAPONS/WeaponFireballStart", pTile);   // at a p
 MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on the interface
 ```
 
-Il primo viene riprodotto a partire da quella casella del mondo. HelloBox riproduce il suono della palla di fuoco quando la sua azione di combattimento lancia un tizzone, vedi **[Proiettili, incantesimi ed effetti](#/nml/projectiles-spells)**. Per trovare i percorsi, cerca `event:/SFX/` nel codice del gioco: ce ne sono a centinaia, suddivisi in cartelle tematiche.
-
-> [!NOTE] Aggiungere nuovi suoni è un progetto separato
-> Gli eventi FMOD risiedono nei sound bank del gioco e una mod non può aggiungerne di nuovi direttamente. Riprodurre i propri file `.wav` richiede di caricarli manualmente in un `AudioSource` di Unity, al di fuori dei cursori del volume di gioco. Questa guida non lo tratta, perché non l'ho mai moddato e non ho intenzione di fingere il contrario.
-
+Il primo viene riprodotto a partire da quella casella del mondo. HelloBox riproduce il suono della palla di fuoco quando la sua azione di combattimento lancia un tizzone, vedi **[Proiettili, incantesimi ed effetti](#/nml/projectiles-spells)**. Per trovare i percorsi, cerca `event:/SFX/` nel codice del gioco: ce ne sono a centinaia, suddivisi in cartelle tematiche. Abbassa il volume prima di iniziare a provarli.
 
 ### Aggiungere i propri suoni
 
-A differenza di quanto si pensava in passato, NeoModLoader supporta file sonori nativi `.wav` tramite il suo componente `CustomAudioManager` :PESgn_Noice:.
+NML in realtà patcha FMOD dietro le quinte, quindi i tuoi file `.wav` funzionano senza che tu debba costruire un secondo motore audio in garage :PESgn_Noice:.
 
-Metti i tuoi file audio in una cartella `Audio/`, `Audios/` o `GameResources/` dentro la tua mod:
+Metti il tuo file `.wav` direttamente in `GameResources/`, ad esempio:
 
 ```text
-MyMod/
-└── Audio/
-    ├── custom_explosion.wav
-    └── custom_explosion.json   <- parametri opzionali
+GameResources/sounds/hello_boom.wav
 ```
 
-NML intercetta `MusicBox.playSound` e riproduce direttamente i tuoi file .
+NML intercetta `MusicBox.playSound` e `playDrawingSound`, quindi lo riproduci con esattamente lo stesso metodo di un suono vanilla (senza l'estensione del file):
+
+```csharp
+MusicBox.playSound("sounds/hello_boom", pTile);
+```
+
+Accanto al file, un `hello_boom.json` opzionale ti permette di configurarne il comportamento:
+
+```json GameResources/sounds/hello_boom.json
+{
+  "Volume": 60,
+  "Mode": "Stereo3D",
+  "Type": "Sound"
+}
+```
+
+| Campo | Valori |
+| --- | --- |
+| `Mode` | `Basic` (2D piatto, il volume resta costante), `Stereo3D` (attenuazione vanilla con la distanza), `Mono3D` (direzionale) |
+| `Type` | `Sound` (cursore effetti), `Music` (cursore musica), `UI` (cursore interfaccia) |
+| `Volume` | Volume predefinito da 0 a 100 |
+| `LoopCount` | Numero di ripetizioni (0 = una volta) |
+
+La parte migliore: siccome NML li collega ai gruppi di canali del gioco, i tuoi suoni rispettano davvero le impostazioni del volume del giocatore invece di assordarlo a mezzanotte.
 
 ## Non passare mai uno sprite nullo al gioco
 

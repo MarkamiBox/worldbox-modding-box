@@ -50,7 +50,7 @@ Adicione `HelloLaws.Initialize();` ao `Main.cs` e o interruptor estará no jogo.
 
 ## Lendo o interruptor no seu código
 
-Este é o propósito principal. Em qualquer lugar do seu mod:
+Este é o propósito principal. Um interruptor que ninguém lê é decoração. Em qualquer lugar do seu mod:
 
 ```csharp
 WorldLawAsset law = AssetManager.world_laws_library.get(HelloLaws.CHAOS);
@@ -101,15 +101,15 @@ new WorldLawAsset
 
 ## O texto
 
-```json Locales/en.json
+```json Mods/HelloBox/Locales/en.json
 {
   "world_law_hello_chaos_title": "Hello Chaos",
   "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one."
 }
 ```
 
-> [!WARNING] Leis do mundo usam _title, não o id puro
-> Quase todos os outros assets usam seu id simples como chave de nome. Leis do mundo exigem `<id>_title`. Se errar isso, o interruptor aparecerá sem texto algum :PESgn_Really:.
+> [!WARNING] Leis do mundo usam `_title`, não o id puro
+> Quase todos os outros assets usam o id puro como chave do nome. As leis do mundo pedem `<id>_title`. Erre isso e o interruptor aparece sem nenhum rótulo :PESgn_Really:.
 
-> [!TIP] Uma lei supera uma configuração
-> Configurações de mod ficam em um menu que o jogador abre uma única vez. Uma lei do mundo está ali mesmo no jogo, ao lado das vanilla, por mundo, e pode ser alternada no meio da partida. Se seu mod tem um comportamento de ligar/desligar, o lugar dele é aqui :wbblessed:.
+> [!TIP] Uma lei ganha de uma configuração
+> As configurações do mod ficam num menu que o jogador abre uma vez. Uma lei do mundo está ali no jogo, junto das vanilla, por mundo, e pode ser trocada no meio da partida. Se o seu mod tem um comportamento de liga/desliga, o lugar dele é aqui :wbblessed:.

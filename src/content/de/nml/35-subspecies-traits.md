@@ -62,7 +62,7 @@ namespace HelloBox
 
 ## Mutation
 
-Auf diesem Weg gelangt eine Unterarten-Eigenschaft in eine Welt, ohne dass du sie manuell verteilen musst. Die Bibliothek verwaltet zwei Töpfe, und diese beiden Felder bestimmen, welchen Töpfen deine Eigenschaft beitritt:
+Auf diesem Weg gelangt eine Unterarten-Eigenschaft in eine Welt, ohne dass du sie manuell verteilen musst, und das ist der spaßige Weg. Die Bibliothek verwaltet zwei Töpfe, und diese beiden Felder bestimmen, welchen Töpfen deine Eigenschaft beitritt:
 
 | Feld | Funktion |
 | --- | --- |
@@ -72,6 +72,16 @@ Auf diesem Weg gelangt eine Unterarten-Eigenschaft in eine Welt, ohne dass du si
 | `rarity` | Wie hoch die Wahrscheinlichkeit bei der Auswahl ist |
 
 Der `mutation`-Statuswert einer Einheit entscheidet über die Chance auf solche Ereignisse. Siehe **[Stats-Referenz](#/nml/stats)**.
+
+> [!WARNING] Der Topf wird nur einmal gelesen, beim Start
+> `spawn_random_trait_allowed = true` zu setzen reicht allein nicht. `BaseTraitLibrary.linkAssets()` baut den eigentlichen Topf, `_pot_allowed_to_be_given_randomly`, während das Spiel lädt, bevor deine Mod existiert. Ein Merkmal, das danach registriert wird, ist nie darin, und keine Mutation würfelt es je. Leg es selbst hinein, gewichtet wie in Vanilla:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.subspecies_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` ist `protected`, also kompiliert das gegen die publizierte Assembly, mit der NML deine Mod ohnehin baut. `spawn_random_rate` ist standardmäßig `5`: Erhöhe es, und das Merkmal taucht öfter auf.
 
 ## Grafik: Was kein anderes Eigenschaftssystem bietet
 
@@ -107,7 +117,7 @@ trait.texture_asset.shadow = trait.shadow;
 | `remove_for_zombies` | Den Skin entfernen, sobald die Einheit zum Zombie wird |
 | `priority` | Welcher Skin Vorrang hat, wenn eine Einheit zwei besitzt |
 
-Vanilla-Hautmutationen (Burger, Lebender Fels, Tentakelhorror, Lichtkugel, Fraktal) sind Klone von `$skin_mutation$`, und das Klonen dieser Vorlage ist mit Abstand der kürzeste Weg zu einer funktionierenden Mutation.
+Vanilla-Hautmutationen (Burger, Lebender Fels, Tentakelhorror, Lichtkugel, Fraktal) sind Klone von `$skin_mutation$`, und das Klonen dieser Vorlage ist mit Abstand der kürzeste Weg zu einer funktionierenden Mutation. Ja, Burger ist eine echte Mutation. Maxims Wege sind unergründlich :wbpray:.
 
 ## Phänotypen, Ernährung und Eier
 
@@ -122,34 +132,54 @@ Drei kleinere Systeme, an die Unterarten-Eigenschaften anknüpfen:
 
 ## Gene
 
-Ein Gen ist die Art und Weise, wie eine Unterarten-Eigenschaft zu einer anderen Eigenschaft mutiert. Das Spiel durchläuft bei der Fortpflanzung `AssetManager.genes`, um zu entscheiden, was weitergegeben wird:
+Die oben erwähnten männlichen und weiblichen Werteblöcke kommen aus dem **Genom** der Unterart: Chromosomen mit Plätzen und einem Gen in jedem. Ein Gen ist ein `BaseTrait`, also registriert es sich wie jedes andere Merkmal auf dieser Seite, mit zwei zusätzlichen Pflichten. Biologie-Hausaufgaben, im Grunde.
 
 ```csharp Mods/HelloBox/Code/HelloGenes.cs
 namespace HelloBox
 {
     public static class HelloGenes
     {
+        public const string EMBER_BLOOD = "hello_ember_blood";
+
         public static void Initialize()
         {
+            if (AssetManager.gene_library.has(EMBER_BLOOD)) return;
+
             GeneAsset gene = new GeneAsset
             {
-                id = "hello_swift_gene",
-                id_trait = HelloSubspecies.SWIFT,
-                rate = 0.05f
+                id = EMBER_BLOOD,
+                path_icon = "ui/Icons/iconHelloGene",
+                needs_to_be_explored = false
             };
-            AssetManager.genes.add(gene);
-            AssetManager.genes._gene_assets_mutations.Add(gene);
+
+            AssetManager.gene_library.add(gene);
+            gene.base_stats["damage"] = 2f;
+
+            // Each world rolls every gene's DNA letters from its life seed when it loads.
+            // A world may already be open, so roll yours now the same way.
+            if (World.world != null && World.world.map_stats != null)
+            {
+                gene.generateDNA(World.world.map_stats.life_dna + gene.getIndexID());
+            }
+
+            // linkAssets() filled the mutation pool at startup. Without this, only the
+            // player's gene editor can ever place it.
+            AssetManager.gene_library._gene_assets_mutations.Add(gene);
         }
     }
 }
 ```
 
-Zwei Felder:
+- **Die DNA-Buchstaben.** Jedes Gen zeigt einen kurzen `ACGT`-Code, der pro Welt aus ihrem Lebens-Seed gewürfelt wird, wenn die Welt lädt. Dein Gen war bei diesem Wurf nicht dabei, also würfelt es seinen eigenen auf dieselbe Weise.
+- **Der Mutationspool.** Mutationen wählen aus `_gene_assets_mutations`, einer privaten Liste, die `linkAssets()` beim Start füllt. Eine **publizierte** Assembly lässt dich etwas hinzufügen, und NML kompiliert gegen eine. Lass es weg, und das Gen erscheint nur dort, wo der Spieler es von Hand einsetzt.
 
-- `gene.id_trait` verknüpft es mit der von dir registrierten Unterarten-Eigenschaft.
-- `gene.rate` ist die Mutationschance, 0.0 bis 1.0.
+Der Textschlüssel eines Gens ist `gene_<id>`. Gene haben keine Beschreibungszeile: `GeneLibrary.add()` schaltet sie ab.
 
-Ohne den Aufruf von `_gene_assets_mutations.Add(gene)` wird das Gen zwar registriert, gelangt aber nie in den Mutationswurf.
+```json Mods/HelloBox/Locales/en.json
+{
+  "gene_hello_ember_blood": "Ember Blood"
+}
+```
 
 ## Meta-Tags
 
@@ -184,7 +214,7 @@ ActorAsset asset = AssetManager.actor_library.get("hello_sprite");
 if (asset != null) asset.addSubspeciesTrait(HelloSubspecies.SCALES);
 ```
 
-Damit startet jede neu entstehende Unterart dieser Kreatur mit der Eigenschaft. Lässt man das weg und verlässt sich stattdessen auf `in_mutation_pot_add`, taucht sie irgendwann irgendwo von selbst auf – was meist die wesentlich spannendere Variante ist.
+Damit startet jede neue Unterart dieser Kreatur mit dem Merkmal. Lässt du das weg und verlässt dich stattdessen auf `in_mutation_pot_add`, erscheint es von selbst, irgendwo, irgendwann, und das ist meistens die interessantere Version.
 
-> [!TIP] Zauber fühlen sich hier zu Hause
-> Die magischen Blutlinien von Vanilla sind Unterarten-Eigenschaften, die einen Zauber gewähren und sonst gar nichts: `trait.addSpell("summon_lightning")`. Eine einzige Zeile, an Kinder weitervererbt, und schon hast du eine sichtbare Abstammungslinie von Blitzrufern über einen ganzen Kontinent :PES5_CrazyPog:.
+> [!TIP] Zauber sind hier gut aufgehoben
+> Die magischen Blutlinien in Vanilla sind Unterart-Merkmale, die einen Zauber gewähren und sonst nichts: `trait.addSpell("summon_lightning")`, dann `trait.linkSpells()`, weil die Bibliothek Zauber-IDs beim Start aufgelöst hat. Zwei Zeilen, von Kindern geerbt, und es entsteht eine sichtbare Abstammungslinie von Sturmrufern über einen ganzen Kontinent :PES5_CrazyPog:.

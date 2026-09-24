@@ -71,7 +71,7 @@ namespace HelloBox
 10골드와 도시를 보유하고 여유가 있는 지도자는 이제 불씨 축제를 기획할 수 있습니다. 축제가 끝나면 **[왕국 및 세력](#/nml/kingdoms)** 페이지의 행복도 이벤트를 통해 도시 내 모든 유닛의 행복도가 상승하고, 주동자의 머리 위로 불씨가 떨어집니다(HelloBox다운 연출입니다).
 
 > [!WARNING] `check_is_possible`은 필수입니다
-> `PlotAsset.checkIsPossible()`은 지도자가 음모를 고려할 때마다 null 확인 없이 이를 호출합니다. 이 설정을 생략하면 지도자가 음모를 검토하는 순간 `NullReferenceException`이 발생합니다. 특별한 조건이 없다면 단순히 `true`를 반환하세요.
+> `PlotAsset.checkIsPossible()`은 지도자가 음모를 고려할 때마다 null 확인 없이 이를 호출합니다. 이 설정을 생략하면 지도자가 음모를 검토하는 순간 `NullReferenceException`이 발생합니다. 특별한 조건이 없다면 단순히 `true`를 반환하세요. 네, 그럴 때도요.
 
 > [!WARNING] 기본 목록은 게임 시작 시 구성됩니다
 > 지도자들은 오직 `plots_library.basic_plots`(및 소속 종교의 의식) 목록에서만 음모를 선택합니다. `linkAssets()`는 모드가 로드되기 전 게임 시작 시점에 `is_basic_plot`이 true인 음모들을 이 목록에 채워 넣습니다. 플래그를 설정하는 것만으로는 부족하므로 모드 코드에서 목록에 직접 추가해 주어야 합니다.
@@ -111,7 +111,7 @@ namespace HelloBox
 
 ## 텍스트 설정
 
-음모에는 세 가지 로컬라이제이션 키가 필요합니다: 음모 이름, 진행 중인 상황을 설명하는 문구, 기본 설명문입니다. 두 번째 문구에서는 `$initiator_actor$`, `$initiator_city$`, `$initiator_kingdom$`, `$target_kingdom$` 변수가 자동으로 치환됩니다.
+플롯에는 세 개의 키가 있습니다: 이름, 진행 중인 플롯을 설명하는 줄, 그리고 전체 설명입니다. 두 번째 줄에서는 `$initiator_actor$`, `$initiator_city$`, `$initiator_kingdom$`, `$target_kingdom$`이 자동으로 채워집니다.
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -121,5 +121,5 @@ namespace HelloBox
 }
 ```
 
-> [!TIP] 강제 실행으로 테스트하기
-> 지도자가 자발적으로 음모를 선택할 때까지 기다리는 것은 시간이 걸립니다. 유닛을 선택하고 정보 창의 음모 목록에서 직접 강제 실행하세요. 유닛이 허용된 직책 중 하나를 가지고 있어야 하지만, 강제 실행된 음모는 비용이 들지 않습니다. 작성한 `action`을 빠르게 테스트하는 가장 좋은 방법입니다 :PES2_EvilPlan:.
+> [!TIP] 강제로 시작해서 테스트하세요
+> 지도자가 스스로 여러분의 플롯을 고르기를 기다리면 시간이 걸립니다. 유닛을 선택하고 그 창의 플롯 목록에서 직접 플롯을 시작하세요: 유닛에게는 여전히 허용된 역할 중 하나가 필요하고, 버튼이 켜질지는 `check_can_be_forced`(선택 사항)가 정하지만, 강제로 시작한 플롯은 비용이 들지 않습니다. 여러분의 `action`이 실행되는 걸 보는 가장 빠른 방법입니다 :PES2_EvilPlan:.

@@ -27,7 +27,7 @@ foreach (Building building in World.world.buildings)
 }
 ```
 
-`World.world.kingdoms` funktioniert genauso, siehe **[Königreiche & Fraktionen](#/nml/kingdoms)**. Führe `isRekt()` auf jedem Element aus, ausnahmslos: Diese Listen enthalten Objekte, die genau in diesem Moment sterben.
+`World.world.kingdoms` funktioniert genauso, siehe **[Königreiche & Fraktionen](#/nml/kingdoms)**. Führe `isRekt()` auf jedem Element aus, ausnahmslos: Diese Listen enthalten Objekte, die genau in diesem Moment sterben :PES2_F:.
 
 ## Eine Stadt an ein anderes Königreich übergeben
 

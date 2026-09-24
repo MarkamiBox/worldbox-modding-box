@@ -8,7 +8,7 @@ order: 102
 
 # Grupos de traços e abas :wbfamilies:
 
-Todo traço pertence a um **grupo**, e o grupo é o que desenha uma aba no livro de traços. Se você criar seis traços e jogar todos em `miscellaneous`, eles somem numa lista que ninguém rola.
+Todo traço pertence a um **grupo**, e o grupo é o que desenha uma aba no livro de traços. Se você criar seis traços e jogar todos em `miscellaneous`, eles somem numa lista que ninguém rola :PES4_Invisible:.
 
 Ter sua própria aba custa apenas quatro linhas.
 
@@ -110,7 +110,7 @@ Modificar um grupo vanilla no local mantém funcionando cada traço vanilla que 
 
 ## As outras seis bibliotecas de grupos
 
-Os traços de ator são apenas um de sete sistemas de traços, e cada um tem sua própria biblioteca de grupos contendo sua própria classe de grupo. O código desta página é idêntico para todos eles, mudando apenas dois nomes:
+Os traços de ator são apenas um de sete sistemas de traços, e cada um tem sua própria biblioteca de grupos contendo sua própria classe de grupo. O código desta página é idêntico para todos eles, mudando apenas dois nomes. Aprenda uma vez, copie seis vezes:
 
 | Sistema de traços | Biblioteca de grupos | Classe de grupo | Página |
 | --- | --- | --- | --- |

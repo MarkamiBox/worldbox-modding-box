@@ -42,14 +42,16 @@ Senza questo interruttore il gioco non cerca nemmeno le mod. Nessun errore, ness
 
 ### Passo 2. Scarica NML
 
-1. Apri questo link: **[github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest)**. Punta sempre all'NML più recente, puoi salvarlo nei preferiti.
+1. Apri questo link: **[github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest)**. Punta sempre all'NML più recente, quindi puoi salvarlo nei preferiti.
 2. Scorri fino alla sezione **Assets**. Se è chiusa, cliccala per aprirla.
 3. Clicca **NeoModLoader.dll**. Si scarica come qualsiasi altro file, di solito nella cartella **Download**.
 
-Ti serve solo quel file. La pagina elenca anche file che finiscono in `.pdb`, `.xml` e "Source code": ignorali.
+Ti serve solo quel file. La pagina elenca anche `nml-setup-win.exe` e file che finiscono in `.pdb`, `.xml` e "Source code": ignorali tutti. Servono agli sviluppatori di NML, non a te.
 
 > [!WARNING] Solo da quel link
-> Un `.dll` è un programma. Scarica NML **solo** dalla pagina GitHub qui sopra, mai da un sito a caso o da un file che qualcuno ti ha mandato in chat. Se il browser ti chiede "mantenere questo file?", te lo chiede perché è un `.dll`, e da quella pagina la risposta è mantieni.
+> Una `.dll` è un programma. Scarica NML **solo** dalla pagina GitHub qui sopra, mai da CurseForge, da un altro sito o da un file che qualcuno ti ha mandato in chat. Una vecchia copia presa altrove si cancella da sola al primo avvio del gioco, lasciando solo una cartella `NML` e `NeoModLoader.AutoUpdate_memload.dll` - se succede, torna qui e scarica il file vero. Nemmeno il pulsante "installazione in 1 clic" di GameBanana installa NML; scarica la `.dll` a mano.
+>
+> Se il browser chiede "mantenere questo file?", o Chrome lo segna come **Non confermato**, è perché una `.dll` è un programma e non molte persone scaricano proprio questa. Da quella pagina GitHub la risposta è mantienilo (in Chrome: apri l'elenco dei download, poi **Mantieni comunque**).
 
 ### Passo 3. Apri la cartella di WorldBox
 
@@ -65,7 +67,7 @@ Si apre una finestra con i file del gioco. Sei nel posto giusto se vedi un file 
 C:\Program Files (x86)\Steam\steamapps\common\worldbox\
 ```
 
-Tieni aperta questa finestra. Da qui in avanti, "la cartella di WorldBox" è questa.
+Tieni aperta questa finestra. Da qui in avanti, "la cartella di WorldBox" è questa. Ci tornerai più spesso di quanto pensi.
 
 > [!TIP] Fai vedere a Windows le estensioni dei file
 > Di base Windows nasconde la fine dei nomi dei file, quindi `NeoModLoader.dll` appare solo come `NeoModLoader`. Così ogni guida diventa più difficile da seguire. Nella finestra della cartella clicca **Visualizza** in alto, poi spunta **Estensioni nomi file** (su Windows 11: **Visualizza → Mostra → Estensioni nomi file**). Non si rompe niente, vedi solo i nomi completi.
@@ -117,7 +119,7 @@ Se non è successo niente di tutto questo, vai a **[Non ha funzionato](#non-ha-f
 
 ## Mac
 
-Gli stessi cinque passi. Cambia solo dove è nascosta la cartella, perché su Mac l'intero gioco è impacchettato in un'unica icona.
+Gli stessi cinque passi. Cambia solo dove è nascosta la cartella, perché su Mac l'intero gioco è impacchettato in un'unica icona. Cose da Apple :wbbre:.
 
 1. **Experimental Mode**: esattamente come su Windows, **[Passo 1](#passo-1-attiva-experimental-mode)**. L'avviso sugli aggiornamenti vale anche per te.
 2. **Scarica** `NeoModLoader.dll` dalla [stessa pagina delle release](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest). È lo stesso file per Windows e Mac.
@@ -137,7 +139,7 @@ worldbox/
 
 ## Linux & Steam Deck
 
-La logica è identica. Steam su Linux installa il gioco nella cartella utente, e su Steam Deck basta passare prima alla modalità Desktop.
+La logica è identica. Steam su Linux installa il gioco nella cartella utente, e su Steam Deck basta passare prima alla modalità Desktop. Pinguini benvenuti :wbpenguin:.
 
 1. **Experimental Mode**: esattamente come su Windows, **[Passo 1](#passo-1-attiva-experimental-mode)**.
 2. **Scarica** `NeoModLoader.dll` dalla [pagina ufficiale delle release](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest). È lo stesso file per tutte le piattaforme.
@@ -164,14 +166,13 @@ worldbox/
 
 ## Installare una mod
 
-Adesso la parte facile, quella che farai più e più volte.
+Ora la parte facile, e quella che farai ancora e ancora.
 
-1. Scarica la mod. Prima leggi la descrizione: alcune mod hanno bisogno di qualcosa in più, e di solito l'autore lo dice.
-2. Su Windows: clic destro → **Estrai tutto**. Su Mac: doppio clic. Su Linux / Steam Deck: clic destro → **Estrai qui** (o usa Ark).
-3. Trascina la cartella che ottieni in **`worldbox\Mods/`**, quella accanto a `worldbox.exe`.
-4. Avvia il gioco.
+1. Scarica la mod. Leggi prima la descrizione: alcune mod hanno bisogno di qualcosa in più, e di solito l'autore lo dice.
+2. Metti lo `.zip` direttamente in **`worldbox\Mods/`**, quella accanto a `worldbox.exe`. Non estrarlo: NML scompatta i suoi zip da solo al prossimo avvio del gioco.
+3. Avvia il gioco.
 
-Una cartella di mod ha sempre un file chiamato `mod.json` da qualche parte dentro. È così che NML la riconosce. Se lo zip ti ha dato una cartella dentro una cartella va bene lo stesso, NML guarda dentro.
+L'hai già estratto per abitudine? Funziona lo stesso, purché la cartella che contiene `mod.json` finisca direttamente dentro `Mods/`. Una cartella di mod ha sempre da qualche parte un file chiamato `mod.json`, ed è così che NML la riconosce. L'errore da evitare è una cartella dentro una cartella dentro `Mods/`, oppure i file della mod sparsi in `Mods/` senza nessuna cartella intorno.
 
 ```text
 worldbox/
@@ -184,11 +185,11 @@ worldbox/
 ```
 
 > [!TIP] Provalo con HelloBox
-> Non sei sicuro che funzioni? La mod che questa guida costruisce è un test già pronto. Scaricala da **[La mod completa](#/nml/all-together)**, estraila in `Mods`, avvia il gioco. Se compare una nuova scheda dei poteri piena di bottoni scemi, è tutto installato bene :wbpeak:.
+> Non sei sicuro che funzioni? La mod che costruisce questa guida è un test già pronto. Scaricala da **[La mod completa](#/nml/all-together)**, estraila in `Mods`, avvia il gioco. Se compare una nuova scheda dei poteri piena di pulsanti sciocchi, è tutto installato bene :wbpeak:.
 
-**Per togliere una mod**, chiudi il gioco e cancella la sua cartella da `Mods`. **Per spegnerla senza cancellarla**, usa la lista delle mod di NML in gioco.
+**Per rimuovere una mod**, chiudi il gioco e cancella la sua cartella da `Mods`. **Per disattivarla senza cancellarla**, usa la lista delle mod di NML nel gioco.
 
-**Le mod dello Workshop** funzionano anche loro: iscriviti sullo Steam Workshop e NML le trova da solo, senza copiare niente.
+**Le mod del Workshop** funzionano anche loro: iscriviti sullo Steam Workshop e NML le prende da solo, senza copiare nulla.
 
 ---
 

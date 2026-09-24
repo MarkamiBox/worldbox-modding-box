@@ -10,7 +10,7 @@ order: 112
 
 Eine **Sprache** gehört Städten und Königreichen, verändert sich mit ihrer Ausbreitung und bildet das Medium, in dem **Bücher** geschrieben werden. Eine Sprach-Eigenschaft ist ein Wesensmerkmal des geschriebenen und gesprochenen Wortes selbst.
 
-Es ist das kleinste der sieben Eigenschaftssysteme und besitzt den spezifischsten Hook überhaupt: Code, der ausgeführt wird, sobald jemand ein **Buch** in dieser Sprache liest.
+Es ist das kleinste der sieben Eigenschaftssysteme und besitzt den spezifischsten Hook überhaupt: Code, der ausgeführt wird, sobald jemand ein **Buch** in dieser Sprache liest. Ja, wirklich :wbscroll:.
 
 | | |
 | --- | --- |
@@ -85,7 +85,7 @@ Zwei Dinge, die du von Vanilla übernehmen solltest:
 
 ## Deine eigene Art von Buch
 
-Das Spiel definiert Buchformate in `AssetManager.book_types`:
+Der Buch-Hook oben ändert, was ein Buch tut. Ein **Buchtyp** ist eine neue Art von Buch: wie es heißt, wer es schreibt und was das Lesen bringt.
 
 ```csharp Mods/HelloBox/Code/HelloBooks.cs
 namespace HelloBox
@@ -98,18 +98,27 @@ namespace HelloBox
         {
             if (AssetManager.book_types.has(ALMANAC)) return;
 
-            BookTypeAsset book = new BookTypeAsset
+            BookTypeAsset almanac = new BookTypeAsset
             {
                 id = ALMANAC,
-                name = "book_type_" + ALMANAC,
-                description = "book_type_info_" + ALMANAC,
-                rarity = 5
+                name_template = "book_name_fable",   // a vanilla name template
+                color_text = "#D14219",
+                writing_rate = 2,                    // weight against the other book types
+                path_icons = "fable/",               // borrow the fables' covers: books/book_icons/fable/
+                requirement_check = (Actor pActor, BookTypeAsset pAsset) => pActor.hasTrait(HelloTraits.SWIFT)
             };
-            AssetManager.book_types.add(book);
+
+            AssetManager.book_types.add(almanac);
+
+            // what a reader gets out of it
+            almanac.base_stats["experience"] = 5f;
+            almanac.base_stats["happiness"] = 5f;
         }
     }
 }
 ```
+
+Der Schreiber wählt einen Typ unter denen, deren `requirement_check` besteht, gewichtet nach `writing_rate` (oder deinem `rate_calc`, gedeckelt bei 10), jedes Mal aus der ganzen Liste: `add()` reicht. `path_icons` ist ein Ordner unter `books/book_icons/`, der als Liste von Einbänden gelesen wird, also kostet es nichts, einen aus Vanilla zu borgen.
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -177,7 +186,7 @@ Ein `Language`-Objekt legt außerdem `cities`, `kingdoms` und `books` offen – 
 
 ## Neue Sprachen, die selbstständig Traits auswürfeln
 
-Abgesehen von der manuellen Vergabe kann ein Sprach-Trait `spawn_random_trait_allowed` setzen, um bei der Entstehung einer neuen Sprache ausgewürfelt zu werden – genau so, wie eine Kultur ihre Start-Traits wählt.
+Abgesehen von der manuellen Vergabe kann ein Sprach-Trait `spawn_random_trait_allowed` setzen, um bei der Entstehung einer neuen Sprache ausgewürfelt zu werden – genau so, wie eine Kultur ihre Start-Traits wählt. Dieselbe Falle wie auf jeder anderen Merkmalsseite:
 
 > [!WARNING] `spawn_random_trait_allowed` wird nur einmal beim Start gelesen
 > Neue Sprachen ziehen ihre Start-Traits aus einem Pool, den `BaseTraitLibrary.linkAssets()` während des Ladens aufbaut, bevor deine Mod existiert. Das Flag an deinem Trait zu setzen ändert für sich genommen nichts: Dein Trait landet nie in diesem Pool und wird einer neuen Sprache nie zufällig verliehen. Füge ihn selbst hinzu, gewichtet nach Vanilla-Vorbild:

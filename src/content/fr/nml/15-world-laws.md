@@ -50,7 +50,7 @@ Ajoutez `HelloLaws.Initialize();` dans `Main.cs` et l'interrupteur est dans le j
 
 ## Lire l'interrupteur dans votre code
 
-C'est tout l'intérêt. N'importe où dans votre mod :
+C'est tout l'intérêt. Un interrupteur que personne ne lit, c'est de la décoration. N'importe où dans votre mod :
 
 ```csharp
 WorldLawAsset law = AssetManager.world_laws_library.get(HelloLaws.CHAOS);
@@ -101,15 +101,15 @@ new WorldLawAsset
 
 ## Le texte
 
-```json Locales/en.json
+```json Mods/HelloBox/Locales/en.json
 {
   "world_law_hello_chaos_title": "Hello Chaos",
   "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one."
 }
 ```
 
-> [!WARNING] Les lois du monde utilisent _title, pas l'id brut
-> Presque tous les autres assets utilisent leur simple identifiant comme clé de nom. Les lois du monde exigent `<id>_title`. Trompez-vous et l'interrupteur apparaîtra sans aucun libellé :PESgn_Really:.
+> [!WARNING] Les lois du monde utilisent `_title`, pas l'id seul
+> Presque tous les autres assets utilisent leur id seul comme clé du nom. Les lois du monde demandent `<id>_title`. Trompez-vous et l'interrupteur apparaît sans aucune étiquette :PESgn_Really:.
 
-> [!TIP] Une loi vaut mieux qu'un paramètre
-> Les paramètres de mod résident dans un menu que le joueur ouvre une fois. Une loi du monde est là, directement dans le jeu, à côté de celles de base, par monde, et peut être modifiée en pleine partie. Si votre mod propose un comportement commutable, c'est ici qu'il a sa place :wbblessed:.
+> [!TIP] Une loi vaut mieux qu'un réglage
+> Les réglages du mod vivent dans un menu que le joueur ouvre une fois. Une loi du monde est là, dans le jeu, à côté des lois vanilla, par monde, et elle se bascule en pleine partie. Si votre mod a un comportement activable, c'est ici qu'il doit être :wbblessed:.

@@ -55,6 +55,8 @@ Starte das Spiel. Wenn es geklappt hat, siehst du unten in den Leisten einen neu
 
 ## 4. Ein Texteditor
 
+Alles, was reinen Text speichert, funktioniert. Grob sortiert nach "nice to have":
+
 | | |
 | --- | --- |
 | **Notepad** | Bereits auf deinem PC vorinstalliert. Für deine erste Mod völlig ausreichend |
@@ -77,6 +79,7 @@ Du brauchst diese Tools **nicht**, um eine Mod zu schreiben. Komm erst hierher z
 - **[UnityExplorer](#/toolbox/unity-explorer)**: Klicke beliebige Objekte im Spiel an und sieh dir an, woraus sie bestehen.
 - **[dnSpy oder ILSpy](#/toolbox/reading-the-game-code)**: Öffnet den Originalcode des Spiels, damit du nachlesen kannst, wie die Entwickler bestimmte Dinge gelöst haben.
 - **[AssetRipper](#/toolbox/getting-the-sprites)**: Extrahiert Sprites und Sounds aus dem Spiel, damit du dich an den originalen Stil anpassen kannst.
+- **[Modding mit BepInEx](#/toolbox/bepinex-modding)**: vorkompilierte `.dll`-Plugins bauen, wenn du Low-Level-Hooks in die Unity-Engine willst statt NML-Inhalten.
 
 > [!WARNING] NCMS ist veraltet :sadcat:
 > NCMS wird nicht mehr gepflegt. Jeder Guide hier zielt auf NML ab. Technisch gesehen kannst du immer noch eine Mod für NCMS schreiben, aber das macht heutzutage niemand mehr :PES2_Shrug:.

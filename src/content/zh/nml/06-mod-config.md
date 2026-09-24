@@ -48,11 +48,13 @@ NML 会自动帮你绘制整个窗口，你只需要写一个 JSON 文件。
 | 键 | 含义 |
 | --- | --- |
 | `Id` | 在分组内必须唯一。在代码中凭此 ID 读取配置值 |
-| `Type` | `SWITCH`（开关）、`SLIDER`（浮点数滑块）、`INT_SLIDER`（整数滑块）、`TEXT`（文本框） |
+| `Type` | `SWITCH`（开关）、`SLIDER`（浮点数滑块）、`INT_SLIDER`（整数滑块）、`TEXT`（文本框）、`SELECT`（选项网格） |
 | `BoolVal` / `FloatVal` / `IntVal` / `TextVal` | 与类型匹配的默认初始值 |
-| `MinFloatVal` / `MaxFloatVal`, `MinIntVal` / `MaxIntVal` | 滑块范围边界 |
+| `MinFloatVal` / `MaxFloatVal`, `MinIntVal` / `MaxIntVal` | 滑块范围边界。对于 `SELECT`，`MaxIntVal` 是选项数量，`IntVal` 是所选的索引 |
 | `IconPath` | 该行显示的自选图标路径 |
 | `Callback` | 改变值时调用的可选回调：`Namespace.Type:MethodName` |
+
+对于 `SELECT`，NML 会为每个选项排布一个按钮。按钮文字直接来自你的本地化文本，键名为 `<id>_0`、`<id>_1`，依此类推。
 
 ## 读取配置值
 
@@ -74,7 +76,7 @@ private void LoadSettings()
 }
 ```
 
-是的，给每一行都包上 `try/catch` 看起来像是被迫害妄想症。其实不然：当玩家从老版本升级你的模组时，他们本地保存的配置文件里根本没有你刚加进去的新键，而缺失任何一个键都会导致整个模组加载崩溃。
+NML 在启动时会调用 `persistent_config.MergeWith(default_config)`，所以当你在 `default_config.json` 里添加新键时，NML 会自动把它连同默认值合并进玩家已保存的配置中。万一有人用文本编辑器打开 `.config` 把 JSON 改坏了，`try/catch` 依然是好习惯，但对于正常的更新，NML 会替你兜底。
 
 ## Callbacks
 
@@ -98,7 +100,7 @@ namespace HelloBox
 ```
 
 > [!WARNING] 更改只有在窗口关闭时才会生效
-> 拖动滑块的过程中是不会触发更新的。如果你的回调里做的是耗时操作，这绝对是个好消息；但如果你期望即时预览，这就是为什么它“看起来坏了”的原因 :huh:。
+> 拖动滑块的过程中是不会触发更新的。如果你的回调里做的是耗时操作，这绝对是个好消息；但如果你期望即时预览，这就是为什么它“看起来坏了”的原因 :huh:。`BasicMod` 还会在启动时把每个回调各触发一次，让你的代码读取玩家已保存的设置。
 
 ## 配置保存位置
 
@@ -111,8 +113,6 @@ namespace HelloBox
 当你测试默认值却纳闷为什么新数值死活不生效时，这也是你该第一时间去删掉的文件 :PESgn_OOF:。
 
 ## Don't forget the text (again)
-
-分组 ID 和配置项 ID 同时也是本地化语言键，记得加到 `Locales/` 里面，否则游戏里会直接显示裸代码键名：
 
 组 id 和条目 id 也是本地化键，放进 `Locales/en.json`，否则会原样显示。每一行还想要第二个键 **`"<id> Description"`**（带空格、大写 D），用作提示文字：
 
@@ -146,4 +146,4 @@ public ModConfig GetConfig()
 }
 ```
 
-就这一个方法，便能让模组列表里你的模组旁边冒出齿轮设置按钮。
+就这一个方法，便能让模组列表里你的模组旁边冒出齿轮设置按钮。一个方法，从此再也没人在 Discord 上跟你吵了。理论上是这样。

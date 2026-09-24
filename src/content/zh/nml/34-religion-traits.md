@@ -55,9 +55,19 @@ namespace HelloBox
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` 只在启动时读取一次
+> 新宗教的初始特质是从一个随机池里抽的，这个池子由 `BaseTraitLibrary.linkAssets()` 在游戏加载时、你的模组还不存在时建好。光在你的特质上打开这个开关什么都不会改变：你的特质根本不在那个池子里，也永远不会随机出现。按原版的权重方式自己把它放进去：
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.religion_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` 是 `protected` 的，所以它会针对 NML 本来就用来编译你模组的公开化程序集进行编译。`spawn_random_rate` 默认是 `5`：调高它，特质就会更常出现。
+
 ## 仪式：`plot_id` 字段
 
-带有 `plot_id` 的宗教特质会成为一项**仪式**。宗教将其仪式收集到 `possible_rites` 中，当阴谋的触发条件达成时，领袖与祭司们便会自发尝试举行该仪式。
+带有 `plot_id` 的宗教特质会成为一项**仪式**。宗教将其仪式收集到 `possible_rites` 中，当阴谋的触发条件达成时，领袖与祭司们便会自发尝试举行该仪式。你来写信仰，剩下的交给祭司 :wbpray:。
 
 ```csharp
 trait.plot_id = "summon_meteor_rain";

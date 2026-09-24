@@ -67,7 +67,7 @@ namespace HelloBox
 
 ## 儀式: `plot_id` フィールド
 
-`plot_id` を持つ宗教特性は**儀式**になります。宗教はその儀式を `possible_rites` に蓄積し、陰謀の実行条件が揃うと指導者や司祭が自律的にそれを試みます。
+`plot_id` を持つ宗教特性は**儀式**になります。宗教はその儀式を `possible_rites` に蓄積し、陰謀の実行条件が揃うと指導者や司祭が自律的にそれを試みます。あなたは信仰を書き、残りは司祭がやってくれます :wbpray:。
 
 ```csharp
 trait.plot_id = "summon_meteor_rain";

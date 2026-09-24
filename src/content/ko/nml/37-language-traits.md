@@ -10,7 +10,7 @@ order: 112
 
 **언어**는 도시와 왕국에 귀속되며 확산 과정에서 변천하고, 가장 결정적으로 **책**이 저술되는 매개체가 됩니다. 언어 특성은 문자 및 음성 언어 자체의 고유한 성질을 의미합니다.
 
-7가지 특성 시스템 중 규모가 가장 작으며, 누군가 그 언어로 쓰인 **책을 읽을 때** 발동하는 가장 독특한 훅을 제공합니다.
+7가지 특성 시스템 중 규모가 가장 작으며, 누군가 그 언어로 쓰인 **책을 읽을 때** 발동하는 가장 독특한 훅을 제공합니다. 네, 정말로요 :wbscroll:.
 
 | | |
 | --- | --- |
@@ -85,7 +85,7 @@ trait.read_book_trait_action = delegate(Actor pActor, LanguageTrait pTrait, Book
 
 ## 나만의 책 종류 만들기
 
-게임은 `AssetManager.book_types`에서 책 형식을 정의합니다:
+위의 책 훅은 책이 하는 일을 바꿉니다. **책 종류**는 새로운 종류의 책으로, 이름이 무엇인지, 누가 쓰는지, 읽으면 무엇을 주는지를 정합니다.
 
 ```csharp Mods/HelloBox/Code/HelloBooks.cs
 namespace HelloBox
@@ -98,18 +98,27 @@ namespace HelloBox
         {
             if (AssetManager.book_types.has(ALMANAC)) return;
 
-            BookTypeAsset book = new BookTypeAsset
+            BookTypeAsset almanac = new BookTypeAsset
             {
                 id = ALMANAC,
-                name = "book_type_" + ALMANAC,
-                description = "book_type_info_" + ALMANAC,
-                rarity = 5
+                name_template = "book_name_fable",   // a vanilla name template
+                color_text = "#D14219",
+                writing_rate = 2,                    // weight against the other book types
+                path_icons = "fable/",               // borrow the fables' covers: books/book_icons/fable/
+                requirement_check = (Actor pActor, BookTypeAsset pAsset) => pActor.hasTrait(HelloTraits.SWIFT)
             };
-            AssetManager.book_types.add(book);
+
+            AssetManager.book_types.add(almanac);
+
+            // what a reader gets out of it
+            almanac.base_stats["experience"] = 5f;
+            almanac.base_stats["happiness"] = 5f;
         }
     }
 }
 ```
+
+작가는 매번 전체 목록에서, `requirement_check`를 통과한 종류들 중 `writing_rate`(또는 여러분의 `rate_calc`, 최대 10)로 가중치를 두어 하나를 고릅니다: `add()`면 충분합니다. `path_icons`는 표지 목록으로 읽히는 `books/book_icons/` 아래의 폴더이므로, 바닐라 것을 빌려 쓰는 데 아무 비용도 들지 않습니다.
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -177,7 +186,7 @@ foreach (Language language in World.world.languages)
 
 ## 새로 생기는 언어가 특성을 스스로 뽑도록 하기
 
-직접 부여하는 방법 외에도, 언어 특성은 `spawn_random_trait_allowed`를 설정해 새 언어가 생겨날 때 뽑히도록 할 수 있습니다. 문화가 초기 특성을 뽑는 방식과 동일합니다.
+직접 부여하는 방법 외에도, 언어 특성은 `spawn_random_trait_allowed`를 설정해 새 언어가 생겨날 때 뽑히도록 할 수 있습니다. 문화가 초기 특성을 뽑는 방식과 동일합니다. 다른 모든 특성 페이지와 똑같은 함정입니다:
 
 > [!WARNING] `spawn_random_trait_allowed`는 게임 시작 시 딱 한 번만 읽힙니다
 > 새로 생기는 언어는 게임이 로드되는 동안 `BaseTraitLibrary.linkAssets()`가 만드는 풀에서 초기 특성을 뽑습니다. 이는 여러분의 모드가 존재하기도 전의 시점입니다. 특성에 이 플래그를 켜는 것만으로는 아무것도 바뀌지 않습니다. 여러분의 특성은 그 풀에 절대 들어가지 않으며, 새로 생긴 언어에게 우연히 부여되는 일도 없습니다. 바닐라와 같은 가중치로 직접 넣어주세요:

@@ -10,7 +10,7 @@ order: 124
 
 物品分组是装备窗口中的分类标签：头盔、长剑、护身符。它与绘制特质标签页所用的轻量级 `BaseCategoryAsset` 是完全相同的基类（参见 **[特质分组与标签页](#/nml/trait-groups)**），只不过存放在 `AssetManager.item_groups` 中。
 
-核心区别在于，物品分组必须挂载一个**物品池（Pool）**，而遗漏了这个物品池正是导致 Mod 崩溃的常见元凶。
+核心区别在于，物品分组必须挂载一个**物品池（Pool）**，而遗漏了这个物品池正是导致 Mod 崩溃的常见元凶 :PESgn_Yikes:。
 
 ## 原版分组
 
@@ -138,7 +138,7 @@ relic.equipment_subtype = "hello_relic";       // 文化特质所偏好的武器
 
 ## 分类标签的显示位置
 
-分组依照列表顺序绘制，而 `add()` 会将你的分组置于最后。你可以将其移至相关分类旁边：
+分组按 `list` 的顺序绘制，`add()` 会把你的放在最后。把它挪到相关分组旁边：
 
 ```csharp
 private static void PlaceAfter(string pId, string pAfterId)

@@ -82,7 +82,7 @@ HelloBox/
 ember.path_texture = "drops/hello_ember";   // a folder
 ```
 
-드롭은 **스프라이트 목록** 으로 불러옵니다. 게임은 그 폴더 *안의* PNG 를 모두 읽고, 그래서 `animated` 가 동작합니다. 움직이지 않는 드롭도 프레임 하나가 든 폴더입니다. 폴더 없는 `drops/hello_ember.png` 는 빈 목록이 되고, 드롭은 안 보이게 떨어집니다.
+드롭은 **스프라이트 목록** 으로 불러옵니다. 게임은 그 폴더 *안의* PNG 를 모두 읽고, 그래서 `animated` 가 동작합니다. 움직이지 않는 드롭도 프레임 하나가 든 폴더입니다. 폴더 없는 `drops/hello_ember.png` 는 빈 목록이 되고, 드롭은 안 보이게 떨어집니다 :wbwiltedrose:.
 
 ## 드롭 떨어뜨리기
 
@@ -96,7 +96,7 @@ World.world.drop_manager.spawn(tile, "hello_ember", 15f, -1f, -1L);
 World.world.drop_manager.spawnParabolicDrop(tile, "hello_ember", 0f, 0.1f, 5f, 0.5f, 4f, 0.15f);
 ```
 
-90%의 상황에서는 `spawn` 이 정답입니다. `15f` 는 떨어지는 높이로, 숫자가 클수록 착지하는 데 더 오래 걸립니다.
+90%의 상황에서는 `spawn` 이 정답입니다. `15f` 는 떨어지는 높이로, 숫자가 클수록 착지하는 데 더 오래 걸립니다. 떨어지는 동안 더 극적으로 보이기도 합니다.
 
 ## 실전 예제: 신의 권능으로 불씨 비 내리기
 

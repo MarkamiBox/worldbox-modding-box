@@ -12,7 +12,7 @@ order: 1
 
 ## Come è organizzata la guida
 
-- **Panoramica**: Questa introduzione, cosa serve per iniziare, risoluzione problemi, strumenti esterni (BepInEx, UnityExplorer, dnSpy, AssetRipper), crediti e feedback.
+- **Panoramica**: Questa introduzione, cosa serve per iniziare, risoluzione problemi, strumenti esterni (BepInEx, UnityExplorer, dnSpy, AssetRipper), modding con BepInEx, crediti e feedback.
 - **NML Modding**: Tutto ciò che riguarda il mod loader e la pipeline di sviluppo - a partire da **[Installare NML](#/install-nml)** (inizia da qui se vuoi solo *giocare* con le mod):
   - **Flusso di sviluppo base**: Struttura di una mod, la tua prima mod, log & debug, localizzazione e sprite personalizzati.
   - **Avanzate & Pubblicazione**: Menu impostazioni in-game, patch Harmony, salvataggio dati nei salvataggi e pubblicazione su Steam Workshop.
@@ -25,3 +25,5 @@ order: 1
   - **Poteri Divini & UI**: Poteri divini & pennelli, pulsanti potere e finestre personalizzate con schede & tooltip.
   - **Rifiniture finali**: Obiettivi di gioco e assemblaggio di tutto in una mod completa.
 - **Strumenti di modding**: Utility interattive integrate direttamente in questa guida (Harmony Patch Builder, Esploratore campi asset, Ricerca metodi e Cercatore icone Discord).
+
+Leggila dall'inizio alla fine la prima volta. Dopo, salta da una pagina all'altra come fanno tutti :PES2_Shrug:.

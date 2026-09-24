@@ -46,7 +46,7 @@ order: 1
 2. **Assets** 항목까지 내려갑니다. 접혀 있으면 눌러서 펼칩니다.
 3. **NeoModLoader.dll** 을 누릅니다. 다른 파일처럼 받아지고, 보통 **다운로드** 폴더에 저장됩니다.
 
-필요한 건 이 파일 하나뿐입니다. `nml-setup-win.exe`, `.pdb`, `.xml`, "Source code" 파일도 보이지만 전부 무시하세요.
+필요한 건 이 파일 하나뿐입니다. `nml-setup-win.exe`, `.pdb`, `.xml`, "Source code" 파일도 보이지만 전부 무시하세요. 그건 NML 개발자용이지, 여러분을 위한 게 아닙니다.
 
 > [!WARNING] 이 링크에서만
 > `.dll` 은 프로그램입니다. NML은 위의 GitHub 페이지 **에서만** 받으세요. CurseForge나 다른 사이트, 누가 채팅으로 보낸 파일은 절대 쓰지 마세요. 다른 곳의 오래된 사본은 게임을 처음 켤 때 스스로 삭제되면서 `NML` 폴더와 `NeoModLoader.AutoUpdate_memload.dll` 만 남깁니다. 그런 일이 생기면 여기로 돌아와 진짜 파일을 다시 받으세요. GameBanana의 "1-click install" 버튼도 NML을 설치해 주지 않습니다. `.dll` 은 직접 받으세요.
@@ -67,40 +67,40 @@ Steam이 게임을 설치한 폴더입니다. 직접 찾을 필요는 없습니�
 C:\Program Files (x86)\Steam\steamapps\common\worldbox\
 ```
 
-이 창은 열어 두세요. 이제부터 "WorldBox 폴더"라고 하면 여기입니다.
+이 창은 열어 두세요. 이제부터 "WorldBox 폴더"라고 하면 여기입니다. 생각보다 훨씬 자주 이 폴더로 돌아오게 될 겁니다.
 
 > [!TIP] Windows가 확장자를 보여 주게 하기
 > Windows는 기본적으로 파일 이름의 끝부분을 숨겨서, `NeoModLoader.dll` 이 그냥 `NeoModLoader` 로 보입니다. 그러면 어떤 안내서든 따라가기 어려워집니다. 폴더 창 위쪽의 **보기** 를 누르고 **파일 확장명** 에 체크하세요(Windows 11: **보기 → 표시 → 파일 확장명**). 망가지는 건 없고, 이름이 전부 보이게 될 뿐입니다.
 
 ### 4단계. NML을 제자리에 넣기
 
-1. WorldBox 폴더에서 **worldbox_Data** 를 더블클릭합니다.
-2. **StreamingAssets** 를 더블클릭합니다.
-3. **Mods** 를 더블클릭합니다.
-4. 이제 두 번째 창으로 **다운로드** 폴더를 열고, **NeoModLoader.dll** 을 이 `Mods` 창으로 끌어다 놓습니다.
+1. WorldBox 폴더에서 **worldbox_Data**를 더블클릭하세요.
+2. **StreamingAssets**를 더블클릭하세요.
+3. **Mods**를 더블클릭하세요.
+4. 이제 두 번째 창에서 **다운로드** 폴더를 열고, **NeoModLoader.dll**을 이 `Mods` 창으로 끌어다 놓으세요.
 
-이렇게 되어야 합니다:
+최종적으로 여기에 있어야 합니다:
 
 ```text
 worldbox/
 └── worldbox_Data/
     └── StreamingAssets/
         └── Mods/
-            ├── test_asset_load/     게임 것, 건드리지 않기
-            └── NeoModLoader.dll     <- 방금 넣은 것
+            ├── test_asset_load/     the game's own, leave it
+            └── NeoModLoader.dll     <- the one you just added
 ```
 
-거기에 `test_asset_load` 가 안 보이면 폴더를 잘못 찾아온 겁니다. WorldBox 폴더로 돌아가서 다시 해 보세요.
+안에 `test_asset_load`가 보이지 않는다면 폴더를 잘못 찾은 겁니다. WorldBox 폴더로 돌아가서 다시 해 보세요.
 
-**여기 온 김에:** 이름에 **NCMS** 가 들어간 것(예: `NCMS_memload.dll` 이나 `NCMS` 폴더)이 있으면 지우세요. NCMS는 옛날 모드 로더이고 이미 죽었습니다. 옛 NCMS 모드는 NML이 그대로 돌릴 수 있습니다 :PES2_Shrug:.
+**이 폴더에 있는 김에:** 이름에 **NCMS**가 들어간 것이 있다면(예: `NCMS_memload.dll` 또는 `NCMS`라는 폴더) 삭제하세요. NCMS는 예전 모드 로더로 이미 끝났고, NML은 옛 NCMS 모드도 실행할 수 있습니다 :PES2_Shrug:.
 
 > [!WARNING] `NeoModLoader (1).dll`은 `NeoModLoader.dll`이 아닙니다
-> NML을 두 번 받았거나 오래된 사본이 이미 그 폴더에 있었다면, Windows는 새 파일을 `NeoModLoader (1).dll`이라는 이름으로 저장합니다. 그러면 NML은 시작을 거부하고, 화면이 빨간 글씨로 뒤덮이며 "게임을 재시작하라"는 메시지가 뜨고, 로그에는 `Missing className: NeoModLoader (1).WorldBoxMod`가 남습니다. 게임을 닫고, 오래된 파일을 지우고, 새 파일 이름을 정확히 `NeoModLoader.dll`(공백도 숫자도 없이)로 바꾼 뒤 다시 시작하세요. 이것이 "NML이 작동하지 않는" 가장 흔한 원인입니다 :PESgn_SMH:.
+> NML을 두 번 받았거나, 예전 복사본이 이미 그 폴더에 있었나요? Windows는 덮어쓰지 않고 새 파일에 `NeoModLoader (1).dll`이라는 이름을 붙이고, NML은 시작을 거부합니다: 게임을 재시작하라는 빨간 글자가 화면을 뒤덮고, 로그에는 `Missing className: NeoModLoader (1).WorldBoxMod`라고 나옵니다. 게임을 닫고, 예전 파일을 지우고, 새 파일 이름을 정확히 `NeoModLoader.dll`로 바꾼 뒤(공백도 숫자도 없이) 다시 시작하세요. 이 글자 하나가 NML이 "안 되는" 가장 흔한 이유입니다 :PESgn_SMH:.
 >
-> Windows가 "사용 중"이라며 오래된 파일을 지우지 못한다면 게임이 아직 실행 중이라는 뜻입니다. 먼저 게임을 닫으세요.
+> Windows가 "사용 중"이라며 예전 파일 삭제를 거부한다면 게임이 아직 실행 중이라는 뜻입니다. 먼저 닫으세요.
 
-> [!WARNING] Mods라는 폴더가 두 개 있다
-> 여기, `worldbox_Data\StreamingAssets/` 안에 있는 것은 **NML 자체만을 위한** 폴더입니다. **모드** 를 넣는 곳은 다른 폴더로, `worldbox.exe` 옆에 있습니다. 아직 없고, 다음 단계에서 NML이 만듭니다. 모드를 여기에, 혹은 NML을 저기에 넣는 게 이 페이지에서 가장 흔한 실수입니다.
+> [!WARNING] Mods라는 폴더가 두 개 있습니다
+> 이곳, `worldbox_Data\StreamingAssets\Mods/` 안은 **NML 자체**(정확히는 `NeoModLoader.dll`)만을 위한 곳입니다. **모드**를 넣는 곳은 별도의 폴더로, 게임 루트의 `worldbox.exe` 바로 옆(`worldbox\Mods/`)에 있습니다. 아직은 없지만, 게임을 처음 시작할 때 NML이 자동으로 만듭니다. 모드를 `StreamingAssets\Mods/`에 넣거나 NML을 `worldbox\Mods/`에 넣는 것이 이 페이지에서 가장 흔한 실수입니다.
 
 ### 5단계. 게임을 켜고 확인하기
 
@@ -119,7 +119,7 @@ Steam에서 WorldBox를 켜고, 처음에는 평소보다 조금 더 기다려 �
 
 ## Mac
 
-같은 다섯 단계입니다. Mac에서는 게임 전체가 앱 아이콘 하나에 들어 있어서, 폴더가 숨은 위치만 다릅니다.
+같은 다섯 단계입니다. Mac에서는 게임 전체가 앱 아이콘 하나에 들어 있어서, 폴더가 숨은 위치만 다릅니다. 애플다운 방식이죠 :wbbre:.
 
 1. **Experimental Mode**: Windows와 똑같이, **[1단계](#1단계-experimental-mode-켜기)**. 업데이트 관련 경고도 똑같이 해당됩니다.
 2. [같은 릴리스 페이지](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest) 에서 `NeoModLoader.dll` 을 **받습니다**. Windows와 Mac 모두 같은 파일입니다.
@@ -139,7 +139,7 @@ worldbox/
 
 ## Linux 및 Steam Deck
 
-원리는 완전히 동일합니다. Linux의 Steam은 사용자 홈 디렉터리에 게임을 설치하며, Steam Deck에서는 먼저 데스크톱 모드로 전환하기만 하면 됩니다.
+원리는 완전히 동일합니다. Linux의 Steam은 사용자 홈 디렉터리에 게임을 설치하며, Steam Deck에서는 먼저 데스크톱 모드로 전환하기만 하면 됩니다. 펭귄도 환영합니다 :wbpenguin:.
 
 1. **실험 모드(Experimental Mode) 활성화**: Windows와 동일하게 켭니다 (**[1단계](#1단계-experimental-mode-켜기)**).
 2. [공식 릴리즈 페이지](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest)에서 `NeoModLoader.dll`을 **다운로드**합니다(모든 플랫폼 동일 파일).
@@ -197,18 +197,18 @@ worldbox/
 
 순서대로 확인하세요. 대부분은 첫 번째에서 해결됩니다.
 
-| 보이는 것 | 할 일 |
+| 보이는 현상 | 할 일 |
 | --- | --- |
-| NML 버튼이 없고, `worldbox.exe` 옆에 `Mods` 폴더도 없다 | Experimental Mode가 꺼져 있습니다. 켜고 다시 시작하세요. 게임 업데이트 후에도 매번 |
-| 그래도 아무것도 없고, Experimental Mode는 켜져 있다 | `NeoModLoader.dll` 이 엉뚱한 폴더에 있습니다. `worldbox_Data\StreamingAssets\Mods/` 의 `test_asset_load` 옆에 있어야 합니다 |
-| 파일 이름이 `NeoModLoader.dll.dll` 이나 `NeoModLoader (1).dll` 이다 | 정확히 `NeoModLoader.dll` 로 이름을 바꾸세요 |
-| NML은 있는데 모드가 안 보인다 | 모드가 엉뚱한 `Mods` 에 있습니다. `worldbox.exe` 옆의 폴더에, `.zip` 그대로 또는 안에 `mod.json` 이 있는 폴더로 넣어야 합니다 |
-| 화면이 빨간 글씨로 뒤덮이며 "YOU SHOULD RESTART THE GAME"이 뜬다 | NML이 `NeoModLoader (1).dll` 같은 이름으로 되어 있습니다. **[4단계](#4단계-nml을-제자리에-넣기)** 참고 |
-| NML이 모드가 "has been disabled due to an error" 라고 한다 | 모드가 망가졌거나 게임 버전에 비해 너무 오래됐습니다. 그 모드의 업데이트를 찾아보거나 제작자에게 물어보세요 |
-| 메인 메뉴 구석의 버전 표시가 계속 그대로다 | 게임이 Steam 베타 브랜치에 있습니다. **[문제 해결](#/troubleshooting)** 참고 |
-| WorldBox 업데이트 직후 전부 망가졌다 | Experimental Mode를 다시 켜세요. 그다음 모드가 업데이트되길 기다리세요. 게임 업데이트로 옛 모드가 며칠 동안 망가지는 건 흔한 일입니다 |
+| NML 버튼이 없고, `worldbox.exe` 옆에 `Mods` 폴더도 없음 | 실험 모드가 꺼져 있습니다. 켜고 재시작하세요. 게임을 업데이트할 때마다 다시 해야 합니다 |
+| 여전히 아무것도 없고, 실험 모드는 켜져 있음 | `NeoModLoader.dll`이 잘못된 폴더에 있습니다. `test_asset_load` 옆, `worldbox_Data\StreamingAssets\Mods/`에 있어야 합니다 |
+| 파일 이름이 `NeoModLoader.dll.dll` 또는 `NeoModLoader (1).dll` | 이름을 정확히 `NeoModLoader.dll`로 바꾸세요 |
+| NML은 있는데 모드가 안 보임 | 모드가 잘못된 `Mods`에 있습니다. `worldbox.exe` 옆에 있는 쪽에, 자체 `.zip`으로 또는 안에 `mod.json`이 있는 폴더로 넣어야 합니다 |
+| 빨간 글자가 화면을 뒤덮고 `YOU SHOULD RESTART THE GAME`이라고 나옴 | NML 이름이 `NeoModLoader (1).dll` 같은 식으로 되어 있습니다. **[4단계](#4단계-nml을-제자리에-넣기)** 참고 |
+| NML이 어떤 모드에 대해 "has been disabled due to an error"라고 함 | 그 모드가 망가졌거나 여러분의 게임 버전에 비해 너무 오래됐습니다. 그 모드의 업데이트를 찾아보거나 제작자에게 물어보세요 |
+| 메인 메뉴 구석의 버전이 절대 바뀌지 않음 | 게임이 Steam 베타 브랜치에 있습니다. **[문제 해결](#/troubleshooting)** 참고 |
+| WorldBox 업데이트 직후 모든 게 망가짐 | 실험 모드를 다시 켜세요. 그다음 모드들이 업데이트되기를 기다리세요: 게임 업데이트는 오래된 모드를 며칠 동안 망가뜨리는 경우가 많습니다 |
 
-그래도 안 되나요? **[문제 해결](#/troubleshooting)** 에 긴 목록이 있고, **[로그 및 디버깅](#/nml/logs-and-debugging)** 에 게임이 무엇이 잘못됐는지 적어 두는 곳이 나옵니다. 도움을 청할 때는 쓰는 모드, 망가지기 직전에 한 일, 에러 문구를 같이 알려 주세요. "안 돼요"만으로는 아무도 못 고칩니다. 저도요 :PESgn_ReadRules:.
+아직도 안 되나요? **[문제 해결](#/troubleshooting)**에 긴 목록이 있고, **[로그 및 디버깅](#/nml/logs-and-debugging)**에서 게임이 무엇이 잘못됐는지 적어 두는 곳을 알 수 있습니다. 도움을 요청할 때는 어떤 모드를 쓰는지, 망가지기 직전에 무엇을 했는지, 그리고 오류 문구를 함께 알려 주세요. "안 돼요"는 누구도 고칠 수 없습니다, 저도요 :PESgn_ReadRules:.
 
 ---
 

@@ -12,9 +12,9 @@ Você registrou um poder divino. Ninguém pode clicar nele, porque um `GodPower`
 
 ## Crie sua própria aba
 
-Você *pode* anexar um botão a uma das abas vanilla. Não faça isso. Elas já estão lotadas, o jogo organiza os elementos por nome e a barra rola horizontalmente, de modo que seu botão vai parar em um canto que o jogador nunca rolará para ver :PESgn_ToughLuck:.
+Você *pode* colocar um botão numa das abas vanilla. Não faça isso. Elas já estão cheias, o jogo organiza os filhos por nome e a barra rola, então seu botão acaba num lugar até onde o jogador nunca vai rolar :PESgn_ToughLuck:.
 
-Uma única aba só sua, e tudo o que você adicionar fica reunido e fácil de encontrar:
+Uma aba só sua, e tudo o que você adicionar fica junto e fácil de achar:
 
 ```csharp Mods/HelloBox/Code/HelloPowers.cs
 using NeoModLoader.api;
@@ -337,8 +337,14 @@ namespace HelloBox
 }
 ```
 
+Esse é o arquivo inteiro: nove poderes divinos, a aba, dez botões e o ajudante de ícones. Cada botão é um recurso que este guia ensinou. As seções abaixo o desmontam.
+
+`recalc()` é o que ajusta o tamanho da aba aos seus botões, e `sortButtons()` é o que os coloca em ordem. Os dois precisam esperar, e o jogo não vai te dizer o porquê de um jeito gentil:
+
 > [!WARNING] Não organize a aba durante `OnModLoad`
 > `PowersTab` lê o próprio pai no `Start()` do Unity, que ainda não rodou no objeto que `CreateTab` acabou de te dar. Chame `recalc()` ali e a etapa inteira morre com `NullReferenceException` em `PowersTab.setNewWidth()`, seu poder nunca é registrado e a aba nunca aparece :wbfacepalm:.
+>
+> Crie a aba e os botões no carregamento, e organize-os a partir de `Update()` no primeiro frame em que `PowerTabController.instance` existir. É para isso que serve o `LayoutWhenReady` acima, e o `Main.Update()` o chama:
 >
 > ```csharp
 > public void Update()
@@ -348,8 +354,8 @@ namespace HelloBox
 > }
 > ```
 
-
-`tab.recalc()` é o que organiza os botões. Se esquecer dessa linha, sua aba parecerá vazia mesmo que os botões estejam lá.
+> [!TIP] Pulando a dança do Update() com IStagedLoad
+> Se ficar consultando dentro do `Update()` parece desajeitado, implemente `IStagedLoad` na classe do seu mod. O método `Init()` dele dispara no frame 2 depois da construção do mod, bem quando o jogo base e os controladores de interface já estão totalmente acordados.
 
 ## Dois tipos de botão
 
@@ -376,19 +382,26 @@ Os botões são organizados na ordem em que são criados. Portanto, ler `Buttons
 
 ## Agrupando botões com PowersTabExtension
 
-O NeoModLoader traz `PowersTabExtension` em `NeoModLoader.General.UI.Tab` para organizar os botões em grupos:
+Jogar dez botões numa única fileira funciona, mas quando o mod cresce vira uma gaveta de bagunça. O NeoModLoader traz `PowersTabExtension` em `NeoModLoader.General.UI.Tab` para você organizar os botões em grupos separados, como as abas divinas vanilla:
 
 ```csharp
 using NeoModLoader.General.UI.Tab;
+
+// 1. Define the groups your tab will contain
 tab.SetLayout(new List<string> { "spells", "creatures" });
+
+// 2. Assign each button to a group
+PowerButton strikeBtn = PowerButtonCreator.CreateGodPowerButton(STRIKE, Icon("iconHelloStrike"), tab.transform);
 tab.AddPowerButton("spells", strikeBtn);
+
+PowerButton spawnBtn = PowerButtonCreator.CreateGodPowerButton(SPAWN_POWER, Icon("iconHelloSpawn"), tab.transform);
+tab.AddPowerButton("creatures", spawnBtn);
+
+// 3. Recalculate the positions
 tab.UpdateLayout();
 ```
 
-SetLayout() trava a definição de grupos e organiza os botões :PES5_Hmmmm:.
-
-
-
+`SetLayout()` trava a definição dos grupos assim que é chamado. Adicione seus botões aos grupos declarados e termine com `tab.UpdateLayout()`. Se você tentar colocar um botão num grupo que esqueceu de registrar em `SetLayout()`, o NML registra um aviso no log e deixa o botão perdido fora do layout :PES5_Hmmmm:.
 
 ## Ícones, novamente
 

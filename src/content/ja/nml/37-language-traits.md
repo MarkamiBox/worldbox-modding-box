@@ -10,7 +10,7 @@ order: 112
 
 **言語**は都市や王国に属し、伝播とともに語形変化を起こし、そして最も重要な点として**書物**が執筆される母体となります。言語特性とは、話し言葉や書き言葉そのものに宿る性質です。
 
-7つある特性システムの中で最も規模が小さく、最も固有のフックを備えています。すなわち、誰かがその言語で書かれた**本を読んだ**際に実行されるコードです。
+7つある特性システムの中で最も規模が小さく、最も固有のフックを備えています。すなわち、誰かがその言語で書かれた**本を読んだ**際に実行されるコードです。ええ、本当に :wbscroll:。
 
 | | |
 | --- | --- |
@@ -85,7 +85,7 @@ trait.read_book_trait_action = delegate(Actor pActor, LanguageTrait pTrait, Book
 
 ## 独自の本の種類を作成する
 
-ゲーム内の書籍フォーマットは `AssetManager.book_types` で定義されています:
+上のブックフックは、本が何をするかを変えます。**本の種類**は新しい種類の本で、その名前、誰が書くか、読むと何が得られるかを決めます。
 
 ```csharp Mods/HelloBox/Code/HelloBooks.cs
 namespace HelloBox
@@ -98,18 +98,27 @@ namespace HelloBox
         {
             if (AssetManager.book_types.has(ALMANAC)) return;
 
-            BookTypeAsset book = new BookTypeAsset
+            BookTypeAsset almanac = new BookTypeAsset
             {
                 id = ALMANAC,
-                name = "book_type_" + ALMANAC,
-                description = "book_type_info_" + ALMANAC,
-                rarity = 5
+                name_template = "book_name_fable",   // a vanilla name template
+                color_text = "#D14219",
+                writing_rate = 2,                    // weight against the other book types
+                path_icons = "fable/",               // borrow the fables' covers: books/book_icons/fable/
+                requirement_check = (Actor pActor, BookTypeAsset pAsset) => pActor.hasTrait(HelloTraits.SWIFT)
             };
-            AssetManager.book_types.add(book);
+
+            AssetManager.book_types.add(almanac);
+
+            // what a reader gets out of it
+            almanac.base_stats["experience"] = 5f;
+            almanac.base_stats["happiness"] = 5f;
         }
     }
 }
 ```
+
+書き手は毎回リスト全体から、`requirement_check` を通る種類の中で、`writing_rate`（またはあなたの `rate_calc`、上限は10）で重み付けして種類を選びます：`add()` だけで十分です。`path_icons` は表紙のリストとして読まれる `books/book_icons/` 以下のフォルダーなので、バニラのものを借りても何のコストもかかりません。
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -177,7 +186,7 @@ foreach (Language language in World.world.languages)
 
 ## 新しい言語が自然に特性を引き当てる
 
-自分で付与する以外にも、言語特性は `spawn_random_trait_allowed` を設定することで、文化が初期特性を抽選するのと同じように、新しい言語が生まれる際に抽選対象にできます。
+自分で付与する以外にも、言語特性は `spawn_random_trait_allowed` を設定することで、文化が初期特性を抽選するのと同じように、新しい言語が生まれる際に抽選対象にできます。他の特性ページと同じ落とし穴です：
 
 > [!WARNING] `spawn_random_trait_allowed` はゲーム起動時に一度だけ読み込まれます
 > 新しい言語は、ゲームロード中に `BaseTraitLibrary.linkAssets()` が構築するプールから初期特性を抽選します。これはあなたのModが存在するより前のタイミングです。特性にこのフラグを立てるだけでは何も変わりません。あなたの特性はそのプールに一度も入らず、新しい言語に偶然付与されることもありません。バニラと同じ重み付けで、自分でプールに追加してください：

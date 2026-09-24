@@ -70,16 +70,26 @@ namespace HelloBox
 
 ### 필드 목록
 
-| 필드 | 역할 |
+`rate`와 `chance`가 가장 많이 만지게 될 두 가지입니다. 이유는 페이지 맨 아래 경고에서 설명합니다.
+
+| 필드 | 하는 일 |
 | --- | --- |
-| `rate` | 가중치: 다른 재앙에 비해 얼마나 자주 선택되는지 |
-| `chance` | 선택된 후 진행되는 2차 확률 판정 |
-| `min_world_population` / `min_world_cities` | 발생하기 위한 최소 조건 |
+| `rate` | 추첨에서의 가중치. 높을수록 다른 것들보다 자주 뽑힙니다 |
+| `chance` | 뽑힌 뒤의 두 번째 판정 |
+| `min_world_population` / `min_world_cities` | 애초에 일어날 수 있기 위한 조건 |
 | `type` | `DisasterType.Nature`, `Other`, … |
-| `world_log` | `WorldLogAsset`의 ID: 월드 로그에 표시되는 한 줄입니다. 텍스트 키가 **아닙니다** (아래 참조) |
-| `action` | 실행할 코드. 재앙 자체의 동작 |
-| `spawn_asset_unit` + `units_min`/`units_max` | "이 생명체 N마리 소환" 편의 기능 |
-| `max_existing_units` | 이미 이만큼 존재한다면 더 이상 소환하지 않음 |
+| `world_log` | `WorldLogAsset`의 ID: 월드 로그에 나오는 줄입니다. 로컬라이즈 키가 **아닙니다**, 아래 참고 |
+| `action` | 여러분의 코드. 이것이 재앙 그 자체입니다 |
+| `spawn_asset_unit` + `units_min`/`units_max` | "이 생명체를 N마리 소환" 지름길 |
+| `max_existing_units` | 이미 이만큼 있으면 더 소환하지 않음 |
+| `ages_allow` / `ages_forbid` | 특정 세계 시대로 제한합니다. 예: 재의 시대에만 |
+
+시대 제한은 에셋을 만든 뒤에 설정합니다:
+
+```csharp
+emberStorm.ages_allow.Add("age_ash");
+emberStorm.ages_allow.Add("age_chaos");
+```
 
 ## 코드 없이 생명체 소환하기
 
@@ -138,7 +148,7 @@ log.path_icon = "ui/Icons/iconHelloDisaster";            // the icon next to the
 }
 ```
 
-단순한 설명이 아니라 뉴스 속보 헤드라인처럼 작성하세요. 플레이어가 월드 로그에서 읽게 되는 문장입니다.
+단순한 설명이 아니라 뉴스 속보 헤드라인처럼 작성하세요. "하늘에서 불씨가 떨어진다"가 "불씨 관련 이벤트가 시작되었습니다"보다 낫습니다. 플레이어가 월드 로그에서 읽게 되는 문장입니다.
 
 > [!WARNING] 개발 중에는 수치를 대폭 올려서 테스트하세요
 > `rate = 4, chance = 0.5f`로 두면 내 재앙을 확인하기 위해 20분을 기다려야 할 수도 있습니다. 개발 중에는 `rate`를 크게 높이고 최소 인구 조건을 0으로 낮춰서 테스트한 뒤 배포 전에 원래대로 되돌리세요 :PES2_EvilPlan:.

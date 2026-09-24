@@ -23,7 +23,7 @@ The game already has a place for it. Every unit, city, kingdom, building, item a
 | `data.hasFlag(key)` / `data.removeFlag(key)` | Check or clear it |
 | `data.removeInt(key)`, `removeFloat`, `removeString`... | Delete a value |
 
-Each type has its own table, so an `int` and a `string` under the same key do not collide. They still should not share a key, for your own sake.
+Each type has its own table, so an `int` and a `string` under the same key do not collide. They still should not share a key, for your own sake. Future you will not remember which one was which.
 
 ## Storing complex objects with NML
 
@@ -110,7 +110,7 @@ namespace HelloBox
 }
 ```
 
-Save the world, load it again: the count is still there, because it is part of the unit's own save data. The flag is what makes the reward happen once instead of on every hit after the fiftieth.
+Save the world, load it again: the count is still there, because it is part of the unit's own save data. The flag is what makes the reward happen once instead of on every hit after the fiftieth. Generous, but still a bug.
 
 Its text, like any trait's:
 

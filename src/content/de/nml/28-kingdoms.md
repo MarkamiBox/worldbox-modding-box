@@ -72,7 +72,7 @@ asset.kingdom_id_wild = HelloKingdoms.WILD;
 asset.kingdom_id_civilization = HelloKingdoms.CIV;
 ```
 
-Ohne das spawnt deine Kreatur in dem Königreich, das ihr Klon-Spender genutzt hat - meist Menschen, was für reichlich Verwirrung sorgt.
+Ohne das spawnt deine Kreatur in dem Königreich, das ihr Klon-Spender genutzt hat - meist Menschen, was für reichlich Verwirrung sorgt :PES5_Hmmmm:.
 
 ## Die Felder
 
@@ -122,7 +122,7 @@ Zwei Königreiche vergleichen Tags, um ihre Grundeinstellung zueinander festzule
 
 ## Die restliche Fraktions-Verdrahtung
 
-Ein Königreich-Asset allein ist nur ein Bezeichner. Das sind die weiteren Bibliotheken, die ein vollständiges Volk berührt:
+Ein Königreich-Asset allein ist nur ein Bezeichner. Ein sehr offizieller Bezeichner, aber eben ein Bezeichner. Das sind die weiteren Bibliotheken, die ein vollständiges Volk berührt:
 
 | Was | Bibliothek | Verwendungszweck |
 | --- | --- | --- |
@@ -204,7 +204,7 @@ Der Postfix läuft nach jeder Werteaktualisierung, sodass der Tausch dauerhaft b
 
 ## Meinung, Loyalität und Zufriedenheit
 
-Drei kleine Bibliotheken bestimmen die politische Dynamik, und alle drei sind Listen kleiner Rechenfunktionen:
+Drei kleine Bibliotheken bestimmen die politische Dynamik, und alle drei sind Listen kleiner Rechenfunktionen. Keine Gefühle im Spiel, nur Zahlen:
 
 | Bibliothek | Aufgerufen für | Rückgabe |
 | --- | --- | --- |
@@ -302,7 +302,7 @@ namespace HelloBox
 }
 ```
 
-Pfade werden beim Zeichnen des Banners einzeln geladen, es muss also nichts aktualisiert werden. Ein Index jenseits des Listenendes fällt auf 0 zurück, weshalb ein mit deiner Mod erstellter Spielstand auch ohne sie geöffnet werden kann. Passe die Maße an die vanilla Vorlagen an: Lies eine in **[UnityExplorer](#/toolbox/unity-explorer)** ab, bevor du deine zeichnest.
+Pfade werden beim Zeichnen des Banners einzeln geladen, es muss also nichts aktualisiert werden. Ein Index jenseits des Listenendes fällt auf 0 zurück, weshalb ein mit deiner Mod erstellter Spielstand auch ohne sie geöffnet werden kann. Passe die Maße an die vanilla Vorlagen an: Lies eine in **[UnityExplorer](#/toolbox/unity-explorer)** ab, bevor du deine zeichnest. Rate die Größe und du bekommst eine Flagge, die größer ist als die Stadt, die sie hisst :wbfacepalm:.
 
 ```json Mods/HelloBox/Locales/en.json
 {

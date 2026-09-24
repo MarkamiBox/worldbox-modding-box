@@ -8,27 +8,26 @@ order: 144
 
 # カスタムAI & 行動ツリー :wbgoldenbrain:
 
-いよいよ深淵へ足を踏み入れます。これまでのガイドではゲームに「物やデータ」を追加してきました。ここでは **「意思決定」** を追加します。何千もの生命体がひしめくワールドの中で、クリーチャーが自律的に、永遠に、次に何を行うかを定義します。
+いよいよ深淵へ足を踏み入れます。これまでのガイドではゲームに「物やデータ」を追加してきました。ここでは **「意思決定」** を追加します。何千もの生命体がひしめくワールドの中で、クリーチャーが自律的に、永遠に、次に何を行うかを定義します。プレッシャーはかけません :PES_MonkaSweat:。
 
 ## ゲームの思考構造
 
-大から小へと連なる3つの階層構造になっています:
+大きいものから小さいものへ3つの層と、その横に並ぶもう1つ。理解するのに、認めたくないほど時間がかかりました：
 
-| 階層 | 概念 | 格納ライブラリ |
+| 層 | 何か | ライブラリ |
 | --- | --- | --- |
-| **ジョブ** (`ActorJob`) | その生物が果たす大まかな役割: 「市民として働く」「兵士として警備する」 | `AssetManager.job_actor` |
-| **タスク** (`BehaviourTaskActor`) | ジョブを構成する具体的な目標: 「食事をとる」「建物を建てる」 | `AssetManager.tasks_actor` |
-| **行動** (`BehaviourActionActor`) | タスクを構成する毎ティックの実行ステップ。次の一手を返す | タスクに逐次追加 |
+| **ジョブ** (`ActorJob`) | その生物が大まかに何をしているか：「市民でいる」「兵士でいる」 | `AssetManager.job_actor` |
+| **タスク** (`BehaviourTaskActor`) | ジョブの中の具体的な目標1つ：「食べに行く」「あれを建てる」 | `AssetManager.tasks_actor` |
+| **ビヘイビア** (`BehaviourActionActor`) | タスクの1ステップ。毎ティック実行され、次に何をするかを返します | タスクに追加する |
+| **意思決定** (`DecisionAsset`) | いつタスクを始めるか：生物が手が空くたびに天秤にかける選択肢 | `AssetManager.decisions_library` |
 
-ジョブがタスクを保持し、タスクが行動（Behaviour）を保持し、各行動が順番に実行されていずれかが停止を命じるまで続きます。
+ジョブはタスクを持ち、タスクはビヘイビアを持ち、ビヘイビアはどれかが止めると言うまで順番に実行されます。意思決定はジョブの横に並ぶもので、手の空いた生物が自分で次のタスクを選ぶ仕組みです。下の **[意思決定](#意思決定-生物自身に自作タスクを選ばせる)** を参照してください。
 
 ## 行動（Behaviour）を記述する
 
 行動とは、メソッドを1つだけ持つクラスです。アクターを受け取り、小さな処理を1つ実行して、結果として `BehResult` を返します:
 
-```csharp Mods/HelloBox/Code/HelloAI.cs
-using ai.behaviours;   // BehaviourTaskActor, BehaviourActionActor, BehResult, the vanilla behaviours
-
+```csharp
 namespace HelloBox
 {
     public class BehHelloDrive : BehaviourActionActor
@@ -37,55 +36,16 @@ namespace HelloBox
         {
             if (pActor == null || !pActor.isAlive()) return BehResult.Stop;
 
+            // decide something, write it onto the actor
             WorldTile target = HelloAI.PickTile(pActor);
             if (target == null) return BehResult.Stop;
 
             pActor.beh_tile_target = target;
-            return BehResult.Continue;
-        }
-    }
-
-    public static class HelloAI
-    {
-        public const string JOB = "hellobox_job";
-        public const string TASK = "hellobox_drive";
-
-        public static void Initialize()
-        {
-            BehaviourTaskActor drive = new BehaviourTaskActor
-            {
-                id = TASK,
-                ignore_fight_check = true,        // don't let the combat system hijack the task
-                locale_key = "task_unit_" + TASK
-            };
-
-            AssetManager.tasks_actor.add(drive);  // add first
-            drive.setIcon("ui/Icons/iconHelloDrive");    // then decorate
-            drive.addBeh(new BehHelloDrive());    // my decision
-            drive.addBeh(new BehGoToTileTarget()); // the game's own pathing does the walking
-
-            ActorJob job = new ActorJob { id = JOB };
-            job.addTask(TASK);
-            AssetManager.job_actor.add(job);
-        }
-
-        /** Where the creature should walk next. One random neighbour it can actually reach. */
-        public static WorldTile PickTile(Actor pActor)
-        {
-            WorldTile from = pActor.current_tile;
-            if (from == null) return null;
-
-            // the game's own helper: a random neighbour that is not across water
-            return from.getTileAroundThisOnSameIsland(from);
+            return BehResult.Continue;   // let the next behaviour in the task run
         }
     }
 }
 ```
-`PickTile` こそがこの練習の本体です。ゲームが代わりにやってくれない唯一の部分で、あのファイルの残りは全部配線です。
-
-> [!WARNING] `beh_tile_target` は internal
-> behaviourが書き込むフィールドはゲームのアセンブリで `internal` になっているので、これは **publicized** な `Assembly-CSharp.dll` を参照してコンパイルします（**[ステータス効果](#/nml/status-effects)** のメモを参照）。なければコンパイラがこの行を拒否するので、ターゲットは自分のフィールドに持っておいてください :PES5_Noted:。
-
 
 | 結果コード | 動作の意味 |
 | --- | --- |
@@ -154,7 +114,12 @@ namespace HelloBox
 }
 ```
 
-2つ目の行動に注目してください: **バニラのノードを再利用すること**。タイルへの歩行、ステータスの付与、建物の探索、ターゲットへの攻撃など、ゲームには既に膨大な行動ノードが存在します。判断ロジックだけを自作し、泥臭い実行処理は既存のものを借りる。これが1ヶ月の苦闘を1つの週末で終わらせるコツです。
+`PickTile` こそがこの練習の要点です。ゲームがまだやってくれない唯一の部分がこれで、ファイルの残りはすべて配線です。
+
+> [!WARNING] `beh_tile_target` は internal
+> ビヘイビアが書き込むフィールドはゲームのアセンブリで `internal` になっているため、これは **publicize済み** の `Assembly-CSharp.dll` に対してコンパイルされます（**[ステータス効果](#/nml/status-effects)** の注記を参照）。それがないとコンパイラーがその行を拒否するので、ターゲットは自分のフィールドに持っておく必要があります :PES5_Noted:。
+
+2番目のビヘイビアに注目してください：**バニラのノードを再利用しましょう**。ゲームには、タイルまで歩く、ステータスを付ける、建物を探す、ターゲットを攻撃する、といったビヘイビアがあります。判断は自分で書き、実行は借りる。それが週末で終わるか1か月かかるかの差です。
 
 ## クリーチャーに実際にジョブを実行させる
 
@@ -245,7 +210,7 @@ trait.decisions_assets = new DecisionAsset[] { AssetManager.decisions_library.ge
 
 ## 都市の職業
 
-市民は自身の頭脳ではなく都市から仕事を与えられます。都市は必要な作業量を計算し、職業スロット（建築工、農民、鉱夫など）を開設して市民を割り当てます。**市民の職業（Citizen Job）** はこのスロットの1つであり、雇用されたユニットは同じ ID の `ActorJob` を実行します。
+市民は自身の頭脳ではなく都市から仕事を与えられます。都市は必要な作業量を計算し、職業スロット（建築工、農民、鉱夫など）を開設して市民を割り当てます。**市民の職業（Citizen Job）** はこのスロットの1つであり、雇用されたユニットは同じ ID の `ActorJob` を実行します。両側で同じID。これが仕掛けのすべてです。
 
 ```csharp Mods/HelloBox/Code/HelloCityJobs.cs
 using ai.behaviours;   // CityBehCheckCitizenTasks
@@ -315,7 +280,7 @@ namespace HelloBox
 
 ## テキスト設定
 
-タスク名はユニット詳細ウィンドウの「現在の行動」として表示され、意思決定は開始するタスクの名前を借用します：
+タスク名はユニット詳細ウィンドウの「現在の行動」として表示されるので、プレイヤーはあなたが書くどの行よりもこれを読むことになります。そして意思決定は開始するタスクの名前を借用します：
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -325,7 +290,7 @@ namespace HelloBox
 
 ## フレームレートを崩壊させないための鉄則
 
-ワールドには数千体ものユニットが存在します。あなたの書いた行動は、その全ユニット上で毎ティック実行される可能性があります。
+ワールドには数千体ものユニットが存在します。あなたの書いた行動は、その全ユニット上で毎ティック実行される可能性があります。「パフォーマンス？聞いたことないな、食べられるの？」は、あなたのModがそれを食い尽くす側になるまでは良いジョークです。私のものも含め、ほとんどのModは毎ティック巨大なループを回し、それなりのPCならそれで済んでしまいます。ビヘイビアではそうはいきません。
 
 - **重い思考処理は `execute` 内ではなく自前のタイマーで行う。** コストの高いロジックは `Update()` 内のタイマーで定期的に動かして結果をキャッシュしておき、`execute` ではその答えを読み取るだけにします。
 - **負荷を分散させる。** 40体のクリーチャーを制御する場合、一度に全40体を計算するのではなく、4回に分けて毎フレーム10体ずつ処理します。

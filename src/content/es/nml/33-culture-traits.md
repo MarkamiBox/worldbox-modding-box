@@ -10,7 +10,7 @@ order: 106
 
 Una **cultura** representa los hábitos y costumbres compartidos por un grupo de ciudades. Decide qué construyen, qué forjan, cómo heredan, qué leen y qué valores aprecian. Un rasgo cultural es uno de esos hábitos.
 
-De los siete sistemas de rasgos, el cultural es el de mayor alcance. Una cultura se expande con las ciudades, sobrevive a su fundador y fusiona sus estadísticas en cada unidad que pertenezca a ella. Si buscas un mod cuyo impacto resuene por el mundo a lo largo de una hora de partida, esta es la biblioteca adecuada.
+De los siete sistemas de rasgos, el cultural es el de mayor alcance. Una cultura se expande con las ciudades, sobrevive a su fundador y fusiona sus estadísticas en cada unidad que pertenezca a ella. Si buscas un mod cuyo impacto resuene por el mundo a lo largo de una hora de partida, esta es la biblioteca adecuada. Gran alcance, gran responsabilidad :PES5_Menace:.
 
 | | |
 | --- | --- |
@@ -67,7 +67,7 @@ namespace HelloBox
 >
 > `_pot_allowed_to_be_given_randomly` es `protected`, por lo que compila contra el ensamblado publicitado con el que NML ya compila tu mod. `spawn_random_rate` tiene un valor predeterminado de `5`: auméntalo y el rasgo aparecerá con más frecuencia.
 
-Todo lo explicado en **[Rasgos personalizados](#/nml/custom-traits)** aplica aquí también: `add()` antes de las stats, `path_icon` no se rellena solo, los identificadores llevan prefijo. Lo que sigue es lo que hace únicos a los rasgos culturales.
+Todo lo explicado en **[Rasgos personalizados](#/nml/custom-traits)** aplica aquí también: `add()` antes de las stats, `path_icon` no se rellena solo, los identificadores llevan prefijo. Lo que sigue es lo que hace únicos a los rasgos culturales. Y es la parte divertida.
 
 > [!WARNING] `base_stats` en un rasgo cultural afecta a todos
 > `Actor.updateStats()` fusiona `culture.base_stats` en cada unidad de esa cultura. Cada unidad. Una doctrina de "+5 de daño" también armará a los panaderos.
@@ -84,7 +84,7 @@ trait.addWeaponSubtype("sword");         // preferir una clase entera de armas
 trait.addWeaponSpecial("hello_relic");   // o un id específico de objeto
 ```
 
-Ambos métodos auxiliares configuran `is_weapon_trait = true` por ti. El código de artesanía consulta las armas predilectas de la cultura cuando una ciudad decide qué fabricar; esto cambia el arma en la mano del soldado en lugar de alterar un mero número. `bow_lovers` y `spear_lovers` en vanilla funcionan exactamente así.
+Ambos métodos auxiliares configuran `is_weapon_trait = true` por ti. El código de artesanía consulta las armas predilectas de la cultura cuando una ciudad decide qué fabricar; esto cambia el arma en la mano del soldado en lugar de alterar un mero número. `bow_lovers` y `spear_lovers` en vanilla funcionan exactamente así. Toda una cultura de fans de las lanzas, con dos líneas :PESgn_Noice:.
 
 | Campo | Qué hace |
 | --- | --- |

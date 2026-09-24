@@ -65,15 +65,15 @@ Aggiungi `HelloPowers.Initialize();` a `Main.cs`.
 
 ### Cosa fa ciascuna parte
 
-- **`id`**: il nome a cui fa riferimento tutto il resto. Il pulsante, la traduzione, le altre mod.
-- **`name`**: utilizzato dalle ricerche dell'interfaccia di gioco. Mantenerlo identico all'id ti risparmia mal di testa.
-- **`rank = PowerRank.Rank0_free`**: disponibile fin dall'inizio, nessuno sblocco richiesto.
+- **`id`**: il nome a cui si riferisce tutto il resto. Il pulsante, la traduzione, le altre mod.
+- **`name`**: usato dalle ricerche dell'interfaccia del gioco. Tenerlo uguale all'id ti risparmia un mal di testa.
+- **`rank = PowerRank.Rank0_free`**: disponibile da subito, niente da sbloccare.
 - **`path_icon`**: l'icona del cursore/strumento.
-- **`unselect_when_window`**: quando il giocatore apre una finestra, lo strumento si disarma da solo per evitare di colpire accidentalmente la mappa dietro il pannello.
-- **`click_action`**: il tuo codice. Riceve la **tessera su cui si è cliccato** e l'**id del potere**, e restituisce `true` se ha eseguito un'azione.
+- **`unselect_when_window`**: quando il giocatore apre una finestra, lo strumento si disarma da solo, così non fulmina per sbaglio la mappa dietro al pannello.
+- **`click_action`**: il tuo codice. Riceve la **casella cliccata** e l'**id del potere**, e restituisce `true` se ha fatto qualcosa.
 
-> [!WARNING] La firma del click è (WorldTile, string)
-> `click_action` è una `PowerActionWithID`, quindi il suo secondo argomento è l'**id del potere come string**, non un `GodPower`. Esiste un secondo campo, `click_power_action`, che accetta `(WorldTile, GodPower)`. Usare la firma sbagliata restituisce un errore di compilazione insensato :PES_DaFuq:.
+> [!WARNING] La firma del clic è `(WorldTile, string)`
+> `click_action` è un `PowerActionWithID`, quindi il secondo argomento è l'**id del potere come stringa**, non un `GodPower`. Esiste un secondo campo, `click_power_action`, che prende `(WorldTile, GodPower)`. Usare la forma sbagliata ti dà un errore di compilazione che sembra senza senso :PES_DaFuq:.
 
 ## Cose utili da fare al clic
 

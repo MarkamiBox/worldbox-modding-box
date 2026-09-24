@@ -14,7 +14,7 @@ Wir bauen ein Gebäude also nicht von Grund auf neu. Wir klonen eines, das berei
 
 ## Erst klonen, dann anpassen
 
-`clone(newId, sourceId)` kopiert jedes Feld des Originals, benennt es um **und registriert es**. Dieser letzte Teil ist entscheidend:
+`clone(newId, sourceId)` kopiert jedes Feld des Originals, benennt es um **und registriert es**. Der letzte Teil ist wichtig:
 
 ```csharp Mods/HelloBox/Code/HelloBuildings.cs
 namespace HelloBox
@@ -50,10 +50,10 @@ namespace HelloBox
 }
 ```
 
-Alles, was du nicht explizit setzt, bleibt exakt so wie bei `temple_human`, einem voll funktionsfähigen Stadtgebäude. Das ist der ganze Trick.
+Alles, was du nicht setzt, bleibt genau so wie bei `temple_human`, und das ist ein funktionierendes Stadtgebäude. Das ist der ganze Trick.
 
-> [!WARNING] Rufe nach clone() nicht add() auf
-> `clone()` hat die Kopie bereits registriert. Ein anschließendes `AssetManager.buildings.add(shrine)` registriert sie ein zweites Mal, wodurch die Bibliothek die erste Kopie verwirft und `duplicate asset - overwriting...` protokolliert. Es funktioniert zwar trotzdem, aber es erzeugt Müll in deinem Log und ist das Erste, worauf jeder beim Code-Review zeigen wird.
+> [!WARNING] Ruf nach `clone()` nicht `add()` auf
+> `clone()` hat die Kopie bereits registriert. Rufst du danach `AssetManager.buildings.add(shrine)` auf, wird sie ein zweites Mal registriert, die Bibliothek wirft die erste Kopie weg und loggt `duplicate asset - overwriting...`. Es funktioniert trotzdem, aber es ist Rauschen in deinem Log und das Erste, worauf jeder zeigt, der deinen Code prüft.
 
 ## Was als Klonbasis taugt
 
@@ -96,18 +96,18 @@ Das Klonen des nächstliegenden Verwandten kostet zehn Minuten Lektüre und ersp
 | `book_slots` | Bibliothekskapazität für Bücher |
 | `docks`, `boat_types`, `boat_type_fishing`, `boat_type_trading`, `boat_type_transport` | Schiffsproduktion |
 | `spawn_units`, `spawn_units_asset` | Spawnt Einheiten und Kreaturen |
-| `tower`, `tower_projectile`, `tower_projectile_reload` … | Turm-Angriff und Schießen |
+| `tower`, `tower_projectile`, `tower_projectile_reload`, `tower_projectile_amount`, `tower_attack_buildings` | Turm-Angriff und Schießen |
 
 ### Bauen und Platzieren
 
 | Feld | Was es bewirkt |
 | --- | --- |
 | `cost`, `construction_progress_needed` | Kosten der Stadt und benötigte Bauzeit |
-| `can_be_upgraded`, `upgrade_to`, `upgraded_from` … | Upgrade-Ketten, wie `house_human_0` bis `_5` |
-| `build_place_borders`, `build_place_center` … | Wo in der Stadt es platziert wird |
-| `build_prefer_replace_house`, `check_for_close_building` … | Platzierungsregeln |
+| `can_be_upgraded`, `upgrade_to`, `upgraded_from`, `upgrade_level` | Upgrade-Ketten, wie `house_human_0` bis `_5` |
+| `build_place_borders`, `build_place_center`, `build_place_single`, `build_place_batch` | Wo in der Stadt es platziert wird |
+| `build_prefer_replace_house`, `check_for_close_building`, `ignore_same_building_id` | Platzierungsregeln |
 | `limit_per_zone`, `limit_in_radius`, `limit_global` | Wie viele davon existieren dürfen |
-| `can_be_placed_on_liquid`, `can_be_placed_on_blocks` … | Geländeregeln |
+| `can_be_placed_on_liquid`, `can_be_placed_on_blocks`, `needs_farms_ground`, `only_build_tiles` | Geländeregeln |
 | `build_road_to` | Die Stadt baut eine Straße dorthin |
 
 ### Natur und Wachstum
@@ -125,8 +125,8 @@ Das Klonen des nächstliegenden Verwandten kostet zehn Minuten Lektüre und ersp
 
 | Feld | Was es bewirkt |
 | --- | --- |
-| `burnable`, `affected_by_lava`, `affected_by_acid` … | Was das Gebäude beschädigt |
-| `has_ruins_graphics`, `has_ruin_state`, `auto_remove_ruin` … | Was nach der Zerstörung übrig bleibt |
+| `burnable`, `affected_by_lava`, `affected_by_acid`, `damaged_by_rain`, `can_be_damaged_by_tornado` | Was das Gebäude beschädigt |
+| `has_ruins_graphics`, `has_ruin_state`, `auto_remove_ruin`, `remove_ruins` | Was nach der Zerstörung übrig bleibt |
 | `can_be_demolished`, `can_be_abandoned`, `destroy_on_liquid` | Wie es verschwindet |
 | `loot_generation` | Was beim Einsturz gedroppt wird |
 
@@ -140,7 +140,7 @@ Das Klonen des nächstliegenden Verwandten kostet zehn Minuten Lektüre und ersp
 | `shadow`, `shadow_bound`, `shadow_distortion` | Der Schatten |
 | `has_kingdom_color` | Wird in der Farbe des herrschenden Königreichs getönt |
 | `draw_light_area`, `draw_light_size` | Lichtschein |
-| `has_special_animation_state`, `animation_speed` … | Animation |
+| `has_special_animation_state`, `animation_speed`, `sparkle_effect` | Animation |
 
 ### Verhalten
 
@@ -152,11 +152,11 @@ Das Klonen des nächstliegenden Verwandten kostet zehn Minuten Lektüre und ersp
 
 ## Sprites
 
-Gebäude suchen ihre Grafik unter `main_path + sprite_path`, also `buildings/hello_shrine`. Lege dein PNG unter `GameResources/buildings/hello_shrine.png` ab und es wird wie jedes Vanilla-Gebäude aufgelöst. Gib ihm in deiner `sprites.json` einen Drehpunkt unten in der Mitte (bottom-centre pivot), sonst schwebt dein Schrein wie ein Geist über dem Boden :aPES_GhostDance:. Siehe **[Sprites & Ressourcen](#/nml/sprites-and-resources)**.
+Gebäude laden ihre Grafik aus `sprite_path`, **genau so, wie es geschrieben ist**. Nur wenn du `sprite_path` leer lässt, greift das Spiel auf `main_path + id` zurück. Leg deine Grafik unter `GameResources/buildings/hello_shrine/` ab und gib ihr in deiner `sprites.json` einen Drehpunkt unten mittig, sonst schwebt dein Schrein wie ein Geist über dem Boden :aPES_GhostDance:. Siehe **[Sprites & Ressourcen](#/nml/sprites-and-resources)**.
 
 ## Dein eigenes Sprite
 
-Gebäude sind das einzige Asset, das **zwei** Felder aneinanderklebt: `main_path + sprite_path`. `main_path` ist standardmäßig bereits `buildings/`, daher ist `sprite_path` nur der reine Dateiname.
+Wähl eine der beiden Formen unten und misch sie nicht. Der Loader macht wörtlich: `sprite_path` nehmen, wenn etwas drinsteht, sonst `main_path + id`.
 
 ```text Mods/HelloBox/
 HelloBox/
@@ -170,22 +170,25 @@ HelloBox/
             └── sprites.json         bottom-centre pivot
 ```
 
-Die **Dateinamen sind das Format**. Der Loader teilt jeden Namen an `_`: davor steht die Art (`main`, `construction`, `ruin`, `disabled`, `spawn`, `special`), danach die Nummer des Animationsframes. `main_0`, `main_1`, `main_2` ist eine Animation mit drei Frames. Eine anders benannte Datei ist kein Frame, und ein Ordner ohne `main_0` gibt dem Gebäude nichts zum Zeichnen. `mini` ist das Minimap-Symbol: `mini_0` muss genau so viele Pixel haben, wie das Gebäude Tiles belegt, 5x4 für alles, was von `temple_human` geklont ist. Fehlt es, wirft die Minimap bei jedem Neuzeichnen `NullReferenceException` in `Building.getColorForMinimap()`.
+Die **Dateinamen sind das Format**. Der Loader trennt jeden Namen am `_`: Der Teil davor ist die Art (`main`, `construction`, `ruin`, `disabled`, `spawn`, `special` und `mini` für die Minikarte), die Zahl danach ist der Animationsframe. `mini_0` muss genau so viele Pixel haben, wie das Gebäude Felder belegt, 5x4 für alles, was von `temple_human` geklont ist; lässt du es weg, wirft die Minikarte bei jedem Neuzeichnen `NullReferenceException` in `Building.getColorForMinimap()`. `main_0`, `main_1`, `main_2` ist eine Animation mit drei Frames. Eine Datei mit einem anderen Namen ist kein Frame, und ein Ordner ohne `main_0` gibt dem Gebäude nichts zum Zeichnen.
 
 ```csharp
-shrine.main_path = "buildings/";       // der Standard, du änderst ihn selten
-shrine.sprite_path = "hello_shrine";   // NICHT "buildings/hello_shrine"
+// A: full path in sprite_path. main_path is then ignored.
+shrine.sprite_path = "buildings/hello_shrine";
+
+// B: leave sprite_path empty and let main_path + id decide.
+shrine.sprite_path = string.Empty;
+shrine.main_path = "buildings/";       // -> buildings/hello_shrine
 ```
 
-Mischst du beide, Ordner in `main_path` und leeres `sprite_path`, sucht das Spiel nach `buildings/hello_shrine/hello_shrine` :aPES_BrainScratch:.
+Mischst du sie, also Ordner in `main_path` und leeres `sprite_path`, sucht das Spiel nach `buildings/hello_shrine/hello_shrine` :aPES_BrainScratch:.
 
-> [!WARNING] Lade die Frames selbst, nachdem der Pfad gesetzt ist
-> Das Spiel füllt `building_sprites` für jedes Gebäude im eigenen Preload, der vor deiner Mod läuft. Ein Gebäude, das du danach registrierst, hat eine leere Frame-Liste, und beim ersten Platzieren stirbt das Spiel in `Building.setAnimData()` mit `ArgumentOutOfRangeException: Index was out of range` :wbfacepalm:. Ruf `shrine.loadBuildingSprites();` auf, sobald `sprite_path` gesetzt ist.
+> [!WARNING] Lade die Frames selbst, nachdem du den Pfad gesetzt hast
+> Das Spiel füllt `building_sprites` für jedes Gebäude in seinem eigenen Vorladen, das vor deiner Mod läuft. Ein Gebäude, das du danach registrierst, hat eine leere Frame-Liste, und beim ersten Platzieren stirbt das Spiel in `Building.setAnimData()` mit `ArgumentOutOfRangeException: Index was out of range` :wbfacepalm:. Ruf `shrine.loadBuildingSprites();` auf, sobald `sprite_path` gesetzt ist.
 >
-> Sein Geschwister ist `atlas_asset`, der Sprite-Atlas, der das Gebäude in der Farbe seines Besitzers einfärbt. Die Library verknüpft ihn in `checkAtlasLink()`, ebenfalls beim Start. Ohne ihn lässt sich das Gebäude platzieren und wirft dann `NullReferenceException` in `DynamicSprites.getRecoloredBuilding()`, **in jedem Frame, in dem es zu sehen ist**.
+> Sein Geschwister ist `atlas_asset`, der Sprite-Atlas, der das Gebäude in der Farbe seines Besitzers einfärbt. Die Bibliothek verknüpft ihn in `checkAtlasLink()`, ebenfalls beim Start. Lass es weg, und das Gebäude lässt sich problemlos platzieren, wirft dann aber `NullReferenceException` in `DynamicSprites.getRecoloredBuilding()`, und zwar in **jedem Frame, in dem es auf dem Bildschirm ist**.
 
-
-Gib ihm in deiner `sprites.json` einen **Drehpunkt unten in der Mitte**, sonst schwebt dein Schrein wie ein Geist über dem Boden (siehe **[Sprites & Ressourcen](#/nml/sprites-and-resources)**).
+Gib ihm in deiner `sprites.json` einen **Drehpunkt unten mittig**, sonst schwebt dein Schrein wie ein Geist über dem Boden (siehe **[Sprites & Ressourcen](#/nml/sprites-and-resources)**).
 
 ## Ein Gebäude auf der Karte platzieren
 

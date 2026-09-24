@@ -30,7 +30,9 @@ Quest'ultimo controllo è più importante di quanto sembri: se il tuo potere div
 
 ## La via nativa con ScrollWindow
 
-Se vuoi che la tua finestra sembri fatta direttamente da WorldBox, non creare un Canvas da zero :PES2_Shrug:. NeoModLoader include `WindowCreator` e `AbstractWindow<T>`.
+Se vuoi che la tua finestra sembri fatta da WorldBox, non costruire un canvas da zero come ho fatto io al primo tentativo :PES2_Shrug:. NeoModLoader include `WindowCreator` e `AbstractWindow<T>` proprio perché tu non debba assemblare barre di scorrimento, barre del titolo e pulsanti di chiusura partendo dalle primitive grezze di Unity.
+
+Estendi `AbstractWindow<T>` e lascia che NML si occupi dell'impianto:
 
 ```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
 using NeoModLoader.api;
@@ -43,6 +45,8 @@ namespace HelloBox
     {
         protected override void Init()
         {
+            // ContentTransform is already pointing to Background/Scroll View/Viewport/Content.
+            // Put your buttons, text, and rows here:
             GameObject labelObj = new GameObject("Text", typeof(Text));
             labelObj.transform.SetParent(ContentTransform, false);
 
@@ -52,19 +56,39 @@ namespace HelloBox
             label.text = "Hello from a native window!";
         }
 
-        public override void OnFirstEnable() {}
-        public override void OnNormalEnable() {}
-        public override void OnNormalDisable() {}
+        public override void OnFirstEnable()
+        {
+            // Runs once, the very first time the player opens the window
+        }
+
+        public override void OnNormalEnable()
+        {
+            // Runs every time the window opens - refresh dynamic stats here
+        }
+
+        public override void OnNormalDisable()
+        {
+            // Runs every time the window closes
+        }
     }
 }
 ```
 
+Creala una volta durante l'inizializzazione della mod:
+
 ```csharp
 HelloNativeWindow.CreateAndInit("hello_native_window");
+```
+
+`CreateAndInit()` clona il prefab `"windows/empty"` del gioco, lo aggancia a `CanvasMain.instance.transformWindows`, imposta la chiave del titolo su `"<windowId> Title"`, aggiunge il tuo componente e registra la finestra sia in `ScrollWindow._all_windows` sia in `AssetManager.window_library`. Aprirla è la stessa singola riga che usi per le finestre vanilla:
+
+```csharp
 ScrollWindow.showWindow(HelloNativeWindow.WindowId);
 ```
 
-Per i layout ampi estendi `AbstractWideWindow<T>`, oppure chiama `WindowCreator.CreateEmptyWindow(id, titleKey, icon)`. Dimentica la registrazione e il gioco non saprà che esiste :wbfacepalm:.
+Se ti serve più spazio sullo schermo per una tabella enorme o un gestore a più colonne, estendi invece `AbstractWideWindow<T>`. Si comporta allo stesso modo, ma parte da `600x280`, applica automaticamente la cornice larga ed espone `SetSize(new Vector2(width, height))` se il tuo layout ha bisogno di ancora più spazio.
+
+Se non vuoi affatto la classe base `AbstractWindow<T>`, chiama direttamente `WindowCreator.CreateEmptyWindow(id, titleKey, icon)` e configura tu la `ScrollWindow` restituita. Dimentica la registrazione quando fai da solo e il gioco non saprà nemmeno che la tua finestra esiste quando premi ESC :wbfacepalm:.
 
 ## La tua finestra mobile personale
 
@@ -202,7 +226,7 @@ Font font = LocalizedTextManager.current_font ?? Resources.GetBuiltinResource<Fo
 
 ## Tooltip
 
-Anche i tooltip del gioco sono asset in `AssetManager.tooltips`: un ID e una callback che compila il tooltip ogni volta che viene aperto. Registrane uno personalizzato e qualsiasi elemento UI potrà visualizzarlo con numeri in tempo reale.
+Anche i tooltip del gioco sono asset in `AssetManager.tooltips`: un ID e una callback che compila il tooltip ogni volta che viene aperto. Registrane uno personalizzato e qualsiasi elemento UI potrà visualizzarlo con numeri in tempo reale. I giocatori passano il mouse su tutto, quindi è qui che la tua mod sembra finita senza fare rumore.
 
 ```csharp Mods/HelloBox/Code/HelloTooltips.cs
 using UnityEngine;
@@ -300,7 +324,7 @@ namespace HelloBox
 > [!WARNING] Le scorciatoie sono collegate all'avvio del gioco
 > `HotkeyLibrary.linkAssets()` copia ogni `default_key_*` nel corrispondente `overridden_key_*` (il tasto che il gioco controlla effettivamente) e crea `action_hotkeys`, l'unico elenco esaminato a ogni frame. Entrambi i passaggi avvengono prima del caricamento del tuo mod. Saltare uno dei due rende il tasto inattivo, senza alcun errore :wbfacepalm:.
 
-I flag `check_*` sono il modo più rapido per evitare interferenze: `check_controls_locked` impedisce l'attivazione mentre il giocatore manovra un'unità, `check_window_not_active` mentre una finestra vanilla è aperta. Scegli un tasto non utilizzato dal gioco base. F6 è uno di questi; altri mod potrebbero utilizzarlo.
+I flag `check_*` sono il modo più rapido per evitare interferenze: `check_controls_locked` impedisce l'attivazione mentre il giocatore manovra un'unità, `check_window_not_active` mentre una finestra vanilla è aperta. Scegli un tasto non utilizzato dal gioco base. F6 è uno di questi; altri mod potrebbero utilizzarlo :PES2_Shrug:.
 
 ```json Mods/HelloBox/Locales/en.json
 {

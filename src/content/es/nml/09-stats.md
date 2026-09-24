@@ -178,7 +178,7 @@ Los tags que el propio juego lee:
 | Naturaleza | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | Construcción | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-A diferencia del nombre de una estadística, un tag desconocido es inofensivo: simplemente nunca coincidirá con nada. Eso también significa que un error de escritura pasará desapercibido, así que cópialos con exactitud.
+A diferencia del nombre de una estadística, un tag desconocido es inofensivo: simplemente nunca coincidirá con nada. Eso también significa que un error de escritura pasará desapercibido, así que cópialos con exactitud. Un `imunity_fire` puede quedarse meses en tu mod sin que nadie te avise :PESgn_SMH:.
 
 ## Leer los valores en tiempo real de una unidad
 
@@ -190,7 +190,6 @@ float finalDamage = actor.stats["damage"];
 
 Eso es también lo que ajustas desde un Postfix de Harmony en `Actor.updateStats` - ver **[Parches de Harmony](#/nml/harmony-patches)**.
 
-:PESgn_SMH:.
 
 
 ## Añadir tu propia estadística

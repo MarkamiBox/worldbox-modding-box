@@ -10,7 +10,7 @@ order: 100
 
 Ein Merkmal (Trait) ist eine dauerhafte Eigenschaft einer Einheit: *mutig*, *schnell*, *unsterblich*. Es erscheint im Inspektor, kann die Werte der Einheit verändern, Code ausführen wenn die Einheit geboren wird, Schaden nimmt oder stirbt, und Kinder können es erben.
 
-Es ist außerdem das am leichtesten hinzuzufügende Ding im ganzen Spiel, weshalb es jedermanns erste Mod ist.
+Es ist außerdem das am leichtesten hinzuzufügende Ding im ganzen Spiel, weshalb es jedermanns erste Mod ist. Meine nicht: Meine erste Mod war ein Wrapper um die Mod von jemand anderem, was auf seine eigene Art geschummelt ist :trollface:.
 
 ## IDs immer mit Präfix versehen
 
@@ -96,7 +96,7 @@ Willst du stattdessen deinen eigenen Reiter? Siehe **[Merkmalsgruppen & Reiter](
 
 ## Die Texte (Lokalisierung)
 
-Ohne Übersetzungen erscheint dein Merkmal im Spiel als roher Schlüssel `trait_hello_swift`. Erstelle `Locales/de.json`:
+Ohne Übersetzungen erscheint dein Merkmal im Spiel als roher Schlüssel `trait_hello_swift`, und das sieht genau so professionell aus, wie es klingt :pepeclown:. Erstelle `Locales/de.json`:
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -183,6 +183,16 @@ if (actor.hasTrait(HelloTraits.SWIFT))
     // ...
 }
 ```
+
+> [!WARNING] `spawn_random_trait_allowed` wird nur einmal gelesen, beim Start
+> Neue Einheiten würfeln ihre Startmerkmale aus einem Topf, den `BaseTraitLibrary.linkAssets()` beim Laden des Spiels baut, bevor deine Mod existiert. Den Schalter an deinem Merkmal zu setzen ändert allein nichts: Dein Merkmal ist nie in diesem Topf und taucht nie zufällig auf. Leg es selbst hinein, gewichtet wie in Vanilla:
+>
+> ```csharp
+> swift.spawn_random_trait_allowed = true;
+> AssetManager.traits._pot_allowed_to_be_given_randomly.AddTimes(swift.spawn_random_rate, swift);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` ist `protected`, also kompiliert das gegen die publizierte Assembly, mit der NML deine Mod ohnehin baut. `spawn_random_rate` ist standardmäßig `5`: Erhöhe es, und das Merkmal taucht öfter auf.
 
 ## Überprüfen, ob es geklappt hat
 

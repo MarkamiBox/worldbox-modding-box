@@ -107,3 +107,5 @@ O NML cuida da ordem de carregamento e avisa o jogador, o que é muito mais eleg
 Os comentários terão exatamente três tipos de mensagem: "não funciona" sem log nenhum anexo, uma ideia verdadeiramente brilhante que você não tinha pensado, e alguém pedindo multiplayer :PESgn_DidIAsk:.
 
 Responda à segunda. Para a primeira, fixe uma mensagem avisando onde fica o `Player.log` (veja **[Logs e depuração](#/nml/logs-and-debugging)**), porque um relato de erro sem log é um relato sobre o qual você não pode fazer absolutamente nada.
+
+E seja bem-vindo. Cada mod novo deixa esta pequena comunidade um pouco menos cemitério, e cinco numa semana é a era de ouro do modding :PES5_CrazyPog:.

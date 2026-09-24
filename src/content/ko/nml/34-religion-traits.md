@@ -67,7 +67,7 @@ namespace HelloBox
 
 ## 의식: `plot_id` 필드
 
-`plot_id` 가 설정된 종교 특성은 **의식(Rite)**이 됩니다. 종교는 의식들을 `possible_rites` 에 수집하며, 음모 조건이 충족되면 지도자와 사제들이 자발적으로 실행을 시도합니다.
+`plot_id` 가 설정된 종교 특성은 **의식(Rite)**이 됩니다. 종교는 의식들을 `possible_rites` 에 수집하며, 음모 조건이 충족되면 지도자와 사제들이 자발적으로 실행을 시도합니다. 여러분은 믿음을 쓰고, 나머지는 사제들이 합니다 :wbpray:.
 
 ```csharp
 trait.plot_id = "summon_meteor_rain";

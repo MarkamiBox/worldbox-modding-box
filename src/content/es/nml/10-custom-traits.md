@@ -10,7 +10,7 @@ order: 100
 
 Un rasgo (trait) es una etiqueta permanente en una unidad: *valiente*, *rápido*, *inmortal*. Aparece en el inspector, puede alterar las estadísticas de la unidad, puede ejecutar código cuando la unidad nace, recibe daño o muere, y los hijos pueden heredarlo.
 
-También es lo más sencillo de añadir en todo el juego, razón por la cual es el primer mod de todo el mundo.
+También es lo más sencillo de añadir en todo el juego, razón por la cual es el primer mod de todo el mundo. El mío no: mi primer mod era un wrapper alrededor del mod de otra persona, que es su propia forma de hacer trampa :trollface:.
 
 ## Pon siempre prefijo a tus ID
 
@@ -96,7 +96,7 @@ protected override void OnModLoad()
 
 ## Los textos de localización
 
-Sin traducciones, tu rasgo se mostrará en el juego con la clave cruda `trait_hello_swift`. Crea `Locales/es.json`:
+Sin traducciones, tu rasgo se mostrará en el juego con la clave cruda `trait_hello_swift`, que se ve exactamente tan profesional como suena :pepeclown:. Crea `Locales/es.json`:
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -183,6 +183,16 @@ if (actor.hasTrait(HelloTraits.SWIFT))
     // ...
 }
 ```
+
+> [!WARNING] `spawn_random_trait_allowed` se lee una sola vez, al arrancar
+> Las unidades nuevas sortean sus rasgos iniciales de una bolsa que `BaseTraitLibrary.linkAssets()` construye mientras carga el juego, antes de que exista tu mod. Activar el ajuste en tu rasgo no cambia nada por sí solo: tu rasgo nunca está en esa bolsa y nunca aparece por azar. Mételo tú mismo, con el peso que usa vanilla:
+>
+> ```csharp
+> swift.spawn_random_trait_allowed = true;
+> AssetManager.traits._pot_allowed_to_be_given_randomly.AddTimes(swift.spawn_random_rate, swift);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` es `protected`, así que esto compila contra el ensamblado publicitado con el que NML ya compila tu mod. `spawn_random_rate` vale `5` por defecto: súbelo y el rasgo aparece más a menudo.
 
 ## Comprobar que ha funcionado
 

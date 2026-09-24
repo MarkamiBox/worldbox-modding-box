@@ -10,7 +10,7 @@ order: 112
 
 Une **langue** appartient à des cités et des royaumes, évolue au fil de sa diffusion et sert de support à la rédaction des **livres**. Un trait de langue caractérise la parole et l'écrit en eux-mêmes.
 
-C'est le plus compact des sept systèmes de traits et celui qui dispose du point d'ancrage le plus singulier : du code déclenché dès lors que quelqu'un **lit un livre** rédigé dans cette langue.
+C'est le plus compact des sept systèmes de traits et celui qui dispose du point d'ancrage le plus singulier : du code déclenché dès lors que quelqu'un **lit un livre** rédigé dans cette langue. Oui, vraiment :wbscroll:.
 
 | | |
 | --- | --- |
@@ -85,7 +85,7 @@ Deux habitudes à calquer sur le jeu de base :
 
 ## Votre propre type de livre
 
-Le jeu définit les formats de livres dans `AssetManager.book_types` :
+Le hook de livre ci-dessus change ce que fait un livre. Un **type de livre** est une nouvelle sorte de livre : son nom, qui l'écrit, et ce que sa lecture apporte.
 
 ```csharp Mods/HelloBox/Code/HelloBooks.cs
 namespace HelloBox
@@ -98,18 +98,27 @@ namespace HelloBox
         {
             if (AssetManager.book_types.has(ALMANAC)) return;
 
-            BookTypeAsset book = new BookTypeAsset
+            BookTypeAsset almanac = new BookTypeAsset
             {
                 id = ALMANAC,
-                name = "book_type_" + ALMANAC,
-                description = "book_type_info_" + ALMANAC,
-                rarity = 5
+                name_template = "book_name_fable",   // a vanilla name template
+                color_text = "#D14219",
+                writing_rate = 2,                    // weight against the other book types
+                path_icons = "fable/",               // borrow the fables' covers: books/book_icons/fable/
+                requirement_check = (Actor pActor, BookTypeAsset pAsset) => pActor.hasTrait(HelloTraits.SWIFT)
             };
-            AssetManager.book_types.add(book);
+
+            AssetManager.book_types.add(almanac);
+
+            // what a reader gets out of it
+            almanac.base_stats["experience"] = 5f;
+            almanac.base_stats["happiness"] = 5f;
         }
     }
 }
 ```
+
+L'auteur choisit un type parmi ceux dont le `requirement_check` passe, pondéré par `writing_rate` (ou votre `rate_calc`, plafonné à 10), dans toute la liste à chaque fois : `add()` suffit. `path_icons` est un dossier dans `books/book_icons/` lu comme une liste de couvertures, donc emprunter une couverture vanilla ne coûte rien.
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -177,7 +186,7 @@ L'objet `Language` propose également `cities`, `kingdoms` et `books`, indispens
 
 ## Nouvelles langues obtenant un trait d'elles-mêmes
 
-En plus de l'attribuer vous-même, un trait de langue peut définir `spawn_random_trait_allowed` pour être tiré au sort lors de la formation d'une nouvelle langue, de la même manière qu'une culture tire ses traits de départ.
+En plus de l'attribuer vous-même, un trait de langue peut définir `spawn_random_trait_allowed` pour être tiré au sort lors de la formation d'une nouvelle langue, de la même manière qu'une culture tire ses traits de départ. Le même piège que sur toutes les autres pages de traits :
 
 > [!WARNING] `spawn_random_trait_allowed` n'est lu qu'une seule fois, au démarrage
 > Les nouvelles langues tirent leurs traits de départ d'un pool que `BaseTraitLibrary.linkAssets()` construit pendant le chargement du jeu, avant que votre mod n'existe. Définir le drapeau sur votre trait ne change rien en soi : votre trait n'est jamais dans ce pool et n'apparaît jamais par hasard sur une nouvelle langue. Ajoutez-le vous-même, pondéré comme le fait le jeu vanilla :

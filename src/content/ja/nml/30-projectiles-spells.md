@@ -56,6 +56,8 @@ namespace HelloBox
 
 ### 各フィールドの解説
 
+ほとんどはクローン元から引き継がれ、二度と見ることはありません。実際に変えるのは `speed` と `texture` の2つです。
+
 | フィールド | 役割 |
 | --- | --- |
 | `texture`, `texture_shadow` | スプライト本体とその影 |
@@ -108,7 +110,7 @@ HelloBox/
 bolt.texture = "hello_bolt";   // "effects/projectiles/hello_bolt" は不可
 ```
 
-飛び道具もスプライトの一覧として読み込まれます。`texture` の名前の **フォルダ** に1フレーム1枚のPNGを入れ、`animated` が有効なら複数フレームが飛行アニメーションになります。フォルダなしの `hello_bolt.png` は空の一覧になり、飛び道具を描くときに `ArgumentOutOfRangeException` が出ます。
+飛び道具もスプライトの一覧として読み込まれます。`texture` の名前の **フォルダ** に1フレーム1枚のPNGを入れ、`animated` が有効なら複数フレームが飛行アニメーションになります。フォルダなしの `hello_bolt.png` は空の一覧になり、飛び道具を描くときに `ArgumentOutOfRangeException` が出ます :PESgn_Oops:。
 
 `texture_shadow` はプレフィックスがつかない完全なパスです。バニラは共有の `shadows/projectiles/shadow_ball` を指定しており、それをそのまま再利用するのが賢明です。
 
@@ -144,43 +146,95 @@ AssetManager.spells.add(bolt);
 
 ### エンティティに呪文を付与する
 
-呪文はID経由で対象に紐付けられます：
+呪文は、それを与えるものにIDで付けます：
 
 ```csharp
-trait.addSpell("hello_bolt");        // 7大特性システムの任意の特性
-item.addSpell("hello_bolt");         // 装備アイテム
+trait.addSpell("hello_bolt");        // any trait, of any of the seven systems
+trait.linkSpells();                  // the ids became objects at startup: do it for yours
+item.addSpell("hello_bolt");         // an item
+item.linkSpells();
 actorAsset.spell_ids = new List<string> { "hello_bolt" };
 ```
 
-参考になるバニラ呪文ID：`teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`。
+`addSpell()` はIDを追加するだけです。ライブラリはあなたのModより前、起動時に `linkAssets()` でIDを呪文に変換します。自分で登録した特性やアイテムで `linkSpells()` を省くと、何も与えられず、しかも何も言われません。
+
+読む価値のあるバニラの呪文ID：`teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`。
 
 ## 戦闘アクション
 
-`CombatActionAsset` は戦闘イベント時に発火するデリゲートであり、通常は呪文やエフェクトをトリガーするために使用されます:
+呪文はユニットが唱えるものです。**戦闘アクション**は、戦いの最中にユニットが*する*ことです：突進、回避、接近する前に投げる松明。ゲームはそれらを、プールと呼ばれる戦闘中の決まったタイミングで抽選します。
 
-```csharp Mods/HelloBox/Code/HelloSpells.cs
-CombatActionAsset action = new CombatActionAsset
+```csharp Mods/HelloBox/Code/HelloCombat.cs
+using UnityEngine;
+
+namespace HelloBox
 {
-    id = "hello_cast_on_attack",
-    action = (pSelf, pTarget, pWorldTile) =>
+    public static class HelloCombat
     {
-        if (pSelf == null || !pSelf.isAlive()) return false;
+        public const string TOSS = "hello_ember_toss";
 
-        // do the cast
-        return true;
+        public static void Initialize()
+        {
+            if (AssetManager.combat_action_library.has(TOSS)) return;
+
+            CombatActionAsset toss = new CombatActionAsset
+            {
+                id = TOSS,
+                cost_stamina = 10,
+                chance = 0.3f,        // rolled each time the unit could use it, plus its combat skill
+                cooldown = 4f,
+                pools = new CombatActionPool[] { CombatActionPool.BEFORE_ATTACK_MELEE },
+
+                // same range as the vanilla torch throw: not point blank, not across the map
+                can_do_action = (Actor pSelf, BaseSimObject pTarget) =>
+                {
+                    float dist = Toolbox.SquaredDistVec2Float(pSelf.current_position, pTarget.current_position);
+                    return dist > 36f && dist < 2500f;
+                },
+
+                action_actor_target_position = (Actor pSelf, Vector2 pTarget, WorldTile pTile) =>
+                {
+                    if (pSelf == null || !pSelf.isAlive() || pTile == null) return false;
+
+                    Vector3 launch = pSelf.current_position;
+                    launch.y += 0.5f;
+                    // a shooter means a kingdom, so no pForcedKingdom here
+                    World.world.projectiles.spawn(pSelf, null, HelloProjectiles.EMBER_BOLT, launch, pTile.posV3);
+                    MusicBox.playSound("event:/SFX/WEAPONS/WeaponFireballStart", pTile);
+                    return true;
+                }
+            };
+
+            AssetManager.combat_action_library.add(toss);
+
+            // Combat actions come from traits. The trait only stores ids, and the game turned
+            // ids into objects at startup: link it yourself or the trait never uses it.
+            ActorTrait swift = AssetManager.traits.get(HelloTraits.SWIFT);
+            if (swift == null) return;
+            swift.addCombatAction(TOSS);
+            swift.linkCombatActions();
+        }
     }
-};
-AssetManager.combat_actions.add(action);
+}
 ```
 
-特性のイベントにフックします:
+| プール | 抽選されるタイミング |
+| --- | --- |
+| `BEFORE_ATTACK_MELEE` | 近接攻撃のために接近するとき。`action_actor_target_position` を使います |
+| `BEFORE_ATTACK_RANGE` | 射撃する直前。同じデリゲート |
+| `BEFORE_HIT` | 攻撃を受ける直前。回避と同じく `action_actor` を使います |
+| `BEFORE_HIT_BLOCK` | 攻撃を受ける直前に、代わりにブロックする。ブロックと同様 |
+| `BEFORE_HIT_DEFLECT` | 発射物が飛んできたとき。弾き返しと同様 |
 
-```csharp
-trait.addCombatAction(CombatActionAsset.BEFORE_ATTACK_MELEE, "hello_cast_on_attack");
-```
+| フィールド | 役割 |
+| --- | --- |
+| `chance` | アクションが可能なときに抽選され、ユニットの `skill_combat` で上がります |
+| `cost_stamina` / `cost_mana` | 使用時に支払います。足りなければ選択肢になりません |
+| `cooldown` | 使用後の `recovery_combat_action` ステータスの秒数で、その間すべての戦闘アクションがブロックされます |
+| `can_do_action` | ターゲットを受け取る、あなたの条件 |
 
-> [!WARNING] 戦闘アクションを配れるのは特性だけ
-> 戦闘アクションを直接 `ActorAsset` にアタッチすることはできません。あらゆる戦闘イベントはアクターの特性を巡回してアクションを照会するため、ユニットにアクションを持たせたい場合は特性に設定し、その特性をユニットに付与してください :PES2_Shrug:。
+> [!WARNING] 与えられるのは特性からだけ
+> ユニットは戦闘アクションを、特性と、亜種・氏族・宗教から集め、装備からは決して集めません。特性はIDを保持し、ゲームは起動時にIDをオブジェクトに変換しています：`addCombatAction()` の後で `linkCombatActions()` を呼ばないと、その特性は誰も使わない技を抱えたままになります :PES2_Shrug:。
 
 ## エフェクト
 

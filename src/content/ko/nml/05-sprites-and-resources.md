@@ -73,32 +73,32 @@ HelloBox/GameResources/ui/Icons/iconHelloSwift.png
 
 ## 각 그래픽 유형별 파일 저장 위치
 
-모더들이 가장 자주 찾아보게 되는 핵심 참조 표입니다. 애셋마다 그래픽을 가리키는 필드 이름이 다르고, 일부 애셋은 로드 시 특정 폴더명을 암묵적으로 앞에 덧붙이므로, 코드에 적는 경로와 디스크 경로가 **다를 수 있습니다**.
+모두가 계속 다시 찾아오는 표입니다. 에셋마다 그림을 가리키는 필드가 다르고, 몇몇은 불러오기 전에 몰래 폴더를 앞에 붙입니다. 그래서 여러분이 쓰는 값이 파일이 있는 경로와 항상 같지는 **않습니다**.
 
-| 애셋 종류 | 필드명 | 실제 파일 위치 |
+| 에셋 | 필드 | 파일 위치 |
 | --- | --- | --- |
-| 특성, 신의 권능, 국가, 그룹 | `path_icon` | `GameResources/` + 코드에 적은 경로 그대로 |
-| 아이템 (유닛 손에 쥐었을 때) | `path_gameplay_sprite` | `GameResources/` + 코드에 적은 경로 그대로 |
-| 건물 | `sprite_path` | **폴더**: `GameResources/` + `sprite_path` + `/`, 안에 `main_0.png`, `construction_0.png`, `ruin_0.png`. `sprite_path` 가 비어 있으면 `main_path` + id 이고, `main_path` 기본값은 `buildings/` |
-| 드롭 아이템 | `path_texture` | **폴더**: `GameResources/` + 코드에 적은 경로 그대로 |
-| 구름 | `path_sprites` | `GameResources/` + 리스트 내의 각 경로 |
-| 상태 효과 | `texture` | **폴더**: `GameResources/effects/` + 코드에 적은 경로 |
-| 투사체 | `texture` | **폴더**: `GameResources/effects/projectiles/` + 코드에 적은 경로 |
-| 자원 (손에 들고 운반 시) | `path_gameplay_sprite` | **폴더**: `GameResources/items/resources/` + 코드에 적은 경로 |
-| 자원 (인벤토리 아이콘) | `path_icon` | `GameResources/` + 코드에 적은 경로 (바닐라는 `iconResBread` 형식) |
-| 지형 타일 및 탑 타일 | *(필드 없음)* | `GameResources/tiles/<타일_id>/` |
+| 특성, 신의 권능, 왕국, 그룹 | `path_icon` | `GameResources/` + 쓴 그대로 |
+| 아이템(유닛이 손에 든 것) | `path_gameplay_sprite` | `GameResources/` + 쓴 그대로 |
+| 건물 | `sprite_path` | **폴더**: `GameResources/` + `sprite_path` + `/` 안에 `main_0.png`, `construction_0.png`, `ruin_0.png`. `sprite_path`가 비어 있으면 `main_path` + ID이고, `main_path`의 기본값은 `buildings/` |
+| 드롭 | `path_texture` | **폴더**: `GameResources/` + 쓴 그대로, 프레임당 PNG 1장 |
+| 구름 | `path_sprites` | `GameResources/` + 목록의 각 경로 |
+| 상태 효과 | `texture` | **폴더**: `GameResources/effects/` + 쓴 값, 프레임당 PNG 1장 |
+| 투사체 | `texture` | **폴더**: `GameResources/effects/projectiles/` + 쓴 값, 프레임당 PNG 1장 |
+| 자원(손에 든 것) | `path_gameplay_sprite` | **폴더**: `GameResources/items/resources/` + 쓴 값, 프레임당 PNG 1장 |
+| 자원(인벤토리 아이콘) | `path_icon` | `GameResources/` + 쓴 값. 바닐라는 `iconResBread` 같은 이름만 쓰므로 파일은 루트에 있습니다 |
+| 타일과 상단 타일 | *(필드 없음)* | `GameResources/tiles/<the tile's id>/` |
 
 > [!WARNING] "폴더"는 취향 문제가 아닙니다
-> 위에서 **폴더** 라고 표시한 것은 모두 `getSpriteList()` 로 읽히는데, 이건 폴더 *안의* 프레임을 돌려줍니다. PNG 하나를 가리키면 빈 목록이 옵니다. 드롭은 안 보이게 떨어지고, 투사체는 `QuantumSpriteLibrary.drawProjectiles()` 에서 `ArgumentOutOfRangeException`, 상태는 매 프레임 예외를 냅니다. 프레임 하나면 충분하고, 자기 폴더에만 있으면 됩니다: `drops/hello_ember/hello_ember_0.png` :wbfacepalm:.
+> 위에서 **폴더**로 표시한 에셋은 모두 `getSpriteList()`로 읽히며, 이 메서드는 폴더 *안의* 프레임들을 돌려줍니다. PNG 한 장을 가리키면 빈 결과가 돌아옵니다: 드롭은 투명하게 떨어지고, 투사체는 `QuantumSpriteLibrary.drawProjectiles()`에서 `ArgumentOutOfRangeException`을 던지고, 상태 효과는 매 프레임 오류가 납니다. 프레임이 하나여도 괜찮습니다, 자기 폴더에 들어 있기만 하면 됩니다: `drops/hello_ember/hello_ember_0.png` :wbfacepalm:.
 
-주의해야 할 대표적인 함정 세 가지:
+이 중 세 가지가 발목을 잡습니다:
 
-- **상태 효과와 투사체는 하위 폴더가 자동으로 붙습니다.** `texture = "effects/status/myThing"` 로 쓰면 게임은 `effects/effects/status/myThing` 을 찾으려 하므로 실패합니다. 바닐라는 `fx_status_burning_t` 처럼 단일 이름만 씁니다.
-- **지형 타일은 필드 설정을 아예 무시합니다.** 타일은 여러 변형 그래픽을 가지므로 **타일 ID** 와 일치하는 전용 폴더를 자동으로 찾습니다. `hello_moss` 라면 `GameResources/tiles/hello_moss/` 안에 PNG 파일들을 넣어야 합니다.
-- **건물은 필드를 합치지 않지만, 대체 경로가 있습니다.** `sprite_path` 는 적힌 그대로 쓰입니다. `"buildings/hello_shrine"` 은 `GameResources/buildings/hello_shrine/` 입니다. 비워 두면 게임은 `main_path` + id 를 쓰므로, `main_path` 에 폴더를 적으면 `buildings/hello_shrine/hello_shrine` 이 됩니다 :PESgn_Bruh:.
+- **상태 효과와 투사체는 폴더를 앞에 붙입니다.** 상태 효과에 `texture = "effects/status/myThing"`이라고 쓰면 게임은 `effects/effects/status/myThing`을 찾는데, 그런 건 없습니다. 바닐라 상태 효과는 이름만 씁니다: `fx_status_burning_t`.
+- **타일은 필드를 완전히 무시합니다.** 타일의 그림은 **ID**로, 전용 폴더에서 찾습니다. 타일에는 변형이 여러 개 있기 때문입니다. `hello_moss`라면 `GameResources/tiles/hello_moss/` 안에 PNG를 넣으세요.
+- **건물은 아무것도 붙이지 않지만, 대체 경로가 있습니다.** `sprite_path`는 쓴 그대로 사용됩니다: `"buildings/hello_shrine"`은 `GameResources/buildings/hello_shrine/`입니다. 비워 두면 게임은 대신 `main_path` + ID를 쓰기 때문에, `main_path`에 폴더를 쓰면 `buildings/hello_shrine/hello_shrine`이 되어 버립니다 :PESgn_Bruh:.
 
-> [!TIP] 바닐라 애셋 경로를 그대로 베끼세요
-> 가장 유사한 바닐라 요소를 골라 **[UnityExplorer](#/toolbox/unity-explorer)** 나 **[아이콘 검색](#/tools/icons)** 으로 필드 값을 확인한 뒤 구조를 그대로 흉내 내세요. 이것이 가장 빠르고 정확합니다 :PESgn_Noice:.
+> [!TIP] 바닐라 에셋에서 경로를 베끼세요
+> 가장 비슷한 바닐라 것을 골라 **[UnityExplorer](#/toolbox/unity-explorer)**나 **[스프라이트 경로 검색](#/tools/icons)** 도구로 그 필드를 읽고, 형태를 그대로 따라 하세요. 머리로 따지는 것보다 빠르고, 한 번에 맞습니다 :PESgn_Noice:.
 
 ## 디스크에서 파일 직접 읽어오기
 
@@ -123,26 +123,42 @@ MusicBox.playSound("event:/SFX/WEAPONS/WeaponFireballStart", pTile);   // at a p
 MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on the interface
 ```
 
-첫 번째 메서드는 해당 월드 타일 위치에서 소리를 재생합니다. HelloBox는 전투 액션에서 불씨를 던질 때 파이어볼 사운드를 재생합니다. **[투사체, 주문 및 효과](#/nml/projectiles-spells)**를 참조하세요. 경로를 찾으려면 게임 코드에서 `event:/SFX/`를 검색하세요. 소리의 종류별로 분류된 수백 개의 경로가 존재합니다.
-
-> [!NOTE] 완전한 커스텀 사운드 추가는 별도의 영역입니다
-> FMOD 이벤트는 게임 사운드 뱅크에 내장되어 있어 모드가 직접 추가할 수 없습니다. 자체 `.wav` 파일을 재생하려면 게임 볼륨 설정과 별개로 Unity `AudioSource`를 직접 로드하여 재생해야 합니다. 저는 이것을 모딩해본 적이 없고 해본 척할 생각도 없으므로 이 가이드에서는 다루지 않습니다.
-
+첫 번째 메서드는 해당 월드 타일 위치에서 소리를 재생합니다. HelloBox는 전투 액션에서 불씨를 던질 때 파이어볼 사운드를 재생합니다. **[투사체, 주문 및 효과](#/nml/projectiles-spells)**를 참조하세요. 경로를 찾으려면 게임 코드에서 `event:/SFX/`를 검색하세요. 소리의 종류별로 분류된 수백 개의 경로가 존재합니다. 테스트를 시작하기 전에 볼륨부터 줄이세요.
 
 ### 나만의 사운드 추가하기
 
-이전의 알려진 정보와 달리, NeoModLoader는 `CustomAudioManager`를 통해 네이티브 `.wav` 사ウンド 파일 로드를 지원합니다 :PESgn_Noice:。
+NML은 사실 내부적으로 FMOD를 패치하기 때문에, 차고에서 두 번째 사운드 엔진을 만들 필요 없이 직접 만든 `.wav` 파일이 작동합니다 :PESgn_Noice:.
 
-모드 폴더의 `Audio/`, `Audios/` 또는 `GameResources/` 안에 오디오 파일을 넣으세요:
+`.wav` 파일을 `GameResources/`에 그대로 넣으세요. 예를 들면:
 
 ```text
-MyMod/
-└── Audio/
-    ├── custom_explosion.wav
-    └── custom_explosion.json
+GameResources/sounds/hello_boom.wav
 ```
 
-NML이 `MusicBox.playSound`를 후킹하여 사운드를 직접 재생합니다 。
+NML이 `MusicBox.playSound`와 `playDrawingSound`를 후킹하므로, 바닐라 사운드와 똑같은 메서드로 재생하면 됩니다(파일 확장자는 빼고):
+
+```csharp
+MusicBox.playSound("sounds/hello_boom", pTile);
+```
+
+파일 옆에 선택 사항인 `hello_boom.json`을 두면 동작 방식을 설정할 수 있습니다:
+
+```json GameResources/sounds/hello_boom.json
+{
+  "Volume": 60,
+  "Mode": "Stereo3D",
+  "Type": "Sound"
+}
+```
+
+| 필드 | 값 |
+| --- | --- |
+| `Mode` | `Basic` (평면 2D, 볼륨 일정), `Stereo3D` (거리에 따른 바닐라 감쇠), `Mono3D` (방향성) |
+| `Type` | `Sound` (효과음 슬라이더), `Music` (음악 슬라이더), `UI` (UI 슬라이더) |
+| `Volume` | 기본 볼륨 0~100 |
+| `LoopCount` | 반복 횟수 (0 = 한 번) |
+
+무엇보다 좋은 점: NML이 게임의 채널 그룹에 연결해 주기 때문에, 여러분의 사운드는 한밤중에 플레이어의 귀를 멀게 하는 대신 플레이어의 볼륨 설정을 제대로 따릅니다.
 
 ## 게임에 절대 null 스프라이트를 넘기지 마세요
 

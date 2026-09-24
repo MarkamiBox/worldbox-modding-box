@@ -23,14 +23,16 @@ Le jeu propose déjà un emplacement dédié. Chaque créature, ville, royaume, 
 | `data.hasFlag(key)` / `data.removeFlag(key)` | Vérifie ou retire le flag |
 | `data.removeInt(key)`, `removeFloat`, `removeString`... | Supprime une valeur |
 
-Chaque type possède sa propre table interne, donc un `int` et une `string` sous la même clé n'entrent pas en collision. Ne partagez toutefois pas les mêmes clés, pour votre propre confort.
+Chaque type possède sa propre table interne, donc un `int` et une `string` sous la même clé n'entrent pas en collision. Ne partagez toutefois pas les mêmes clés, pour votre propre confort. Votre futur vous ne se souviendra plus de qui était qui.
 
 
 
 
 ## Sauvegarder des objets complexes avec NML
 
-Si cinq primitives ne suffisent pas et que vous devez sauvegarder une classe entière, NML fournit `DataExtension` dans `NeoModLoader.General.Game.extensions` :
+Si cinq types primitifs vous semblent dater de 1995 et que vous devez vraiment sauvegarder une classe ou une liste entière sur un acteur, NML fournit `DataExtension` dans `NeoModLoader.General.Game.extensions`.
+
+Enveloppez votre classe de données dans `BasicCustomData<T>` :
 
 ```csharp
 using NeoModLoader.General.Game.extensions;
@@ -52,7 +54,7 @@ if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
 }
 ```
 
-En coulisses, NML sérialise en JSON dans `custom_data_string`. Si vos modèles changent, implémentez directement `ICustomData` :PES5_Hmmmm:.
+En coulisses, NML sérialise votre objet en JSON et le range dans la table vanilla `custom_data_string` sous votre clé. Si vous prévoyez que votre format de données change entre les mises à jour du mod, implémentez `ICustomData` directement sur votre classe au lieu d'utiliser `BasicCustomData<T>` : cela vous donne des vérifications explicites de `ModId` et `DataVersion`, pour qu'une vieille sauvegarde n'empoisonne pas en silence votre nouvel état :PES5_Hmmmm:.
 
 ## Dans HelloBox
 
@@ -111,7 +113,7 @@ namespace HelloBox
 }
 ```
 
-Sauvegardez le monde et rechargez-le : le compteur est toujours là, car il fait partie intégrante des données de sauvegarde de l'unité. Le drapeau garantit que la récompense ne se déclenche qu'une seule fois et non à chaque coup suivant.
+Sauvegardez le monde et rechargez-le : le compteur est toujours là, car il fait partie intégrante des données de sauvegarde de l'unité. Le drapeau garantit que la récompense ne se déclenche qu'une seule fois et non à chaque coup suivant. Généreux, mais toujours un bug.
 
 Ses textes de localisation, comme pour n'importe quel trait :
 

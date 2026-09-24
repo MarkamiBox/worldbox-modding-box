@@ -96,14 +96,29 @@ namespace HelloBox
 }
 ```
 
-여기서는 여섯 가지 일이 일어납니다:
+여기서 여섯 가지 일이 일어납니다:
 
-- **`[HarmonyPatch(typeof(Actor), "updateStats")]`**: 주소 지정. "`Actor` 클래스에 있는 `updateStats`라는 메서드". 대괄호 안의 줄은 *어트리뷰트(Attribute)*로, 실행되는 코드가 아니라 컴퓨터가 읽는 라벨입니다.
-- **`public static class Patch_Actor_UpdateStats`**: 컨테이너. 이름은 여러분 마음대로 지을 수 있고 동작에는 영향이 없지만, 미래의 여러분은 `Patch_<클래스>_<메서드>` 규칙을 쓴 과거의 자신에게 감사하게 될 것입니다.
-- **`public static void Postfix(...)`**: 이 이름은 여러분 마음대로 지을 수 **없습니다**. Harmony는 정확히 `Prefix`, `Postfix`, `Finalizer`라는 철자의 메서드를 찾습니다. 소문자로 `postfix`라고 쓰면 에러도 없이 조용히 무시됩니다 :PESgn_ButWhy:.
-- **`Actor __instance`**: 밑줄이 **두 개**입니다. 게임이 지금 작업하고 있는 바로 그 유닛 객체입니다. 이것이 없으면 스탯이 다시 계산되었다는 사실은 알 수 있어도 *누구의* 것인지는 알 수 없습니다.
-- **`if (!__instance.hasTrait(...)) return;`**: 조기 탈출. 여러분의 패치는 세상의 모든 유닛에 대해 끝없이 실행됩니다. 가장 흔한 케이스는 검사 한 번과 `return`으로 빠르게 빠져나가게 만드세요.
-- **`stats["speed"] += 20f;`**: 실제 변경 내용. `updateStats`는 시작할 때 스탯 딕셔너리를 초기화하고 다시 구축하므로, Postfix에서 더해주면 매 틱마다 중첩되지 않고 깨끗한 기본값 위에 얹어집니다.
+- **`[HarmonyPatch(typeof(Actor), "updateStats")]`**: 주소입니다. "`Actor`라는 클래스의 `updateStats`라는 메서드." 대괄호 안의 줄은 *특성(attribute)*으로, 실행되는 코드가 아니라 컴퓨터가 읽는 라벨입니다.
+- **`public static class Patch_Actor_UpdateStats`**: 담는 그릇입니다. 이름은 자유이고 아무것도 바꾸지 않지만, `Patch_<Class>_<Method>`로 해 두면 미래의 여러분이 고마워할 겁니다.
+- **`public static void Postfix(...)`**: 이 이름은 자유가 **아닙니다**. Harmony는 정확히 `Prefix`, `Postfix`, `Finalizer`라는 이름의 메서드를 찾습니다. `postfix`라고 쓰면 아무 일도 일어나지 않고, 오류조차 나지 않습니다 :PESgn_ButWhy:.
+- **`Actor __instance`**: 밑줄이 **두 개**입니다. 게임이 지금 처리 중인 바로 그 유닛입니다. 이게 없으면 어떤 유닛의 스탯이 다시 계산되었다는 *사실*은 알아도, *누구의* 것인지는 모릅니다.
+- **`if (!__instance.hasTrait(...)) return;`**: 일찍 빠져나가세요. 이 패치는 세계의 모든 유닛에 대해, 영원히 실행됩니다. 흔한 경우는 확인 한 번과 `return`으로 끝내세요.
+- **`stats["speed"] += 20f;`**: 실제 변경입니다. `updateStats`는 처음에 스탯 블록을 비우고 다시 만들기 때문에, Postfix에서 더한 값은 매 틱 쌓이는 대신 깨끗한 상태 위에 올라갑니다.
+
+> [!DANGER] `updateStats`는 메인 스레드에서 실행되지 않습니다
+> 게임은 이것을 **병렬** 작업으로 등록합니다(`createJob(out c_stats_dirty, updateStats, JobType.Parallel, ...)`, 그리고 `Config.parallel_jobs_updater`의 기본값은 `true`). 그래서 여러분의 Postfix는 워커 스레드에서, 여러 유닛에 대해 동시에 실행됩니다. 그 안에서는 **그 유닛 자신의 숫자만** 건드리세요. Unity(`Time.time`, `transform`, `Destroy`, `Resources.Load`)나 게임의 난수 도우미 `Randy`를 부르거나, 여러분의 공유 목록에 쓰는 것은 다른 사람의 컴퓨터에서만 나타나는 크래시가 됩니다.
+>
+> 그런 것이 필요하다면 유닛을 큐에 넣고 여러분의 `Update()`에서 처리하세요:
+> ```csharp
+> public static readonly System.Collections.Concurrent.ConcurrentQueue<Actor> pending = new();
+>
+> public static void Postfix(Actor __instance)
+> {
+>     if (!__instance.hasTrait(HelloTraits.GIGACHAD)) return;
+>     __instance.stats["speed"] += 20f;   // this unit's own data: fine
+>     pending.Enqueue(__instance);        // everything else waits for the main thread
+> }
+> ```
 
 ## 마법 같은 특수 매개변수 이름
 
@@ -117,7 +132,7 @@ Harmony는 매개변수를 **이름 일치** 방식으로 자동 주입합니다
 | `__state` | Prefix에서 같은 호출의 Postfix로 전달할 임시 값 |
 | 실제 파라미터 이름 | 호출자가 넘겨준 인자값 (게임 내 매개변수명과 **완벽히 일치**해야 함) |
 
-마지막 행이 가장 많은 사람들이 실수하는 부분입니다. 게임에서 `getHit(float pDamage, ...)`라고 선언되어 있다면, 여러분의 매개변수 이름도 반드시 `pDamage`여야 합니다. `damage`나 `pDmg`는 작동하지 않습니다. 관심 없는 매개변수는 생략할 수 있지만, 작성한 매개변수는 철자가 정확해야 하며, 월드박스의 매개변수는 거의 모두 `p`로 시작합니다.
+마지막 행이 가장 많은 사람들이 실수하는 부분입니다. 그것도 몇 번이고요. 게임에서 `getHit(float pDamage, ...)`라고 선언되어 있다면, 여러분의 매개변수 이름도 반드시 `pDamage`여야 합니다. `damage`나 `pDmg`는 작동하지 않습니다. 관심 없는 매개변수는 생략할 수 있지만, 작성한 매개변수는 철자가 정확해야 하며, 월드박스의 매개변수는 거의 모두 `p`로 시작합니다.
 
 ## 반환값(결과) 변경하기
 
@@ -139,7 +154,7 @@ public static class Patch_City_ArmyMax
 
 ## 게임이 하드코딩한 숫자 바꾸기
 
-"~하는 모드 만들 수 있는 분?"의 절반은 그냥 숫자 하나 이야기입니다. "도시가 너무 커진다"가 바로 이 경우이며, 게임 자체의 `City` 클래스에서 그대로 가져온 것입니다:
+"~하는 모드 만들 수 있는 분?"의 절반은 그냥 숫자 하나 이야기입니다. 불가능한 건 없습니다, 아직 아무도 안 만들었을 뿐이죠 :wbbru:. "도시가 너무 커진다"가 바로 이 경우이며, 게임 자체의 `City` 클래스에서 그대로 가져온 것입니다:
 
 ```csharp Assembly-CSharp / City
 public int getZoneRange(bool pAllowCheat = true)
@@ -244,6 +259,8 @@ public static class Patch_Actor_StatDelta
 
 ## 제대로 작동하지 않을 때
 
+Harmony를 탓하기 전에 로그부터 읽으세요. Harmony 탓인 경우는 드뭅니다 :PES5_Noted:.
+
 | 증상 | 흔한 원인 |
 | --- | --- |
 | 아무 일도 안 일어나고 로그도 없음 | `Postfix` 철자 오타, 또는 `PatchAll`을 아예 호출하지 않음 |
@@ -255,15 +272,15 @@ public static class Patch_Actor_StatDelta
 
 ## 호환성을 지키는 모딩 수칙
 
-- **기본은 Postfix입니다.** 인자를 변경하거나 메서드를 중단시켜야 할 때만 Prefix를 사용하세요.
-- **조정하고, 절대 덮어쓰지 마세요.** `+=`, `*=`, `Math.Min(...)`을 쓰세요. 다른 모더도 그 메서드를 패치하고 있습니다.
-- **항상 null 검사를 하세요.** 여러분의 패치는 월드 로딩 중이나 유닛의 사망 처리 중에도 실행됩니다.
-- **가벼운 검사를 가장 먼저 두세요.** 자주 호출되는 패치의 첫 줄은 즉시 `return`할 수 있는 탈출 조건이어야 합니다.
-- **목적에 맞는 가장 좁은 범위의 메서드를 패치하세요.** 특성의 이동 속도를 위해 `Actor.updateStats`를 패치하는 것은 훌륭합니다. 같은 목적을 위해 전체 월드 업데이트 루프를 패치하는 것은 유저가 모드를 삭제하게 만드는 지름길입니다.
-- **패치는 한 파일에 모아두세요.** 유저가 충돌 버그를 제보했을 때 여러분이 살펴보고 싶은 것은 12개의 파일이 아니라 1개의 파일입니다.
+- **기본은 Postfix.** 인자를 바꾸거나 메서드를 멈춰야 할 때만 Prefix를 쓰세요.
+- **대입하지 말고 조정하세요.** `+=`, `*=`, `Math.Min(...)`. 다른 누군가도 여기를 패치했습니다.
+- **null 확인은 항상.** 패치는 세계를 불러오는 중에도, 유닛이 죽는 중에도 실행됩니다.
+- **값싼 확인을 먼저.** 자주 호출되는 패치의 첫 줄은 `return`할 수 있게 해 주는 검사여야 합니다.
+- **일을 해내는 가장 좁은 메서드를 패치하세요.** 특성 하나의 속도 때문에 `Actor.updateStats`를 패치하는 건 괜찮습니다. 같은 일을 위해 세계 업데이트를 패치하는 건 모드가 삭제당하는 지름길입니다.
+- **패치는 한 파일에 모으세요.** 누군가 충돌을 보고하면 열두 개가 아니라 파일 하나만 읽고 싶을 겁니다. 미래의 자신에게 친절하세요. 제 옛날 모드들처럼 하지 말고, 제가 말하는 대로 하세요 :trollface:.
 
-> [!NOTE] 라이브러리의 `has`, `get`, `add`, `clone`, `post_init`을 패치해도 소용없습니다
-> 영향을 주는 건 모드가 로드된 이후에 발생하는 호출뿐이며, 그 시점에 이미 끝나버린 바닐라 등록에는 전혀 영향을 주지 못합니다. **[에셋 라이브러리](#/nml/asset-libraries)** 참고.
+> [!NOTE] 라이브러리의 `has`, `get`, `add`, `clone`, `post_init`을 패치하는 건 의미가 없습니다
+> 여러분의 모드가 로드된 뒤의 호출에만 영향을 줄 뿐, 그때 이미 끝난 바닐라 등록에는 절대 영향을 주지 않습니다. **[에셋 라이브러리](#/nml/asset-libraries)**를 보세요.
 
 ## 여기서 다루지 않는 내용
 

@@ -10,7 +10,7 @@ order: 22
 
 Tudo neste guia é construído em torno de **um único mod**. Nós o começamos aqui, e cada página posterior adicionará um novo arquivo a ele.
 
-Ao final, o HelloBox terá cerca de vinte arquivos e você terá escrito cada linha por conta própria: um traço de unidade e um traço cultural com aba própria, uma arma e um encantamento para ela, um efeito de status, drops, uma nuvem, um ladrilho de terreno, uma receita de comida, um projétil, uma lei do mundo, um poder divino com seu próprio botão, uma janela, um painel de opções, uma construção, uma facção, uma criatura, um desastre, uma IA própria e um patch Harmony para dobrar uma regra que o jogo achava que estava consolidada.
+Ao final, o HelloBox terá cerca de quarenta arquivos e você terá escrito cada linha por conta própria: um traço de unidade e um traço cultural com aba própria, uma arma e um encantamento para ela, um efeito de status, drops, uma nuvem, um ladrilho de terreno, uma receita de comida, um projétil, uma lei do mundo, um poder divino com seu próprio botão, uma janela, um painel de opções, uma construção, uma facção, uma criatura, um desastre, uma IA própria e um patch Harmony para dobrar uma regra que o jogo achava que estava consolidada.
 
 Isso é muito mais do que qualquer mod real precisa, e esse é exatamente o objetivo. Você pega as duas ou três partes que realmente quer e descarta o restante :PES4_DeleteThis:.
 
@@ -93,12 +93,15 @@ namespace HelloBox
 
 ## 4. Execute o jogo
 
-Inicie o WorldBox e abra a janela **Mods** no menu principal. O **HelloBox** deve aparecer na lista, já ativado. Um mod colocado na pasta `Mods/` manualmente é ativado na primeira vez que o NML o encontra.
+Abra o WorldBox e entre na janela **Mods** pelo menu principal. O **HelloBox** deve estar na lista, já ativado. Um mod que você coloca em `Mods/` por conta própria é ativado na primeira vez que o NML o encontra.
 
-Essa janela também é onde você pode **desativar** um mod mais tarde. Clicar no ícone altera o estado, e a maioria dos mods exige reiniciar o jogo para surtir efeito.
+É também nessa janela que você **desativa** um mod depois. Clicar no ícone alterna o estado, e a maioria dos mods só percebe depois de reiniciar :PES4_AlrightThen:.
 
-> [!TIP] Não aparece de jeito nenhum na lista?
-> O NML simplesmente não encontrou o mod. Em nove de cada dez vezes, o arquivo foi salvo como `mod.json.txt` em vez de `mod.json`, ou a pasta foi colocada fora de `worldbox\Mods/`.
+> [!WARNING] Nenhuma janela de Mods? O Modo Experimental está desligado
+> O NML só carrega mods quando **Configurações -> Experimental Mode** está ligado, e o jogo **desliga isso sozinho depois de cada atualização do WorldBox**: ele compara a `last_used_version` salva com a versão que você acabou de abrir e, se forem diferentes, volta a opção para `false`. Então "meu mod funcionava ontem e eu não mudei nada" é quase sempre isso. Ligue de novo e reinicie.
+
+> [!TIP] Nem aparece na lista?
+> Então o NML nunca o viu. Nove em cada dez vezes é `mod.json.txt` em vez de `mod.json`, ou a pasta está em outro lugar que não `worldbox\Mods/`. A lista completa está em **[Solução de problemas](#/troubleshooting)**.
 
 ## 5. Confira se rodou com sucesso
 

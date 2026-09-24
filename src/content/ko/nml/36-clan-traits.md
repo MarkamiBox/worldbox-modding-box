@@ -110,7 +110,7 @@ trait.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 trait.setUnlockedWithAchievement("achievementSegregator");
 ```
 
-잠긴 특성도 정상적으로 존재하며 게임 내에서 온전히 작동합니다. 단지 업적이 달성되기 전까지 플레이어가 에디터에서 임의로 선택할 수 없을 뿐입니다. 참고로 이러한 방식으로 잠긴 특성에는 `BaseTraitLibrary` 가 자동으로 `rarity = R3_Legendary` 를 부여합니다.
+잠긴 특성도 정상적으로 존재하며 게임 내에서 온전히 작동합니다. 단지 업적이 달성되기 전까지 플레이어가 에디터에서 임의로 선택할 수 없을 뿐입니다. 참고로 이러한 방식으로 잠긴 특성에는 `BaseTraitLibrary` 가 자동으로 `rarity = R3_Legendary` 를 부여합니다, 덕분에 보상다운 모습이 됩니다 :gold_star:.
 
 ## 바닐라 그룹
 
@@ -150,7 +150,7 @@ foreach (Clan clan in World.world.clans)
 
 ## 새로 생기는 가문이 특성을 스스로 뽑도록 하기
 
-직접 부여하는 방법 외에도, 가문 특성은 `spawn_random_trait_allowed`를 설정해 새 가문이 결성될 때 뽑히도록 할 수 있습니다. 문화가 초기 특성을 뽑는 방식과 동일합니다.
+직접 부여하는 방법 외에도, 가문 특성은 `spawn_random_trait_allowed`를 설정해 새 가문이 결성될 때 뽑히도록 할 수 있습니다. 문화가 초기 특성을 뽑는 방식과 동일합니다. 다른 모든 특성 페이지와 똑같은 함정입니다:
 
 > [!WARNING] `spawn_random_trait_allowed`는 게임 시작 시 딱 한 번만 읽힙니다
 > 새로 생기는 가문은 게임이 로드되는 동안 `BaseTraitLibrary.linkAssets()`가 만드는 풀에서 초기 특성을 뽑습니다. 이는 여러분의 모드가 존재하기도 전의 시점입니다. 특성에 이 플래그를 켜는 것만으로는 아무것도 바뀌지 않습니다. 여러분의 특성은 그 풀에 절대 들어가지 않으며, 새로 생긴 가문에게 우연히 부여되는 일도 없습니다. 바닐라와 같은 가중치로 직접 넣어주세요:

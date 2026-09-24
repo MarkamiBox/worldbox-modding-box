@@ -72,7 +72,7 @@ asset.kingdom_id_wild = HelloKingdoms.WILD;
 asset.kingdom_id_civilization = HelloKingdoms.CIV;
 ```
 
-Without that, your creature spawns into whatever kingdom its donor used, which is usually "human" and usually confusing.
+Without that, your creature spawns into whatever kingdom its donor used, which is usually "human" and usually confusing :PES5_Hmmmm:.
 
 ## The fields
 
@@ -122,7 +122,7 @@ Two kingdoms compare tags to decide their default stance. A faction with no tags
 
 ## The rest of the faction wiring
 
-A kingdom asset on its own is a label. These are the other libraries a full faction touches, and they each have their own asset type:
+A kingdom asset on its own is a label. A very official label, but a label. These are the other libraries a full faction touches, and they each have their own asset type:
 
 | What | Library | Used for |
 | --- | --- | --- |
@@ -204,7 +204,7 @@ The postfix runs after every stats update, so the swap sticks. It takes the vani
 
 ## Opinion, loyalty and happiness
 
-Three small libraries decide how the politics feel, and all three are lists of little calculators:
+Three small libraries decide how the politics feel, and all three are lists of little calculators. No feelings involved, only numbers:
 
 | Library | Called for | Returns |
 | --- | --- | --- |
@@ -302,7 +302,7 @@ namespace HelloBox
 }
 ```
 
-Paths are loaded one at a time when a banner is drawn, so there is nothing to refresh. An index past the end of the list falls back to 0, which is why a save made with your mod still opens without it. Match the size of the vanilla parts: read one off in **[UnityExplorer](#/toolbox/unity-explorer)** before you draw yours.
+Paths are loaded one at a time when a banner is drawn, so there is nothing to refresh. An index past the end of the list falls back to 0, which is why a save made with your mod still opens without it. Match the size of the vanilla parts: read one off in **[UnityExplorer](#/toolbox/unity-explorer)** before you draw yours. Guess the size and you get a flag bigger than the city flying it :wbfacepalm:.
 
 ```json Mods/HelloBox/Locales/en.json
 {

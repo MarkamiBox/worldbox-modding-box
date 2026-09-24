@@ -10,7 +10,7 @@ order: 100
 
 Un tratto (trait) è un'etichetta permanente su un'unità: *coraggioso*, *veloce*, *immortale*. Compare nell'inspector, può modificare le statistiche dell'unità, può eseguire codice quando l'unità nasce, viene colpita o muore, e i figli possono ereditarlo.
 
-È anche la cosa più semplice e immediata da aggiungere nell'intero gioco, motivo per cui è il primo mod di chiunque.
+È anche la cosa più semplice e immediata da aggiungere nell'intero gioco, motivo per cui è il primo mod di chiunque. Il mio no: la mia prima mod era un wrapper attorno alla mod di qualcun altro, che è un modo tutto suo di barare :trollface:.
 
 ## Metti sempre un prefisso ai tuoi ID
 
@@ -96,7 +96,7 @@ Vuoi una scheda tutta tua? Vedi **[Gruppi di tratti e schede](#/nml/trait-groups
 
 ## I testi di localizzazione
 
-Senza traduzioni il tuo tratto mostrerà in gioco la chiave grezza `trait_hello_swift`. Crea `Locales/it.json`:
+Senza traduzioni il tuo tratto mostrerà in gioco la chiave grezza `trait_hello_swift`, che ha esattamente l'aria professionale che immagini :pepeclown:. Crea `Locales/it.json`:
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -183,6 +183,16 @@ if (actor.hasTrait(HelloTraits.SWIFT))
     // ...
 }
 ```
+
+> [!WARNING] `spawn_random_trait_allowed` viene letto una sola volta, all'avvio
+> Le nuove unità estraggono i tratti iniziali da una riserva che `BaseTraitLibrary.linkAssets()` costruisce mentre il gioco carica, prima che la tua mod esista. Impostare il flag sul tuo tratto da solo non cambia nulla: il tuo tratto non è mai in quella riserva e non compare mai per caso. Aggiungilo tu, con lo stesso peso che usa vanilla:
+>
+> ```csharp
+> swift.spawn_random_trait_allowed = true;
+> AssetManager.traits._pot_allowed_to_be_given_randomly.AddTimes(swift.spawn_random_rate, swift);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` è `protected`, quindi questo compila con l'assembly pubblicizzato con cui NML compila già la tua mod. `spawn_random_rate` vale `5` di default: alzalo e il tratto compare più spesso.
 
 ## Verificare che funzioni
 

@@ -10,7 +10,7 @@ order: 112
 
 Un **idioma** pertenece a ciudades y reinos, sufre variaciones conforme se expande y es el vehículo en el que se redactan los **libros**. Un rasgo lingüístico es una cualidad inherente a la propia palabra hablada y escrita.
 
-Es el más compacto de los siete sistemas de rasgos y cuenta con el hook más singular de todos: código que se dispara cuando alguien **lee un libro** escrito en dicha lengua.
+Es el más compacto de los siete sistemas de rasgos y cuenta con el hook más singular de todos: código que se dispara cuando alguien **lee un libro** escrito en dicha lengua. Sí, en serio :wbscroll:.
 
 | | |
 | --- | --- |
@@ -85,7 +85,7 @@ Dos pautas clave para imitar de vanilla:
 
 ## Tu propio tipo de libro
 
-El juego define formatos de libros en `AssetManager.book_types`:
+El gancho de libros de arriba cambia lo que hace un libro. Un **tipo de libro** es una clase nueva de libro: cómo se llama, quién lo escribe y qué da leerlo.
 
 ```csharp Mods/HelloBox/Code/HelloBooks.cs
 namespace HelloBox
@@ -98,18 +98,27 @@ namespace HelloBox
         {
             if (AssetManager.book_types.has(ALMANAC)) return;
 
-            BookTypeAsset book = new BookTypeAsset
+            BookTypeAsset almanac = new BookTypeAsset
             {
                 id = ALMANAC,
-                name = "book_type_" + ALMANAC,
-                description = "book_type_info_" + ALMANAC,
-                rarity = 5
+                name_template = "book_name_fable",   // a vanilla name template
+                color_text = "#D14219",
+                writing_rate = 2,                    // weight against the other book types
+                path_icons = "fable/",               // borrow the fables' covers: books/book_icons/fable/
+                requirement_check = (Actor pActor, BookTypeAsset pAsset) => pActor.hasTrait(HelloTraits.SWIFT)
             };
-            AssetManager.book_types.add(book);
+
+            AssetManager.book_types.add(almanac);
+
+            // what a reader gets out of it
+            almanac.base_stats["experience"] = 5f;
+            almanac.base_stats["happiness"] = 5f;
         }
     }
 }
 ```
+
+El escritor elige un tipo entre los que pasan su `requirement_check`, con peso según `writing_rate` (o tu `rate_calc`, con tope de 10), de la lista entera cada vez: `add()` basta. `path_icons` es una carpeta dentro de `books/book_icons/` que se lee como una lista de portadas, así que tomar prestada una vanilla no cuesta nada.
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -177,7 +186,7 @@ Un objeto `Language` expone también `cities`, `kingdoms` y `books`, que es lo q
 
 ## Nuevos idiomas que obtienen un rasgo por sí mismos
 
-Además de otorgarlo manualmente, un rasgo de idioma puede establecer `spawn_random_trait_allowed` para ser seleccionado cuando se forma un nuevo idioma, de la misma manera que una cultura selecciona sus rasgos iniciales.
+Además de otorgarlo manualmente, un rasgo de idioma puede establecer `spawn_random_trait_allowed` para ser seleccionado cuando se forma un nuevo idioma, de la misma manera que una cultura selecciona sus rasgos iniciales. La misma trampa que en todas las demás páginas de rasgos:
 
 > [!WARNING] `spawn_random_trait_allowed` se lee una sola vez, al inicio
 > Los nuevos idiomas eligen sus rasgos iniciales de un grupo que `BaseTraitLibrary.linkAssets()` construye mientras se carga el juego, antes de que tu mod exista. Establecer la bandera en tu rasgo no cambia nada por sí solo: tu rasgo nunca estará en ese grupo y nunca aparecerá por casualidad en un nuevo idioma. Agrégalo tú mismo, con el peso que usa el juego vanilla:

@@ -23,14 +23,16 @@ Il gioco offre già una sede perfetta per questo. Ogni unità, città, regno, ed
 | `data.hasFlag(key)` / `data.removeFlag(key)` | Controlla o cancella il flag |
 | `data.removeInt(key)`, `removeFloat`, `removeString`... | Elimina un valore |
 
-Ogni tipo di dato ha la propria tabella dedicata, quindi un `int` e una `string` sotto la medesima chiave non collidono. Per chiarezza personale è comunque saggio non condividere le stesse chiavi.
+Ogni tipo di dato ha la propria tabella dedicata, quindi un `int` e una `string` sotto la medesima chiave non collidono. Per chiarezza personale è comunque saggio non condividere le stesse chiavi. Il te del futuro non si ricorderà quale era quale.
 
 
 
 
 ## Salvare oggetti complessi con NML
 
-Se cinque tipi primitivi ti sembrano una limitazione e vuoi salvare un'intera classe su un'entità, NML mette a disposizione `DataExtension` in `NeoModLoader.General.Game.extensions`:
+Se cinque tipi primitivi ti sembrano roba del 1995 e hai davvero bisogno di salvare un'intera classe o lista su un attore, NML offre `DataExtension` in `NeoModLoader.General.Game.extensions`.
+
+Avvolgi la tua classe di dati in `BasicCustomData<T>`:
 
 ```csharp
 using NeoModLoader.General.Game.extensions;
@@ -52,7 +54,7 @@ if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
 }
 ```
 
-Sotto il cofano, NML serializza il tuo oggetto in formato JSON e lo salva nella tabella `custom_data_string`. Se prevedi che la struttura dati possa cambiare in futuro, implementa direttamente `ICustomData` con versioning invece di `BasicCustomData<T>` per evitare incompatibilità coi vecchi salvataggi :PES5_Hmmmm:.
+Dietro le quinte, NML serializza il tuo oggetto in JSON e lo infila nella tabella vanilla `custom_data_string` sotto la tua chiave. Se pensi che il formato dei dati cambierà tra un aggiornamento e l'altro della mod, implementa `ICustomData` direttamente sulla tua classe invece di usare `BasicCustomData<T>`: ti dà controlli espliciti su `ModId` e `DataVersion`, così un salvataggio vecchio non avvelena in silenzio il tuo nuovo stato :PES5_Hmmmm:.
 
 ## In HelloBox
 
@@ -111,7 +113,7 @@ namespace HelloBox
 }
 ```
 
-Salva il mondo e ricaricalo: il conteggio è ancora lì, poiché fa parte integrante dei dati di salvataggio dell'unità. Il flag assicura che la ricompensa scatti una volta sola e non a ogni singolo colpo successivo.
+Salva il mondo e ricaricalo: il conteggio è ancora lì, poiché fa parte integrante dei dati di salvataggio dell'unità. Il flag assicura che la ricompensa scatti una volta sola e non a ogni singolo colpo successivo. Generoso, ma sempre un bug.
 
 I suoi testi, come per qualsiasi tratto:
 

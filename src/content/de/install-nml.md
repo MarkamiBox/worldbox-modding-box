@@ -42,14 +42,16 @@ Ohne diesen Schalter sucht das Spiel nicht einmal nach Mods. Kein Fehler, keine 
 
 ### Schritt 2. NML herunterladen
 
-1. Öffne diesen Link: **[github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest)**. Er zeigt immer auf das neueste NML, du kannst ihn als Lesezeichen speichern.
-2. Scroll runter zum Abschnitt **Assets**. Ist er zugeklappt, klick drauf.
-3. Klick auf **NeoModLoader.dll**. Sie wird wie jede andere Datei heruntergeladen, meist in deinen Ordner **Downloads**.
+1. Öffne diesen Link: **[github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest)**. Er zeigt immer auf das neueste NML, du kannst ihn also als Lesezeichen speichern.
+2. Scroll nach unten zum Abschnitt **Assets**. Ist er eingeklappt, klick ihn an, um ihn zu öffnen.
+3. Klick auf **NeoModLoader.dll**. Sie lädt wie jede andere Datei herunter, meistens in deinen **Downloads**-Ordner.
 
-Du brauchst nur diese eine Datei. Die Seite listet auch Dateien mit `.pdb`, `.xml` und "Source code": ignorier sie.
+Du brauchst nur diese eine Datei. Die Seite listet auch `nml-setup-win.exe` und Dateien mit `.pdb`, `.xml` und "Source code": Ignorier sie alle. Die sind für die Entwickler von NML, nicht für dich.
 
 > [!WARNING] Nur von diesem Link
-> Eine `.dll` ist ein Programm. Lade NML **nur** von der GitHub-Seite oben, nie von irgendeiner Website oder als Datei, die dir jemand im Chat geschickt hat. Fragt dein Browser "Datei behalten?", dann fragt er, weil es eine `.dll` ist, und von dieser Seite lautet die Antwort: behalten.
+> Eine `.dll` ist ein Programm. Lade NML **nur** von der GitHub-Seite oben herunter, nie von CurseForge, einer anderen Seite oder aus einer Datei, die dir jemand im Chat geschickt hat. Eine alte Kopie von woanders löscht sich beim ersten Spielstart selbst und lässt nur einen `NML`-Ordner und `NeoModLoader.AutoUpdate_memload.dll` zurück - wenn das passiert, komm hierher zurück und lade die echte Datei. Der "1-Klick-Installation"-Button von GameBanana installiert NML auch nicht; lade die `.dll` von Hand herunter.
+>
+> Wenn dein Browser fragt "Datei behalten?" oder Chrome sie als **Unbestätigt** markiert, liegt das daran, dass eine `.dll` ein Programm ist und nicht viele Leute genau diese herunterladen. Von dieser GitHub-Seite lautet die Antwort: behalten (in Chrome: Download-Liste öffnen, dann **Trotzdem behalten**).
 
 ### Schritt 3. Den WorldBox-Ordner öffnen
 
@@ -65,7 +67,7 @@ Ein Fenster mit den Dateien des Spiels geht auf. Du bist richtig, wenn du eine D
 C:\Program Files (x86)\Steam\steamapps\common\worldbox\
 ```
 
-Lass dieses Fenster offen. Ab jetzt meint "der WorldBox-Ordner" genau diesen.
+Lass dieses Fenster offen. Ab jetzt meint "der WorldBox-Ordner" genau diesen. Du wirst öfter hierher zurückkommen, als du denkst.
 
 > [!TIP] Lass Windows die Dateiendungen zeigen
 > Standardmäßig versteckt Windows das Ende der Dateinamen, also erscheint `NeoModLoader.dll` nur als `NeoModLoader`. Das macht jede Anleitung schwerer. Klick im Ordnerfenster oben auf **Ansicht** und setz den Haken bei **Dateinamenerweiterungen** (unter Windows 11: **Anzeigen → Einblenden → Dateinamenerweiterungen**). Nichts geht kaputt, du siehst nur die vollen Namen.
@@ -117,7 +119,7 @@ Ist nichts davon passiert, spring zu **[Es hat nicht geklappt](#es-hat-nicht-gek
 
 ## Mac
 
-Dieselben fünf Schritte. Nur der Ordner ist woanders versteckt, weil auf dem Mac das ganze Spiel in einem einzigen App-Symbol steckt.
+Dieselben fünf Schritte. Nur der Ordner ist woanders versteckt, weil auf dem Mac das ganze Spiel in einem einzigen App-Symbol steckt. Apple-Dinge eben :wbbre:.
 
 1. **Experimental Mode**: genau wie unter Windows, **[Schritt 1](#schritt-1-experimental-mode-einschalten)**. Die Warnung zu Updates gilt auch für dich.
 2. **Lade** `NeoModLoader.dll` von [derselben Release-Seite](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest) herunter. Es ist dieselbe Datei für Windows und Mac.
@@ -137,7 +139,7 @@ worldbox/
 
 ## Linux & Steam Deck
 
-Die Logik ist exakt dieselbe. Steam unter Linux installiert das Spiel im Benutzerverzeichnis, und auf dem Steam Deck wechselst du einfach zuerst in den Desktop-Modus.
+Die Logik ist exakt dieselbe. Steam unter Linux installiert das Spiel im Benutzerverzeichnis, und auf dem Steam Deck wechselst du einfach zuerst in den Desktop-Modus. Pinguine willkommen :wbpenguin:.
 
 1. **Experimenteller Modus**: genau wie unter Windows, **[Schritt 1](#schritt-1-experimental-mode-einschalten)**.
 2. **Lade** `NeoModLoader.dll` von der [offiziellen Release-Seite](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest) herunter. Es ist dieselbe Datei für alle Plattformen.
@@ -164,14 +166,13 @@ worldbox/
 
 ## Eine Mod installieren
 
-Jetzt der leichte Teil, den du immer wieder machen wirst.
+Jetzt der einfache Teil, und der, den du immer wieder machen wirst.
 
-1. Lade die Mod herunter. Lies vorher die Beschreibung: Manche Mods brauchen noch etwas, und der Autor sagt es meistens.
-2. Kam sie als **.zip**-Datei, entpacke sie. Unter Windows: Rechtsklick → **Alle extrahieren**. Auf dem Mac: Doppelklick.
-3. Zieh den Ordner, den du bekommst, in **`worldbox\Mods/`**, den neben `worldbox.exe`.
-4. Starte das Spiel.
+1. Lade die Mod herunter. Lies zuerst ihre Beschreibung: Manche Mods brauchen etwas zusätzlich, und der Autor sagt das meistens.
+2. Leg die `.zip` direkt in **`worldbox\Mods/`**, den Ordner neben `worldbox.exe`. Entpack sie nicht: NML entpackt seine Zips beim nächsten Spielstart selbst.
+3. Starte das Spiel.
 
-Ein Mod-Ordner hat immer irgendwo eine Datei namens `mod.json`. Daran erkennt NML ihn. Hat dir die Zip einen Ordner in einem Ordner gegeben, ist das in Ordnung, NML schaut hinein.
+Schon aus Gewohnheit entpackt? Das geht auch, solange der Ordner mit `mod.json` direkt in `Mods/` landet. Ein Mod-Ordner hat immer irgendwo eine Datei namens `mod.json`, daran erkennt NML ihn. Vermeiden musst du einen Ordner in einem Ordner in `Mods/` oder die Dateien der Mod lose in `Mods/`, ganz ohne Ordner drumherum.
 
 ```text
 worldbox/
@@ -184,52 +185,69 @@ worldbox/
 ```
 
 > [!TIP] Probier es mit HelloBox
-> Nicht sicher, ob es klappt? Die Mod, die dieser Guide baut, ist ein fertiger Test. Lade sie von **[Die fertige Mod](#/nml/all-together)**, entpack sie in `Mods`, starte das Spiel. Taucht ein neuer Kräfte-Tab voller alberner Buttons auf, ist alles richtig installiert :wbpeak:.
+> Nicht sicher, ob es klappt? Die Mod, die dieser Leitfaden baut, ist ein fertiger Test. Lade sie von **[Die fertige Mod](#/nml/all-together)** herunter, entpack sie in `Mods`, starte das Spiel. Taucht ein neuer Machts-Tab voller alberner Buttons auf, ist alles richtig installiert :wbpeak:.
 
-**Eine Mod entfernen**: Spiel schließen und ihren Ordner aus `Mods` löschen. **Eine ausschalten, ohne sie zu löschen**: Nimm die NML-Mod-Liste im Spiel.
+**Um eine Mod zu entfernen**, schließ das Spiel und lösch ihren Ordner aus `Mods`. **Um eine auszuschalten, ohne sie zu löschen**, nutz die NML-Modliste im Spiel.
 
-**Workshop-Mods** gehen auch: Abonnier sie im Steam Workshop, NML findet sie selbst, kein Kopieren nötig.
+**Workshop-Mods** funktionieren auch: Abonnier sie im Steam Workshop und NML greift sie auf, ohne dass du etwas kopieren musst.
 
 ---
 
 ## Es hat nicht geklappt
 
-Geh sie der Reihe nach durch. Die erste hilft den meisten.
+Geh diese Punkte der Reihe nach durch. Der erste hilft den meisten.
 
-| Was du siehst | Was du tust |
+| Was du siehst | Was zu tun ist |
 | --- | --- |
-| Kein NML-Button, kein `Mods`-Ordner neben `worldbox.exe` | Experimental Mode ist aus. Einschalten, neu starten. Auch nach jedem Spiel-Update |
-| Immer noch nichts, Experimental Mode ist an | `NeoModLoader.dll` liegt im falschen Ordner. Sie muss in `worldbox_Data\StreamingAssets\Mods/` liegen, neben `test_asset_load` |
-| Die Datei heißt `NeoModLoader.dll.dll` oder `NeoModLoader (1).dll` | Benenn sie genau in `NeoModLoader.dll` um |
-| NML ist da, aber eine Mod taucht nicht auf | Die Mod liegt im falschen `Mods`. Sie gehört in den neben `worldbox.exe`, als Ordner mit `mod.json` darin, nicht als `.zip` |
-| NML sagt, eine Mod "has been disabled due to an error" | Die Mod ist kaputt oder zu alt für deine Spielversion. Such ein Update dieser Mod oder frag ihren Autor |
-| Alles ist direkt nach einem WorldBox-Update kaputt | Experimental Mode wieder einschalten. Dann warten, bis deine Mods aktualisiert sind: Ein Spiel-Update macht alte Mods oft für ein paar Tage kaputt |
+| Kein NML-Button, kein `Mods`-Ordner neben `worldbox.exe` | Der Experimentalmodus ist aus. Schalte ihn ein, starte neu. Auch nach jedem Spiel-Update |
+| Immer noch nichts, Experimentalmodus ist an | `NeoModLoader.dll` liegt im falschen Ordner. Sie muss in `worldbox_Data\StreamingAssets\Mods/` liegen, neben `test_asset_load` |
+| Die Datei heißt `NeoModLoader.dll.dll` oder `NeoModLoader (1).dll` | Benenne sie exakt in `NeoModLoader.dll` um |
+| NML ist da, aber eine Mod taucht nicht auf | Die Mod liegt im falschen `Mods`. Sie gehört in den neben `worldbox.exe`, als eigene `.zip` oder als Ordner mit `mod.json` darin |
+| Roter Text flutet den Bildschirm und sagt `YOU SHOULD RESTART THE GAME` | NML heißt `NeoModLoader (1).dll` oder ähnlich. Siehe **[Schritt 4](#schritt-4-nml-an-die-richtige-stelle-legen)** |
+| NML sagt, eine Mod "has been disabled due to an error" | Die Mod ist kaputt oder zu alt für deine Spielversion. Such nach einem Update dieser Mod oder frag ihren Autor |
+| Die Version in der Ecke des Hauptmenüs ändert sich nie | Dein Spiel läuft auf einem Steam-Beta-Zweig. Siehe **[Fehlerbehebung](#/troubleshooting)** |
+| Alles ging direkt nach einem WorldBox-Update kaputt | Schalte den Experimentalmodus wieder ein. Dann warte, bis deine Mods aktualisiert werden: Ein Spiel-Update macht alte Mods oft für ein paar Tage kaputt |
 
-Immer noch fest? **[Fehlerbehebung](#/troubleshooting)** hat die lange Liste, und **[Logs & Debugging](#/nml/logs-and-debugging)** zeigt, wo das Spiel aufschreibt, was schiefging. Wenn du um Hilfe bittest, sag, welche Mods du nutzt, was du direkt davor gemacht hast, und häng den Fehlertext an. "Geht nicht" kann niemand reparieren, ich auch nicht :PESgn_ReadRules:.
+Immer noch nicht? **[Fehlerbehebung](#/troubleshooting)** hat die lange Liste, und **[Logs & Debugging](#/nml/logs-and-debugging)** zeigt, wo das Spiel aufschreibt, was schiefgelaufen ist. Wenn du um Hilfe bittest, sag, welche Mods du nutzt, was du direkt vor dem Fehler gemacht hast, und füg den Fehlertext bei. "Es geht nicht" kann niemand reparieren, ich auch nicht :PESgn_ReadRules:.
 
 ---
 
 ## Fragen, die immer kommen
 
-**Kann ich NML und BepInEx zusammen benutzen?**
+**Kann ich NML und BepInEx zusammen nutzen?**
 Ja. Sie kommen sich nicht in die Quere. Zwei einzelne *Mods* können sich trotzdem beißen, aber das liegt an den Mods, nicht an den Loadern.
 
 **Die Mod sagt, sie braucht BepInEx, nicht NML.**
-Dann kommt sie nicht in `Mods`. Installier BepInEx wie in **[Die Live-Konsole (BepInEx)](#/toolbox/bepinex-console)** gezeigt (Windows), starte das Spiel einmal und leg die Mod in `BepInEx\plugins/`. Die Beschreibung der Mod sagt, welchen Loader sie will.
+Dann gehört sie nicht in `Mods`. Installiere BepInEx wie in **[Die Live-Konsole (BepInEx)](#/toolbox/bepinex-console)** gezeigt (Windows), starte das Spiel einmal und leg die Mod in `BepInEx\plugins/`. Die Beschreibung der Mod sagt, welchen Loader sie will.
 
 **NML oder NCMS?**
-NML. NCMS wird nicht mehr aktualisiert und läuft auf aktuellen Spielversionen nicht. NML führt die alten NCMS-Mods sowieso aus, du verlierst also nichts.
+NML. NCMS wird nicht mehr aktualisiert und läuft nicht auf aktuellen Versionen des Spiels. NML führt die alten NCMS-Mods ohnehin aus, du verlierst also nichts.
 
 **Ist NML ein Virus?**
-Nein. Browser warnen davor, weil eine `.dll`-Datei ein ausführbares Programm ist und nicht viele Leute diese Datei herunterladen. Lade sie ausschließlich über den obigen GitHub-Link herunter: Mods auf GameBanana werden von Moderatoren geprüft, während eine Datei aus einem Chat von niemandem geprüft wird :PESgn_ReadRules:.
+Nein. Browser warnen davor, weil eine `.dll` ein Programm ist und nicht viele Leute genau diese herunterladen. Hol sie nur über den GitHub-Link oben: Mods auf GameBanana werden von den Moderatoren geprüft, und eine Datei, die dir jemand im Chat schickt, prüft niemand :PESgn_ReadRules:.
 
 **Muss ich NML für jede Mod neu installieren?**
 Nein. Einmal reicht. Danach ist jede Mod nur ein Ordner in `Mods`.
 
 **Muss ich NML aktualisieren?**
-Normalerweise nicht. NML sucht bei jedem Spielstart nach einer neuen Version und ersetzt sich selbst (dafür ist die `NeoModLoader.AutoUpdate_memload.dll`, die daneben auftaucht). Klappt das mal nicht, lad die neue `NeoModLoader.dll` vom selben Link und ersetz die alte von Hand.
+Normalerweise nicht. NML prüft bei jedem Spielstart auf eine neue Version und ersetzt sich selbst (das ist die `NeoModLoader.AutoUpdate_memload.dll`, die daneben auftaucht). Falls das mal scheitert, lade die neue `NeoModLoader.dll` vom selben Link und ersetze die alte von Hand.
 
 **Machen Mods meine Spielstände kaputt?**
-Können sie. Ein Spielstand mit einer Mod lädt vielleicht nicht mehr richtig, wenn du die Mod entfernst. Mach eine Kopie der Welten, die dir wichtig sind, bevor du etwas Neues ausprobierst :PES_MonkaSweat:.
+Das können sie. Ein Spielstand, der mit einer Mod gemacht wurde, lädt vielleicht nicht mehr richtig, wenn du die Mod entfernst. Mach eine Kopie der Welten, die dir wichtig sind, bevor du etwas Neues ausprobierst :PES_MonkaSweat:.
 
-Du willst Mods bauen statt nur benutzen? Das fängt bei **[Erste Schritte](#/getting-started)** an.
+**Meine Lieblingsmod ist veraltet. Kann ich sie noch spielen?**
+Entweder wartest du auf ihren Autor, oder du spielst die Version des Spiels, für die sie gemacht wurde: In Steam Rechtsklick auf WorldBox → **Eigenschaften → Betas** und diesen Zweig wählen. Du brauchst auch den passenden NML-Build, verlinkt in den angepinnten Nachrichten des Modding-Kanals auf dem WorldBox-Discord. Solange du dort bist, funktioniert jede Mod für die aktuelle Version nicht mehr. Zum Zurückkehren wählst du im selben Menü **Keine**.
+
+**Wie aktualisiere ich eine Mod?**
+Workshop-Mods aktualisieren sich selbst. Für alles andere: Schließ das Spiel, lösch den alten Ordner der Mod (und ihre alte `.zip`) aus `Mods` und leg die neue `.zip` hinein.
+
+**Ich habe eine Mod gelöscht, und sie ist immer noch im Spiel.**
+Sie kam aus dem Steam Workshop. Sie in der Modliste abzuhaken reicht nicht: Deabonniere sie auf ihrer Workshop-Seite.
+
+**Kann ich eine Mod für mich selbst ändern?**
+Wenn sie einen `Code`-Ordner voller `.cs`-Dateien hat, ja: Das ist reiner Text, NML kompiliert ihn bei jedem Spielstart, und ihre Grafik liegt in `GameResources`. Mach vorher eine Kopie des Originals. Deine geänderte Version weiterzugeben ist eine andere Frage, frag den Autor. Eine Mod, die nur eine `.dll` mitliefert, lässt sich nicht bearbeiten, nur aus ihrem Quellcode neu bauen.
+
+**Jemand, der mir hilft, will mein Log.**
+Füg `%USERPROFILE%\AppData\LocalLow\mkarpenko\WorldBox` in die Adressleiste des Explorers ein und schick `Player.log`, die Datei selbst, keinen Screenshot davon. Wenn das Spiel gerade abgestürzt ist, schick stattdessen `Player-prev.log`: Ein neuer Spielstart überschreibt `Player.log`.
+
+Du willst Mods lieber machen statt nur nutzen? Das beginnt bei **[Erste Schritte](#/getting-started)**.

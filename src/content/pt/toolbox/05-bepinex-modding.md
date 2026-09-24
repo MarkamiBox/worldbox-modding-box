@@ -199,7 +199,7 @@ Abra o jogo com o console ativado:
 
 ## Verdades inconvenientes sobre mods no BepInEx
 
-- **Sem hot-reload**: qualquer alteração no código exige fechar o jogo, compilar novamente e reiniciar.
-- **`HideManagerGameObject`**: em `BepInEx/config/BepInEx.cfg`, confira se `HideManagerGameObject = true` está ativado para evitar que a limpeza da Unity destrua o objeto principal do BepInEx :PES5_Hmmmm:.
-- **Convivência com o NML**: o NML e o BepInEx operam em perfeita harmonia na mesma pasta do jogo.
-- **Acesso aos assets do jogo**: o BepInEx atua na camada pura da Unity. Para manipular elementos do WorldBox, aguarde o `AssetManager` ser carregado ou referencie o `NeoModLoader.dll`.
+- **Sem hot reload**: mudar uma linha de código significa fechar o WorldBox, rodar `dotnet build` e abrir o jogo de novo. Se você está ajustando o balanceamento de combate ou números de traços, isso cansa rápido.
+- **`HideManagerGameObject`**: em `BepInEx/config/BepInEx.cfg`, garanta que `HideManagerGameObject = true` esteja definido. Sem isso, algumas rotinas de limpeza do Unity podem destruir o objeto raiz do BepInEx e matar o seu plugin em silêncio :PES5_Hmmmm:.
+- **Jogando junto com o NML**: NML e BepInEx vivem felizes na mesma pasta do jogo. Você pode usar o NML para seus mods de conteúdo e o BepInEx para ferramentas de desenvolvimento como o UnityExplorer, sem que um brigue com o outro.
+- **Acessando assets do jogo**: o BepInEx roda na camada crua do Unity. Se você quer gerar criaturas, registrar itens ou editar traços a partir de um plugin BepInEx, precisa esperar o WorldBox terminar de inicializar o `AssetManager`, ou referenciar `NeoModLoader.dll` e deixar o NML fazer o trabalho pesado.

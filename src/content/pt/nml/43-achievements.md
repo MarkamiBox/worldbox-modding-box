@@ -68,7 +68,7 @@ namespace HelloBox
 }
 ```
 
-Dez fogos-fátuos vivos ao mesmo tempo, e a conquista será desbloqueada.
+Dez fogos-fátuos vivos ao mesmo tempo, e a conquista será desbloqueada. Top 10 conquistas de todos os tempos :trollface:.
 
 ## O que o jogo não faz automaticamente por você
 

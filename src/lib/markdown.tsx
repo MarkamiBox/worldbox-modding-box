@@ -74,7 +74,12 @@ function toHtml(md: string, headings: Heading[]): string {
       },
     },
   });
-  return replaceIcons(marked.parse(md, { async: false }));
+  // Wide tables scroll inside their own box instead of pushing the whole page sideways on phones.
+  const html = marked
+    .parse(md, { async: false })
+    .replace(/<table>/g, '<div class="table-wrap"><table>')
+    .replace(/<\/table>/g, '</table></div>');
+  return replaceIcons(html);
 }
 
 type Segment =

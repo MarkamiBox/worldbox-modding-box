@@ -73,32 +73,32 @@ Ao lado de suas imagens, um arquivo `sprites.json` explica ao NML como fatiar e 
 
 ## Onde cada tipo de arte deve ficar
 
-Esta é a tabela de consulta que todo mundo sempre revisita. Cada asset aponta para sua arte por meio de um campo diferente, e alguns deles prefixam pastas silenciosamente antes do carregamento. O valor informado **nem sempre** é o caminho direto no disco.
+Esta é a tabela para a qual todo mundo volta. Cada asset aponta para a sua arte com um campo diferente, e alguns colocam uma pasta na frente em silêncio antes de carregar, então o valor que você escreve **nem** sempre é o caminho onde o arquivo está.
 
-| Asset | Campo | Onde colocar o arquivo |
+| Asset | Campo | O arquivo vai em |
 | --- | --- | --- |
 | Traço, poder divino, reino, grupo | `path_icon` | `GameResources/` + exatamente o que você escreveu |
-| Item, empunhado na mão da unidade | `path_gameplay_sprite` | `GameResources/` + exatamente o que você escreveu |
-| Construção | `sprite_path` | Uma **pasta**: `GameResources/` + `sprite_path` + `/`, com `main_0.png`, `construction_0.png`, `ruin_0.png`. Com `sprite_path` vazio é `main_path` + id, e `main_path` vale `buildings/` por padrão |
-| Drop (recompensa) | `path_texture` | Uma **pasta**: `GameResources/` + exatamente o que você escreveu |
-| Nuvem | `path_sprites` | `GameResources/` + cada caminho presente na lista |
-| Efeito de status | `texture` | Uma **pasta**: `GameResources/effects/` + o que você escreveu |
-| Projétil | `texture` | Uma **pasta**: `GameResources/effects/projectiles/` + o que você escreveu |
-| Recurso, carregado na mão | `path_gameplay_sprite` | Uma **pasta**: `GameResources/items/resources/` + o que você escreveu |
-| Recurso, ícone de inventário | `path_icon` | `GameResources/` + o que escreveu (o jogo usa nomes curtos como `iconResBread`) |
-| Ladrilho (Tile) & Top Tile | *(sem campo)* | `GameResources/tiles/<id_do_ladrilho>/` |
+| Item, na mão de uma unidade | `path_gameplay_sprite` | `GameResources/` + exatamente o que você escreveu |
+| Construção | `sprite_path` | Uma **pasta**: `GameResources/` + `sprite_path` + `/`, com `main_0.png`, `construction_0.png`, `ruin_0.png`. Com `sprite_path` vazio é `main_path` + id, e `main_path` por padrão é `buildings/` |
+| Drop | `path_texture` | Uma **pasta**: `GameResources/` + exatamente o que você escreveu, um PNG por frame |
+| Nuvem | `path_sprites` | `GameResources/` + cada caminho da lista |
+| Efeito de status | `texture` | Uma **pasta**: `GameResources/effects/` + o que você escreveu, um PNG por frame |
+| Projétil | `texture` | Uma **pasta**: `GameResources/effects/projectiles/` + o que você escreveu, um PNG por frame |
+| Recurso, carregado na mão | `path_gameplay_sprite` | Uma **pasta**: `GameResources/items/resources/` + o que você escreveu, um PNG por frame |
+| Recurso, ícone do inventário | `path_icon` | `GameResources/` + o que você escreveu. O vanilla usa um nome simples como `iconResBread`, então o arquivo fica na raiz |
+| Ladrilho e ladrilho superior | *(nenhum campo)* | `GameResources/tiles/<the tile's id>/` |
 
 > [!WARNING] "Uma pasta" não é questão de estilo
-> Todo asset marcado como **pasta** acima é lido com `getSpriteList()`, que devolve os frames *dentro* de uma pasta. Aponte para um PNG solto e volta vazio: um drop cai invisível, um projétil lança `ArgumentOutOfRangeException` em `QuantumSpriteLibrary.drawProjectiles()`, um status lança em todo frame. Um frame só serve, ele só precisa estar na própria pasta: `drops/hello_ember/hello_ember_0.png` :wbfacepalm:.
+> Todo asset marcado como **pasta** acima é lido com `getSpriteList()`, que devolve os frames *dentro* de uma pasta. Aponte para um único PNG e ele volta vazio: um drop cai invisível, um projétil lança `ArgumentOutOfRangeException` em `QuantumSpriteLibrary.drawProjectiles()`, um status dá erro a cada frame. Um frame só está ótimo, ele só precisa ficar numa pasta própria: `drops/hello_ember/hello_ember_0.png` :wbfacepalm:.
 
-Três armadilhas comuns:
+Três deles mordem:
 
-- **Efeitos de status e projéteis prefixam uma pasta.** Escrever `texture = "effects/status/myThing"` fará o jogo buscar em `effects/effects/status/myThing`, que não existe. Os status originais usam nomes simples: `fx_status_burning_t`.
-- **Ladrilhos ignoram esses campos por completo.** A arte de um ladrilho é localizada pelo seu próprio **ID** em uma pasta dedicada, pois cada ladrilho tem várias variantes. `hello_moss` exige a pasta `GameResources/tiles/hello_moss/` contendo seus PNGs.
-- **Construções não juntam campos, mas têm um plano B.** `sprite_path` é usado exatamente como está: `"buildings/hello_shrine"` significa `GameResources/buildings/hello_shrine/`. Deixe vazio e o jogo usa `main_path` + id, então uma pasta escrita em `main_path` vira `buildings/hello_shrine/hello_shrine` :PESgn_Bruh:.
+- **Status e projétil colocam uma pasta na frente.** Escrever `texture = "effects/status/myThing"` num status faz o jogo procurar `effects/effects/status/myThing`, que não existe. Os status vanilla usam um nome simples: `fx_status_burning_t`.
+- **Ladrilhos ignoram os campos por completo.** A arte de um ladrilho é encontrada pelo seu **id**, numa pasta própria, porque um ladrilho tem várias variações. `hello_moss` significa `GameResources/tiles/hello_moss/` com seus PNGs dentro.
+- **Construções não colam nada, mas têm um plano B.** `sprite_path` é usado exatamente como escrito: `"buildings/hello_shrine"` significa `GameResources/buildings/hello_shrine/`. Deixe vazio e o jogo usa `main_path` + id, então uma pasta escrita em `main_path` vira `buildings/hello_shrine/hello_shrine` :PESgn_Bruh:.
 
-> [!TIP] Copie o caminho de um asset nativo
-> Encontre o item vanilla mais próximo, leia o valor do campo no **[UnityExplorer](#/toolbox/unity-explorer)** ou na **[Pesquisa de ícones](#/tools/icons)** e espelhe o formato. É o jeito mais rápido e assertivo :PESgn_Noice:.
+> [!TIP] Copie o caminho de um asset vanilla
+> Pegue a coisa vanilla mais parecida, leia o campo dela no **[UnityExplorer](#/toolbox/unity-explorer)** ou na **[Busca de caminhos de sprite](#/tools/icons)**, e copie o formato exato. É mais rápido do que raciocinar, e acerta de primeira :PESgn_Noice:.
 
 ## Lendo um arquivo diretamente do disco
 
@@ -123,23 +123,42 @@ MusicBox.playSound("event:/SFX/WEAPONS/WeaponFireballStart", pTile);   // at a p
 MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on the interface
 ```
 
-O primeiro é reproduzido a partir daquele bloco do mundo. O HelloBox reproduz o som da bola de fogo quando sua ação de combate lança uma brasa, veja **[Projéteis, feitiços e efeitos](#/nml/projectiles-spells)**. Para encontrar caminhos, pesquise `event:/SFX/` no código do jogo: existem centenas, organizados em pastas pelo tipo de som.
-
-> [!NOTE] Novos sons personalizados são um projeto separado
-> Os eventos FMOD vivem nos bancos de som do jogo e um mod não pode adicioná-los diretamente. Tocar seus próprios arquivos `.wav` significa carregá-los em um `AudioSource` do Unity por conta própria, fora dos controles de volume do jogo. Este guia não cobre isso, porque eu nunca o modifiquei e não vou fingir que fiz isso.
+O primeiro é reproduzido a partir daquele bloco do mundo. O HelloBox reproduz o som da bola de fogo quando sua ação de combate lança uma brasa, veja **[Projéteis, feitiços e efeitos](#/nml/projectiles-spells)**. Para encontrar caminhos, pesquise `event:/SFX/` no código do jogo: existem centenas, organizados em pastas pelo tipo de som. Abaixe o volume antes de começar a testá-los.
 
 ### Ajouter vos propres sons
 
-NeoModLoader soporta archivos de sonido nativos `.wav` a través de `CustomAudioManager` :PESgn_Noice:.
+O NML na verdade faz patch no FMOD por baixo dos panos, então arquivos `.wav` próprios funcionam sem você precisar montar um segundo motor de som numa garagem :PESgn_Noice:.
+
+Coloque seu arquivo `.wav` direto em `GameResources/`, por exemplo:
 
 ```text
-MyMod/
-└── Audio/
-    ├── custom_explosion.wav
-    └── custom_explosion.json
+GameResources/sounds/hello_boom.wav
 ```
 
-NML parchea `MusicBox.playSound` y reproduce tus archivos .
+O NML intercepta `MusicBox.playSound` e `playDrawingSound`, então você toca o som com exatamente o mesmo método de um som vanilla (sem a extensão do arquivo):
+
+```csharp
+MusicBox.playSound("sounds/hello_boom", pTile);
+```
+
+Ao lado do arquivo, um `hello_boom.json` opcional permite configurar como ele se comporta:
+
+```json GameResources/sounds/hello_boom.json
+{
+  "Volume": 60,
+  "Mode": "Stereo3D",
+  "Type": "Sound"
+}
+```
+
+| Campo | Valores |
+| --- | --- |
+| `Mode` | `Basic` (2D plano, o volume fica constante), `Stereo3D` (atenuação vanilla com a distância), `Mono3D` (direcional) |
+| `Type` | `Sound` (controle de efeitos), `Music` (controle de música), `UI` (controle de interface) |
+| `Volume` | Volume padrão de 0 a 100 |
+| `LoopCount` | Quantas vezes repetir (0 = uma vez) |
+
+O melhor de tudo: como o NML conecta os sons aos grupos de canais do jogo, eles respeitam de verdade as configurações de volume do jogador em vez de ensurdecê-lo à meia-noite.
 
 ## Nunca entregue um sprite nulo para o jogo
 

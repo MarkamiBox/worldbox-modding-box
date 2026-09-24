@@ -14,7 +14,7 @@ order: 142
 
 ## Сначала клонируем, затем настраиваем
 
-`clone(newId, sourceId)` копирует каждое поле оригинала, переименовывает его **и сразу же регистрирует**. Эта последняя деталь очень важна:
+`clone(newId, sourceId)` копирует все поля оригинала, переименовывает копию **и регистрирует её**. Последнее важно:
 
 ```csharp Mods/HelloBox/Code/HelloBuildings.cs
 namespace HelloBox
@@ -50,10 +50,10 @@ namespace HelloBox
 }
 ```
 
-Все свойства, которые вы явно не задали, остаются точно такими же, как у `temple_human` - полностью рабочего городского здания. В этом и заключается весь трюк.
+Всё, что вы не задали, остаётся точно таким же, как у `temple_human`, а это работающее городское здание. В этом весь фокус.
 
-> [!WARNING] Не вызывайте add() после clone()
-> `clone()` уже зарегистрировал копию. Вызов `AssetManager.buildings.add(shrine)` после этого зарегистрирует ее повторно, из-за чего библиотека удалит первую копию и выведет в лог `duplicate asset - overwriting...`. Это будет работать, но засоряет логи и станет первой вещью, на которую вам укажут при код-ревью.
+> [!WARNING] Не вызывайте `add()` после `clone()`
+> `clone()` уже зарегистрировал копию. Вызов `AssetManager.buildings.add(shrine)` после этого регистрирует её второй раз, из-за чего библиотека выбрасывает первую копию и пишет в лог `duplicate asset - overwriting...`. Работать всё равно будет, но это шум в логе и первое, на что укажет любой, кто будет проверять ваш код.
 
 ## Что брать за основу для клонирования
 
@@ -94,20 +94,20 @@ namespace HelloBox
 | `housing_happiness` | Бонус к счастью жителей |
 | `storage`, `storage_only_food`, `is_stockpile` | Работает ли как склад ресурсов |
 | `book_slots` | Вместимость книг в библиотеке |
-| `docks`, `boat_types`, `boat_type_fishing` … | Производство лодок |
+| `docks`, `boat_types`, `boat_type_fishing`, `boat_type_trading`, `boat_type_transport` | Производство лодок |
 | `spawn_units`, `spawn_units_asset` | Спавнит существ |
-| `tower`, `tower_projectile`, `tower_projectile_reload` … | Функции атакующей башни |
+| `tower`, `tower_projectile`, `tower_projectile_reload`, `tower_projectile_amount`, `tower_attack_buildings` | Функции атакующей башни |
 
 ### Строительство и размещение
 
 | Поле | Что делает |
 | --- | --- |
 | `cost`, `construction_progress_needed` | Стоимость в ресурсах и время постройки |
-| `can_be_upgraded`, `upgrade_to`, `upgraded_from` … | Цепочки улучшений, как у домов `house_human_0` - `_5` |
-| `build_place_borders`, `build_place_center` … | Где в черте города оно строится |
-| `build_prefer_replace_house`, `check_for_close_building` … | Правила размещения и замены |
+| `can_be_upgraded`, `upgrade_to`, `upgraded_from`, `upgrade_level` | Цепочки улучшений, как у домов `house_human_0` - `_5` |
+| `build_place_borders`, `build_place_center`, `build_place_single`, `build_place_batch` | Где в черте города оно строится |
+| `build_prefer_replace_house`, `check_for_close_building`, `ignore_same_building_id` | Правила размещения и замены |
 | `limit_per_zone`, `limit_in_radius`, `limit_global` | Лимиты на количество построек |
-| `can_be_placed_on_liquid`, `can_be_placed_on_blocks` … | Правила проходимости и грунта |
+| `can_be_placed_on_liquid`, `can_be_placed_on_blocks`, `needs_farms_ground`, `only_build_tiles` | Правила проходимости и грунта |
 | `build_road_to` | Прокладывает ли город к нему дорогу |
 
 ### Природа и рост
@@ -125,8 +125,8 @@ namespace HelloBox
 
 | Поле | Что делает |
 | --- | --- |
-| `burnable`, `affected_by_lava`, `affected_by_acid` … | Что наносит урон постройке |
-| `has_ruins_graphics`, `has_ruin_state`, `auto_remove_ruin` … | Что остается после уничтожения |
+| `burnable`, `affected_by_lava`, `affected_by_acid`, `damaged_by_rain`, `can_be_damaged_by_tornado` | Что наносит урон постройке |
+| `has_ruins_graphics`, `has_ruin_state`, `auto_remove_ruin`, `remove_ruins` | Что остается после уничтожения |
 | `can_be_demolished`, `can_be_abandoned`, `destroy_on_liquid` | Как удаляется с карты |
 | `loot_generation` | Какой лут выпадает при сносе |
 
@@ -140,7 +140,7 @@ namespace HelloBox
 | `shadow`, `shadow_bound`, `shadow_distortion` | Тень здания |
 | `has_kingdom_color` | Окрашивание в цвет королевства-владельца |
 | `draw_light_area`, `draw_light_size` | Свечение здания |
-| `has_special_animation_state`, `animation_speed` … | Анимации |
+| `has_special_animation_state`, `animation_speed`, `sparkle_effect` | Анимации |
 
 ### Поведение
 
@@ -152,11 +152,11 @@ namespace HelloBox
 
 ## Спрайты
 
-Постройки ищут графику по адресу `main_path + sprite_path`, то есть `buildings/hello_shrine`. Положите PNG в `GameResources/buildings/hello_shrine.png`, и игра найдет его как родной. Задайте в `sprites.json` опорную точку снизу по центру (bottom-centre pivot), иначе ваше святилище будет левитировать над землей как призрак :aPES_GhostDance:. См. **[Спрайты и ресурсы](#/nml/sprites-and-resources)**.
+Здания загружают графику из `sprite_path`, который используется **ровно так, как написан**. Только если оставить `sprite_path` пустым, игра откатывается на `main_path + id`. Положите графику в `GameResources/buildings/hello_shrine/` и задайте ей точку привязки внизу по центру в `sprites.json`, иначе ваше святилище будет парить над землёй как призрак :aPES_GhostDance:. См. **[Спрайты и ресурсы](#/nml/sprites-and-resources)**.
 
 ## Свой собственный спрайт
 
-Постройки - единственный ассет, который склеивает **два** поля воедино: `main_path + sprite_path`. Так как `main_path` по умолчанию уже равен `buildings/`, в `sprite_path` указывается только имя файла.
+Выберите одну из двух форм ниже и не смешивайте их. Загрузчик буквально делает так: берёт `sprite_path`, если в нём что-то есть, иначе `main_path + id`.
 
 ```text Mods/HelloBox/
 HelloBox/
@@ -170,22 +170,25 @@ HelloBox/
             └── sprites.json         bottom-centre pivot
 ```
 
-**Имена файлов — это и есть формат**. Загрузчик делит каждое имя по `_`: до него тип (`main`, `construction`, `ruin`, `disabled`, `spawn`, `special`), после — номер кадра анимации. `main_0`, `main_1`, `main_2` — анимация из трёх кадров. Файл с другим именем кадром не считается, а папка без `main_0` оставляет зданию нечего рисовать. `mini` — значок на миникарте: у `mini_0` должно быть ровно столько пикселей, сколько тайлов занимает здание, 5x4 для всего, что клонировано из `temple_human`. Без него миникарта кидает `NullReferenceException` в `Building.getColorForMinimap()` при каждой перерисовке.
+**Имена файлов и есть формат**. Загрузчик делит каждое имя по `_`: часть до - это вид (`main`, `construction`, `ruin`, `disabled`, `spawn`, `special` и `mini` для мини-карты), число после - кадр анимации. `mini_0` должен быть ровно столько пикселей, сколько клеток занимает здание, 5x4 для всего, что клонировано из `temple_human`; не положите его, и мини-карта при каждой перерисовке будет бросать `NullReferenceException` в `Building.getColorForMinimap()`. `main_0`, `main_1`, `main_2` - это анимация из трёх кадров. Файл с любым другим именем - не кадр, а папка без `main_0` не даёт зданию ничего для отрисовки.
 
 ```csharp
-shrine.main_path = "buildings/";       // значение по умолчанию, меняется редко
-shrine.sprite_path = "hello_shrine";   // НЕ "buildings/hello_shrine"
+// A: full path in sprite_path. main_path is then ignored.
+shrine.sprite_path = "buildings/hello_shrine";
+
+// B: leave sprite_path empty and let main_path + id decide.
+shrine.sprite_path = string.Empty;
+shrine.main_path = "buildings/";       // -> buildings/hello_shrine
 ```
 
-Смешаете их, папка в `main_path` и пустой `sprite_path`, - и игра начнет искать `buildings/hello_shrine/hello_shrine` :aPES_BrainScratch:.
+Смешаете их, папку в `main_path` и пустой `sprite_path`, и игра будет искать `buildings/hello_shrine/hello_shrine` :aPES_BrainScratch:.
 
-> [!WARNING] Загрузите кадры сами, после того как задан путь
-> Игра заполняет `building_sprites` для каждого здания в собственной предзагрузке, которая идёт до вашего мода. У здания, зарегистрированного позже, список кадров пуст, и при первой постановке игра падает в `Building.setAnimData()` с `ArgumentOutOfRangeException: Index was out of range` :wbfacepalm:. Вызовите `shrine.loadBuildingSprites();`, как только задан `sprite_path`.
+> [!WARNING] Загружайте кадры сами, после того как задали путь
+> Игра заполняет `building_sprites` для каждого здания в собственной предзагрузке, которая идёт до вашего мода. У здания, зарегистрированного позже, список кадров пуст, и при первой же установке игра падает в `Building.setAnimData()` с `ArgumentOutOfRangeException: Index was out of range` :wbfacepalm:. Вызовите `shrine.loadBuildingSprites();`, как только задан `sprite_path`.
 >
-> Его брат — `atlas_asset`, атлас, который красит здание в цвет владельца. Библиотека привязывает его в `checkAtlasLink()`, тоже при старте. Без него здание ставится нормально, а потом кидает `NullReferenceException` в `DynamicSprites.getRecoloredBuilding()` **в каждом кадре, пока оно на экране**.
+> Его родственник - `atlas_asset`, атлас спрайтов, который перекрашивает здание в цвет владельца. Библиотека связывает его в `checkAtlasLink()`, тоже при запуске. Пропустите это, и здание нормально ставится, а потом бросает `NullReferenceException` в `DynamicSprites.getRecoloredBuilding()` на **каждом кадре, пока оно на экране**.
 
-
-Не забудьте выставить **опорную точку снизу по центру** в `sprites.json`, иначе святилище взлетит на воздух (см. **[Спрайты и ресурсы](#/nml/sprites-and-resources)**).
+Задайте ему **точку привязки внизу по центру** в `sprites.json`, иначе ваше святилище будет парить над землёй как призрак (см. **[Спрайты и ресурсы](#/nml/sprites-and-resources)**).
 
 ## Размещение на карте
 

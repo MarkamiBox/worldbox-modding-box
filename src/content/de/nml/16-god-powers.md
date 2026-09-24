@@ -65,15 +65,15 @@ Füge `HelloPowers.Initialize();` zu `Main.cs` hinzu.
 
 ### Was die einzelnen Teile bewirken
 
-- **`id`**: Der Name, auf den sich alles andere bezieht. Der Button, die Übersetzung, andere Mods.
-- **`name`**: Wird von der internen Benutzeroberfläche des Spiels genutzt. Halte ihn identisch mit der ID, um dir Kopfschmerzen zu ersparen.
-- **`rank = PowerRank.Rank0_free`**: Von Anfang an verfügbar, kein Freischalten nötig.
-- **`path_icon`**: Das Cursor-/Werkzeug-Icon.
-- **`unselect_when_window`**: Wenn der Spieler ein Fenster öffnet, wird das Werkzeug deaktiviert, damit nicht versehentlich die Karte hinter dem Panel zerschlagen wird.
-- **`click_action`**: Dein Code. Er erhält die **angeklickte Kachel** und die **Power-ID** und gibt `true` zurück, wenn er eine Aktion ausgeführt hat.
+- **`id`**: der Name, auf den sich alles andere bezieht. Der Button, die Übersetzung, andere Mods.
+- **`name`**: wird für die UI-Abfragen des Spiels genutzt. Ihn gleich der ID zu halten erspart dir Kopfschmerzen.
+- **`rank = PowerRank.Rank0_free`**: von Anfang an verfügbar, nichts freizuschalten.
+- **`path_icon`**: das Cursor-/Werkzeug-Icon.
+- **`unselect_when_window`**: Öffnet der Spieler ein Fenster, legt sich das Werkzeug von selbst ab, damit er nicht versehentlich die Karte hinter dem Panel zerschmettert.
+- **`click_action`**: dein Code. Er bekommt das **angeklickte Feld** und die **ID der Macht** und gibt `true` zurück, wenn er etwas getan hat.
 
-> [!WARNING] Die Klick-Signatur ist (WorldTile, string)
-> `click_action` ist eine `PowerActionWithID`, daher ist das zweite Argument die Power-**ID als String**, keine `GodPower`. Es gibt ein zweites Feld namens `click_power_action`, welches `(WorldTile, GodPower)` akzeptiert. Eine falsche Signatur liefert dir einen Compilerfehler, der sich wie Kauderwelsch liest :PES_DaFuq:.
+> [!WARNING] Die Klick-Signatur ist `(WorldTile, string)`
+> `click_action` ist eine `PowerActionWithID`, also ist das zweite Argument die **ID der Macht als String**, keine `GodPower`. Es gibt ein zweites Feld, `click_power_action`, das `(WorldTile, GodPower)` nimmt. Die falsche Form beschert dir einen Compilerfehler, der sich wie Unsinn liest :PES_DaFuq:.
 
 ## Nützliche Aktionen beim Klick
 

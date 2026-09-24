@@ -10,7 +10,7 @@ order: 124
 
 Un gruppo di oggetti è una categoria nella finestra dell'equipaggiamento: elmi, spade, amuleti. È lo stesso identico `BaseCategoryAsset` che disegna le schede dei tratti (vedi **[Gruppi di tratti e schede](#/nml/trait-groups)**), situato questa volta in `AssetManager.item_groups`.
 
-La differenza cruciale è che un gruppo di oggetti richiede un **pool**, e dimenticarsi di questo pool è la causa principale di crash del tuo mod.
+La differenza cruciale è che un gruppo di oggetti richiede un **pool**, e dimenticarsi di questo pool è la causa principale di crash del tuo mod :PESgn_Yikes:.
 
 ## I gruppi vanilla
 
@@ -138,7 +138,7 @@ Un nuovo gruppo **non** ti dà un nuovo slot di equipaggiamento. `EquipmentType`
 
 ## Dove appare la categoria
 
-I gruppi vengono disegnati nell'ordine della lista, e `add()` inserisce il tuo in fondo. Spostalo accanto a una categoria correlata:
+I gruppi vengono disegnati nell'ordine di `list`, e `add()` mette il tuo per ultimo. Spostalo accanto a un parente:
 
 ```csharp
 private static void PlaceAfter(string pId, string pAfterId)

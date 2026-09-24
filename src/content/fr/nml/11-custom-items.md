@@ -112,6 +112,8 @@ namespace HelloBox
 
 ### Coût et valeur
 
+Gardez des prix raisonnables. Une épée en fer à 43 millions de pièces, ce n'est pas de l'équilibrage, c'est une arnaque :trollface:.
+
 | Champ | Ce qu'il fait |
 | --- | --- |
 | `setCost(gold, res1, amount1, res2, amount2)` | L'unique méthode qui configure tous les coûts ensemble. À préférer aux champs séparés |
@@ -131,14 +133,17 @@ namespace HelloBox
 
 ### Behaviour
 
+C'est ici qu'un objet cesse d'être un tas de nombres.
+
 | Champ | Ce qu'il fait |
 | --- | --- |
 | `action_attack_target` | S'exécute à chaque coup porté |
-| `action_special_effect` + `special_effect_interval` | S'exécute périodiquement tant que l'objet est équipé |
-| `item_modifier_ids` | Enchantements pouvant apparaître dessus. Voir **[Enchantements d'armes](#/nml/item-modifiers)** |
-| `addSpell(id)` | Sort accordé au porteur |
-| `addCombatAction(id)` | Technique de combat accordée |
+| `action_special_effect` + `special_effect_interval` | S'exécute sur un minuteur tant qu'il est équipé |
+| `item_modifier_ids` | Les enchantements qu'il peut obtenir. Voir **[Enchantements d'armes](#/nml/item-modifiers)** |
+| `addSpell(id)` + `linkSpells()` | Un sort que le porteur peut lancer. Le lien est à appeler vous-même, voir plus bas |
+| `addCombatAction(id)` | Compile, et ne fait rien sur un objet : une unité récupère ses actions de combat depuis ses traits (et sous-espèce, clan, religion), jamais depuis son équipement. Mettez-le sur un trait, voir **[Projectiles, sorts et effets](#/nml/projectiles-spells)** |
 
+Le jeu transforme ces ids en objets une seule fois, au démarrage, avant que votre mod ne charge. Sur un objet que vous avez enregistré vous-même, terminez par `linkSpells()`, et remplissez `decisions_assets` à la main (il n'y a pas de méthode de liaison pour ça), sinon l'octroi ne fait rien. Voir **[IA personnalisée](#/nml/custom-ai)**.
 
 ## Un effet lorsqu'il est tenu en main
 
@@ -239,7 +244,7 @@ private static void RegisterLine(string pPrefix, string pTemplate)
 
 ## Les textes et la localisation
 
-Les objets se nomment différemment de tout le reste dans ce guide, ce qui surprend tout le monde. Le nom affiché d'un objet se déduit ainsi :
+Les objets se nomment différemment de tout le reste dans ce guide, ce qui surprend tout le monde, moi compris :PESgn_Oops:. Le nom affiché d'un objet se déduit ainsi :
 
 ```text
 translation_key   ?? "item_" + (equipment_subtype ?? id)

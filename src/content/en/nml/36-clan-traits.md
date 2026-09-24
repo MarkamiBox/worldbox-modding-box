@@ -113,7 +113,7 @@ Several vanilla clan traits are rewards rather than defaults:
 trait.setUnlockedWithAchievement("achievementSegregator");
 ```
 
-A locked trait still exists and still works; the player just cannot pick it in the editor until the achievement is done. Note that `BaseTraitLibrary` also auto-sets `rarity = R3_Legendary` on anything locked this way.
+A locked trait still exists and still works; the player just cannot pick it in the editor until the achievement is done. `BaseTraitLibrary` also auto-sets `rarity = R3_Legendary` on anything locked this way, so your reward looks the part :gold_star:.
 
 ## The vanilla groups
 
@@ -153,7 +153,7 @@ A unit's clan is on `actor.clan`, and `actor.hasClan()` tells you whether it has
 
 ## New clans rolling a trait on their own
 
-Besides handing it out yourself, a clan trait can set `spawn_random_trait_allowed` to be rolled when a new clan forms, the same way a culture rolls its starting traits.
+Besides handing it out yourself, a clan trait can set `spawn_random_trait_allowed` to be rolled when a new clan forms, the same way a culture rolls its starting traits. Same trap as on every other trait page:
 
 > [!WARNING] `spawn_random_trait_allowed` is read once, at startup
 > New clans roll their starting traits from a pool that `BaseTraitLibrary.linkAssets()` builds while the game loads, before your mod exists. Setting the flag on your trait changes nothing on its own: your trait is never in that pool, and it never turns up on a new clan by chance. Put it in yourself, weighted the way vanilla does it:

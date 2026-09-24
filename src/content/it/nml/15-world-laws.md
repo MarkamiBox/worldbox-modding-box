@@ -50,7 +50,7 @@ Aggiungi `HelloLaws.Initialize();` a `Main.cs` e l'interruttore è nel gioco. È
 
 ## Leggere l'interruttore nel tuo codice
 
-Questo è il punto cruciale. Ovunque nella tua mod:
+Questo è il punto cruciale. Un interruttore che nessuno legge è una decorazione. Ovunque nella tua mod:
 
 ```csharp
 WorldLawAsset law = AssetManager.world_laws_library.get(HelloLaws.CHAOS);
@@ -101,15 +101,15 @@ new WorldLawAsset
 
 ## I testi
 
-```json Locales/en.json
+```json Mods/HelloBox/Locales/en.json
 {
   "world_law_hello_chaos_title": "Hello Chaos",
   "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one."
 }
 ```
 
-> [!WARNING] Le leggi del mondo usano _title, non l'id semplice
-> Quasi ogni altro asset usa il suo semplice id come chiave del nome. Le leggi del mondo richiedono `<id>_title`. Sbaglia e l'interruttore apparirà completamente privo di etichetta :PESgn_Really:.
+> [!WARNING] Le leggi del mondo usano `_title`, non l'id nudo
+> Quasi tutti gli altri asset usano il loro id nudo come chiave del nome. Le leggi del mondo vogliono `<id>_title`. Se sbagli, l'interruttore compare senza nessuna etichetta :PESgn_Really:.
 
 > [!TIP] Una legge batte un'impostazione
-> Le impostazioni della mod vivono in un menu che il giocatore apre una volta. Una legge del mondo si trova proprio lì nel gioco, accanto a quelle vanilla, per mondo, e può essere attivata a metà partita. Se la tua mod ha un comportamento acceso/spento, questo è il posto giusto :wbblessed:.
+> Le impostazioni della mod vivono in un menu che il giocatore apre una volta. Una legge del mondo è lì nel gioco, accanto a quelle vanilla, per ogni mondo, e si può cambiare a partita in corso. Se la tua mod ha un comportamento on/off, il suo posto è qui :wbblessed:.

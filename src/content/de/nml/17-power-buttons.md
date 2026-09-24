@@ -12,9 +12,9 @@ Du hast eine Gotteskraft registriert. Niemand kann sie anklicken, denn eine `God
 
 ## Erstelle deinen eigenen Tab
 
-Du *kannst* einen Button an einen der Vanilla-Tabs anhängen. Tu es nicht. Sie sind bereits voll, das Spiel ordnet Unterelemente nach Namen an und die Leiste scrollt - dein Button landet also an einer Stelle, zu der der Spieler niemals scrollen wird :PESgn_ToughLuck:.
+Du *kannst* einen Button an einen der Vanilla-Tabs anhängen. Lass es. Die sind schon voll, das Spiel ordnet Kinder nach Namen an, und die Leiste scrollt, also landet dein Button an einer Stelle, zu der der Spieler nie scrollt :PESgn_ToughLuck:.
 
-Ein eigener Tab, und alles, was du hinzufügst, ist zusammen und auffindbar:
+Ein eigener Tab, und alles, was du hinzufügst, ist beisammen und auffindbar:
 
 ```csharp Mods/HelloBox/Code/HelloPowers.cs
 using NeoModLoader.api;
@@ -337,8 +337,14 @@ namespace HelloBox
 }
 ```
 
+Das ist die ganze Datei: neun göttliche Mächte, der Tab, zehn Buttons und der Icon-Helfer. Jeder Button ist ein Feature, das dieser Leitfaden gezeigt hat. Die Abschnitte unten nehmen sie auseinander.
+
+`recalc()` passt die Größe des Tabs an seine Buttons an, und `sortButtons()` bringt sie in Reihenfolge. Beide müssen warten, und das Spiel sagt dir nicht auf freundliche Art, warum:
+
 > [!WARNING] Leg den Tab nicht während `OnModLoad` aus
-> `PowersTab` liest seinen eigenen Parent in Unitys `Start()`, das auf dem Objekt, das `CreateTab` dir gerade gegeben hat, noch nicht gelaufen ist. Ruf dort `recalc()` auf und die ganze Stage stirbt mit `NullReferenceException` in `PowersTab.setNewWidth()`, deine Kraft wird nie registriert und der Tab erscheint nie :wbfacepalm:.
+> `PowersTab` liest seinen eigenen Parent in Unitys `Start()`, das auf dem Objekt, das `CreateTab` dir gerade gegeben hat, noch nicht gelaufen ist. Ruf dort `recalc()` auf, und die ganze Stufe stirbt mit `NullReferenceException` in `PowersTab.setNewWidth()`, deine Macht wird nie registriert und der Tab erscheint nie :wbfacepalm:.
+>
+> Erstelle Tab und Buttons beim Laden und lege sie dann aus `Update()` aus, im ersten Frame, in dem `PowerTabController.instance` existiert. Dafür ist `LayoutWhenReady` oben da, und `Main.Update()` ruft es auf:
 >
 > ```csharp
 > public void Update()
@@ -348,8 +354,8 @@ namespace HelloBox
 > }
 > ```
 
-
-`tab.recalc()` ist das, was die Buttons anordnet. Vergisst du es, sieht dein Tab leer aus, obwohl die Buttons da sind.
+> [!TIP] Den Update()-Tanz mit IStagedLoad überspringen
+> Wenn dir das Abfragen in `Update()` umständlich vorkommt, implementiere `IStagedLoad` in deiner Mod-Klasse. Seine Methode `Init()` wird im zweiten Frame nach dem Erstellen der Mod ausgelöst, genau dann, wenn das Spiel und seine UI-Controller vollständig wach sind.
 
 ## Zwei Arten von Buttons
 

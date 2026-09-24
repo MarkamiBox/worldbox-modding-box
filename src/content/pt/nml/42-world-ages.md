@@ -112,7 +112,7 @@ namespace HelloBox
 
 ## Eras do mundo
 
-A Era das Brasas faz chover brasas a cada oito segundos, escurece a tela com partículas de cinza, propaga o fogo duas vezes mais rápido e mantém as cidades um pouco mais leais. Um novo mundo pode colocá-la no slot 4 de sua roda, e o botão de aleatorizar da roda pode sorteá-la em qualquer lugar.
+A Era das Brasas faz chover brasas a cada oito segundos, escurece a tela com partículas de cinza, propaga o fogo duas vezes mais rápido e mantém as cidades um pouco mais leais. Um novo mundo pode colocá-la no slot 4 de sua roda, e o botão de aleatorizar da roda pode sorteá-la em qualquer lugar. Sutileza nunca foi o objetivo do HelloBox :wbfireskull:.
 
 > [!WARNING] Três operações que a biblioteca fez na inicialização
 > `post_init()` define o fundo de cada era a partir de seu ID, e `linkAssets()` constrói `list_only_normal` (a reserva para a era aleatória desconhecida) e `pool_by_slots` (as reservas com as quais um novo mundo preenche a roda). Uma nova era não está em nenhuma delas. Se você omitir o fundo, a roda exibirá um pedaço vazio; se omitir as reservas, a era existirá, mas nenhum mundo jamais a sorteará.

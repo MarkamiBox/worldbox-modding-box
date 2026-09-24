@@ -14,7 +14,7 @@ Portanto, não construímos um do zero. Clonamos um que já funciona.
 
 ## Clonar primeiro, ajustar depois
 
-`clone(newId, sourceId)` copia cada campo do original, o renomeia **e o registra**. Esta última parte é crucial:
+`clone(newId, sourceId)` copia todos os campos do original, renomeia **e registra**. Essa última parte importa:
 
 ```csharp Mods/HelloBox/Code/HelloBuildings.cs
 namespace HelloBox
@@ -50,10 +50,10 @@ namespace HelloBox
 }
 ```
 
-Tudo o que você não definir permanece exatamente como estava em `temple_human`, que é um edifício urbano plenamente funcional. Esse é todo o segredo.
+Tudo o que você não definir fica exatamente como estava no `temple_human`, que é uma construção de cidade que funciona. Esse é o truque todo.
 
-> [!WARNING] Não chame add() após clone()
-> `clone()` já registrou a cópia. Chamar `AssetManager.buildings.add(shrine)` depois disso registra pela segunda vez, fazendo com que a biblioteca descarte a primeira cópia e registre `duplicate asset - overwriting...`. Ainda funciona, mas suja o log e é a primeira coisa que qualquer pessoa apontará ao revisar seu código.
+> [!WARNING] Não chame `add()` depois de `clone()`
+> `clone()` já registrou a cópia. Chamar `AssetManager.buildings.add(shrine)` depois registra uma segunda vez, o que faz a biblioteca descartar a primeira cópia e registrar `duplicate asset - overwriting...` no log. Continua funcionando, mas é ruído no seu log e a primeira coisa que qualquer um que revisar seu código vai apontar.
 
 ## De onde clonar
 
@@ -94,20 +94,20 @@ Clonar o parente mais próximo leva dez minutos de leitura e poupa uma noite int
 | `housing_happiness` | Bônus de felicidade por morar ali |
 | `storage`, `storage_only_food`, `is_stockpile` | Se armazena recursos |
 | `book_slots` | Capacidade de livros em bibliotecas |
-| `docks`, `boat_types`, `boat_type_fishing` … | Produção de embarcações |
+| `docks`, `boat_types`, `boat_type_fishing`, `boat_type_trading`, `boat_type_transport` | Produção de embarcações |
 | `spawn_units`, `spawn_units_asset` | Gera criaturas |
-| `tower`, `tower_projectile`, `tower_projectile_reload` … | Capacidades de ataque e disparo de torre |
+| `tower`, `tower_projectile`, `tower_projectile_reload`, `tower_projectile_amount`, `tower_attack_buildings` | Capacidades de ataque e disparo de torre |
 
 ### Construção e posicionamento
 
 | Campo | O que faz |
 | --- | --- |
 | `cost`, `construction_progress_needed` | Custo pago pela cidade e tempo necessário |
-| `can_be_upgraded`, `upgrade_to`, `upgraded_from` … | Cadeias de melhoria, como `house_human_0` a `_5` |
-| `build_place_borders`, `build_place_center` … | Onde ele se localiza na vila |
-| `build_prefer_replace_house`, `check_for_close_building` … | Regras de posicionamento |
+| `can_be_upgraded`, `upgrade_to`, `upgraded_from`, `upgrade_level` | Cadeias de melhoria, como `house_human_0` a `_5` |
+| `build_place_borders`, `build_place_center`, `build_place_single`, `build_place_batch` | Onde ele se localiza na vila |
+| `build_prefer_replace_house`, `check_for_close_building`, `ignore_same_building_id` | Regras de posicionamento |
 | `limit_per_zone`, `limit_in_radius`, `limit_global` | Quantos podem existir |
-| `can_be_placed_on_liquid`, `can_be_placed_on_blocks` … | Regras de terreno |
+| `can_be_placed_on_liquid`, `can_be_placed_on_blocks`, `needs_farms_ground`, `only_build_tiles` | Regras de terreno |
 | `build_road_to` | A cidade constrói uma estrada até ele |
 
 ### Natureza e crescimento
@@ -125,8 +125,8 @@ Clonar o parente mais próximo leva dez minutos de leitura e poupa uma noite int
 
 | Campo | O que faz |
 | --- | --- |
-| `burnable`, `affected_by_lava`, `affected_by_acid` … | O que o danifica |
-| `has_ruins_graphics`, `has_ruin_state`, `auto_remove_ruin` … | O que deixa para trás ao ser destruído |
+| `burnable`, `affected_by_lava`, `affected_by_acid`, `damaged_by_rain`, `can_be_damaged_by_tornado` | O que o danifica |
+| `has_ruins_graphics`, `has_ruin_state`, `auto_remove_ruin`, `remove_ruins` | O que deixa para trás ao ser destruído |
 | `can_be_demolished`, `can_be_abandoned`, `destroy_on_liquid` | Como ele desaparece |
 | `loot_generation` | O que ele dropa ao ruir |
 
@@ -140,7 +140,7 @@ Clonar o parente mais próximo leva dez minutos de leitura e poupa uma noite int
 | `shadow`, `shadow_bound`, `shadow_distortion` | A sombra |
 | `has_kingdom_color` | Tingido pela cor do reino proprietário |
 | `draw_light_area`, `draw_light_size` | Brilho e iluminação |
-| `has_special_animation_state`, `animation_speed` … | Animações |
+| `has_special_animation_state`, `animation_speed`, `sparkle_effect` | Animações |
 
 ### Comportamento
 
@@ -152,11 +152,11 @@ Clonar o parente mais próximo leva dez minutos de leitura e poupa uma noite int
 
 ## Sprites
 
-Edifícios buscam suas artes em `main_path + sprite_path`, resultando em `buildings/hello_shrine`. Coloque seu PNG em `GameResources/buildings/hello_shrine.png` e ele será resolvido como qualquer edifício vanilla. Defina um pivô inferior central (bottom-centre) em seu `sprites.json`, ou seu santuário flutuará acima do solo como um fantasma :aPES_GhostDance:. Veja **[Sprites e recursos](#/nml/sprites-and-resources)**.
+As construções carregam a arte de `sprite_path`, usado **exatamente como está escrito**. Só quando você deixa `sprite_path` vazio o jogo recorre a `main_path + id`. Coloque sua arte em `GameResources/buildings/hello_shrine/` e dê a ela um pivô no centro de baixo no seu `sprites.json`, ou o seu santuário flutua acima do chão como um fantasma :aPES_GhostDance:. Veja **[Sprites e recursos](#/nml/sprites-and-resources)**.
 
 ## Seu próprio sprite
 
-Edifícios são o único asset que junta **dois** campos: `main_path + sprite_path`. `main_path` já tem como padrão `buildings/`, logo `sprite_path` é apenas o nome do arquivo.
+Escolha um dos dois formatos abaixo e não misture. O carregador faz literalmente isto: usa `sprite_path` se tiver alguma coisa, senão usa `main_path + id`.
 
 ```text Mods/HelloBox/
 HelloBox/
@@ -170,22 +170,25 @@ HelloBox/
             └── sprites.json         bottom-centre pivot
 ```
 
-Os **nomes dos arquivos são o formato**. O carregador divide cada nome em `_`: antes vem o tipo (`main`, `construction`, `ruin`, `disabled`, `spawn`, `special`), depois o número do frame da animação. `main_0`, `main_1`, `main_2` é uma animação de três frames. Um arquivo com outro nome não é um frame, e uma pasta sem `main_0` deixa a construção sem nada para desenhar. `mini` é o ícone do minimapa: `mini_0` precisa ter tantos pixels quantos tiles a construção ocupa, 5x4 para qualquer coisa clonada de `temple_human`. Sem ele, o minimapa lança `NullReferenceException` em `Building.getColorForMinimap()` a cada redesenho.
+Os **nomes dos arquivos são o formato**. O carregador divide cada nome no `_`: a parte antes é o tipo (`main`, `construction`, `ruin`, `disabled`, `spawn`, `special`, e `mini` para o minimapa), o número depois é o frame da animação. `mini_0` precisa ter exatamente tantos pixels quantos tiles a construção ocupa, 5x4 para qualquer coisa clonada de `temple_human`; sem ele, o minimapa lança `NullReferenceException` em `Building.getColorForMinimap()` toda vez que redesenha. `main_0`, `main_1`, `main_2` é uma animação de três frames. Um arquivo com qualquer outro nome não é um frame, e uma pasta sem `main_0` não dá nada para a construção desenhar.
 
 ```csharp
-shrine.main_path = "buildings/";       // o padrão, você raramente altera
-shrine.sprite_path = "hello_shrine";   // NÃO "buildings/hello_shrine"
+// A: full path in sprite_path. main_path is then ignored.
+shrine.sprite_path = "buildings/hello_shrine";
+
+// B: leave sprite_path empty and let main_path + id decide.
+shrine.sprite_path = string.Empty;
+shrine.main_path = "buildings/";       // -> buildings/hello_shrine
 ```
 
-Se misturar, pasta em `main_path` e `sprite_path` vazio, o jogo buscará `buildings/hello_shrine/hello_shrine` :aPES_BrainScratch:.
+Misture os dois, pasta em `main_path` e `sprite_path` vazio, e o jogo procura `buildings/hello_shrine/hello_shrine` :aPES_BrainScratch:.
 
 > [!WARNING] Carregue os frames você mesmo, depois de definir o caminho
-> O jogo preenche `building_sprites` de cada construção no próprio pré-carregamento, que roda antes do seu mod. Uma construção registrada depois tem a lista de frames vazia, e na primeira vez que é colocada o jogo morre em `Building.setAnimData()` com `ArgumentOutOfRangeException: Index was out of range` :wbfacepalm:. Chame `shrine.loadBuildingSprites();` assim que `sprite_path` estiver definido.
+> O jogo preenche `building_sprites` para cada construção no próprio pré-carregamento, que roda antes do seu mod. Uma construção que você registra depois tem a lista de frames vazia, e na primeira vez que alguém é colocado o jogo morre em `Building.setAnimData()` com `ArgumentOutOfRangeException: Index was out of range` :wbfacepalm:. Chame `shrine.loadBuildingSprites();` assim que `sprite_path` estiver definido.
 >
-> O irmão dele é `atlas_asset`, o atlas que pinta a construção na cor do dono. A biblioteca liga isso em `checkAtlasLink()`, também na inicialização. Sem ele a construção é colocada normalmente e depois lança `NullReferenceException` em `DynamicSprites.getRecoloredBuilding()` **em todo frame que aparece na tela**.
+> O irmão dele é `atlas_asset`, o atlas de sprites que pinta a construção na cor do dono. A biblioteca o liga em `checkAtlasLink()`, também na inicialização. Pule isso e a construção é colocada sem problemas, mas depois lança `NullReferenceException` em `DynamicSprites.getRecoloredBuilding()` em **todo frame em que aparece na tela**.
 
-
-Configure um **pivô inferior central** no seu `sprites.json`, caso contrário seu santuário flutuará no ar (veja **[Sprites e recursos](#/nml/sprites-and-resources)**).
+Dê a ela um **pivô no centro de baixo** no seu `sprites.json`, ou o seu santuário flutua acima do chão como um fantasma (veja **[Sprites e recursos](#/nml/sprites-and-resources)**).
 
 ## Colocando um no mapa
 

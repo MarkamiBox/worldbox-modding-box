@@ -56,6 +56,8 @@ namespace HelloBox
 
 ### I campi
 
+La maggior parte di questi arriva con ciò che hai clonato e non li guardi mai più. `speed` e `texture` sono i due che cambierai davvero.
+
 | Campo | Cosa fa |
 | --- | --- |
 | `texture`, `texture_shadow` | Sprite e relativa ombra |
@@ -108,7 +110,7 @@ HelloBox/
 bolt.texture = "hello_bolt";   // NON "effects/projectiles/hello_bolt"
 ```
 
-Anche i proiettili si caricano come lista di sprite: una **cartella** col nome di `texture`, un PNG per frame, e più frame diventano l'animazione di volo quando `animated` è attivo. Un `hello_bolt.png` sciolto torna come lista vuota, e disegnare il proiettile lancia `ArgumentOutOfRangeException`.
+Anche i proiettili si caricano come lista di sprite: una **cartella** col nome di `texture`, un PNG per frame, e più frame diventano l'animazione di volo quando `animated` è attivo. Un `hello_bolt.png` sciolto torna come lista vuota, e disegnare il proiettile lancia `ArgumentOutOfRangeException` :PESgn_Oops:.
 
 `texture_shadow` è invece un percorso completo senza prefissi: vanilla punta al condiviso `shadows/projectiles/shadow_ball`, e riutilizzarlo è quasi sempre la scelta ideale.
 
@@ -144,43 +146,95 @@ AssetManager.spells.add(bolt);
 
 ### Assegnare un incantesimo a un'entità
 
-Gli incantesimi vengono associati per ID all'elemento che li conferisce:
+Gli incantesimi si attaccano a ciò che li concede, tramite id:
 
 ```csharp
-trait.addSpell("hello_bolt");        // qualsiasi tratto di ognuno dei 7 sistemi
-item.addSpell("hello_bolt");         // un'arma o un oggetto
+trait.addSpell("hello_bolt");        // any trait, of any of the seven systems
+trait.linkSpells();                  // the ids became objects at startup: do it for yours
+item.addSpell("hello_bolt");         // an item
+item.linkSpells();
 actorAsset.spell_ids = new List<string> { "hello_bolt" };
 ```
 
-Incantesimi vanilla istruttivi da analizzare: `teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`.
+`addSpell()` aggiunge solo un id. La libreria trasforma gli id in incantesimi in `linkAssets()`, all'avvio, prima della tua mod: salta `linkSpells()` su un tratto o un oggetto che hai registrato tu e non concede nulla, in silenzio.
+
+Id di incantesimi vanilla che vale la pena leggere: `teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`.
 
 ## Azioni di combattimento
 
-Un `CombatActionAsset` è un delegato che viene attivato da un evento di combattimento, solitamente per innescare un incantesimo o un effetto:
+Un incantesimo è qualcosa che un'unità lancia. Un'**azione di combattimento** è qualcosa che *fa* in mezzo alla lotta: uno scatto, una schivata, una torcia lanciata prima di avvicinarsi. Il gioco le estrae in momenti fissi di uno scontro, chiamati pool.
 
-```csharp Mods/HelloBox/Code/HelloSpells.cs
-CombatActionAsset action = new CombatActionAsset
+```csharp Mods/HelloBox/Code/HelloCombat.cs
+using UnityEngine;
+
+namespace HelloBox
 {
-    id = "hello_cast_on_attack",
-    action = (pSelf, pTarget, pWorldTile) =>
+    public static class HelloCombat
     {
-        if (pSelf == null || !pSelf.isAlive()) return false;
+        public const string TOSS = "hello_ember_toss";
 
-        // do the cast
-        return true;
+        public static void Initialize()
+        {
+            if (AssetManager.combat_action_library.has(TOSS)) return;
+
+            CombatActionAsset toss = new CombatActionAsset
+            {
+                id = TOSS,
+                cost_stamina = 10,
+                chance = 0.3f,        // rolled each time the unit could use it, plus its combat skill
+                cooldown = 4f,
+                pools = new CombatActionPool[] { CombatActionPool.BEFORE_ATTACK_MELEE },
+
+                // same range as the vanilla torch throw: not point blank, not across the map
+                can_do_action = (Actor pSelf, BaseSimObject pTarget) =>
+                {
+                    float dist = Toolbox.SquaredDistVec2Float(pSelf.current_position, pTarget.current_position);
+                    return dist > 36f && dist < 2500f;
+                },
+
+                action_actor_target_position = (Actor pSelf, Vector2 pTarget, WorldTile pTile) =>
+                {
+                    if (pSelf == null || !pSelf.isAlive() || pTile == null) return false;
+
+                    Vector3 launch = pSelf.current_position;
+                    launch.y += 0.5f;
+                    // a shooter means a kingdom, so no pForcedKingdom here
+                    World.world.projectiles.spawn(pSelf, null, HelloProjectiles.EMBER_BOLT, launch, pTile.posV3);
+                    MusicBox.playSound("event:/SFX/WEAPONS/WeaponFireballStart", pTile);
+                    return true;
+                }
+            };
+
+            AssetManager.combat_action_library.add(toss);
+
+            // Combat actions come from traits. The trait only stores ids, and the game turned
+            // ids into objects at startup: link it yourself or the trait never uses it.
+            ActorTrait swift = AssetManager.traits.get(HelloTraits.SWIFT);
+            if (swift == null) return;
+            swift.addCombatAction(TOSS);
+            swift.linkCombatActions();
+        }
     }
-};
-AssetManager.combat_actions.add(action);
+}
 ```
 
-Collegalo a un evento sul tuo tratto:
+| Pool | Quando viene estratto |
+| --- | --- |
+| `BEFORE_ATTACK_MELEE` | Mentre si avvicina per un colpo corpo a corpo. Usa `action_actor_target_position` |
+| `BEFORE_ATTACK_RANGE` | Sta per tirare. Stesso delegate |
+| `BEFORE_HIT` | Sta per essere colpita. Usa `action_actor`, come la schivata |
+| `BEFORE_HIT_BLOCK` | Sta per essere colpita, para invece. Come la parata |
+| `BEFORE_HIT_DEFLECT` | Arriva un proiettile. Come la deviazione |
 
-```csharp
-trait.addCombatAction(CombatActionAsset.BEFORE_ATTACK_MELEE, "hello_cast_on_attack");
-```
+| Campo | Cosa fa |
+| --- | --- |
+| `chance` | Tirato quando l'azione è possibile, aumentato dallo `skill_combat` dell'unità |
+| `cost_stamina` / `cost_mana` | Pagato all'uso. Se non basta, non è un'opzione |
+| `cooldown` | Secondi dello stato `recovery_combat_action` subito dopo, che blocca ogni azione di combattimento |
+| `can_do_action` | La tua condizione, dato il bersaglio |
 
 > [!WARNING] Solo i tratti le distribuiscono
-> Non puoi collegare un'azione di combattimento direttamente a un `ActorAsset`. Ogni evento di combattimento esamina i tratti dell'attore e interroga le relative azioni; quindi, se vuoi un'azione su un'unità, inseriscila in un tratto e assegna il tratto all'unità :PES2_Shrug:.
+> Un'unità raccoglie le azioni di combattimento dai suoi tratti e dalla sua sottospecie, clan e religione, mai dall'equipaggiamento. Il tratto conserva gli id, e il gioco ha trasformato gli id in oggetti all'avvio: chiama `linkCombatActions()` dopo `addCombatAction()`, altrimenti il tratto porta una mossa che nessuno fa mai :PES2_Shrug:.
 
 ## Effetti
 

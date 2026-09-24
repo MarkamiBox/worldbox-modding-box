@@ -72,6 +72,8 @@ namespace HelloBox
 
 ### 字段详解
 
+克隆一个原版云，然后改掉 `drop_id` 和 `color_hex`。很多云不需要别的。
+
 | 字段 | 作用 |
 | --- | --- |
 | `color_hex` | 色调。它几乎决定了云朵全部的视觉辨识度 |
@@ -93,7 +95,7 @@ namespace HelloBox
 public delegate void CloudAction(Cloud pCloud);
 ```
 
-`CloudLibrary.dropAction` 是原版默认动作：它在云朵精灵图下方挑选一个随机地块，并在该处生成一个 `drop_id`。在 90% 的情况下这是你唯一需要的动作，直接赋给 `cloud_action_1` 即可。
+`CloudLibrary.dropAction` 是原版默认动作：它在云朵精灵图下方挑选一个随机地块，并在该处生成一个 `drop_id`。在 90% 的情况下这是你唯一需要的动作，直接赋给 `cloud_action_1` 即可。又懒又正确，我最爱的组合 :pepeOK:。
 
 如果想添加额外效果，可以编写自定义方法并指定给 `cloud_action_2`：
 

@@ -112,6 +112,8 @@ namespace HelloBox
 
 ### Coste y valor
 
+Mantén los precios sensatos. Una espada de hierro por 43 millones de monedas no es equilibrio, es una estafa :trollface:.
+
 | Campo | Lo que hace |
 | --- | --- |
 | `setCost(gold, res1, amount1, res2, amount2)` | La llamada que establece todos los costes juntos. Úsala en lugar de asignarlos por separado |
@@ -131,14 +133,17 @@ namespace HelloBox
 
 ### Behaviour
 
-| Campo | Lo que hace |
-| --- | --- |
-| `action_attack_target` | Se ejecuta en cada impacto acertado |
-| `action_special_effect` + `special_effect_interval` | Se ejecuta periódicamente mientras está equipado |
-| `item_modifier_ids` | Encantamientos que puede recibir. Ver **[Encantamientos de armas](#/nml/item-modifiers)** |
-| `addSpell(id)` | Un hechizo que el portador puede lanzar |
-| `addCombatAction(id)` | Un movimiento de combate que otorga |
+Aquí es donde un objeto deja de ser un montón de números.
 
+| Campo | Qué hace |
+| --- | --- |
+| `action_attack_target` | Se ejecuta en cada golpe acertado |
+| `action_special_effect` + `special_effect_interval` | Se ejecuta con un temporizador mientras está equipado |
+| `item_modifier_ids` | Encantamientos que puede obtener. Mira **[Encantamientos de armas](#/nml/item-modifiers)** |
+| `addSpell(id)` + `linkSpells()` | Un hechizo que puede lanzar quien lo lleva. El enlace lo tienes que llamar tú, mira abajo |
+| `addCombatAction(id)` | Compila, y en un objeto no hace nada: una unidad reúne acciones de combate de sus rasgos (y subespecie, clan, religión), nunca de su equipo. Ponlo en un rasgo, mira **[Proyectiles, hechizos y efectos](#/nml/projectiles-spells)** |
+
+El juego convierte esos ids en objetos una sola vez, al arrancar, antes de que cargue tu mod. En un objeto que registraste tú, termina con `linkSpells()` y pon `decisions_assets` a mano (no hay método de enlace para eso), o la concesión no hace nada. Mira **[IA personalizada](#/nml/custom-ai)**.
 
 ## Un efecto mientras se sostiene
 
@@ -239,7 +244,7 @@ private static void RegisterLine(string pPrefix, string pTemplate)
 
 ## Los textos de localización
 
-Los objetos se nombran de forma diferente a todo lo demás en esta guía, lo que confunde a todo el mundo. El nombre visible de un objeto se resuelve así:
+Los objetos se nombran de forma diferente a todo lo demás en esta guía, lo que confunde a todo el mundo, a mí incluido :PESgn_Oops:. El nombre visible de un objeto se resuelve así:
 
 ```text
 translation_key   ?? "item_" + (equipment_subtype ?? id)

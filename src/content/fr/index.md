@@ -12,7 +12,7 @@ order: 1
 
 ## Organisation du guide
 
-- **Vue d'ensemble** : Cette introduction, ce qu'il faut pour débuter, le dépannage, les outils externes (BepInEx, UnityExplorer, dnSpy, AssetRipper), les remerciements et les retours.
+- **Vue d'ensemble** : Cette introduction, ce qu'il faut pour débuter, le dépannage, les outils externes (BepInEx, UnityExplorer, dnSpy, AssetRipper), le modding avec BepInEx, les remerciements et les retours.
 - **Modding NML** : Tout ce qui concerne le chargeur de mods et le pipeline de développement - en commençant par **[Installer NML](#/install-nml)** (commencez par là si vous voulez simplement *jouer* avec des mods) :
   - **Flux de travail de base** : Structure d'un mod, premier mod, logs & débogage, localisation et sprites.
   - **Avancé & Publication** : Menus de configuration en jeu, patchs Harmony, sauvegarde de données et publication sur le Steam Workshop.
@@ -25,3 +25,5 @@ order: 1
   - **Pouvoirs Divins & Interface** : Pouvoirs divins & pinceaux, boutons de pouvoirs et fenêtres personnalisées avec onglets & infobulles.
   - **Finitions** : Succès en jeu et assemblage final d'un mod complet.
 - **Outils de Modding** : Utilitaires interactifs intégrés directement au site (Générateur de patchs Harmony, Explorateur de champs d'assets, Recherche de méthodes et Sélecteur d'icônes Discord).
+
+La première fois, lisez-le de haut en bas. Ensuite, sautez d'une page à l'autre comme tout le monde :PES2_Shrug:.

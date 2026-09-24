@@ -21,7 +21,7 @@ order: 170
 
 ## 克隆，切勿从零搭建
 
-一个地块类型包含大约上百个字段，其中大部分仅仅服务于某一种特定的原版地块。找到关系最近的原版地块进行克隆即可：
+一个地块类型包含大约上百个字段，其中大部分仅仅服务于某一种特定的原版地块。我可不打算把一百个全列出来。找到关系最近的原版地块进行克隆即可：
 
 ```csharp Mods/HelloBox/Code/HelloTiles.cs
 using UnityEngine;
@@ -88,6 +88,8 @@ namespace HelloBox
 | `biome_tags`, `has_biome_tags` | 哪些群系会自然蔓延生长出该地块 |
 
 ### 行为表现
+
+如果你的地块是一个玩法创意，而不只是换个颜色，就从这里开始。
 
 | 字段 | 作用 |
 | --- | --- |
@@ -187,7 +189,7 @@ if (tile.isOnFire()) { }
 if (tile.hasBuilding()) { }
 ```
 
-`main_type` 和 `top_type` 都有可能是 `null`。在读取任何属性前务必判空。这是所有遍历地图网格的模组中最常见的崩溃源头。
+`main_type` 和 `top_type` 都有可能是 `null`。在读取任何属性前务必判空。这是所有遍历地图网格的模组中最常见的崩溃源头 :PES2_F:。
 
 ## 地形改造配置（TerraformOptions）
 

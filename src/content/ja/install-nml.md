@@ -38,7 +38,7 @@ order: 1
 このスイッチがないと、ゲームはmodを探しもしません。エラーもメッセージもなく、ただ何も起きません :PES5_Hmmmm:。
 
 > [!WARNING] Mods という名前のフォルダが2つあります
-> ここ `worldbox_Data\StreamingAssets\Mods/` の中は **NML本体（NeoModLoader.dll）専用** です。作成した **mod** を入れるのは別のフォルダで、ゲームのルートディレクトリ（`worldbox.exe` の隣にある `worldbox\Mods/`）になります。まだ存在しませんが、初回起動時にNMLが自動作成します。modを `StreamingAssets\Mods/` に入れたり、NMLを `worldbox\Mods/` に置くのが、最も多い間違いです。
+> ここ `worldbox_Data\StreamingAssets\Mods/` の中は **NML本体（`NeoModLoader.dll`）専用** です。作成した **mod** を入れるのは別のフォルダで、ゲームのルートディレクトリ（`worldbox.exe` の隣にある `worldbox\Mods/`）になります。まだ存在しませんが、初回起動時にNMLが自動作成します。modを `StreamingAssets\Mods/` に入れたり、NMLを `worldbox\Mods/` に置くのが、最も多い間違いです。
 
 ### 手順2. NMLをダウンロードする
 
@@ -46,7 +46,7 @@ order: 1
 2. **Assets** という項目までスクロールします。閉じていたらクリックして開きます。
 3. **NeoModLoader.dll** をクリックします。普通のファイルと同じように、たいてい **ダウンロード** フォルダに保存されます。
 
-必要なのはこのファイルだけです。`nml-setup-win.exe` や、`.pdb`、`.xml`、「Source code」のファイルも並んでいますが、すべて無視してください。
+必要なのはこのファイルだけです。`nml-setup-win.exe` や、`.pdb`、`.xml`、「Source code」のファイルも並んでいますが、すべて無視してください。それらはNMLの開発者向けで、あなた向けではありません。
 
 > [!WARNING] このリンクからだけ
 > `.dll` はプログラムです。NMLは上のGitHubページ **からだけ** ダウンロードしてください。CurseForgeや他のサイト、チャットで誰かに送られたファイルは絶対に使わないこと。他所の古いコピーは、ゲーム初回起動時に自分自身を削除し、`NML` フォルダと `NeoModLoader.AutoUpdate_memload.dll` だけを残します。もしそうなったら、ここに戻って本物のファイルをダウンロードしてください。GameBanana の「1-click install」ボタンもNMLをインストールしません。`.dll` は手動でダウンロードしてください。
@@ -67,40 +67,40 @@ Steamがゲームをインストールしたフォルダです。探す必要は
 C:\Program Files (x86)\Steam\steamapps\common\worldbox\
 ```
 
-このウィンドウは開いたままにしておきます。以後「WorldBoxフォルダ」と言ったらここのことです。
+このウィンドウは開いたままにしておきます。以後「WorldBoxフォルダ」と言ったらここのことです。思っているより何度もここに戻ってくることになります。
 
 > [!TIP] Windowsに拡張子を表示させる
 > Windowsは初期設定でファイル名の末尾を隠すので、`NeoModLoader.dll` がただの `NeoModLoader` に見えます。これだとどんな手順書も分かりにくくなります。フォルダのウィンドウ上部の **表示** をクリックし、**ファイル名拡張子** にチェックを入れてください（Windows 11では **表示 → 表示 → ファイル名拡張子**）。何も壊れません。ファイル名が全部見えるようになるだけです。
 
 ### 手順4. NMLを正しい場所に置く
 
-1. WorldBoxフォルダで **worldbox_Data** をダブルクリック。
-2. **StreamingAssets** をダブルクリック。
-3. **Mods** をダブルクリック。
-4. 別のウィンドウで **ダウンロード** フォルダを開き、**NeoModLoader.dll** をこの `Mods` ウィンドウにドラッグします。
+1. WorldBoxのフォルダーで **worldbox_Data** をダブルクリックします。
+2. **StreamingAssets** をダブルクリックします。
+3. **Mods** をダブルクリックします。
+4. 次に、2つ目のウィンドウで **ダウンロード** フォルダーを開き、**NeoModLoader.dll** をこの `Mods` ウィンドウにドラッグします。
 
-最終的にこうなります：
+最終的にここに置かれるはずです：
 
 ```text
 worldbox/
 └── worldbox_Data/
     └── StreamingAssets/
         └── Mods/
-            ├── test_asset_load/     ゲームのもの、触らない
-            └── NeoModLoader.dll     <- 今入れたもの
+            ├── test_asset_load/     the game's own, leave it
+            └── NeoModLoader.dll     <- the one you just added
 ```
 
-そこに `test_asset_load` が見えなければ、フォルダを間違えています。WorldBoxフォルダに戻ってやり直してください。
+中に `test_asset_load` が見当たらなければ、フォルダーを間違えています。WorldBoxのフォルダーに戻ってやり直してください。
 
-**ついでに：** 名前に **NCMS** が付くもの（たとえば `NCMS_memload.dll` や `NCMS` というフォルダ）があれば削除します。NCMSは昔のmodローダーで、もう死んでいます。古いNCMSのmodはNMLがそのまま動かせます :PES2_Shrug:。
+**このフォルダーにいる間に：** 名前に **NCMS** が入ったもの（例えば `NCMS_memload.dll` や `NCMS` という名前のフォルダー）があれば削除してください。NCMSは古いModローダーで、もう終わっています。そしてNMLは古いNCMSのModも動かせます :PES2_Shrug:。
 
-> [!WARNING] `NeoModLoader (1).dll` は `NeoModLoader.dll` ではありません
-> NMLを2回ダウンロードした、または古いコピーがすでにそのフォルダにあった場合、Windowsは新しいファイルを `NeoModLoader (1).dll` という名前にします。するとNMLは起動を拒否し、画面が赤い文字で埋め尽くされて「ゲームを再起動してください」と表示され、ログには `Missing className: NeoModLoader (1).WorldBoxMod` と出ます。ゲームを閉じ、古いファイルを削除し、新しいファイルの名前を正確に `NeoModLoader.dll`（空白も数字もなし）に変更して、もう一度起動してください。これが「NMLが動かない」の最も多い原因です :PESgn_SMH:。
+> [!WARNING] `NeoModLoader (1).dll` は `NeoModLoader.dll` ではない
+> NMLを2回ダウンロードした、あるいは古いコピーがすでにそのフォルダーにあった？ Windowsは上書きせずに新しいほうを `NeoModLoader (1).dll` と名付け、NMLは起動を拒否します：ゲームを再起動しろという赤い文字が画面を埋め尽くし、ログには `Missing className: NeoModLoader (1).WorldBoxMod` と出ます。ゲームを閉じ、古いファイルを削除し、新しいほうの名前を正確に `NeoModLoader.dll` に変えて（スペースも数字もなし）、もう一度起動してください。この1文字が、NMLが「動かない」いちばんよくある原因です :PESgn_SMH:。
 >
-> Windowsが「使用中」で古いファイルを削除できない場合、ゲームがまだ起動しています。先に閉じてください。
+> Windowsが「使用中」と言って古いファイルの削除を拒否するなら、ゲームがまだ動いています。先に閉じてください。
 
-> [!WARNING] Modsという名前のフォルダは2つある
-> ここ、`worldbox_Data\StreamingAssets/` の中にあるのは **NML本体専用** です。**mod** を入れるのは別のフォルダで、`worldbox.exe` の隣にあります。まだ存在せず、次の手順でNMLが作ります。modをここに入れる、またはNMLをあちらに入れるのが、このページでいちばん多いミスです。
+> [!WARNING] Modsという名前のフォルダーが2つある
+> ここ、`worldbox_Data\StreamingAssets\Mods/` の中は **NML本体**（具体的には `NeoModLoader.dll`）専用で、それ以外は入れません。**Mod** を入れるのは別のフォルダーで、ゲームのルート、`worldbox.exe` のすぐ隣にあります（`worldbox\Mods/`）。まだ存在しませんが、初めてゲームを起動したときにNMLが自動で作ります。Modを `StreamingAssets\Mods/` に入れたり、NMLを `worldbox\Mods/` に入れたりするのが、このページでいちばん多い間違いです。
 
 ### 手順5. ゲームを起動して確認する
 
@@ -119,7 +119,7 @@ SteamからWorldBoxを起動します。初回はいつもより少し長めに�
 
 ## Mac
 
-同じ5つの手順です。Macではゲーム全体がひとつのアプリアイコンにまとまっているので、フォルダの隠れ場所だけが違います。
+同じ5つの手順です。Macではゲーム全体がひとつのアプリアイコンにまとまっているので、フォルダの隠れ場所だけが違います。Appleらしいですね :wbbre:。
 
 1. **Experimental Mode**：Windowsとまったく同じ、**[手順1](#手順1-experimental-modeをオンにする)**。アップデートの注意もあなたに当てはまります。
 2. [同じリリースページ](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest) から `NeoModLoader.dll` を **ダウンロード**。WindowsとMacで同じファイルです。
@@ -139,7 +139,7 @@ worldbox/
 
 ## Linux & Steam Deck
 
-ロジックはまったく同じです。Linux版Steamはゲームをユーザーディレクトリにインストールし、Steam Deckでは最初にデスクトップモードに切り替えるだけです。
+ロジックはまったく同じです。Linux版Steamはゲームをユーザーディレクトリにインストールし、Steam Deckでは最初にデスクトップモードに切り替えるだけです。ペンギンも歓迎です :wbpenguin:。
 
 1. **Experimental Mode**: Windowsと同様、**[手順1](#手順1-experimental-modeをオンにする)** を行います。
 2. **ダウンロード**: [公式リリースページ](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest) から `NeoModLoader.dll` をダウンロードします。全プラットフォーム共通の同一ファイルです。
@@ -195,20 +195,20 @@ worldbox/
 
 ## うまくいかなかった
 
-上から順に確認してください。ほとんどの人は最初の項目で直ります。
+上から順に確認してください。たいていは最初の項目で解決します。
 
-| 見えるもの | やること |
+| 見えている症状 | やること |
 | --- | --- |
-| NMLのボタンがない、`worldbox.exe` の隣に `Mods` フォルダがない | Experimental Mode がオフです。オンにして再起動。ゲームを更新するたびにも |
-| それでも何もない、Experimental Mode はオン | `NeoModLoader.dll` の置き場所が違います。`worldbox_Data\StreamingAssets\Mods/` の、`test_asset_load` の隣に置きます |
-| ファイル名が `NeoModLoader.dll.dll` や `NeoModLoader (1).dll` になっている | 正確に `NeoModLoader.dll` に名前を変えます |
-| NMLはあるのに、modが出てこない | modが違う `Mods` に入っています。`worldbox.exe` の隣のほうに、`.zip` のまま、または中に `mod.json` があるフォルダとして入れます |
-| 画面が赤文字で埋め尽くされ「YOU SHOULD RESTART THE GAME」と出る | NMLが `NeoModLoader (1).dll` などの名前になっています。**[手順4](#手順4-nmlを正しい場所に置く)** を参照 |
-| NMLが「has been disabled due to an error」と言う | modが壊れているか、ゲームのバージョンに対して古すぎます。そのmodの更新を探すか、作者に聞いてください |
-| メインメニュー隅のバージョン表示がいつまでも変わらない | ゲームがSteamのベータブランチになっています。**[トラブルシューティング](#/troubleshooting)** を参照 |
-| WorldBoxのアップデート直後に全部壊れた | Experimental Mode をオンに戻します。そのあとmodの更新を待ちます。ゲームのアップデートで古いmodが数日壊れるのはよくあることです |
+| NMLのボタンがなく、`worldbox.exe` の隣に `Mods` フォルダーもない | 実験モードがオフです。オンにして再起動してください。ゲームのアップデートのたびにも必要です |
+| それでも何もない、実験モードはオン | `NeoModLoader.dll` の場所が間違っています。`test_asset_load` の隣、`worldbox_Data\StreamingAssets\Mods/` に置く必要があります |
+| ファイル名が `NeoModLoader.dll.dll` や `NeoModLoader (1).dll` になっている | 名前を正確に `NeoModLoader.dll` に変えてください |
+| NMLはあるのに、Modが表示されない | Modが違う `Mods` に入っています。`worldbox.exe` の隣の方に、単独の `.zip` か、中に `mod.json` があるフォルダーとして入れます |
+| 赤い文字が画面を埋め、`YOU SHOULD RESTART THE GAME` と出る | NMLの名前が `NeoModLoader (1).dll` などになっています。**[ステップ4](#手順4-nmlを正しい場所に置く)** を参照 |
+| NMLが、あるModについて "has been disabled due to an error" と言う | そのModが壊れているか、ゲームのバージョンに対して古すぎます。そのModのアップデートを探すか、作者に聞いてください |
+| メインメニューの隅のバージョンがいつまでも変わらない | ゲームがSteamのベータブランチにあります。**[トラブルシューティング](#/troubleshooting)** を参照 |
+| WorldBoxのアップデート直後にすべてが壊れた | 実験モードをもう一度オンにしてください。それからModのアップデートを待ちましょう：ゲームのアップデートは、古いModを数日間壊すことがよくあります |
 
-まだだめなら、**[トラブルシューティング](#/troubleshooting)** に長い一覧があり、**[ログとデバッグ](#/nml/logs-and-debugging)** にゲームが問題を書き残す場所が載っています。助けを求めるときは、使っているmod、壊れる直前にしたこと、エラーの文章を伝えてください。「動かない」だけでは誰も直せません。私もです :PESgn_ReadRules:。
+まだダメ？ **[トラブルシューティング](#/troubleshooting)** に長いリストがあり、**[ログとデバッグ](#/nml/logs-and-debugging)** には、ゲームが何がおかしかったかを書き残す場所が載っています。助けを求めるときは、使っているMod、壊れる直前にしたこと、エラーの文面を伝えてください。「動かない」だけでは誰にも直せません、私にもです :PESgn_ReadRules:。
 
 ---
 

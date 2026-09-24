@@ -23,14 +23,16 @@ order: 44
 | `data.hasFlag(key)` / `data.removeFlag(key)` | 查询或移除标记 |
 | `data.removeInt(key)`, `removeFloat`, `removeString`... | 删除指定类型的键值 |
 
-每种数据类型在底层都有独立的存储字典，因此同名的 `int` 和 `string` 不会发生冲突。但为了你的代码可读性与心智负担，仍强烈建议使用互不相同的键名。
+每种数据类型在底层都有独立的存储字典，因此同名的 `int` 和 `string` 不会发生冲突。但为了你的代码可读性与心智负担，仍强烈建议使用互不相同的键名。未来的你不会记得哪个是哪个。
 
 
 
 
 ## 使用 NML 存储复杂对象
 
-如果五个基础类型无法满足你的需求，你需要在生物数据上存入一整个自定义类或列表，NML 在 `NeoModLoader.General.Game.extensions` 中提供了 `DataExtension` 扩展方法：
+如果五种基本类型让你觉得像是 1995 年，而你确实需要把整个类或列表保存在一个角色身上，NML 在 `NeoModLoader.General.Game.extensions` 里提供了 `DataExtension`。
+
+把你的数据类包进 `BasicCustomData<T>`：
 
 ```csharp
 using NeoModLoader.General.Game.extensions;
@@ -52,7 +54,7 @@ if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
 }
 ```
 
-在底层，NML 会把对象序列化为 JSON 字符串并存入原版的 `custom_data_string` 数据表中。若数据结构未来会发生变动，建议直接让类实现 `ICustomData` 接口以获得明确的版本校验控制 :PES5_Hmmmm:。
+在底层，NML 会把你的对象序列化成 JSON，并以你的键存进原版的 `custom_data_string` 表里。如果你预计数据格式会随模组更新而变化，就直接在你的类上实现 `ICustomData`，而不是使用 `BasicCustomData<T>`：它会给你显式的 `ModId` 和 `DataVersion` 检查，免得旧存档里的数据悄悄污染你的新状态 :PES5_Hmmmm:。
 
 ## 在 HelloBox 中的实践
 
@@ -111,7 +113,7 @@ namespace HelloBox
 }
 ```
 
-保存地图后再重新载入：命中计数依然完好如初，因为它已经成为了该生物专属存档数据的一部分。而 Flag 的存在确保了老兵奖励只会在第 50 次命中时触发一次，不会在后续的每次攻击中重复发放。
+保存地图后再重新载入：命中计数依然完好如初，因为它已经成为了该生物专属存档数据的一部分。而 Flag 的存在确保了老兵奖励只会在第 50 次命中时触发一次，不会在后续的每次攻击中重复发放。很慷慨，但依然是个 bug。
 
 配套的本地化文本，与普通特质完全一致：
 

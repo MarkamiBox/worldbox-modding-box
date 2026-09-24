@@ -11,7 +11,7 @@ order: 140
 > [!NOTE] 游戏里称为 Actor，而不是“种族”（Race）
 > 游戏将地图上的每一个活物统称为 **Actor**：人类、狼、巨龙、僵尸、螃蟹。它们全都派生自同一个基础类 `ActorAsset`，且全部存放在 `AssetManager.actor_library` 中。“种族”（Race）是早已废弃的历史旧词，唯一残留的地方是一个被标记为 `[Obsolete("use .original_actor_asset instead")]` 的 `race` 属性，它存在的唯一意义是兼容读取史前版本的旧存档。在任何地方都请使用 `actor`。
 
-添加一个全新的生物是每个 mod 开发者都想做、但几乎没人能做完的方向。因为一个 `ActorAsset` 承载着动画、贴图、音效、生物学分类、食性、AI 行为树、基因组、文化以及各项属性数值。只要漏填或者搞错其中一项，你就会在游戏里得到一个孤零零站在大洋深处的隐形单位。
+添加一个全新的生物是每个 mod 开发者都想做、但几乎没人能做完的方向。因为一个 `ActorAsset` 承载着动画、贴图、音效、生物学分类、食性、AI 行为树、基因组、文化以及各项属性数值。只要漏填或者搞错其中一项，你就会在游戏里得到一个孤零零站在大洋深处的隐形单位 :PES4_Invisible:。
 
 好消息是：游戏本体自己也绝不会从零组装一个生物。原版创建精灵（Elf）的代码，字面上就只有这一句：
 
@@ -78,16 +78,15 @@ namespace HelloBox
     }
 }
 ```
-> [!WARNING] 自己加载影子，不然游戏会对每个角色报错
-> `ActorAssetLibrary` 启动时会遍历自己的列表，对每个角色调用 `loadShadow()`，它读取 `shadows/<shadow_texture>` 的精灵图并量出尺寸。这件事发生在你的 mod 注册任何东西之前，所以你角色的影子一直是 `(0.00, 0.00)`，游戏会为它报三次资源错误：成体、蛋、幼体 :wbfacepalm:。
+> [!WARNING] 自己加载阴影，否则游戏会为每个角色报错
+> `ActorAssetLibrary` 在启动时会遍历它的列表，对每个角色调用 `loadShadow()`，读取 `shadows/<shadow_texture>` 处的精灵图并测量尺寸。这一步发生在你的模组注册任何东西之前，所以你的角色的阴影会一直是 `(0.00, 0.00)`，游戏会为它记录资源错误，而且是三次，成体、蛋和幼体各一次 :wbfacepalm:。
 >
-> `loadShadow()` 是 `internal`，所以和这份指南里其他地方一样，需要 **publicized** 过的 `Assembly-CSharp.dll`。如果没有，就改成 `asset.shadow = false;`：没有影子，但也不会报错。
+> `loadShadow()` 是 `internal` 的，所以和本指南其他地方一样需要一个**公开化**的 `Assembly-CSharp.dll`。如果没有，就改为设置 `asset.shadow = false;`：没有阴影，但也不会报错。
 
-
-> [!WARNING] clone() 内部已经完成了注册
-> `AssetManager.<library>.clone(newId, sourceId)` 内部会自动调用 `add()`。每个资源库都是这样设计的。克隆之后再手写一个 `add()` 属于重复注册：资源库会强制丢弃第一个副本，记录一条错误警告，然后再次添加。虽然不至于让游戏崩溃，但这会污染日志掩盖真正的错误，而且任何熟悉 mod 开发的人审阅代码时都会第一时间提出质疑。
+> [!WARNING] `clone()` 已经注册过了
+> `AssetManager.<library>.clone(newId, sourceId)` 内部会调用 `add()`。所有资源库都是这样。之后你再自己调用 `add()` 就是重复注册：资源库会移除第一个副本、记录一条错误，然后重新添加。无害，但这是日志里的噪音，会让真正的错误更难找到，也是审查者第一眼就会注意到的地方。
 >
-> 其直接的好处在于：**在克隆之后，`base_stats` 已经存在**，所以 **[自定义特质](#/nml/custom-traits)** 中强调的“add 之后才能配置属性”的原则在这里已经天然满足。
+> 反过来这也是好消息：**克隆之后 `base_stats` 就已经存在了**，所以 **[自定义特质](#/nml/custom-traits)** 里“先 add 再设属性”的规则已经自动满足。
 
 ## 批量定义多个生物
 
@@ -173,6 +172,8 @@ namespace HelloBox
 
 ## 决定生物“本体特质”的关键字段
 
+第一天只有三个字段重要：`civ`、`actor_size` 和 `name_locale`。其余的可以等你的生物能看见、能走路之后再说。
+
 | 字段 | 作用说明 |
 | --- | --- |
 | `civ` | 文明生物标识：会建立城市、王国、任职与开战。`false` = 动物 |
@@ -192,12 +193,12 @@ namespace HelloBox
 | `kingdom_id_wild` / `kingdom_id_civilization` | 归属阵营（未驯化的野生群体与定居建国后的文明群体） |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … 贴图所在的图集 |
 | `animation_walk` / `animation_idle` / `animation_swim` | 序列帧动画定义，各带独立的 `_speed` 播放速率 |
-| `sound_idle`, `sound_spawn`, `sound_death` … | FMOD 音效事件路径 |
+| `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | FMOD 音效事件路径 |
 | `name_taxonomic_*` | 界、门、纲、目、科、属、种，用于生物知识窗口 |
 | `collective_term` | 量词群体称谓（如“一**群**狼”） |
 | `allowed_status_tiers` | 允许被施加的状态效果阶级 |
 | `production` | 其城市能生产制造的物资品类 |
-| `zombie_id_internal`, `skeleton_id`, `mush_id` … | 死亡或感染后的蜕变目标 |
+| `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | 死亡或感染后的蜕变目标 |
 
 ## 将文明生物接入世界体系
 
@@ -283,7 +284,7 @@ sprite.icon = "iconHelloSprites";
 
 ## 贴图精灵才是真正的硬骨头
 
-上面介绍的所有内容，写成代码不过区区一页。真正折磨人的是画画：一个生物需要一整套完整的动画帧、正确的图集、适宜的尺寸以及精确的锚点轴心。摆在面前的只有两条诚实的道路：
+上面介绍的所有内容，写成代码不过区区一页。真正折磨人的是画画，大多数生物模组就是在这里悄无声息地夭折的：一个生物需要一整套完整的动画帧、正确的图集、适宜的尺寸以及精确的锚点轴心。摆在面前的只有两条诚实的道路：
 
 1. **直接沿用克隆源的贴图。** 一个复用人类动画骨骼、仅仅改换数值和全身色调的生物，已经是一个非常优秀且*绝对能跑通*的入门 mod。
 2. **使用 AssetRipper 提取原版素材**，找到被克隆生物的图集，在动笔画图之前必须像素级精确匹配其排版布局。参见 **[获取游戏美术素材](#/toolbox/getting-the-sprites)**。

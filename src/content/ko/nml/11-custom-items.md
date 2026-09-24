@@ -112,6 +112,8 @@ namespace HelloBox
 
 ### 비용과 가치
 
+가격은 상식적으로 정하세요. 4300만 코인짜리 철검은 밸런스가 아니라 사기입니다 :trollface:.
+
 | 필드 | 설명 |
 | --- | --- |
 | `setCost(gold, res1, amount1, res2, amount2)` | 모든 비용을 한 번에 설정하는 권장 메서드. 개별 필드 설정 대신 이것을 사용하세요 |
@@ -131,13 +133,17 @@ namespace HelloBox
 
 ### Behaviour
 
-| 필드 | 설명 |
+여기서부터 아이템은 숫자 묶음이 아니게 됩니다.
+
+| 필드 | 하는 일 |
 | --- | --- |
-| `action_attack_target` | 공격이 적중할 때마다 실행 |
-| `action_special_effect` + `special_effect_interval` | 장착 중 주기적으로 실행 |
-| `item_modifier_ids` | 부여될 수 있는 마법부여 목록. **[무기 마법부여](#/nml/item-modifiers)** 참조 |
-| `addSpell(id)` | 착용자가 시전할 수 있게 되는 주문 |
-| `addCombatAction(id)` | 착용자가 구사할 수 있게 되는 전투 기술 |
+| `action_attack_target` | 공격이 적중할 때마다 실행됩니다 |
+| `action_special_effect` + `special_effect_interval` | 장착하고 있는 동안 타이머로 실행됩니다 |
+| `item_modifier_ids` | 붙을 수 있는 인챈트. **[무기 인챈트](#/nml/item-modifiers)** 참고 |
+| `addSpell(id)` + `linkSpells()` | 착용자가 시전할 수 있는 주문. 연결은 직접 호출해야 합니다, 아래 참고 |
+| `addCombatAction(id)` | 컴파일은 되지만 아이템에서는 아무것도 하지 않습니다: 유닛은 전투 행동을 특성(과 아종, 씨족, 종교)에서 모으고, 장비에서는 절대 모으지 않습니다. 특성에 붙이세요. **[투사체, 주문과 효과](#/nml/projectiles-spells)** 참고 |
+
+게임은 이 ID들을 시작할 때, 여러분의 모드가 로드되기 전에 한 번만 객체로 바꿉니다. 직접 등록한 아이템에서는 마지막에 `linkSpells()`를 호출하고, `decisions_assets`를 직접 설정하세요(그쪽에는 연결 메서드가 없습니다). 그러지 않으면 부여가 아무 효과도 없습니다. **[커스텀 AI](#/nml/custom-ai)**를 보세요.
 
 ## 장착 중에만 발동하는 효과
 
@@ -238,7 +244,7 @@ private static void RegisterLine(string pPrefix, string pTemplate)
 
 ## 텍스트 및 로컬라이제이션
 
-아이템의 작명 방식은 이 가이드의 다른 모든 에셋과 달라서 많은 사람들을 헷갈리게 합니다. 아이템의 표시 이름은 다음과 같이 결정됩니다:
+아이템의 작명 방식은 이 가이드의 다른 모든 에셋과 달라서 많은 사람들을 헷갈리게 합니다. 저도 포함해서요 :PESgn_Oops:. 아이템의 표시 이름은 다음과 같이 결정됩니다:
 
 ```text
 translation_key   ?? "item_" + (equipment_subtype ?? id)

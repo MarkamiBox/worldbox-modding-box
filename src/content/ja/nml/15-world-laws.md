@@ -50,7 +50,7 @@ namespace HelloBox
 
 ## コード内でスイッチの状態を読み取る
 
-これこそがスイッチを追加した目的です。MOD内のどこからでも判定できます:
+これこそがスイッチを追加した目的です。誰も読まないスイッチはただの飾りです。MOD内のどこからでも判定できます:
 
 ```csharp
 WorldLawAsset law = AssetManager.world_laws_library.get(HelloLaws.CHAOS);
@@ -101,15 +101,15 @@ new WorldLawAsset
 
 ## テキスト設定
 
-```json Locales/en.json
+```json Mods/HelloBox/Locales/en.json
 {
   "world_law_hello_chaos_title": "Hello Chaos",
   "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one."
 }
 ```
 
-> [!WARNING] 世界の法則には素の id ではなく _title を使用する
-> ほぼすべてのアセットはID名をそのままキーとして使いますが、世界の法則は `<id>_title` を要求します。これを間違えると、ラベルが完全に空白のスイッチが表示されてしまいます :PESgn_Really:。
+> [!WARNING] 世界の法則はIDそのままではなく `_title` を使う
+> ほかのほぼすべてのアセットは、IDそのものを名前のキーに使います。世界の法則は `<id>_title` を求めます。間違えると、スイッチはラベルなしで表示されます :PESgn_Really:。
 
-> [!TIP] 法則は設定メニューよりも優れている
-> MODの設定画面はプレイヤーが一度開いたら二度と見ないような場所にあります。世界の法則なら、バニラの法則と並んでゲーム画面内に存在し、ワールドごとに管理でき、プレイ中いつでも切り替えられます。オン/オフできる機能なら、法則にするのがベストです :wbblessed:。
+> [!TIP] 設定より法則
+> Modの設定は、プレイヤーが一度だけ開くメニューにあります。世界の法則はゲームの中、バニラの法則のすぐ隣にあり、ワールドごとで、プレイ中に切り替えられます。あなたのModにオン/オフの挙動があるなら、ここが居場所です :wbblessed:。

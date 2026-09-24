@@ -10,7 +10,7 @@ order: 124
 
 An item group is a category in the equipment window: helmets, swords, amulets. It is the same tiny `BaseCategoryAsset` that draws trait tabs (see **[Trait groups & tabs](#/nml/trait-groups)**), living in `AssetManager.item_groups` instead.
 
-The difference is that an item group carries a **pool**, and forgetting the pool is what crashes your mod.
+The difference is that an item group carries a **pool**, and forgetting the pool is what crashes your mod :PESgn_Yikes:.
 
 ## The vanilla groups
 

@@ -10,7 +10,7 @@ order: 124
 
 Um grupo de itens é uma categoria na janela de equipamentos: elmos, espadas, amuletos. Trata-se do mesmíssimo e diminuto `BaseCategoryAsset` que renderiza as abas de traços (veja **[Grupos de traços e abas](#/nml/trait-groups)**), residindo desta vez em `AssetManager.item_groups`.
 
-A diferença essencial é que um grupo de itens gerencia um **pool**, e esquecer esse pool é o que faz seu mod quebrar.
+A diferença essencial é que um grupo de itens gerencia um **pool**, e esquecer esse pool é o que faz seu mod quebrar :PESgn_Yikes:.
 
 ## Os grupos vanilla
 
@@ -138,7 +138,7 @@ Um novo grupo **não** lhe dá um novo slot de equipamento. `EquipmentType` é u
 
 ## Onde a categoria aparece
 
-Os grupos são desenhados na ordem da lista interna, e `add()` coloca o seu no final. Mova-o para perto de uma categoria similar:
+Os grupos são desenhados na ordem da `list`, e `add()` coloca o seu por último. Mova-o para perto de um parente:
 
 ```csharp
 private static void PlaceAfter(string pId, string pAfterId)

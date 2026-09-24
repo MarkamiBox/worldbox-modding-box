@@ -48,17 +48,17 @@ trait_hello_swift,Swift,迅捷,Быстрый
 
 ## Fazendo direto pelo código
 
-O `NeoModLoader.General.LM` é o utilitário de localização. É muito conveniente quando o texto é gerado dinamicamente ou quando você quer manter tudo concentrado em um único arquivo `.cs` em vez de lidar com JSONs.
+`NeoModLoader.General.LM` é o ajudante de localização. Útil quando o seu texto é gerado, ou quando você simplesmente quer tudo num único arquivo `.cs` em vez de uma pilha de JSON.
 
 ```csharp Mods/HelloBox/Code/HelloLocale.cs
 using NeoModLoader.General;
 
-LM.Get("trait_hello_swift");                            // lê no idioma ativo no jogo
-LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // adiciona ao idioma atualmente carregado
-LM.Add("en", "trait_hello_swift", "Swift");          // adiciona a um idioma específico
-LM.LoadLocale("en", path);            // carrega um json manualmente
-LM.LoadLocales("path/to/Locales/lang.csv");          // carrega um csv manualmente
-LM.ApplyLocale(false);                               // aplica. false = não redesenha todos os textos na tela
+LM.Get("trait_hello_swift");                            // read in the current language
+LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // add to whatever language is loaded now
+LM.Add("en", "trait_hello_swift", "Swift");          // add to a specific language
+LM.LoadLocale("en", "path/to/Locales/en.json");       // load a json manually (language + path)
+LM.LoadLocales("path/to/Locales/lang.csv");          // load a csv manually
+LM.ApplyLocale(false);                               // apply. false = don't refresh every text on screen
 ```
 
 No HelloBox, esse arquivo fica assim:
@@ -93,23 +93,23 @@ namespace HelloBox
 }
 ```
 
-Chame `HelloLocale.Initialize();` no `Main.cs` **antes de tudo**, para garantir que nenhum asset seja registrado enquanto seu texto correspondente ainda estiver ausente.
+Adicione `HelloLocale.Initialize();` no `Main.cs` **primeiro**, antes de tudo, para que nada seja registrado enquanto o texto ainda estiver faltando.
 
-Registre **tudo de uma só vez, ao inicializar**, e execute `ApplyLocale` uma única vez no final. Solicitar ao jogo uma chave inexistente gera erro no log e grava arquivos no disco: uma dica de tela cheia de chaves em falta não é apenas feia, ela sobrecarrega o log :PES_UghPing:.
+Registre **tudo de uma vez, no carregamento**, e chame `ApplyLocale` uma única vez no final. Pedir ao jogo uma chave que ele não tem devolve a própria chave como texto, mais um erro `missing text` no log para cada chave, então uma tooltip feita de chaves faltando não é só feia, ela enche o seu log de ruído :PES_UghPing:.
 
 ## Os nomes de chaves que você realmente vai usar
 
-O próprio jogo constrói essas chaves, então elas devem bater com precisão:
+O próprio jogo monta essas chaves, então elas precisam bater exatamente ou nada aparece. Duas delas **não** seguem a regra "igual ao id", e são justamente as que fazem as pessoas perderem uma hora:
 
-| O que é | Chave do nome | Chave da descrição |
+| O quê | Chave do nome | Chave da descrição |
 | --- | --- | --- |
 | Traço | `trait_<id>` | `trait_<id>_info` |
-| Item | `item_<id>` | `item_<id>_description` |
+| Item | `translation_key` se você definir uma, senão `item_<equipment_subtype or id>` | `<id>_description` (sem o prefixo `item_`) |
 | Poder divino | `<power_id>` | `<power_id>_description` |
-| Aba de poderes | a `locale_key` fornecida | a chave de descrição fornecida |
-| Tarefa de unidade | `task_unit_<task_id>` | - |
-| Efeito de status | `<status_id>` | `<status_id>_description` |
-| Lei do mundo | `<law_id>_title` (note o sufixo) | `<law_id>_description` |
+| Aba de poderes | o `locale_key` que você passou | a chave de descrição que você passou |
+| Tarefa de ator | `task_unit_<task_id>` | - |
+| Efeito de status | o **campo** `locale_id` que você definir | o **campo** `locale_description` que você definir |
+| Lei do mundo | `<law_id>_title` (repare no sufixo) | `<law_id>_description` |
 
-> [!WARNING] IDs não são nomes
-> Seu ID será `hello_swift` para sempre, em qualquer idioma, e é a ele que o restante do seu código (e mods de terceiros) fará referência. O **texto de localização** é a única parte que se altera. Nunca renomeie um ID apenas para corrigir um erro de digitação no nome de exibição :PESgn_Stop:.
+> [!WARNING] Ids não são nomes
+> Seu id é `hello_swift` para sempre, em todos os idiomas, e é a ele que o resto do seu código (e os mods dos outros) se referem. O **texto de localização** é a parte que muda. Nunca renomeie um id só para corrigir um erro de digitação no nome exibido :PESgn_Stop:.

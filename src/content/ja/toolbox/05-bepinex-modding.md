@@ -170,17 +170,17 @@ namespace HelloBepInEx
 
 ## 5. ビルドと配置
 
-ターミナルからビルドを実行します：
+コマンドラインからプロジェクトをビルドします：
 
 ```bash
 dotnet build -c Release
 ```
 
-生成された `.dll` は `bin/Release/net472/HelloBepInEx.dll` に出力されます。
+コンパイルされた `.dll` は `bin/Release/net472/HelloBepInEx.dll` に作られます。
 
-1. WorldBoxのインストールフォルダを開きます: `C:\Program Files (x86)\Steam\steamapps\common\worldbox\`
-2. `BepInEx/plugins/` 内に `HelloBepInEx` フォルダを作成します。
-3. `HelloBepInEx.dll` をそのフォルダへコピーします。
+1. WorldBoxのフォルダーを開きます：`C:\Program Files (x86)\Steam\steamapps\common\worldbox\`。
+2. `BepInEx/plugins/` の中に `HelloBepInEx` という名前のフォルダーを作ります。
+3. `HelloBepInEx.dll` を `BepInEx/plugins/HelloBepInEx/` にコピーします。
 
 ```text
 worldbox/
@@ -190,7 +190,7 @@ worldbox/
             └── HelloBepInEx.dll
 ```
 
-コンソールを表示させた状態でゲームを起動すると、プラグインが正常にロードされます：
+コンソールを有効にしてゲームを起動します。BepInExがあなたのアセンブリを見つけて読み込むのが見えます：
 
 ```text BepInEx console
 [Info   :   BepInEx] Loading [HelloBepInEx 1.0.0]

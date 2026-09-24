@@ -21,7 +21,7 @@ Wenn du eine neue Art von *Boden* hinzufügen willst, ist das ein `TileType`. We
 
 ## Klonen, nicht neu bauen
 
-Ein Kacheltyp besitzt an die hundert Felder, von denen die meisten nur für eine einzige Vanilla-Kachel von Bedeutung sind. Klone die am nächsten verwandte Vorlage:
+Ein Kacheltyp besitzt an die hundert Felder, von denen die meisten nur für eine einzige Vanilla-Kachel von Bedeutung sind. Ich werde nicht alle hundert auflisten. Klone die am nächsten verwandte Vorlage:
 
 ```csharp Mods/HelloBox/Code/HelloTiles.cs
 using UnityEngine;
@@ -88,6 +88,8 @@ namespace HelloBox
 | `biome_tags`, `has_biome_tags` | Welche Biome diese Kachel wachsen lassen |
 
 ### Wie es sich verhält
+
+Fang hier an, wenn deine Kachel eine Gameplay-Idee ist und nicht nur eine neue Farbe.
 
 | Feld | Was es tut |
 | --- | --- |
@@ -187,7 +189,7 @@ if (tile.isOnFire()) { }
 if (tile.hasBuilding()) { }
 ```
 
-Sowohl `main_type` als auch `top_type` können `null` sein. Prüfe sie, bevor du darauf zugreifst. Das ist der häufigste Absturz in Mods, die die Karte durchlaufen.
+Sowohl `main_type` als auch `top_type` können `null` sein. Prüfe sie, bevor du darauf zugreifst. Das ist der häufigste Absturz in Mods, die die Karte durchlaufen :PES2_F:.
 
 ## Terraform-Optionen
 

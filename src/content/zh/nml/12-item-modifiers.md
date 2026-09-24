@@ -12,7 +12,7 @@ order: 122
 
 ## 便捷之道：使用 NML 的 Creator 辅助类
 
-原版中的 `ItemAsset` 是一个身兼七职的混乱类，不同语境下其字段含义大相径庭。NML 将其合理的部分优雅封装进了 `ItemAssetCreator`，并在创建词条时直接顺便替你完成了注册入库：
+词条是一个 `ItemModAsset`，也就是换了顶帽子的 `ItemAsset`，它存放在 `AssetManager.items_modifiers` 里：
 
 ```csharp Mods/HelloBox/Code/HelloModifiers.cs
 namespace HelloBox
@@ -60,12 +60,17 @@ namespace HelloBox
     }
 }
 ```
+
 > [!WARNING] 光注册还不够
-> `add()` 只是把你的词条放进库的 `list`，而生成器读的不是 `list`，是 `pools`。那些 pool 是在加载时的 `linkAssets()` 里填一次的。只存在于 `list` 里的词条确实存在、也有名字，但永远不会被掷到任何东西上 :wbfacepalm:。
+> `add()` 会把你的词条放进资源库的 `list`，但生成器读的不是 `list`，而是 `pools`。这些池子在加载时由 `linkAssets()` 填充，只填一次。只存在于 `list` 里的词条确实存在、也有名字，但永远不会被随机到任何东西上 :wbfacepalm:。
 
+```json Mods/HelloBox/Locales/en.json
+{
+  "mod_hello_sharp": "Sharpened"
+}
+```
 
-
-在 `Main.cs` 中加入 `HelloModifiers.Initialize();`，从此以后系统在生成新武器时便有几率自动附带“hello_sharp”词条。
+把 `HelloModifiers.Initialize();` 加进 `Main.cs`，从此游戏就可以把它随机到生成的武器上。
 
 ### 关键参数解析
 
@@ -82,7 +87,7 @@ namespace HelloBox
 
 ## 让词条真正触发战斗特效
 
-单纯堆数值虽然实用，但词条同样支持执行真正的 C# 委托逻辑。`action_attack_target` 会在武器每一次成功命中目标时触发：
+单纯堆数值虽然实用，但词条同样支持执行真正的 C# 委托逻辑，好玩的地方就从这里开始。`action_attack_target` 会在武器每一次成功命中目标时触发：
 
 ```csharp
 ItemAssetCreator.CreateAndAddModifier(
@@ -110,7 +115,7 @@ ItemAssetCreator.CreateAndAddModifier(
 }
 ```
 
-`translation_key` 就是显示在物品浮动提示框上的文本，尽量保持简短，因为它需要和数值挤在同一行展示。
+`translation_key` 就是显示在物品浮动提示框上的文本，尽量保持简短，因为它需要和数值挤在同一行展示。没人会读剑上的一整段话。
 
 > [!TIP] 优先制作附魔词条，其次才是全新武器
 > 一柄新武器需要繁重的素材与数值链条（贴图、动画、各级材质）。而一个新的附魔词条仅需区区二十行代码，就能瞬间无缝赋能给全世界生成的**每一把**武器。如果你想快速收获立竿见影的快乐，请从这里起步 :PES_Stonks:.

@@ -88,7 +88,7 @@ Add `HelloModifiers.Initialize();` to `Main.cs`, and from then on the game can r
 
 ## Making it actually do something
 
-Stats are fine, but a modifier can also run code. `action_attack_target` fires every time the weapon lands a hit:
+Stats are fine, but a modifier can also run code, and that is where it gets fun. `action_attack_target` fires every time the weapon lands a hit:
 
 ```csharp
 ItemAssetCreator.CreateAndAddModifier(
@@ -116,7 +116,7 @@ Now any weapon that rolls "hello_burning" sets the ground on fire when it hits. 
 }
 ```
 
-The `translation_key` is what shows up in the item tooltip, so keep it short, it sits on one line next to the stats.
+The `translation_key` is what shows up in the item tooltip, so keep it short, it sits on one line next to the stats. Nobody reads a paragraph on a sword.
 
 > [!TIP] Modifiers before weapons
 > A new weapon is a lot of work (sprite, animations, materials). A new modifier is twenty lines and applies to **every** weapon the world generates. If you want the game to feel different fast, start here :PES_Stonks:. 

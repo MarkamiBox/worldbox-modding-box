@@ -68,7 +68,7 @@ namespace HelloBox
 }
 ```
 
-Diez fuegos fatuos vivos al mismo tiempo, y el logro se desbloqueará.
+Diez fuegos fatuos vivos al mismo tiempo, y el logro se desbloqueará. Top 10 logros de todos los tiempos :trollface:.
 
 ## Lo que el juego no hace por ti
 

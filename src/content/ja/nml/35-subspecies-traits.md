@@ -62,7 +62,7 @@ namespace HelloBox
 
 ## 変異
 
-これは、コードで手動配布することなく亜種特性をワールド内に自然発生させる仕組みです。ライブラリは2つの抽選枠を管理しており、以下の2つのフィールドがあなたの特性がどの枠に入るかを決定します:
+これは、コードで手動配布することなく亜種特性をワールド内に自然発生させる仕組みで、これが楽しいやり方です。ライブラリは2つの抽選枠を管理しており、以下の2つのフィールドがあなたの特性がどの枠に入るかを決定します:
 
 | フィールド | 説明 |
 | --- | --- |
@@ -117,7 +117,7 @@ trait.texture_asset.shadow = trait.shadow;
 | `remove_for_zombies` | ゾンビ化した際にこのスキンを解除するか |
 | `priority` | ユニットが2つのスキンを持った場合の優先度 |
 
-バニラの外見変異（バーガー、動く岩、触手ホラー、光の球、フラクタル）はすべて `$skin_mutation$` のクローンであり、そのテンプレートをクローンするのが動作するスキンを作る最短ルートです。
+バニラの外見変異（バーガー、動く岩、触手ホラー、光の球、フラクタル）はすべて `$skin_mutation$` のクローンであり、そのテンプレートをクローンするのが動作するスキンを作る最短ルートです。ええ、バーガーは本物の突然変異です。Maximのなさることは計り知れません :wbpray:。
 
 ## 表現型、食性、そして卵
 
@@ -132,34 +132,54 @@ trait.texture_asset.shadow = trait.shadow;
 
 ## 遺伝子
 
-遺伝子（Gene）は、ある亜種特性が別の特性へと変異するための仕組みです。ゲームは繁殖時に `AssetManager.genes` を巡回して何を受け継ぐかを決定します:
+冒頭で触れたオスとメスのステータスブロックは、亜種の**ゲノム**から来ています：スロットのある染色体と、各スロットに1つの遺伝子です。遺伝子は `BaseTrait` なので、このサイトの他の特性と同じように登録しますが、追加の作業が2つあります。要するに生物の宿題です。
 
 ```csharp Mods/HelloBox/Code/HelloGenes.cs
 namespace HelloBox
 {
     public static class HelloGenes
     {
+        public const string EMBER_BLOOD = "hello_ember_blood";
+
         public static void Initialize()
         {
+            if (AssetManager.gene_library.has(EMBER_BLOOD)) return;
+
             GeneAsset gene = new GeneAsset
             {
-                id = "hello_swift_gene",
-                id_trait = HelloSubspecies.SWIFT,
-                rate = 0.05f
+                id = EMBER_BLOOD,
+                path_icon = "ui/Icons/iconHelloGene",
+                needs_to_be_explored = false
             };
-            AssetManager.genes.add(gene);
-            AssetManager.genes._gene_assets_mutations.Add(gene);
+
+            AssetManager.gene_library.add(gene);
+            gene.base_stats["damage"] = 2f;
+
+            // Each world rolls every gene's DNA letters from its life seed when it loads.
+            // A world may already be open, so roll yours now the same way.
+            if (World.world != null && World.world.map_stats != null)
+            {
+                gene.generateDNA(World.world.map_stats.life_dna + gene.getIndexID());
+            }
+
+            // linkAssets() filled the mutation pool at startup. Without this, only the
+            // player's gene editor can ever place it.
+            AssetManager.gene_library._gene_assets_mutations.Add(gene);
         }
     }
 }
 ```
 
-2つのフィールド:
+- **DNAの文字。** どの遺伝子にも短い `ACGT` コードがあり、ワールドの読み込み時に、そのワールドの生命シードから抽選されます。あなたの遺伝子はその抽選に居合わせなかったので、同じ方法で自分の分を抽選します。
+- **突然変異のプール。** 突然変異は、起動時に `linkAssets()` が埋めたプライベートなリスト `_gene_assets_mutations` から選ばれます。**publicize済み**のアセンブリならそこに追加でき、NMLはそれを使ってコンパイルします。省くと、遺伝子はプレイヤーが手で入れた場所にしか現れません。
 
-- `gene.id_trait`: 登録した亜種特性にリンクします。
-- `gene.rate`: 変異確率（0.0 〜 1.0）。
+遺伝子のテキストキーは `gene_<id>` です。遺伝子には説明行がありません：`GeneLibrary.add()` がオフにします。
 
-`_gene_assets_mutations.Add(gene)` の呼び出しを忘れると、遺伝子は登録されても変異抽選プールに一切追加されません。
+```json Mods/HelloBox/Locales/en.json
+{
+  "gene_hello_ember_blood": "Ember Blood"
+}
+```
 
 ## メタタグ
 
@@ -194,7 +214,7 @@ ActorAsset asset = AssetManager.actor_library.get("hello_sprite");
 if (asset != null) asset.addSubspeciesTrait(HelloSubspecies.SCALES);
 ```
 
-これにより、その生物から派生するすべての新亜種が最初からこの特性を帯びます。これを記述せず `in_mutation_pot_add` に任せれば、世界のどこかでいずれ自発的に発生するようになります。通常はその方が面白い展開を生み出します。
+これで、そのクリーチャーの新しい亜種はすべて、この特性を持って始まります。これを省いて `in_mutation_pot_add` に任せると、いつかどこかで勝手に現れます。たいていはそちらの方が面白いです。
 
-> [!TIP] 呪文との相性が抜群
-> バニラの魔法血統は、呪文を1つ付与するだけの亜種特性です（`trait.addSpell("summon_lightning")`）。たった1行のコードが子孫へと受け継がれ、大陸全土に広がる雷呼びの一族が誕生します :PES5_CrazyPog:。
+> [!TIP] 呪文はここと相性がいい
+> バニラの魔法の血統は、呪文を1つ与えるだけの亜種特性です：`trait.addSpell("summon_lightning")` の後、ライブラリが起動時に呪文IDを解決しているので `trait.linkSpells()`。2行で子に受け継がれ、大陸をまたいで嵐を呼ぶ者たちの目に見える血筋が生まれます :PES5_CrazyPog:。

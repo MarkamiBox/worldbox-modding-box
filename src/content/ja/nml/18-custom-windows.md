@@ -31,9 +31,9 @@ ScrollWindow.isWindowActive();               // 現在「何らかの」ウィ�
 
 ## ネイティブな ScrollWindow ルート
 
-WorldBox公式のようなウィンドウを作成したい場合は、Canvasを一から自作しないでください :PES2_Shrug:。NeoModLoader は `WindowCreator` と `AbstractWindow<T>` を提供しています。
+パネルをWorldBoxが作ったように見せたいなら、私が最初にやったようにゼロからcanvasを組むのはやめましょう :PES2_Shrug:。NeoModLoaderには、スクロールバーやタイトルバー、閉じるボタンをUnityの素のパーツから組み立てずに済むように、`WindowCreator` と `AbstractWindow<T>` が用意されています。
 
-`AbstractWindow<T>` を継承します：
+`AbstractWindow<T>` を継承して、配線はNMLに任せましょう：
 
 ```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
 using NeoModLoader.api;
@@ -62,19 +62,21 @@ namespace HelloBox
 }
 ```
 
-Mod読み込み時に初期化します：
+Modの初期化中に一度だけ作成します：
 
 ```csharp
 HelloNativeWindow.CreateAndInit("hello_native_window");
 ```
 
-表示は1行で行えます：
+`CreateAndInit()` はゲームの `"windows/empty"` プレハブを複製し、`CanvasMain.instance.transformWindows` の子にし、タイトルキーを `"<windowId> Title"` に設定し、あなたのコンポーネントを付け、ウィンドウを `ScrollWindow._all_windows` と `AssetManager.window_library` の両方に登録します。開くのはバニラのウィンドウと同じ1行です：
 
 ```csharp
 ScrollWindow.showWindow(HelloNativeWindow.WindowId);
 ```
 
-広いウィンドウが必要な場合は `AbstractWideWindow<T>` を継承するか、`WindowCreator.CreateEmptyWindow(id, titleKey, icon)` を直接呼び出してください。登録を忘れるとESCキーを押したときにゲームがウィンドウを認識しません :wbfacepalm:。
+巨大な表や複数列の管理画面のためにもっと画面の広さが必要なら、代わりに `AbstractWideWindow<T>` を継承してください。動作は同じですが、初期サイズが `600x280` で、ワイドな枠が自動で適用され、さらに広さが必要なら `SetSize(new Vector2(width, height))` も使えます。
+
+`AbstractWindow<T>` という基底クラス自体を使いたくないなら、`WindowCreator.CreateEmptyWindow(id, titleKey, icon)` を直接呼び、返ってきた `ScrollWindow` を自分で設定してください。自力でやるときに登録手順を忘れると、ESCを押したときにゲームはあなたのウィンドウの存在すら知りません :wbfacepalm:。
 
 ## 独自のフローティングウィンドウ
 
@@ -212,7 +214,7 @@ Font font = LocalizedTextManager.current_font ?? Resources.GetBuiltinResource<Fo
 
 ## ツールチップ
 
-ゲームのツールチップも `AssetManager.tooltips` に登録されているアセットです。ID と、ツールチップが開くたびに中身を埋めるコールバックで構成されます。自作ツールチップを登録すれば、任意の UI オブジェクトでリアルタイムな数値を反映したツールチップを表示できます。
+ゲームのツールチップも `AssetManager.tooltips` に登録されているアセットです。ID と、ツールチップが開くたびに中身を埋めるコールバックで構成されます。自作ツールチップを登録すれば、任意の UI オブジェクトでリアルタイムな数値を反映したツールチップを表示できます。プレイヤーは何にでもマウスを乗せるので、あなたのModがさりげなく完成して見えるのはここです。
 
 ```csharp Mods/HelloBox/Code/HelloTooltips.cs
 using UnityEngine;
@@ -310,7 +312,7 @@ namespace HelloBox
 > [!WARNING] ショートカットキーは起動時に配線されます
 > `HotkeyLibrary.linkAssets()` は各 `default_key_*` をゲームが実際に判定する `overridden_key_*` にコピーし、毎フレーム監視対象となる `action_hotkeys` リストを構築します。これらは Mod がロードされる前に完了してしまいます。どちらかの初期化を怠ると、キーを押しても何も起きません :wbfacepalm:。
 
-`check_*` フラグを使うと操作の衝突を簡単に防げます：`check_controls_locked` はプレイヤーが生物を操作している間の入力を無視し、`check_window_not_active` はバニラのウィンドウが開いている間の入力を無効化します。バニラが使用していないキー（F6 など）を選択してください。
+`check_*` フラグを使うと操作の衝突を簡単に防げます：`check_controls_locked` はプレイヤーが生物を操作している間の入力を無視し、`check_window_not_active` はバニラのウィンドウが開いている間の入力を無効化します。バニラが使用していないキー（F6 など）を選択してください :PES2_Shrug:。
 
 ```json Mods/HelloBox/Locales/en.json
 {

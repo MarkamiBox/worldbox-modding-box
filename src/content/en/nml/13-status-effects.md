@@ -76,6 +76,8 @@ namespace HelloBox
 
 ### The fields worth knowing
 
+The short list. The real one is longer and mostly boring :wbyawn:.
+
 | Field | What it does |
 | --- | --- |
 | `duration` | Lifetime in seconds. The status removes itself when it runs out |
@@ -98,7 +100,7 @@ namespace HelloBox
 
 ## Your own sprite
 
-This one has a trap in it. `texture` is **not** a full path: the status library prepends `effects/` before loading, so you write the bare name.
+This one has a trap in it, and everybody walks into it once :wbbre:. `texture` is **not** a full path: the status library prepends `effects/` before loading, so you write the bare name.
 
 ```text Mods/HelloBox/
 HelloBox/

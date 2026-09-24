@@ -76,6 +76,8 @@ namespace HelloBox
 
 ### Die wichtigsten Felder
 
+Die kurze Liste. Die echte ist länger und größtenteils langweilig :wbyawn:.
+
 | Feld | Was es bewirkt |
 | --- | --- |
 | `duration` | Lebensdauer in Sekunden. Der Status entfernt sich selbst nach Ablauf |
@@ -98,7 +100,7 @@ namespace HelloBox
 
 ## Dein eigenes Sprite
 
-Hier lauert eine Falle. `texture` ist **kein** vollständiger Pfad: Die Statusbibliothek hängt vor dem Laden automatisch `effects/` davor, du schreibst also nur den reinen Namen.
+In diesem steckt eine Falle, und jeder tappt einmal hinein :wbbre:. `texture` ist **kein** vollständiger Pfad: Die Statusbibliothek hängt vor dem Laden `effects/` davor, also schreibst du nur den bloßen Namen.
 
 ```text Mods/HelloBox/
 HelloBox/
@@ -114,9 +116,9 @@ HelloBox/
 cursed.texture = "fx_hello_status";   // NICHT "effects/fx_hello_status"
 ```
 
-Schreibst du den Ordner selbst davor, sucht das Spiel nach `effects/effects/fx_hello_status`, findet nichts und zeichnet überhaupt kein Sprite. Vanilla-Namen sehen aus wie `fx_status_burning_t` und `fx_status_drowning_t`.
+Schreibst du den Ordner selbst hinein, sucht das Spiel nach `effects/effects/fx_hello_status`, findet nichts und zeichnet überhaupt kein Sprite. Vanilla-Namen sehen aus wie `fx_status_burning_t` und `fx_status_drowning_t`, und wenn du diese Form übernimmst, bleibst du aus Ärger heraus.
 
-`path_icon` auf demselben Asset ist etwas Eigenständiges und *ist* ein vollständiger Pfad - es ist das kleine Icon in der Statusliste, nicht das Sprite auf der Kreatur.
+`path_icon` am selben Asset ist eine andere Sache und *ist* ein vollständiger Pfad - es ist das kleine Icon in der Statusliste, nicht das Sprite, das auf der Einheit gezeichnet wird.
 
 ## Dem Effekt echte Wirkung verleihen
 

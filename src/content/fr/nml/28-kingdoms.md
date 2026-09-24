@@ -72,7 +72,7 @@ asset.kingdom_id_wild = HelloKingdoms.WILD;
 asset.kingdom_id_civilization = HelloKingdoms.CIV;
 ```
 
-Sans cela, votre créature apparaîtra dans le royaume qu'utilisait le modèle d'origine de son clone (généralement humain), ce qui crée vite une belle pagaille.
+Sans cela, votre créature apparaîtra dans le royaume qu'utilisait le modèle d'origine de son clone (généralement humain), ce qui crée vite une belle pagaille :PES5_Hmmmm:.
 
 ## Les champs
 
@@ -122,7 +122,7 @@ Deux royaumes comparent leurs tags pour fixer leur position diplomatique par dé
 
 ## Le reste de l'écosystème d'une faction
 
-Un asset de royaume isolé n'est qu'une étiquette. Voici les autres bibliothèques qu'une faction complète mobilise :
+Un asset de royaume isolé n'est qu'une étiquette. Une étiquette très officielle, mais une étiquette. Voici les autres bibliothèques qu'une faction complète mobilise :
 
 | Élément | Bibliothèque | Rôle |
 | --- | --- | --- |
@@ -204,7 +204,7 @@ Le postfix s'exécute après chaque mise à jour de statistiques pour maintenir 
 
 ## Opinion, loyauté et bonheur
 
-Trois petites bibliothèques régissent le ressenti politique, et toutes trois consistent en des listes de petites fonctions de calcul :
+Trois petites bibliothèques régissent le ressenti politique, et toutes trois consistent en des listes de petites fonctions de calcul. Pas de sentiments, juste des nombres :
 
 | Bibliothèque | Appelée pour | Renvoie |
 | --- | --- | --- |
@@ -302,7 +302,7 @@ namespace HelloBox
 }
 ```
 
-Les chemins sont chargés individuellement lors du rendu de la bannière, il n'y a donc rien à rafraîchir. Un index au-delà de la fin de liste retombe sur 0, ce qui permet à une sauvegarde créée avec votre mod de s'ouvrir sans lui. Respectez la taille des pièces vanilla : examinez-en une dans **[UnityExplorer](#/toolbox/unity-explorer)** avant de dessiner la vôtre.
+Les chemins sont chargés individuellement lors du rendu de la bannière, il n'y a donc rien à rafraîchir. Un index au-delà de la fin de liste retombe sur 0, ce qui permet à une sauvegarde créée avec votre mod de s'ouvrir sans lui. Respectez la taille des pièces vanilla : examinez-en une dans **[UnityExplorer](#/toolbox/unity-explorer)** avant de dessiner la vôtre. Devinez la taille et vous obtenez un drapeau plus grand que la ville qui le hisse :wbfacepalm:.
 
 ```json Mods/HelloBox/Locales/en.json
 {

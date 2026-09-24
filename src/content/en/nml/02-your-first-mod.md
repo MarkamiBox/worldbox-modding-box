@@ -10,7 +10,7 @@ order: 22
 
 Everything in this guide is built on **one single mod**. We start it here, and every later page adds one file to it.
 
-By the end HelloBox has about twenty files in it, and you will have written every line yourself: an actor trait and a culture trait with a tab of their own, a weapon and an enchantment for it, a status effect, drops, a cloud, a tile, a food recipe, a projectile, a world law, a god power with its own button, a window, a settings panel, a building, a faction, a creature, a disaster, its own AI, and a Harmony patch to bend a rule the game thought was settled.
+By the end HelloBox has about forty files in it, and you will have written every line yourself: an actor trait and a culture trait with a tab of their own, a weapon and an enchantment for it, a status effect, drops, a cloud, a tile, a food recipe, a projectile, a world law, a god power with its own button, a window, a settings panel, a building, a faction, a creature, a disaster, its own AI, and a Harmony patch to bend a rule the game thought was settled.
 
 That is more than any real mod needs, which is the point. You take the two or three parts you actually wanted and delete the rest :PES4_DeleteThis:.
 
@@ -95,7 +95,7 @@ namespace HelloBox
 
 Start WorldBox and open the **Mods** window from the main menu. **HelloBox** should be in the list, and already switched on. A mod you put in `Mods/` yourself is enabled the first time NML finds it.
 
-That window is also where you turn a mod **off** later. Clicking the icon toggles it, and most mods only notice after a restart.
+That window is also where you turn a mod **off** later. Clicking the icon toggles it, and most mods only notice after a restart :PES4_AlrightThen:.
 
 > [!WARNING] No Mods window at all? Experimental Mode is off
 > NML only loads mods when **Settings -> Experimental Mode** is on, and the game **turns it off by itself after every WorldBox update**: it compares the saved `last_used_version` with the version you just launched and, when they differ, writes the flag back to `false`. So "my mod worked yesterday and I changed nothing" is almost always this. Turn it back on and restart.

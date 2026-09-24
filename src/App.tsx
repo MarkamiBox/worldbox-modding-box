@@ -264,7 +264,6 @@ export default function App() {
         onSearch={() => setSearch(true)}
         onOpenNav={() => setMobileNav(true)}
         onEditPage={isDev && showEditorTools ? () => setEditorOpen(true) : undefined}
-        onNewPage={isDev && showEditorTools ? () => setNewPageOpen(true) : undefined}
         onResetAll={handleResetAll}
         slug={slug}
         sidebarCollapsed={sidebarCollapsed}
@@ -277,7 +276,6 @@ export default function App() {
       <div className="w-full flex px-4 lg:px-6 gap-8">
         <Sidebar
           slug={slug}
-          onNewPage={isDev && showEditorTools ? () => setNewPageOpen(true) : undefined}
           width={sidebarWidth}
           isCollapsed={sidebarCollapsed}
           onStartResize={handleSidebarResizeStart}
@@ -360,7 +358,6 @@ export default function App() {
         open={mobileNav}
         onClose={() => setMobileNav(false)}
         slug={slug}
-        onNewPage={isDev && showEditorTools ? () => setNewPageOpen(true) : undefined}
       />
       <SearchModal open={search} onClose={() => setSearch(false)} />
 

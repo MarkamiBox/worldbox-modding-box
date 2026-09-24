@@ -112,6 +112,8 @@ namespace HelloBox
 
 ### Custo e valor
 
+Mantenha os preços sensatos. Uma espada de ferro por 43 milhões de moedas não é balanceamento, é golpe :trollface:.
+
 | Campo | O que faz |
 | --- | --- |
 | `setCost(gold, res1, amount1, res2, amount2)` | A função recomendada para definir todos os custos juntos |
@@ -131,14 +133,17 @@ namespace HelloBox
 
 ### Behaviour
 
+É aqui que um item deixa de ser um monte de números.
+
 | Campo | O que faz |
 | --- | --- |
-| `action_attack_target` | Executa a cada golpe bem-sucedido |
-| `action_special_effect` + `special_effect_interval` | Executa em temporizador enquanto estiver equipada |
-| `item_modifier_ids` | Encantamentos que podem aparecer nela. Veja **[Encantamentos de armas](#/nml/item-modifiers)** |
-| `addSpell(id)` | Um feitiço que o portador pode conjurar |
-| `addCombatAction(id)` | Uma manobra de combate concedida pela arma |
+| `action_attack_target` | Roda a cada golpe acertado |
+| `action_special_effect` + `special_effect_interval` | Roda num timer enquanto está equipado |
+| `item_modifier_ids` | Encantamentos que ele pode sortear. Veja **[Encantamentos de armas](#/nml/item-modifiers)** |
+| `addSpell(id)` + `linkSpells()` | Um feitiço que quem usa pode lançar. O link é você quem chama, veja abaixo |
+| `addCombatAction(id)` | Compila, e num item não faz nada: uma unidade reúne ações de combate dos seus traços (e subespécie, clã, religião), nunca do equipamento. Coloque num traço, veja **[Projéteis, feitiços e efeitos](#/nml/projectiles-spells)** |
 
+O jogo transforma esses ids em objetos uma única vez, na inicialização, antes do seu mod carregar. Num item que você mesmo registrou, termine com `linkSpells()` e defina `decisions_assets` à mão (não existe método de link para isso), senão a concessão não faz nada. Veja **[IA personalizada](#/nml/custom-ai)**.
 
 ## Um efeito enquanto é empunhado
 
@@ -239,7 +244,7 @@ private static void RegisterLine(string pPrefix, string pTemplate)
 
 ## Os textos de localização
 
-Itens são nomeados de forma diferente de tudo nesta documentação, pegando muitos de surpresa. O nome visível de um item é resolvido da seguinte forma:
+Itens são nomeados de forma diferente de tudo nesta documentação, pegando muitos de surpresa, eu incluído :PESgn_Oops:. O nome visível de um item é resolvido da seguinte forma:
 
 ```text
 translation_key   ?? "item_" + (equipment_subtype ?? id)

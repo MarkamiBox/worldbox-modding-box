@@ -8,7 +8,7 @@ order: 102
 
 # Grupos de rasgos y pestañas :wbfamilies:
 
-Cada rasgo pertenece a un **grupo**, y el grupo es lo que dibuja una pestaña en el libro de rasgos. Si añades seis rasgos y los tiras todos en `miscellaneous`, se esfuman en una lista por la que nadie hace scroll.
+Cada rasgo pertenece a un **grupo**, y el grupo es lo que dibuja una pestaña en el libro de rasgos. Si añades seis rasgos y los tiras todos en `miscellaneous`, se esfuman en una lista por la que nadie hace scroll :PES4_Invisible:.
 
 Tener tu propia pestaña cuesta cuatro líneas.
 
@@ -110,7 +110,7 @@ Editar un grupo vanilla in situ mantiene funcionando cada rasgo vanilla que apun
 
 ## Las otras seis bibliotecas de grupos
 
-Los rasgos de actor son uno de siete sistemas de rasgos, y cada uno tiene su propia biblioteca de grupos con su propia clase de grupo. El código en esta página es idéntico para todos ellos, solo cambian dos nombres:
+Los rasgos de actor son uno de siete sistemas de rasgos, y cada uno tiene su propia biblioteca de grupos con su propia clase de grupo. El código en esta página es idéntico para todos ellos, solo cambian dos nombres. Apréndelo una vez, cópialo seis veces:
 
 | Sistema de rasgos | Biblioteca de grupos | Clase de grupo | Página |
 | --- | --- | --- | --- |

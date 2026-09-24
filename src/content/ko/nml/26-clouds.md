@@ -72,6 +72,8 @@ namespace HelloBox
 
 ### 주요 필드
 
+바닐라 구름을 클론하고 `drop_id`와 `color_hex`만 바꾸세요. 그 이상 필요 없는 구름도 많습니다.
+
 | 필드 | 역할 |
 | --- | --- |
 | `color_hex` | 색조. 구름의 시각적 개성의 대부분을 결정합니다 |
@@ -93,7 +95,7 @@ namespace HelloBox
 public delegate void CloudAction(Cloud pCloud);
 ```
 
-`CloudLibrary.dropAction`은 바닐라 기본 액션입니다. 구름 스프라이트 아래의 무작위 타일을 골라 그곳에 `drop_id` 하나를 스폰합니다. 90%의 상황에서는 이것만으로 충분하며, `cloud_action_1`에 지정하고 끝내면 됩니다.
+`CloudLibrary.dropAction`은 바닐라 기본 액션입니다. 구름 스프라이트 아래의 무작위 타일을 골라 그곳에 `drop_id` 하나를 스폰합니다. 90%의 상황에서는 이것만으로 충분하며, `cloud_action_1`에 지정하고 끝내면 됩니다. 게으르면서 올바른 것, 제가 제일 좋아하는 조합입니다 :pepeOK:.
 
 특별한 효과를 더하고 싶다면 직접 메서드를 작성하여 `cloud_action_2`에 지정하세요:
 

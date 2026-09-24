@@ -65,15 +65,15 @@ namespace HelloBox
 
 ### 各个部分的作用
 
-- **`id`**：其他所有东西用来引用的标识符。按钮、本地化、其他 mod。
-- **`name`**：由游戏自身的 UI 查找逻辑使用。将其保持与 id 相同能免去很多麻烦。
-- **`rank = PowerRank.Rank0_free`**：开局可用，无需任何解锁。
-- **`path_icon`**：光标及工具图标。
-- **`unselect_when_window`**：当玩家打开窗口面板时自动解除工具选择，以免误击面板背后的地图。
-- **`click_action`**：你的代码。接收**被点击的地块**和**神力 id**作为参数，若执行了操作则返回 `true`。
+- **`id`**：其他一切都引用的名字。按钮、翻译、其他模组。
+- **`name`**：游戏自己的界面查找时会用到。让它和 id 保持一致能省去很多麻烦。
+- **`rank = PowerRank.Rank0_free`**：一开始就能用，不需要解锁。
+- **`path_icon`**：光标/工具图标。
+- **`unselect_when_window`**：玩家打开窗口时，工具会自动取消选中，免得他们一不小心把面板后面的地图劈了。
+- **`click_action`**：你的代码。它接收**被点击的地块**和**神力 id**，如果做了事情就返回 `true`。
 
-> [!WARNING] 点击签名为 (WorldTile, string)
-> `click_action` 是一个 `PowerActionWithID` 委托，因此它的第二个参数是**字符串形式的神力 id**，而不是 `GodPower` 对象。游戏里还有另一个字段 `click_power_action`，它接收的是 `(WorldTile, GodPower)`。用错签名会导致报出莫名其妙的编译错误 :PES_DaFuq:。
+> [!WARNING] 点击的签名是 `(WorldTile, string)`
+> `click_action` 是一个 `PowerActionWithID`，所以它的第二个参数是**字符串形式的神力 id**，而不是 `GodPower`。还有另一个字段 `click_power_action`，它接收的是 `(WorldTile, GodPower)`。用错了形式，你会得到一个读起来毫无道理的编译错误 :PES_DaFuq:。
 
 ## 点击时可以执行的实用操作
 

@@ -70,16 +70,26 @@ Binde es in `Main.cs` ein (siehe **[Die fertige Mod](#/nml/all-together)**), lad
 
 ### Die Felder
 
-| Feld | Was es bewirkt |
+`rate` und `chance` sind die beiden, an denen du am meisten herumschraubst. Die Warnung unten auf der Seite erklärt, warum.
+
+| Feld | Was es tut |
 | --- | --- |
-| `rate` | Gewichtung: Wie oft es im Vergleich zu anderen Katastrophen gewählt wird |
-| `chance` | Ein zweiter Würfelwurf, nachdem es ausgewählt wurde |
-| `min_world_population` / `min_world_cities` | Bedingungen, bevor es überhaupt auftreten kann |
+| `rate` | Gewicht in der Ziehung. Höher heißt, dass es im Vergleich zu den anderen öfter gewählt wird |
+| `chance` | Ein zweiter Wurf, sobald es gewählt wurde |
+| `min_world_population` / `min_world_cities` | Bedingungen, bevor es überhaupt passieren kann |
 | `type` | `DisasterType.Nature`, `Other`, … |
-| `world_log` | Die ID eines `WorldLogAsset`: die Zeile im Weltprotokoll. **Kein** Textschlüssel, siehe unten |
-| `action` | Dein Code. Das ist die eigentliche Katastrophe |
-| `spawn_asset_unit` + `units_min`/`units_max` | Abkürzung für "Spawne N dieser Kreaturen" |
-| `max_existing_units` | Spawne keine weiteren, wenn bereits so viele existieren |
+| `world_log` | Die ID eines `WorldLogAsset`: die Zeile im Weltprotokoll. **Kein** Lokalisierungsschlüssel, siehe unten |
+| `action` | Dein Code. Das ist die Katastrophe |
+| `spawn_asset_unit` + `units_min`/`units_max` | Abkürzung für "spawne N von dieser Kreatur" |
+| `max_existing_units` | Nichts mehr spawnen, wenn schon so viele existieren |
+| `ages_allow` / `ages_forbid` | Beschränkt sie auf Weltzeitalter, z. B. nur im Zeitalter der Asche |
+
+Die Beschränkung auf ein Zeitalter geschieht, nachdem das Asset gebaut ist:
+
+```csharp
+emberStorm.ages_allow.Add("age_ash");
+emberStorm.ages_allow.Add("age_chaos");
+```
 
 ## Spawne Kreaturen ohne eigenen Code
 
@@ -138,7 +148,7 @@ Das Wolfs-Beispiel benötigt dieselben zwei Dinge: ein eigenes geklontes Log-Ass
 }
 ```
 
-Schreibe den Text wie eine Schlagzeile, nicht wie eine Beschreibung. Es ist die Zeile, die der Spieler im Weltprotokoll liest.
+Schreibe den Text wie eine Schlagzeile, nicht wie eine Beschreibung. "Glut fällt vom Himmel" schlägt "ein glutbezogenes Ereignis hat begonnen". Es ist die Zeile, die der Spieler im Weltprotokoll liest.
 
 > [!WARNING] Teste mit hochgedrehten Wahrscheinlichkeiten
 > `rate = 4, chance = 0.5f` bedeutet, dass du womöglich zwanzig Minuten warten musst, um deine eigene Katastrophe zu sehen. Drehe während der Entwicklung die `rate` stark nach oben und setze die Mindestanforderungen auf null. Vor der Veröffentlichung setzt du die Werte wieder zurück :PES2_EvilPlan:.

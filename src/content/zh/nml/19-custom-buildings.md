@@ -14,7 +14,7 @@ order: 142
 
 ## 先克隆，后微调
 
-`clone(newId, sourceId)` 会复制原始建筑的每一个字段，将其重命名为新 id，**并自动完成注册**。这最后一点至关重要：
+`clone(newId, sourceId)` 会复制原资源的所有字段、给它改名，**并且注册它**。最后这一点很重要：
 
 ```csharp Mods/HelloBox/Code/HelloBuildings.cs
 namespace HelloBox
@@ -50,10 +50,10 @@ namespace HelloBox
 }
 ```
 
-所有你没有显式修改的属性，都会完全保持 `temple_human` 原有的配置，而它是一个功能健全的原版人类神庙。这就是全部的技巧。
+你没设置的所有东西都会和 `temple_human` 上的一模一样，而那是一座能正常运作的城市建筑。整个诀窍就是这样。
 
-> [!WARNING] 切勿在 clone() 之后调用 add()
-> `clone()` 已经在内部调用了注册方法。若随后再调用 `AssetManager.buildings.add(shrine)` 会导致二次注册，使资源库丢弃第一份副本并输出 `duplicate asset - overwriting...` 日志。虽然能跑，但这会污染日志，而且任何懂行的人在审查你的代码时第一眼就会挑出这个毛病。
+> [!WARNING] 不要在 `clone()` 之后调用 `add()`
+> `clone()` 已经注册过这个副本了。之后再调用 `AssetManager.buildings.add(shrine)` 会注册第二次，导致资源库丢掉第一个副本，并在日志里记下 `duplicate asset - overwriting...`。它照样能用，但这是日志里的噪音，也是任何审查你代码的人第一个会指出来的地方。
 
 ## 应该从哪里克隆
 
@@ -94,20 +94,20 @@ namespace HelloBox
 | `housing_happiness` | 居住在该建筑中获得的幸福感加成 |
 | `storage`, `storage_only_food`, `is_stockpile` | 是否充当资源仓库及其类型 |
 | `book_slots` | 图書館的书籍藏量容量 |
-| `docks`, `boat_types`, `boat_type_fishing` … | 船坞与船只生产能力 |
+| `docks`, `boat_types`, `boat_type_fishing`, `boat_type_trading`, `boat_type_transport` | 船坞与船只生产能力 |
 | `spawn_units`, `spawn_units_asset` | 持续生成指定生物单位 |
-| `tower`, `tower_projectile`, `tower_projectile_reload` … | 箭塔攻击与远程投掷射击 |
+| `tower`, `tower_projectile`, `tower_projectile_reload`, `tower_projectile_amount`, `tower_attack_buildings` | 箭塔攻击与远程投掷射击 |
 
 ### 建造与放置规则
 
 | 字段 | 作用说明 |
 | --- | --- |
 | `cost`, `construction_progress_needed` | 城市建造所需支付的资源成本与建造耗时 |
-| `can_be_upgraded`, `upgrade_to`, `upgraded_from` … | 升级链条，例如人类房屋 `house_human_0` 至 `_5` |
-| `build_place_borders`, `build_place_center` … | 建筑在城镇内的放置倾向（中心或边缘） |
-| `build_prefer_replace_house`, `check_for_close_building` … | 建筑间距检查与置换规则 |
+| `can_be_upgraded`, `upgrade_to`, `upgraded_from`, `upgrade_level` | 升级链条，例如人类房屋 `house_human_0` 至 `_5` |
+| `build_place_borders`, `build_place_center`, `build_place_single`, `build_place_batch` | 建筑在城镇内的放置倾向（中心或边缘） |
+| `build_prefer_replace_house`, `check_for_close_building`, `ignore_same_building_id` | 建筑间距检查与置换规则 |
 | `limit_per_zone`, `limit_in_radius`, `limit_global` | 建筑数量上限控制 |
-| `can_be_placed_on_liquid`, `can_be_placed_on_blocks` … | 地形与水域放置规则 |
+| `can_be_placed_on_liquid`, `can_be_placed_on_blocks`, `needs_farms_ground`, `only_build_tiles` | 地形与水域放置规则 |
 | `build_road_to` | 城市是否会自动铺设通往该建筑的道路 |
 
 ### 自然生长与植被
@@ -125,8 +125,8 @@ namespace HelloBox
 
 | 字段 | 作用说明 |
 | --- | --- |
-| `burnable`, `affected_by_lava`, `affected_by_acid` … | 能够对建筑造成伤害的自然危害 |
-| `has_ruins_graphics`, `has_ruin_state`, `auto_remove_ruin` … | 被摧毁后残留的废墟表现 |
+| `burnable`, `affected_by_lava`, `affected_by_acid`, `damaged_by_rain`, `can_be_damaged_by_tornado` | 能够对建筑造成伤害的自然危害 |
+| `has_ruins_graphics`, `has_ruin_state`, `auto_remove_ruin`, `remove_ruins` | 被摧毁后残留的废墟表现 |
 | `can_be_demolished`, `can_be_abandoned`, `destroy_on_liquid` | 建筑被拆除或遭水淹没时的销毁规则 |
 | `loot_generation` | 倒塌时掉落的战利品 |
 
@@ -140,7 +140,7 @@ namespace HelloBox
 | `shadow`, `shadow_bound`, `shadow_distortion` | 建筑阴影参数 |
 | `has_kingdom_color` | 是否应用所属王国的颜色染色 |
 | `draw_light_area`, `draw_light_size` | 夜间光源发光范围 |
-| `has_special_animation_state`, `animation_speed` … | 动画播放状态与帧率 |
+| `has_special_animation_state`, `animation_speed`, `sparkle_effect` | 动画播放状态与帧率 |
 
 ### 运作行为
 
@@ -152,11 +152,11 @@ namespace HelloBox
 
 ## 贴图精灵
 
-建筑会在 `main_path + sprite_path` 路径下寻找美术素材，即 `buildings/hello_shrine`。将你的 PNG 放置于 `GameResources/buildings/hello_shrine.png`，它就会像原版建筑一样正常解析。别忘了在 `sprites.json` 中将其轴心设为底部中心（bottom-centre），否则你的神殿就会像幽灵一样凭空漂浮在地面上方 :aPES_GhostDance:。参见 **[贴图与资源](#/nml/sprites-and-resources)**。
+建筑从 `sprite_path` 加载美术资源，并且**完全按你写的**使用。只有当你把 `sprite_path` 留空时，游戏才会退回到 `main_path + id`。把你的美术资源放在 `GameResources/buildings/hello_shrine/` 下，并在 `sprites.json` 里给它设一个底部居中的锚点，否则你的神龛会像幽灵一样飘在地面上方 :aPES_GhostDance:。见 **[贴图与素材资源](#/nml/sprites-and-resources)**。
 
 ## 自定义贴图
 
-建筑是整款游戏中唯一一个将**两个**字段拼合在一起的资源：`main_path + sprite_path`。其中 `main_path` 默认已经是 `buildings/`，因此 `sprite_path` 仅需填入纯文件名。
+从下面两种形式里选一种，不要混用。加载器的逻辑就是字面意思：`sprite_path` 里有东西就用它，否则用 `main_path + id`。
 
 ```text Mods/HelloBox/
 HelloBox/
@@ -170,22 +170,25 @@ HelloBox/
             └── sprites.json         bottom-centre pivot
 ```
 
-**文件名本身就是格式**。加载器按 `_` 拆开每个名字：前面是种类（`main`、`construction`、`ruin`、`disabled`、`spawn`、`special`），后面是动画帧编号。`main_0`、`main_1`、`main_2` 就是三帧动画。别的名字的文件不算帧，没有 `main_0` 的文件夹会让建筑什么也画不出来。
+**文件名就是格式**。加载器会在 `_` 处拆开每个文件名：前面是种类（`main`、`construction`、`ruin`、`disabled`、`spawn`、`special`，以及用于小地图的 `mini`），后面的数字是动画帧。`mini_0` 的像素数必须和建筑占用的地块数完全一致，从 `temple_human` 克隆来的都是 5x4；漏掉它的话，小地图每次重绘都会在 `Building.getColorForMinimap()` 里抛出 `NullReferenceException`。`main_0`、`main_1`、`main_2` 是一个三帧动画。其他名字的文件不算帧，没有 `main_0` 的文件夹则让建筑无图可画。
 
 ```csharp
-shrine.main_path = "buildings/";       // 默认值，通常无需改动
-shrine.sprite_path = "hello_shrine";   // 注意：不要写成 "buildings/hello_shrine"
+// A: full path in sprite_path. main_path is then ignored.
+shrine.sprite_path = "buildings/hello_shrine";
+
+// B: leave sprite_path empty and let main_path + id decide.
+shrine.sprite_path = string.Empty;
+shrine.main_path = "buildings/";       // -> buildings/hello_shrine
 ```
 
-如果两者混用，文件夹写在 `main_path` 而 `sprite_path` 留空，游戏就会去找 `buildings/hello_shrine/hello_shrine` :aPES_BrainScratch:。
+如果混用，也就是把文件夹写进 `main_path` 又让 `sprite_path` 为空，游戏就会去找 `buildings/hello_shrine/hello_shrine` :aPES_BrainScratch:。
 
-> [!WARNING] 设好路径后自己加载帧
-> 游戏在自己的预加载里为每座建筑填好 `building_sprites`，而那发生在你的 mod 之前。之后才注册的建筑帧列表是空的，第一次放下时游戏会在 `Building.setAnimData()` 里以 `ArgumentOutOfRangeException: Index was out of range` 崩掉 :wbfacepalm:。设好 `sprite_path` 后调用 `shrine.loadBuildingSprites();`。
+> [!WARNING] 设好路径之后，自己加载帧
+> 游戏会在它自己的预加载阶段为每个建筑填充 `building_sprites`，而这个阶段在你的模组之前运行。你之后注册的建筑帧列表是空的，第一次放置时游戏就会在 `Building.setAnimData()` 里因 `ArgumentOutOfRangeException: Index was out of range` 崩溃 :wbfacepalm:。设好 `sprite_path` 后就调用 `shrine.loadBuildingSprites();`。
 >
-> 它的兄弟是 `atlas_asset`，负责按主人颜色给建筑上色的图集。库同样在启动时于 `checkAtlasLink()` 里链接它。少了它，建筑能放下，之后 **只要在屏幕上，每一帧** 都在 `DynamicSprites.getRecoloredBuilding()` 里抛 `NullReferenceException`。
+> 它的兄弟是 `atlas_asset`，也就是把建筑染成主人颜色的精灵图集。资源库同样在启动时通过 `checkAtlasLink()` 链接它。跳过它的话，建筑能正常放置，但之后**只要它在屏幕上，每一帧**都会在 `DynamicSprites.getRecoloredBuilding()` 里抛出 `NullReferenceException`。
 
-
-务必在你的 `sprites.json` 中指定 **底部居中轴心（bottom-centre pivot）**，否则神殿会飘在空中——参见 **[贴图与资源](#/nml/sprites-and-resources)**。
+在你的 `sprites.json` 里给它设一个**底部居中的锚点**，否则你的神龛会像幽灵一样飘在地面上方（见 **[贴图与素材资源](#/nml/sprites-and-resources)**）。
 
 ## 在地图上放置建筑
 

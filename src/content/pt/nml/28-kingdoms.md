@@ -72,7 +72,7 @@ asset.kingdom_id_wild = HelloKingdoms.WILD;
 asset.kingdom_id_civilization = HelloKingdoms.CIV;
 ```
 
-Sem isso, sua criatura vai surgir no reino utilizado pelo modelo doador do clone (geralmente humanos), o que causa uma confusão danada.
+Sem isso, sua criatura vai surgir no reino utilizado pelo modelo doador do clone (geralmente humanos), o que causa uma confusão danada :PES5_Hmmmm:.
 
 ## Os campos
 
@@ -122,7 +122,7 @@ Dois reinos comparam suas tags para determinar sua postura diplomática padrão.
 
 ## O restante da estrutura de uma facção
 
-Um asset de reino isolado é apenas um rótulo. Estas são as outras bibliotecas com as quais uma facção completa se relaciona:
+Um asset de reino isolado é apenas um rótulo. Um rótulo muito oficial, mas um rótulo. Estas são as outras bibliotecas com as quais uma facção completa se relaciona:
 
 | Elemento | Biblioteca | Utilização |
 | --- | --- | --- |
@@ -204,7 +204,7 @@ O postfix roda após cada atualização de atributos para manter a troca. Ele su
 
 ## Opinião, lealdade e felicidade
 
-Três pequenas bibliotecas definem o clima político, e todas as três são listas de pequenas funções de cálculo:
+Três pequenas bibliotecas definem o clima político, e todas as três são listas de pequenas funções de cálculo. Sem sentimentos, só números:
 
 | Biblioteca | Chamada para | Retorna |
 | --- | --- | --- |
@@ -302,7 +302,7 @@ namespace HelloBox
 }
 ```
 
-Os caminhos são carregados individualmente quando o estandarte é desenhado, logo não há nada a recarregar. Um índice além do fim da lista recai para 0, permitindo que um save feito com seu mod abra normalmente sem ele. Respeite as proporções originais no **[UnityExplorer](#/toolbox/unity-explorer)**.
+Os caminhos são carregados individualmente quando o estandarte é desenhado, logo não há nada a recarregar. Um índice além do fim da lista recai para 0, permitindo que um save feito com seu mod abra normalmente sem ele. Respeite as proporções originais no **[UnityExplorer](#/toolbox/unity-explorer)**. Chute o tamanho e você ganha uma bandeira maior que a cidade que a hasteia :wbfacepalm:.
 
 ```json Mods/HelloBox/Locales/en.json
 {

@@ -72,6 +72,8 @@ namespace HelloBox
 
 ### Die Felder
 
+Klone eine Vanilla-Wolke und ändere dann `drop_id` und `color_hex`. Viele Wolken brauchen nichts weiter.
+
 | Feld | Was es tut |
 | --- | --- |
 | `color_hex` | Die Tönung. Das macht den Großteil der visuellen Identität aus |
@@ -93,7 +95,7 @@ Eine `CloudAction` nimmt die aktive Wolke entgegen und gibt nichts zurück:
 public delegate void CloudAction(Cloud pCloud);
 ```
 
-`CloudLibrary.dropAction` ist die Standard-Aktion des Spiels: Sie wählt eine zufällige Kachel unter dem Sprite der Wolke und spawnt dort ein `drop_id`. In 90 % der Fälle ist das die einzige Aktion, die du brauchst - du setzt sie auf `cloud_action_1` und bist fertig.
+`CloudLibrary.dropAction` ist die Standard-Aktion des Spiels: Sie wählt eine zufällige Kachel unter dem Sprite der Wolke und spawnt dort ein `drop_id`. In 90 % der Fälle ist das die einzige Aktion, die du brauchst - du setzt sie auf `cloud_action_1` und bist fertig. Faul und korrekt, meine Lieblingskombination :pepeOK:.
 
 Für zusätzliche Effekte schreibst du eine eigene Methode und weist sie `cloud_action_2` zu:
 

@@ -16,7 +16,7 @@ Pick the asset type, filter, click a name to copy it.
 ## How to read it
 
 - **Left column** is the type. `int` means a whole number, so `rate_birth = 0.5f` will not compile. `float` takes a decimal and wants the `f` suffix, like `0.5f`. `string` takes text in quotes.
-- **The `= value`** is the default the game already gives that field. If the default is what you want, do not set it.
+- **The `= value`** is the default the game already gives that field. If the default is what you want, do not set it. Less code, fewer typos.
 - **"inherited from"** means the field comes from a parent class. It works exactly the same way; it is just declared higher up. `id`, `base_stats` and `path_icon` are usually inherited.
 - **The chain above the table** (e.g. `ActorTrait -> BaseTrait -> BaseAugmentationAsset -> Asset`) is where the fields come from, most specific first.
 

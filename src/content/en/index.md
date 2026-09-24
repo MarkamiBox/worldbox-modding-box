@@ -25,3 +25,5 @@ order: 1
   - **God Powers & UI**: God powers & brushes, power buttons, and custom windows with tabs & tooltips.
   - **Finishing Touches**: In-game achievements and putting everything together into a finished mod.
 - **Modding Tools**: Interactive utilities built directly into this guide (Harmony Patch Builder, Asset Fields explorer, Method Finder, and Discord Icon Finder).
+
+Read it top to bottom the first time. After that, jump around like everybody else does :PES2_Shrug:.

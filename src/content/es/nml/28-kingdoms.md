@@ -72,7 +72,7 @@ asset.kingdom_id_wild = HelloKingdoms.WILD;
 asset.kingdom_id_civilization = HelloKingdoms.CIV;
 ```
 
-Sin eso, tu criatura aparecerá en el reino que utilizaba el donante de su clon, normalmente humanos, causando no poca confusión.
+Sin eso, tu criatura aparecerá en el reino que utilizaba el donante de su clon, normalmente humanos, causando no poca confusión :PES5_Hmmmm:.
 
 ## Los campos
 
@@ -122,7 +122,7 @@ Dos reinos comparan sus etiquetas para decidir su postura diplomática predeterm
 
 ## El resto de conexiones de una facción
 
-Un asset de reino por sí solo es solo una etiqueta. Estas son las otras bibliotecas con las que interactúa una facción completa:
+Un asset de reino por sí solo es solo una etiqueta. Una etiqueta muy oficial, pero una etiqueta. Estas son las otras bibliotecas con las que interactúa una facción completa:
 
 | Qué | Biblioteca | Uso principal |
 | --- | --- | --- |
@@ -204,7 +204,7 @@ El postfix se ejecuta tras cada actualización de estadísticas, manteniendo el 
 
 ## Opinión, lealtad y felicidad
 
-Tres pequeñas librerías definen la sensación política del mundo, y las tres son listas de pequeñas funciones de cálculo:
+Tres pequeñas librerías definen la sensación política del mundo, y las tres son listas de pequeñas funciones de cálculo. Sin sentimientos, solo números:
 
 | Librería | Evaluada para | Devuelve |
 | --- | --- | --- |
@@ -302,7 +302,7 @@ namespace HelloBox
 }
 ```
 
-Las rutas se cargan individualmente al dibujar el estandarte, por lo que no hay nada que recargar. Un índice fuera de rango recurre al 0, por lo que un guardado hecho con tu mod seguirá abriéndose sin él. Respeta las dimensiones originales: inspecciona una en **[UnityExplorer](#/toolbox/unity-explorer)** antes de dibujar la tuya.
+Las rutas se cargan individualmente al dibujar el estandarte, por lo que no hay nada que recargar. Un índice fuera de rango recurre al 0, por lo que un guardado hecho con tu mod seguirá abriéndose sin él. Respeta las dimensiones originales: inspecciona una en **[UnityExplorer](#/toolbox/unity-explorer)** antes de dibujar la tuya. Adivina el tamaño y tendrás una bandera más grande que la ciudad que la iza :wbfacepalm:.
 
 ```json Mods/HelloBox/Locales/en.json
 {

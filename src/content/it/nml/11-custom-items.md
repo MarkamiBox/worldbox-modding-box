@@ -112,6 +112,8 @@ namespace HelloBox
 
 ### Costo e valore
 
+Tieni i prezzi sensati. Una spada di ferro da 43 milioni di monete non è bilanciamento, è una truffa :trollface:.
+
 | Campo | Cosa fa |
 | --- | --- |
 | `setCost(gold, res1, amount1, res2, amount2)` | La chiamata unica che configura tutti i costi. Usala invece di impostarli singolarmente |
@@ -131,14 +133,17 @@ namespace HelloBox
 
 ### Behaviour
 
+Qui un oggetto smette di essere un mucchio di numeri.
+
 | Campo | Cosa fa |
 | --- | --- |
 | `action_attack_target` | Viene eseguito a ogni colpo andato a segno |
-| `action_special_effect` + `special_effect_interval` | Viene eseguito a tempo mentre l'arma è equipaggiata |
-| `item_modifier_ids` | Incantamenti che possono comparire su di essa. Vedi **[Incantamenti delle armi](#/nml/item-modifiers)** |
-| `addSpell(id)` | Un incantesimo che l'oggetto permette di lanciare |
-| `addCombatAction(id)` | Una manovra marziale conferita dall'arma |
+| `action_special_effect` + `special_effect_interval` | Viene eseguito a tempo finché è equipaggiato |
+| `item_modifier_ids` | Gli incantesimi che può ottenere. Vedi **[Incantesimi delle armi](#/nml/item-modifiers)** |
+| `addSpell(id)` + `linkSpells()` | Un incantesimo che chi lo porta può lanciare. Il collegamento lo devi chiamare tu, vedi sotto |
+| `addCombatAction(id)` | Compila, e su un oggetto non fa niente: un'unità raccoglie le azioni di combattimento dai suoi tratti (e sottospecie, clan, religione), mai dall'equipaggiamento. Mettilo su un tratto, vedi **[Proiettili, incantesimi ed effetti](#/nml/projectiles-spells)** |
 
+Il gioco trasforma quegli id in oggetti una sola volta, all'avvio, prima che la tua mod venga caricata. Su un oggetto che hai registrato tu, chiudi con `linkSpells()` e imposta `decisions_assets` a mano (non esiste un metodo di collegamento per quello), altrimenti la concessione non fa nulla. Vedi **[IA personalizzata](#/nml/custom-ai)**.
 
 ## Un effetto finché viene impugnato
 
@@ -239,7 +244,7 @@ private static void RegisterLine(string pPrefix, string pTemplate)
 
 ## I testi di localizzazione
 
-Gli oggetti vengono nominati in modo diverso da qualunque altra cosa in questa guida, traendo tutti in inganno. Il nome visualizzato di un oggetto si calcola così:
+Gli oggetti vengono nominati in modo diverso da qualunque altra cosa in questa guida, traendo tutti in inganno, me compreso :PESgn_Oops:. Il nome visualizzato di un oggetto si calcola così:
 
 ```text
 translation_key   ?? "item_" + (equipment_subtype ?? id)

@@ -23,14 +23,16 @@ O jogo já possui um lugar projetado para isso. Cada unidade, cidade, reino, con
 | `data.hasFlag(key)` / `data.removeFlag(key)` | Verifica ou remove a flag |
 | `data.removeInt(key)`, `removeFloat`, `removeString`... | Deleta um valor |
 
-Cada tipo possui sua própria tabela interna, portanto um `int` e uma `string` sob a mesma chave não colidem. Ainda assim, para seu próprio controle, não compartilhe chaves entre tipos diferentes.
+Cada tipo possui sua própria tabela interna, portanto um `int` e uma `string` sob a mesma chave não colidem. Ainda assim, para seu próprio controle, não compartilhe chaves entre tipos diferentes. O seu eu do futuro não vai lembrar qual era qual.
 
 
 
 
 ## Salvando objetos complexos com NML
 
-Se cinco tipos primitivos não forem suficientes e você precisar salvar uma classe inteira, o NML oferece `DataExtension` em `NeoModLoader.General.Game.extensions`:
+Se cinco tipos primitivos parecem coisa de 1995 e você realmente precisa salvar uma classe ou lista inteira num ator, o NML oferece `DataExtension` em `NeoModLoader.General.Game.extensions`.
+
+Embrulhe sua classe de dados em `BasicCustomData<T>`:
 
 ```csharp
 using NeoModLoader.General.Game.extensions;
@@ -52,7 +54,7 @@ if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
 }
 ```
 
-Por baixo dos panos, o NML serializa seu objeto em JSON na tabela `custom_data_string`. Se os dados forem evoluir, implemente `ICustomData` diretamente :PES5_Hmmmm:.
+Por baixo dos panos, o NML serializa seu objeto em JSON e guarda na tabela vanilla `custom_data_string` sob a sua chave. Se você espera que o formato dos dados mude entre atualizações do mod, implemente `ICustomData` diretamente na sua classe em vez de usar `BasicCustomData<T>`: isso te dá verificações explícitas de `ModId` e `DataVersion`, para que um save antigo não envenene em silêncio o seu estado novo :PES5_Hmmmm:.
 
 ## No HelloBox
 
@@ -111,7 +113,7 @@ namespace HelloBox
 }
 ```
 
-Salve o mundo e carregue-o novamente: a contagem continua lá, pois faz parte dos dados de salvamento da própria unidade. A flag é o que faz a recompensa acontecer uma única vez e não a cada golpe após o quinquagésimo.
+Salve o mundo e carregue-o novamente: a contagem continua lá, pois faz parte dos dados de salvamento da própria unidade. A flag é o que faz a recompensa acontecer uma única vez e não a cada golpe após o quinquagésimo. Generoso, mas ainda é um bug.
 
 Seus textos, como em qualquer traço:
 

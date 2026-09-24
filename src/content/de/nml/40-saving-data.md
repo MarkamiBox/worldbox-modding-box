@@ -23,14 +23,16 @@ Das Spiel hat dafür bereits einen festen Platz. Jede Einheit, jede Stadt, jedes
 | `data.hasFlag(key)` / `data.removeFlag(key)` | Prüft oder löscht das Flag |
 | `data.removeInt(key)`, `removeFloat`, `removeString`... | Löscht einen bestimmten Wert |
 
-Jeder Datentyp hat seine eigene Tabelle, daher kollidieren ein `int` und ein `string` unter demselben Schlüssel nicht. Aus Gründen deiner eigenen geistigen Gesundheit sollten sie sich dennoch keinen Schlüssel teilen.
+Jeder Datentyp hat seine eigene Tabelle, daher kollidieren ein `int` und ein `string` unter demselben Schlüssel nicht. Aus Gründen deiner eigenen geistigen Gesundheit sollten sie sich dennoch keinen Schlüssel teilen. Dein zukünftiges Ich wird sich nicht mehr erinnern, welcher welcher war.
 
 
 
 
 ## Speichern komplexer Objekte mit NML
 
-Wenn dir fünf primitive Typen nicht reichen und du eine ganze Klasse speichern möchtest, bietet NML `DataExtension` in `NeoModLoader.General.Game.extensions`:
+Wenn sich fünf Grundtypen wie 1995 anfühlen und du tatsächlich eine ganze Klasse oder Liste an einem Akteur speichern musst, bietet NML `DataExtension` in `NeoModLoader.General.Game.extensions`.
+
+Pack deine Datenklasse in `BasicCustomData<T>`:
 
 ```csharp
 using NeoModLoader.General.Game.extensions;
@@ -52,7 +54,7 @@ if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
 }
 ```
 
-NML serialisiert das Objekt als JSON in `custom_data_string`. Für Versionskontrolle bei Formatänderungen implementiere `ICustomData` :PES5_Hmmmm:.
+Unter der Haube serialisiert NML dein Objekt zu JSON und packt es unter deinem Schlüssel in die Vanilla-Tabelle `custom_data_string`. Wenn du erwartest, dass sich dein Datenformat über Mod-Updates hinweg ändert, implementiere `ICustomData` direkt in deiner Klasse, statt `BasicCustomData<T>` zu nutzen - das gibt dir explizite Prüfungen von `ModId` und `DataVersion`, damit ein veralteter Spielstand deinen neuen Zustand nicht stillschweigend vergiftet :PES5_Hmmmm:.
 
 ## In HelloBox
 
@@ -111,7 +113,7 @@ namespace HelloBox
 }
 ```
 
-Speichere die Welt und lade sie neu: Der Zähler ist immer noch da, da er Teil der Speicherdaten der Einheit ist. Das Flag sorgt dafür, dass die Belohnung genau einmal ausgelöst wird und nicht bei jedem weiteren Schlag nach dem fünfzigsten.
+Speichere die Welt und lade sie neu: Der Zähler ist immer noch da, da er Teil der Speicherdaten der Einheit ist. Das Flag sorgt dafür, dass die Belohnung genau einmal ausgelöst wird und nicht bei jedem weiteren Schlag nach dem fünfzigsten. Großzügig, aber trotzdem ein Bug.
 
 Die Lokalisierungstexte, wie bei jedem Merkmal:
 

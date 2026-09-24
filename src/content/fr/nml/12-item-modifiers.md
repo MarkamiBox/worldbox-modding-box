@@ -12,7 +12,7 @@ Vous connaissez ces petites lignes vertes sur une bonne épée : *"+3 dégâts"*
 
 ## La méthode simple : le créateur de NML
 
-Un `ItemAsset` dans le jeu de base est une classe unique qui remplit sept fonctions différentes, et ses champs ont des significations changeantes selon le cas. NML regroupe les fonctionnalités clés dans `ItemAssetCreator`, et pour les modificateurs, il gère directement l'enregistrement pour vous :
+Un modificateur est un `ItemModAsset`, c'est-à-dire un `ItemAsset` avec un autre chapeau, et il vit dans `AssetManager.items_modifiers` :
 
 ```csharp Mods/HelloBox/Code/HelloModifiers.cs
 namespace HelloBox
@@ -60,12 +60,17 @@ namespace HelloBox
     }
 }
 ```
+
 > [!WARNING] L'enregistrer ne suffit pas
-> `add()` met ton modificateur dans la `list` de la bibliothèque, et le générateur ne lit pas `list`, il lit `pools`. Ces pools sont remplis dans `linkAssets()`, une seule fois, au chargement. Un modificateur qui n'est que dans `list` existe, a un nom, et ne sera jamais tiré sur quoi que ce soit :wbfacepalm:.
+> `add()` met votre modificateur dans la `list` de la bibliothèque, mais le générateur ne lit pas `list`, il lit `pools`. Ces pools sont remplis dans `linkAssets()`, une seule fois, au chargement. Un modificateur qui n'est que dans `list` existe, a un nom, et ne sera jamais tiré sur quoi que ce soit :wbfacepalm:.
 
+```json Mods/HelloBox/Locales/en.json
+{
+  "mod_hello_sharp": "Sharpened"
+}
+```
 
-
-Ajoutez `HelloModifiers.Initialize();` dans votre `Main.cs`, et le jeu pourra désormais attribuer "hello_sharp" aux armes qu'il génère.
+Ajoutez `HelloModifiers.Initialize();` à `Main.cs`, et à partir de là le jeu peut le tirer sur les armes générées.
 
 ### Les arguments qui comptent
 
@@ -82,7 +87,7 @@ Ajoutez `HelloModifiers.Initialize();` dans votre `Main.cs`, et le jeu pourra d�
 
 ## Lui faire faire quelque chose pour de vrai
 
-Les statistiques sont utiles, mais un modificateur peut aussi exécuter du code. `action_attack_target` s'exécute à chaque fois que l'arme touche une cible :
+Les statistiques sont utiles, mais un modificateur peut aussi exécuter du code, et c'est là que ça devient amusant. `action_attack_target` s'exécute à chaque fois que l'arme touche une cible :
 
 ```csharp
 ItemAssetCreator.CreateAndAddModifier(
@@ -110,7 +115,7 @@ Désormais, toute arme tirant au sort "hello_burning" enflammera le sol lorsqu'e
 }
 ```
 
-La `translation_key` correspond au texte affiché dans l'infobulle de l'arme : restez concis, elle s'affiche sur une seule ligne à côté des statistiques.
+La `translation_key` correspond au texte affiché dans l'infobulle de l'arme : restez concis, elle s'affiche sur une seule ligne à côté des statistiques. Personne ne lit un paragraphe sur une épée.
 
 > [!TIP] Modificateurs avant les armes
 > Créer une arme complète représente un travail considérable (sprites, animations, matériaux). Un nouveau modificateur tient en vingt lignes et bénéficie à **toutes** les armes que le jeu génère. Si vous voulez des nouveautés immédiates, commencez par ici :PES_Stonks:.

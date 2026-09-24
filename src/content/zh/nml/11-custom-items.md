@@ -112,6 +112,8 @@ namespace HelloBox
 
 ### 锻造成本与价值
 
+价格要合理。一把 4300 万金币的铁剑不叫平衡，叫诈骗 :trollface:。
+
 | 字段 | 作用 |
 | --- | --- |
 | `setCost(gold, res1, amount1, res2, amount2)` | 一站式设置所有造价消耗的推荐方法。优先使用此方法，不要手动拆开逐个赋值 |
@@ -131,14 +133,17 @@ namespace HelloBox
 
 ### Behaviour
 
+从这里开始，物品不再只是一堆数字。
+
 | 字段 | 作用 |
 | --- | --- |
-| `action_attack_target` | 每次攻击命中目标时触发 |
-| `action_special_effect` + `special_effect_interval` | 穿戴在身上时按计时器周期触发 |
-| `item_modifier_ids` | 可随机刷出的附魔词条池。详见 **[武器附魔词条](#/nml/item-modifiers)** |
-| `addSpell(id)` | 赋予持有者的主动施法技能 |
-| `addCombatAction(id)` | 赋予持有者的专属战斗特技 |
+| `action_attack_target` | 每次命中时运行 |
+| `action_special_effect` + `special_effect_interval` | 装备期间按计时器运行 |
+| `item_modifier_ids` | 它可能随机到的附魔。见 **[武器附魔](#/nml/item-modifiers)** |
+| `addSpell(id)` + `linkSpells()` | 装备者可以施放的法术。链接需要你自己调用，见下文 |
+| `addCombatAction(id)` | 能编译，但放在物品上什么都不做：单位只从自己的特质（以及亚种、氏族、宗教）收集战斗动作，从不从装备收集。把它放到特质上，见 **[投射物、法术与特效](#/nml/projectiles-spells)** |
 
+游戏只会在启动时、你的模组加载之前把这些 id 转换成对象一次。对于你自己注册的物品，最后要调用 `linkSpells()`，并手动设置 `decisions_assets`（它没有对应的链接方法），否则赋予不会生效。见 **[自定义 AI](#/nml/custom-ai)**。
 
 ## 手持时触发的被动效果
 
@@ -239,7 +244,7 @@ private static void RegisterLine(string pPrefix, string pTemplate)
 
 ## 本地化文本
 
-装备的命名逻辑与本指南中出现的其他所有资源完全不同，这常常把新手搞得一头雾水。一件装备在游戏里最终渲染出的显示名称，解析逻辑如下：
+装备的命名逻辑与本指南中出现的其他所有资源完全不同，这常常把新手搞得一头雾水，我也不例外 :PESgn_Oops:。一件装备在游戏里最终渲染出的显示名称，解析逻辑如下：
 
 ```text
 translation_key   ?? "item_" + (equipment_subtype ?? id)

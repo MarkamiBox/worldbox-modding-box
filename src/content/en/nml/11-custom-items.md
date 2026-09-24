@@ -111,6 +111,8 @@ namespace HelloBox
 
 ### Cost and value
 
+Keep the prices sane. An iron sword for 43 million coins is not balance, it is a scam :trollface:.
+
 | Field | What it does |
 | --- | --- |
 | `setCost(gold, res1, amount1, res2, amount2)` | The one call that sets every cost field. Use it instead of setting them individually |
@@ -129,6 +131,8 @@ namespace HelloBox
 | `name_class`, `name_templates` | How legendary versions of it get named |
 
 ### Behaviour
+
+This is where an item stops being a bag of numbers.
 
 | Field | What it does |
 | --- | --- |
@@ -233,7 +237,7 @@ private static void RegisterLine(string pPrefix, string pTemplate)
 
 ## The text
 
-Items name themselves differently from everything else in this guide, and it catches everybody out. An item's display name is:
+Items name themselves differently from everything else in this guide, and it catches everybody out, me included :PESgn_Oops:. An item's display name is:
 
 ```text
 translation_key   ?? "item_" + (equipment_subtype ?? id)

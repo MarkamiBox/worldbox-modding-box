@@ -226,7 +226,7 @@ Font font = LocalizedTextManager.current_font ?? Resources.GetBuiltinResource<Fo
 
 ## Tooltips
 
-The game's tooltips are assets too, in `AssetManager.tooltips`: an id, and a callback that fills the tooltip each time it opens. Register your own and any UI object can show it, with live numbers in it.
+The game's tooltips are assets too, in `AssetManager.tooltips`: an id, and a callback that fills the tooltip each time it opens. Register your own and any UI object can show it, with live numbers in it. Players hover everything, so this is where your mod quietly looks finished.
 
 ```csharp Mods/HelloBox/Code/HelloTooltips.cs
 using UnityEngine;
@@ -324,7 +324,7 @@ namespace HelloBox
 > [!WARNING] Hotkeys are wired at startup
 > `HotkeyLibrary.linkAssets()` copies each `default_key_*` into the matching `overridden_key_*`, which is the key the game actually checks, and builds `action_hotkeys`, the only list it polls every frame. Both happen before your mod loads. Skip either and the key does nothing, silently :wbfacepalm:.
 
-The `check_*` flags are the cheap way to stay out of the way: `check_controls_locked` keeps it quiet while the player steers a unit, `check_window_not_active` while a vanilla window is open. Pick a key vanilla leaves alone. F6 is one; other mods may disagree.
+The `check_*` flags are the cheap way to stay out of the way: `check_controls_locked` keeps it quiet while the player steers a unit, `check_window_not_active` while a vanilla window is open. Pick a key vanilla leaves alone. F6 is one; other mods may disagree :PES2_Shrug:.
 
 ```json Mods/HelloBox/Locales/en.json
 {

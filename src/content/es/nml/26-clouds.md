@@ -72,6 +72,8 @@ namespace HelloBox
 
 ### Los campos
 
+Clona una nube vanilla y cambia `drop_id` y `color_hex`. A muchas nubes no les hace falta nada más.
+
 | Campo | Qué hace |
 | --- | --- |
 | `color_hex` | El tinte. Esto define casi toda la personalidad de la nube |
@@ -93,7 +95,7 @@ Una `CloudAction` recibe la nube viva y no devuelve nada:
 public delegate void CloudAction(Cloud pCloud);
 ```
 
-`CloudLibrary.dropAction` es la acción estándar de vanilla: elige una casilla aleatoria bajo el sprite de la nube y genera un `drop_id` en ella. El 90% de las veces es la única acción que necesitas: la asignas a `cloud_action_1` y listo.
+`CloudLibrary.dropAction` es la acción estándar de vanilla: elige una casilla aleatoria bajo el sprite de la nube y genera un `drop_id` en ella. El 90% de las veces es la única acción que necesitas: la asignas a `cloud_action_1` y listo. Vago y correcto, mi combinación favorita :pepeOK:.
 
 Para añadir algo especial, escribe tu propio método y asígnalo a `cloud_action_2`:
 

@@ -48,20 +48,20 @@ trait_hello_swift,Swift,迅捷,Быстрый
 
 ## Übersetzungen direkt im Code registrieren
 
-`NeoModLoader.General.LM` ist der Lokalisierungshelfer. Äußerst praktisch, wenn dein Text dynamisch generiert wird oder wenn du einfach alles in einer einzigen `.cs`-Datei statt in einem Haufen JSON-Dateien bündeln möchtest.
+`NeoModLoader.General.LM` ist der Lokalisierungshelfer. Praktisch, wenn dein Text generiert wird oder du einfach alles in einer `.cs`-Datei statt in einem Haufen JSON haben willst.
 
 ```csharp Mods/HelloBox/Code/HelloLocale.cs
 using NeoModLoader.General;
 
-LM.Get("trait_hello_swift");                            // in der aktuellen Spielsprache auslesen
-LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // zur aktuell geladenen Sprache hinzufügen
-LM.Add("en", "trait_hello_swift", "Swift");          // zu einer bestimmten Sprache hinzufügen
-LM.LoadLocale("en", path);            // eine JSON-Datei manuell laden
-LM.LoadLocales("path/to/Locales/lang.csv");          // eine CSV-Datei manuell laden
-LM.ApplyLocale(false);                               // anwenden. false = Bildschirmnachrichten nicht alle neu zeichnen
+LM.Get("trait_hello_swift");                            // read in the current language
+LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // add to whatever language is loaded now
+LM.Add("en", "trait_hello_swift", "Swift");          // add to a specific language
+LM.LoadLocale("en", "path/to/Locales/en.json");       // load a json manually (language + path)
+LM.LoadLocales("path/to/Locales/lang.csv");          // load a csv manually
+LM.ApplyLocale(false);                               // apply. false = don't refresh every text on screen
 ```
 
-In HelloBox sieht diese Datei wie folgt aus:
+In HelloBox sieht die Datei so aus:
 
 ```csharp Mods/HelloBox/Code/HelloLocale.cs
 using System.Collections.Generic;
@@ -93,23 +93,23 @@ namespace HelloBox
 }
 ```
 
-Füge `HelloLocale.Initialize();` in `Main.cs` **zuerst** ein, noch vor allen anderen Initialisierungen, damit niemals ein Asset registriert wird, dessen Text noch fehlt.
+Füge `HelloLocale.Initialize();` in `Main.cs` **als Erstes** hinzu, vor allem anderen, damit nie etwas registriert wird, solange sein Text noch fehlt.
 
-Registriere **alles auf einmal beim Start** und rufe `ApplyLocale` am Ende einmalig auf. Das Spiel nach einem Schlüssel zu fragen, den es nicht kennt, loggt einen Fehler und schreibt eine Datei auf die Festplatte - ein Tooltip voller fehlender Schlüssel sieht also nicht nur hässlich aus, sondern müllt auch das Log zu :PES_UghPing:.
+Registriere **alles auf einmal, beim Laden**, und ruf `ApplyLocale` einmal am Ende auf. Fragst du das Spiel nach einem Schlüssel, den es nicht hat, bekommst du den Schlüssel selbst als Text zurück, plus einen `missing text`-Fehler pro Schlüssel im Log. Ein Tooltip aus fehlenden Schlüsseln ist also nicht nur hässlich, er müllt auch dein Log zu :PES_UghPing:.
 
 ## Die Schlüsselnamen, die du wirklich brauchst
 
-Das Spiel konstruiert diese Schlüssel selbst nach festen Regeln. Sie müssen exakt übereinstimmen, sonst wird nichts angezeigt:
+Das Spiel baut diese Schlüssel selbst, also müssen sie exakt passen, sonst erscheint nichts. Zwei davon folgen **nicht** der Regel "wie die ID", und genau an denen verlieren Leute eine Stunde:
 
-| Element | Namens-Schlüssel | Beschreibungs-Schlüssel |
+| Was | Namensschlüssel | Beschreibungsschlüssel |
 | --- | --- | --- |
-| Trait | `trait_<id>` | `trait_<id>_info` |
-| Item | `item_<id>` | `item_<id>_description` |
-| God Power | `<power_id>` | `<power_id>_description` |
-| Power Tab | der übergebene `locale_key` | der übergebene Beschreibungsschlüssel |
-| Actor Task | `task_unit_<task_id>` | - |
-| Status Effect | `<status_id>` | `<status_id>_description` |
-| World Law | `<law_id>_title` (beachte das Suffix) | `<law_id>_description` |
+| Merkmal | `trait_<id>` | `trait_<id>_info` |
+| Gegenstand | `translation_key`, falls gesetzt, sonst `item_<equipment_subtype or id>` | `<id>_description` (ohne `item_`-Präfix) |
+| Göttliche Macht | `<power_id>` | `<power_id>_description` |
+| Macht-Tab | der `locale_key`, den du übergeben hast | der Beschreibungsschlüssel, den du übergeben hast |
+| Akteur-Aufgabe | `task_unit_<task_id>` | - |
+| Statuseffekt | das **Feld** `locale_id`, das du setzt | das **Feld** `locale_description`, das du setzt |
+| Weltgesetz | `<law_id>_title` (achte auf das Suffix) | `<law_id>_description` |
 
-> [!WARNING] IDs sind keine Anzeigenamen
-> Deine ID lautet für immer `hello_swift`, in jeder Sprache, und genau darauf verweisen dein restlicher Code und die Mods anderer Entwickler. Der **Lokalisierungstext** ist der Teil, der sich ändert. Benenne niemals eine ID um, nur um einen Tippfehler im Anzeigenamen zu korrigieren :PESgn_Stop:.
+> [!WARNING] IDs sind keine Namen
+> Deine ID ist für immer `hello_swift`, in jeder Sprache, und auf sie verweist der Rest deines Codes (und die Mods anderer Leute). Der **Lokalisierungstext** ist der Teil, der sich ändert. Benenne nie eine ID um, nur um einen Tippfehler im Anzeigenamen zu korrigieren :PESgn_Stop:.

@@ -12,7 +12,7 @@ order: 122
 
 ## 簡単な方法：NML の Creator を使う
 
-バニラの `ItemAsset` は1つのクラスで7役を兼ねており、目的によってフィールドの意味がコロコロ変わります。NMLは使いやすい部分を `ItemAssetCreator` にまとめており、モディファイアに関しては登録処理まで一括で行ってくれます：
+モディファイアは `ItemModAsset` で、これは帽子を変えた `ItemAsset` です。`AssetManager.items_modifiers` に入っています：
 
 ```csharp Mods/HelloBox/Code/HelloModifiers.cs
 namespace HelloBox
@@ -60,12 +60,17 @@ namespace HelloBox
     }
 }
 ```
-> [!WARNING] 登録しただけでは足りない
-> `add()` はライブラリの `list` に入れるだけで、生成側が読むのは `list` ではなく `pools` です。その pools はロード中に `linkAssets()` で一度だけ埋まります。`list` にしかない修飾は、存在して名前もありますが、何にも付きません :wbfacepalm:。
 
+> [!WARNING] 登録するだけでは足りない
+> `add()` はモディファイアをライブラリの `list` に入れますが、生成器が読むのは `list` ではなく `pools` です。そのプールは読み込み中に一度だけ `linkAssets()` で埋められます。`list` にしかないモディファイアは存在し、名前もありますが、何にも付与されることはありません :wbfacepalm:。
 
+```json Mods/HelloBox/Locales/en.json
+{
+  "mod_hello_sharp": "Sharpened"
+}
+```
 
-`Main.cs` に `HelloModifiers.Initialize();` を追加すれば、それ以降ゲームは生成される武器に「hello_sharp」を付与できるようになります。
+`HelloModifiers.Initialize();` を `Main.cs` に追加すれば、それ以降、ゲームは生成される武器にこれを付けられるようになります。
 
 ### 重要な引数
 
@@ -82,7 +87,7 @@ namespace HelloBox
 
 ## 実際の追加効果を持たせる
 
-ステータス加算だけでなく、モディファイアからコードを実行することもできます。`action_attack_target` は武器が攻撃をヒットさせるたびに発動します：
+ステータス加算だけでなく、モディファイアからコードを実行することもできます。面白くなるのはここからです。`action_attack_target` は武器が攻撃をヒットさせるたびに発動します：
 
 ```csharp
 ItemAssetCreator.CreateAndAddModifier(
@@ -110,7 +115,7 @@ ItemAssetCreator.CreateAndAddModifier(
 }
 ```
 
-`translation_key` はアイテムのツールチップに表示される名前ですので、ステータス数値と並んで1行に収まるよう短めに記述してください。
+`translation_key` はアイテムのツールチップに表示される名前ですので、ステータス数値と並んで1行に収まるよう短めに記述してください。剣に書かれた長文なんて誰も読みません。
 
 > [!TIP] 新武器よりも先にエンチャントを作ろう
 > 新しい武器を作るのには手間がかかります（画像、アニメーション、素材設定）。新しいモディファイアなら20行で作れ、世界中で生成される**あらゆる武器**に自動で付与されます。手軽に変化を楽しみたいならここから始めましょう :PES_Stonks:。

@@ -96,14 +96,29 @@ namespace HelloBox
 }
 ```
 
-Six choses se produisent ici :
+Six choses se passent :
 
-- **`[HarmonyPatch(typeof(Actor), "updateStats")]`** : l'adresse. "La méthode nommée `updateStats` dans la classe `Actor`." Une ligne entre crochets est un *attribut* : une étiquette pour le compilateur, pas du code exécutable.
-- **`public static class Patch_Actor_UpdateStats`** : un conteneur. Le nom vous appartient et ne change rien au comportement, mais votre futur vous remerciera pour `Patch_<Classe>_<Méthode>`.
-- **`public static void Postfix(...)`** : ce nom ne vous appartient **pas**. Harmony recherche spécifiquement des méthodes nommées `Prefix`, `Postfix` ou `Finalizer`. Écrivez `postfix` en minuscules et rien ne se passera, sans la moindre erreur :PESgn_ButWhy:.
-- **`Actor __instance`** : **deux** traits de soulignement. C'est l'unité exacte sur laquelle le jeu travaille en ce moment. Sans cela, vous savez *qu'une* unité a été recalculée, mais pas *laquelle*.
-- **`if (!__instance.hasTrait(...)) return;`** : sortie rapide. Votre patch s'exécute pour chaque unité du monde, en permanence. Faites en sorte que le cas général se règle en un test et un `return`.
-- **`stats["speed"] += 20f;`** : la modification concrète. `updateStats` réinitialise le bloc de stats au début, donc ajouter dans le Postfix s'applique sur une base propre plutôt que de s'empiler à chaque tick.
+- **`[HarmonyPatch(typeof(Actor), "updateStats")]`** : l'adresse. "La méthode appelée `updateStats`, dans la classe appelée `Actor`." Une ligne entre crochets est un *attribut* : une étiquette que l'ordinateur lit, pas du code qui s'exécute.
+- **`public static class Patch_Actor_UpdateStats`** : un conteneur. Le nom est à vous et ne change rien, mais votre futur vous remerciera pour `Patch_<Class>_<Method>`.
+- **`public static void Postfix(...)`** : ce nom n'est **pas** à vous. Harmony cherche une méthode qui s'appelle exactement `Prefix`, `Postfix` ou `Finalizer`. Écrivez `postfix` et rien ne se passe, sans aucune erreur :PESgn_ButWhy:.
+- **`Actor __instance`** : **deux** underscores. C'est l'unité précise sur laquelle le jeu travaille en ce moment. Sans lui, vous savez *qu*'une unité a vu ses stats recalculées, mais pas *laquelle*.
+- **`if (!__instance.hasTrait(...)) return;`** : sortez tôt. Votre patch tourne pour chaque unité du monde, pour toujours. Faites du cas courant une vérification et un `return`.
+- **`stats["speed"] += 20f;`** : le vrai changement. `updateStats` vide et reconstruit le bloc de stats au début, donc ajouter dans un Postfix tombe sur une page blanche au lieu de s'accumuler à chaque tick.
+
+> [!DANGER] `updateStats` ne tourne pas sur le thread principal
+> Le jeu l'enregistre comme une tâche **parallèle** (`createJob(out c_stats_dirty, updateStats, JobType.Parallel, ...)`, et `Config.parallel_jobs_updater` vaut `true` par défaut), donc votre Postfix tourne sur un thread de travail, sur beaucoup d'unités à la fois. À l'intérieur, touchez **uniquement aux nombres de cette unité**. Appeler Unity (`Time.time`, `transform`, `Destroy`, `Resources.Load`), l'outil aléatoire du jeu `Randy`, ou écrire dans une liste partagée à vous, c'est un crash qui n'apparaît que sur la machine de quelqu'un d'autre.
+>
+> Si vous avez besoin de ça, mettez l'unité dans une file et faites le travail dans votre propre `Update()` :
+> ```csharp
+> public static readonly System.Collections.Concurrent.ConcurrentQueue<Actor> pending = new();
+>
+> public static void Postfix(Actor __instance)
+> {
+>     if (!__instance.hasTrait(HelloTraits.GIGACHAD)) return;
+>     __instance.stats["speed"] += 20f;   // this unit's own data: fine
+>     pending.Enqueue(__instance);        // everything else waits for the main thread
+> }
+> ```
 
 ## Les noms magiques des paramètres
 
@@ -117,7 +132,7 @@ Harmony injecte vos paramètres **par leur nom**. Voici ceux qui comptent, et le
 | `__state` | Une valeur que votre Prefix transmet à votre propre Postfix |
 | n'importe quel paramètre réel | L'argument transmis par l'appelant, nommé **exactement** comme dans le jeu |
 
-C'est sur cette dernière ligne que tout le monde trébuche. Si le jeu déclare `getHit(float pDamage, ...)`, votre paramètre doit s'appeler `pDamage`. Pas `damage`, pas `pDmg`. Vous pouvez omettre les paramètres inutiles, mais ceux que vous déclarez doivent correspondre mot pour mot, et dans ce jeu ils commencent presque tous par `p`.
+C'est sur cette dernière ligne que tout le monde trébuche, encore et encore. Si le jeu déclare `getHit(float pDamage, ...)`, votre paramètre doit s'appeler `pDamage`. Pas `damage`, pas `pDmg`. Vous pouvez omettre les paramètres inutiles, mais ceux que vous déclarez doivent correspondre mot pour mot, et dans ce jeu ils commencent presque tous par `p`.
 
 ## Modifier un résultat
 
@@ -140,7 +155,7 @@ Ajustez, n'écrasez pas aveuglément. `__result *= 1.5f` fonctionne harmonieusem
 
 ## Modifier un nombre codé en dur dans le jeu
 
-La moitié des demandes du type "quelqu'un peut-il faire un mod qui..." ne concerne qu'un seul nombre. "Les villes deviennent trop grandes" n'est rien d'autre que cela, tiré directement de la classe `City` du jeu :
+La moitié des demandes du type "quelqu'un peut-il faire un mod qui..." ne concerne qu'un seul nombre. Rien n'est impossible, c'est juste que personne ne l'a encore fait :wbbru:. "Les villes deviennent trop grandes" n'est rien d'autre que cela, tiré directement de la classe `City` du jeu :
 
 ```csharp Assembly-CSharp / City
 public int getZoneRange(bool pAllowCheat = true)
@@ -245,6 +260,8 @@ public static class Patch_Actor_StatDelta
 
 ## Quand ça ne fonctionne pas
 
+Avant d'accuser Harmony, lisez le log. C'est rarement Harmony :PES5_Noted:.
+
 | Ce que vous voyez | La cause la plus probable |
 | --- | --- |
 | Rien ne se passe, rien dans les logs | `Postfix` mal orthographié, ou `PatchAll` jamais appelé |
@@ -256,12 +273,15 @@ public static class Patch_Actor_StatDelta
 
 ## Les règles de bonne conduite
 
-- **Postfix par défaut.** N'utilisez un Prefix que si vous devez modifier un argument ou stopper l'exécution.
-- **Ajustez, n'écrasez jamais.** `+=`, `*=`, `Math.Min(...)`. Quelqu'un d'autre patche sans doute aussi cet endroit.
-- **Vérifiez toujours les null.** Votre patch s'exécutera pendant le chargement du monde et pendant la mort d'une unité.
-- **Le test rapide en premier.** La première ligne d'un patch fréquent doit être la condition qui permet un `return` immédiat.
-- **Patchez la méthode la plus ciblée possible.** Patcher `Actor.updateStats` pour la vitesse d'un trait est parfait. Patcher la boucle générale de mise à jour du monde pour faire la même chose est le meilleur moyen de faire désinstaller votre mod.
-- **Gardez vos patchs dans un seul fichier.** Quand un utilisateur signale un conflit, vous voudrez examiner un fichier, pas douze.
+- **Postfix par défaut.** N'utilisez un Prefix que si vous devez changer un argument ou arrêter la méthode.
+- **Ajustez, n'assignez jamais.** `+=`, `*=`, `Math.Min(...)`. Quelqu'un d'autre a aussi patché ça.
+- **Vérifiez null, toujours.** Votre patch tournera pendant le chargement du monde et pendant la mort d'une unité.
+- **La vérification bon marché d'abord.** La première ligne d'un patch très sollicité doit être le test qui vous permet de faire `return`.
+- **Patchez la méthode la plus étroite qui fait le travail.** Patcher `Actor.updateStats` pour la vitesse d'un trait, ça va. Patcher la mise à jour du monde pour la même chose, c'est comme ça qu'un mod se fait désinstaller.
+- **Gardez vos patchs dans un seul fichier.** Quand quelqu'un signale un conflit, vous voulez lire un fichier, pas douze. Soyez gentil avec votre futur vous. Faites ce que je dis, pas ce que font mes vieux mods :trollface:.
+
+> [!NOTE] Patcher `has`, `get`, `add`, `clone` ou `post_init` d'une bibliothèque ne sert à rien
+> Cela n'affecte que les appels faits après le chargement de votre mod, jamais l'enregistrement vanilla déjà effectué à ce moment-là. Voir **[Bibliothèques d'assets](#/nml/asset-libraries)**.
 
 ## Ce que nous n'aborderons pas ici
 

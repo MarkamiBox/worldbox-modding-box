@@ -67,7 +67,7 @@ namespace HelloBox
 
 ## Rites: the `plot_id` field
 
-A religion trait with a `plot_id` becomes a **rite**. The religion collects its rites into `possible_rites`, and leaders and priests attempt them on their own when the plot's conditions are met.
+A religion trait with a `plot_id` becomes a **rite**. The religion collects its rites into `possible_rites`, and leaders and priests attempt them on their own when the plot's conditions are met. You write the belief, the priests do the rest :wbpray:.
 
 ```csharp
 trait.plot_id = "summon_meteor_rain";

@@ -71,7 +71,7 @@ namespace HelloBox
 Un dirigeant avec dix pièces, une ville et du temps libre peut désormais organiser un festival de braises. Lorsqu'il se termine, tous les habitants de la ville voient leur moral remonter grâce à l'événement de bonheur de **[Royaumes et factions](#/nml/kingdoms)**, et des braises pleuvent sur l'organisateur, car nous sommes toujours dans HelloBox.
 
 > [!WARNING] `check_is_possible` n'est pas optionnel
-> `PlotAsset.checkIsPossible()` l'appelle sans vérifier la présence de valeurs nulles, chaque fois qu'un dirigeant examine votre complot. Si vous l'omettez, le premier souverain qui l'évalue provoquera une `NullReferenceException`. Si vous n'avez pas de condition particulière, renvoyez simplement `true`.
+> `PlotAsset.checkIsPossible()` l'appelle sans vérifier la présence de valeurs nulles, chaque fois qu'un dirigeant examine votre complot. Si vous l'omettez, le premier souverain qui l'évalue provoquera une `NullReferenceException`. Si vous n'avez pas de condition particulière, renvoyez simplement `true`. Oui, même dans ce cas.
 
 > [!WARNING] La liste de base est construite au démarrage
 > Les dirigeants ne choisissent que parmi `plots_library.basic_plots` (en plus des rites de leur religion). `linkAssets()` remplit cette liste avec tous les complots marqués `is_basic_plot` une seule fois, avant le chargement de votre mod. Définir le drapeau ne suffit pas : ajoutez-le vous-même à la liste.

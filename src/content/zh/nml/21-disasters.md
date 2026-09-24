@@ -70,16 +70,26 @@ namespace HelloBox
 
 ### 字段说明
 
-| 字段 | 说明 |
+`rate` 和 `chance` 是你最常调整的两个。页面底部的警告解释了原因。
+
+| 字段 | 作用 |
 | --- | --- |
-| `rate` | 权重：与其他灾害相比被抽中的相对概率 |
-| `chance` | 被初选后进行的二次触发概率判定 |
-| `min_world_population` / `min_world_cities` | 发生所需满足的最小世界人口/城市数门槛 |
-| `type` | `DisasterType.Nature`, `Other`, … |
-| `world_log` | `WorldLogAsset` 的 ID：世界日志中的事件分录。**不是**直接填本地化文本键，详见下文 |
-| `action` | 自定义执行代码。灾害的具体逻辑 |
-| `spawn_asset_unit` + `units_min`/`units_max` | 快捷配置：“生成 N 个该生物” |
-| `max_existing_units` | 若世界上已有该数量的生物则不再生成 |
+| `rate` | 抽取时的权重。越高，相对其他灾难就越常被选中 |
+| `chance` | 被选中之后的第二次判定 |
+| `min_world_population` / `min_world_cities` | 它能发生的前提条件 |
+| `type` | `DisasterType.Nature`、`Other`、… |
+| `world_log` | 一个 `WorldLogAsset` 的 id：世界日志里的那一行。**不是**本地化键，见下文 |
+| `action` | 你的代码。这就是灾难本身 |
+| `spawn_asset_unit` + `units_min`/`units_max` | “生成 N 个这种生物”的快捷方式 |
+| `max_existing_units` | 已经存在这么多时就不再生成 |
+| `ages_allow` / `ages_forbid` | 把它限制在某些世界时代，比如只在灰烬时代 |
+
+限制时代要在构建资源之后进行：
+
+```csharp
+emberStorm.ages_allow.Add("age_ash");
+emberStorm.ages_allow.Add("age_chaos");
+```
 
 ## 无需编写逻辑生成生物
 
@@ -138,7 +148,7 @@ log.path_icon = "ui/Icons/iconHelloDisaster";            // the icon next to the
 }
 ```
 
-请像撰写新闻头条那样简明扼要地编写文本，而不是写成解释性描述。这是玩家在世界日志中直观读取的句子。
+请像撰写新闻头条那样简明扼要地编写文本，而不是写成解释性描述。“余烬从天而降”胜过“一个与余烬相关的事件已开始”。这是玩家在世界日志中直观读取的句子。
 
 > [!WARNING] 调试时请调高触发参数
 > `rate = 4, chance = 0.5f` 意味着你可能需要干等二十分钟才能目睹一次灾害触发。在开发阶段，建议将 `rate` 调得极高并将所有前置门槛设为 0，发布前再调回正常数值 :PES2_EvilPlan:。

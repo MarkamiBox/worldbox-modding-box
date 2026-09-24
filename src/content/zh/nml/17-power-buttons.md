@@ -12,9 +12,9 @@ order: 202
 
 ## 创建自定义标签页
 
-你*可以*把按钮塞进原版的标签页里。但千万别这么做。原版标签页本来就已经满了，游戏会按名称对子元素进行排列，而且底栏是可横向滚动的，因此你的按钮最终会被挤到一个玩家绝不会滚过去看的角落 :PESgn_ToughLuck:。
+你*可以*把按钮塞进原版的某个标签页。别这么做。它们已经满了，游戏会按名字排列子元素，而且那一栏会滚动，所以你的按钮最后会跑到玩家永远不会滚到的地方 :PESgn_ToughLuck:。
 
-创建一个属于你自己的独立标签页，所有新增的内容就能集中在一起，一目了然：
+做一个你自己的标签页，你加的所有东西都会放在一起，一找就到：
 
 ```csharp Mods/HelloBox/Code/HelloPowers.cs
 using NeoModLoader.api;
@@ -337,8 +337,14 @@ namespace HelloBox
 }
 ```
 
+这就是整个文件：九个神力、标签页、十个按钮，以及图标辅助方法。每个按钮都是本指南讲过的一个功能。下面的小节会把它逐一拆开。
+
+`recalc()` 负责根据按钮调整标签页的尺寸，`sortButtons()` 负责给按钮排序。两者都必须等待，而且游戏不会友好地告诉你原因：
+
 > [!WARNING] 不要在 `OnModLoad` 里排布标签页
-> `PowersTab` 在 Unity 的 `Start()` 里读取自己的父对象，而 `CreateTab` 刚交给你的对象上它还没运行。在那里调用 `recalc()`，整个阶段就会死在 `PowersTab.setNewWidth()` 的 `NullReferenceException` 上，你的神力永远注册不上，标签页也永远不出现 :wbfacepalm:。
+> `PowersTab` 在 Unity 的 `Start()` 里读取自己的父对象，而在 `CreateTab` 刚交给你的对象上，它还没运行过。在那里调用 `recalc()`，整个阶段都会在 `PowersTab.setNewWidth()` 里抛出 `NullReferenceException` 而崩掉，你的神力永远不会注册，标签页也永远不会出现 :wbfacepalm:。
+>
+> 在加载时创建标签页和按钮，然后在 `PowerTabController.instance` 存在的第一帧里从 `Update()` 去排布它们。上面的 `LayoutWhenReady` 就是干这个的，`Main.Update()` 会调用它：
 >
 > ```csharp
 > public void Update()
@@ -348,8 +354,8 @@ namespace HelloBox
 > }
 > ```
 
-
-`tab.recalc()` 负责计算按钮的排列布局。如果漏掉了这一句，即使按钮确实存在，你的标签页看起来也会是一片空白。
+> [!TIP] 用 IStagedLoad 跳过 Update() 这套折腾
+> 如果觉得在 `Update()` 里轮询很笨拙，就在你的模组类上实现 `IStagedLoad`。它的 `Init()` 方法会在模组构造后的第 2 帧触发，正好是基础游戏和它的 UI 控制器完全就绪的时候。
 
 ## 两种类型的按钮
 

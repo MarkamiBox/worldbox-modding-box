@@ -65,15 +65,15 @@ Ajoutez `HelloPowers.Initialize();` dans `Main.cs`.
 
 ### Ce que fait chaque partie
 
-- **`id`** : le nom auquel tout le reste fait référence. Le bouton, la traduction, les autres mods.
-- **`name`** : utilisé par les recherches de l'interface interne du jeu. Le garder identique à l'id vous évite bien des soucis.
-- **`rank = PowerRank.Rank0_free`** : disponible dès le départ, sans déblocage préalable.
-- **`path_icon`** : l'icône du curseur et de l'outil.
-- **`unselect_when_window`** : lorsque le joueur ouvre une fenêtre, l'outil se désarme pour éviter de frapper accidentellement la carte derrière le panneau.
-- **`click_action`** : votre code. Il reçoit la **case cliquée** et l'**id du pouvoir**, et renvoie `true` s'il a effectué une action.
+- **`id`** : le nom auquel tout le reste se réfère. Le bouton, la traduction, les autres mods.
+- **`name`** : utilisé par les recherches de l'interface du jeu. Le garder identique à l'id vous évite un mal de tête.
+- **`rank = PowerRank.Rank0_free`** : disponible dès le départ, rien à débloquer.
+- **`path_icon`** : l'icône du curseur/de l'outil.
+- **`unselect_when_window`** : quand le joueur ouvre une fenêtre, l'outil se désarme tout seul, pour qu'il ne foudroie pas par accident la carte derrière le panneau.
+- **`click_action`** : votre code. Il reçoit la **case cliquée** et l'**id du pouvoir**, et renvoie `true` s'il a fait quelque chose.
 
-> [!WARNING] La signature du clic est (WorldTile, string)
-> `click_action` est une `PowerActionWithID`, son deuxième argument est donc l'**id du pouvoir sous forme de string**, et non un `GodPower`. Il existe un second champ, `click_power_action`, qui prend `(WorldTile, GodPower)`. Utiliser la mauvaise signature vous donnera une erreur de compilation incompréhensible :PES_DaFuq:.
+> [!WARNING] La signature du clic est `(WorldTile, string)`
+> `click_action` est un `PowerActionWithID`, donc son second argument est l'**id du pouvoir sous forme de string**, pas un `GodPower`. Il existe un second champ, `click_power_action`, qui prend `(WorldTile, GodPower)`. La mauvaise forme vous donne une erreur de compilation qui ressemble à du charabia :PES_DaFuq:.
 
 ## Choses utiles à faire lors d'un clic
 

@@ -11,7 +11,7 @@ order: 140
 > [!NOTE] They are called actors, not races
 > The game calls every living thing an **actor**: a human, a wolf, a dragon, a zombie, a crab. They all come from the same class, `ActorAsset`, and they all live in `AssetManager.actor_library`. "Race" is the old word. The one place it survives is a `race` property marked `[Obsolete("use .original_actor_asset instead")]`, which exists only to load ancient saves. Write `actor` everywhere.
 
-A new creature is the mod everybody wants to make and almost nobody finishes, because an `ActorAsset` carries animations, textures, sounds, taxonomy, diet, AI flags, genome, culture and stats. Getting one of them wrong gives you an invisible unit standing in the ocean.
+A new creature is the mod everybody wants to make and almost nobody finishes, because an `ActorAsset` carries animations, textures, sounds, taxonomy, diet, AI flags, genome, culture and stats. Getting one of them wrong gives you an invisible unit standing in the ocean :PES4_Invisible:.
 
 Good news: the game does not build creatures from scratch either. This is literally how vanilla makes an elf:
 
@@ -173,6 +173,8 @@ Adding a fourth creature is now one line in the table. This is the shape almost 
 
 ## The fields that decide what your creature *is*
 
+On day one only three of these matter: `civ`, `actor_size` and `name_locale`. The rest can wait until your creature is visible and walking.
+
 | Field | What it does |
 | --- | --- |
 | `civ` | Civilisation creature: cities, kingdoms, jobs, war. `false` = animal |
@@ -283,7 +285,7 @@ The creature's **body** art is a different problem entirely, and it is the rest 
 
 ## Sprites are the hard part
 
-Everything above is a page of code. The work is the art: a creature needs a full animation set, in the right atlas, at the right size, with the right pivots. Two honest options:
+Everything above is a page of code. The work is the art, and this is where most creature mods quietly die: a creature needs a full animation set, in the right atlas, at the right size, with the right pivots. Two honest options:
 
 1. **Keep the donor's sprites.** A creature that reuses human animations with different stats and a different tint is a perfectly good first mod, and it *works*.
 2. **Export with AssetRipper**, find the atlas of the creature you cloned, and match its layout exactly before you draw anything. See **[Getting the game's art](#/toolbox/getting-the-sprites)**.

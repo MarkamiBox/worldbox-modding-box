@@ -31,9 +31,9 @@ Essa última verificação importa mais do que parece: se o seu poder divino faz
 
 ## A rota nativa com ScrollWindow
 
-Se você quer que seu painel pareça parte nativa do WorldBox, não monte um Canvas do zero :PES2_Shrug:. O NeoModLoader inclui `WindowCreator` e `AbstractWindow<T>`.
+Se você quer que o seu painel pareça feito pelo WorldBox, não monte um canvas do zero como eu fiz na primeira tentativa :PES2_Shrug:. O NeoModLoader traz `WindowCreator` e `AbstractWindow<T>` justamente para você não ter que montar barras de rolagem, barras de título e botões de fechar com primitivas cruas do Unity.
 
-Herde de `AbstractWindow<T>`:
+Herde de `AbstractWindow<T>` e deixe o NML cuidar do encanamento:
 
 ```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
 using NeoModLoader.api;
@@ -62,19 +62,21 @@ namespace HelloBox
 }
 ```
 
-Inicialize no carregamento do mod:
+Crie-a uma vez durante a inicialização do mod:
 
 ```csharp
 HelloNativeWindow.CreateAndInit("hello_native_window");
 ```
 
-Abra com:
+`CreateAndInit()` clona o prefab `"windows/empty"` do jogo, pendura-o em `CanvasMain.instance.transformWindows`, define a chave do título como `"<windowId> Title"`, anexa o seu componente e registra a janela tanto em `ScrollWindow._all_windows` quanto em `AssetManager.window_library`. Abrir é a mesma linha única que você usa para as janelas vanilla:
 
 ```csharp
 ScrollWindow.showWindow(HelloNativeWindow.WindowId);
 ```
 
-Para tabelas largas, use `AbstractWideWindow<T>`. Também é possível chamar `WindowCreator.CreateEmptyWindow(id, titleKey, icon)`. Se esquecer o registro, o jogo nem saberá que a janela existe ao apertar ESC :wbfacepalm:.
+Se você precisa de mais espaço na tela para uma tabela enorme ou um gerenciador com várias colunas, herde de `AbstractWideWindow<T>`. Ela se comporta igual, mas começa em `600x280`, aplica automaticamente a moldura larga e oferece `SetSize(new Vector2(width, height))` se o seu layout precisar de ainda mais espaço.
+
+Se você não quer a classe base `AbstractWindow<T>` de jeito nenhum, chame `WindowCreator.CreateEmptyWindow(id, titleKey, icon)` diretamente e configure você mesmo o `ScrollWindow` retornado. Esqueça o passo de registro fazendo à mão e o jogo nem vai saber que a sua janela existe quando alguém apertar ESC :wbfacepalm:.
 
 ## Sua própria janela flutuante
 
@@ -212,7 +214,7 @@ Font font = LocalizedTextManager.current_font ?? Resources.GetBuiltinResource<Fo
 
 ## Dicas de contexto (Tooltips)
 
-As dicas de contexto do jogo também são assets em `AssetManager.tooltips`: um ID e um callback que preenche a dica sempre que ela é aberta. Registre o seu e qualquer elemento de interface poderá exibi-lo com dados em tempo real.
+As dicas de contexto do jogo também são assets em `AssetManager.tooltips`: um ID e um callback que preenche a dica sempre que ela é aberta. Registre o seu e qualquer elemento de interface poderá exibi-lo com dados em tempo real. Os jogadores passam o mouse em cima de tudo, então é aqui que o seu mod parece pronto sem fazer barulho.
 
 ```csharp Mods/HelloBox/Code/HelloTooltips.cs
 using UnityEngine;
@@ -310,7 +312,7 @@ namespace HelloBox
 > [!WARNING] Os atalhos são vinculados na inicialização
 > `HotkeyLibrary.linkAssets()` copia cada `default_key_*` para o respectivo `overridden_key_*` (a tecla que o jogo realmente verifica) e monta `action_hotkeys`, a única lista verificada a cada quadro. Ambos ocorrem antes do seu mod carregar. Pular qualquer um deles faz com que a tecla não faça nada :wbfacepalm:.
 
-As flags `check_*` são o jeito mais simples de evitar conflitos: `check_controls_locked` impede a ativação enquanto o jogador pilota uma unidade, e `check_window_not_active` enquanto uma janela padrão estiver aberta. Escolha uma tecla livre no jogo original (F6 é uma delas).
+As flags `check_*` são o jeito mais simples de evitar conflitos: `check_controls_locked` impede a ativação enquanto o jogador pilota uma unidade, e `check_window_not_active` enquanto uma janela padrão estiver aberta. Escolha uma tecla livre no jogo original (F6 é uma delas) :PES2_Shrug:.
 
 ```json Mods/HelloBox/Locales/en.json
 {

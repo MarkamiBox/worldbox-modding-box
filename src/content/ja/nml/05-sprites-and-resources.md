@@ -73,32 +73,32 @@ HelloBox/GameResources/ui/Icons/iconHelloSwift.png
 
 ## 各種アセットのアート配置先一覧
 
-Mod開発者が何度も見返しに来るリファレンス表です。アセットの種類によって参照するフィールドが異なり、一部のアセットは読み込み時に自動でフォルダ名を前置するため、記述する値と実際のファイル配置場所が**一致しない**ことがあります。
+これは誰もが何度も見返しに来る表です。アセットごとに画像を指すフィールドが違い、いくつかは読み込む前にこっそりフォルダーを前に付けます。つまり、あなたが書く値が、ファイルの置き場所と同じとは**限りません**。
 
-| アセット種別 | フィールド名 | ファイルの実際の配置場所 |
+| アセット | フィールド | ファイルの置き場所 |
 | --- | --- | --- |
-| 特徴、神の力、国家、グループ | `path_icon` | `GameResources/` + 記述したパスそのまま |
-| アイテム（ユニットの手持ち時） | `path_gameplay_sprite` | `GameResources/` + 記述したパスそのまま |
-| 建物 | `sprite_path` | **フォルダ**： `GameResources/` + `sprite_path` + `/`, 中身は `main_0.png`, `construction_0.png`, `ruin_0.png`. `sprite_path` が空なら `main_path` + id で、`main_path` の既定値は `buildings/` |
-| ドロップ品 | `path_texture` | **フォルダ**： `GameResources/` + 記述したパスそのまま |
+| 特性、神の力、王国、グループ | `path_icon` | `GameResources/` + 書いたとおりのパス |
+| アイテム（ユニットが手に持つもの） | `path_gameplay_sprite` | `GameResources/` + 書いたとおりのパス |
+| 建物 | `sprite_path` | **フォルダー**：`GameResources/` + `sprite_path` + `/` の中に `main_0.png`、`construction_0.png`、`ruin_0.png`。`sprite_path` が空なら `main_path` + ID で、`main_path` のデフォルトは `buildings/` |
+| ドロップ | `path_texture` | **フォルダー**：`GameResources/` + 書いたとおりのパス、1フレームにつきPNG 1枚 |
 | 雲 | `path_sprites` | `GameResources/` + リスト内の各パス |
-| ステータス効果 | `texture` | **フォルダ**： `GameResources/effects/` + 記述したパス |
-| 発射物 | `texture` | **フォルダ**： `GameResources/effects/projectiles/` + 記述したパス |
-| 資源（手に持った時） | `path_gameplay_sprite` | **フォルダ**： `GameResources/items/resources/` + 記述したパス |
-| 資源（インベントリアイコン） | `path_icon` | `GameResources/` + 記述したパス（バニラは `iconResBread` のようなルート直下指定） |
-| 地形タイル＆トップタイル | *(フィールドなし)* | `GameResources/tiles/<タイルのID>/` |
+| ステータス効果 | `texture` | **フォルダー**：`GameResources/effects/` + 書いた値、1フレームにつきPNG 1枚 |
+| 発射物 | `texture` | **フォルダー**：`GameResources/effects/projectiles/` + 書いた値、1フレームにつきPNG 1枚 |
+| 資源（手に持つもの） | `path_gameplay_sprite` | **フォルダー**：`GameResources/items/resources/` + 書いた値、1フレームにつきPNG 1枚 |
+| 資源（インベントリのアイコン） | `path_icon` | `GameResources/` + 書いた値。バニラは `iconResBread` のような名前だけを使うので、ファイルはルートに置かれます |
+| タイルとトップタイル | *（フィールドなし）* | `GameResources/tiles/<the tile's id>/` |
 
-> [!WARNING] 「フォルダ」は好みの問題ではない
-> 上で **フォルダ** と書いたものはすべて `getSpriteList()` で読まれ、これはフォルダの *中の* フレームを返します。PNG単体を指すと空で返ってきます。ドロップは見えないまま落ち、飛び道具は `QuantumSpriteLibrary.drawProjectiles()` で `ArgumentOutOfRangeException`、ステータスは毎フレーム例外を出します。フレーム1枚で構いません、自分のフォルダに入ってさえいれば：`drops/hello_ember/hello_ember_0.png` :wbfacepalm:。
+> [!WARNING] 「フォルダー」は好みの問題ではない
+> 上で**フォルダー**と書いたアセットはすべて `getSpriteList()` で読み込まれ、これはフォルダーの*中*のフレームを返します。PNG 1枚を指すと空で返ってきます：ドロップは透明なまま落ち、発射物は `QuantumSpriteLibrary.drawProjectiles()` で `ArgumentOutOfRangeException` を投げ、ステータスは毎フレームエラーになります。1フレームでも構いません、専用のフォルダーに入っていればいいのです：`drops/hello_ember/hello_ember_0.png` :wbfacepalm:。
 
-特に注意すべき3つの罠：
+このうち3つはハマりやすいです：
 
-- **ステータス効果と発射物はフォルダが自動前置される。** `texture = "effects/status/myThing"` と書くと、ゲームは `effects/effects/status/myThing` を探してしまい失敗します。バニラのステータスは `fx_status_burning_t` のようにファイル名単体で指定します。
-- **地形タイルはフィールド自体を無視する。** タイルは複数のバリエーションを持つため、**タイルのID**名の専用サブフォルダを探します。`hello_moss` なら `GameResources/tiles/hello_moss/` 内にPNGを配置します。
-- **建物は連結しないが、代わりの道がある。** `sprite_path` は書いたとおりに使われます。`"buildings/hello_shrine"` なら `GameResources/buildings/hello_shrine/` です。空にするとゲームは `main_path` + id を使うので、`main_path` にフォルダを書くと `buildings/hello_shrine/hello_shrine` になってしまいます :PESgn_Bruh:。
+- **ステータスと発射物はフォルダーを前に付けます。** ステータスに `texture = "effects/status/myThing"` と書くと、ゲームは `effects/effects/status/myThing` を探し、何も見つかりません。バニラのステータスは名前だけを使います：`fx_status_burning_t`。
+- **タイルはフィールドを完全に無視します。** タイルの画像は**ID**で、専用のフォルダーから探されます。タイルには複数のバリエーションがあるからです。`hello_moss` なら `GameResources/tiles/hello_moss/` の中にPNGを置きます。
+- **建物は何もくっつけませんが、代わりの手があります。** `sprite_path` は書いたとおりに使われます：`"buildings/hello_shrine"` は `GameResources/buildings/hello_shrine/` です。空にするとゲームは代わりに `main_path` + ID を使うので、`main_path` にフォルダーを書くと `buildings/hello_shrine/hello_shrine` になってしまいます :PESgn_Bruh:。
 
-> [!TIP] バニラのアセットからパスを真似する
-> 最も近いバニラのアセットを見つけ、**[UnityExplorer](#/toolbox/unity-explorer)** や **[アイコン検索](#/tools/icons)** でそのフィールド値を読み取り、構造をそのまま真似してください。それが一番早く確実です :PESgn_Noice:。
+> [!TIP] バニラのアセットからパスを写す
+> いちばん近いバニラのものを選び、**[UnityExplorer](#/toolbox/unity-explorer)** か **[スプライトパス検索](#/tools/icons)** でそのフィールドを読み、形をそのまま真似しましょう。頭で考えるより速く、一発で正解します :PESgn_Noice:。
 
 ## ディスクから直接画像を読み込む
 
@@ -123,26 +123,42 @@ MusicBox.playSound("event:/SFX/WEAPONS/WeaponFireballStart", pTile);   // at a p
 MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on the interface
 ```
 
-1つ目はワールド内の該当タイルから音を鳴らします。HelloBox では戦闘アクションで火の粉を投げる際に火の玉の音を鳴らしています。詳細は **[弾、呪文、エフェクト](#/nml/projectiles-spells)** を参照してください。パスを探すには、ゲームコード内で `event:/SFX/` を検索してください。発音元ごとにフォルダ分けされた数百種類が見つかります。
-
-> [!NOTE] 完全な新規サウンドの追加は別の作業になります
-> FMOD イベントはゲームのサウンドバンク内に格納されており、Mod から直接拡張することはできません。独自の `.wav` ファイルを再生するには、ゲームの音量設定とは別に Unity の `AudioSource` を自前でロードして再生する必要があります。私自身それをMod化したことがなく、知ったかぶりをするつもりもないため、このガイドでは扱いません。
-
+1つ目はワールド内の該当タイルから音を鳴らします。HelloBox では戦闘アクションで火の粉を投げる際に火の玉の音を鳴らしています。詳細は **[弾、呪文、エフェクト](#/nml/projectiles-spells)** を参照してください。パスを探すには、ゲームコード内で `event:/SFX/` を検索してください。発音元ごとにフォルダ分けされた数百種類が見つかります。テストを始める前に音量を下げておきましょう。
 
 ### 独自のサウンドを追加する
 
-以前の認識とは異なり、NeoModLoader は `CustomAudioManager` を通じてネイティブな `.wav` サウンドファイルをサポートしています :PESgn_Noice:。
+NMLは実は内部でFMODにパッチを当てているので、ガレージで2つ目のサウンドエンジンを組み立てなくても自作の `.wav` ファイルが使えます :PESgn_Noice:。
 
-Modフォルダ内の `Audio/`、`Audios/`、または `GameResources/` に配置します：
+`.wav` ファイルを `GameResources/` にそのまま置きます。例えば：
 
 ```text
-MyMod/
-└── Audio/
-    ├── custom_explosion.wav
-    └── custom_explosion.json
+GameResources/sounds/hello_boom.wav
 ```
 
-NML が `MusicBox.playSound` を自動でフックし再生します 。
+NMLは `MusicBox.playSound` と `playDrawingSound` をフックしているので、バニラのサウンドとまったく同じメソッドで再生できます（拡張子は付けません）：
+
+```csharp
+MusicBox.playSound("sounds/hello_boom", pTile);
+```
+
+ファイルの隣にオプションの `hello_boom.json` を置くと、再生のされ方を設定できます：
+
+```json GameResources/sounds/hello_boom.json
+{
+  "Volume": 60,
+  "Mode": "Stereo3D",
+  "Type": "Sound"
+}
+```
+
+| フィールド | 値 |
+| --- | --- |
+| `Mode` | `Basic`（平面の2D、音量は一定）、`Stereo3D`（距離によるバニラの減衰）、`Mono3D`（指向性） |
+| `Type` | `Sound`（効果音スライダー）、`Music`（音楽スライダー）、`UI`（UIスライダー） |
+| `Volume` | デフォルト音量（0〜100） |
+| `LoopCount` | 繰り返す回数（0 = 1回） |
+
+何より嬉しいのは、NMLがゲームのチャンネルグループに接続してくれるので、あなたのサウンドが真夜中にプレイヤーの耳をつんざくことなく、ちゃんと音量設定に従うことです。
 
 ## ゲームに null のスプライトを絶対に渡さない
 

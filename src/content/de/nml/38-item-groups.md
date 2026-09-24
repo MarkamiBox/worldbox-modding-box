@@ -10,7 +10,7 @@ order: 124
 
 Eine Item-Gruppe ist eine Kategorie im Ausrüstungsfenster: Helme, Schwerter, Amulette. Es handelt sich um dasselbe winzige `BaseCategoryAsset`, das auch Eigenschafts-Tabs zeichnet (siehe **[Eigenschafts-Gruppen & Tabs](#/nml/trait-groups)**), nur dass es in `AssetManager.item_groups` wohnt.
 
-Der Unterschied ist, dass eine Item-Gruppe einen **Pool** besitzt – und das Vergessen dieses Pools lässt deine Mod abstürzen.
+Der Unterschied ist, dass eine Item-Gruppe einen **Pool** besitzt – und das Vergessen dieses Pools lässt deine Mod abstürzen :PESgn_Yikes:.
 
 ## Die Vanilla-Gruppen
 

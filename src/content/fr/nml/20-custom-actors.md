@@ -11,7 +11,7 @@ order: 140
 > [!NOTE] Ils s'appellent des acteurs, pas des races
 > Le jeu désigne chaque être vivant sous le terme d'**acteur** (actor) : un humain, un loup, un dragon, un zombie, un crabe. Ils dérivent tous de la même classe, `ActorAsset`, et logent tous dans `AssetManager.actor_library`. "Race" est l'ancien vocable. Le seul endroit où il subsiste est une propriété `race` étiquetée `[Obsolete("use .original_actor_asset instead")]`, présente uniquement pour charger des sauvegardes antédiluviennes. Écrivez `actor` partout.
 
-Créer une nouvelle créature est le mod dont tout le monde rêve et que presque personne ne termine, car un `ActorAsset` transporte avec lui animations, textures, sons, taxonomie, régime alimentaire, drapeaux d'IA, génome, culture et statistiques. En rater un seul vous garantit une unité invisible plantée au milieu de l'océan.
+Créer une nouvelle créature est le mod dont tout le monde rêve et que presque personne ne termine, car un `ActorAsset` transporte avec lui animations, textures, sons, taxonomie, régime alimentaire, drapeaux d'IA, génome, culture et statistiques. En rater un seul vous garantit une unité invisible plantée au milieu de l'océan :PES4_Invisible:.
 
 Bonne nouvelle : le jeu de base ne fabrique pas non plus ses créatures ex nihilo. Voici littéralement la manière dont vanilla conçoit un elfe :
 
@@ -78,16 +78,15 @@ namespace HelloBox
     }
 }
 ```
-> [!WARNING] Charge l'ombre toi-même, sinon le jeu râle sur chaque acteur
-> `ActorAssetLibrary` parcourt sa liste au démarrage et appelle `loadShadow()` sur chaque acteur, ce qui charge le sprite dans `shadows/<shadow_texture>` et le mesure. C'est arrivé avant que ton mod n'enregistre quoi que ce soit, donc l'ombre de ton acteur reste à `(0.00, 0.00)` et le jeu logge une erreur d'asset pour elle, trois fois : adulte, œuf et bébé :wbfacepalm:.
+> [!WARNING] Chargez l'ombre vous-même, sinon le jeu se plaint de chaque acteur
+> `ActorAssetLibrary` parcourt sa liste au démarrage et appelle `loadShadow()` sur chaque acteur, qui lit le sprite dans `shadows/<shadow_texture>` et le mesure. Cela s'est passé avant que votre mod n'enregistre quoi que ce soit, donc l'ombre de votre acteur reste à `(0.00, 0.00)` et le jeu enregistre une erreur d'asset pour elle, trois fois, une pour l'adulte, l'œuf et le bébé :wbfacepalm:.
 >
-> `loadShadow()` est `internal`, il faut donc une `Assembly-CSharp.dll` **publicized** comme pour le reste du guide. Si tu n'en as pas, mets plutôt `asset.shadow = false;` : pas d'ombre, mais pas d'erreur non plus.
+> `loadShadow()` est `internal`, donc il faut un `Assembly-CSharp.dll` **publicisé** comme dans le reste du guide. Si vous n'en avez pas, mettez plutôt `asset.shadow = false;` : pas d'ombre, mais pas d'erreur non plus.
 
-
-> [!WARNING] clone() enregistre déjà
-> `AssetManager.<library>.clone(newId, sourceId)` appelle `add()` en interne. Chaque bibliothèque procède ainsi. Appeler vous-même `add()` ensuite constitue un enregistrement en double : la bibliothèque éjecte la première copie, consigne une erreur et la réinsère. C'est inoffensif, mais cela pollue vos logs au détriment des vrais problèmes et sautera aux yeux de n'importe quel relecteur.
+> [!WARNING] `clone()` enregistre déjà
+> `AssetManager.<library>.clone(newId, sourceId)` appelle `add()` en interne. Toutes les bibliothèques fonctionnent ainsi. Appeler `add()` vous-même ensuite est un double enregistrement : la bibliothèque retire la première copie, écrit une erreur et la rajoute. Sans danger, mais c'est du bruit dans votre log qui rend les vraies erreurs plus difficiles à trouver, et c'est la première chose qu'un relecteur remarquera.
 >
-> Le corollaire constitue une excellente nouvelle : **après un clone, `base_stats` existe déjà**, si bien que la règle "les stats après add" expliquée dans **[Traits personnalisés](#/nml/custom-traits)** est d'ores et déjà respectée.
+> Le bon côté : **après un clone, `base_stats` existe déjà**, donc la règle "stats après add" de **[Traits personnalisés](#/nml/custom-traits)** est déjà respectée.
 
 ## Plusieurs acteurs à la fois
 
@@ -173,6 +172,8 @@ Ajouter une quatrième créature ne demande désormais plus qu'une simple ligne 
 
 ## Les champs qui définissent ce qu'*est* votre créature
 
+Le premier jour, seuls trois comptent : `civ`, `actor_size` et `name_locale`. Le reste peut attendre que votre créature soit visible et marche.
+
 | Champ | Ce qu'il fait |
 | --- | --- |
 | `civ` | Créature de civilisation : cités, royaumes, métiers, guerre. `false` = animal |
@@ -192,12 +193,12 @@ Ajouter une quatrième créature ne demande désormais plus qu'une simple ligne 
 | `kingdom_id_wild` / `kingdom_id_civilization` | Dans quel royaume elles apparaissent (sauvages ou établies) |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … atlas d'origine des sprites |
 | `animation_walk` / `animation_idle` / `animation_swim` | Séquences de frames, chacune accompagnée d'un champ `_speed` |
-| `sound_idle`, `sound_spawn`, `sound_death` … | Chemins d'événements sonores FMOD |
+| `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | Chemins d'événements sonores FMOD |
 | `name_taxonomic_*` | Règne, embranchement, classe, ordre, famille, genre, espèce pour l'encyclopédie |
 | `collective_term` | Nom de groupe ("une **meute** de loups") |
 | `allowed_status_tiers` | Niveaux d'effets de statut autorisés à s'appliquer |
 | `production` | Ce que produisent leurs cités |
-| `zombie_id_internal`, `skeleton_id`, `mush_id` … | Ce en quoi elles se métamorphosent |
+| `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | Ce en quoi elles se métamorphosent |
 
 ## Intégrer une créature de civilisation dans le monde
 
@@ -283,7 +284,7 @@ L'aspect visuel du **corps** de la créature représente un défi d'un tout autr
 
 ## Les sprites sont la partie difficile
 
-Tout ce qui précède se résume à une page de code. Le véritable labeur réside dans le dessin : une créature exige un cycle d'animation complet, dans le bon atlas, aux dimensions adéquates et avec les bons pivots. Deux choix honnêtes s'offrent à vous :
+Tout ce qui précède se résume à une page de code. Le véritable labeur réside dans le dessin, et c'est là que la plupart des mods de créatures meurent en silence : une créature exige un cycle d'animation complet, dans le bon atlas, aux dimensions adéquates et avec les bons pivots. Deux choix honnêtes s'offrent à vous :
 
 1. **Garder les sprites du donneur.** Une créature réutilisant les animations humaines avec des statistiques révisées et une teinte différente constitue un excellent premier mod, parfaitement *fonctionnel*.
 2. **Exporter via AssetRipper**, étudier minutieusement l'atlas de la créature clonée et calquer sa disposition au pixel près avant de commencer à dessiner. Voir **[Récupérer les ressources graphiques](#/toolbox/getting-the-sprites)**.

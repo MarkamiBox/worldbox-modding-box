@@ -112,7 +112,7 @@ namespace HelloBox
 
 ## Edades del mundo
 
-La Edad de las Ascuas hace llover ascuas cada ocho segundos, oscurece la pantalla con ceniza, propaga el fuego el doble de rápido y mantiene a las ciudades algo más leales. Un mundo nuevo puede colocarla en la casilla 4 de su rueda, y el botón de aleatorizar de la rueda puede asignarla en cualquier parte.
+La Edad de las Ascuas hace llover ascuas cada ocho segundos, oscurece la pantalla con ceniza, propaga el fuego el doble de rápido y mantiene a las ciudades algo más leales. Un mundo nuevo puede colocarla en la casilla 4 de su rueda, y el botón de aleatorizar de la rueda puede asignarla en cualquier parte. La sutileza nunca fue el objetivo de HelloBox :wbfireskull:.
 
 > [!WARNING] Tres cosas que la librería realizó al inicio
 > `post_init()` establece el fondo de cada era a partir de su ID, y `linkAssets()` construye `list_only_normal` (la reserva para la era aleatoria desconocida) y `pool_by_slots` (las reservas con las que un mundo nuevo llena su rueda). Una era nueva no está en ninguna de ellas. Si omites el fondo, la rueda mostrará un hueco vacío; si omites las reservas, la era existirá pero ningún mundo la elegirá jamás.

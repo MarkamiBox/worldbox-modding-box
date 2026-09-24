@@ -10,7 +10,7 @@ order: 106
 
 **文化**代表了一组城镇共同拥有的习惯与习俗。它决定了居民建造什么、锻造什么、如何继承、阅读什么以及珍视什么。文化特质就是其中的一项习惯。
 
-在七大特质系统中，文化的影响范围最为广阔。文化随着城镇的扩张而传播，在其开创者消逝后依旧长存，并将其属性融合到归属于该文化的每一个单一单位中。如果你想制作一个让其效应在历经一小时游戏后慢慢扩散至全世界的 Mod，这个库就是最佳选择。
+在七大特质系统中，文化的影响范围最为广阔。文化随着城镇的扩张而传播，在其开创者消逝后依旧长存，并将其属性融合到归属于该文化的每一个单一单位中。如果你想制作一个让其效应在历经一小时游戏后慢慢扩散至全世界的 Mod，这个库就是最佳选择。影响越大，责任越大 :PES5_Menace:。
 
 | | |
 | --- | --- |
@@ -56,7 +56,17 @@ namespace HelloBox
 }
 ```
 
-**[自定义特质](#/nml/custom-traits)** 中的所有规则在此均适用：在设置属性前调用 `add()`、`path_icon` 不会自动生成、ID 必须带有统一前缀。接下来介绍的是文化特质的独有机制。
+> [!WARNING] `spawn_random_trait_allowed` 只在启动时读取一次
+> 新文化的初始特质是从一个随机池里抽的，这个池子由 `BaseTraitLibrary.linkAssets()` 在游戏加载时、你的模组还不存在时建好。光在你的特质上打开这个开关什么都不会改变：你的特质根本不在那个池子里，也永远不会随机出现。按原版的权重方式自己把它放进去：
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.culture_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` 是 `protected` 的，所以它会针对 NML 本来就用来编译你模组的公开化程序集进行编译。`spawn_random_rate` 默认是 `5`：调高它，特质就会更常出现。
+
+**[自定义特质](#/nml/custom-traits)** 中的所有规则在此均适用：在设置属性前调用 `add()`、`path_icon` 不会自动生成、ID 必须带有统一前缀。接下来介绍的是文化特质的独有机制。而且这是最好玩的部分。
 
 > [!WARNING] 文化特质上的 `base_stats` 会作用于所有人
 > `Actor.updateStats()` 会把 `culture.base_stats` 合并进该文化的每一个单位。每一个单位。一个 "+5 攻击力" 的文化信条同样会武装面包师。
@@ -73,7 +83,7 @@ trait.addWeaponSubtype("sword");         // 偏好整类武器
 trait.addWeaponSpecial("hello_relic");   // 或偏好某个具体的物品 ID
 ```
 
-这两个辅助方法都会为你自动设置 `is_weapon_trait = true`。当城镇决定打造何种装备时，锻造代码会读取文化的偏好武器；这改变的是士兵手中握着的实际武器，而不仅仅是一项数值加成。原版中的 `bow_lovers` 与 `spear_lovers` 完全就是按照这个模式实现的。
+这两个辅助方法都会为你自动设置 `is_weapon_trait = true`。当城镇决定打造何种装备时，锻造代码会读取文化的偏好武器；这改变的是士兵手中握着的实际武器，而不仅仅是一项数值加成。原版中的 `bow_lovers` 与 `spear_lovers` 完全就是按照这个模式实现的。两行代码，就有了一整个痴迷长矛的文化 :PESgn_Noice:。
 
 | 字段 | 作用 |
 | --- | --- |

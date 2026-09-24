@@ -112,7 +112,7 @@ namespace HelloBox
 
 ## Ere del mondo
 
-L'Era delle Braci fa piovere braci ogni otto secondi, scurisce lo schermo con la cenere, diffonde il fuoco a velocità raddoppiata e mantiene le città leggermente più leali. Un nuovo mondo può posizionarla sullo slot 4 della propria ruota, e il pulsante di selezione casuale della ruota può sorteggiarla ovunque.
+L'Era delle Braci fa piovere braci ogni otto secondi, scurisce lo schermo con la cenere, diffonde il fuoco a velocità raddoppiata e mantiene le città leggermente più leali. Un nuovo mondo può posizionarla sullo slot 4 della propria ruota, e il pulsante di selezione casuale della ruota può sorteggiarla ovunque. La discrezione non è mai stata il punto di HelloBox :wbfireskull:.
 
 > [!WARNING] Tre operazioni che la libreria ha svolto all'avvio
 > `post_init()` imposta lo sfondo di ogni era a partire dal suo ID, e `linkAssets()` costruisce `list_only_normal` (il pool per l'era casuale sconosciuta) e `pool_by_slots` (i pool da cui un nuovo mondo riempie la ruota). Una nuova era non è presente in nessuno di essi. Ometti lo sfondo e la ruota mostrerà un tassello vuoto; ometti i pool e l'era esisterà, ma nessun mondo la sorteggerà mai.

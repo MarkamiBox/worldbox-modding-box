@@ -10,7 +10,7 @@ order: 112
 
 **语言**归属于城镇与王国，随着人群扩散而发生演变漂变，并且最关键的是，它是**书籍**撰写所用的载体。语言特质是书面与口头言语本身的内在属性。
 
-它是七大特质系统中最精简的一个，拥有最为独特的专用钩子：当有人**阅读该语言撰写的书籍**时所执行的回调代码。
+它是七大特质系统中最精简的一个，拥有最为独特的专用钩子：当有人**阅读该语言撰写的书籍**时所执行的回调代码。没错，真的 :wbscroll:。
 
 | | |
 | --- | --- |
@@ -85,7 +85,7 @@ trait.read_book_trait_action = delegate(Actor pActor, LanguageTrait pTrait, Book
 
 ## 自定义书籍类型
 
-游戏在 `AssetManager.book_types` 中定义书籍格式：
+上面的书籍钩子改变的是一本书做什么。**书籍类型**则是一种新的书：它叫什么、谁来写、读了能得到什么。
 
 ```csharp Mods/HelloBox/Code/HelloBooks.cs
 namespace HelloBox
@@ -98,18 +98,27 @@ namespace HelloBox
         {
             if (AssetManager.book_types.has(ALMANAC)) return;
 
-            BookTypeAsset book = new BookTypeAsset
+            BookTypeAsset almanac = new BookTypeAsset
             {
                 id = ALMANAC,
-                name = "book_type_" + ALMANAC,
-                description = "book_type_info_" + ALMANAC,
-                rarity = 5
+                name_template = "book_name_fable",   // a vanilla name template
+                color_text = "#D14219",
+                writing_rate = 2,                    // weight against the other book types
+                path_icons = "fable/",               // borrow the fables' covers: books/book_icons/fable/
+                requirement_check = (Actor pActor, BookTypeAsset pAsset) => pActor.hasTrait(HelloTraits.SWIFT)
             };
-            AssetManager.book_types.add(book);
+
+            AssetManager.book_types.add(almanac);
+
+            // what a reader gets out of it
+            almanac.base_stats["experience"] = 5f;
+            almanac.base_stats["happiness"] = 5f;
         }
     }
 }
 ```
+
+作者每次都会从整个列表里，在 `requirement_check` 通过的类型中，按 `writing_rate`（或你的 `rate_calc`，上限为 10）加权挑选一种：只要 `add()` 就够了。`path_icons` 是 `books/book_icons/` 下的一个文件夹，会被当作封面列表读取，所以借用一个原版的完全不花成本。
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -177,7 +186,7 @@ foreach (Language language in World.world.languages)
 
 ## 允许新创建的语言随机获得该特质
 
-除了通过代码手动授予外，语言特质还可以设置 `spawn_random_trait_allowed` 标志，以便在创建新语言时被自动随机抽取——这与文化的特质抽取机制完全一致。
+除了通过代码手动授予外，语言特质还可以设置 `spawn_random_trait_allowed` 标志，以便在创建新语言时被自动随机抽取——这与文化的特质抽取机制完全一致。和其他所有特质页面一样的坑：
 
 > [!WARNING] `spawn_random_trait_allowed` 仅在启动时读取一次
 > 新诞生的语言是从一个候选池中随机抽取初始特质的，而该池是在游戏启动阶段由 `BaseTraitLibrary.linkAssets()` 构建完成的——彼时你的模组尚未加载。仅仅在特质上设置此布尔标志没有任何效果：它永远不会进入该池，新语言也永远不会随机获得它。你必须手动将其以原版权重添加到池中：

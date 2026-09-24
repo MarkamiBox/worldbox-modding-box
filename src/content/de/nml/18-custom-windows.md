@@ -31,9 +31,9 @@ Der letzte Punkt ist wichtiger, als es scheint: Wenn deine Gotteskraft beim Klic
 
 ## Der native ScrollWindow-Weg
 
-Wenn dein Fenster wie ein offizielles WorldBox-Fenster aussehen soll, erstelle kein Canvas von Grund auf neu :PES2_Shrug:. NeoModLoader stellt `WindowCreator` und `AbstractWindow<T>` bereit.
+Wenn dein Panel aussehen soll, als hätte WorldBox es gebaut, bau kein Canvas von Grund auf, wie ich es beim ersten Versuch gemacht habe :PES2_Shrug:. NeoModLoader bringt `WindowCreator` und `AbstractWindow<T>` genau dafür mit, damit du Scrollleisten, Titelleisten und Schließen-Buttons nicht aus rohen Unity-Bausteinen zusammensetzen musst.
 
-Erbe von `AbstractWindow<T>`:
+Leite von `AbstractWindow<T>` ab und lass NML die Verkabelung übernehmen:
 
 ```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
 using NeoModLoader.api;
@@ -62,19 +62,21 @@ namespace HelloBox
 }
 ```
 
-Initialisiere es beim Mod-Start:
+Erstelle es einmal während der Initialisierung der Mod:
 
 ```csharp
 HelloNativeWindow.CreateAndInit("hello_native_window");
 ```
 
-Öffnen ist ein Einzeiler:
+`CreateAndInit()` klont das `"windows/empty"`-Prefab des Spiels, hängt es an `CanvasMain.instance.transformWindows`, setzt den Titelschlüssel auf `"<windowId> Title"`, fügt deine Komponente hinzu und registriert das Fenster sowohl in `ScrollWindow._all_windows` als auch in `AssetManager.window_library`. Öffnen ist dieselbe einzelne Zeile wie bei Vanilla-Fenstern:
 
 ```csharp
 ScrollWindow.showWindow(HelloNativeWindow.WindowId);
 ```
 
-Für größere Tabellen nutze `AbstractWideWindow<T>`. Alternativ kannst du `WindowCreator.CreateEmptyWindow(id, titleKey, icon)` nutzen. Vergisst du die Registrierung, ignoriert das Spiel dein Fenster beim Drücken von ESC :wbfacepalm:.
+Wenn du mehr Platz für eine riesige Tabelle oder einen mehrspaltigen Manager brauchst, leite stattdessen von `AbstractWideWindow<T>` ab. Es verhält sich genauso, startet aber mit `600x280`, nutzt automatisch den breiten Rahmen und bietet `SetSize(new Vector2(width, height))`, falls dein Layout noch mehr Platz braucht.
+
+Wenn du die Basisklasse `AbstractWindow<T>` gar nicht willst, ruf `WindowCreator.CreateEmptyWindow(id, titleKey, icon)` direkt auf und konfiguriere das zurückgegebene `ScrollWindow` selbst. Vergiss bei der Handarbeit den Registrierungsschritt, und das Spiel weiß nicht einmal, dass dein Fenster existiert, wenn ESC gedrückt wird :wbfacepalm:.
 
 ## Dein eigenes schwebendes Fenster
 
@@ -212,7 +214,7 @@ Font font = LocalizedTextManager.current_font ?? Resources.GetBuiltinResource<Fo
 
 ## Tooltips
 
-Die Tooltips des Spiels sind ebenfalls Assets in `AssetManager.tooltips`: eine ID und ein Callback, der den Tooltip bei jedem Öffnen mit Daten befüllt. Registriere deinen eigenen und jedes beliebige UI-Element kann ihn mit dynamischen Echtzeit-Zahlen anzeigen.
+Die Tooltips des Spiels sind ebenfalls Assets in `AssetManager.tooltips`: eine ID und ein Callback, der den Tooltip bei jedem Öffnen mit Daten befüllt. Registriere deinen eigenen und jedes beliebige UI-Element kann ihn mit dynamischen Echtzeit-Zahlen anzeigen. Spieler fahren mit der Maus über alles, also sieht deine Mod genau hier leise fertig aus.
 
 ```csharp Mods/HelloBox/Code/HelloTooltips.cs
 using UnityEngine;
@@ -310,7 +312,7 @@ namespace HelloBox
 > [!WARNING] Hotkeys werden beim Spielstart verdrahtet
 > `HotkeyLibrary.linkAssets()` kopiert jedes `default_key_*` in das entsprechende `overridden_key_*` (die Taste, die das Spiel tatsächlich prüft) und erstellt `action_hotkeys`, die einzige Liste, die in jedem Frame abgefragt wird. Beides passiert vor dem Laden deiner Mod. Wenn du eines davon auslässt, bleibt die Taste stumm und wirkungslos :wbfacepalm:.
 
-Die `check_*`-Flags sind der einfachste Weg, Konflikte zu vermeiden: `check_controls_locked` verhindert das Auslösen, während der Spieler eine Einheit steuert, `check_window_not_active`, während ein vanilla Spielfenster geöffnet ist. Wähle eine Taste, die das Hauptspiel nicht nutzt – F6 ist eine solche; andere Mods könnten das anders handhaben.
+Die `check_*`-Flags sind der einfachste Weg, Konflikte zu vermeiden: `check_controls_locked` verhindert das Auslösen, während der Spieler eine Einheit steuert, `check_window_not_active`, während ein vanilla Spielfenster geöffnet ist. Wähle eine Taste, die das Hauptspiel nicht nutzt – F6 ist eine solche; andere Mods könnten das anders handhaben :PES2_Shrug:.
 
 ```json Mods/HelloBox/Locales/en.json
 {

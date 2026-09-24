@@ -96,14 +96,29 @@ namespace HelloBox
 }
 ```
 
-Aquí están pasando seis cosas:
+Pasan seis cosas:
 
-- **`[HarmonyPatch(typeof(Actor), "updateStats")]`**: la dirección. "El método llamado `updateStats`, en la clase llamada `Actor`." Una línea entre corchetes es un *atributo*: una etiqueta para el compilador, no código ejecutable.
-- **`public static class Patch_Actor_UpdateStats`**: un contenedor. El nombre lo eliges tú y no altera nada, pero tu yo del futuro agradecerá la convención `Patch_<Clase>_<Método>`.
-- **`public static void Postfix(...)`**: este nombre **no** lo eliges tú. Harmony busca métodos llamados exactamente `Prefix`, `Postfix` o `Finalizer`. Escribe `postfix` en minúsculas y no pasará nada, sin ningún mensaje de error :PESgn_ButWhy:.
-- **`Actor __instance`**: **dos** guiones bajos. Es la unidad concreta sobre la que el juego está trabajando ahora mismo. Sin esto sabes *que* se recalcularon estadísticas, pero no *de quién*.
-- **`if (!__instance.hasTrait(...)) return;`**: salida temprana. Tu parche se ejecuta para cada unidad del mundo, para siempre. Haz que el caso común sea una comprobación y un `return`.
-- **`stats["speed"] += 20f;`**: el cambio real. `updateStats` limpia y reconstruye el bloque de estadísticas al inicio, por lo que sumar en el Postfix actúa sobre una base limpia en lugar de acumularse en cada tick.
+- **`[HarmonyPatch(typeof(Actor), "updateStats")]`**: la dirección. "El método llamado `updateStats`, en la clase llamada `Actor`." Una línea entre corchetes es un *atributo*: una etiqueta que lee el ordenador, no código que se ejecuta.
+- **`public static class Patch_Actor_UpdateStats`**: un contenedor. El nombre es tuyo y no cambia nada, pero tu yo del futuro te agradecerá `Patch_<Class>_<Method>`.
+- **`public static void Postfix(...)`**: este nombre **no** es tuyo. Harmony busca un método llamado exactamente `Prefix`, `Postfix` o `Finalizer`. Escribe `postfix` y no pasa nada, sin ningún error :PESgn_ButWhy:.
+- **`Actor __instance`**: **dos** guiones bajos. Es la unidad concreta con la que el juego está trabajando ahora mismo. Sin esto sabes *que* se recalcularon las estadísticas de una unidad, pero no *de cuál*.
+- **`if (!__instance.hasTrait(...)) return;`**: sal pronto. Tu parche se ejecuta para cada unidad del mundo, para siempre. Haz que el caso común sea una comprobación y un `return`.
+- **`stats["speed"] += 20f;`**: el cambio real. `updateStats` vacía y reconstruye el bloque de estadísticas al principio, así que sumar en un Postfix cae sobre una hoja limpia en vez de acumularse cada tick.
+
+> [!DANGER] `updateStats` no se ejecuta en el hilo principal
+> El juego lo registra como un trabajo **paralelo** (`createJob(out c_stats_dirty, updateStats, JobType.Parallel, ...)`, y `Config.parallel_jobs_updater` es `true` por defecto), así que tu Postfix se ejecuta en un hilo de trabajo, sobre muchas unidades a la vez. Dentro, toca **solo los números de esa unidad**. Llamar a Unity (`Time.time`, `transform`, `Destroy`, `Resources.Load`), al ayudante aleatorio del juego `Randy`, o escribir en una lista compartida tuya es un crash que solo aparece en el ordenador de otra persona.
+>
+> Si necesitas algo de eso, pon la unidad en una cola y haz el trabajo en tu propio `Update()`:
+> ```csharp
+> public static readonly System.Collections.Concurrent.ConcurrentQueue<Actor> pending = new();
+>
+> public static void Postfix(Actor __instance)
+> {
+>     if (!__instance.hasTrait(HelloTraits.GIGACHAD)) return;
+>     __instance.stats["speed"] += 20f;   // this unit's own data: fine
+>     pending.Enqueue(__instance);        // everything else waits for the main thread
+> }
+> ```
 
 ## Los nombres mágicos de parámetros
 
@@ -117,7 +132,7 @@ Harmony enlaza tus parámetros **por nombre**. Estos son los que importan, y los
 | `__state` | Un valor que tu Prefix pasa a tu propio Postfix |
 | cualquier parámetro real | El argumento que pasó el llamador, escrito **exactamente** igual que en el juego |
 
-Esa última fila es donde casi todos tropiezan. Si el juego declara `getHit(float pDamage, ...)`, tu parámetro debe llamarse `pDamage`. Ni `damage` ni `pDmg`. Puedes omitir los parámetros que no te interesen, pero los que declares deben coincidir, y en este juego casi todos empiezan por `p`.
+Esa última fila es donde casi todos tropiezan, una y otra vez. Si el juego declara `getHit(float pDamage, ...)`, tu parámetro debe llamarse `pDamage`. Ni `damage` ni `pDmg`. Puedes omitir los parámetros que no te interesen, pero los que declares deben coincidir, y en este juego casi todos empiezan por `p`.
 
 ## Modificar un resultado
 
@@ -140,7 +155,7 @@ Ajusta, no asignes a ciegas. `__result *= 1.5f` funciona bien si otro mod parche
 
 ## Modificar un número hardcodeado en el juego
 
-La mitad de las peticiones tipo "¿alguien puede hacer un mod que...?" son solo un número. "Las ciudades crecen demasiado" es esto, sacado directamente de la clase `City` del juego:
+La mitad de las peticiones tipo "¿alguien puede hacer un mod que...?" son solo un número. Nada es imposible, simplemente nadie lo ha hecho todavía :wbbru:. "Las ciudades crecen demasiado" es esto, sacado directamente de la clase `City` del juego:
 
 ```csharp Assembly-CSharp / City
 public int getZoneRange(bool pAllowCheat = true)
@@ -245,6 +260,8 @@ public static class Patch_Actor_StatDelta
 
 ## Cuando no funciona
 
+Antes de culpar a Harmony, lee el log. Casi nunca es Harmony :PES5_Noted:.
+
 | Lo que ves | Lo que suele ser |
 | --- | --- |
 | No pasa nada, nada en el log | `Postfix` mal escrito, o nunca llamaste a `PatchAll` |
@@ -256,12 +273,15 @@ public static class Patch_Actor_StatDelta
 
 ## Reglas para no romper el juego ajeno
 
-- **Postfix por defecto.** Usa un Prefix solo cuando necesites cambiar un argumento o cancelar la ejecución.
-- **Ajusta, nunca asignes ciegamente.** `+=`, `*=`, `Math.Min(...)`. Alguien más también parcheó esto.
-- **Comprueba siempre si es null.** Tu parche se ejecutará durante la carga del mundo y durante la muerte de una unidad.
-- **La comprobación barata primero.** La primera línea de un parche frecuente debe ser la condición que te permita hacer `return`.
-- **Parchea el método más específico posible.** Parchear `Actor.updateStats` para la velocidad de un rasgo está perfecto. Parchear el bucle principal del mundo para hacer lo mismo es la razón por la que desinstalan un mod.
-- **Mantén tus parches en un solo archivo.** Cuando alguien reporte un conflicto, querrás revisar un archivo, no doce.
+- **Postfix por defecto.** Recurre a un Prefix solo cuando necesites cambiar un argumento o detener el método.
+- **Ajusta, nunca asignes.** `+=`, `*=`, `Math.Min(...)`. Alguien más también parcheó esto.
+- **Comprueba null, siempre.** Tu parche se ejecutará durante la carga del mundo y durante la muerte de una unidad.
+- **La comprobación barata primero.** La primera línea de un parche caliente debe ser la prueba que te deja hacer `return`.
+- **Parchea el método más estrecho que haga el trabajo.** Parchear `Actor.updateStats` para la velocidad de un rasgo está bien. Parchear la actualización del mundo para lo mismo es como un mod acaba desinstalado.
+- **Mantén tus parches en un solo archivo.** Cuando alguien reporte un conflicto, querrás leer un archivo, no doce. Sé amable con tu yo del futuro. Haz lo que digo, no lo que hacen mis viejos mods :trollface:.
+
+> [!NOTE] Parchear `has`, `get`, `add`, `clone` o `post_init` de una biblioteca no sirve de nada
+> Solo afecta a las llamadas hechas después de que se cargue tu mod, nunca al registro vanilla que ya ocurrió para entonces. Mira **[Bibliotecas de assets](#/nml/asset-libraries)**.
 
 ## Lo que no cubriremos aquí
 

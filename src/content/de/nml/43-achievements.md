@@ -68,7 +68,7 @@ namespace HelloBox
 }
 ```
 
-Zehn Irrlichter gleichzeitig am Leben, und der Erfolg wird freigeschaltet.
+Zehn Irrlichter gleichzeitig am Leben, und der Erfolg wird freigeschaltet. Top 10 Erfolge aller Zeiten :trollface:.
 
 ## Was das Spiel nicht automatisch für dich tut
 

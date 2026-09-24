@@ -48,11 +48,13 @@ NML이 창 전체를 대신 그려줍니다. 여러분은 JSON 파일 하나만 
 | 키 | 의미 |
 | --- | --- |
 | `Id` | 그룹 내에서 고유한 값. 코드에서 값을 읽을 때 사용 |
-| `Type` | `SWITCH` (켜기/끄기), `SLIDER` (실수), `INT_SLIDER` (정수), `TEXT` (텍스트 입력) |
+| `Type` | `SWITCH` (켜기/끄기), `SLIDER` (실수), `INT_SLIDER` (정수), `TEXT` (텍스트 입력), `SELECT` (선택지 그리드) |
 | `BoolVal` / `FloatVal` / `IntVal` / `TextVal` | 타입에 맞는 기본값 |
-| `MinFloatVal` / `MaxFloatVal`, `MinIntVal` / `MaxIntVal` | 슬라이더 범위 |
+| `MinFloatVal` / `MaxFloatVal`, `MinIntVal` / `MaxIntVal` | 슬라이더 범위. `SELECT`에서는 `MaxIntVal`이 선택지 개수, `IntVal`이 선택된 인덱스입니다 |
 | `IconPath` | 행에 표시할 선택적 아이콘 |
 | `Callback` | 값이 변경될 때 호출될 선택적 `Namespace.Type:MethodName` |
+
+`SELECT`의 경우 NML은 선택지마다 버튼을 하나씩 배치합니다. 라벨은 로컬라이즈 파일에서 `<id>_0`, `<id>_1` 같은 식으로 바로 가져옵니다.
 
 ## 설정값 읽기
 
@@ -74,7 +76,7 @@ private void LoadSettings()
 }
 ```
 
-네, 각 줄을 감싸고 있는 `try/catch`가 지나치게 소심해 보일 수 있습니다. 하지만 절대 그렇지 않습니다. 플레이어가 이전 버전에서 모드를 업데이트했을 경우 저장된 설정 파일에는 방금 추가한 새 키가 없으며, 키 하나 누락으로 모드 로드 전체가 터져버립니다.
+NML은 시작할 때 `persistent_config.MergeWith(default_config)`를 호출합니다. 그래서 `default_config.json`에 새 키를 추가하면 NML이 기본값과 함께 플레이어의 저장된 설정에 자동으로 병합합니다. 누군가 `.config`를 텍스트 편집기로 열어 JSON을 망가뜨렸을 경우를 대비해 `try/catch`는 여전히 좋은 습관이지만, 일반적인 업데이트라면 NML이 알아서 챙겨 줍니다.
 
 ## Callbacks
 
@@ -98,7 +100,7 @@ namespace HelloBox
 ```
 
 > [!WARNING] 변경 사항은 창이 닫힐 때 적용됩니다
-> 슬라이더를 드래그하는 도중이 아닙니다. 콜백이 무거운 작업을 수행한다면 반가운 소식입니다. 실시간 미리보기를 기대했다면 "왜 작동을 안 하지" 싶었던 이유가 바로 이것입니다 :huh:.
+> 슬라이더를 드래그하는 도중이 아닙니다. 콜백이 무거운 작업을 수행한다면 반가운 소식입니다. 실시간 미리보기를 기대했다면 "왜 작동을 안 하지" 싶었던 이유가 바로 이것입니다 :huh:. 또한 `BasicMod`는 시작할 때 모든 콜백을 한 번씩 호출하므로, 플레이어가 저장해 둔 값이 코드에 반영됩니다.
 
 ## 저장 위치
 
@@ -111,8 +113,6 @@ namespace HelloBox
 기본값을 테스트하면서 "새 값이 왜 반영되지 않지"라며 머리를 쥐어뜯을 때 가장 먼저 지워야 할 파일이기도 합니다 :PESgn_OOF:.
 
 ## Don't forget the text (again)
-
-그룹 ID와 항목 ID 또한 번역 키입니다. `Locales/`에 추가해 두지 않으면 날것의 ID가 그대로 노출됩니다:
 
 그룹 id와 item id도 로케일 키입니다. `Locales/en.json` 에 넣지 않으면 날것 그대로 나옵니다. 각 줄에는 툴팁용 두 번째 키 **`"<id> Description"`** (띄어쓰기와 대문자 D) 도 필요합니다:
 
@@ -146,4 +146,4 @@ public ModConfig GetConfig()
 }
 ```
 
-이 메서드 하나 덕분에 모드 창에서 내 모드 옆에 설정 버튼이 나타나게 됩니다.
+이 메서드 하나 덕분에 모드 창에서 내 모드 옆에 설정 버튼이 나타나게 됩니다. 메서드 하나로, 더는 아무도 Discord에서 여러분과 싸우지 않습니다. 이론상으로는요.

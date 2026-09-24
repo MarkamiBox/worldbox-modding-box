@@ -82,7 +82,7 @@ HelloBox/
 ember.path_texture = "drops/hello_ember";   // a folder
 ```
 
-Drops werden als **Sprite-Liste** geladen: Das Spiel liest jede PNG *in* diesem Ordner, deshalb funktioniert `animated`. Auch ein stillstehender Drop ist ein Ordner, mit einem Frame darin. Eine lose `drops/hello_ember.png` kommt als leere Liste zurück, und der Drop fällt unsichtbar.
+Drops werden als **Sprite-Liste** geladen: Das Spiel liest jede PNG *in* diesem Ordner, deshalb funktioniert `animated`. Auch ein stillstehender Drop ist ein Ordner, mit einem Frame darin. Eine lose `drops/hello_ember.png` kommt als leere Liste zurück, und der Drop fällt unsichtbar :wbwiltedrose:.
 
 ## Tropfen fallen lassen
 
@@ -96,7 +96,7 @@ World.world.drop_manager.spawn(tile, "hello_ember", 15f, -1f, -1L);
 World.world.drop_manager.spawnParabolicDrop(tile, "hello_ember", 0f, 0.1f, 5f, 0.5f, 4f, 0.15f);
 ```
 
-`spawn` ist das, was du in 90 % der Fälle willst. Das `15f` ist die Höhe, aus der er fällt: Größer bedeutet, dass er länger braucht, um zu landen.
+`spawn` ist das, was du in 90 % der Fälle willst. Das `15f` ist die Höhe, aus der er fällt: Größer bedeutet, dass er länger braucht, um zu landen. Und es sieht auf dem Weg nach unten dramatischer aus.
 
 ## Ein echter Anwendungsfall: Lass deine Gotteskraft Funken regnen
 

@@ -10,7 +10,7 @@ order: 112
 
 Una **lingua** appartiene a città e regni, muta con il diffondersi del suo uso ed è il mezzo con cui vengono scritti i **libri**. Un tratto linguistico è una proprietà intrinseca della parola scritta e parlata.
 
-È il più compatto dei sette sistemi di tratti e vanta l'hook più specifico in assoluto: codice che scatta nel momento in cui qualcuno **legge un libro** redatto in quella lingua.
+È il più compatto dei sette sistemi di tratti e vanta l'hook più specifico in assoluto: codice che scatta nel momento in cui qualcuno **legge un libro** redatto in quella lingua. Sì, davvero :wbscroll:.
 
 | | |
 | --- | --- |
@@ -85,7 +85,7 @@ Due ottime pratiche da mutuare dal vanilla:
 
 ## Il tuo tipo di libro
 
-Il gioco definisce i formati dei libri in `AssetManager.book_types`:
+L'hook dei libri qui sopra cambia cosa fa un libro. Un **tipo di libro** è un nuovo genere di libro: come si chiama, chi lo scrive e cosa dà leggerlo.
 
 ```csharp Mods/HelloBox/Code/HelloBooks.cs
 namespace HelloBox
@@ -98,18 +98,27 @@ namespace HelloBox
         {
             if (AssetManager.book_types.has(ALMANAC)) return;
 
-            BookTypeAsset book = new BookTypeAsset
+            BookTypeAsset almanac = new BookTypeAsset
             {
                 id = ALMANAC,
-                name = "book_type_" + ALMANAC,
-                description = "book_type_info_" + ALMANAC,
-                rarity = 5
+                name_template = "book_name_fable",   // a vanilla name template
+                color_text = "#D14219",
+                writing_rate = 2,                    // weight against the other book types
+                path_icons = "fable/",               // borrow the fables' covers: books/book_icons/fable/
+                requirement_check = (Actor pActor, BookTypeAsset pAsset) => pActor.hasTrait(HelloTraits.SWIFT)
             };
-            AssetManager.book_types.add(book);
+
+            AssetManager.book_types.add(almanac);
+
+            // what a reader gets out of it
+            almanac.base_stats["experience"] = 5f;
+            almanac.base_stats["happiness"] = 5f;
         }
     }
 }
 ```
+
+Lo scrittore sceglie un tipo tra quelli il cui `requirement_check` passa, pesato con `writing_rate` (o il tuo `rate_calc`, con tetto a 10), ogni volta dall'intera lista: basta `add()`. `path_icons` è una cartella dentro `books/book_icons/` letta come elenco di copertine, quindi prenderne in prestito una vanilla non costa nulla.
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -177,7 +186,7 @@ Un'istanza di `Language` espone anche `cities`, `kingdoms` e `books`, fondamenta
 
 ## Nuove lingue che estraggono un tratto da sole
 
-Oltre ad assegnarlo manualmente, un tratto di lingua può impostare `spawn_random_trait_allowed` per essere estratto alla formazione di una nuova lingua, nello stesso modo in cui una cultura sceglie i suoi tratti iniziali.
+Oltre ad assegnarlo manualmente, un tratto di lingua può impostare `spawn_random_trait_allowed` per essere estratto alla formazione di una nuova lingua, nello stesso modo in cui una cultura sceglie i suoi tratti iniziali. Stessa trappola di ogni altra pagina sui tratti:
 
 > [!WARNING] `spawn_random_trait_allowed` viene letto una sola volta, all'avvio
 > Le nuove lingue pescano i loro tratti iniziali da un gruppo che `BaseTraitLibrary.linkAssets()` costruisce durante il caricamento del gioco, prima che la tua mod esista. Impostare il flag sul tuo tratto non cambia nulla da solo: il tuo tratto non è mai in quel gruppo e non apparirà mai per caso su una nuova lingua. Aggiungilo tu stesso, con il peso usato dal gioco vanilla:

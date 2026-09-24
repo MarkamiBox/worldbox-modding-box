@@ -27,16 +27,16 @@ Ese único archivo contiene todo el código del juego. A la izquierda verás el 
 
 ### 1. Buscar una clase
 
-Con `Ctrl+Shift+K` buscas tipos. Escribe `ActorTrait`, ábrela y verás cada campo que puedes configurar, con su tipo y su valor por defecto:
+`Ctrl+Shift+K` busca tipos. Escribe `ActorTrait`, ábrelo y verás todos los campos que puedes poner, con su tipo y su valor por defecto:
 
 ```csharp Assembly-CSharp / ActorTrait
 public string path_icon;
 public string group_id;
-public float rate_birth;
+public int rate_birth;
 public bool can_be_cured;
 ```
 
-Esa lista *es* la documentación para la página de **[Rasgos personalizados](#/nml/custom-traits)**. El mismo truco sirve para `ItemAsset`, `BuildingAsset`, `StatusAsset` o lo que sea.
+Esa lista *es* la documentación de la página **[Rasgos personalizados](#/nml/custom-traits)**. Lee también los **tipos**: `rate_birth` es un `int`, así que `rate_birth = 0.5f` no compila. El mismo truco sirve para `ItemAsset`, `BuildingAsset`, `StatusAsset`, lo que sea.
 
 ### 2. Comprobar la firma real de un método
 

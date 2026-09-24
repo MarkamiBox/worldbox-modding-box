@@ -11,7 +11,7 @@ order: 140
 > [!NOTE] Se llaman actores, no razas
 > El juego llama a cada ser vivo un **actor**: un humano, un lobo, un dragón, un zombi, un cangrejo. Todos provienen de la misma clase, `ActorAsset`, y todos viven en `AssetManager.actor_library`. "Raza" es el término antiguo. El único lugar donde sobrevive es en una propiedad `race` marcada con `[Obsolete("use .original_actor_asset instead")]`, que solo existe para cargar partidas guardadas antiquísimas. Escribe `actor` en todas partes.
 
-Una nueva criatura es el mod que todo el mundo quiere hacer y que casi nadie termina, porque un `ActorAsset` arrastra animaciones, texturas, sonidos, taxonomía, dieta, flags de IA, genoma, cultura y estadísticas. Equivocarte en uno solo de ellos te dará una unidad invisible de pie en medio del océano.
+Una nueva criatura es el mod que todo el mundo quiere hacer y que casi nadie termina, porque un `ActorAsset` arrastra animaciones, texturas, sonidos, taxonomía, dieta, flags de IA, genoma, cultura y estadísticas. Equivocarte en uno solo de ellos te dará una unidad invisible de pie en medio del océano :PES4_Invisible:.
 
 Buenas noticias: el juego tampoco construye criaturas desde cero. Esto es literalmente cómo el juego base crea un elfo:
 
@@ -78,16 +78,15 @@ namespace HelloBox
     }
 }
 ```
-> [!WARNING] Carga la sombra tú, o el juego se queja de cada actor
-> `ActorAssetLibrary` recorre su lista al arrancar y llama a `loadShadow()` en cada actor, que carga el sprite de `shadows/<shadow_texture>` y lo mide. Eso pasó antes de que tu mod registrara nada, así que la sombra de tu actor se queda en `(0.00, 0.00)` y el juego escribe un error de asset por ella, tres veces: adulto, huevo y bebé :wbfacepalm:.
+> [!WARNING] Carga la sombra tú mismo, o el juego se quejará de cada actor
+> `ActorAssetLibrary` recorre su lista al arrancar y llama a `loadShadow()` en cada actor, que lee el sprite en `shadows/<shadow_texture>` y lo mide. Eso ocurrió antes de que tu mod registrara nada, así que la sombra de tu actor se queda en `(0.00, 0.00)` y el juego registra un error de asset por ella, tres veces, una por el adulto, el huevo y la cría :wbfacepalm:.
 >
-> `loadShadow()` es `internal`, así que necesita una `Assembly-CSharp.dll` **publicized** como el resto de la guía. Si no tienes una, pon `asset.shadow = false;`: sin sombra, pero sin error.
+> `loadShadow()` es `internal`, así que esto necesita un `Assembly-CSharp.dll` **publicitado** como el resto de la guía. Si no tienes uno, pon `asset.shadow = false;` en su lugar: sin sombra, pero tampoco sin error.
 
-
-> [!WARNING] clone() ya registra
-> `AssetManager.<library>.clone(newId, sourceId)` llama a `add()` internamente. Cada librería funciona así. Llamar a `add()` tú mismo después es un registro duplicado: la librería elimina la primera copia, registra un error y la vuelve a añadir. Es inofensivo, pero ensucia el log dificultando encontrar errores reales, y es lo primero que un revisor notará.
+> [!WARNING] `clone()` ya registra
+> `AssetManager.<library>.clone(newId, sourceId)` llama a `add()` por dentro. Todas las bibliotecas funcionan así. Llamar tú a `add()` después es un registro duplicado: la biblioteca quita la primera copia, registra un error y la vuelve a añadir. Inofensivo, pero es ruido en tu log que hace más difícil encontrar los errores reales, y es lo primero que verá quien revise tu código.
 >
-> La contrapartida es la buena noticia: **tras un clone, `base_stats` ya existe**, por lo que la regla de "estadísticas después de add" de **[Rasgos personalizados](#/nml/custom-traits)** ya queda cumplida.
+> La parte buena de esto: **tras un clon, `base_stats` ya existe**, así que la regla de "estadísticas después de add" de **[Rasgos personalizados](#/nml/custom-traits)** ya se cumple.
 
 ## Varios actores a la vez
 
@@ -173,6 +172,8 @@ Añadir una cuarta criatura ahora cuesta una sola línea en la tabla. Esta es la
 
 ## Los campos que deciden qué *es* tu criatura
 
+El primer día solo importan tres: `civ`, `actor_size` y `name_locale`. El resto puede esperar hasta que tu criatura sea visible y camine.
+
 | Campo | Qué hace |
 | --- | --- |
 | `civ` | Criatura de civilización: ciudades, reinos, oficios, guerra. `false` = animal |
@@ -192,12 +193,12 @@ Añadir una cuarta criatura ahora cuesta una sola línea en la tabla. Esta es la
 | `kingdom_id_wild` / `kingdom_id_civilization` | En qué reino aparecen (salvajes o asentados) |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … de qué atlas provienen los sprites |
 | `animation_walk` / `animation_idle` / `animation_swim` | Secuencias de fotogramas, cada una con su campo `_speed` |
-| `sound_idle`, `sound_spawn`, `sound_death` … | Rutas de eventos de sonido FMOD |
+| `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | Rutas de eventos de sonido FMOD |
 | `name_taxonomic_*` | Reino, filo, clase, orden, familia, género y especie para la ventana de conocimiento |
 | `collective_term` | Término colectivo ("una **manada** de lobos") |
 | `allowed_status_tiers` | Qué niveles de efectos de estado pueden aplicárseles |
 | `production` | Qué fabrican sus ciudades |
-| `zombie_id_internal`, `skeleton_id`, `mush_id` … | En qué se transforman al morir |
+| `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | En qué se transforman al morir |
 
 ## Integrar una criatura de civilización en el mundo
 
@@ -283,7 +284,7 @@ El arte del **cuerpo** de la criatura es un desafío completamente diferente, y 
 
 ## Los sprites son la parte difícil
 
-Todo lo anterior es una página de código. El verdadero trabajo es el arte: una criatura necesita un conjunto completo de animaciones, en el atlas adecuado, al tamaño correcto y con los pivotes exactos. Hay dos opciones realistas:
+Todo lo anterior es una página de código. El verdadero trabajo es el arte, y aquí es donde la mayoría de los mods de criaturas mueren en silencio: una criatura necesita un conjunto completo de animaciones, en el atlas adecuado, al tamaño correcto y con los pivotes exactos. Hay dos opciones realistas:
 
 1. **Conservar los sprites del donante.** Una criatura que reutiliza las animaciones humanas con diferentes estadísticas y un tinte de color distinto es un primer mod perfectamente válido, y *funciona*.
 2. **Exportar con AssetRipper**, localizar el atlas de la criatura clonada y calcar su disposición con exactitud milimétrica antes de dibujar nada. Consulta **[Obtener los recursos del juego](#/toolbox/getting-the-sprites)**.

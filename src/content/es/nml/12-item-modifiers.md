@@ -12,7 +12,7 @@ Conoces esas pequeñas líneas verdes en una buena espada: *"+3 de daño"*, *"ar
 
 ## La forma sencilla: el creador de NML
 
-Un `ItemAsset` en vanilla es una sola clase cumpliendo siete roles distintos, y los campos significan cosas completamente diferentes según la ocasión. NML envuelve las partes lógicas en `ItemAssetCreator`, y para modificadores también se encarga de registrarlos por ti:
+Un modificador es un `ItemModAsset`, que es un `ItemAsset` con otro sombrero, y vive en `AssetManager.items_modifiers`:
 
 ```csharp Mods/HelloBox/Code/HelloModifiers.cs
 namespace HelloBox
@@ -60,12 +60,17 @@ namespace HelloBox
     }
 }
 ```
+
 > [!WARNING] Registrarlo no basta
-> `add()` mete tu modificador en la `list` de la librería, y el generador no lee `list`, lee `pools`. Esos pools se llenan en `linkAssets()`, una vez, durante la carga. Un modificador que solo está en `list` existe, tiene nombre, y no le saldrá nunca a nada :wbfacepalm:.
+> `add()` mete tu modificador en la `list` de la biblioteca, pero el generador no lee `list`, lee `pools`. Esos pools se llenan en `linkAssets()`, una sola vez, durante la carga. Un modificador que solo está en `list` existe, tiene nombre y nunca saldrá en nada :wbfacepalm:.
 
+```json Mods/HelloBox/Locales/en.json
+{
+  "mod_hello_sharp": "Sharpened"
+}
+```
 
-
-Añade `HelloModifiers.Initialize();` a tu `Main.cs`, y a partir de ese momento el juego podrá asignar "hello_sharp" a las armas generadas.
+Añade `HelloModifiers.Initialize();` a `Main.cs`, y a partir de ahí el juego puede ponerlo en las armas generadas.
 
 ### Los argumentos que importan
 
@@ -82,7 +87,7 @@ Añade `HelloModifiers.Initialize();` a tu `Main.cs`, y a partir de ese momento 
 
 ## Hacer que realmente haga algo
 
-Las estadísticas están bien, pero un modificador también puede ejecutar código. `action_attack_target` se ejecuta cada vez que el arma conecta un golpe:
+Las estadísticas están bien, pero un modificador también puede ejecutar código, y ahí es donde se pone divertido. `action_attack_target` se ejecuta cada vez que el arma conecta un golpe:
 
 ```csharp
 ItemAssetCreator.CreateAndAddModifier(
@@ -110,7 +115,7 @@ Ahora cualquier arma que reciba "hello_burning" prenderá fuego al suelo cuando 
 }
 ```
 
-El `translation_key` es lo que aparece en la descripción del arma, así que mantenlo breve; va en una sola línea junto a las estadísticas.
+El `translation_key` es lo que aparece en la descripción del arma, así que mantenlo breve; va en una sola línea junto a las estadísticas. Nadie lee un párrafo en una espada.
 
 > [!TIP] Modificadores antes que armas
 > Un arma nueva es mucho trabajo (sprites, animaciones, materiales). Un nuevo modificador son veinte líneas y se aplica a **todas** las armas que el mundo genera. Si quieres cambiar el juego rápido, empieza por aquí :PES_Stonks:.

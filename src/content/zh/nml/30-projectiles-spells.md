@@ -56,6 +56,8 @@ namespace HelloBox
 
 ### 字段详解
 
+大多数字段都跟着你克隆的对象一起过来，你再也不会看它们一眼。真正会改的是 `speed` 和 `texture` 这两个。
+
 | 字段 | 作用 |
 | --- | --- |
 | `texture`, `texture_shadow` | 精灵图本体及其阴影 |
@@ -108,7 +110,7 @@ HelloBox/
 bolt.texture = "hello_bolt";   // 切勿写成 "effects/projectiles/hello_bolt"
 ```
 
-投射物同样按精灵列表加载：一个以 `texture` 命名的 **文件夹**，每帧一个 PNG，开启 `animated` 时多帧就成为飞行动画。单独的 `hello_bolt.png` 会返回空列表，绘制投射物时会抛出 `ArgumentOutOfRangeException`。
+投射物同样按精灵列表加载：一个以 `texture` 命名的 **文件夹**，每帧一个 PNG，开启 `animated` 时多帧就成为飞行动画。单独的 `hello_bolt.png` 会返回空列表，绘制投射物时会抛出 `ArgumentOutOfRangeException` :PESgn_Oops:。
 
 `texture_shadow` 则是无前缀的完整路径：原版直接引用公用的 `shadows/projectiles/shadow_ball`，直接沿用它几乎总是最省事的做法。
 
@@ -144,43 +146,95 @@ AssetManager.spells.add(bolt);
 
 ### 将法术赋予实体
 
-法术通过ID挂载到赋予它的载体上：
+法术通过 id 挂在授予它的东西上：
 
 ```csharp
-trait.addSpell("hello_bolt");        // 七大特质系统中的任意特质
-item.addSpell("hello_bolt");         // 装备道具
+trait.addSpell("hello_bolt");        // any trait, of any of the seven systems
+trait.linkSpells();                  // the ids became objects at startup: do it for yours
+item.addSpell("hello_bolt");         // an item
+item.linkSpells();
 actorAsset.spell_ids = new List<string> { "hello_bolt" };
 ```
 
-值得参考的原版法术ID：`teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`。
+`addSpell()` 只是追加一个 id。资源库会在启动时、在你的模组之前，通过 `linkAssets()` 把 id 转换成法术：如果你在自己注册的特质或物品上漏掉了 `linkSpells()`，它就什么都不授予，而且悄无声息。
+
+值得一读的原版法术 id：`teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`。
 
 ## 战斗动作
 
-`CombatActionAsset` 是一个在战斗事件触发时执行的委托，通常用于触发法术或特效：
+法术是单位施放的东西。**战斗动作**是它在战斗中途*做*的事：一次冲刺、一次闪避、在逼近前扔出的一支火把。游戏会在战斗中的固定时刻抽取它们，这些时刻叫作池（pool）。
 
-```csharp Mods/HelloBox/Code/HelloSpells.cs
-CombatActionAsset action = new CombatActionAsset
+```csharp Mods/HelloBox/Code/HelloCombat.cs
+using UnityEngine;
+
+namespace HelloBox
 {
-    id = "hello_cast_on_attack",
-    action = (pSelf, pTarget, pWorldTile) =>
+    public static class HelloCombat
     {
-        if (pSelf == null || !pSelf.isAlive()) return false;
+        public const string TOSS = "hello_ember_toss";
 
-        // do the cast
-        return true;
+        public static void Initialize()
+        {
+            if (AssetManager.combat_action_library.has(TOSS)) return;
+
+            CombatActionAsset toss = new CombatActionAsset
+            {
+                id = TOSS,
+                cost_stamina = 10,
+                chance = 0.3f,        // rolled each time the unit could use it, plus its combat skill
+                cooldown = 4f,
+                pools = new CombatActionPool[] { CombatActionPool.BEFORE_ATTACK_MELEE },
+
+                // same range as the vanilla torch throw: not point blank, not across the map
+                can_do_action = (Actor pSelf, BaseSimObject pTarget) =>
+                {
+                    float dist = Toolbox.SquaredDistVec2Float(pSelf.current_position, pTarget.current_position);
+                    return dist > 36f && dist < 2500f;
+                },
+
+                action_actor_target_position = (Actor pSelf, Vector2 pTarget, WorldTile pTile) =>
+                {
+                    if (pSelf == null || !pSelf.isAlive() || pTile == null) return false;
+
+                    Vector3 launch = pSelf.current_position;
+                    launch.y += 0.5f;
+                    // a shooter means a kingdom, so no pForcedKingdom here
+                    World.world.projectiles.spawn(pSelf, null, HelloProjectiles.EMBER_BOLT, launch, pTile.posV3);
+                    MusicBox.playSound("event:/SFX/WEAPONS/WeaponFireballStart", pTile);
+                    return true;
+                }
+            };
+
+            AssetManager.combat_action_library.add(toss);
+
+            // Combat actions come from traits. The trait only stores ids, and the game turned
+            // ids into objects at startup: link it yourself or the trait never uses it.
+            ActorTrait swift = AssetManager.traits.get(HelloTraits.SWIFT);
+            if (swift == null) return;
+            swift.addCombatAction(TOSS);
+            swift.linkCombatActions();
+        }
     }
-};
-AssetManager.combat_actions.add(action);
+}
 ```
 
-将其挂钩到特质的事件中：
+| 池 | 何时抽取 |
+| --- | --- |
+| `BEFORE_ATTACK_MELEE` | 逼近准备近战攻击时。使用 `action_actor_target_position` |
+| `BEFORE_ATTACK_RANGE` | 即将射击时。同一个委托 |
+| `BEFORE_HIT` | 即将被击中时。像闪避一样使用 `action_actor` |
+| `BEFORE_HIT_BLOCK` | 即将被击中时，改为格挡。和格挡一样 |
+| `BEFORE_HIT_DEFLECT` | 有投射物飞来时。和弹开一样 |
 
-```csharp
-trait.addCombatAction(CombatActionAsset.BEFORE_ATTACK_MELEE, "hello_cast_on_attack");
-```
+| 字段 | 作用 |
+| --- | --- |
+| `chance` | 动作可用时掷骰，会被单位的 `skill_combat` 提高 |
+| `cost_stamina` / `cost_mana` | 使用时支付。不够的话就不会被选 |
+| `cooldown` | 之后 `recovery_combat_action` 状态持续的秒数，期间所有战斗动作都会被封锁 |
+| `can_do_action` | 你的条件，会传入目标 |
 
-> [!WARNING] 只能通过特质进行分发
-> 你无法将战斗动作直接挂载到 `ActorAsset` 上。每一个战斗事件都会遍历角色的特质并查询其动作，因此如果你想让单位拥有该动作，请将其配置在特质中，并将特质赋予该单位 :PES2_Shrug:。
+> [!WARNING] 只有特质能分发它们
+> 单位只从自己的特质以及亚种、氏族和宗教收集战斗动作，从不从装备收集。特质保存的是 id，而游戏在启动时就把 id 转成了对象：在 `addCombatAction()` 之后调用 `linkCombatActions()`，否则这个特质身上会带着一个永远没人使出来的招式 :PES2_Shrug:。
 
 ## 视觉特效
 

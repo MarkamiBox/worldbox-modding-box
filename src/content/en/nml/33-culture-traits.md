@@ -10,7 +10,7 @@ order: 106
 
 A **culture** is the shared habits of a group of cities. It decides what they build, what they forge, how they inherit, what they read and what they value. A culture trait is one of those habits.
 
-Of the seven trait systems, culture is the one with the widest reach. A culture spreads with cities, survives its founder, and merges its stats into every single unit that belongs to it. If you want a mod whose effect ripples through a world over an hour of play, this is the library.
+Of the seven trait systems, culture is the one with the widest reach. A culture spreads with cities, survives its founder, and merges its stats into every single unit that belongs to it. If you want a mod whose effect ripples through a world over an hour of play, this is the library. Big reach, big responsibility :PES5_Menace:.
 
 | | |
 | --- | --- |
@@ -66,7 +66,7 @@ namespace HelloBox
 >
 > `_pot_allowed_to_be_given_randomly` is `protected`, so this compiles against the publicized assembly NML already builds your mod with. `spawn_random_rate` defaults to `5`: raise it and the trait turns up more often.
 
-Everything on **[Custom traits](#/nml/custom-traits)** applies here too: `add()` before stats, `path_icon` is not filled in for you, ids get prefixed. What follows is what makes culture traits different.
+Everything on **[Custom traits](#/nml/custom-traits)** applies here too: `add()` before stats, `path_icon` is not filled in for you, ids get prefixed. What follows is what makes culture traits different, and it is the fun part.
 
 > [!WARNING] `base_stats` on a culture trait reaches everybody
 > `Actor.updateStats()` merges `culture.base_stats` into every unit of that culture. Every unit. A "+5 damage" doctrine also arms the bakers.
@@ -83,7 +83,7 @@ trait.addWeaponSubtype("sword");         // prefer a whole weapon class
 trait.addWeaponSpecial("hello_relic");   // or one specific item id
 ```
 
-Both helpers set `is_weapon_trait = true` for you. The crafting code reads the culture's preferred weapons when a city decides what to make, so this changes the weapon in a soldier's hand rather than a number on it. `bow_lovers` and `spear_lovers` in vanilla are exactly this.
+Both helpers set `is_weapon_trait = true` for you. The crafting code reads the culture's preferred weapons when a city decides what to make, so this changes the weapon in a soldier's hand rather than a number on it. `bow_lovers` and `spear_lovers` in vanilla are exactly this. A whole culture of spear enjoyers, from two lines :PESgn_Noice:.
 
 | Field | What it does |
 | --- | --- |

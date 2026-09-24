@@ -8,27 +8,26 @@ order: 144
 
 # Eigene KI & Verhalten :wbgoldenbrain:
 
-Hier geht es ans Eingemachte. Alles andere in diesem Guide fügt dem Spiel *Gegenstände und Daten* hinzu. Das hier fügt **Entscheidungen** hinzu: was eine Kreatur als Nächstes tut, von ganz allein, für immer, in einer Welt, die sie sich mit Tausenden anderen teilt.
+Hier geht es ans Eingemachte. Alles andere in diesem Guide fügt dem Spiel *Gegenstände und Daten* hinzu. Das hier fügt **Entscheidungen** hinzu: was eine Kreatur als Nächstes tut, von ganz allein, für immer, in einer Welt, die sie sich mit Tausenden anderen teilt. Kein Druck :PES_MonkaSweat:.
 
 ## Wie das Spiel denkt
 
-Drei Ebenen, von groß nach klein:
+Drei Ebenen, von groß nach klein, plus die, die daneben liegt. Das zu verstehen hat bei mir länger gedauert, als ich zugeben möchte:
 
-| Ebene | Was es ist | Bibliothek |
+| Ebene | Was sie ist | Bibliothek |
 | --- | --- | --- |
-| **Job** (`ActorJob`) | Was diese Kreatur im Großen und Ganzen treibt: "Bürger sein", "Soldat sein" | `AssetManager.job_actor` |
-| **Task** (`BehaviourTaskActor`) | Ein konkretes Ziel innerhalb eines Jobs: "etwas essen", "das da bauen" | `AssetManager.tasks_actor` |
-| **Verhalten** (`BehaviourActionActor`) | Ein Einzelschritt eines Tasks, läuft jeden Tick, gibt die nächste Aktion zurück | wird an einen Task angehängt |
+| **Job** (`ActorJob`) | Womit diese Kreatur im Großen und Ganzen beschäftigt ist: "Bürger sein", "Soldat sein" | `AssetManager.job_actor` |
+| **Aufgabe** (`BehaviourTaskActor`) | Ein konkretes Ziel innerhalb eines Jobs: "essen gehen", "das da bauen" | `AssetManager.tasks_actor` |
+| **Verhalten** (`BehaviourActionActor`) | Ein Schritt einer Aufgabe, läuft jeden Tick und gibt zurück, was als Nächstes passiert | an eine Aufgabe angehängt |
+| **Entscheidung** (`DecisionAsset`) | Wann eine Aufgabe startet: die Optionen, die eine Kreatur jedes Mal abwägt, wenn sie frei ist | `AssetManager.decisions_library` |
 
-Ein Job enthält Tasks, ein Task enthält Verhaltensweisen (Behaviours), und die Verhaltensweisen laufen der Reihe nach ab, bis eine von ihnen Stopp sagt.
+Ein Job enthält Aufgaben, eine Aufgabe enthält Verhalten, und die Verhalten laufen der Reihe nach, bis eines Stopp sagt. Entscheidungen stehen neben den Jobs: Mit ihnen wählt eine freie Kreatur ihre nächste Aufgabe selbst, siehe **[Entscheidungen](#entscheidungen-lass-die-kreatur-deine-aufgabe-wählen)** weiter unten.
 
 ## Ein Verhalten schreiben
 
 Ein Verhalten ist eine Klasse mit einer einzigen Methode. Sie erhält den Akteur, führt eine kleine Aktion aus und gibt ein `BehResult` zurück:
 
-```csharp Mods/HelloBox/Code/HelloAI.cs
-using ai.behaviours;   // BehaviourTaskActor, BehaviourActionActor, BehResult, the vanilla behaviours
-
+```csharp
 namespace HelloBox
 {
     public class BehHelloDrive : BehaviourActionActor
@@ -37,55 +36,16 @@ namespace HelloBox
         {
             if (pActor == null || !pActor.isAlive()) return BehResult.Stop;
 
+            // decide something, write it onto the actor
             WorldTile target = HelloAI.PickTile(pActor);
             if (target == null) return BehResult.Stop;
 
             pActor.beh_tile_target = target;
-            return BehResult.Continue;
-        }
-    }
-
-    public static class HelloAI
-    {
-        public const string JOB = "hellobox_job";
-        public const string TASK = "hellobox_drive";
-
-        public static void Initialize()
-        {
-            BehaviourTaskActor drive = new BehaviourTaskActor
-            {
-                id = TASK,
-                ignore_fight_check = true,        // don't let the combat system hijack the task
-                locale_key = "task_unit_" + TASK
-            };
-
-            AssetManager.tasks_actor.add(drive);  // add first
-            drive.setIcon("ui/Icons/iconHelloDrive");    // then decorate
-            drive.addBeh(new BehHelloDrive());    // my decision
-            drive.addBeh(new BehGoToTileTarget()); // the game's own pathing does the walking
-
-            ActorJob job = new ActorJob { id = JOB };
-            job.addTask(TASK);
-            AssetManager.job_actor.add(job);
-        }
-
-        /** Where the creature should walk next. One random neighbour it can actually reach. */
-        public static WorldTile PickTile(Actor pActor)
-        {
-            WorldTile from = pActor.current_tile;
-            if (from == null) return null;
-
-            // the game's own helper: a random neighbour that is not across water
-            return from.getTileAroundThisOnSameIsland(from);
+            return BehResult.Continue;   // let the next behaviour in the task run
         }
     }
 }
 ```
-`PickTile` ist der eigentliche Punkt der Übung: es ist das Einzige, was das Spiel nicht schon für dich macht. Alles andere in der Datei ist Verkabelung.
-
-> [!WARNING] `beh_tile_target` ist internal
-> Das Feld, in das das Behaviour schreibt, ist in der Spiel-Assembly als `internal` markiert, das kompiliert also gegen eine **publicized** `Assembly-CSharp.dll` (siehe die Notiz in **[Status-Effekte](#/nml/status-effects)**). Ohne eine solche lehnt der Compiler die Zeile ab und du musst das Ziel stattdessen in einem eigenen Feld halten :PES5_Noted:.
-
 
 | Ergebnis | Bedeutung |
 | --- | --- |
@@ -154,7 +114,12 @@ namespace HelloBox
 }
 ```
 
-Beachte das zweite Verhalten: **Nutze die Vanilla-Knoten wieder**. Das Spiel verfügt bereits über Verhaltensweisen zum Gehen zu einer Kachel, zum Hinzufügen eines Status, zum Finden eines Gebäudes oder zum Angreifen eines Ziels. Die Entscheidung selbst zu schreiben und die Ausführung auszuleihen, ist der Unterschied zwischen einem Wochenende und einem ganzen Monat.
+`PickTile` ist der ganze Sinn der Übung: Es ist der einzige Teil, den das Spiel nicht schon für dich erledigt. Alles andere in dieser Datei ist Verkabelung.
+
+> [!WARNING] `beh_tile_target` ist internal
+> Das Feld, in das das Verhalten schreibt, ist in der Spiel-Assembly als `internal` markiert, also kompiliert das gegen eine **publizierte** `Assembly-CSharp.dll` (siehe den Hinweis bei **[Statuseffekte](#/nml/status-effects)**). Ohne eine verweigert der Compiler die Zeile, und du musst das Ziel stattdessen in einem eigenen Feld halten :PES5_Noted:.
+
+Achte auf das zweite Verhalten: **Verwende die Vanilla-Knoten wieder**. Das Spiel hat Verhalten fürs Laufen zu einem Feld, fürs Hinzufügen eines Status, fürs Finden eines Gebäudes, fürs Angreifen eines Ziels. Die Entscheidung selbst zu schreiben und die Ausführung zu borgen ist der Unterschied zwischen einem Wochenende und einem Monat.
 
 ## Eine Kreatur dazu bringen, deinen Job tatsächlich zu nutzen
 
@@ -245,7 +210,7 @@ trait.decisions_assets = new DecisionAsset[] { AssetManager.decisions_library.ge
 
 ## Stadt-Berufe
 
-Bürger erhalten ihre Arbeit von der Stadt, nicht aus ihrem eigenen Gehirn. Die Stadt zählt den Bedarf, öffnet Arbeitsplätze (Bauarbeiter, Bauern, Bergleute...) und teilt sie zu. Ein **Bürgerberuf (Citizen Job)** ist einer dieser Plätze, und die Einheit führt den `ActorJob` mit derselben ID aus.
+Bürger erhalten ihre Arbeit von der Stadt, nicht aus ihrem eigenen Gehirn. Die Stadt zählt den Bedarf, öffnet Arbeitsplätze (Bauarbeiter, Bauern, Bergleute...) und teilt sie zu. Ein **Bürgerberuf (Citizen Job)** ist einer dieser Plätze, und die Einheit führt den `ActorJob` mit derselben ID aus. Dieselbe ID auf beiden Seiten: Das ist der ganze Trick.
 
 ```csharp Mods/HelloBox/Code/HelloCityJobs.cs
 using ai.behaviours;   // CityBehCheckCitizenTasks
@@ -315,7 +280,7 @@ Drei Dinge, die jeweils etwas beheben, das das Spiel nur beim Start oder nur fü
 
 ## Die Texte
 
-Der Name der Aufgabe wird im Einheitenfenster als aktuelle Tätigkeit angezeigt, und eine Entscheidung übernimmt den Namen der Aufgabe, die sie startet:
+Der Name der Aufgabe wird im Einheitenfenster als aktuelle Tätigkeit angezeigt, also liest der Spieler ihn öfter als jede andere Zeile, die du schreibst. Eine Entscheidung übernimmt den Namen der Aufgabe, die sie startet:
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -325,7 +290,7 @@ Der Name der Aufgabe wird im Einheitenfenster als aktuelle Tätigkeit angezeigt,
 
 ## Regeln, um die Framerate nicht zu zerstören
 
-Es kann Tausende von Einheiten geben. Dein Verhalten läuft auf jeder einzelnen davon, in jedem einzelnen Tick.
+Es kann Tausende von Einheiten geben. Dein Verhalten läuft auf jeder einzelnen davon, in jedem einzelnen Tick. "Performance? Nie gehört, kann man das essen?" ist ein guter Witz, bis deine Mod diejenige ist, die sie auffrisst. Die meisten Mods, meine eingeschlossen, laufen jeden Tick durch riesige Schleifen und kommen auf einem ordentlichen PC damit durch. Ein Verhalten kommt damit nicht durch.
 
 - **Denke in deinem eigenen Rhythmus, nicht in `execute`.** Führe teure Logik in `Update()` über einen Timer aus, speichere das Ergebnis ab und lass `execute` diesen Wert nur auslesen.
 - **Verteile die Last.** Wenn du für 40 Kreaturen denkst, denke in vier Durchläufen für jeweils 10 von ihnen, anstatt für alle 40 auf einmal.

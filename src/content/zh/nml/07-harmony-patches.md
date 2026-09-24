@@ -96,14 +96,29 @@ namespace HelloBox
 }
 ```
 
-这里一共发生了六件事：
+这里发生了六件事：
 
-- **`[HarmonyPatch(typeof(Actor), "updateStats")]`**：目标地址。“位于 `Actor` 类中名为 `updateStats` 的方法”。方括号里的这行是*特性 (Attribute)*：给计算机阅读的元数据标签，而不是立即执行的代码。
-- **`public static class Patch_Actor_UpdateStats`**：包装容器。类名完全由你决定，不影响任何功能，但未来的你一定会感谢现在采用 `Patch_<类名>_<方法名>` 规范的自己。
-- **`public static void Postfix(...)`**：这个方法名可**不能**乱起。Harmony 专门寻找完全拼作 `Prefix`、`Postfix` 或 `Finalizer` 的方法。如果你写成了小写的 `postfix`，它将完全不生效，且不会产生任何报错提示 :PESgn_ButWhy:。
-- **`Actor __instance`**：**两个**下划线。代表游戏此刻正在操作的那个具体的生物对象。没有它，你只知道*某个*生物被更新了属性，却不知道是*哪一个*。
-- **`if (!__instance.hasTrait(...)) return;`**：提前退出。你的补丁会针对全世界每一个生物永远运行下去。务必确保最普通的情况只要经过一次判断就立即 `return`。
-- **`stats["speed"] += 20f;`**：真正的修改操作。`updateStats` 一上来就会清空并重新构建属性字典，因此在 Postfix 中进行累加是在一张白纸上进行，不会在每一帧无限叠加。
+- **`[HarmonyPatch(typeof(Actor), "updateStats")]`**：地址。“名为 `Actor` 的类里，名为 `updateStats` 的方法。”方括号里的这一行是一个*特性（attribute）*：是给电脑读的标签，而不是会运行的代码。
+- **`public static class Patch_Actor_UpdateStats`**：一个容器。名字随你起，不影响任何东西，但未来的你会感谢现在的你用了 `Patch_<Class>_<Method>`。
+- **`public static void Postfix(...)`**：这个名字**不能**随便起。Harmony 会找名字恰好是 `Prefix`、`Postfix` 或 `Finalizer` 的方法。写成 `postfix` 就什么都不会发生，连报错都没有 :PESgn_ButWhy:。
+- **`Actor __instance`**：**两个**下划线。这是游戏此刻正在处理的那个具体单位。没有它，你只知道*有*单位的属性被重算了，却不知道*是谁的*。
+- **`if (!__instance.hasTrait(...)) return;`**：尽早退出。你的补丁会对世界上每一个单位永远运行下去。让常见情况只需一次判断加一个 `return`。
+- **`stats["speed"] += 20f;`**：真正的修改。`updateStats` 一开始会清空并重建属性块，所以在 Postfix 里加的值是落在一张白纸上，而不会每个 tick 越叠越多。
+
+> [!DANGER] `updateStats` 不在主线程上运行
+> 游戏把它注册成了一个**并行**任务（`createJob(out c_stats_dirty, updateStats, JobType.Parallel, ...)`，而且 `Config.parallel_jobs_updater` 默认是 `true`），所以你的 Postfix 会在工作线程上、同时对很多单位运行。在里面**只碰这个单位自己的数值**。调用 Unity（`Time.time`、`transform`、`Destroy`、`Resources.Load`）、调用游戏的随机数工具 `Randy`，或者往你自己的共享列表里写东西，都是只会在别人电脑上出现的崩溃。
+>
+> 如果你需要做这些事，就把单位放进一个队列，然后在你自己的 `Update()` 里处理：
+> ```csharp
+> public static readonly System.Collections.Concurrent.ConcurrentQueue<Actor> pending = new();
+>
+> public static void Postfix(Actor __instance)
+> {
+>     if (!__instance.hasTrait(HelloTraits.GIGACHAD)) return;
+>     __instance.stats["speed"] += 20f;   // this unit's own data: fine
+>     pending.Enqueue(__instance);        // everything else waits for the main thread
+> }
+> ```
 
 ## 神奇的特殊参数名
 
@@ -117,7 +132,7 @@ Harmony 会**按名称匹配**自动注入参数。下面是常用的特殊参�
 | `__state` | 允许你的 Prefix 将临时变量传递给自己对应的 Postfix |
 | 任意原版参数名 | 调用方传入的实参，命名必须与游戏源码**一模一样** |
 
-最后一行是大部分人最容易掉坑的地方。如果游戏源码声明的是 `getHit(float pDamage, ...)`，你的参数名就必须叫 `pDamage`。不能叫 `damage`，也不能叫 `pDmg`。你可以只声明你关心的参数并跳过其余参数，但写出来的名字必须完全匹配（WorldBox 里的参数几乎全是以小写 `p` 开头）。
+最后一行是大部分人最容易掉坑的地方，而且一掉再掉。如果游戏源码声明的是 `getHit(float pDamage, ...)`，你的参数名就必须叫 `pDamage`。不能叫 `damage`，也不能叫 `pDmg`。你可以只声明你关心的参数并跳过其余参数，但写出来的名字必须完全匹配（WorldBox 里的参数几乎全是以小写 `p` 开头）。
 
 ## 修改返回值
 
@@ -140,7 +155,7 @@ public static class Patch_City_ArmyMax
 
 ## 修改游戏硬编码的数值
 
-社区里一半的“有没有人能做个模组……”的需求，其实都只是想改一个数字。“城市扩张范围太大了”其实就是游戏原版 `City` 类里的这么一个方法：
+社区里一半的“有没有人能做个模组……”的需求，其实都只是想改一个数字。没有什么是不可能的，只是还没人做出来而已 :wbbru:。“城市扩张范围太大了”其实就是游戏原版 `City` 类里的这么一个方法：
 
 ```csharp Assembly-CSharp / City
 public int getZoneRange(bool pAllowCheat = true)
@@ -245,23 +260,28 @@ public static class Patch_Actor_StatDelta
 
 ## 补丁没有生效时排查
 
+在怪 Harmony 之前，先读日志。问题很少出在 Harmony 身上 :PES5_Noted:。
+
 | 遇到的现象 | 通常的原因 |
 | --- | --- |
 | 毫无反应，日志也没有任何动静 | `Postfix` 单词拼错，或者根本忘了调用 `PatchAll` |
 | 启动时弹出 `HarmonyException` / `MissingMethodException` | 该类名或方法名并不存在，去 dnSpy 里核实 |
-| 报错 `Ambiguous match found` | 存在多个同名重载方法，补充上面提到的 `Type[]` 参数 |
+| `Ambiguous match found` | 存在多个同名重载方法，补充上面提到的 `Type[]` 参数 |
 | 补丁内部抛出 `NullReferenceException` | `__instance` 或其内部字段为 null。补丁会在正常游戏流程之外的特殊状态下执行：加载中、濒死、对象销毁中 |
 | 游戏掉帧到 3 FPS | 你 patch 了一个每秒执行数千次的密集方法，并在里面塞进了繁重的耗时运算 |
 | 单独运行正常，搭配其他模组就崩 | 其中一方返回了 `false`，或者双方都直接强行赋值 `__result` 而非平滑微调 |
 
 ## 和谐共处的 Mod 开发准则
 
-- **默认优先使用 Postfix。** 只有在需要修改输入参数或完全阻断原版逻辑时，才考虑使用 Prefix。
-- **平滑微调，绝不强行覆盖。** 多用 `+=`、`*=`、`Math.Min(...)`。很可能有其他模组也在 patch 这个地方。
-- **随时进行判空防御。** 你的补丁在世界加载期间以及生物濒死结算时同样会执行。
-- **轻量检查放在最前。** 高频热点补丁的第一行代码，必须是能让你立刻 `return` 的快速过滤条件。
-- **尽可能选择影响面最狭窄的方法来 patch。** 为了特质加移速而 patch `Actor.updateStats` 非常合适；但为了同样的目的去 patch 整个世界的全局主循环，玩家就会立刻把你的模组扔进回收站。
-- **把所有补丁收拢在一个文件里。** 当有人反馈兼容冲突时，你只想查阅一个文件，而不是十二个文件。
+- **默认用 Postfix。** 只有需要修改参数或阻止方法运行时才用 Prefix。
+- **调整，别赋值。** `+=`、`*=`、`Math.Min(...)`。别人也给这里打了补丁。
+- **永远判空。** 你的补丁会在世界加载期间、在单位死亡的过程中运行。
+- **先做便宜的判断。** 高频补丁的第一行应该是能让你直接 `return` 的判断。
+- **给能完成任务的最窄方法打补丁。** 为了一个特质的速度去补 `Actor.updateStats` 没问题。为同样的事去补整个世界更新，就是模组被卸载的开始。
+- **把补丁放在同一个文件里。** 有人报告冲突时，你想读的是一个文件，而不是十二个。对未来的自己好一点。照我说的做，别学我那些老模组 :trollface:。
+
+> [!NOTE] 给资源库的 `has`、`get`、`add`、`clone` 或 `post_init` 打补丁毫无意义
+> 它只影响你的模组加载之后的调用，永远影响不到那之前已经完成的原版注册。见 **[底层资源库（Asset libraries）](#/nml/asset-libraries)**。
 
 ## 本文暂不涵盖的内容
 

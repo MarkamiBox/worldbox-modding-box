@@ -76,6 +76,8 @@ namespace HelloBox
 
 ### 核心字段一览
 
+精简版列表。完整的那份更长，而且大多很无聊 :wbyawn:。
+
 | 字段 | 作用 |
 | --- | --- |
 | `duration` | 持续时间（秒）。倒计时结束后状态自动解除 |
@@ -98,7 +100,7 @@ namespace HelloBox
 
 ## 导入自定义贴图
 
-这里暗藏着一个大坑。`texture` **绝不是**完整路径：状态库在加载时会自动在前面拼接 `effects/`，所以你只需要写纯文件名。
+这里有个坑，每个人都会掉进去一次 :wbbre:。`texture` **不是**完整路径：状态库在加载前会在前面加上 `effects/`，所以你只写纯名字。
 
 ```text Mods/HelloBox/
 HelloBox/
@@ -114,9 +116,9 @@ HelloBox/
 cursed.texture = "fx_hello_status";   // 绝不是 "effects/fx_hello_status"
 ```
 
-如果你自己写上了文件夹路径，游戏就会傻乎乎地去寻找 `effects/effects/fx_hello_status`，结果什么都找不到，贴图彻底隐形。
+如果你自己把文件夹写进去，游戏就会去找 `effects/effects/fx_hello_status`，什么也找不到，也就根本不画精灵图。原版名字形如 `fx_status_burning_t` 和 `fx_status_drowning_t`，照着这个格式写就不会出问题。
 
-同属该资源的 `path_icon` 则是另一码事，它*确实*是完整路径——因为它是 UI 栏上的小图标，而不是糊在生物身上的特效贴图。
+同一个资源上的 `path_icon` 是另一回事，它*确实*是完整路径：它是状态列表里的小图标，而不是画在单位身上的精灵图。
 
 ## 让状态效果真正发挥*作用*
 

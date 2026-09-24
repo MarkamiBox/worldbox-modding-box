@@ -10,7 +10,7 @@ order: 124
 
 Un grupo de objetos es una categoría en la ventana de equipamiento: cascos, espadas, amuletos. Es exactamente el mismo pequeño `BaseCategoryAsset` que dibuja las pestañas de rasgos (consulta **[Grupos de rasgos y pestañas](#/nml/trait-groups)**), residiendo en este caso en `AssetManager.item_groups`.
 
-La diferencia fundamental es que un grupo de objetos gestiona un **pool**, y olvidarse de inicializar dicho pool provocará el bloqueo de tu mod.
+La diferencia fundamental es que un grupo de objetos gestiona un **pool**, y olvidarse de inicializar dicho pool provocará el bloqueo de tu mod :PESgn_Yikes:.
 
 ## Los grupos de vanilla
 
@@ -138,7 +138,7 @@ Crear un nuevo grupo **no** te otorga una nueva ranura de equipo. `EquipmentType
 
 ## Dónde aparece la categoría
 
-Los grupos se dibujan en el orden de la lista interna, y `add()` coloca el tuyo al final. Desplázalo junto a una categoría afín:
+Los grupos se dibujan en el orden de `list`, y `add()` pone el tuyo al final. Muévelo junto a uno relacionado:
 
 ```csharp
 private static void PlaceAfter(string pId, string pAfterId)

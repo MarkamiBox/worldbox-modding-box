@@ -55,6 +55,8 @@ Lancez le jeu. Si l'opération a réussi, vous verrez un nouveau bouton avec le 
 
 ## 4. Un éditeur de texte
 
+Tout ce qui enregistre du texte brut fait l'affaire. À peu près par ordre de "sympa à avoir" :
+
 | | |
 | --- | --- |
 | **Bloc-notes** | Déjà présent sur votre PC. Largement suffisant pour votre premier mod |
@@ -77,6 +79,7 @@ Vous n'en avez **pas** besoin pour créer un mod basique. Revenez ici lorsqu'une
 - **[UnityExplorer](#/toolbox/unity-explorer)** : cliquez sur n'importe quel élément en jeu pour voir sa structure interne.
 - **[dnSpy ou ILSpy](#/toolbox/reading-the-game-code)** : ouvre le code source original du jeu pour découvrir comment les développeurs ont conçu les fonctionnalités.
 - **[AssetRipper](#/toolbox/getting-the-sprites)** : extrait les sprites et les sons du jeu afin que vous puissiez adapter votre style graphique.
+- **[Modding avec BepInEx](#/toolbox/bepinex-modding)** : compiler des plugins `.dll` si vous voulez des hooks bas niveau dans le moteur Unity plutôt que du contenu NML.
 
 > [!WARNING] NCMS est obsolète :sadcat:
 > NCMS n'est plus maintenu. Tous les guides de ce site ciblent NML. Vous pouvez toujours techniquement créer un mod pour NCMS, mais plus personne ne fait cela aujourd'hui :PES2_Shrug:.

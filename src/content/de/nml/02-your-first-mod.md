@@ -10,7 +10,7 @@ order: 22
 
 Alles in diesem Guide baut auf **einer einzigen Mod** auf. Wir starten sie hier, und jede spätere Seite fügt ihr genau eine Datei hinzu.
 
-Am Ende besteht HelloBox aus rund zwanzig Dateien, und du wirst jede einzelne Zeile selbst geschrieben haben: eine Akteurseigenschaft und eine Kultureigenschaft mit einem eigenen Reiter, eine Waffe samt Verzauberung, ein Statuseffekt, Beute-Drops, eine Wolke, ein Bodenfeld, ein Kochrezept, ein Projektil, ein Weltgesetz, eine göttliche Macht mit eigenem Button, ein Fenster, ein Einstellungsmenü, ein Gebäude, eine Fraktion, eine Kreatur, eine Katastrophe, eine eigene KI und ein Harmony-Patch, um eine Spielregel zu beugen, die das Spiel für unumstößlich hielt.
+Am Ende besteht HelloBox aus rund vierzig Dateien, und du wirst jede einzelne Zeile selbst geschrieben haben: eine Akteurseigenschaft und eine Kultureigenschaft mit einem eigenen Reiter, eine Waffe samt Verzauberung, ein Statuseffekt, Beute-Drops, eine Wolke, ein Bodenfeld, ein Kochrezept, ein Projektil, ein Weltgesetz, eine göttliche Macht mit eigenem Button, ein Fenster, ein Einstellungsmenü, ein Gebäude, eine Fraktion, eine Kreatur, eine Katastrophe, eine eigene KI und ein Harmony-Patch, um eine Spielregel zu beugen, die das Spiel für unumstößlich hielt.
 
 Das ist weit mehr, als irgendeine echte Mod jemals braucht - und genau das ist der Punkt. Du nimmst dir die zwei oder drei Teile heraus, die du wirklich haben willst, und löschst den Rest einfach :PES4_DeleteThis:.
 
@@ -93,12 +93,15 @@ namespace HelloBox
 
 ## 4. Starte das Spiel
 
-Starte WorldBox und öffne das Fenster **Mods** im Hauptmenü. **HelloBox** sollte in der Liste auftauchen und bereits aktiviert sein. Eine Mod, die du selbst in `Mods/` abgelegt hast, wird beim ersten Entdecken durch NML automatisch eingeschaltet.
+Starte WorldBox und öffne das **Mods**-Fenster im Hauptmenü. **HelloBox** sollte in der Liste stehen und bereits eingeschaltet sein. Eine Mod, die du selbst in `Mods/` legst, wird aktiviert, sobald NML sie zum ersten Mal findet.
 
-In diesem Fenster kannst du eine Mod später auch wieder **deaktivieren**. Ein Klick auf das Symbol schaltet sie um, wobei die meisten Mods einen Neustart des Spiels erfordern.
+In diesem Fenster schaltest du eine Mod später auch wieder **aus**. Ein Klick auf das Icon schaltet sie um, und die meisten Mods merken das erst nach einem Neustart :PES4_AlrightThen:.
 
-> [!TIP] Überhaupt nicht in der Liste?
-> Dann hat NML sie schlicht nicht gesehen. In neun von zehn Fällen heißt die Datei heimlich `mod.json.txt` statt `mod.json`, oder der Ordner liegt irgendwo außerhalb von `worldbox\Mods/`.
+> [!WARNING] Gar kein Mods-Fenster? Der Experimentalmodus ist aus
+> NML lädt Mods nur, wenn **Einstellungen -> Experimental Mode** an ist, und das Spiel **schaltet ihn nach jedem WorldBox-Update von selbst aus**: Es vergleicht die gespeicherte `last_used_version` mit der gerade gestarteten Version und setzt den Schalter bei einem Unterschied zurück auf `false`. "Meine Mod lief gestern noch und ich habe nichts geändert" ist also fast immer das. Schalte ihn wieder ein und starte neu.
+
+> [!TIP] Gar nicht in der Liste?
+> Dann hat NML sie nie gesehen. Neun von zehn Mal ist das `mod.json.txt` statt `mod.json`, oder der Ordner liegt woanders als in `worldbox\Mods/`. Die vollständige Liste steht unter **[Fehlerbehebung](#/troubleshooting)**.
 
 ## 5. Prüfe das Log
 

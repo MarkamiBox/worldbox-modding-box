@@ -110,7 +110,7 @@ Diversi tratti di clan vanilla sono ricompense anziché scelte predefinite:
 trait.setUnlockedWithAchievement("achievementSegregator");
 ```
 
-Un tratto bloccato continua a esistere e a funzionare; il giocatore semplicemente non può sceglierlo nell'editor finché non ha sbloccato l'obiettivo relativo. Nota che `BaseTraitLibrary` imposta automaticamente anche `rarity = R3_Legendary` su qualsiasi tratto vincolato in questo modo.
+Un tratto bloccato continua a esistere e a funzionare; il giocatore semplicemente non può sceglierlo nell'editor finché non ha sbloccato l'obiettivo relativo. Nota che `BaseTraitLibrary` imposta automaticamente anche `rarity = R3_Legendary` su qualsiasi tratto vincolato in questo modo, così la tua ricompensa sembra all'altezza :gold_star:.
 
 ## I gruppi vanilla
 
@@ -150,7 +150,7 @@ Il clan di un'unità si trova su `actor.clan`, e `actor.hasClan()` ti dice se l'
 
 ## Nuovi clan che estraggono un tratto da soli
 
-Oltre ad assegnarlo manualmente, un tratto di clan può impostare `spawn_random_trait_allowed` per essere estratto alla formazione di un nuovo clan, nello stesso modo in cui una cultura sceglie i suoi tratti iniziali.
+Oltre ad assegnarlo manualmente, un tratto di clan può impostare `spawn_random_trait_allowed` per essere estratto alla formazione di un nuovo clan, nello stesso modo in cui una cultura sceglie i suoi tratti iniziali. Stessa trappola di ogni altra pagina sui tratti:
 
 > [!WARNING] `spawn_random_trait_allowed` viene letto una sola volta, all'avvio
 > I nuovi clan pescano i loro tratti iniziali da un gruppo che `BaseTraitLibrary.linkAssets()` costruisce durante il caricamento del gioco, prima che la tua mod esista. Impostare il flag sul tuo tratto non cambia nulla da solo: il tuo tratto non è mai in quel gruppo e non apparirà mai per caso su un nuovo clan. Aggiungilo tu stesso, con il peso usato dal gioco vanilla:

@@ -62,7 +62,7 @@ namespace HelloBox
 
 ## Мутация
 
-Именно так черта подвида попадает в мир без необходимости раздавать ее вручную. Библиотека хранит два пула вероятностей, и эти два поля определяют, в какие пулы попадет ваша черта:
+Именно так черта подвида попадает в мир без необходимости раздавать ее вручную, и это весёлый способ. Библиотека хранит два пула вероятностей, и эти два поля определяют, в какие пулы попадет ваша черта:
 
 | Поле | Назначение |
 | --- | --- |
@@ -72,6 +72,16 @@ namespace HelloBox
 | `rarity` | Насколько высок шанс выбора при генерации |
 
 Характеристика `mutation` у юнита определяет вероятность подобных событий. См. **[Справочник характеристик](#/nml/stats)**.
+
+> [!WARNING] Пул читается один раз, при запуске
+> Одного `spawn_random_trait_allowed = true` недостаточно. Настоящий пул, `_pot_allowed_to_be_given_randomly`, собирает `BaseTraitLibrary.linkAssets()` во время загрузки игры, ещё до появления вашего мода. Черты, зарегистрированной позже, в нём нет, и ни одна мутация её не выбросит. Добавьте её сами, с тем же весом, что и в ванили:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.subspecies_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` помечен как `protected`, поэтому это компилируется против публицированной сборки, с которой NML и так собирает ваш мод. `spawn_random_rate` по умолчанию равен `5`: увеличьте его, и черта будет выпадать чаще.
 
 ## Графика: то, чего нет ни у одной другой системы черт
 
@@ -107,7 +117,7 @@ trait.texture_asset.shadow = trait.shadow;
 | `remove_for_zombies` | Снимать ли скин при превращении в зомби |
 | `priority` | Приоритет скина, если у юнита их два |
 
-Ванильные мутации внешности (бургер, живой камень, щупальцевый кошмар, сфера света, фрактал) — это клоны `$skin_mutation$`, и клонирование этого шаблона является самым быстрым путем к созданию рабочего скина.
+Ванильные мутации внешности (бургер, живой камень, щупальцевый кошмар, сфера света, фрактал) — это клоны `$skin_mutation$`, и клонирование этого шаблона является самым быстрым путем к созданию рабочего скина. Да, бургер - настоящая мутация. Пути Максима неисповедимы :wbpray:.
 
 ## Фенотипы, рацион и яйца
 
@@ -122,34 +132,54 @@ trait.texture_asset.shadow = trait.shadow;
 
 ## Гены
 
-Ген — это способ, с помощью которого черта подвида мутирует в другую черту. Игра опрашивает `AssetManager.genes` во время размножения, чтобы решить, что передать потомству:
+Мужской и женский блоки характеристик, упомянутые в начале, берутся из **генома** подвида: хромосомы со слотами и по гену в каждом. Ген - это `BaseTrait`, поэтому регистрируется он как любая другая черта на этом сайте, с двумя дополнительными делами. По сути, домашка по биологии.
 
 ```csharp Mods/HelloBox/Code/HelloGenes.cs
 namespace HelloBox
 {
     public static class HelloGenes
     {
+        public const string EMBER_BLOOD = "hello_ember_blood";
+
         public static void Initialize()
         {
+            if (AssetManager.gene_library.has(EMBER_BLOOD)) return;
+
             GeneAsset gene = new GeneAsset
             {
-                id = "hello_swift_gene",
-                id_trait = HelloSubspecies.SWIFT,
-                rate = 0.05f
+                id = EMBER_BLOOD,
+                path_icon = "ui/Icons/iconHelloGene",
+                needs_to_be_explored = false
             };
-            AssetManager.genes.add(gene);
-            AssetManager.genes._gene_assets_mutations.Add(gene);
+
+            AssetManager.gene_library.add(gene);
+            gene.base_stats["damage"] = 2f;
+
+            // Each world rolls every gene's DNA letters from its life seed when it loads.
+            // A world may already be open, so roll yours now the same way.
+            if (World.world != null && World.world.map_stats != null)
+            {
+                gene.generateDNA(World.world.map_stats.life_dna + gene.getIndexID());
+            }
+
+            // linkAssets() filled the mutation pool at startup. Without this, only the
+            // player's gene editor can ever place it.
+            AssetManager.gene_library._gene_assets_mutations.Add(gene);
         }
     }
 }
 ```
 
-Два поля:
+- **Буквы ДНК.** Каждый ген показывает короткий код `ACGT`, который разыгрывается для каждого мира из его семени жизни при загрузке мира. Вашего гена при этом розыгрыше не было, поэтому он разыгрывает свой тем же способом.
+- **Пул мутаций.** Мутации выбирают из `_gene_assets_mutations`, приватного списка, который `linkAssets()` заполнил при запуске. **Публицированная** сборка позволяет в него добавлять, а NML компилирует как раз против такой. Пропустите это, и ген появится только там, куда его вручную поставит игрок.
 
-- `gene.id_trait` связывает его с зарегистрированной вами чертой подвида.
-- `gene.rate` — шанс мутации от 0.0 до 1.0.
+Текстовый ключ гена - `gene_<id>`. У генов нет строки описания: `GeneLibrary.add()` её отключает.
 
-Без вызова `_gene_assets_mutations.Add(gene)` ген зарегистрируется, но никогда не попадет в выборку мутаций.
+```json Mods/HelloBox/Locales/en.json
+{
+  "gene_hello_ember_blood": "Ember Blood"
+}
+```
 
 ## Мета-теги
 
@@ -184,7 +214,7 @@ ActorAsset asset = AssetManager.actor_library.get("hello_sprite");
 if (asset != null) asset.addSubspeciesTrait(HelloSubspecies.SCALES);
 ```
 
-Это гарантирует, что каждый новый подвид данного существа появится на свет с этой чертой. Если не указывать это и полагаться на `in_mutation_pot_add`, черта со временем возникнет спонтанно сама по себе — что чаще всего куда интереснее.
+Так каждый новый подвид этого существа начинает с этой чертой. Если это опустить и положиться на `in_mutation_pot_add`, она появится сама, где-нибудь, когда-нибудь, и обычно это более интересный вариант.
 
-> [!TIP] Заклинания прекрасно живут здесь
-> Ванильные магические родословные представляют собой черты подвида, наделяющие заклинанием и ничем более: `trait.addSpell("summon_lightning")`. Всего одна строчка, передающаяся потомству — и на ваших глазах разрастается династия повелителей бурь на весь континент :PES5_CrazyPog:.
+> [!TIP] Заклинаниям здесь самое место
+> Ванильные магические родословные - это черты подвида, которые дают заклинание и ничего больше: `trait.addSpell("summon_lightning")`, затем `trait.linkSpells()`, потому что библиотека разрешила id заклинаний при запуске. Две строки, наследуются детьми, и через весь континент тянется видимый род повелителей бурь :PES5_CrazyPog:.

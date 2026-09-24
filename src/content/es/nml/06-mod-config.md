@@ -48,11 +48,13 @@ Coloca un archivo `default_config.json` en la raíz de tu mod, junto a `mod.json
 | Clave | Significado |
 | --- | --- |
 | `Id` | Único dentro del grupo. Así es como lees el valor en código |
-| `Type` | `SWITCH` (on/off), `SLIDER` (decimal), `INT_SLIDER` (entero), `TEXT` (campo de texto) |
+| `Type` | `SWITCH` (on/off), `SLIDER` (decimal), `INT_SLIDER` (entero), `TEXT` (campo de texto), `SELECT` (cuadrícula de opciones) |
 | `BoolVal` / `FloatVal` / `IntVal` / `TextVal` | El valor por defecto correspondiente al tipo |
-| `MinFloatVal` / `MaxFloatVal`, `MinIntVal` / `MaxIntVal` | Límites del control deslizante |
+| `MinFloatVal` / `MaxFloatVal`, `MinIntVal` / `MaxIntVal` | Límites del control deslizante. Para `SELECT`, `MaxIntVal` es el número de opciones e `IntVal` el índice elegido |
 | `IconPath` | Icono opcional para la fila |
 | `Callback` | Opcional: `Namespace.Type:MethodName` ejecutado al cambiar el valor |
+
+Para `SELECT`, NML crea un botón por cada opción. Las etiquetas salen directamente de tu localización como `<id>_0`, `<id>_1`, etc.
 
 ## Leer los valores
 
@@ -74,7 +76,7 @@ private void LoadSettings()
 }
 ```
 
-Sí, ese `try/catch` alrededor de cada uno parece paranoico. No lo es: si un jugador actualiza desde una versión anterior de tu mod, su archivo guardado simplemente no tiene la clave que acabas de añadir, y una sola clave faltante rompería toda tu carga.
+NML llama a `persistent_config.MergeWith(default_config)` al arrancar, así que cuando añades una clave nueva a `default_config.json`, NML la mezcla automáticamente en la configuración guardada del jugador con su valor por defecto. El `try/catch` sigue siendo buena higiene por si alguien abrió su `.config` con un editor de texto y rompió el JSON, pero en las actualizaciones normales NML te cubre las espaldas.
 
 ## Callbacks
 
@@ -98,7 +100,7 @@ namespace HelloBox
 ```
 
 > [!WARNING] Los cambios se aplican al cerrar la ventana
-> No mientras arrastras el control. Si tu callback hace algo costoso, esto es una buena noticia. Si esperabas una vista previa en tiempo real, por esto es que "no funciona" :huh:.
+> No mientras arrastras el control. Si tu callback hace algo costoso, esto es una buena noticia. Si esperabas una vista previa en tiempo real, por esto es que "no funciona" :huh:. `BasicMod` además dispara cada callback una vez al arrancar, para que tu código recoja lo que el jugador haya guardado.
 
 ## Dónde se guarda
 
@@ -111,8 +113,6 @@ Tu `default_config.json` es únicamente la **plantilla**. Las elecciones reales 
 Que además es lo primero que debes borrar cuando estés probando valores por defecto y te preguntes por qué tu nuevo valor nunca aparece :PESgn_OOF:.
 
 ## Don't forget the text (again)
-
-Los ids de grupo e ids de elementos también son claves de traducción; agrégalas a `Locales/es.json` o se mostrarán tal cual:
 
 Los ids de grupo y de item también son claves de locale, así que mételos en `Locales/en.json` o saldrán en crudo. Cada fila quiere además una segunda clave, **`"<id> Description"`**, con espacio y D mayúscula, para el tooltip:
 
@@ -146,4 +146,4 @@ public ModConfig GetConfig()
 }
 ```
 
-Ese único método es lo que hace que el botón de configuración aparezca junto a tu mod en la ventana de mods.
+Ese único método es lo que hace que el botón de configuración aparezca junto a tu mod en la ventana de mods. Un solo método, y nadie vuelve a discutir contigo en Discord. En teoría.

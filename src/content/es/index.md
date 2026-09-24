@@ -12,7 +12,7 @@ order: 1
 
 ## Cómo está organizada la guía
 
-- **Resumen**: Esta introducción, lo necesario para empezar, solución de problemas, herramientas externas (BepInEx, UnityExplorer, dnSpy, AssetRipper), créditos y feedback.
+- **Resumen**: Esta introducción, lo necesario para empezar, solución de problemas, herramientas externas (BepInEx, UnityExplorer, dnSpy, AssetRipper), modding con BepInEx, créditos y feedback.
 - **Modding con NML**: Todo lo relativo al cargador y al flujo de desarrollo - comenzando por **[Instalar NML](#/install-nml)** (empieza aquí si solo quieres *jugar* con mods):
   - **Flujo de trabajo básico**: Estructura de un mod, tu primer mod, registros y depuración, localización y sprites.
   - **Avanzado y publicación**: Menús de configuración en el juego, parches Harmony, guardar datos en partidas y publicación en Steam Workshop.
@@ -25,3 +25,5 @@ order: 1
   - **Poderes divinos e interfaz**: Poderes divinos y pinceles, botones de poder y ventanas personalizadas con pestañas y tooltips.
   - **Toques finales**: Logros en el juego y la integración final del mod HelloBox completo.
 - **Herramientas de modding**: Utilidades interactivas integradas directamente en esta guía (Constructor de parches Harmony, Explorador de campos de asset, Buscador de métodos y Buscador de iconos Discord).
+
+La primera vez, léela de principio a fin. Después, salta de página en página como hace todo el mundo :PES2_Shrug:.

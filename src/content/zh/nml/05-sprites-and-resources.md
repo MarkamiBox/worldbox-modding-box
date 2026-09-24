@@ -73,32 +73,32 @@ HelloBox/GameResources/ui/Icons/iconHelloSwift.png
 
 ## 各种游戏素材的具体存放路径规范
 
-这是所有 Mod 开发者频繁回头查阅的核心对照表。每种游戏资源都是通过不同的字段来引用贴图的，而且其中某些资源在加载时会悄悄自动拼上一层子目录，因此你所填写的数值**并不总是**该文件在磁盘上的直观相对路径。
+这是大家会反复回来查的那张表。每种资源用不同的字段指向自己的美术资源，其中有几种还会在加载前悄悄在前面加一个文件夹，所以你写的值**不一定**就是文件所在的路径。
 
-| 资源类型 | 配置字段 | 磁盘文件存放位置 |
+| 资源 | 字段 | 文件放在 |
 | --- | --- | --- |
-| 特质、神圣能力、王国、特质分组 | `path_icon` | `GameResources/` + 填写的完整相对路径 |
-| 物品（单位手持渲染图） | `path_gameplay_sprite` | `GameResources/` + 填写的完整相对路径 |
-| 建筑 | `sprite_path` | **文件夹**： `GameResources/` + `sprite_path` + `/`, 内含 `main_0.png`, `construction_0.png`, `ruin_0.png`. `sprite_path` 为空时用 `main_path` + id，`main_path` 默认是 `buildings/` |
-| 掉落物 | `path_texture` | **文件夹**： `GameResources/` + 填写的完整相对路径 |
-| 云朵 | `path_sprites` | `GameResources/` + 列表中声明的每个路径 |
-| 状态效果 | `texture` | **文件夹**： `GameResources/effects/` + 你填写的相对路径 |
-| 投掷物 | `texture` | **文件夹**： `GameResources/effects/projectiles/` + 你填写的相对路径 |
-| 资源物品（手持搬运外观） | `path_gameplay_sprite` | **文件夹**： `GameResources/items/resources/` + 你填写的相对路径 |
-| 资源物品（背包清单图标） | `path_icon` | `GameResources/` + 填写的内容（官方通常直接填写如 `iconResBread`，位于根目录） |
-| 地块与地表覆盖层 | *(无字段)* | `GameResources/tiles/<地块ID>/` |
+| 特质、神力、王国、分组 | `path_icon` | `GameResources/` + 你写的原样路径 |
+| 物品（单位手里拿着的） | `path_gameplay_sprite` | `GameResources/` + 你写的原样路径 |
+| 建筑 | `sprite_path` | 一个**文件夹**：`GameResources/` + `sprite_path` + `/`，里面放 `main_0.png`、`construction_0.png`、`ruin_0.png`。如果 `sprite_path` 为空，就用 `main_path` + id，而 `main_path` 默认是 `buildings/` |
+| 掉落物 | `path_texture` | 一个**文件夹**：`GameResources/` + 你写的原样路径，每帧一张 PNG |
+| 云 | `path_sprites` | `GameResources/` + 列表里的每个路径 |
+| 状态效果 | `texture` | 一个**文件夹**：`GameResources/effects/` + 你写的值，每帧一张 PNG |
+| 投射物 | `texture` | 一个**文件夹**：`GameResources/effects/projectiles/` + 你写的值，每帧一张 PNG |
+| 资源（拿在手里的） | `path_gameplay_sprite` | 一个**文件夹**：`GameResources/items/resources/` + 你写的值，每帧一张 PNG |
+| 资源（背包图标） | `path_icon` | `GameResources/` + 你写的值。原版只用 `iconResBread` 这样的纯名字，所以文件放在根目录 |
+| 地块和顶层地块 | *（没有字段）* | `GameResources/tiles/<the tile's id>/` |
 
-> [!WARNING] "文件夹"不是风格问题
-> 上面标成 **文件夹** 的资源都用 `getSpriteList()` 读取，它返回的是文件夹 *里面* 的帧。指向单个 PNG 会得到空列表：掉落物隐形地落下，弹射物在 `QuantumSpriteLibrary.drawProjectiles()` 里抛 `ArgumentOutOfRangeException`，状态每帧都抛异常。一帧就够，只要放在它自己的文件夹里：`drops/hello_ember/hello_ember_0.png` :wbfacepalm:。
+> [!WARNING] “文件夹”不是风格问题
+> 上面所有标成**文件夹**的资源都是用 `getSpriteList()` 读取的，它返回的是文件夹*里面*的帧。指向单个 PNG 就会得到空结果：掉落物隐形落下，投射物在 `QuantumSpriteLibrary.drawProjectiles()` 里抛出 `ArgumentOutOfRangeException`，状态效果每一帧都报错。只有一帧也没问题，只要它放在自己的文件夹里：`drops/hello_ember/hello_ember_0.png` :wbfacepalm:。
 
-这里有三个最容易踩坑的暗坑：
+其中有三个最容易踩坑：
 
-- **状态效果与投掷物会自动前缀一层文件夹。** 如果给状态效果写上 `texture = "effects/status/myThing"`，游戏底层会去寻找 `effects/effects/status/myThing`，导致资源丢失。原版状态使用的是纯文件名：`fx_status_burning_t`。
-- **地块素材完全无视这些字段。** 地块的外观是根据其**全局 ID** 在专属文件夹内检索的，因为单个地块具有多种随机纹理变体。`hello_moss` 意味着你必须把 PNG 素材存入 `GameResources/tiles/hello_moss/` 目录下。
-- **建筑不会拼接字段，但有退路。** `sprite_path` 会原样使用：`"buildings/hello_shrine"` 就是 `GameResources/buildings/hello_shrine/`。留空时游戏改用 `main_path` + id，所以把文件夹写进 `main_path` 会变成 `buildings/hello_shrine/hello_shrine` :PESgn_Bruh:。
+- **状态效果和投射物会在前面加一个文件夹。** 给状态效果写 `texture = "effects/status/myThing"`，游戏会去找 `effects/effects/status/myThing`，那里什么都没有。原版状态效果只用纯名字：`fx_status_burning_t`。
+- **地块完全无视这些字段。** 地块的美术资源是按它的 **id** 在专属文件夹里找的，因为一个地块有好几种变体。`hello_moss` 就意味着 `GameResources/tiles/hello_moss/`，把你的 PNG 放进去。
+- **建筑不拼接路径，但有后备方案。** `sprite_path` 会原样使用：`"buildings/hello_shrine"` 就是 `GameResources/buildings/hello_shrine/`。如果留空，游戏会改用 `main_path` + id，所以写进 `main_path` 的文件夹会变成 `buildings/hello_shrine/hello_shrine` :PESgn_Bruh:。
 
-> [!TIP] 直接抄原版资源的写法
-> 在游戏里找到功能最接近的原版对象，用 **[UnityExplorer](#/toolbox/unity-explorer)** 或本站的 **[图标搜索](#/tools/icons)** 查看其对应的字段取值格式并照猫画虎。这比自己凭空推导更快捷且保证万无一失 :PESgn_Noice:。
+> [!TIP] 照抄原版资源的路径
+> 找一个最接近的原版东西，在 **[UnityExplorer](#/toolbox/unity-explorer)** 里或用 **[精灵路径查找](#/tools/icons)** 工具读出它的字段，然后原样照着写。这比自己推理快，而且一次就对 :PESgn_Noice:。
 
 ## 从磁盘直接读取图片数据
 
@@ -123,26 +123,42 @@ MusicBox.playSound("event:/SFX/WEAPONS/WeaponFireballStart", pTile);   // at a p
 MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on the interface
 ```
 
-第一个调用会在世界对应的地块位置播放音效。HelloBox 在战斗动作中投掷余烬时会播放火球音效，参见 **[投射物、法术与特效](#/nml/projectiles-spells)**。要查找音效路径，可以在游戏反编译代码中搜索 `event:/SFX/`：有数百个按发声类别分类好的音效路径可供使用。
-
-> [!NOTE] 导入全新自定义音效属于另一套工程
-> 原版 FMOD 事件内嵌在游戏的音效库（Sound Bank）中，常规模组无法直接向其追加事件。若要播放自己的 `.wav` 资源，需要绕开游戏内置的音量控制系统，自行使用 Unity 的 `AudioSource` 进行加载播放。本指南不涉及此内容，因为我从未对其制作过 Mod，也不打算假装我做过。
-
+第一个调用会在世界对应的地块位置播放音效。HelloBox 在战斗动作中投掷余烬时会播放火球音效，参见 **[投射物、法术与特效](#/nml/projectiles-spells)**。要查找音效路径，可以在游戏反编译代码中搜索 `event:/SFX/`：有数百个按发声类别分类好的音效路径可供使用。开始测试之前，先把音量调低。
 
 ### 添加自定义音效
 
-与早期的普遍认知不同，NeoModLoader 已通过 `CustomAudioManager` 原生支持直接加载 `.wav` 格式音频文件 :PESgn_Noice:。
+NML 其实在底层给 FMOD 打了补丁，所以自定义的 `.wav` 文件可以直接使用，不用你在车库里再造一个音频引擎 :PESgn_Noice:。
 
-只需将音频文件放入模组根目录下的 `Audio/`、`Audios/` 或 `GameResources/` 文件夹中：
+把你的 `.wav` 文件直接放进 `GameResources/`，比如：
 
 ```text
-MyMod/
-└── Audio/
-    ├── custom_explosion.wav
-    └── custom_explosion.json   <- 可选的音效参数配置文件
+GameResources/sounds/hello_boom.wav
 ```
 
-NML 会自动 Hook 原版的 `MusicBox.playSound` 并实时解码播放自定义音频 。
+NML 挂钩了 `MusicBox.playSound` 和 `playDrawingSound`，所以你用和原版音效完全相同的方法来播放它（去掉文件扩展名）：
+
+```csharp
+MusicBox.playSound("sounds/hello_boom", pTile);
+```
+
+在文件旁边放一个可选的 `hello_boom.json`，就能配置它的行为：
+
+```json GameResources/sounds/hello_boom.json
+{
+  "Volume": 60,
+  "Mode": "Stereo3D",
+  "Type": "Sound"
+}
+```
+
+| 字段 | 取值 |
+| --- | --- |
+| `Mode` | `Basic`（平面 2D，音量不变）、`Stereo3D`（原版的距离衰减）、`Mono3D`（有方向性） |
+| `Type` | `Sound`（音效滑块）、`Music`（音乐滑块）、`UI`（界面滑块） |
+| `Volume` | 默认音量，0 到 100 |
+| `LoopCount` | 重复次数（0 = 播放一次） |
+
+最棒的是：因为 NML 把它们接入了游戏的声道组，你的音效会真正遵守玩家的音量设置，而不是在半夜把人震聋。
 
 ## 绝不要向游戏传递 null 的空精灵
 

@@ -10,7 +10,7 @@ order: 100
 
 Un trait est une étiquette permanente apposée sur une créature : *brave*, *rapide*, *immortel*. Il s'affiche dans l'inspecteur, peut modifier les statistiques de l'unité, exécuter du code à sa naissance, lors d'un coup reçu ou à sa mort, et les enfants peuvent en hériter.
 
-C'est aussi l'élément le plus simple et accessible à créer dans tout le jeu, c'est pourquoi c'est le premier mod de tout le monde.
+C'est aussi l'élément le plus simple et accessible à créer dans tout le jeu, c'est pourquoi c'est le premier mod de tout le monde. Pas le mien : mon premier mod était une surcouche autour du mod de quelqu'un d'autre, ce qui est une forme de triche à part entière :trollface:.
 
 ## Préfixe toujours tes identifiants
 
@@ -96,7 +96,7 @@ Vous préférez créer votre propre onglet ? Consultez **[Groupes de traits et o
 
 ## Les textes et la localisation
 
-Sans traductions, votre trait apparaîtra en jeu sous la forme de sa clé brute `trait_hello_swift`. Créez `Locales/fr.json` :
+Sans traductions, votre trait apparaîtra en jeu sous la forme de sa clé brute `trait_hello_swift`, ce qui a exactement l'air aussi professionnel que ça en a l'air :pepeclown:. Créez `Locales/fr.json` :
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -183,6 +183,16 @@ if (actor.hasTrait(HelloTraits.SWIFT))
     // ...
 }
 ```
+
+> [!WARNING] `spawn_random_trait_allowed` n'est lu qu'une fois, au démarrage
+> Les nouvelles unités tirent leurs traits de départ dans une réserve que `BaseTraitLibrary.linkAssets()` construit pendant le chargement du jeu, avant que votre mod n'existe. Activer l'option sur votre trait ne change rien à lui seul : votre trait n'est jamais dans cette réserve et n'apparaît jamais par hasard. Ajoutez-le vous-même, pondéré comme le fait le vanilla :
+>
+> ```csharp
+> swift.spawn_random_trait_allowed = true;
+> AssetManager.traits._pot_allowed_to_be_given_randomly.AddTimes(swift.spawn_random_rate, swift);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` est `protected`, donc ceci compile contre l'assembly publicisé avec lequel NML compile déjà votre mod. `spawn_random_rate` vaut `5` par défaut : augmentez-le et le trait apparaît plus souvent.
 
 ## Vérifier que cela fonctionne
 

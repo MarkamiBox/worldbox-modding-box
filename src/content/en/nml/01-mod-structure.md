@@ -29,7 +29,7 @@ MyCoolMod/
 └── GameResources/    <- Custom textures, icons, pixel art and sounds
 ```
 
-Only `mod.json` is mandatory. Make the other folders when you actually need them. A mod with just `mod.json` and `Code/` is a real mod.
+Only `mod.json` is mandatory. Make the other folders when you actually need them. A mod with just `mod.json` and `Code/` is a real mod. Empty folders impress nobody.
 
 #### What each folder does
 
@@ -106,7 +106,7 @@ That is not a simplified version for the guide. That is what most shipped mods a
 - **`LogInfo(...)`**: Prints a line to the log with your mod's name already attached. This is how you find out whether any of this worked. See **[Logs & debugging](#/nml/logs-and-debugging)**.
 
 > [!TIP] The long way round
-> You will see older mods written like this instead:
+> You will see older mods written like this instead. Yes, I am old enough to remember when this was normal:
 > ```csharp
 > public class MyMod : MonoBehaviour, IMod
 > {

@@ -68,7 +68,7 @@ namespace HelloBox
 
 ## Ritos: o campo `plot_id`
 
-Um traço religioso provido de um `plot_id` torna-se um **rito**. A religião reúne seus ritos em `possible_rites`, e líderes e sacerdotes tentam realizá-los por conta própria assim que as condições da conspiração são atendidas.
+Um traço religioso provido de um `plot_id` torna-se um **rito**. A religião reúne seus ritos em `possible_rites`, e líderes e sacerdotes tentam realizá-los por conta própria assim que as condições da conspiração são atendidas. Você escreve a crença, os sacerdotes fazem o resto :wbpray:.
 
 ```csharp
 trait.plot_id = "summon_meteor_rain";

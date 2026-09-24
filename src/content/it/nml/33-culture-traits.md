@@ -10,7 +10,7 @@ order: 106
 
 Una **cultura** rappresenta le abitudini condivise da un gruppo di città. Decide cosa costruiscono, cosa forgiano, come ereditano, cosa leggono e a cosa danno valore. Un tratto culturale è una di queste abitudini.
 
-Dei sette sistemi di tratti, la cultura è quello con la portata più ampia. Una cultura si diffonde con le città, sopravvive al suo fondatore e fonde le sue statistiche in ogni singola unità che vi appartiene. Se vuoi una mod il cui effetto si propaghi nel mondo durante un'ora di gioco, questa è la libreria ideale.
+Dei sette sistemi di tratti, la cultura è quello con la portata più ampia. Una cultura si diffonde con le città, sopravvive al suo fondatore e fonde le sue statistiche in ogni singola unità che vi appartiene. Se vuoi una mod il cui effetto si propaghi nel mondo durante un'ora di gioco, questa è la libreria ideale. Grande portata, grande responsabilità :PES5_Menace:.
 
 | | |
 | --- | --- |
@@ -56,7 +56,17 @@ namespace HelloBox
 }
 ```
 
-Tutto ciò che trovi su **[Tratti personalizzati](#/nml/custom-traits)** vale anche qui: `add()` prima delle statistiche, `path_icon` non viene generato automaticamente, i prefissi sugli ID sono d'obbligo. Ciò che segue illustra ciò che rende unici i tratti culturali.
+> [!WARNING] `spawn_random_trait_allowed` viene letto una sola volta, all'avvio
+> Le nuove culture estraggono i tratti iniziali da una riserva che `BaseTraitLibrary.linkAssets()` costruisce mentre il gioco carica, prima che la tua mod esista. Impostare il flag sul tuo tratto da solo non cambia nulla: il tuo tratto non è mai in quella riserva e non compare mai per caso. Aggiungilo tu, con lo stesso peso che usa vanilla:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.culture_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` è `protected`, quindi questo compila con l'assembly pubblicizzato con cui NML compila già la tua mod. `spawn_random_rate` vale `5` di default: alzalo e il tratto compare più spesso.
+
+Tutto ciò che trovi su **[Tratti personalizzati](#/nml/custom-traits)** vale anche qui: `add()` prima delle statistiche, `path_icon` non viene generato automaticamente, i prefissi sugli ID sono d'obbligo. Ciò che segue illustra ciò che rende unici i tratti culturali. Ed è la parte divertente.
 
 > [!WARNING] `base_stats` su un tratto culturale raggiunge chiunque
 > `Actor.updateStats()` fonde `culture.base_stats` in ogni unità di quella cultura. Ogni singola unità. Una dottrina da "+5 danni" arma persino i fornai.
@@ -73,7 +83,7 @@ trait.addWeaponSubtype("sword");         // preferisci un'intera classe di armi
 trait.addWeaponSpecial("hello_relic");   // o uno specifico id oggetto
 ```
 
-Entrambi gli helper impostano `is_weapon_trait = true` per te. Il codice di creazione legge le armi preferite della cultura quando una città decide cosa fabbricare; in questo modo si cambia l'arma nella mano del soldato piuttosto che un semplice valore numerico. Nel gioco vanilla, `bow_lovers` e `spear_lovers` sono esattamente questo.
+Entrambi gli helper impostano `is_weapon_trait = true` per te. Il codice di creazione legge le armi preferite della cultura quando una città decide cosa fabbricare; in questo modo si cambia l'arma nella mano del soldato piuttosto che un semplice valore numerico. Nel gioco vanilla, `bow_lovers` e `spear_lovers` sono esattamente questo. Un'intera cultura di appassionati di lance, con due righe :PESgn_Noice:.
 
 | Campo | Cosa fa |
 | --- | --- |

@@ -21,7 +21,7 @@ Si quieres añadir un nuevo tipo de *suelo*, eso es un `TileType`. Si buscas alg
 
 ## Clona, no construyas de cero
 
-Un tipo de casilla tiene cerca de cien campos, de los cuales la mayoría solo importan para una casilla vanilla específica. Clona el pariente más cercano:
+Un tipo de casilla tiene cerca de cien campos, de los cuales la mayoría solo importan para una casilla vanilla específica. No pienso listar los cien. Clona el pariente más cercano:
 
 ```csharp Mods/HelloBox/Code/HelloTiles.cs
 using UnityEngine;
@@ -88,6 +88,8 @@ namespace HelloBox
 | `biome_tags`, `has_biome_tags` | Qué biomas harán crecer esta casilla |
 
 ### Cómo se comporta
+
+Empieza aquí si tu casilla es una idea de jugabilidad y no solo un color nuevo.
 
 | Campo | Qué hace |
 | --- | --- |
@@ -187,7 +189,7 @@ if (tile.isOnFire()) { }
 if (tile.hasBuilding()) { }
 ```
 
-Tanto `main_type` como `top_type` pueden ser `null`. Compruébalo antes de tocarlos. Este es el motivo de cuelgue más habitual en cualquier mod que recorre el mapa.
+Tanto `main_type` como `top_type` pueden ser `null`. Compruébalo antes de tocarlos. Este es el motivo de cuelgue más habitual en cualquier mod que recorre el mapa :PES2_F:.
 
 ## Opciones de terraformación
 

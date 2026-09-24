@@ -82,7 +82,7 @@ HelloBox/
 ember.path_texture = "drops/hello_ember";   // a folder
 ```
 
-I drop vengono caricati come **lista di sprite**: il gioco legge ogni PNG *dentro* quella cartella, ed è questo che fa funzionare `animated`. Anche un drop fermo è una cartella, con un solo frame dentro. Un `drops/hello_ember.png` sciolto torna come lista vuota, e il drop cade invisibile.
+I drop vengono caricati come **lista di sprite**: il gioco legge ogni PNG *dentro* quella cartella, ed è questo che fa funzionare `animated`. Anche un drop fermo è una cartella, con un solo frame dentro. Un `drops/hello_ember.png` sciolto torna come lista vuota, e il drop cade invisibile :wbwiltedrose:.
 
 ## Far cadere le gocce
 
@@ -96,7 +96,7 @@ World.world.drop_manager.spawn(tile, "hello_ember", 15f, -1f, -1L);
 World.world.drop_manager.spawnParabolicDrop(tile, "hello_ember", 0f, 0.1f, 5f, 0.5f, 4f, 0.15f);
 ```
 
-`spawn` è quello che vuoi il 90% delle volte. Quel `15f` è l'altezza da cui cade: più è alto, più tempo ci vorrà prima che atterri.
+`spawn` è quello che vuoi il 90% delle volte. Quel `15f` è l'altezza da cui cade: più è alto, più tempo ci vorrà prima che atterri. E fa più scena mentre scende.
 
 ## Un uso reale: far piovere braci con il tuo potere divino
 

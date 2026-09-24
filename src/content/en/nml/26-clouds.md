@@ -72,6 +72,8 @@ namespace HelloBox
 
 ### The fields
 
+Clone a vanilla cloud, then change `drop_id` and `color_hex`. Plenty of clouds need nothing else.
+
 | Field | What it does |
 | --- | --- |
 | `color_hex` | The tint. This is most of what makes a cloud feel different |
@@ -93,7 +95,7 @@ A `CloudAction` takes the live cloud and returns nothing:
 public delegate void CloudAction(Cloud pCloud);
 ```
 
-`CloudLibrary.dropAction` is the vanilla one: it picks a random tile under the cloud's sprite and spawns one `drop_id` there. Ninety percent of the time that is the only action you want, and you set it on `cloud_action_1` and stop.
+`CloudLibrary.dropAction` is the vanilla one: it picks a random tile under the cloud's sprite and spawns one `drop_id` there. Ninety percent of the time that is the only action you want, and you set it on `cloud_action_1` and stop. Lazy and correct, my favourite combination :pepeOK:.
 
 For something extra, write your own and put it on `cloud_action_2`:
 

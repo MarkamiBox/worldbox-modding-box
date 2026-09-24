@@ -10,7 +10,7 @@ order: 114
 
 A **kingdom trait** is policy. Not a belief, not a bloodline: a decision the crown has made that applies to the whole realm.
 
-Vanilla only uses it for one thing, tax rates, which makes this the smallest and the emptiest of the seven trait systems, and therefore the most interesting place to put a new one. Nobody is competing for the space.
+Vanilla only uses it for one thing, tax rates, which makes this the smallest and the emptiest of the seven trait systems, and therefore the most interesting place to put a new one. Nobody is competing for the space :wbsmirk:.
 
 | | |
 | --- | --- |
@@ -97,7 +97,7 @@ namespace HelloBox
 
 ## Making a policy that actually does something
 
-Since `base_stats` is out, a kingdom trait earns its keep one of two ways.
+Since `base_stats` is out, a kingdom trait earns its keep one of two ways. Both are more work than a number, and both are worth it.
 
 **A decision**, which is the tidy option:
 

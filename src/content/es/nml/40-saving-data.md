@@ -23,14 +23,16 @@ El juego ya cuenta con un lugar pensado para esto. Cada unidad, ciudad, reino, e
 | `data.hasFlag(key)` / `data.removeFlag(key)` | Comprueba o elimina el flag |
 | `data.removeInt(key)`, `removeFloat`, `removeString`... | Elimina un valor almacenado |
 
-Cada tipo de dato cuenta con su propia tabla interna, de modo que un `int` y un `string` bajo la misma clave no colisionan. Aun así, por tu propia salud mental, no reutilices claves para tipos distintos.
+Cada tipo de dato cuenta con su propia tabla interna, de modo que un `int` y un `string` bajo la misma clave no colisionan. Aun así, por tu propia salud mental, no reutilices claves para tipos distintos. Tu yo del futuro no recordará cuál era cuál.
 
 
 
 
 ## Guardar objetos complejos con NML
 
-Si cinco tipos primitivos se te quedan cortos y necesitas guardar una clase entera, NML proporciona `DataExtension` en `NeoModLoader.General.Game.extensions`:
+Si cinco tipos primitivos te parecen de 1995 y de verdad necesitas guardar una clase o una lista entera en un actor, NML ofrece `DataExtension` en `NeoModLoader.General.Game.extensions`.
+
+Envuelve tu clase de datos en `BasicCustomData<T>`:
 
 ```csharp
 using NeoModLoader.General.Game.extensions;
@@ -52,7 +54,7 @@ if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
 }
 ```
 
-Por debajo, NML serializa tu objeto a JSON en la tabla `custom_data_string`. Si tu estructura va a cambiar, implementa `ICustomData` directamente para tener control de versiones :PES5_Hmmmm:.
+Por dentro, NML serializa tu objeto a JSON y lo mete en la tabla vanilla `custom_data_string` bajo tu clave. Si esperas que tu formato de datos cambie entre actualizaciones del mod, implementa `ICustomData` directamente en tu clase en vez de usar `BasicCustomData<T>`: te da comprobaciones explícitas de `ModId` y `DataVersion` para que un guardado antiguo no envenene en silencio tu estado nuevo :PES5_Hmmmm:.
 
 ## En HelloBox
 
@@ -111,7 +113,7 @@ namespace HelloBox
 }
 ```
 
-Guarda la partida y cárgala de nuevo: el contador sigue intacto, porque forma parte de los datos de guardado propios de la unidad. El flag es lo que garantiza que la recompensa se conceda una sola vez y no en cada golpe posterior al quincuagésimo.
+Guarda la partida y cárgala de nuevo: el contador sigue intacto, porque forma parte de los datos de guardado propios de la unidad. El flag es lo que garantiza que la recompensa se conceda una sola vez y no en cada golpe posterior al quincuagésimo. Generoso, pero sigue siendo un bug.
 
 Sus textos, como los de cualquier rasgo:
 

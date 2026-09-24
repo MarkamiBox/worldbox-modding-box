@@ -73,32 +73,32 @@ sera chargé sous l'identifiant `ui/Icons/iconHelloSwift` et fonctionnera partou
 
 ## Où doit se trouver chaque type d'élément graphique
 
-Voici le tableau récapitulatif auquel tout le monde revient sans cesse. Chaque asset référence ses graphismes via un champ différent, et certains d'entre eux préfixent discrètement un sous-dossier au moment du chargement. La valeur saisie ne correspond donc **pas** toujours au chemin exact sur le disque.
+C'est le tableau auquel on revient sans cesse. Chaque asset pointe vers son image avec un champ différent, et quelques-uns ajoutent discrètement un dossier devant avant de charger, donc la valeur que vous écrivez n'est **pas** toujours le chemin où se trouve le fichier.
 
-| Asset | Champ | Emplacement du fichier |
+| Asset | Champ | Le fichier va dans |
 | --- | --- | --- |
 | Trait, pouvoir divin, royaume, groupe | `path_icon` | `GameResources/` + exactement ce que vous avez écrit |
-| Objet, tenu en main par une unité | `path_gameplay_sprite` | `GameResources/` + exactement ce que vous avez écrit |
-| Bâtiment | `sprite_path` | Un **dossier** : `GameResources/` + `sprite_path` + `/`, avec `main_0.png`, `construction_0.png`, `ruin_0.png`. Avec `sprite_path` vide, c'est `main_path` + id, et `main_path` vaut `buildings/` par défaut |
-| Drop (butin) | `path_texture` | Un **dossier** : `GameResources/` + exactement ce que vous avez écrit |
-| Nuage | `path_sprites` | `GameResources/` + chaque chemin présent dans la liste |
-| Effet de statut | `texture` | Un **dossier** : `GameResources/effects/` + ce que vous avez écrit |
-| Projectile | `texture` | Un **dossier** : `GameResources/effects/projectiles/` + ce que vous avez écrit |
-| Ressource, portée en main | `path_gameplay_sprite` | Un **dossier** : `GameResources/items/resources/` + ce que vous avez écrit |
-| Ressource, icône d'inventaire | `path_icon` | `GameResources/` + ce que vous avez écrit (le jeu utilise des noms simples comme `iconResBread`) |
-| Case (Tile) et Top Tile | *(aucun champ)* | `GameResources/tiles/<id_de_la_case>/` |
+| Objet, dans la main d'une unité | `path_gameplay_sprite` | `GameResources/` + exactement ce que vous avez écrit |
+| Bâtiment | `sprite_path` | Un **dossier** : `GameResources/` + `sprite_path` + `/`, contenant `main_0.png`, `construction_0.png`, `ruin_0.png`. Si `sprite_path` est vide, c'est `main_path` + id, et `main_path` vaut `buildings/` par défaut |
+| Drop | `path_texture` | Un **dossier** : `GameResources/` + exactement ce que vous avez écrit, un PNG par frame |
+| Nuage | `path_sprites` | `GameResources/` + chaque chemin de la liste |
+| Effet de statut | `texture` | Un **dossier** : `GameResources/effects/` + ce que vous avez écrit, un PNG par frame |
+| Projectile | `texture` | Un **dossier** : `GameResources/effects/projectiles/` + ce que vous avez écrit, un PNG par frame |
+| Ressource, portée en main | `path_gameplay_sprite` | Un **dossier** : `GameResources/items/resources/` + ce que vous avez écrit, un PNG par frame |
+| Ressource, icône d'inventaire | `path_icon` | `GameResources/` + ce que vous avez écrit. Le vanilla utilise un nom nu comme `iconResBread`, donc le fichier est à la racine |
+| Tuile et tuile supérieure | *(aucun champ)* | `GameResources/tiles/<the tile's id>/` |
 
 > [!WARNING] "Un dossier" n'est pas une question de style
-> Chaque asset marqué **dossier** ci-dessus est lu avec `getSpriteList()`, qui renvoie les frames *dans* un dossier. Pointe-le vers un PNG seul et il revient vide : un drop tombe invisible, un projectile lance `ArgumentOutOfRangeException` dans `QuantumSpriteLibrary.drawProjectiles()`, un statut lance à chaque frame. Un seul frame suffit, il doit juste être dans son propre dossier : `drops/hello_ember/hello_ember_0.png` :wbfacepalm:.
+> Chaque asset marqué **dossier** ci-dessus est lu avec `getSpriteList()`, qui renvoie les frames *à l'intérieur* d'un dossier. Pointez-le vers un seul PNG et il revient vide : un drop tombe invisible, un projectile lève `ArgumentOutOfRangeException` dans `QuantumSpriteLibrary.drawProjectiles()`, un statut plante à chaque frame. Une seule frame suffit, elle doit juste être dans son propre dossier : `drops/hello_ember/hello_ember_0.png` :wbfacepalm:.
 
-Trois subtilités à garder en tête :
+Trois d'entre eux mordent :
 
-- **Les statuts et les projectiles préfixent un sous-dossier.** Écrire `texture = "effects/status/myThing"` fera chercher le jeu dans `effects/effects/status/myThing`, qui n'existe pas. Les statuts vanilla utilisent des noms simples : `fx_status_burning_t`.
-- **Les cases ignorent totalement ces champs.** Les graphismes d'une case sont résolus via son **identifiant (id)** dans son propre sous-dossier, car une case comporte de multiples variantes. `hello_moss` implique `GameResources/tiles/hello_moss/` avec vos PNG dedans.
-- **Les bâtiments ne concatènent pas, mais ils ont un repli.** `sprite_path` est utilisé tel quel : `"buildings/hello_shrine"` veut dire `GameResources/buildings/hello_shrine/`. Laissez-le vide et le jeu prend `main_path` + id, donc un dossier écrit dans `main_path` devient `buildings/hello_shrine/hello_shrine` :PESgn_Bruh:.
+- **Statut et projectile ajoutent un dossier devant.** Écrire `texture = "effects/status/myThing"` sur un statut fait chercher `effects/effects/status/myThing` au jeu, ce qui n'existe pas. Les statuts vanilla utilisent un nom nu : `fx_status_burning_t`.
+- **Les tuiles ignorent complètement les champs.** L'image d'une tuile est trouvée par son **id**, dans un dossier à elle, parce qu'une tuile a plusieurs variantes. `hello_moss` veut dire `GameResources/tiles/hello_moss/` avec vos PNG dedans.
+- **Les bâtiments ne collent rien, mais ont une solution de repli.** `sprite_path` est utilisé tel quel : `"buildings/hello_shrine"` veut dire `GameResources/buildings/hello_shrine/`. Laissez-le vide et le jeu utilise `main_path` + id, donc un dossier écrit dans `main_path` devient `buildings/hello_shrine/hello_shrine` :PESgn_Bruh:.
 
 > [!TIP] Copiez le chemin d'un asset vanilla
-> Choisissez l'élément vanilla le plus proche, examinez son champ dans **[UnityExplorer](#/toolbox/unity-explorer)** ou avec la **[Recherche d'icônes](#/tools/icons)** et calquez sa structure exacte. C'est plus rapide et juste du premier coup :PESgn_Noice:.
+> Prenez la chose vanilla la plus proche, lisez son champ dans **[UnityExplorer](#/toolbox/unity-explorer)** ou avec la **[Recherche de chemins de sprites](#/tools/icons)**, et reproduisez la forme exactement. C'est plus rapide que de raisonner, et c'est juste du premier coup :PESgn_Noice:.
 
 ## Charger un fichier directement depuis le disque
 
@@ -123,23 +123,42 @@ MusicBox.playSound("event:/SFX/WEAPONS/WeaponFireballStart", pTile);   // at a p
 MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on the interface
 ```
 
-Le premier joue le son à l'emplacement de cette case du monde. HelloBox joue le son de boule de feu lorsque son action de combat projette une braise, voir **[Projectiles, sorts et effets](#/nml/projectiles-spells)**. Pour trouver des chemins, cherchez `event:/SFX/` dans le code du jeu : il en existe des centaines, classés dans des dossiers selon leur nature.
-
-> [!NOTE] Ajouter de nouveaux sons est un autre projet
-> Les événements FMOD résident dans les banques de sons du jeu et un mod ne peut pas les enrichir directement. Jouer vos propres fichiers `.wav` implique de les charger vous-même dans une `AudioSource` Unity, en dehors des réglages de volume du jeu. Ce guide ne le traite pas, car je ne l'ai jamais moddé et je ne vais pas faire semblant du contraire.
+Le premier joue le son à l'emplacement de cette case du monde. HelloBox joue le son de boule de feu lorsque son action de combat projette une braise, voir **[Projectiles, sorts et effets](#/nml/projectiles-spells)**. Pour trouver des chemins, cherchez `event:/SFX/` dans le code du jeu : il en existe des centaines, classés dans des dossiers selon leur nature. Baissez le volume avant de commencer à les tester.
 
 ### Ajouter vos propres sons
 
-NeoModLoader soporta archivos de sonido nativos `.wav` a través de `CustomAudioManager` :PESgn_Noice:.
+NML patche en fait FMOD en coulisses, donc vos propres fichiers `.wav` fonctionnent sans que vous ayez à bricoler un second moteur audio dans un garage :PESgn_Noice:.
+
+Déposez simplement votre fichier `.wav` dans `GameResources/`, par exemple :
 
 ```text
-MyMod/
-└── Audio/
-    ├── custom_explosion.wav
-    └── custom_explosion.json
+GameResources/sounds/hello_boom.wav
 ```
 
-NML parchea `MusicBox.playSound` y reproduce tus archivos .
+NML intercepte `MusicBox.playSound` et `playDrawingSound`, vous le jouez donc avec exactement la même méthode qu'un son vanilla (sans l'extension du fichier) :
+
+```csharp
+MusicBox.playSound("sounds/hello_boom", pTile);
+```
+
+À côté de votre fichier, un `hello_boom.json` optionnel vous permet de régler son comportement :
+
+```json GameResources/sounds/hello_boom.json
+{
+  "Volume": 60,
+  "Mode": "Stereo3D",
+  "Type": "Sound"
+}
+```
+
+| Champ | Valeurs |
+| --- | --- |
+| `Mode` | `Basic` (2D plat, le volume reste constant), `Stereo3D` (atténuation vanilla avec la distance), `Mono3D` (directionnel) |
+| `Type` | `Sound` (curseur des effets), `Music` (curseur de la musique), `UI` (curseur de l'interface) |
+| `Volume` | Volume par défaut de 0 à 100 |
+| `LoopCount` | Nombre de répétitions (0 = une fois) |
+
+Le meilleur : comme NML les branche sur les groupes de canaux du jeu, vos sons respectent vraiment les réglages de volume du joueur au lieu de le rendre sourd à minuit.
 
 ## Ne transmettez jamais de sprite nul au jeu
 

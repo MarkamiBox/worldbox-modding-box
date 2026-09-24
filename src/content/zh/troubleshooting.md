@@ -165,11 +165,13 @@ order: 4
 
 ## 什么都没加载
 
+游戏表现得就像你的模组不存在一样。别往心里去，通常只是一个开关或一个文件名的问题。
+
 ### 菜单里没有 Mods 按钮
 
-- **你看到**：游戏正常启动，没有报错，没有 Mods 按钮，日志里也没有任何 `[NML]` 行。
-- **原因**：有两个叫 "Mods" 的文件夹。加载器的 DLL 放在游戏数据文件夹里；`worldbox\Mods/` 是放*你的* mod 的。
-- **解决**：把 `NeoModLoader.dll` 放进 `worldbox\worldbox_Data\StreamingAssets\mods/`，重启，然后在日志里找 `[NML]: NeoModLoader Version:`。
+- **你看到**：游戏正常启动，没有报错，没有 Mods 按钮，日志里也找不到任何 `[NML]` 行。
+- **原因**：有两个文件夹都叫 "Mods"。加载器的 DLL 放在游戏数据文件夹里；`worldbox\Mods/` 是放*你的* mod 的。
+- **解决**：把 `NeoModLoader.dll` 放进 `worldbox\worldbox_Data\StreamingAssets\mods/`，重启，然后在日志里找 `[NML]: NeoModLoader Version:`。每一步（包括 Mac）见 **[安装 NML](#/install-nml)**。
 
 ### Mods 窗口是空的，以前明明能用
 
@@ -179,9 +181,9 @@ order: 4
 
 ### mod 文件夹在，列表里却没有
 
-- **你看到**：列表里没有，也没有 `Compile Mod <你的 mod>` 这一行。
-- **原因**：按常见程度排：文件其实叫 `mod.json.txt`；JSON 写坏了（最后一项后面多了逗号，或者从聊天软件粘来了弯引号 `"`）；文件夹不在 `worldbox\Mods/` 里面。
-- **解决**：资源管理器 → **查看 → 显示 → 文件扩展名**，确认真实文件名。用 VS Code 打开 `mod.json`，它会帮你把 JSON 错误划出来。
+- **你看到**：列表里什么都没有，也没有 `Compile Mod <yours>` 这一行。
+- **原因**：按出现频率排序：文件实际叫 `mod.json.txt`；JSON 无效（最后一项后面多了逗号，或者从聊天软件粘贴来的弯引号 `"`）；文件夹不在 `worldbox\Mods/` 里面。
+- **解决**：资源管理器 → **查看 → 显示 → 文件扩展名**，然后确认真实文件名。用 VS Code 打开 `mod.json`，它会帮你标出 JSON 错误。
 
 ### mod 是灰色的
 
@@ -230,6 +232,8 @@ order: 4
 
 ## 加载了，但什么都没出现
 
+NML 找到了你的模组并运行了它。但里面有些东西始终没能显示到屏幕上。
+
 ### 在设置属性的那一行崩溃
 
 - **你看到**：你的 `Initialize()` 里出现 `NullReferenceException`，它后面的代码全都没跑。
@@ -270,17 +274,17 @@ swift.base_stats["speed"] = 20f;     // safe from here
 
 ### 名字对特质有效，对物品、状态、神力无效
 
-- **你看到**：你照抄了特质的写法，这个还是显示原始键名。
-- **原因**：有四种资源**不**从 id 拼键名：
+- **你看到**：你照搬了特质的写法，这里显示的却还是原始键名。
+- **原因**：有四种资产**不是**用 id 来生成键名的：
 
-| 资源 | 名称键 | 描述键 |
+| 资产 | 名称键 | 描述键 |
 | --- | --- | --- |
 | `GodPower` | `name` **字段**，snake_case | `<name>_description` |
-| `ItemAsset` | `translation_key`，否则 `item_<subtype 或 id>` | `<id>_description`，不带 `item_` |
+| `ItemAsset` | `translation_key`，否则为 `item_<subtype or id>` | `<id>_description`，不带 `item_` |
 | `StatusAsset` | `locale_id` **字段** | `locale_description` **字段** |
 | `WorldLawAsset` | `<id>_title` | `<id>_description` |
 
-- **解决**：神力把 `name` 设成 id，物品设 `translation_key`，状态设 `locale_id`。键名一律小写 snake_case：存的时候会被规范化，查的时候**不会**，所以 `MyKey` 存成了 `my_key`，之后再也找不到 :PESgn_SMH:。
+- **解决**：神力设置 `name` = id，物品设置 `translation_key`，状态设置 `locale_id`。键名保持小写 snake_case：存储时会被规范化，但查找时**不会**，所以 `MyKey` 会被存成 `my_key`，然后再也找不到 :PESgn_SMH:。
 
 ### 图标是个空洞
 
@@ -324,15 +328,15 @@ cursed.need_visual_render = true;
 
 ### `addOpposite` / `addDecision` / `addSpell` 不起作用
 
-- **你看到**：对立特质从不被移除，决策从不触发。一片安静。
-- **原因**：这些调用只是追加一个 **id**。把 id 变成真正的对象只在启动时做一次，那时你的 mod 还没加载。
-- **解决**：在 `add()` 之后自己填好解析后的字段：`linkCombatActions()`、`linkSpells()`，并直接给 `opposite_traits` 赋值。如果设了 `opposite_trait_mod` 却让 `opposite_traits` 保持 null，游戏之后会在社交代码里崩溃；一个空的 `HashSet` 就能避免。
+- **你看到**：对立特质从不被移除，决策从不触发。没有任何提示。
+- **原因**：这些调用只是追加一个 **id**。把 id 转成真正的对象只在启动时进行一次，那时你的 mod 还没加载。
+- **解决**：在 `add()` 之后自己填好解析后的字段：`linkCombatActions()`、`linkSpells()`、`decisions_assets`（一个你用 `AssetManager.decisions_library.get()` 构建的数组，没有对应的 link 方法），并直接给 `opposite_traits` 赋值。如果设置了 `opposite_trait_mod` 却让 `opposite_traits` 保持 null，游戏之后会在社交代码里崩溃 - 一个空的 `HashSet` 就能避免。
 
 ---
 
 ## 注册成功，然后在世界里坏掉
 
-这一节的每一条原因都一样。游戏在**加载时一次性地**为每个资源准备好某一部分，而你的 mod 是在那之后才注册资源的。没有任何提示：资源存在，有名字，游戏第一次真正用到它时就抛异常。解决办法也总是一个样子：注册完资源后，立刻自己把那一步补上 :wbfacepalm:。
+这一节的每一条原因都一样。游戏在**加载时一次性地**为每个资源准备好某一部分，而你的 mod 是在那之后才注册资源的。没有任何提示：资源存在，有名字，游戏第一次真正用到它时就抛异常。解决办法也总是一个样子：注册完资源后，立刻自己把那一步补上 :wbfacepalm:。今日一词：变通办法。
 
 ### 你的生物报阴影错误
 
@@ -445,6 +449,8 @@ cursed.need_visual_render = true;
 ---
 ## 你那边能编译，别人那边不行
 
+经典的“在我电脑上能跑”。区别通常在你的环境配置，而不在你的代码 :PES5_Hmmmm:。
+
 ### `CS0122: inaccessible due to its protection level`
 
 - **你看到**：从一个能用的 mod 里复制来的代码编译不过：`addStatusEffect`、`getHit`、`_localized_text`、`addBuilding`。
@@ -466,6 +472,8 @@ cursed.need_visual_render = true;
 ---
 
 ## 能用，后来坏了
+
+慢性发作的那种。昨天你的模组还好好的，而且它什么都没变 :PES2_Shrug:。
 
 ### 别的 mod 悄悄替换了你的内容
 

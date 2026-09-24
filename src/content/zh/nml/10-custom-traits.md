@@ -10,7 +10,7 @@ order: 100
 
 特质 (Trait) 是打在生物身上的永久属性标签：*勇敢*、*神速*、*永生*。它会直接显示在生物面板上，能够修改单位的基础属性数值，可以在生物诞生、受击或死亡时执行你编写的代码，甚至能像遗传基因一样传给下一代。
 
-它同时也是整个游戏里制作成本最低的模组内容，正因如此，几乎所有人的第一个 WorldBox 模组都是从特质起步的。
+它同时也是整个游戏里制作成本最低的模组内容，正因如此，几乎所有人的第一个 WorldBox 模组都是从特质起步的。我的不是：我的第一个模组只是套在别人模组外面的一层包装，这本身就是一种作弊 :trollface:。
 
 ## 永远为你的 ID 加上唯一样式前缀
 
@@ -96,7 +96,7 @@ protected override void OnModLoad()
 
 ## 本地化文本
 
-如果没有添加本地化文本，你的特质在游戏里就会直接显示为粗糙的裸代码键名 `trait_hello_swift`。在 `Locales/zh.json` 中添加：
+如果没有添加本地化文本，你的特质在游戏里就会直接显示为粗糙的裸代码键名 `trait_hello_swift`，看起来就跟听上去一样“专业” :pepeclown:。在 `Locales/zh.json` 中添加：
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -183,6 +183,16 @@ if (actor.hasTrait(HelloTraits.SWIFT))
     // ...
 }
 ```
+
+> [!WARNING] `spawn_random_trait_allowed` 只在启动时读取一次
+> 新单位的初始特质是从一个随机池里抽的，这个池子由 `BaseTraitLibrary.linkAssets()` 在游戏加载时、你的模组还不存在时建好。光在你的特质上打开这个开关什么都不会改变：你的特质根本不在那个池子里，也永远不会随机出现。按原版的权重方式自己把它放进去：
+>
+> ```csharp
+> swift.spawn_random_trait_allowed = true;
+> AssetManager.traits._pot_allowed_to_be_given_randomly.AddTimes(swift.spawn_random_rate, swift);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` 是 `protected` 的，所以它会针对 NML 本来就用来编译你模组的公开化程序集进行编译。`spawn_random_rate` 默认是 `5`：调高它，特质就会更常出现。
 
 ## 验证特质是否正常生效
 

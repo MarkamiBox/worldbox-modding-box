@@ -42,14 +42,16 @@ order: 1
 
 ### 第 2 步：下载 NML
 
-1. 打开这个链接：**[github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest)**。它永远指向最新的 NML，可以加进书签。
-2. 往下滚到 **Assets** 这一栏。如果是折叠的，点一下展开。
-3. 点 **NeoModLoader.dll**。它和其他文件一样被下载，一般在 **下载** 文件夹里。
+1. 打开这个链接：**[github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest)**。它永远指向最新的 NML，所以你可以把它加进书签。
+2. 往下滚到名为 **Assets** 的部分。如果它是折叠的，点一下展开。
+3. 点击 **NeoModLoader.dll**。它会像其他文件一样下载，通常下载到你的 **下载** 文件夹。
 
-你只需要这一个文件。页面上还有 `.pdb`、`.xml` 和 "Source code" 文件：不用管。
+你只需要这一个文件。页面上还列出了 `nml-setup-win.exe`，以及以 `.pdb`、`.xml` 结尾的文件和 "Source code"：全部忽略。那些是给 NML 开发者用的，不是给你的。
 
 > [!WARNING] 只从这个链接下载
-> `.dll` 是程序。NML **只** 从上面的 GitHub 页面下载，绝不要从随便什么网站、或者别人在聊天里发给你的文件拿。如果浏览器问"要保留这个文件吗？"，那是因为它是 `.dll`，从这个页面下载的话答案就是保留。
+> `.dll` 是一个程序。**只**从上面的 GitHub 页面下载 NML，千万别从 CurseForge、其他网站或者别人在聊天里发给你的文件下载。从其他地方拿到的旧副本会在游戏第一次启动时把自己删掉，只留下一个 `NML` 文件夹和 `NeoModLoader.AutoUpdate_memload.dll` - 如果发生这种情况，回到这里下载真正的文件。GameBanana 的“一键安装”按钮也装不了 NML；请手动下载 `.dll`。
+>
+> 如果浏览器问你“要保留此文件吗？”，或者 Chrome 把它标记为**未经确认**，那是因为 `.dll` 是一个程序，而下载这个文件的人不多。来自这个 GitHub 页面的话，答案是保留（在 Chrome 里：打开下载列表，然后点**仍然保留**）。
 
 ### 第 3 步：打开 WorldBox 文件夹
 
@@ -65,40 +67,40 @@ order: 1
 C:\Program Files (x86)\Steam\steamapps\common\worldbox\
 ```
 
-把这个窗口开着。从现在起，"WorldBox 文件夹"就是指它。
+把这个窗口开着。从现在起，"WorldBox 文件夹"就是指它。你回到这里的次数会比你想象的多。
 
 > [!TIP] 让 Windows 显示文件扩展名
 > Windows 默认会隐藏文件名的结尾，所以 `NeoModLoader.dll` 只显示成 `NeoModLoader`。这会让任何教程都更难跟。在文件夹窗口顶部点 **查看**，勾选 **文件扩展名**（Windows 11：**查看 → 显示 → 文件扩展名**）。什么都不会坏，你只是能看到完整的名字了。
 
 ### 第 4 步：把 NML 放到正确的位置
 
-1. 在 WorldBox 文件夹里双击 **worldbox_Data**。
+1. 在 WorldBox 文件夹里，双击 **worldbox_Data**。
 2. 双击 **StreamingAssets**。
 3. 双击 **Mods**。
-4. 现在在第二个窗口里打开 **下载** 文件夹，把 **NeoModLoader.dll** 拖进这个 `Mods` 窗口。
+4. 现在在第二个窗口里打开你的 **下载** 文件夹，把 **NeoModLoader.dll** 拖进这个 `Mods` 窗口。
 
-最后应该是这样：
+它最终应该在这里：
 
 ```text
 worldbox/
 └── worldbox_Data/
     └── StreamingAssets/
         └── Mods/
-            ├── test_asset_load/     游戏自带的，别动
-            └── NeoModLoader.dll     <- 你刚放进去的
+            ├── test_asset_load/     the game's own, leave it
+            └── NeoModLoader.dll     <- the one you just added
 ```
 
 如果里面看不到 `test_asset_load`，说明你进错文件夹了。回到 WorldBox 文件夹再试一次。
 
-**既然来了：** 如果有名字带 **NCMS** 的东西（比如 `NCMS_memload.dll`，或者叫 `NCMS` 的文件夹），删掉。NCMS 是旧的模组加载器，已经死了，而且 NML 本来就能运行旧的 NCMS 模组 :PES2_Shrug:。
+**趁你还在这个文件夹里：** 如果有任何名字里带 **NCMS** 的东西（比如 `NCMS_memload.dll`，或者叫 `NCMS` 的文件夹），把它删掉。NCMS 是旧的模组加载器，已经死了，而且 NML 本来就能运行旧的 NCMS 模组 :PES2_Shrug:。
 
 > [!WARNING] `NeoModLoader (1).dll` 不是 `NeoModLoader.dll`
-> 不小心下载了两次 NML，或者文件夹里已经有一个旧副本？Windows 会将新文件重命名为 `NeoModLoader (1).dll` 而不是覆盖它，这会导致 NML 拒绝启动：屏幕上会刷满要求重启游戏的红字，并在日志中输出 `Missing className: NeoModLoader (1).WorldBoxMod`。关闭游戏，删除旧文件，将新文件精确重命名为 `NeoModLoader.dll`（不带任何空格或数字）后再试一次。多出来的这几个字符是导致 NML“无法工作”的最常见原因 :PESgn_SMH:。
+> 下载了两次 NML，或者那个文件夹里本来就有一个旧副本？Windows 不会覆盖，而是把新文件命名为 `NeoModLoader (1).dll`，于是 NML 拒绝启动：满屏的红字叫你重启游戏，日志里写着 `Missing className: NeoModLoader (1).WorldBoxMod`。关掉游戏，删掉旧文件，把新文件改名为精确的 `NeoModLoader.dll`（没有空格，没有数字），然后重新启动。就是这一个字符，成了 NML“不能用”最常见的原因 :PESgn_SMH:。
 >
-> 如果 Windows 提示文件“正在使用”而无法删除，说明游戏仍在运行。请先关闭游戏。
+> 如果 Windows 说旧文件“正在使用”而拒绝删除，说明游戏还在运行。先把它关掉。
 
 > [!WARNING] 有两个叫 Mods 的文件夹
-> 这个在 `worldbox_Data\StreamingAssets/` 里的，**只给 NML 自己用**。放 **模组** 的是另一个文件夹，在 `worldbox.exe` 旁边。它现在还不存在，下一步 NML 会创建它。把模组放在这里，或者把 NML 放到那边，是这一页最常见的错误。
+> 这一个，也就是 `worldbox_Data\StreamingAssets\Mods/` 里面，只放 **NML 本体**（具体来说就是 `NeoModLoader.dll`），不放别的。放你的**模组**的是另一个文件夹，直接位于游戏根目录、`worldbox.exe` 旁边（`worldbox\Mods/`）。它现在还不存在；你第一次启动游戏时 NML 会自动创建它。把模组放进 `StreamingAssets\Mods/`，或者把 NML 放进 `worldbox\Mods/`，是这一页上最常见的错误。
 
 ### 第 5 步：启动游戏并检查
 
@@ -117,7 +119,7 @@ worldbox/
 
 ## Mac
 
-同样的五步。只是文件夹藏的位置不同，因为在 Mac 上整个游戏被打包成了一个应用图标。
+同样的五步。只是文件夹藏的位置不同，因为在 Mac 上整个游戏被打包成了一个应用图标。苹果就是这样 :wbbre:。
 
 1. **Experimental Mode**：和 Windows 完全一样，**[第 1 步](#第-1-步-打开-experimental-mode)**。关于更新的警告对你也一样。
 2. 从 [同一个发布页](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest) **下载** `NeoModLoader.dll`。Windows 和 Mac 用的是同一个文件。
@@ -137,7 +139,7 @@ worldbox/
 
 ## Linux 与 Steam Deck
 
-操作原理完全相同。Linux 版 Steam 将游戏安装在用户目录下，在 Steam Deck 上只需先切换到桌面模式。
+操作原理完全相同。Linux 版 Steam 将游戏安装在用户目录下，在 Steam Deck 上只需先切换到桌面模式。欢迎企鹅 :wbpenguin:。
 
 1. **开启实验模式 (Experimental Mode)**：与 Windows 完全相同，参见 **[步骤 1](#第-1-步-打开-experimental-mode)**。
 2. 从 [官方发布页面](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest) **下载** `NeoModLoader.dll`（所有系统通用）。
@@ -164,14 +166,13 @@ worldbox/
 
 ## 安装模组
 
-现在是简单的部分，也是你会反复做的部分。
+现在是简单的部分，也是你会一遍又一遍做的部分。
 
-1. 下载模组。先读它的说明：有些模组还需要别的东西，作者通常会写。
-2. 如果是 **.zip** 文件，先解压。Windows：右键 → **全部解压缩**。Mac：双击。
-3. 把得到的文件夹拖进 **`worldbox\Mods/`**，也就是 `worldbox.exe` 旁边那个。
-4. 启动游戏。
+1. 下载模组。先读它的说明：有些模组需要额外的东西，作者通常会写明。
+2. 把 `.zip` 直接放进 **`worldbox\Mods/`**，也就是 `worldbox.exe` 旁边的那个。不要解压：NML 会在下次启动游戏时自己解压它的 zip。
+3. 启动游戏。
 
-模组文件夹里总会在某处有一个叫 `mod.json` 的文件。NML 就是靠它认出模组的。如果 zip 解出来是文件夹里套文件夹，也没关系，NML 会往里找。
+习惯性地已经解压了？那也行，只要装着 `mod.json` 的那个文件夹直接位于 `Mods/` 里面。一个模组文件夹里总会在某处有一个叫 `mod.json` 的文件，NML 就是靠它来识别的。要避免的错误是 `Mods/` 里的文件夹里又套一个文件夹，或者模组的文件散落在 `Mods/` 里，外面根本没有文件夹。
 
 ```text
 worldbox/
@@ -183,12 +184,12 @@ worldbox/
         └── mod.json
 ```
 
-> [!TIP] 用 HelloBox 试一下
-> 不确定装好了没有？本指南做的那个模组就是现成的测试。从 **[完整的 Mod 整合](#/nml/all-together)** 下载，解压到 `Mods`，启动游戏。如果出现一个塞满蠢按钮的新神力标签页，就说明全都装对了 :wbpeak:。
+> [!TIP] 用 HelloBox 试试
+> 不确定装好了没有？本指南构建的这个模组就是现成的测试。从 **[完整的 Mod 整合](#/nml/all-together)** 下载它，解压到 `Mods`，启动游戏。如果出现了一个新的神力标签页，里面全是傻乎乎的按钮，那就说明一切都装对了 :wbpeak:。
 
-**要删除模组**，关掉游戏，把它的文件夹从 `Mods` 里删掉。**要关掉但不删除**，用游戏里 NML 的模组列表。
+**要移除一个模组**，关掉游戏，把它的文件夹从 `Mods` 里删掉。**要关闭一个模组但不删除它**，在游戏里使用 NML 的模组列表。
 
-**创意工坊的模组** 也能用：在 Steam 创意工坊订阅，NML 会自己找到，不用复制任何东西。
+**创意工坊模组**也可以用：在 Steam 创意工坊订阅它们，NML 就会自动加载，不需要复制任何东西。
 
 ---
 
@@ -214,25 +215,40 @@ worldbox/
 
 ## 大家总会问的问题
 
-**NML 和 BepInEx 能一起用吗？**
-能。它们互不干扰。两个具体的 *模组* 之间仍然可能冲突，但那是模组的问题，不是加载器的问题。
+**我能同时使用 NML 和 BepInEx 吗？**
+能。它们互不干扰。两个具体的*模组*之间仍然可能冲突，但那是模组的问题，不是加载器的问题。
 
 **模组说它需要的是 BepInEx，不是 NML。**
-那它就不放进 `Mods`。按照 **[实时控制台 (BepInEx)](#/toolbox/bepinex-console)** 里的步骤安装 BepInEx（Windows），启动一次游戏，再把这个模组放进 `BepInEx\plugins/`。需要哪个加载器，模组说明里会写。
+那它就不放进 `Mods`。按照 **[实时控制台 (BepInEx)](#/toolbox/bepinex-console)** 里的步骤安装 BepInEx（Windows），启动一次游戏，然后把这个模组放进 `BepInEx\plugins/`。模组的说明会写它需要哪个加载器。
 
 **NML 还是 NCMS？**
-NML。NCMS 已经停止更新，在当前版本的游戏上跑不起来。NML 照样能运行旧的 NCMS 模组，所以你什么都不会失去。
+NML。NCMS 已经不再更新，在当前版本的游戏上也跑不起来。NML 本来就能运行旧的 NCMS 模组，所以你什么都不会损失。
 
 **NML 是病毒吗？**
-不是。浏览器之所以会弹出警告，是因为 `.dll` 属于可执行程序，且下载该特定文件的用户数量并不像大型商业软件那么多。请务必仅从上方给出的 GitHub 链接下载：GameBanana 上的模组经过版主审核，而别人在私聊中发给你的文件则没有任何安全保障 :PESgn_ReadRules:.
+不是。浏览器会警告，是因为 `.dll` 是一个程序，而下载这个文件的人不多。只从上面的 GitHub 链接获取：GameBanana 上的模组会被它的版主检查，而别人在聊天里发给你的文件没有任何人检查过 :PESgn_ReadRules:。
 
-**每个模组都要重新装一次 NML 吗？**
-不用。装一次就够。之后每个模组都只是 `Mods` 里的一个文件夹。
+**每个模组都要重装一次 NML 吗？**
+不用。装一次就够了。之后每个模组都只是 `Mods` 里的一个文件夹。
 
-**NML 需要更新吗？**
-一般不用。NML 每次游戏启动时都会检查新版本并自动替换自己（它旁边出现的 `NeoModLoader.AutoUpdate_memload.dll` 就是干这个的）。万一失败了，就从同一个链接下载新的 `NeoModLoader.dll`，手动替换旧的。
+**需要更新 NML 吗？**
+一般不需要。NML 每次启动游戏时都会检查新版本并替换自己（旁边出现的 `NeoModLoader.AutoUpdate_memload.dll` 就是干这个的）。万一哪天失败了，就从同一个链接下载新的 `NeoModLoader.dll`，手动替换旧的。
 
 **模组会弄坏我的存档吗？**
-有可能。用模组做的存档，在去掉那个模组之后可能加载不正常。尝试新东西之前，先把重要的世界备份一份 :PES_MonkaSweat:。
+有可能。用某个模组做的存档，在你移除这个模组后可能无法正常加载。尝试新东西之前，先把你在乎的世界备份一份 :PES_MonkaSweat:。
 
-不只想用模组，还想自己做？从 **[新手上路](#/getting-started)** 开始。
+**我最喜欢的模组过时了。还能玩吗？**
+要么等作者更新，要么玩它当初适配的那个游戏版本：在 Steam 里右键 WorldBox → **属性 → 测试版**，选那个分支。你还需要对应的 NML 版本，链接在 WorldBox Discord 模组频道的置顶消息里。在那个分支上时，所有为当前版本制作的模组都会失效。想回来的话，在同一个菜单里选**无**。
+
+**怎么更新模组？**
+创意工坊的模组会自己更新。其他的：关掉游戏，把模组的旧文件夹（以及旧的 `.zip`）从 `Mods` 里删掉，再放入新的 `.zip`。
+
+**我删掉了一个模组，它却还在游戏里。**
+它来自 Steam 创意工坊。在模组列表里取消勾选是不够的：去它的创意工坊页面取消订阅。
+
+**我能为自己修改一个模组吗？**
+如果它有一个装满 `.cs` 文件的 `Code` 文件夹，可以：那些是纯文本，NML 每次启动游戏都会编译它们，它的美术资源在 `GameResources` 里。先把原版备份一份。分享你修改后的版本是另一回事，去问作者。只附带一个 `.dll` 的模组没法编辑，只能从源代码重新构建。
+
+**帮我的人要我的日志。**
+把 `%USERPROFILE%\AppData\LocalLow\mkarpenko\WorldBox` 粘贴到资源管理器的地址栏，然后发给他们 `Player.log`，也就是文件本身，而不是它的截图。如果游戏刚刚崩溃，就改发 `Player-prev.log`：再次启动游戏会覆盖 `Player.log`。
+
+不只想用模组，还想自己做？那就从 **[准备工作与快速入门](#/getting-started)** 开始。
