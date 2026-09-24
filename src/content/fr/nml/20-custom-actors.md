@@ -194,12 +194,12 @@ Le premier jour, seuls trois comptent : `civ`, `actor_size` et `name_locale`. Le
 | `kingdom_id_wild` / `kingdom_id_civilization` | Dans quel royaume elles apparaissent (sauvages ou établies) |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … atlas d'origine des sprites |
 | `animation_walk` / `animation_idle` / `animation_swim` | Séquences de frames, chacune accompagnée d'un champ `_speed` |
-| `sound_idle`, `sound_spawn`, `sound_death` … | Chemins d'événements sonores FMOD |
+| `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | Chemins d'événements sonores FMOD |
 | `name_taxonomic_*` | Règne, embranchement, classe, ordre, famille, genre, espèce pour l'encyclopédie |
 | `collective_term` | Nom de groupe ("une **meute** de loups") |
 | `allowed_status_tiers` | Niveaux d'effets de statut autorisés à s'appliquer |
 | `production` | Ce que produisent leurs cités |
-| `zombie_id_internal`, `skeleton_id`, `mush_id` … | Ce en quoi elles se métamorphosent |
+| `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | Ce en quoi elles se métamorphosent |
 
 ## Intégrer une créature de civilisation dans le monde
 

@@ -100,7 +100,7 @@ namespace HelloBox
 
 ## カスタムスプライトの追加
 
-ここに1つ落とし穴があり、誰もが一度はハマります :wbbre:。`texture` はフルパスでは**ありません**。ステータスライブラリは読み込み時に自動で `effects/` を前置するため、純粋な画像名だけを渡します。
+これには罠があり、誰もが一度はハマります :wbbre:。`texture` はフルパスでは**ありません**：ステータスライブラリは読み込み前に `effects/` を前に付けるので、名前だけを書きます。
 
 ```text Mods/HelloBox/
 HelloBox/
@@ -116,9 +116,9 @@ HelloBox/
 cursed.texture = "fx_hello_status";   // "effects/fx_hello_status" ではない
 ```
 
-文字列内にフォルダ名を書いてしまうと、ゲームは `effects/effects/fx_hello_status` を探しに行って見失い、スプライトが一切描画されなくなります。
+自分でフォルダーを書き足すと、ゲームは `effects/effects/fx_hello_status` を探し、何も見つけられず、スプライトを一切描きません。バニラの名前は `fx_status_burning_t` や `fx_status_drowning_t` のような形なので、それを真似しておけば問題は起きません。
 
-なお、同じアセット内にある `path_icon` はUI用の小さなアイコン画像であり、こちらはフルパスで指定します。
+同じアセットの `path_icon` は別物で、こちらはフルパス*です*。ユニットに描かれるスプライトではなく、ステータス一覧の小さなアイコンです。
 
 ## 効果に*アクション*を持たせる
 

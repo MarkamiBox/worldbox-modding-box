@@ -48,20 +48,20 @@ trait_hello_swift,Swift,迅捷,Быстрый
 
 ## C# 코드에서 직접 등록하기
 
-`NeoModLoader.General.LM` 은 다국어 처리를 돕는 유틸리티 클래스입니다. 텍스트를 동적으로 생성해야 하거나, 번거로운 JSON 파일 대신 단 하나의 `.cs` 파일 안에서 모든 것을 끝내고 싶을 때 유용합니다.
+`NeoModLoader.General.LM`은 로컬라이즈 도우미입니다. 텍스트가 생성되는 경우나, JSON 더미 대신 모든 걸 `.cs` 파일 하나에 두고 싶을 때 편리합니다.
 
 ```csharp Mods/HelloBox/Code/HelloLocale.cs
 using NeoModLoader.General;
 
-LM.Get("trait_hello_swift");                            // 현재 게임 언어로 텍스트 읽기
-LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // 현재 활성화된 언어에 추가
-LM.Add("en", "trait_hello_swift", "Swift");          // 특정 언어에 추가
-LM.LoadLocale("en", path);            // JSON 파일을 수동 로드
-LM.LoadLocales("path/to/Locales/lang.csv");          // CSV 파일을 수동 로드
-LM.ApplyLocale(false);                               // 적용. false = 화면 전체 텍스트 재로드 방지
+LM.Get("trait_hello_swift");                            // read in the current language
+LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // add to whatever language is loaded now
+LM.Add("en", "trait_hello_swift", "Swift");          // add to a specific language
+LM.LoadLocale("en", "path/to/Locales/en.json");       // load a json manually (language + path)
+LM.LoadLocales("path/to/Locales/lang.csv");          // load a csv manually
+LM.ApplyLocale(false);                               // apply. false = don't refresh every text on screen
 ```
 
-HelloBox에서는 다음과 같이 구성합니다:
+HelloBox에서는 그 파일이 이렇게 생겼습니다:
 
 ```csharp Mods/HelloBox/Code/HelloLocale.cs
 using System.Collections.Generic;
@@ -93,23 +93,23 @@ namespace HelloBox
 }
 ```
 
-다른 모든 요소보다 **가장 먼저** `HelloLocale.Initialize();` 를 `Main.cs` 에서 호출하세요. 텍스트가 등록되지 않은 상태에서 애셋이 먼저 로드되는 일을 막기 위함입니다.
+`HelloLocale.Initialize();`를 `Main.cs`에 **가장 먼저**, 다른 모든 것보다 앞에 추가하세요. 그래야 텍스트가 없는 상태로 무언가가 등록되는 일이 없습니다.
 
-**초기화 시점에 모든 텍스트를 일괄 등록**하고, 마지막에 `ApplyLocale` 을 딱 한 번 호출하세요. 게임에 등록되지 않은 키를 요청하면 오류 로그가 기록되고 디스크에 파일까지 쓰기 때문에, 누락된 키로 도배된 툴팁은 보기 흉할 뿐만 아니라 로그를 심각하게 오염시킵니다 :PES_UghPing:.
+**모든 것을 한 번에, 로드할 때** 등록하고 마지막에 `ApplyLocale`을 한 번만 호출하세요. 게임에 없는 키를 요청하면 키 자체가 텍스트로 돌아오고, 키마다 로그에 `missing text` 오류가 하나씩 찍힙니다. 누락된 키로 만든 툴팁은 보기 흉할 뿐 아니라 로그도 소음으로 가득 채웁니다 :PES_UghPing:.
 
 ## 실제로 사용되는 주요 로케일 키 규칙
 
-게임 내부에서 자동으로 이 키들을 조립하므로 정확히 일치해야 합니다:
+게임이 이 키들을 직접 만들기 때문에 정확히 일치해야 하며, 아니면 아무것도 표시되지 않습니다. 그중 두 개는 "ID와 같음" 규칙을 **따르지 않고**, 사람들이 한 시간씩 날리는 게 바로 이 둘입니다:
 
-| 항목 | 이름 키 | 설명 키 |
+| 대상 | 이름 키 | 설명 키 |
 | --- | --- | --- |
-| 특성 (Trait) | `trait_<id>` | `trait_<id>_info` |
-| 아이템 | `item_<id>` | `item_<id>_description` |
+| 특성 | `trait_<id>` | `trait_<id>_info` |
+| 아이템 | 설정했다면 `translation_key`, 아니면 `item_<equipment_subtype or id>` | `<id>_description` (`item_` 접두사 없음) |
 | 신의 권능 | `<power_id>` | `<power_id>_description` |
 | 권능 탭 | 전달한 `locale_key` | 전달한 설명 키 |
-| 유닛 작업 | `task_unit_<task_id>` | - |
-| 상태 효과 | `<status_id>` | `<status_id>_description` |
-| 세계 법률 | `<law_id>_title` (접미사 주의) | `<law_id>_description` |
+| 액터 태스크 | `task_unit_<task_id>` | - |
+| 상태 효과 | 설정한 `locale_id` **필드** | 설정한 `locale_description` **필드** |
+| 세계 법칙 | `<law_id>_title` (접미사 주의) | `<law_id>_description` |
 
-> [!WARNING] ID는 표시 이름이 아닙니다
-> 여러분이 지정한 ID는 모든 언어에서 영원히 `hello_swift` 이며, 코드와 다른 모드가 참조하는 고유 식별자입니다. 변하는 것은 오직 **로케일 텍스트**뿐입니다. 게임 내 표시 이름의 오타를 고치겠다고 ID 자체를 바꾸는 일은 절대 하지 마세요 :PESgn_Stop:.
+> [!WARNING] ID는 이름이 아닙니다
+> 여러분의 ID는 어떤 언어에서든 영원히 `hello_swift`이고, 나머지 코드(와 다른 사람들의 모드)가 참조하는 것이 이것입니다. 바뀌는 건 **로컬라이즈된 텍스트** 쪽입니다. 표시 이름의 오타를 고치려고 ID를 바꾸는 일은 절대 하지 마세요 :PESgn_Stop:.

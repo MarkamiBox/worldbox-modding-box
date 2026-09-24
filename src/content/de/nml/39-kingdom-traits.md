@@ -85,6 +85,16 @@ namespace HelloBox
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` wird nur einmal gelesen, beim Start
+> Neue Königreiche würfeln ihre Startmerkmale aus einem Topf, den `BaseTraitLibrary.linkAssets()` beim Laden des Spiels baut, bevor deine Mod existiert. Den Schalter an deinem Merkmal zu setzen ändert allein nichts: Dein Merkmal ist nie in diesem Topf und taucht nie zufällig auf. Leg es selbst hinein, gewichtet wie in Vanilla:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.kingdoms_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` ist `protected`, also kompiliert das gegen die publizierte Assembly, mit der NML deine Mod ohnehin baut. `spawn_random_rate` ist standardmäßig `5`: Erhöhe es, und das Merkmal taucht öfter auf.
+
 ## Eine Politik erstellen, die tatsächlich etwas bewirkt
 
 Da `base_stats` ausscheidet, rechtfertigt eine Königreichs-Eigenschaft ihre Existenz auf zwei Wegen. Beides ist mehr Arbeit als eine Zahl, und beides lohnt sich.

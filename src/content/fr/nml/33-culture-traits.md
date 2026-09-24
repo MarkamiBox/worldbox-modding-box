@@ -56,6 +56,16 @@ namespace HelloBox
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` n'est lu qu'une fois, au démarrage
+> Les nouvelles cultures tirent leurs traits de départ dans une réserve que `BaseTraitLibrary.linkAssets()` construit pendant le chargement du jeu, avant que votre mod n'existe. Activer l'option sur votre trait ne change rien à lui seul : votre trait n'est jamais dans cette réserve et n'apparaît jamais par hasard. Ajoutez-le vous-même, pondéré comme le fait le vanilla :
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.culture_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` est `protected`, donc ceci compile contre l'assembly publicisé avec lequel NML compile déjà votre mod. `spawn_random_rate` vaut `5` par défaut : augmentez-le et le trait apparaît plus souvent.
+
 Tout ce qui figure sur **[Traits personnalisés](#/nml/custom-traits)** s'applique ici également : appeler `add()` avant les stats, `path_icon` n'est pas complété à votre place, les identifiants sont préfixés. Voici ce qui rend les traits de culture uniques. Et c'est la partie amusante.
 
 > [!WARNING] `base_stats` sur un trait culturel touche tout le monde

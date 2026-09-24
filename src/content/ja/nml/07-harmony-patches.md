@@ -98,12 +98,27 @@ namespace HelloBox
 
 ここでは6つのことが起きています：
 
-- **`[HarmonyPatch(typeof(Actor), "updateStats")]`**：宛先指定。「`Actor` クラスの `updateStats` という名前のメソッド」。角括弧で囲まれた行は*属性 (Attribute)* であり、実行コードではなくシステムが読むラベルです。
-- **`public static class Patch_Actor_UpdateStats`**：入れ物。クラス名は自由で動作には影響しませんが、将来の自分のために `Patch_<クラス名>_<メソッド名>` と名付けておくと感謝することになります。
-- **`public static void Postfix(...)`**：このメソッド名は自由では**ありません**。Harmonyは `Prefix`、`Postfix`、`Finalizer` という完全一致の名前を探します。小文字で `postfix` と書くと、何のエラーも出ずに完全に無視されます :PESgn_ButWhy:。
-- **`Actor __instance`**：アンダースコアが**2つ**。今まさにゲームが処理している具体的なユニットのインスタンスです。これがないと「何かのステータスが更新された」ことは分かっても「誰の」かが分かりません。
-- **`if (!__instance.hasTrait(...)) return;`**：早期リターン。このパッチは世界の全ユニットに対して永久に実行され続けます。最も一般的なケースは1回の判定ですぐ `return` させてください。
-- **`stats["speed"] += 20f;`**：実際の変更内容。`updateStats` は先頭でステータス辞書をクリアして再構築するため、Postfixで加算すれば毎フレーム無限に重複することなく安全に加算されます。
+- **`[HarmonyPatch(typeof(Actor), "updateStats")]`**：住所です。「`Actor` というクラスの、`updateStats` というメソッド」。角括弧の行は*属性*で、実行されるコードではなく、コンピューターが読むラベルです。
+- **`public static class Patch_Actor_UpdateStats`**：入れ物です。名前は自由で何も変わりませんが、`Patch_<Class>_<Method>` にしておくと未来の自分が感謝します。
+- **`public static void Postfix(...)`**：この名前は自由では**ありません**。Harmonyは正確に `Prefix`、`Postfix`、`Finalizer` という名前のメソッドを探します。`postfix` と書くと何も起きず、エラーすら出ません :PESgn_ButWhy:。
+- **`Actor __instance`**：アンダースコアは**2つ**。ゲームが今まさに処理している特定のユニットです。これがないと、ユニットのステータスが再計算された*こと*は分かっても、*誰の*かは分かりません。
+- **`if (!__instance.hasTrait(...)) return;`**：早めに抜けましょう。このパッチはワールドのすべてのユニットで、永遠に実行されます。よくあるケースは1回のチェックと `return` で済ませます。
+- **`stats["speed"] += 20f;`**：実際の変更です。`updateStats` は最初にステータスブロックを消して作り直すので、Postfixでの加算は毎ティック積み重なるのではなく、まっさらな状態に乗ります。
+
+> [!DANGER] `updateStats` はメインスレッドで動かない
+> ゲームはこれを**並列**ジョブとして登録しています（`createJob(out c_stats_dirty, updateStats, JobType.Parallel, ...)`、そして `Config.parallel_jobs_updater` はデフォルトで `true`）。つまりあなたのPostfixはワーカースレッド上で、多数のユニットに対して同時に実行されます。中では**そのユニット自身の数値だけ**に触れてください。Unity（`Time.time`、`transform`、`Destroy`、`Resources.Load`）やゲームの乱数ヘルパー `Randy` を呼んだり、自分の共有リストに書き込んだりすると、他人のPCでだけ起きるクラッシュになります。
+>
+> それらが必要なら、ユニットをキューに入れて、自分の `Update()` で処理してください：
+> ```csharp
+> public static readonly System.Collections.Concurrent.ConcurrentQueue<Actor> pending = new();
+>
+> public static void Postfix(Actor __instance)
+> {
+>     if (!__instance.hasTrait(HelloTraits.GIGACHAD)) return;
+>     __instance.stats["speed"] += 20f;   // this unit's own data: fine
+>     pending.Enqueue(__instance);        // everything else waits for the main thread
+> }
+> ```
 
 ## 特別なパラメータ名（マジックネーム）
 
@@ -257,15 +272,15 @@ Harmonyのせいにする前に、ログを読んでください。Harmonyが原
 
 ## 互換性を保つためのルール
 
-- **基本はPostfixを使う。** 引数を変えたい場合や処理を中断したい場合のみPrefixを使う。
-- **代入ではなく調整する。** `+=` や `*=`、`Math.Min` を使う。他のModもそこをパッチしています。
-- **常にnullチェックを入れる。** パッチはワールドのロード中やユニットの死亡時にも走ります。
-- **軽い判定を一番上に置く。** 頻繁に呼ばれるパッチの1行目は、すぐに `return` できる条件式にしてください。
-- **目的に対して最も狭いメソッドをパッチする。** 特性の移動速度のために `Actor.updateStats` をパッチするのは健全です。同じことのためにワールド全体の更新ループをパッチするとModをアンインストールされます。
-- **パッチは1つのファイルにまとめる。** 競合報告が上がってきたとき、調べたいのは12個のファイルではなく1個のファイルです。未来の自分に優しくしましょう。私の古いModの真似ではなく、私の言う通りにしてください :trollface:。
+- **基本はPostfix。** Prefixは、引数を変えたいときかメソッドを止めたいときだけ使います。
+- **代入せず、調整する。** `+=`、`*=`、`Math.Min(...)`。他の誰かもここにパッチを当てています。
+- **nullチェックは必ず。** パッチはワールドの読み込み中にも、ユニットが死ぬ最中にも実行されます。
+- **安いチェックを最初に。** 頻繁に呼ばれるパッチの1行目は、`return` できるかどうかのテストにしましょう。
+- **仕事をこなせる一番狭いメソッドにパッチを当てる。** 特性1つの速度のために `Actor.updateStats` にパッチを当てるのは問題ありません。同じことのためにワールド更新にパッチを当てるのは、Modがアンインストールされる道です。
+- **パッチは1つのファイルにまとめる。** 誰かが競合を報告してきたとき、読みたいのは12個ではなく1個のファイルです。未来の自分に優しくしましょう。私の古いModの真似ではなく、私の言う通りにしてください :trollface:。
 
-> [!NOTE] ライブラリの `has`、`get`、`add`、`clone`、`post_init` へのパッチは意味がありません
-> 影響するのは自分のModがロードされた後に行われる呼び出しだけで、その時点で既に完了しているバニラの登録処理には一切影響しません。**[アセットライブラリ](#/nml/asset-libraries)** を参照。
+> [!NOTE] ライブラリの `has`、`get`、`add`、`clone`、`post_init` にパッチを当てても無意味
+> 影響するのはあなたのModが読み込まれた後の呼び出しだけで、その時点で済んでいるバニラの登録には一切影響しません。**[アセットライブラリ](#/nml/asset-libraries)** を参照してください。
 
 ## ここでは扱わない内容
 

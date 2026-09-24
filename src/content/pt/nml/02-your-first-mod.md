@@ -93,12 +93,15 @@ namespace HelloBox
 
 ## 4. Execute o jogo
 
-Inicie o WorldBox e abra a janela **Mods** no menu principal. O **HelloBox** deve aparecer na lista, já ativado. Um mod colocado na pasta `Mods/` manualmente é ativado na primeira vez que o NML o encontra.
+Abra o WorldBox e entre na janela **Mods** pelo menu principal. O **HelloBox** deve estar na lista, já ativado. Um mod que você coloca em `Mods/` por conta própria é ativado na primeira vez que o NML o encontra.
 
-Essa janela também é onde você pode **desativar** um mod mais tarde. Clicar no ícone altera o estado, e a maioria dos mods exige reiniciar o jogo para surtir efeito :PES4_AlrightThen:.
+É também nessa janela que você **desativa** um mod depois. Clicar no ícone alterna o estado, e a maioria dos mods só percebe depois de reiniciar :PES4_AlrightThen:.
 
-> [!TIP] Não aparece de jeito nenhum na lista?
-> O NML simplesmente não encontrou o mod. Em nove de cada dez vezes, o arquivo foi salvo como `mod.json.txt` em vez de `mod.json`, ou a pasta foi colocada fora de `worldbox\Mods/`.
+> [!WARNING] Nenhuma janela de Mods? O Modo Experimental está desligado
+> O NML só carrega mods quando **Configurações -> Experimental Mode** está ligado, e o jogo **desliga isso sozinho depois de cada atualização do WorldBox**: ele compara a `last_used_version` salva com a versão que você acabou de abrir e, se forem diferentes, volta a opção para `false`. Então "meu mod funcionava ontem e eu não mudei nada" é quase sempre isso. Ligue de novo e reinicie.
+
+> [!TIP] Nem aparece na lista?
+> Então o NML nunca o viu. Nove em cada dez vezes é `mod.json.txt` em vez de `mod.json`, ou a pasta está em outro lugar que não `worldbox\Mods/`. A lista completa está em **[Solução de problemas](#/troubleshooting)**.
 
 ## 5. Confira se rodou com sucesso
 

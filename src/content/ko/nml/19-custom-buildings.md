@@ -14,7 +14,7 @@ order: 142
 
 ## 먼저 복제하고, 나중에 수정하기
 
-`clone(newId, sourceId)` 는 원본의 모든 필드를 복사하고, 새 id를 부여하며, **동시에 등록(register)까지 완료**합니다. 이 마지막 동작이 결정적으로 중요합니다:
+`clone(newId, sourceId)`는 원본의 모든 필드를 복사하고, 이름을 바꾸고, **등록까지 합니다**. 마지막 부분이 중요합니다:
 
 ```csharp Mods/HelloBox/Code/HelloBuildings.cs
 namespace HelloBox
@@ -50,10 +50,10 @@ namespace HelloBox
 }
 ```
 
-직접 값을 바꾸지 않은 모든 속성은 정상 작동하는 도시 건물인 `temple_human` 의 설정 그대로 유지됩니다. 이것이 건물을 만드는 가장 영리한 비결입니다.
+설정하지 않은 것은 모두, 제대로 작동하는 도시 건물인 `temple_human`에 있던 그대로 남습니다. 비결은 그게 전부입니다.
 
-> [!WARNING] clone() 이후에 add() 를 호출하지 마세요
-> `clone()` 은 이미 내부에서 등록을 마쳤습니다. 그 뒤에 `AssetManager.buildings.add(shrine)` 을 호출하면 중복 등록이 발생하여 라이브러리가 첫 번째 사본을 버리고 `duplicate asset - overwriting...` 로그를 남깁니다. 모드가 돌아가기는 하지만 로그가 지저분해지고 코드 리뷰에서 가장 먼저 지적받게 됩니다.
+> [!WARNING] `clone()` 다음에 `add()`를 호출하지 마세요
+> `clone()`이 이미 복사본을 등록했습니다. 그 뒤에 `AssetManager.buildings.add(shrine)`을 호출하면 두 번째로 등록되어, 라이브러리가 첫 번째 복사본을 버리고 로그에 `duplicate asset - overwriting...`을 남깁니다. 그래도 작동은 하지만 로그의 소음이고, 여러분의 코드를 검토하는 사람이 가장 먼저 지적할 부분입니다.
 
 ## 무엇을 복제할 것인가
 
@@ -94,20 +94,20 @@ namespace HelloBox
 | `housing_happiness` | 해당 건물 거주 시 얻는 행복도 보너스 |
 | `storage`, `storage_only_food`, `is_stockpile` | 자원 저장고 기능 여부 |
 | `book_slots` | 도서관의 책 수용량 |
-| `docks`, `boat_types`, `boat_type_fishing` … | 선박 건조 능력 |
+| `docks`, `boat_types`, `boat_type_fishing`, `boat_type_trading`, `boat_type_transport` | 선박 건조 능력 |
 | `spawn_units`, `spawn_units_asset` | 생명체를 지속적으로 소환 |
-| `tower`, `tower_projectile`, `tower_projectile_reload` … | 방어 타워 사격 기능 |
+| `tower`, `tower_projectile`, `tower_projectile_reload`, `tower_projectile_amount`, `tower_attack_buildings` | 방어 타워 사격 기능 |
 
 ### 건설 및 배치 규칙
 
 | 필드 | 설명 |
 | --- | --- |
 | `cost`, `construction_progress_needed` | 도시가 지불하는 비용 및 건설에 걸리는 시간 |
-| `can_be_upgraded`, `upgrade_to`, `upgraded_from` … | `house_human_0` 부터 `_5` 까지와 같은 업그레이드 체인 |
-| `build_place_borders`, `build_place_center` … | 마을 내부의 건설 위치 규칙 |
-| `build_prefer_replace_house`, `check_for_close_building` … | 건물 간격 및 대체 배치 규칙 |
+| `can_be_upgraded`, `upgrade_to`, `upgraded_from`, `upgrade_level` | `house_human_0` 부터 `_5` 까지와 같은 업그레이드 체인 |
+| `build_place_borders`, `build_place_center`, `build_place_single`, `build_place_batch` | 마을 내부의 건설 위치 규칙 |
+| `build_prefer_replace_house`, `check_for_close_building`, `ignore_same_building_id` | 건물 간격 및 대체 배치 규칙 |
 | `limit_per_zone`, `limit_in_radius`, `limit_global` | 건설 가능한 최대 개수 |
-| `can_be_placed_on_liquid`, `can_be_placed_on_blocks` … | 지형 제약 조건 |
+| `can_be_placed_on_liquid`, `can_be_placed_on_blocks`, `needs_farms_ground`, `only_build_tiles` | 지형 제약 조건 |
 | `build_road_to` | 도시가 해당 건물로 이어지는 도로를 개설함 |
 
 ### 자연 및 성장
@@ -125,8 +125,8 @@ namespace HelloBox
 
 | 필드 | 설명 |
 | --- | --- |
-| `burnable`, `affected_by_lava`, `affected_by_acid` … | 건물에 피해를 주는 요소들 |
-| `has_ruins_graphics`, `has_ruin_state`, `auto_remove_ruin` … | 파괴 시 남는 폐허 설정 |
+| `burnable`, `affected_by_lava`, `affected_by_acid`, `damaged_by_rain`, `can_be_damaged_by_tornado` | 건물에 피해를 주는 요소들 |
+| `has_ruins_graphics`, `has_ruin_state`, `auto_remove_ruin`, `remove_ruins` | 파괴 시 남는 폐허 설정 |
 | `can_be_demolished`, `can_be_abandoned`, `destroy_on_liquid` | 건물이 철거되거나 소멸하는 방식 |
 | `loot_generation` | 파괴 시 떨어지는 전리품 |
 
@@ -140,7 +140,7 @@ namespace HelloBox
 | `shadow`, `shadow_bound`, `shadow_distortion` | 그림자 렌더링 |
 | `has_kingdom_color` | 소유 왕국의 색상으로 틴트 적용 |
 | `draw_light_area`, `draw_light_size` | 자체 발광 효과 |
-| `has_special_animation_state`, `animation_speed` … | 애니메이션 설정 |
+| `has_special_animation_state`, `animation_speed`, `sparkle_effect` | 애니메이션 설정 |
 
 ### 동작 및 스탯
 
@@ -152,11 +152,11 @@ namespace HelloBox
 
 ## 스프라이트
 
-건물은 `main_path + sprite_path` 경로를 합쳐 이미지를 찾으므로, 위 예제는 `buildings/hello_shrine` 이 됩니다. `GameResources/buildings/hello_shrine.png` 에 PNG 파일을 넣으면 바닐라 건물처럼 자동으로 로드됩니다. `sprites.json` 에서 피벗을 반드시 하단 중앙(bottom-centre)으로 설정하세요. 그렇지 않으면 사당이 유령처럼 땅 위에 둥둥 떠다니게 됩니다 :aPES_GhostDance:. 자세한 내용은 **[스프라이트 & 리소스](#/nml/sprites-and-resources)** 를 참고하세요.
+건물은 `sprite_path`에서 그림을 불러오며, **쓴 그대로** 사용합니다. `sprite_path`를 비워 둘 때만 게임이 `main_path + id`로 대체합니다. 그림은 `GameResources/buildings/hello_shrine/`에 두고 `sprites.json`에서 아래 가운데 피벗을 지정하세요. 그러지 않으면 사당이 유령처럼 땅 위에 떠 있게 됩니다 :aPES_GhostDance:. **[스프라이트 및 리소스](#/nml/sprites-and-resources)**를 보세요.
 
 ## 커스텀 스프라이트
 
-건물은 **두 개의** 필드를 하나로 이어 붙이는 유일한 에셋입니다: `main_path + sprite_path`. `main_path` 는 기본값이 이미 `buildings/` 로 설정되어 있으므로, `sprite_path` 에는 순수 파일 이름만 넣어야 합니다.
+아래 두 가지 형태 중 하나를 골라 섞지 마세요. 로더는 말 그대로 이렇게 합니다: `sprite_path`에 뭔가 있으면 그걸 쓰고, 없으면 `main_path + id`를 씁니다.
 
 ```text Mods/HelloBox/
 HelloBox/
@@ -170,22 +170,25 @@ HelloBox/
             └── sprites.json         bottom-centre pivot
 ```
 
-**파일 이름이 곧 형식**입니다. 로더는 이름을 `_` 로 나눕니다. 앞은 종류 (`main`, `construction`, `ruin`, `disabled`, `spawn`, `special`), 뒤는 애니메이션 프레임 번호입니다. `main_0`, `main_1`, `main_2` 면 3프레임 애니메이션입니다. 다른 이름의 파일은 프레임이 아니고, `main_0` 이 없는 폴더면 건물은 그릴 게 없습니다. `mini` 는 미니맵 점입니다. `mini_0` 은 건물이 차지하는 타일 수와 정확히 같은 픽셀이어야 하고, `temple_human` 에서 복제한 건 5x4 입니다. 없으면 미니맵이 다시 그릴 때마다 `Building.getColorForMinimap()` 에서 `NullReferenceException` 을 냅니다.
+**파일 이름이 곧 형식입니다**. 로더는 각 이름을 `_`에서 나눕니다: 앞부분이 종류(`main`, `construction`, `ruin`, `disabled`, `spawn`, `special`, 그리고 미니맵용 `mini`)이고, 뒤의 숫자가 애니메이션 프레임입니다. `mini_0`은 건물이 차지하는 타일 수와 정확히 같은 픽셀 수여야 하며, `temple_human`에서 클론한 것이라면 5x4입니다. 빼 먹으면 미니맵이 다시 그릴 때마다 `Building.getColorForMinimap()`에서 `NullReferenceException`을 던집니다. `main_0`, `main_1`, `main_2`는 3프레임 애니메이션입니다. 다른 이름의 파일은 프레임이 아니고, `main_0`이 없는 폴더는 건물에게 그릴 것을 주지 않습니다.
 
 ```csharp
-shrine.main_path = "buildings/";       // 기본값이며 바꿀 일이 거의 없음
-shrine.sprite_path = "hello_shrine";   // "buildings/hello_shrine" 이 아님에 주의
+// A: full path in sprite_path. main_path is then ignored.
+shrine.sprite_path = "buildings/hello_shrine";
+
+// B: leave sprite_path empty and let main_path + id decide.
+shrine.sprite_path = string.Empty;
+shrine.main_path = "buildings/";       // -> buildings/hello_shrine
 ```
 
-둘을 섞으면, 즉 `main_path` 에 폴더를 적고 `sprite_path` 를 비우면 게임은 `buildings/hello_shrine/hello_shrine` 을 찾습니다 :aPES_BrainScratch:.
+둘을 섞어서 `main_path`에 폴더를 쓰고 `sprite_path`를 비우면, 게임은 `buildings/hello_shrine/hello_shrine`을 찾습니다 :aPES_BrainScratch:.
 
-> [!WARNING] 경로를 넣은 뒤 프레임은 직접 로드하세요
-> 게임은 자기 프리로드에서 모든 건물의 `building_sprites` 를 채우는데, 그건 모드보다 먼저입니다. 나중에 등록한 건물은 프레임 목록이 비어 있고, 처음 배치하는 순간 `Building.setAnimData()` 에서 `ArgumentOutOfRangeException: Index was out of range` 로 죽습니다 :wbfacepalm:. `sprite_path` 를 정했으면 `shrine.loadBuildingSprites();` 를 부르세요.
+> [!WARNING] 경로를 설정한 뒤 프레임은 직접 불러오세요
+> 게임은 여러분의 모드보다 먼저 실행되는 자체 사전 로드에서 모든 건물의 `building_sprites`를 채웁니다. 그 뒤에 등록한 건물은 프레임 목록이 비어 있고, 처음 하나를 배치하는 순간 게임이 `Building.setAnimData()`에서 `ArgumentOutOfRangeException: Index was out of range`로 죽습니다 :wbfacepalm:. `sprite_path`를 설정했다면 `shrine.loadBuildingSprites();`를 호출하세요.
 >
-> 형제뻘인 게 `atlas_asset` 인데, 건물을 주인 색으로 칠하는 아틀라스입니다. 라이브러리가 이것도 시작 때 `checkAtlasLink()` 에서 연결합니다. 없으면 건물은 잘 놓이지만, 그 뒤 **화면에 보이는 매 프레임** `DynamicSprites.getRecoloredBuilding()` 에서 `NullReferenceException` 을 냅니다.
+> 그 형제는 `atlas_asset`으로, 건물을 주인의 색으로 칠하는 스프라이트 아틀라스입니다. 라이브러리는 이것도 시작할 때 `checkAtlasLink()`에서 연결합니다. 건너뛰면 건물은 문제없이 배치되지만, 그 뒤 **화면에 보이는 모든 프레임에서** `DynamicSprites.getRecoloredBuilding()`이 `NullReferenceException`을 던집니다.
 
-
-`sprites.json` 에서 반드시 **하단 중앙 피벗**을 지정하세요. 안 그러면 사당이 공중에 뜨게 됩니다. **[스프라이트 & 리소스](#/nml/sprites-and-resources)** 를 참고하세요.
+`sprites.json`에서 **아래 가운데 피벗**을 지정하세요. 그러지 않으면 사당이 유령처럼 땅 위에 떠 있게 됩니다(**[스프라이트 및 리소스](#/nml/sprites-and-resources)** 참고).
 
 ## 맵에 직접 배치하기
 

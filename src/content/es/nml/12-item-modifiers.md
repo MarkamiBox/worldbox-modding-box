@@ -12,7 +12,7 @@ Conoces esas pequeñas líneas verdes en una buena espada: *"+3 de daño"*, *"ar
 
 ## La forma sencilla: el creador de NML
 
-Un `ItemAsset` en vanilla es una sola clase cumpliendo siete roles distintos, y los campos significan cosas completamente diferentes según la ocasión. NML envuelve las partes lógicas en `ItemAssetCreator`, y para modificadores también se encarga de registrarlos por ti:
+Un modificador es un `ItemModAsset`, que es un `ItemAsset` con otro sombrero, y vive en `AssetManager.items_modifiers`:
 
 ```csharp Mods/HelloBox/Code/HelloModifiers.cs
 namespace HelloBox
@@ -60,12 +60,17 @@ namespace HelloBox
     }
 }
 ```
+
 > [!WARNING] Registrarlo no basta
-> `add()` mete tu modificador en la `list` de la librería, y el generador no lee `list`, lee `pools`. Esos pools se llenan en `linkAssets()`, una vez, durante la carga. Un modificador que solo está en `list` existe, tiene nombre, y no le saldrá nunca a nada :wbfacepalm:.
+> `add()` mete tu modificador en la `list` de la biblioteca, pero el generador no lee `list`, lee `pools`. Esos pools se llenan en `linkAssets()`, una sola vez, durante la carga. Un modificador que solo está en `list` existe, tiene nombre y nunca saldrá en nada :wbfacepalm:.
 
+```json Mods/HelloBox/Locales/en.json
+{
+  "mod_hello_sharp": "Sharpened"
+}
+```
 
-
-Añade `HelloModifiers.Initialize();` a tu `Main.cs`, y a partir de ese momento el juego podrá asignar "hello_sharp" a las armas generadas.
+Añade `HelloModifiers.Initialize();` a `Main.cs`, y a partir de ahí el juego puede ponerlo en las armas generadas.
 
 ### Los argumentos que importan
 

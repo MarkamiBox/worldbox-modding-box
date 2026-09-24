@@ -12,7 +12,7 @@ order: 122
 
 ## 便捷之道：使用 NML 的 Creator 辅助类
 
-原版中的 `ItemAsset` 是一个身兼七职的混乱类，不同语境下其字段含义大相径庭。NML 将其合理的部分优雅封装进了 `ItemAssetCreator`，并在创建词条时直接顺便替你完成了注册入库：
+词条是一个 `ItemModAsset`，也就是换了顶帽子的 `ItemAsset`，它存放在 `AssetManager.items_modifiers` 里：
 
 ```csharp Mods/HelloBox/Code/HelloModifiers.cs
 namespace HelloBox
@@ -60,12 +60,17 @@ namespace HelloBox
     }
 }
 ```
+
 > [!WARNING] 光注册还不够
-> `add()` 只是把你的词条放进库的 `list`，而生成器读的不是 `list`，是 `pools`。那些 pool 是在加载时的 `linkAssets()` 里填一次的。只存在于 `list` 里的词条确实存在、也有名字，但永远不会被掷到任何东西上 :wbfacepalm:。
+> `add()` 会把你的词条放进资源库的 `list`，但生成器读的不是 `list`，而是 `pools`。这些池子在加载时由 `linkAssets()` 填充，只填一次。只存在于 `list` 里的词条确实存在、也有名字，但永远不会被随机到任何东西上 :wbfacepalm:。
 
+```json Mods/HelloBox/Locales/en.json
+{
+  "mod_hello_sharp": "Sharpened"
+}
+```
 
-
-在 `Main.cs` 中加入 `HelloModifiers.Initialize();`，从此以后系统在生成新武器时便有几率自动附带“hello_sharp”词条。
+把 `HelloModifiers.Initialize();` 加进 `Main.cs`，从此游戏就可以把它随机到生成的武器上。
 
 ### 关键参数解析
 

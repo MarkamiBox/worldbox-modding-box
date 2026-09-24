@@ -184,6 +184,16 @@ if (actor.hasTrait(HelloTraits.SWIFT))
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` n'est lu qu'une fois, au démarrage
+> Les nouvelles unités tirent leurs traits de départ dans une réserve que `BaseTraitLibrary.linkAssets()` construit pendant le chargement du jeu, avant que votre mod n'existe. Activer l'option sur votre trait ne change rien à lui seul : votre trait n'est jamais dans cette réserve et n'apparaît jamais par hasard. Ajoutez-le vous-même, pondéré comme le fait le vanilla :
+>
+> ```csharp
+> swift.spawn_random_trait_allowed = true;
+> AssetManager.traits._pot_allowed_to_be_given_randomly.AddTimes(swift.spawn_random_rate, swift);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` est `protected`, donc ceci compile contre l'assembly publicisé avec lequel NML compile déjà votre mod. `spawn_random_rate` vaut `5` par défaut : augmentez-le et le trait apparaît plus souvent.
+
 ## Vérifier que cela fonctionne
 
 Lancez le jeu, inspectez une créature, ouvrez l'éditeur de traits et consultez l'onglet `physique`. Il n'y est pas ? Les logs savent pourquoi, et l'explication est quasi systématiquement l'une de ces trois : `can_be_given` est à false, `group_id` n'existe pas, ou `path_icon` pointe dans le vide :wbreally:.

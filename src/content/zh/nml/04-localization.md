@@ -48,20 +48,20 @@ trait_hello_swift,Swift,迅捷,Быстрый
 
 ## 在代码中动态注册文本
 
-`NeoModLoader.General.LM` 是 NML 提供的本地化辅助类。当你的文本需要动态生成，或者你单纯想把所有东西写进一个 `.cs` 文件而不是分成多个 JSON 时非常顺手。
+`NeoModLoader.General.LM` 是本地化辅助工具。当你的文本是动态生成的，或者你只是想把所有内容放进一个 `.cs` 文件而不是一堆 JSON 时，它很方便。
 
 ```csharp Mods/HelloBox/Code/HelloLocale.cs
 using NeoModLoader.General;
 
-LM.Get("trait_hello_swift");                            // 读取当前游戏语言对应的文本
-LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // 添加到当前已加载的语言中
-LM.Add("en", "trait_hello_swift", "Swift");          // 添加到特定语言中
-LM.LoadLocale("en", path);            // 手动加载一个 json
-LM.LoadLocales("path/to/Locales/lang.csv");          // 手动加载一个 csv
-LM.ApplyLocale(false);                               // 应用生效。false = 不强制重绘屏幕上的所有文字
+LM.Get("trait_hello_swift");                            // read in the current language
+LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // add to whatever language is loaded now
+LM.Add("en", "trait_hello_swift", "Swift");          // add to a specific language
+LM.LoadLocale("en", "path/to/Locales/en.json");       // load a json manually (language + path)
+LM.LoadLocales("path/to/Locales/lang.csv");          // load a csv manually
+LM.ApplyLocale(false);                               // apply. false = don't refresh every text on screen
 ```
 
-在 HelloBox 中，该文件看起来是这样的：
+在 HelloBox 里，这个文件长这样：
 
 ```csharp Mods/HelloBox/Code/HelloLocale.cs
 using System.Collections.Generic;
@@ -93,23 +93,23 @@ namespace HelloBox
 }
 ```
 
-在 `Main.cs` 中**最先**调用 `HelloLocale.Initialize();`，排在其他所有初始化之前，确保没有任何资源在缺少文本的状态下被过早注册。
+把 `HelloLocale.Initialize();` **最先**加到 `Main.cs` 里，放在所有其他东西之前，这样就不会有任何东西在文本缺失的情况下被注册。
 
-**在加载时一次性注册全部文本**，并在末尾调用一次 `ApplyLocale`。向游戏索取一个不存在的键会触发报错并向磁盘写日志，因此充斥着缺失键名的鼠标悬浮提示不仅丑陋，还会让日志疯狂刷屏 :PES_UghPing:。
+**在加载时一次性注册所有内容**，最后只调用一次 `ApplyLocale`。向游戏请求一个它没有的键，会直接把键名本身当作文本返回，而且每个键都会在日志里产生一条 `missing text` 错误，所以由缺失键拼成的提示框不仅难看，还会让你的日志充满噪音 :PES_UghPing:。
 
 ## 你真正需要掌握的常用键名规则
 
-游戏底层会自动拼接这些键名，因此必须完全吻合：
+这些键是游戏自己拼出来的，所以必须完全一致，否则什么都不会显示。其中有两个**不**遵循“和 id 相同”的规则，大家恰恰在这两个上浪费一个小时：
 
-| 元素类型 | 名称键名 | 描述键名 |
+| 对象 | 名称键 | 描述键 |
 | --- | --- | --- |
-| 特质 (Trait) | `trait_<id>` | `trait_<id>_info` |
-| 物品 (Item) | `item_<id>` | `item_<id>_description` |
-| 神圣能力 | `<power_id>` | `<power_id>_description` |
-| 能力分类标签页 | 你传入的 `locale_key` | 你传入的描述键名 |
-| 角色行为任务 | `task_unit_<task_id>` | - |
-| 状态效果 | `<status_id>` | `<status_id>_description` |
+| 特质 | `trait_<id>` | `trait_<id>_info` |
+| 物品 | 如果设置了就是 `translation_key`，否则是 `item_<equipment_subtype or id>` | `<id>_description`（没有 `item_` 前缀） |
+| 神力 | `<power_id>` | `<power_id>_description` |
+| 神力标签页 | 你传入的 `locale_key` | 你传入的描述键 |
+| 角色任务 | `task_unit_<task_id>` | - |
+| 状态效果 | 你设置的 `locale_id` **字段** | 你设置的 `locale_description` **字段** |
 | 世界法则 | `<law_id>_title`（注意后缀） | `<law_id>_description` |
 
-> [!WARNING] ID 不是展示名称
-> 无论在哪种语言下，你的 ID 都永远是 `hello_swift`，这是你的其他代码（以及别人的 Mod）引用的唯一标识。**本地化文本**才是会随语言变化的部分。切勿仅仅为了修复显示名称里的错别字而随意改动底层 ID :PESgn_Stop:。
+> [!WARNING] id 不是名字
+> 你的 id 在任何语言里都永远是 `hello_swift`，你其余的代码（以及别人的模组）引用的都是它。会变的是**本地化文本**。千万别为了修正显示名称里的错字就去改 id :PESgn_Stop:。

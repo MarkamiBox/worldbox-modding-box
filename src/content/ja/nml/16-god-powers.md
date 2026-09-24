@@ -65,15 +65,15 @@ namespace HelloBox
 
 ### 各部分の役割
 
-- **`id`**: 他のすべてが参照する名前。ボタン、ローカライズ、他のMODなど。
-- **`name`**: ゲーム自体のUIルックアップで使用されます。id と同じにしておくとトラブルを防げます。
-- **`rank = PowerRank.Rank0_free`**: 最初から使用可能で、アンロック不要。
-- **`path_icon`**: カーソルおよびツールのアイコン。
-- **`unselect_when_window`**: ウィンドウを開いたときにツールの構えを解除し、パネルの背後にあるマップを誤って破壊してしまうのを防ぎます。
-- **`click_action`**: 実行するコード。**クリックされたタイル** と **パワーID** を受け取り、何らかのアクションを行った場合は `true` を返します。
+- **`id`**：ほかのすべてが参照する名前です。ボタン、翻訳、ほかのMod。
+- **`name`**：ゲーム自身のUIが検索に使います。IDと同じにしておけば頭痛の種が減ります。
+- **`rank = PowerRank.Rank0_free`**：最初から使え、アンロック不要です。
+- **`path_icon`**：カーソル/ツールのアイコンです。
+- **`unselect_when_window`**：プレイヤーがウィンドウを開くとツールが自動で解除されるので、パネルの裏のマップをうっかり攻撃してしまうことがありません。
+- **`click_action`**：あなたのコードです。**クリックされたタイル**と**パワーのID**を受け取り、何かをしたら `true` を返します。
 
-> [!WARNING] クリック処理のシグネチャは (WorldTile, string) である
-> `click_action` は `PowerActionWithID` デリゲートであるため、第2引数は `GodPower` ではなく **string 型のパワーID** です。なお、もう一つ `click_power_action` という `(WorldTile, GodPower)` を受け取るフィールドも存在します。型を間違えると意味不明なコンパイルエラーに悩まされることになります :PES_DaFuq:。
+> [!WARNING] クリックのシグネチャは `(WorldTile, string)`
+> `click_action` は `PowerActionWithID` なので、2番目の引数は `GodPower` ではなく、**文字列としてのパワーID** です。`(WorldTile, GodPower)` を受け取る `click_power_action` という別のフィールドもあります。形を間違えると、意味不明に見えるコンパイルエラーが出ます :PES_DaFuq:。
 
 ## クリック時に行える便利な処理
 

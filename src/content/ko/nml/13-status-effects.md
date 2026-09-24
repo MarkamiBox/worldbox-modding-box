@@ -100,7 +100,7 @@ namespace HelloBox
 
 ## 나만의 스프라이트 적용하기
 
-여기에는 함정이 하나 있고, 누구나 한 번은 빠집니다 :wbbre:. `texture`는 전체 경로가 **아닙니다**. 상태 이상 라이브러리가 로드할 때 앞에 자동으로 `effects/`를 붙이기 때문에 순수한 파일명만 적어야 합니다.
+여기에는 함정이 있고, 누구나 한 번은 빠집니다 :wbbre:. `texture`는 전체 경로가 **아닙니다**: 상태 효과 라이브러리가 불러오기 전에 앞에 `effects/`를 붙이므로, 이름만 적으면 됩니다.
 
 ```text Mods/HelloBox/
 HelloBox/
@@ -116,9 +116,9 @@ HelloBox/
 cursed.texture = "fx_hello_status";   // "effects/fx_hello_status"가 아님!
 ```
 
-폴더 이름까지 직접 적어버리면 게임은 `effects/effects/fx_hello_status`를 찾으려다 실패하여 스프라이트가 완전히 투명해집니다.
+폴더를 직접 적어 넣으면 게임은 `effects/effects/fx_hello_status`를 찾고, 아무것도 못 찾고, 스프라이트를 전혀 그리지 않습니다. 바닐라 이름은 `fx_status_burning_t`, `fx_status_drowning_t` 같은 형태이므로, 그 형태를 따라 하면 문제를 피할 수 있습니다.
 
-반면 같은 에셋의 `path_icon`은 UI 목록에 작게 뜨는 아이콘이므로 전체 경로를 그대로 적어야 합니다.
+같은 에셋의 `path_icon`은 다른 것이고, 이쪽은 전체 경로*가 맞습니다*. 유닛 위에 그려지는 스프라이트가 아니라 상태 목록의 작은 아이콘입니다.
 
 ## 상태 효과가 실제로 무언가를 *수행*하게 만들기
 

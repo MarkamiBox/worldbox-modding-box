@@ -184,6 +184,16 @@ if (actor.hasTrait(HelloTraits.SWIFT))
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` é lido uma única vez, na inicialização
+> Unidades novas sorteiam seus traços iniciais de uma urna que `BaseTraitLibrary.linkAssets()` monta enquanto o jogo carrega, antes de o seu mod existir. Ligar a opção no seu traço não muda nada sozinho: seu traço nunca está nessa urna e nunca aparece por acaso. Coloque-o você mesmo, com o peso que o vanilla usa:
+>
+> ```csharp
+> swift.spawn_random_trait_allowed = true;
+> AssetManager.traits._pot_allowed_to_be_given_randomly.AddTimes(swift.spawn_random_rate, swift);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` é `protected`, então isso compila contra o assembly publicizado com que o NML já compila o seu mod. `spawn_random_rate` vale `5` por padrão: aumente e o traço aparece com mais frequência.
+
 ## Verificando se funcionou
 
 Abra o jogo, abra uma criatura, abra o editor de traços e procure na aba `physique`. Não está lá? O log sabe o porquê, e a resposta quase sempre é uma de três coisas: `can_be_given` está false, `group_id` não existe, ou `path_icon` aponta para o nada :wbreally:.

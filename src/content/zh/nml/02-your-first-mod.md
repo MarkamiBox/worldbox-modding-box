@@ -93,12 +93,15 @@ namespace HelloBox
 
 ## 4. 运行测试
 
-启动 WorldBox，在游戏主菜单中打开 **Mods** 窗口。**HelloBox** 应该已经出现在列表中，并且处于开启状态。你自己放进 `Mods/` 目录的 Mod，在被 NML 首次扫描到时会默认自动激活。
+启动 WorldBox，从主菜单打开 **Mods** 窗口。**HelloBox** 应该已经在列表里，并且已经开启。你自己放进 `Mods/` 的模组，会在 NML 第一次发现它时自动启用。
 
-以后你想**关闭**某个 Mod 时也是在这个窗口操作。点击图标即可切换开关，绝大多数 Mod 需要重启游戏才能完全生效 :PES4_AlrightThen:。
+以后要**关闭**某个模组，也是在这个窗口里。点击图标即可切换，大多数模组要重启之后才会察觉 :PES4_AlrightThen:。
 
-> [!TIP] 列表里完全找不到它？
-> 说明 NML 根本没有发现这个文件夹。十有八九是文件名变成了 `mod.json.txt` 而不是 `mod.json`，或者是文件夹没有放到 `worldbox\Mods/` 目录下。
+> [!WARNING] 根本没有 Mods 窗口？实验模式没开
+> 只有 **设置 -> Experimental Mode** 开启时，NML 才会加载模组，而游戏**每次 WorldBox 更新后都会自己把它关掉**：它会把保存的 `last_used_version` 和你刚启动的版本做比较，不一致就把开关改回 `false`。所以“我的模组昨天还好好的，我什么都没改”几乎都是这个原因。重新打开它，然后重启。
+
+> [!TIP] 列表里根本没有？
+> 那说明 NML 从来没看到它。十有八九是文件变成了 `mod.json.txt` 而不是 `mod.json`，或者文件夹不在 `worldbox\Mods/` 里。完整列表见 **[常见问题排查](#/troubleshooting)**。
 
 ## 5. 检查运行日志
 

@@ -48,17 +48,17 @@ trait_hello_swift,Swift,迅捷,Быстрый
 
 ## Le faire directement depuis le code
 
-`NeoModLoader.General.LM` est l'outil d'aide à la localisation. Très pratique lorsque votre texte est généré dynamiquement ou si vous préférez tout centraliser dans un seul fichier `.cs` plutôt que de gérer des JSON.
+`NeoModLoader.General.LM` est l'outil de localisation. Pratique quand votre texte est généré, ou quand vous voulez simplement tout avoir dans un seul fichier `.cs` plutôt qu'une pile de JSON.
 
 ```csharp Mods/HelloBox/Code/HelloLocale.cs
 using NeoModLoader.General;
 
-LM.Get("trait_hello_swift");                            // lire dans la langue active
-LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // ajouter à la langue actuellement chargée
-LM.Add("en", "trait_hello_swift", "Swift");          // ajouter à une langue spécifique
-LM.LoadLocale("en", path);            // charger un json manuellement
-LM.LoadLocales("path/to/Locales/lang.csv");          // charger un csv manuellement
-LM.ApplyLocale(false);                               // appliquer. false = ne pas recalculer tous les textes affichés
+LM.Get("trait_hello_swift");                            // read in the current language
+LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // add to whatever language is loaded now
+LM.Add("en", "trait_hello_swift", "Swift");          // add to a specific language
+LM.LoadLocale("en", "path/to/Locales/en.json");       // load a json manually (language + path)
+LM.LoadLocales("path/to/Locales/lang.csv");          // load a csv manually
+LM.ApplyLocale(false);                               // apply. false = don't refresh every text on screen
 ```
 
 Dans HelloBox, ce fichier ressemble à ceci :
@@ -93,23 +93,23 @@ namespace HelloBox
 }
 ```
 
-Ajoutez `HelloLocale.Initialize();` dans `Main.cs` **en tout premier**, avant tout le reste, afin qu'aucun asset ne soit enregistré alors que son texte fait encore défaut.
+Ajoutez `HelloLocale.Initialize();` dans `Main.cs` **en premier**, avant tout le reste, pour que rien ne soit jamais enregistré tant que son texte manque.
 
-Enregistrez **tout d'un coup, au chargement**, et appelez `ApplyLocale` une fois à la fin. Demander au jeu une clé qu'il ne connaît pas déclenche une ligne d'erreur dans le log et écrit un fichier sur le disque, donc une infobulle remplie de clés manquantes est non seulement moche, mais pollue aussi les logs :PES_UghPing:.
+Enregistrez **tout d'un coup, au chargement**, et appelez `ApplyLocale` une seule fois à la fin. Demander au jeu une clé qu'il n'a pas vous renvoie la clé elle-même comme texte, plus une erreur `missing text` dans le log par clé : une infobulle faite de clés manquantes n'est donc pas seulement moche, elle remplit aussi votre log de bruit :PES_UghPing:.
 
 ## Les noms de clés dont vous avez réellement besoin
 
-Le jeu construit ces clés lui-même, elles doivent donc concorder exactement :
+Le jeu construit ces clés lui-même, elles doivent donc correspondre exactement, sinon rien ne s'affiche. Deux d'entre elles ne suivent **pas** la règle "comme l'id", et ce sont justement celles sur lesquelles on perd une heure :
 
-| Élément | Clé du nom | Clé de la description |
+| Quoi | Clé du nom | Clé de la description |
 | --- | --- | --- |
 | Trait | `trait_<id>` | `trait_<id>_info` |
-| Objet | `item_<id>` | `item_<id>_description` |
+| Objet | `translation_key` si vous en définissez une, sinon `item_<equipment_subtype or id>` | `<id>_description` (sans le préfixe `item_`) |
 | Pouvoir divin | `<power_id>` | `<power_id>_description` |
-| Onglet de pouvoir | la `locale_key` fournie | la clé de description fournie |
-| Tâche d'unité | `task_unit_<task_id>` | - |
-| Effet de statut | `<status_id>` | `<status_id>_description` |
-| Loi du monde | `<law_id>_title` (notez le suffixe) | `<law_id>_description` |
+| Onglet de pouvoirs | le `locale_key` que vous avez passé | la clé de description que vous avez passée |
+| Tâche d'acteur | `task_unit_<task_id>` | - |
+| Effet de statut | le **champ** `locale_id` que vous définissez | le **champ** `locale_description` que vous définissez |
+| Loi du monde | `<law_id>_title` (attention au suffixe) | `<law_id>_description` |
 
-> [!WARNING] Les ID ne sont pas des noms
-> Votre ID est `hello_swift` pour toujours, dans toutes les langues, et c'est ce à quoi le reste de votre code (et les mods des autres) fera référence. Le **texte de localisation** est la seule partie qui varie. Ne renommez jamais un ID simplement pour corriger une faute d'orthographe dans le nom d'affichage :PESgn_Stop:.
+> [!WARNING] Les ids ne sont pas des noms
+> Votre id reste `hello_swift` pour toujours, dans toutes les langues, et c'est à lui que se réfèrent le reste de votre code (et les mods des autres). Le **texte localisé** est la partie qui change. Ne renommez jamais un id juste pour corriger une faute dans le nom affiché :PESgn_Stop:.

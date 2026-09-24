@@ -101,15 +101,15 @@ new WorldLawAsset
 
 ## Die Texte
 
-```json Locales/en.json
+```json Mods/HelloBox/Locales/en.json
 {
   "world_law_hello_chaos_title": "Hello Chaos",
   "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one."
 }
 ```
 
-> [!WARNING] Weltgesetze verwenden _title, nicht die reine ID
-> Nahezu jedes andere Asset verwendet seine reine ID als Namensschlüssel. Weltgesetze verlangen nach `<id>_title`. Vergisst du das, taucht der Schalter ganz ohne Beschriftung auf :PESgn_Really:.
+> [!WARNING] Weltgesetze nutzen `_title`, nicht die bloße ID
+> Fast jedes andere Asset nutzt seine bloße ID als Namensschlüssel. Weltgesetze wollen `<id>_title`. Machst du es falsch, erscheint der Schalter ganz ohne Beschriftung :PESgn_Really:.
 
 > [!TIP] Ein Gesetz schlägt eine Einstellung
-> Mod-Einstellungen leben in einem Menü, das der Spieler einmal öffnet. Ein Weltgesetz befindet sich direkt im Spiel, neben den Vanilla-Gesetzen, pro Welt, und kann mitten im Spiel umgelegt werden. Wenn deine Mod ein Ein/Aus-Verhalten hat, gehört es genau hierhin :wbblessed:.
+> Mod-Einstellungen leben in einem Menü, das der Spieler einmal öffnet. Ein Weltgesetz ist direkt im Spiel, neben den Vanilla-Gesetzen, pro Welt, und lässt sich mitten im Spiel umlegen. Wenn deine Mod ein An/Aus-Verhalten hat, gehört es hierher :wbblessed:.

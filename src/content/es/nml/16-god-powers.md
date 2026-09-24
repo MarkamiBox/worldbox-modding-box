@@ -65,15 +65,15 @@ Añade `HelloPowers.Initialize();` a `Main.cs`.
 
 ### Qué hace cada parte
 
-- **`id`**: el nombre al que todo lo demás hace referencia. El botón, la traducción, otros mods.
-- **`name`**: utilizado por las búsquedas de la interfaz propia del juego. Mantenerlo igual que el id te ahorra dolores de cabeza.
-- **`rank = PowerRank.Rank0_free`**: disponible desde el principio, sin desbloqueos.
-- **`path_icon`**: el icono del cursor y de la herramienta.
-- **`unselect_when_window`**: cuando el jugador abre una ventana, la herramienta se desarma automáticamente para no castigar accidentalmente el mapa tras el panel.
-- **`click_action`**: tu código. Recibe la **casilla donde se hizo clic** y el **id del poder**, y devuelve `true` si hizo algo.
+- **`id`**: el nombre al que se refiere todo lo demás. El botón, la traducción, otros mods.
+- **`name`**: lo usan las búsquedas de la propia interfaz del juego. Mantenerlo igual que el id te ahorra un dolor de cabeza.
+- **`rank = PowerRank.Rank0_free`**: disponible desde el principio, sin desbloquear.
+- **`path_icon`**: el icono del cursor/herramienta.
+- **`unselect_when_window`**: cuando el jugador abre una ventana, la herramienta se desarma sola, para que no fulmine sin querer el mapa detrás del panel.
+- **`click_action`**: tu código. Recibe la **casilla pulsada** y el **id del poder**, y devuelve `true` si hizo algo.
 
-> [!WARNING] La firma de clic es (WorldTile, string)
-> `click_action` es un `PowerActionWithID`, por lo que su segundo argumento es el **id del poder como string**, no un `GodPower`. Hay un segundo campo, `click_power_action`, que toma `(WorldTile, GodPower)`. Usar la forma incorrecta te da un error de compilación incomprensible :PES_DaFuq:.
+> [!WARNING] La firma del clic es `(WorldTile, string)`
+> `click_action` es un `PowerActionWithID`, así que su segundo argumento es el **id del poder como string**, no un `GodPower`. Hay un segundo campo, `click_power_action`, que recibe `(WorldTile, GodPower)`. Usar la forma equivocada te da un error de compilación que parece un sinsentido :PES_DaFuq:.
 
 ## Cosas útiles que hacer al hacer clic
 

@@ -194,12 +194,12 @@ namespace HelloBox
 | `kingdom_id_wild` / `kingdom_id_civilization` | 소속될 왕국 (야생 상태 및 정착 상태) |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … 스프라이트가 속한 아틀라스 |
 | `animation_walk` / `animation_idle` / `animation_swim` | 프레임 시퀀스와 각 애니메이션의 `_speed` 필드 |
-| `sound_idle`, `sound_spawn`, `sound_death` … | FMOD 사운드 이벤트 경로 |
+| `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | FMOD 사운드 이벤트 경로 |
 | `name_taxonomic_*` | 지식 창에 노출될 계, 문, 강, 목, 과, 속, 종 |
 | `collective_term` | 무리를 부르는 표현 ("늑대 **한 무리**") |
 | `allowed_status_tiers` | 부여받을 수 있는 상태 효과 등급 |
 | `production` | 이들의 도시가 생산하는 품목 |
-| `zombie_id_internal`, `skeleton_id`, `mush_id` … | 사망 또는 감염 시 변신할 대상 |
+| `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | 사망 또는 감염 시 변신할 대상 |
 
 ## 문명 생명체를 월드 시스템에 연결하기
 

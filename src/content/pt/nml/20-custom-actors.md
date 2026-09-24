@@ -194,12 +194,12 @@ No primeiro dia só três importam: `civ`, `actor_size` e `name_locale`. O resto
 | `kingdom_id_wild` / `kingdom_id_civilization` | Reino onde surgem (selvagens ou estabelecidas) |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … atlas onde residem os sprites |
 | `animation_walk` / `animation_idle` / `animation_swim` | Sequências de quadros com seus respectivos campos `_speed` |
-| `sound_idle`, `sound_spawn`, `sound_death` … | Caminhos de eventos de áudio FMOD |
+| `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | Caminhos de eventos de áudio FMOD |
 | `name_taxonomic_*` | Reino, filo, classe, ordem, família, gênero e espécie para a enciclopédia |
 | `collective_term` | Termo coletivo ("uma **alcateia** de lobos") |
 | `allowed_status_tiers` | Quais níveis de efeitos de status podem atingi-las |
 | `production` | O que suas cidades fabricam |
-| `zombie_id_internal`, `skeleton_id`, `mush_id` … | No que se transformam ao morrer |
+| `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | No que se transformam ao morrer |
 
 ## Conectando uma criatura de civilização ao mundo
 

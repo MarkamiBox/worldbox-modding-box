@@ -12,9 +12,9 @@ order: 202
 
 ## 나만의 탭 만들기
 
-바닐라 탭 중 하나에 버튼을 덧붙이는 것도 *가능은* 합니다. 하지만 그러지 마세요. 바닐라 탭은 이미 가득 차 있고, 게임은 자식 요소를 이름순으로 정렬하며, 바는 가로로 스크롤되기 때문에 여러분의 버튼은 플레이어가 절대 스크롤해보지 않을 구석에 처박히게 됩니다 :PESgn_ToughLuck:.
+바닐라 탭에 버튼을 추가하는 것 자체는 *가능*합니다. 하지 마세요. 이미 꽉 차 있고, 게임은 자식 요소를 이름순으로 배치하며, 바는 스크롤되기 때문에 여러분의 버튼은 플레이어가 절대 스크롤하지 않을 곳에 가게 됩니다 :PESgn_ToughLuck:.
 
-나만의 탭을 하나 만들면 추가한 모든 기능이 한곳에 모여 쉽게 찾을 수 있습니다:
+여러분만의 탭 하나를 만들면, 추가하는 모든 것이 한곳에 모여 찾기 쉬워집니다:
 
 ```csharp Mods/HelloBox/Code/HelloPowers.cs
 using NeoModLoader.api;
@@ -339,11 +339,12 @@ namespace HelloBox
 
 이게 파일 전체입니다: 신의 권능 아홉 개, 탭, 버튼 열 개, 그리고 아이콘 헬퍼. 모든 버튼은 이 가이드에서 배운 기능 하나씩입니다. 아래 섹션에서 하나씩 뜯어봅니다.
 
-
 `recalc()`는 버튼에 맞춰 탭 크기를 정하고, `sortButtons()`는 버튼을 순서대로 정렬합니다. 둘 다 기다려야 하고, 게임은 그 이유를 친절하게 알려주지 않습니다:
 
 > [!WARNING] `OnModLoad` 안에서 탭을 배치하지 마세요
-> `PowersTab` 은 Unity의 `Start()` 에서 자기 부모를 읽는데, `CreateTab` 이 방금 준 객체에서는 아직 실행되지 않았습니다. 거기서 `recalc()` 를 부르면 단계 전체가 `PowersTab.setNewWidth()` 의 `NullReferenceException` 으로 죽고, 권능은 등록되지 않으며 탭도 나타나지 않습니다 :wbfacepalm:.
+> `PowersTab`은 Unity의 `Start()`에서 자기 부모를 읽는데, `CreateTab`이 방금 준 객체에서는 아직 실행되지 않았습니다. 거기서 `recalc()`를 호출하면 단계 전체가 `PowersTab.setNewWidth()`에서 `NullReferenceException`으로 죽고, 권능은 등록되지 않으며 탭도 나타나지 않습니다 :wbfacepalm:.
+>
+> 탭과 버튼은 로드할 때 만들고, `PowerTabController.instance`가 존재하는 첫 프레임에 `Update()`에서 배치하세요. 위의 `LayoutWhenReady`가 그 용도이고, `Main.Update()`가 그것을 호출합니다:
 >
 > ```csharp
 > public void Update()
@@ -352,6 +353,9 @@ namespace HelloBox
 >     HelloPowers.LayoutWhenReady();
 > }
 > ```
+
+> [!TIP] IStagedLoad로 Update() 번거로움 건너뛰기
+> `Update()` 안에서 계속 확인하는 게 어설프게 느껴진다면, 모드 클래스에 `IStagedLoad`를 구현하세요. 그 `Init()` 메서드는 모드가 생성된 뒤 두 번째 프레임에, 딱 기본 게임과 UI 컨트롤러가 완전히 깨어난 시점에 호출됩니다.
 
 ## 두 가지 버튼
 

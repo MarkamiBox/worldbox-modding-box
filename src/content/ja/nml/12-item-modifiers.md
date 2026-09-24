@@ -12,7 +12,7 @@ order: 122
 
 ## 簡単な方法：NML の Creator を使う
 
-バニラの `ItemAsset` は1つのクラスで7役を兼ねており、目的によってフィールドの意味がコロコロ変わります。NMLは使いやすい部分を `ItemAssetCreator` にまとめており、モディファイアに関しては登録処理まで一括で行ってくれます：
+モディファイアは `ItemModAsset` で、これは帽子を変えた `ItemAsset` です。`AssetManager.items_modifiers` に入っています：
 
 ```csharp Mods/HelloBox/Code/HelloModifiers.cs
 namespace HelloBox
@@ -60,12 +60,17 @@ namespace HelloBox
     }
 }
 ```
-> [!WARNING] 登録しただけでは足りない
-> `add()` はライブラリの `list` に入れるだけで、生成側が読むのは `list` ではなく `pools` です。その pools はロード中に `linkAssets()` で一度だけ埋まります。`list` にしかない修飾は、存在して名前もありますが、何にも付きません :wbfacepalm:。
 
+> [!WARNING] 登録するだけでは足りない
+> `add()` はモディファイアをライブラリの `list` に入れますが、生成器が読むのは `list` ではなく `pools` です。そのプールは読み込み中に一度だけ `linkAssets()` で埋められます。`list` にしかないモディファイアは存在し、名前もありますが、何にも付与されることはありません :wbfacepalm:。
 
+```json Mods/HelloBox/Locales/en.json
+{
+  "mod_hello_sharp": "Sharpened"
+}
+```
 
-`Main.cs` に `HelloModifiers.Initialize();` を追加すれば、それ以降ゲームは生成される武器に「hello_sharp」を付与できるようになります。
+`HelloModifiers.Initialize();` を `Main.cs` に追加すれば、それ以降、ゲームは生成される武器にこれを付けられるようになります。
 
 ### 重要な引数
 

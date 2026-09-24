@@ -73,6 +73,16 @@ namespace HelloBox
 
 O atributo `mutation` da unidade determina a chance de isso acontecer. Veja **[Referência de atributos](#/nml/stats)**.
 
+> [!WARNING] A urna é lida uma única vez, na inicialização
+> Definir `spawn_random_trait_allowed = true` não basta sozinho. `BaseTraitLibrary.linkAssets()` monta a urna de verdade, `_pot_allowed_to_be_given_randomly`, enquanto o jogo carrega, antes de o seu mod existir. Um traço registrado depois nunca entra nela, e nenhuma mutação o sorteia. Coloque-o você mesmo, com o peso que o vanilla usa:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.subspecies_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` é `protected`, então isso compila contra o assembly publicizado com que o NML já compila o seu mod. `spawn_random_rate` vale `5` por padrão: aumente e o traço aparece com mais frequência.
+
 ## Arte gráfica: o que nenhum outro sistema de traços possui
 
 ```csharp

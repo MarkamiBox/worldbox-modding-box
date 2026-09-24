@@ -194,12 +194,12 @@ namespace HelloBox
 | `kingdom_id_wild` / `kingdom_id_civilization` | 归属阵营（未驯化的野生群体与定居建国后的文明群体） |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … 贴图所在的图集 |
 | `animation_walk` / `animation_idle` / `animation_swim` | 序列帧动画定义，各带独立的 `_speed` 播放速率 |
-| `sound_idle`, `sound_spawn`, `sound_death` … | FMOD 音效事件路径 |
+| `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | FMOD 音效事件路径 |
 | `name_taxonomic_*` | 界、门、纲、目、科、属、种，用于生物知识窗口 |
 | `collective_term` | 量词群体称谓（如“一**群**狼”） |
 | `allowed_status_tiers` | 允许被施加的状态效果阶级 |
 | `production` | 其城市能生产制造的物资品类 |
-| `zombie_id_internal`, `skeleton_id`, `mush_id` … | 死亡或感染后的蜕变目标 |
+| `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | 死亡或感染后的蜕变目标 |
 
 ## 将文明生物接入世界体系
 

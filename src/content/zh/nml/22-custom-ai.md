@@ -226,7 +226,7 @@ namespace HelloBox
 | `weight` / `weight_calculate_custom` | 在同一神经层内的相对权重分数，支持固定数值或按生物个体动态计算 |
 | `action_check_launch` | 自定义前置条件判定。返回 `false` 则当前判定周期内不可选 |
 | `cooldown` | 同一生物再次选择该决策所需的冷却 CD（秒） |
-| `only_adult`、`only_safe`、`only_hungry`、`only_sapient`... | 在调用你的委托前先执行的原生快速过滤标志位 |
+| `only_adult`, `only_safe`, `only_hungry`, `only_sapient`... | 在调用你的委托前先执行的原生快速过滤标志位 |
 | `unique` | 防止自动注入所有通用生物列表。模组自制决策务必设为 `true` |
 
 > [!WARNING] 启动期由游戏自动填充的三个关键字段

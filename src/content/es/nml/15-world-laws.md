@@ -101,15 +101,15 @@ new WorldLawAsset
 
 ## El texto
 
-```json Locales/en.json
+```json Mods/HelloBox/Locales/en.json
 {
   "world_law_hello_chaos_title": "Hello Chaos",
   "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one."
 }
 ```
 
-> [!WARNING] Las leyes del mundo usan _title, no el id a secas
-> Casi cualquier otro asset usa su id plano como clave de nombre. Las leyes del mundo piden `<id>_title`. Si te equivocas, el interruptor aparecerá sin etiqueta alguna :PESgn_Really:.
+> [!WARNING] Las leyes del mundo usan `_title`, no el id a secas
+> Casi todos los demás assets usan su id a secas como clave del nombre. Las leyes del mundo piden `<id>_title`. Si te equivocas, el interruptor aparece sin ninguna etiqueta :PESgn_Really:.
 
-> [!TIP] Una ley supera a un ajuste
-> Los ajustes de mod viven en un menú que el jugador abre una vez. Una ley del mundo está ahí mismo en el juego, junto a las vainilla, por mundo, y se puede cambiar a mitad de partida. Si tu mod tiene un comportamiento de encendido/apagado, este es su lugar :wbblessed:.
+> [!TIP] Una ley gana a un ajuste
+> Los ajustes del mod viven en un menú que el jugador abre una vez. Una ley del mundo está ahí mismo en el juego, junto a las vanilla, por mundo, y se puede cambiar a mitad de partida. Si tu mod tiene un comportamiento de encendido/apagado, este es su sitio :wbblessed:.

@@ -101,15 +101,15 @@ new WorldLawAsset
 
 ## 텍스트 로컬라이제이션
 
-```json Locales/en.json
+```json Mods/HelloBox/Locales/en.json
 {
   "world_law_hello_chaos_title": "Hello Chaos",
   "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one."
 }
 ```
 
-> [!WARNING] 세계 법칙은 순수 id 가 아니라 _title 을 사용합니다
-> 다른 거의 모든 에셋은 고유 id 자체를 이름 키로 사용하지만, 세계 법칙은 `<id>_title` 을 찾습니다. 실수하면 스위치에 글자가 전혀 표시되지 않습니다 :PESgn_Really:.
+> [!WARNING] 세계 법칙은 ID 그대로가 아니라 `_title`을 씁니다
+> 거의 모든 다른 에셋은 ID 그대로를 이름 키로 씁니다. 세계 법칙은 `<id>_title`을 요구합니다. 틀리면 스위치가 라벨 없이 나타납니다 :PESgn_Really:.
 
-> [!TIP] 설정 메뉴보다 법칙이 훨씬 낫습니다
-> 모드 설정 메뉴는 플레이어가 한 번 열어보고 잊어버리기 십상입니다. 반면 세계 법칙은 바닐라 법칙과 나란히 게임 화면에 있고, 월드마다 독립적으로 저장되며, 플레이 도중 언제든 바꿀 수 있습니다. 토글형 기능이라면 무조건 여기에 넣는 것이 정답입니다 :wbblessed:.
+> [!TIP] 설정보다 법칙
+> 모드 설정은 플레이어가 한 번 여는 메뉴에 있습니다. 세계 법칙은 게임 안, 바닐라 법칙 바로 옆에 세계별로 있고, 게임 도중에도 바꿀 수 있습니다. 여러분의 모드에 켜고 끄는 동작이 있다면, 여기가 제자리입니다 :wbblessed:.

@@ -194,12 +194,12 @@ namespace HelloBox
 | `kingdom_id_wild` / `kingdom_id_civilization` | В какое королевство они попадают (дикое или оседлое) |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … атлас со спрайтами |
 | `animation_walk` / `animation_idle` / `animation_swim` | Наборы кадров со своими полями `_speed` |
-| `sound_idle`, `sound_spawn`, `sound_death` … | Пути к звуковым событиям FMOD |
+| `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | Пути к звуковым событиям FMOD |
 | `name_taxonomic_*` | Царство, тип, класс, отряд, семейство, род и вид для энциклопедии |
 | `collective_term` | Название стаи ("**стая** волков") |
 | `allowed_status_tiers` | Допустимые уровни накладываемых эффектов состояния |
 | `production` | Что производят их города |
-| `zombie_id_internal`, `skeleton_id`, `mush_id` … | В кого превращается при заражении или смерти |
+| `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | В кого превращается при заражении или смерти |
 
 ## Интеграция цивилизованного существа в мир
 

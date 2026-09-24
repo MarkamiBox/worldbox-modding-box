@@ -12,7 +12,7 @@ order: 122
 
 ## 쉬운 방법: NML Creator 활용하기
 
-바닐라의 `ItemAsset`은 하나의 클래스가 7가지 역할을 동시에 수행하며, 목적에 따라 각 필드의 의미가 완전히 달라집니다. NML은 안전하고 직관적인 기능들을 `ItemAssetCreator`에 모아두었으며, 모디파이어의 경우 등록까지 자동으로 대신 처리해 줍니다:
+모디파이어는 `ItemModAsset`인데, 이는 모자만 바꿔 쓴 `ItemAsset`이며 `AssetManager.items_modifiers`에 있습니다:
 
 ```csharp Mods/HelloBox/Code/HelloModifiers.cs
 namespace HelloBox
@@ -60,12 +60,17 @@ namespace HelloBox
     }
 }
 ```
-> [!WARNING] 등록만으로는 부족하다
-> `add()` 는 라이브러리의 `list` 에 넣을 뿐이고, 생성기가 읽는 건 `list` 가 아니라 `pools` 입니다. 그 pools 는 로드 중에 `linkAssets()` 에서 딱 한 번 채워집니다. `list` 에만 있는 수식어는 존재하고 이름도 있지만, 어디에도 붙지 않습니다 :wbfacepalm:.
 
+> [!WARNING] 등록만으로는 부족합니다
+> `add()`는 모디파이어를 라이브러리의 `list`에 넣지만, 생성기는 `list`가 아니라 `pools`를 읽습니다. 그 풀들은 로드 중에 `linkAssets()`에서 한 번만 채워집니다. `list`에만 있는 모디파이어는 존재하고 이름도 있지만, 어디에도 붙지 않습니다 :wbfacepalm:.
 
+```json Mods/HelloBox/Locales/en.json
+{
+  "mod_hello_sharp": "Sharpened"
+}
+```
 
-`Main.cs`에 `HelloModifiers.Initialize();`를 추가하면, 그때부터 게임이 생성되는 무기에 "hello_sharp"를 무작위로 부여할 수 있게 됩니다.
+`Main.cs`에 `HelloModifiers.Initialize();`를 추가하면, 그때부터 게임이 생성되는 무기에 이것을 붙일 수 있습니다.
 
 ### 핵심 인수 목록
 

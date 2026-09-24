@@ -73,6 +73,16 @@ Así es como un rasgo de subespecie aparece en el mundo sin necesidad de asignar
 
 La estadística `mutation` de la unidad determina la probabilidad de que esto ocurra. Consulta **[Referencia de estadísticas](#/nml/stats)**.
 
+> [!WARNING] La bolsa se lee una sola vez, al arrancar
+> Poner `spawn_random_trait_allowed = true` no basta por sí solo. `BaseTraitLibrary.linkAssets()` construye la bolsa real, `_pot_allowed_to_be_given_randomly`, mientras carga el juego, antes de que exista tu mod. Un rasgo registrado después nunca está en ella, y ninguna mutación lo sortea jamás. Mételo tú mismo, con el peso que usa vanilla:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.subspecies_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` es `protected`, así que esto compila contra el ensamblado publicitado con el que NML ya compila tu mod. `spawn_random_rate` vale `5` por defecto: súbelo y el rasgo aparece más a menudo.
+
 ## Arte gráfico: lo que ningún otro sistema de rasgos posee
 
 ```csharp

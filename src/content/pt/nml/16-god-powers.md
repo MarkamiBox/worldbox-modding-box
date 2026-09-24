@@ -66,14 +66,14 @@ Adicione `HelloPowers.Initialize();` ao `Main.cs`.
 ### O que cada parte faz
 
 - **`id`**: o nome ao qual todo o resto se refere. O botão, a tradução, outros mods.
-- **`name`**: usado pelas buscas de interface interna do jogo. Mantê-lo igual ao id evita dores de cabeça.
-- **`rank = PowerRank.Rank0_free`**: disponível desde o início, sem necessidade de desbloqueio.
-- **`path_icon`**: o cursor da ferramenta e o ícone.
-- **`unselect_when_window`**: quando o jogador abre uma janela, a ferramenta é desarmada para não golpear acidentalmente o mapa por trás do painel.
-- **`click_action`**: seu código. Recebe o **ladrilho clicado** e o **id do poder**, retornando `true` caso tenha feito algo.
+- **`name`**: usado pelas buscas da própria interface do jogo. Deixar igual ao id te poupa dor de cabeça.
+- **`rank = PowerRank.Rank0_free`**: disponível desde o começo, sem desbloquear.
+- **`path_icon`**: o ícone do cursor/ferramenta.
+- **`unselect_when_window`**: quando o jogador abre uma janela, a ferramenta se desarma sozinha, para ele não fulminar sem querer o mapa atrás do painel.
+- **`click_action`**: o seu código. Ele recebe o **tile clicado** e o **id do poder**, e devolve `true` se fez alguma coisa.
 
-> [!WARNING] A assinatura do clique é (WorldTile, string)
-> `click_action` é um `PowerActionWithID`, logo seu segundo argumento é o **id do poder como string**, não um `GodPower`. Há um segundo campo, `click_power_action`, que recebe `(WorldTile, GodPower)`. Usar a assinatura errada resulta em um erro de compilação sem pé nem cabeça :PES_DaFuq:.
+> [!WARNING] A assinatura do clique é `(WorldTile, string)`
+> `click_action` é um `PowerActionWithID`, então o segundo argumento é o **id do poder como string**, não um `GodPower`. Existe um segundo campo, `click_power_action`, que recebe `(WorldTile, GodPower)`. Usar o formato errado te dá um erro de compilação que parece não fazer sentido :PES_DaFuq:.
 
 ## Coisas úteis para fazer ao clicar
 

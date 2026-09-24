@@ -56,6 +56,16 @@ namespace HelloBox
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` 只在启动时读取一次
+> 新文化的初始特质是从一个随机池里抽的，这个池子由 `BaseTraitLibrary.linkAssets()` 在游戏加载时、你的模组还不存在时建好。光在你的特质上打开这个开关什么都不会改变：你的特质根本不在那个池子里，也永远不会随机出现。按原版的权重方式自己把它放进去：
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.culture_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` 是 `protected` 的，所以它会针对 NML 本来就用来编译你模组的公开化程序集进行编译。`spawn_random_rate` 默认是 `5`：调高它，特质就会更常出现。
+
 **[自定义特质](#/nml/custom-traits)** 中的所有规则在此均适用：在设置属性前调用 `add()`、`path_icon` 不会自动生成、ID 必须带有统一前缀。接下来介绍的是文化特质的独有机制。而且这是最好玩的部分。
 
 > [!WARNING] 文化特质上的 `base_stats` 会作用于所有人

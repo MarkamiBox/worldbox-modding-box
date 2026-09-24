@@ -31,9 +31,9 @@ Esta última importa más de lo que parece: si tu poder divino hace algo al hace
 
 ## La ruta nativa con ScrollWindow
 
-Si quieres que tu panel se sienta como si WorldBox lo hubiera construido, no crees un Canvas desde cero como hice yo :PES2_Shrug:. NeoModLoader incluye `WindowCreator` y `AbstractWindow<T>` para no tener que reconstruir barras de desplazamiento y títulos a mano.
+Si quieres que tu panel parezca hecho por WorldBox, no construyas un canvas desde cero como hice yo en mi primer intento :PES2_Shrug:. NeoModLoader trae `WindowCreator` y `AbstractWindow<T>` precisamente para que no tengas que montar barras de desplazamiento, barras de título y botones de cerrar con primitivas crudas de Unity.
 
-Hereda de `AbstractWindow<T>`:
+Hereda de `AbstractWindow<T>` y deja que NML se encargue de la fontanería:
 
 ```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
 using NeoModLoader.api;
@@ -62,19 +62,21 @@ namespace HelloBox
 }
 ```
 
-Inicialízala al cargar el mod:
+Créala una vez durante la inicialización del mod:
 
 ```csharp
 HelloNativeWindow.CreateAndInit("hello_native_window");
 ```
 
-Y ábrela con:
+`CreateAndInit()` clona el prefab `"windows/empty"` del juego, lo cuelga de `CanvasMain.instance.transformWindows`, pone la clave del título en `"<windowId> Title"`, añade tu componente y registra la ventana tanto en `ScrollWindow._all_windows` como en `AssetManager.window_library`. Abrirla es la misma línea que usas para las ventanas vanilla:
 
 ```csharp
 ScrollWindow.showWindow(HelloNativeWindow.WindowId);
 ```
 
-Si necesitas más espacio, hereda de `AbstractWideWindow<T>`. También puedes llamar a `WindowCreator.CreateEmptyWindow(id, titleKey, icon)` directamente. Olvida el registro y el juego no sabrá que tu ventana existe al presionar ESC :wbfacepalm:.
+Si necesitas más espacio en pantalla para una tabla enorme o un gestor de varias columnas, hereda de `AbstractWideWindow<T>`. Se comporta igual, pero empieza en `600x280`, aplica automáticamente el marco ancho y ofrece `SetSize(new Vector2(width, height))` si tu diseño necesita aún más sitio.
+
+Si no quieres la clase base `AbstractWindow<T>` para nada, llama directamente a `WindowCreator.CreateEmptyWindow(id, titleKey, icon)` y configura tú mismo el `ScrollWindow` que devuelve. Olvida el paso de registro por tu cuenta y el juego ni siquiera sabrá que tu ventana existe cuando se pulse ESC :wbfacepalm:.
 
 ## Tu propia ventana flotante
 

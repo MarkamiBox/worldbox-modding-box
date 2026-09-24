@@ -12,9 +12,9 @@ Has registrado un poder divino. Nadie puede hacer clic en él, porque un `GodPow
 
 ## Crea tu propia pestaña
 
-*Puedes* añadir un botón a una de las pestañas vainilla. No lo hagas. Ya están llenas, el juego ordena los elementos secundarios por nombre y la barra tiene desplazamiento, por lo que tu botón acabará en un lugar al que el jugador nunca se desplazará :PESgn_ToughLuck:.
+*Puedes* añadir un botón a una de las pestañas vanilla. No lo hagas. Ya están llenas, el juego ordena los hijos por nombre y la barra se desplaza, así que tu botón acaba en un sitio al que el jugador nunca llegará :PESgn_ToughLuck:.
 
-Una sola pestaña propia, y todo lo que agregues estará junto y localizable:
+Una pestaña propia, y todo lo que añadas está junto y se encuentra:
 
 ```csharp Mods/HelloBox/Code/HelloPowers.cs
 using NeoModLoader.api;
@@ -337,13 +337,14 @@ namespace HelloBox
 }
 ```
 
-Ese es el archivo completo: nueve poderes divinos, la pestaña, diez botones y el ayudante de iconos. Cada botón es una función que esta guía ha enseñado. Las secciones de abajo lo desmontan.
-
+Ese es el archivo entero: nueve poderes divinos, la pestaña, diez botones y el ayudante de iconos. Cada botón es una función que esta guía ha enseñado. Las secciones de abajo lo desmontan.
 
 `recalc()` es lo que ajusta el tamaño de la pestaña a sus botones, y `sortButtons()` es lo que los pone en orden. Los dos tienen que esperar, y el juego no te dirá por qué de forma amable:
 
 > [!WARNING] No coloques la pestaña durante `OnModLoad`
-> `PowersTab` lee su propio padre en el `Start()` de Unity, que todavía no ha corrido en el objeto que `CreateTab` te acaba de dar. Llama ahí a `recalc()` y toda la etapa muere con `NullReferenceException` en `PowersTab.setNewWidth()`, tu poder nunca se registra y la pestaña nunca aparece :wbfacepalm:.
+> `PowersTab` lee su propio padre en el `Start()` de Unity, que todavía no se ha ejecutado en el objeto que `CreateTab` te acaba de dar. Llama ahí a `recalc()` y toda la etapa muere con `NullReferenceException` en `PowersTab.setNewWidth()`, tu poder nunca se registra y la pestaña nunca aparece :wbfacepalm:.
+>
+> Crea la pestaña y los botones al cargar, y colócalos desde `Update()` en el primer fotograma en que exista `PowerTabController.instance`. Para eso está `LayoutWhenReady` arriba, y `Main.Update()` lo llama:
 >
 > ```csharp
 > public void Update()
@@ -352,6 +353,9 @@ Ese es el archivo completo: nueve poderes divinos, la pestaña, diez botones y e
 >     HelloPowers.LayoutWhenReady();
 > }
 > ```
+
+> [!TIP] Sáltate el baile de Update() con IStagedLoad
+> Si consultar dentro de `Update()` te parece torpe, implementa `IStagedLoad` en la clase de tu mod. Su método `Init()` se dispara en el fotograma 2 tras construir el mod, justo cuando el juego base y sus controladores de interfaz están del todo despiertos.
 
 ## Dos tipos de botón
 

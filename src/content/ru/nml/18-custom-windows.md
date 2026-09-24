@@ -31,9 +31,9 @@ ScrollWindow.isWindowActive();               // открыто ли *хоть к
 
 ## Нативный путь через ScrollWindow
 
-Если хотите, чтобы окно выглядело как родное для WorldBox, не создавайте Canvas с нуля :PES2_Shrug:. NeoModLoader предоставляет `WindowCreator` и `AbstractWindow<T>`.
+Если вы хотите, чтобы ваша панель выглядела так, будто её сделала сама WorldBox, не собирайте canvas с нуля, как я в первый раз :PES2_Shrug:. В NeoModLoader есть `WindowCreator` и `AbstractWindow<T>` именно для того, чтобы вам не пришлось собирать полосы прокрутки, заголовки и кнопки закрытия из голых примитивов Unity.
 
-Наследуйтесь от `AbstractWindow<T>`:
+Унаследуйтесь от `AbstractWindow<T>`, и пусть NML возьмёт на себя всю обвязку:
 
 ```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
 using NeoModLoader.api;
@@ -62,19 +62,21 @@ namespace HelloBox
 }
 ```
 
-Инициализируйте при старте мода:
+Создайте его один раз при инициализации мода:
 
 ```csharp
 HelloNativeWindow.CreateAndInit("hello_native_window");
 ```
 
-Открывайте через:
+`CreateAndInit()` клонирует префаб игры `"windows/empty"`, делает его дочерним к `CanvasMain.instance.transformWindows`, ставит ключ заголовка `"<windowId> Title"`, добавляет ваш компонент и регистрирует окно и в `ScrollWindow._all_windows`, и в `AssetManager.window_library`. Открывается оно той же одной строкой, что и ванильные окна:
 
 ```csharp
 ScrollWindow.showWindow(HelloNativeWindow.WindowId);
 ```
 
-Для широких панелей используйте `AbstractWideWindow<T>` или вызывайте `WindowCreator.CreateEmptyWindow(id, titleKey, icon)`. Забудьте о регистрации — и игра даже не заметит ваше окно при нажатии ESC :wbfacepalm:.
+Если нужно больше места под огромную таблицу или многоколоночный менеджер, унаследуйтесь от `AbstractWideWindow<T>`. Оно ведёт себя так же, но по умолчанию имеет размер `600x280`, автоматически применяет широкую рамку и предоставляет `SetSize(new Vector2(width, height))`, если вашей раскладке нужно ещё больше места.
+
+Если базовый класс `AbstractWindow<T>` вам вообще не нужен, вызовите `WindowCreator.CreateEmptyWindow(id, titleKey, icon)` напрямую и настройте возвращённый `ScrollWindow` сами. Забудете шаг регистрации при ручной сборке, и игра даже не узнает о существовании вашего окна при нажатии ESC :wbfacepalm:.
 
 ## Ваше собственное плавающее окно
 

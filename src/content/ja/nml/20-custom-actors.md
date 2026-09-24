@@ -194,12 +194,12 @@ namespace HelloBox
 | `kingdom_id_wild` / `kingdom_id_civilization` | 所属する勢力（野生時および定住時） |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … スプライトの所属アトラス |
 | `animation_walk` / `animation_idle` / `animation_swim` | コマ送りアニメーション定義とそれぞれの `_speed` |
-| `sound_idle`, `sound_spawn`, `sound_death` … | FMOD サウンドイベントのパス |
+| `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | FMOD サウンドイベントのパス |
 | `name_taxonomic_*` | 知識ウィンドウに表示される界・門・綱・目・科・属・種 |
 | `collective_term` | 群れの呼び方（「狼の **群れ**」など） |
 | `allowed_status_tiers` | 付与可能なステータス効果の階級 |
 | `production` | 都市が生産する品目 |
-| `zombie_id_internal`, `skeleton_id`, `mush_id` … | 死亡時や変異時の転換先 |
+| `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | 死亡時や変異時の転換先 |
 
 ## 文明を持つ生物をワールドに組み込む
 

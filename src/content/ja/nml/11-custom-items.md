@@ -137,11 +137,13 @@ namespace HelloBox
 
 | フィールド | 役割 |
 | --- | --- |
-| `action_attack_target` | 攻撃がヒットするたびに実行される |
-| `action_special_effect` + `special_effect_interval` | 装備中、タイマー間隔で定期実行される |
-| `item_modifier_ids` | 付与されうるエンチャント。**[武器のエンチャント](#/nml/item-modifiers)** を参照 |
-| `addSpell(id)` | 装備者が使用可能になる呪文 |
-| `addCombatAction(id)` | 装備者に付与される戦闘アクション |
+| `action_attack_target` | 攻撃が当たるたびに実行されます |
+| `action_special_effect` + `special_effect_interval` | 装備中、タイマーで実行されます |
+| `item_modifier_ids` | 付与されうるエンチャント。**[武器エンチャント](#/nml/item-modifiers)** を参照 |
+| `addSpell(id)` + `linkSpells()` | 装備者が唱えられる呪文。リンクは自分で呼ぶ必要があります、下を参照 |
+| `addCombatAction(id)` | コンパイルは通りますが、アイテムでは何もしません：ユニットは戦闘アクションを特性（と亜種、氏族、宗教）から集め、装備からは決して集めません。特性に付けてください。**[発射物・呪文・エフェクト](#/nml/projectiles-spells)** を参照 |
+
+ゲームはこれらのIDを、起動時にあなたのModが読み込まれる前に一度だけオブジェクトに変換します。自分で登録したアイテムでは、最後に `linkSpells()` を呼び、`decisions_assets` を手で設定してください（そちらにはリンク用メソッドがありません）。そうしないと付与は何もしません。**[カスタムAI](#/nml/custom-ai)** を参照してください。
 
 ## 装備中だけ発動する効果
 

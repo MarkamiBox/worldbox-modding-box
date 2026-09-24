@@ -184,6 +184,16 @@ if (actor.hasTrait(HelloTraits.SWIFT))
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` wird nur einmal gelesen, beim Start
+> Neue Einheiten würfeln ihre Startmerkmale aus einem Topf, den `BaseTraitLibrary.linkAssets()` beim Laden des Spiels baut, bevor deine Mod existiert. Den Schalter an deinem Merkmal zu setzen ändert allein nichts: Dein Merkmal ist nie in diesem Topf und taucht nie zufällig auf. Leg es selbst hinein, gewichtet wie in Vanilla:
+>
+> ```csharp
+> swift.spawn_random_trait_allowed = true;
+> AssetManager.traits._pot_allowed_to_be_given_randomly.AddTimes(swift.spawn_random_rate, swift);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` ist `protected`, also kompiliert das gegen die publizierte Assembly, mit der NML deine Mod ohnehin baut. `spawn_random_rate` ist standardmäßig `5`: Erhöhe es, und das Merkmal taucht öfter auf.
+
 ## Überprüfen, ob es geklappt hat
 
 Starte das Spiel, öffne eine Einheit, öffne den Merkmals-Editor, schaue in den Reiter `physique`. Nicht da? Das Log weiß warum, und die Antwort ist fast immer eines von drei Dingen: `can_be_given` ist falsch, `group_id` existiert nicht oder `path_icon` zeigt ins Leere :wbreally:.

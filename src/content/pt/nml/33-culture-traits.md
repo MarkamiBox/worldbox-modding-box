@@ -56,6 +56,16 @@ namespace HelloBox
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` é lido uma única vez, na inicialização
+> Culturas novas sorteiam seus traços iniciais de uma urna que `BaseTraitLibrary.linkAssets()` monta enquanto o jogo carrega, antes de o seu mod existir. Ligar a opção no seu traço não muda nada sozinho: seu traço nunca está nessa urna e nunca aparece por acaso. Coloque-o você mesmo, com o peso que o vanilla usa:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.culture_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` é `protected`, então isso compila contra o assembly publicizado com que o NML já compila o seu mod. `spawn_random_rate` vale `5` por padrão: aumente e o traço aparece com mais frequência.
+
 Tudo o que se aplica a **[Traços personalizados](#/nml/custom-traits)** vale aqui também: chamar `add()` antes dos atributos, `path_icon` não é preenchido sozinho, os identificadores levam prefixo. O que vem a seguir é o que torna os traços culturais únicos. E é a parte divertida.
 
 > [!WARNING] `base_stats` em um traço cultural afeta todo mundo

@@ -73,6 +73,16 @@ C'est ainsi qu'un trait de sous-espèce fait son entrée dans le monde sans que 
 
 La statistique `mutation` d'une unité régit la chance que de tels événements surviennent. Voir **[Référence des stats](#/nml/stats)**.
 
+> [!WARNING] La réserve n'est lue qu'une fois, au démarrage
+> Mettre `spawn_random_trait_allowed = true` ne suffit pas à lui seul. `BaseTraitLibrary.linkAssets()` construit la vraie réserve, `_pot_allowed_to_be_given_randomly`, pendant le chargement du jeu, avant que votre mod n'existe. Un trait enregistré après n'y est jamais, et aucune mutation ne le tire jamais. Ajoutez-le vous-même, pondéré comme le fait le vanilla :
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.subspecies_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` est `protected`, donc ceci compile contre l'assembly publicisé avec lequel NML compile déjà votre mod. `spawn_random_rate` vaut `5` par défaut : augmentez-le et le trait apparaît plus souvent.
+
 ## Graphismes : ce qu'aucun autre système de traits ne possède
 
 ```csharp

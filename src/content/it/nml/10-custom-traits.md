@@ -184,6 +184,16 @@ if (actor.hasTrait(HelloTraits.SWIFT))
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` viene letto una sola volta, all'avvio
+> Le nuove unità estraggono i tratti iniziali da una riserva che `BaseTraitLibrary.linkAssets()` costruisce mentre il gioco carica, prima che la tua mod esista. Impostare il flag sul tuo tratto da solo non cambia nulla: il tuo tratto non è mai in quella riserva e non compare mai per caso. Aggiungilo tu, con lo stesso peso che usa vanilla:
+>
+> ```csharp
+> swift.spawn_random_trait_allowed = true;
+> AssetManager.traits._pot_allowed_to_be_given_randomly.AddTimes(swift.spawn_random_rate, swift);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` è `protected`, quindi questo compila con l'assembly pubblicizzato con cui NML compila già la tua mod. `spawn_random_rate` vale `5` di default: alzalo e il tratto compare più spesso.
+
 ## Verificare che funzioni
 
 Avvia il gioco, apri un'unità, apri l'editor dei tratti e controlla nella scheda `physique`. Non c'è? Il log sa perché, e la risposta è quasi sempre una di tre cose: `can_be_given` è false, `group_id` non esiste, o `path_icon` punta nel vuoto :wbreally:.

@@ -56,6 +56,16 @@ namespace HelloBox
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` wird nur einmal gelesen, beim Start
+> Neue Kulturen würfeln ihre Startmerkmale aus einem Topf, den `BaseTraitLibrary.linkAssets()` beim Laden des Spiels baut, bevor deine Mod existiert. Den Schalter an deinem Merkmal zu setzen ändert allein nichts: Dein Merkmal ist nie in diesem Topf und taucht nie zufällig auf. Leg es selbst hinein, gewichtet wie in Vanilla:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.culture_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` ist `protected`, also kompiliert das gegen die publizierte Assembly, mit der NML deine Mod ohnehin baut. `spawn_random_rate` ist standardmäßig `5`: Erhöhe es, und das Merkmal taucht öfter auf.
+
 Alles aus **[Eigene Eigenschaften](#/nml/custom-traits)** gilt auch hier: `add()` vor den Stats aufrufen, `path_icon` wird dir nicht automatisch generiert, IDs gehören mit Präfix versehen. Was nun folgt, ist das, was Kultur-Eigenschaften besonders macht. Und das ist der spaßige Teil.
 
 > [!WARNING] `base_stats` bei einer Kultur-Eigenschaft erreicht jeden

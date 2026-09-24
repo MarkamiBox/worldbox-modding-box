@@ -100,7 +100,7 @@ La lista corta. La real es más larga y casi toda aburrida :wbyawn:.
 
 ## Tu propio sprite personalizado
 
-Hay una trampa aquí, y todo el mundo cae en ella una vez :wbbre:. `texture` **no** es una ruta completa: la biblioteca de estados antepone automáticamente `effects/` antes de cargar, así que solo escribes el nombre simple.
+Esta tiene trampa, y todo el mundo cae en ella una vez :wbbre:. `texture` **no** es una ruta completa: la biblioteca de estados antepone `effects/` antes de cargar, así que escribes solo el nombre.
 
 ```text Mods/HelloBox/
 HelloBox/
@@ -116,9 +116,9 @@ HelloBox/
 cursed.texture = "fx_hello_status";   // NO "effects/fx_hello_status"
 ```
 
-Si incluyes la carpeta en el string, el juego buscará `effects/effects/fx_hello_status`, no encontrará nada y no dibujará ningún sprite.
+Si escribes tú la carpeta, el juego busca `effects/effects/fx_hello_status`, no encuentra nada y no dibuja ningún sprite. Los nombres vanilla son como `fx_status_burning_t` y `fx_status_drowning_t`, así que copiar esa forma te ahorra problemas.
 
-`path_icon` en el mismo asset es algo completamente independiente y *sí* es una ruta completa: es el icono diminuto de la lista de estados, no el sprite sobre la criatura.
+`path_icon` en el mismo asset es otra cosa y *sí* es una ruta completa: es el icono pequeño de la lista de estados, no el sprite que se dibuja sobre la unidad.
 
 ## Hacer que el efecto *haga* algo
 

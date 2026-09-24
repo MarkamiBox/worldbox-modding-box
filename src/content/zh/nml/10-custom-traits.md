@@ -184,6 +184,16 @@ if (actor.hasTrait(HelloTraits.SWIFT))
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` 只在启动时读取一次
+> 新单位的初始特质是从一个随机池里抽的，这个池子由 `BaseTraitLibrary.linkAssets()` 在游戏加载时、你的模组还不存在时建好。光在你的特质上打开这个开关什么都不会改变：你的特质根本不在那个池子里，也永远不会随机出现。按原版的权重方式自己把它放进去：
+>
+> ```csharp
+> swift.spawn_random_trait_allowed = true;
+> AssetManager.traits._pot_allowed_to_be_given_randomly.AddTimes(swift.spawn_random_rate, swift);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` 是 `protected` 的，所以它会针对 NML 本来就用来编译你模组的公开化程序集进行编译。`spawn_random_rate` 默认是 `5`：调高它，特质就会更常出现。
+
 ## 验证特质是否正常生效
 
 启动游戏，点击查看任意生物，点开特质编辑器，在 `physique` 标签页中查找。没找到？日志里一定记录了原因，且真相绝大多数属于这三类之一：`can_be_given` 设为了 false、`group_id` 拼写错误不存在、或是 `path_icon` 指向了一个空虚的路径 :wbreally:。

@@ -184,6 +184,16 @@ if (actor.hasTrait(HelloTraits.SWIFT))
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` se lee una sola vez, al arrancar
+> Las unidades nuevas sortean sus rasgos iniciales de una bolsa que `BaseTraitLibrary.linkAssets()` construye mientras carga el juego, antes de que exista tu mod. Activar el ajuste en tu rasgo no cambia nada por sí solo: tu rasgo nunca está en esa bolsa y nunca aparece por azar. Mételo tú mismo, con el peso que usa vanilla:
+>
+> ```csharp
+> swift.spawn_random_trait_allowed = true;
+> AssetManager.traits._pot_allowed_to_be_given_randomly.AddTimes(swift.spawn_random_rate, swift);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` es `protected`, así que esto compila contra el ensamblado publicitado con el que NML ya compila tu mod. `spawn_random_rate` vale `5` por defecto: súbelo y el rasgo aparece más a menudo.
+
 ## Comprobar que ha funcionado
 
 Inicia el juego, abre una unidad, abre el editor de rasgos y mira en la pestaña `physique`. ¿No está? El log sabe por qué, y la respuesta casi siempre es una de estas tres: `can_be_given` es false, `group_id` no existe, o `path_icon` apunta a la nada :wbreally:.

@@ -73,6 +73,16 @@ namespace HelloBox
 
 La statistica `mutation` dell'unità governa le probabilità che tutto ciò si verifichi. Vedi **[Riferimento statistiche](#/nml/stats)**.
 
+> [!WARNING] La riserva viene letta una sola volta, all'avvio
+> Impostare `spawn_random_trait_allowed = true` da solo non basta. `BaseTraitLibrary.linkAssets()` costruisce la vera riserva, `_pot_allowed_to_be_given_randomly`, mentre il gioco carica, prima che la tua mod esista. Un tratto registrato dopo non ci finisce mai, e nessuna mutazione lo estrae mai. Aggiungilo tu, con lo stesso peso che usa vanilla:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.subspecies_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` è `protected`, quindi questo compila con l'assembly pubblicizzato con cui NML compila già la tua mod. `spawn_random_rate` vale `5` di default: alzalo e il tratto compare più spesso.
+
 ## Grafica: ciò che nessun altro sistema di tratti possiede
 
 ```csharp

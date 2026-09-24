@@ -73,6 +73,16 @@ namespace HelloBox
 
 单位的 `mutation` 属性决定了发生上述突变的概率。参见 **[属性参考](#/nml/stats)**。
 
+> [!WARNING] 随机池只在启动时读取一次
+> 光设置 `spawn_random_trait_allowed = true` 是不够的。真正的随机池 `_pot_allowed_to_be_given_randomly` 由 `BaseTraitLibrary.linkAssets()` 在游戏加载时、你的模组还不存在时建好。之后注册的特质永远不在里面，也不会有任何突变抽中它。按原版的权重方式自己把它放进去：
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.subspecies_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` 是 `protected` 的，所以它会针对 NML 本来就用来编译你模组的公开化程序集进行编译。`spawn_random_rate` 默认是 `5`：调高它，特质就会更常出现。
+
 ## 贴图美术：其他特质系统所不具备的特性
 
 ```csharp

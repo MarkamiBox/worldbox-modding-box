@@ -73,32 +73,32 @@ Junto a tus imágenes, un archivo `sprites.json` le explica a NML cómo recortar
 
 ## Dónde va cada tipo de arte
 
-Esta es la tabla de referencia que todo el mundo vuelve a consultar. Cada asset apunta a su arte mediante un campo distinto, y algunos añaden carpetas de forma silenciosa antes de cargar, por lo que el valor que escribes **no** siempre coincide con la ruta en el disco.
+Esta es la tabla a la que la gente siempre vuelve. Cada asset apunta a su arte con un campo distinto, y algunos anteponen en silencio una carpeta antes de cargar, así que el valor que escribes **no** siempre es la ruta donde está el archivo.
 
-| Asset | Campo | Dónde colocar el archivo |
+| Asset | Campo | El archivo va en |
 | --- | --- | --- |
-| Rasgo, poder divino, reino, grupo | `path_icon` | `GameResources/` + exactamente lo que hayas escrito |
-| Objeto, en la mano de la unidad | `path_gameplay_sprite` | `GameResources/` + exactamente lo que hayas escrito |
-| Edificio | `sprite_path` | Una **carpeta**: `GameResources/` + `sprite_path` + `/`, con `main_0.png`, `construction_0.png`, `ruin_0.png`. Con `sprite_path` vacío es `main_path` + id, y `main_path` vale `buildings/` por defecto |
-| Drop (botín) | `path_texture` | Una **carpeta**: `GameResources/` + exactamente lo que hayas escrito |
-| Nube | `path_sprites` | `GameResources/` + cada ruta listada |
-| Efecto de estado | `texture` | Una **carpeta**: `GameResources/effects/` + lo que hayas escrito |
-| Proyectil | `texture` | Una **carpeta**: `GameResources/effects/projectiles/` + lo que hayas escrito |
-| Recurso, llevado en la mano | `path_gameplay_sprite` | Una **carpeta**: `GameResources/items/resources/` + lo que hayas escrito |
-| Recurso, icono de inventario | `path_icon` | `GameResources/` + lo que escribas (el juego usa nombres simples como `iconResBread`) |
-| Casilla (Tile) y Top Tile | *(sin campo)* | `GameResources/tiles/<el_id_de_la_casilla>/` |
+| Rasgo, poder divino, reino, grupo | `path_icon` | `GameResources/` + exactamente lo que escribiste |
+| Objeto, en la mano de una unidad | `path_gameplay_sprite` | `GameResources/` + exactamente lo que escribiste |
+| Edificio | `sprite_path` | Una **carpeta**: `GameResources/` + `sprite_path` + `/`, con `main_0.png`, `construction_0.png`, `ruin_0.png`. Con `sprite_path` vacío es `main_path` + id, y `main_path` por defecto es `buildings/` |
+| Drop | `path_texture` | Una **carpeta**: `GameResources/` + exactamente lo que escribiste, un PNG por fotograma |
+| Nube | `path_sprites` | `GameResources/` + cada ruta de la lista |
+| Efecto de estado | `texture` | Una **carpeta**: `GameResources/effects/` + lo que escribiste, un PNG por fotograma |
+| Proyectil | `texture` | Una **carpeta**: `GameResources/effects/projectiles/` + lo que escribiste, un PNG por fotograma |
+| Recurso, llevado en la mano | `path_gameplay_sprite` | Una **carpeta**: `GameResources/items/resources/` + lo que escribiste, un PNG por fotograma |
+| Recurso, icono del inventario | `path_icon` | `GameResources/` + lo que escribiste. Vanilla usa un nombre simple como `iconResBread`, así que el archivo va en la raíz |
+| Casilla y casilla superior | *(sin campo)* | `GameResources/tiles/<the tile's id>/` |
 
-> [!WARNING] "Una carpeta" no es cuestión de estilo
-> Cada asset marcado como **carpeta** arriba se lee con `getSpriteList()`, que devuelve los frames *dentro* de una carpeta. Apúntalo a un PNG suelto y vuelve vacío: un drop cae invisible, un proyectil lanza `ArgumentOutOfRangeException` en `QuantumSpriteLibrary.drawProjectiles()`, un estado lanza en cada frame. Un solo frame vale, solo tiene que estar en su propia carpeta: `drops/hello_ember/hello_ember_0.png` :wbfacepalm:.
+> [!WARNING] "Una carpeta" no es una cuestión de estilo
+> Todos los assets marcados como **carpeta** arriba se leen con `getSpriteList()`, que devuelve los fotogramas *dentro* de una carpeta. Apúntalo a un solo PNG y vuelve vacío: un drop cae invisible, un proyectil lanza `ArgumentOutOfRangeException` en `QuantumSpriteLibrary.drawProjectiles()`, un estado lanza un error en cada fotograma. Un solo fotograma está bien, solo tiene que estar en su propia carpeta: `drops/hello_ember/hello_ember_0.png` :wbfacepalm:.
 
-Hay tres trampas habituales:
+Tres de ellos muerden:
 
-- **Los estados y proyectiles anteponen una subcarpeta.** Escribir `texture = "effects/status/myThing"` hará que el juego busque en `effects/effects/status/myThing`, que no existe. Los estados vanilla usan nombres simples: `fx_status_burning_t`.
-- **Las casillas ignoran estos campos por completo.** El arte de un tile se busca por su **ID** en una carpeta dedicada, ya que un tile tiene muchas variantes. `hello_moss` significa `GameResources/tiles/hello_moss/` con tus PNGs dentro.
-- **Los edificios no pegan campos, pero tienen un plan B.** `sprite_path` se usa tal cual: `"buildings/hello_shrine"` significa `GameResources/buildings/hello_shrine/`. Si lo dejas vacío, el juego usa `main_path` + id, así que una carpeta escrita en `main_path` acaba en `buildings/hello_shrine/hello_shrine` :PESgn_Bruh:.
+- **Estado y proyectil anteponen una carpeta.** Escribir `texture = "effects/status/myThing"` en un estado hace que el juego busque `effects/effects/status/myThing`, que no existe. Los estados vanilla usan un nombre simple: `fx_status_burning_t`.
+- **Las casillas ignoran los campos por completo.** El arte de una casilla se encuentra por su **id**, en una carpeta propia, porque una casilla tiene varias variantes. `hello_moss` significa `GameResources/tiles/hello_moss/` con tus PNG dentro.
+- **Los edificios no pegan nada, pero tienen un plan B.** `sprite_path` se usa tal cual: `"buildings/hello_shrine"` significa `GameResources/buildings/hello_shrine/`. Déjalo vacío y el juego usa `main_path` + id, así que una carpeta escrita en `main_path` se convierte en `buildings/hello_shrine/hello_shrine` :PESgn_Bruh:.
 
-> [!TIP] Copia la ruta de un asset oficial
-> Elige el objeto vanilla más parecido, revisa su campo en **[UnityExplorer](#/toolbox/unity-explorer)** o con la **[Búsqueda de iconos](#/tools/icons)** e imita su estructura. Es más rápido y acertarás a la primera :PESgn_Noice:.
+> [!TIP] Copia la ruta de un asset vanilla
+> Elige lo vanilla más parecido, lee su campo en **[UnityExplorer](#/toolbox/unity-explorer)** o con el **[Buscador de rutas de sprites](#/tools/icons)**, y copia la forma exacta. Es más rápido que razonarlo, y sale bien a la primera :PESgn_Noice:.
 
 ## Leer un archivo directamente desde el disco
 

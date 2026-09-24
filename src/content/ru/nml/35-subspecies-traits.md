@@ -73,6 +73,16 @@ namespace HelloBox
 
 Характеристика `mutation` у юнита определяет вероятность подобных событий. См. **[Справочник характеристик](#/nml/stats)**.
 
+> [!WARNING] Пул читается один раз, при запуске
+> Одного `spawn_random_trait_allowed = true` недостаточно. Настоящий пул, `_pot_allowed_to_be_given_randomly`, собирает `BaseTraitLibrary.linkAssets()` во время загрузки игры, ещё до появления вашего мода. Черты, зарегистрированной позже, в нём нет, и ни одна мутация её не выбросит. Добавьте её сами, с тем же весом, что и в ванили:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.subspecies_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` помечен как `protected`, поэтому это компилируется против публицированной сборки, с которой NML и так собирает ваш мод. `spawn_random_rate` по умолчанию равен `5`: увеличьте его, и черта будет выпадать чаще.
+
 ## Графика: то, чего нет ни у одной другой системы черт
 
 ```csharp

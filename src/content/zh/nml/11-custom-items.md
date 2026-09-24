@@ -137,12 +137,13 @@ namespace HelloBox
 
 | 字段 | 作用 |
 | --- | --- |
-| `action_attack_target` | 每次攻击命中目标时触发 |
-| `action_special_effect` + `special_effect_interval` | 穿戴在身上时按计时器周期触发 |
-| `item_modifier_ids` | 可随机刷出的附魔词条池。详见 **[武器附魔词条](#/nml/item-modifiers)** |
-| `addSpell(id)` | 赋予持有者的主动施法技能 |
-| `addCombatAction(id)` | 赋予持有者的专属战斗特技 |
+| `action_attack_target` | 每次命中时运行 |
+| `action_special_effect` + `special_effect_interval` | 装备期间按计时器运行 |
+| `item_modifier_ids` | 它可能随机到的附魔。见 **[武器附魔](#/nml/item-modifiers)** |
+| `addSpell(id)` + `linkSpells()` | 装备者可以施放的法术。链接需要你自己调用，见下文 |
+| `addCombatAction(id)` | 能编译，但放在物品上什么都不做：单位只从自己的特质（以及亚种、氏族、宗教）收集战斗动作，从不从装备收集。把它放到特质上，见 **[投射物、法术与特效](#/nml/projectiles-spells)** |
 
+游戏只会在启动时、你的模组加载之前把这些 id 转换成对象一次。对于你自己注册的物品，最后要调用 `linkSpells()`，并手动设置 `decisions_assets`（它没有对应的链接方法），否则赋予不会生效。见 **[自定义 AI](#/nml/custom-ai)**。
 
 ## 手持时触发的被动效果
 

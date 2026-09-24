@@ -100,7 +100,7 @@ A lista curta. A de verdade é maior e quase toda chata :wbyawn:.
 
 ## Seu próprio sprite
 
-Aqui há uma armadilha clássica, e todo mundo cai nela uma vez :wbbre:. `texture` **não** é um caminho completo: a biblioteca de status adiciona `effects/` automaticamente antes de carregar, então você escreve apenas o nome do arquivo.
+Esta tem uma armadilha, e todo mundo cai nela uma vez :wbbre:. `texture` **não** é um caminho completo: a biblioteca de status coloca `effects/` na frente antes de carregar, então você escreve só o nome.
 
 ```text Mods/HelloBox/
 HelloBox/
@@ -116,9 +116,9 @@ HelloBox/
 cursed.texture = "fx_hello_status";   // NÃO "effects/fx_hello_status"
 ```
 
-Se você colocar a pasta na string, o jogo tentará carregar `effects/effects/fx_hello_status`, não encontrará nada e não desenhará nenhum sprite.
+Escreva a pasta você mesmo e o jogo procura `effects/effects/fx_hello_status`, não acha nada e não desenha sprite nenhum. Os nomes vanilla são como `fx_status_burning_t` e `fx_status_drowning_t`, então copiar esse formato te livra de problemas.
 
-Já o `path_icon` no mesmo asset é um campo diferente e ele *é* um caminho completo: é o pequeno ícone da interface, não o efeito colado no corpo da unidade.
+`path_icon` no mesmo asset é outra coisa e *é* um caminho completo: é o ícone pequeno na lista de status, não o sprite desenhado na unidade.
 
 ## Fazendo o efeito *fazer* algo
 

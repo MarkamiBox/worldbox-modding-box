@@ -135,14 +135,15 @@ Halte die Preise vernünftig. Ein Eisenschwert für 43 Millionen Münzen ist kei
 
 Hier hört ein Gegenstand auf, nur ein Haufen Zahlen zu sein.
 
-| Feld | Was es bewirkt |
+| Feld | Was es tut |
 | --- | --- |
 | `action_attack_target` | Läuft bei jedem gelandeten Treffer |
-| `action_special_effect` + `special_effect_interval` | Läuft periodisch, während ausgerüstet |
-| `item_modifier_ids` | Verzauberungen, die darauf rollen können. Siehe **[Waffenverzauberungen](#/nml/item-modifiers)** |
-| `addSpell(id)` | Ein Zauber, den der Träger wirken kann |
-| `addCombatAction(id)` | Ein Kampfmanöver, das der Gegenstand verleiht |
+| `action_special_effect` + `special_effect_interval` | Läuft per Timer, solange er ausgerüstet ist |
+| `item_modifier_ids` | Verzauberungen, die er würfeln kann. Siehe **[Waffenverzauberungen](#/nml/item-modifiers)** |
+| `addSpell(id)` + `linkSpells()` | Ein Zauber, den der Träger wirken kann. Das Verknüpfen musst du selbst aufrufen, siehe unten |
+| `addCombatAction(id)` | Kompiliert und tut auf einem Gegenstand nichts: Eine Einheit sammelt Kampfaktionen aus ihren Merkmalen (und Unterart, Clan, Religion), nie aus ihrer Ausrüstung. Pack es auf ein Merkmal, siehe **[Projektile, Zauber & Effekte](#/nml/projectiles-spells)** |
 
+Das Spiel verwandelt diese IDs einmal beim Start in Objekte, bevor deine Mod lädt. Bei einem Gegenstand, den du selbst registriert hast, schließ mit `linkSpells()` ab und setz `decisions_assets` von Hand (dafür gibt es keine Link-Methode), sonst bewirkt die Vergabe nichts. Siehe **[Eigene KI](#/nml/custom-ai)**.
 
 ## Ein Effekt, während der Gegenstand gehalten wird
 

@@ -12,7 +12,7 @@ Você conhece aquelas pequenas linhas verdes em uma boa espada: *"+3 de dano"*, 
 
 ## O jeito fácil: o criador do NML
 
-Um `ItemAsset` no vanilla é uma classe única cumprindo sete funções diferentes, e os campos mudam totalmente de significado conforme a ocasião. O NML reúne as partes funcionais no `ItemAssetCreator` e, para modificadores, também realiza o registro automaticamente para você:
+Um modificador é um `ItemModAsset`, que é um `ItemAsset` com outro chapéu, e ele fica em `AssetManager.items_modifiers`:
 
 ```csharp Mods/HelloBox/Code/HelloModifiers.cs
 namespace HelloBox
@@ -60,12 +60,17 @@ namespace HelloBox
     }
 }
 ```
-> [!WARNING] Registrar não é suficiente
-> `add()` coloca seu modificador na `list` da biblioteca, e o gerador não lê `list`, lê `pools`. Esses pools são preenchidos em `linkAssets()`, uma vez, durante o carregamento. Um modificador que só está na `list` existe, tem nome, e nunca vai cair em nada :wbfacepalm:.
 
+> [!WARNING] Registrar não basta
+> `add()` coloca seu modificador na `list` da biblioteca, mas o gerador não lê `list`, ele lê `pools`. Esses pools são preenchidos em `linkAssets()`, uma única vez, durante o carregamento. Um modificador que está só em `list` existe, tem nome, e nunca vai ser sorteado em nada :wbfacepalm:.
 
+```json Mods/HelloBox/Locales/en.json
+{
+  "mod_hello_sharp": "Sharpened"
+}
+```
 
-Adicione `HelloModifiers.Initialize();` no seu `Main.cs`, e a partir daí o jogo poderá sortear "hello_sharp" nas armas geradas.
+Adicione `HelloModifiers.Initialize();` ao `Main.cs`, e a partir daí o jogo pode sorteá-lo nas armas geradas.
 
 ### Os argumentos mais importantes
 

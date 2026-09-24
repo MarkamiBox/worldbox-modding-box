@@ -12,7 +12,7 @@ Du kennst die kleinen grünen Zeilen auf einem guten Schwert: *"+3 Schaden"*, *"
 
 ## Der einfache Weg: Der NML-Creator
 
-Ein `ItemAsset` in Vanilla ist eine einzige Klasse, die sieben verschiedene Rollen gleichzeitig übernimmt, und die Felder bedeuten je nach Rolle völlig andere Dinge. NML kapselt die vernünftigen Teile in `ItemAssetCreator` und übernimmt bei Modifikatoren auch gleich die Registrierung für dich:
+Ein Modifikator ist ein `ItemModAsset`, also ein `ItemAsset` mit anderem Hut, und er lebt in `AssetManager.items_modifiers`:
 
 ```csharp Mods/HelloBox/Code/HelloModifiers.cs
 namespace HelloBox
@@ -60,12 +60,17 @@ namespace HelloBox
     }
 }
 ```
-> [!WARNING] Registrieren allein reicht nicht
-> `add()` legt deinen Modifier in die `list` der Library, und der Generator liest nicht `list`, er liest `pools`. Diese Pools werden in `linkAssets()` gefüllt, einmal, beim Laden. Ein Modifier, der nur in `list` steht, existiert, hat einen Namen, und wird nie auf irgendetwas gewürfelt :wbfacepalm:.
 
+> [!WARNING] Registrieren reicht nicht
+> `add()` legt deinen Modifikator in die `list` der Bibliothek, aber der Generator liest nicht `list`, sondern `pools`. Diese Pools werden in `linkAssets()` gefüllt, einmal, beim Laden. Ein Modifikator, der nur in `list` steht, existiert, hat einen Namen und wird nie auf irgendetwas gewürfelt :wbfacepalm:.
 
+```json Mods/HelloBox/Locales/en.json
+{
+  "mod_hello_sharp": "Sharpened"
+}
+```
 
-Füge `HelloModifiers.Initialize();` zu deiner `Main.cs` hinzu, und ab diesem Moment kann das Spiel "hello_sharp" auf zufällig generierte Waffen würfeln.
+Füge `HelloModifiers.Initialize();` zu `Main.cs` hinzu, und ab dann kann das Spiel ihn auf generierte Waffen würfeln.
 
 ### Die entscheidenden Argumente
 

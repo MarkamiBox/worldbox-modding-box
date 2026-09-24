@@ -194,12 +194,12 @@ Il primo giorno ne contano solo tre: `civ`, `actor_size` e `name_locale`. Il res
 | `kingdom_id_wild` / `kingdom_id_civilization` | Regno di appartenenza (nomadi o insediati) |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … foglio da cui derivano gli sprite |
 | `animation_walk` / `animation_idle` / `animation_swim` | Sequenze di fotogrammi con relativo campo `_speed` |
-| `sound_idle`, `sound_spawn`, `sound_death` … | Percorsi di eventi sonori FMOD |
+| `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | Percorsi di eventi sonori FMOD |
 | `name_taxonomic_*` | Regno, phylum, classe, ordine, famiglia, genere, specie per l'enciclopedia |
 | `collective_term` | Nome collettivo ("un **branco** di lupi") |
 | `allowed_status_tiers` | Quali livelli di effetti di stato possono essere applicati |
 | `production` | Cosa producono i loro insediamenti |
-| `zombie_id_internal`, `skeleton_id`, `mush_id` … | In cosa si trasformano alla morte |
+| `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | In cosa si trasformano alla morte |
 
 ## Integrare una creatura di civiltà nel mondo
 

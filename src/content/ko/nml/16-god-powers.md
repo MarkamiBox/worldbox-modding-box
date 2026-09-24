@@ -65,15 +65,15 @@ namespace HelloBox
 
 ### 각 부분의 역할
 
-- **`id`**: 다른 모든 곳에서 참조하는 이름. 버튼, 번역, 다른 모드 등.
-- **`name`**: 게임 자체 UI 검색에서 사용됩니다. id와 동일하게 유지하면 골치 아픈 문제를 피할 수 있습니다.
-- **`rank = PowerRank.Rank0_free`**: 처음부터 사용 가능하며 해금 과정이 없습니다.
-- **`path_icon`**: 커서 및 도구 아이콘.
-- **`unselect_when_window`**: 창이 열렸을 때 패널 뒤쪽의 맵을 실수로 강타하지 않도록 도구를 자동으로 집어넣습니다.
-- **`click_action`**: 여러분의 코드. **클릭된 타일**과 **권능 id**를 인자로 받으며, 작업을 수행했다면 `true`를 반환합니다.
+- **`id`**: 나머지 모든 것이 참조하는 이름입니다. 버튼, 번역, 다른 모드.
+- **`name`**: 게임 자체 UI의 조회에 쓰입니다. ID와 같게 두면 골치 아플 일이 줄어듭니다.
+- **`rank = PowerRank.Rank0_free`**: 처음부터 사용 가능, 잠금 해제 없음.
+- **`path_icon`**: 커서/도구 아이콘입니다.
+- **`unselect_when_window`**: 플레이어가 창을 열면 도구가 알아서 해제되어, 패널 뒤의 지도를 실수로 내려치지 않게 합니다.
+- **`click_action`**: 여러분의 코드입니다. **클릭된 타일**과 **권능 ID**를 받고, 무언가를 했다면 `true`를 반환합니다.
 
-> [!WARNING] 클릭 델리게이트 시그니처는 (WorldTile, string) 입니다
-> `click_action` 은 `PowerActionWithID` 타입이므로 두 번째 인자는 `GodPower` 가 아니라 **문자열 형태의 권능 id** 입니다. 참고로 `(WorldTile, GodPower)` 를 받는 `click_power_action` 이라는 별도 필드도 존재합니다. 형식을 혼동하면 도무지 이해할 수 없는 컴파일 에러를 겪게 됩니다 :PES_DaFuq:.
+> [!WARNING] 클릭 시그니처는 `(WorldTile, string)`입니다
+> `click_action`은 `PowerActionWithID`이므로, 두 번째 인자는 `GodPower`가 아니라 **문자열로 된 권능 ID**입니다. `(WorldTile, GodPower)`를 받는 `click_power_action`이라는 두 번째 필드도 있습니다. 잘못된 형태를 쓰면 말도 안 되는 것처럼 보이는 컴파일 오류가 납니다 :PES_DaFuq:.
 
 ## 클릭 시 유용한 동작들
 

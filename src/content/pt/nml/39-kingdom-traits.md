@@ -85,6 +85,16 @@ namespace HelloBox
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` é lido uma única vez, na inicialização
+> Reinos novos sorteiam seus traços iniciais de uma urna que `BaseTraitLibrary.linkAssets()` monta enquanto o jogo carrega, antes de o seu mod existir. Ligar a opção no seu traço não muda nada sozinho: seu traço nunca está nessa urna e nunca aparece por acaso. Coloque-o você mesmo, com o peso que o vanilla usa:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.kingdoms_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` é `protected`, então isso compila contra o assembly publicizado com que o NML já compila o seu mod. `spawn_random_rate` vale `5` por padrão: aumente e o traço aparece com mais frequência.
+
 ## Criando uma política que realmente faça algo
 
 Como `base_stats` não tem efeito, um traço de reino comprova sua relevância por dois caminhos: Os dois dão mais trabalho que um número, e os dois valem a pena.

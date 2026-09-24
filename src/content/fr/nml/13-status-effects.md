@@ -100,7 +100,7 @@ La liste courte. La vraie est plus longue et surtout ennuyeuse :wbyawn:.
 
 ## Ton propre sprite
 
-Attention au piège, tout le monde tombe dedans une fois :wbbre:. Le voici : `texture` n'est **pas** un chemin complet. La bibliothèque des statuts préfixe automatiquement par `effects/`, il ne faut donc fournir que le nom du fichier.
+Celle-ci cache un piège, et tout le monde tombe dedans une fois :wbbre:. `texture` n'est **pas** un chemin complet : la bibliothèque des statuts ajoute `effects/` devant avant de charger, vous écrivez donc juste le nom.
 
 ```text Mods/HelloBox/
 HelloBox/
@@ -116,9 +116,9 @@ HelloBox/
 cursed.texture = "fx_hello_status";   // PAS "effects/fx_hello_status"
 ```
 
-Si vous écrivez le dossier, le jeu cherchera `effects/effects/fx_hello_status`, ne trouvera rien et n'affichera aucun visuel.
+Écrivez le dossier vous-même et le jeu cherche `effects/effects/fx_hello_status`, ne trouve rien, et ne dessine aucun sprite. Les noms vanilla ressemblent à `fx_status_burning_t` et `fx_status_drowning_t`, donc copier cette forme vous évite les ennuis.
 
-`path_icon` sur le même asset est un champ différent et lui *est* un chemin complet : c'est la petite icône d'interface, pas le sprite collé sur l'unité.
+`path_icon` sur le même asset est une autre chose et *est* un chemin complet : c'est la petite icône dans la liste des statuts, pas le sprite dessiné sur l'unité.
 
 ## Faire en sorte qu'il *fasse* quelque chose
 

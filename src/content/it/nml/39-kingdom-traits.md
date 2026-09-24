@@ -85,6 +85,16 @@ namespace HelloBox
 }
 ```
 
+> [!WARNING] `spawn_random_trait_allowed` viene letto una sola volta, all'avvio
+> I nuovi regni estraggono i tratti iniziali da una riserva che `BaseTraitLibrary.linkAssets()` costruisce mentre il gioco carica, prima che la tua mod esista. Impostare il flag sul tuo tratto da solo non cambia nulla: il tuo tratto non è mai in quella riserva e non compare mai per caso. Aggiungilo tu, con lo stesso peso che usa vanilla:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.kingdoms_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` è `protected`, quindi questo compila con l'assembly pubblicizzato con cui NML compila già la tua mod. `spawn_random_rate` vale `5` di default: alzalo e il tratto compare più spesso.
+
 ## Creare una politica che faccia realmente qualcosa
 
 Poiché `base_stats` non ha effetto, un tratto del regno conquista la sua utilità in due modi alternativi. Entrambi richiedono più lavoro di un numero, ed entrambi ne valgono la pena.

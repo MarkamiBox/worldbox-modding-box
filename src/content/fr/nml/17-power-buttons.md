@@ -12,9 +12,9 @@ Vous avez enregistré un pouvoir divin. Personne ne peut cliquer dessus, car un 
 
 ## Créer votre propre onglet
 
-Vous *pouvez* rattacher un bouton à l'un des onglets de base. Ne le faites pas. Ils sont déjà pleins, le jeu ordonne les enfants par nom et la barre défile, si bien que votre bouton finira dans un recoin où le joueur ne fera jamais défiler :PESgn_ToughLuck:.
+Vous *pouvez* ajouter un bouton à l'un des onglets vanilla. Ne le faites pas. Ils sont déjà pleins, le jeu range les enfants par nom et la barre défile, donc votre bouton finit à un endroit où le joueur ne défilera jamais :PESgn_ToughLuck:.
 
-Un seul onglet bien à vous, et tout ce que vous ajouterez sera regroupé et facile à trouver :
+Un onglet à vous, et tout ce que vous ajoutez est regroupé et facile à trouver :
 
 ```csharp Mods/HelloBox/Code/HelloPowers.cs
 using NeoModLoader.api;
@@ -339,11 +339,12 @@ namespace HelloBox
 
 Voilà le fichier entier : neuf pouvoirs divins, l'onglet, dix boutons et l'utilitaire d'icônes. Chaque bouton est une fonctionnalité que ce guide a enseignée. Les sections ci-dessous le décortiquent.
 
-
 `recalc()` est ce qui dimensionne l'onglet autour de ses boutons, et `sortButtons()` est ce qui les met dans l'ordre. Les deux doivent attendre, et le jeu ne vous dira pas pourquoi de manière aimable :
 
-> [!WARNING] Ne dispose pas l'onglet pendant `OnModLoad`
-> `PowersTab` lit son propre parent dans le `Start()` d'Unity, qui n'a pas encore tourné sur l'objet que `CreateTab` vient de te donner. Appelle `recalc()` là et toute l'étape meurt sur `NullReferenceException` dans `PowersTab.setNewWidth()`, ton pouvoir ne s'enregistre jamais et l'onglet n'apparaît jamais :wbfacepalm:.
+> [!WARNING] Ne disposez pas l'onglet pendant `OnModLoad`
+> `PowersTab` lit son propre parent dans le `Start()` d'Unity, qui n'a pas encore tourné sur l'objet que `CreateTab` vient de vous donner. Appelez `recalc()` à ce moment-là et toute l'étape meurt avec `NullReferenceException` dans `PowersTab.setNewWidth()`, votre pouvoir n'est jamais enregistré et l'onglet n'apparaît jamais :wbfacepalm:.
+>
+> Créez l'onglet et les boutons au chargement, puis disposez-les depuis `Update()` à la première frame où `PowerTabController.instance` existe. C'est à ça que sert `LayoutWhenReady` plus haut, et `Main.Update()` l'appelle :
 >
 > ```csharp
 > public void Update()
@@ -352,6 +353,9 @@ Voilà le fichier entier : neuf pouvoirs divins, l'onglet, dix boutons et l'util
 >     HelloPowers.LayoutWhenReady();
 > }
 > ```
+
+> [!TIP] Éviter la danse d'Update() avec IStagedLoad
+> Si interroger dans `Update()` vous semble maladroit, implémentez `IStagedLoad` sur la classe de votre mod. Sa méthode `Init()` se déclenche à la frame 2 après la construction du mod, pile quand le jeu de base et ses contrôleurs d'interface sont complètement réveillés.
 
 ## Deux types de boutons
 

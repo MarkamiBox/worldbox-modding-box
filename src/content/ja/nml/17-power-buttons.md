@@ -12,9 +12,9 @@ order: 202
 
 ## 独自のタブを作成する
 
-バニラのタブにボタンを追加することも *可能* です。ですが、絶対にやめておきましょう。バニラのタブはすでに満杯であり、ゲームは子要素を名前順に配置する上、バーはスクロールするため、あなたのボタンはプレイヤーが絶対にスクロールしないような場所に追いやられてしまいます :PESgn_ToughLuck:。
+バニラのタブにボタンを追加すること自体は*できます*。やめておきましょう。すでに満杯で、ゲームは子要素を名前順に並べ、バーはスクロールするので、あなたのボタンはプレイヤーが絶対にスクロールしない場所に行き着きます :PESgn_ToughLuck:。
 
-自分専用のタブを1つ作れば、追加したすべての機能が一箇所にまとまり、簡単に見つけられます:
+自分専用のタブを1つ作れば、追加したものがすべてまとまり、見つけやすくなります：
 
 ```csharp Mods/HelloBox/Code/HelloPowers.cs
 using NeoModLoader.api;
@@ -339,11 +339,12 @@ namespace HelloBox
 
 これがファイルの全体です：9つの神の力、タブ、10個のボタン、そしてアイコン用ヘルパー。どのボタンも、このガイドで学んだ機能の1つです。以下のセクションで分解していきます。
 
-
 `recalc()` はボタンに合わせてタブのサイズを決め、`sortButtons()` はボタンを並べ替えます。どちらも待つ必要があり、ゲームはその理由を親切には教えてくれません：
 
 > [!WARNING] `OnModLoad` の中でタブをレイアウトしない
-> `PowersTab` はUnityの `Start()` で自分の親を読みますが、`CreateTab` が渡したばかりのオブジェクトではまだ走っていません。そこで `recalc()` を呼ぶとステージ全体が `PowersTab.setNewWidth()` の `NullReferenceException` で死に、力は登録されず、タブも出ません :wbfacepalm:。
+> `PowersTab` はUnityの `Start()` で自分の親を読みますが、`CreateTab` が渡したばかりのオブジェクトではまだ実行されていません。そこで `recalc()` を呼ぶと、ステージ全体が `PowersTab.setNewWidth()` で `NullReferenceException` を出して止まり、パワーは登録されず、タブも表示されません :wbfacepalm:。
+>
+> タブとボタンはロード時に作り、`PowerTabController.instance` が存在する最初のフレームで `Update()` からレイアウトしてください。上の `LayoutWhenReady` はそのためのもので、`Main.Update()` がそれを呼びます：
 >
 > ```csharp
 > public void Update()
@@ -352,6 +353,9 @@ namespace HelloBox
 >     HelloPowers.LayoutWhenReady();
 > }
 > ```
+
+> [!TIP] IStagedLoad で Update() の手間を省く
+> `Update()` の中で毎回確認するのが不格好に感じるなら、Modクラスに `IStagedLoad` を実装しましょう。その `Init()` メソッドはModの生成から2フレーム目、つまりゲーム本体とUIコントローラーが完全に起動したタイミングで呼ばれます。
 
 ## 2種類のボタン
 

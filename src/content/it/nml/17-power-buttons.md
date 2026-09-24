@@ -12,9 +12,9 @@ Hai registrato un potere divino. Nessuno può cliccarci sopra, perché un `GodPo
 
 ## Crea la tua scheda personale
 
-*Potresti* accodare un pulsante a una delle schede vanilla. Non farlo. Sono già piene zeppe, il gioco dispone gli elementi figli in ordine alfabetico e la barra scorre, quindi il tuo pulsante finisce in un punto in cui il giocatore non scorrerà mai :PESgn_ToughLuck:.
+*Puoi* aggiungere un pulsante a una delle schede vanilla. Non farlo. Sono già piene, il gioco ordina i figli per nome e la barra scorre, quindi il tuo pulsante finisce in un punto dove il giocatore non scorrerà mai :PESgn_ToughLuck:.
 
-Una singola scheda tutta tua, e tutto ciò che aggiungi sarà raccolto e facile da trovare:
+Una scheda tutta tua, e tutto ciò che aggiungi sta insieme ed è facile da trovare:
 
 ```csharp Mods/HelloBox/Code/HelloPowers.cs
 using NeoModLoader.api;
@@ -339,11 +339,12 @@ namespace HelloBox
 
 Questo è il file completo: nove poteri divini, la scheda, dieci pulsanti e l'helper delle icone. Ogni pulsante è una funzionalità che questa guida ha insegnato. Le sezioni qui sotto lo smontano pezzo per pezzo.
 
-
 `recalc()` è ciò che dimensiona la scheda attorno ai suoi pulsanti, e `sortButtons()` è ciò che li mette in ordine. Entrambi devono aspettare, e il gioco non ti dirà perché in modo gentile:
 
 > [!WARNING] Non impaginare la scheda durante `OnModLoad`
-> `PowersTab` legge il proprio parent nello `Start()` di Unity, che non è ancora girato sull'oggetto che `CreateTab` ti ha appena dato. Chiama lì `recalc()` e l'intera fase muore con `NullReferenceException` in `PowersTab.setNewWidth()`, il potere non si registra mai e la scheda non compare mai :wbfacepalm:.
+> `PowersTab` legge il proprio parent nello `Start()` di Unity, che non è ancora stato eseguito sull'oggetto che `CreateTab` ti ha appena dato. Chiama lì `recalc()` e l'intera fase muore con `NullReferenceException` in `PowersTab.setNewWidth()`, il tuo potere non viene mai registrato e la scheda non compare mai :wbfacepalm:.
+>
+> Crea la scheda e i pulsanti al caricamento, poi impaginali da `Update()` nel primo frame in cui esiste `PowerTabController.instance`. È a questo che serve `LayoutWhenReady` qui sopra, e `Main.Update()` lo chiama:
 >
 > ```csharp
 > public void Update()
@@ -352,6 +353,9 @@ Questo è il file completo: nove poteri divini, la scheda, dieci pulsanti e l'he
 >     HelloPowers.LayoutWhenReady();
 > }
 > ```
+
+> [!TIP] Saltare il balletto di Update() con IStagedLoad
+> Se fare polling dentro `Update()` ti sembra goffo, implementa `IStagedLoad` sulla classe della tua mod. Il suo metodo `Init()` scatta al secondo frame dopo la costruzione della mod, proprio quando il gioco base e i suoi controller dell'interfaccia sono completamente pronti.
 
 ## Due tipi di pulsante
 

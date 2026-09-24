@@ -73,6 +73,16 @@ Auf diesem Weg gelangt eine Unterarten-Eigenschaft in eine Welt, ohne dass du si
 
 Der `mutation`-Statuswert einer Einheit entscheidet über die Chance auf solche Ereignisse. Siehe **[Stats-Referenz](#/nml/stats)**.
 
+> [!WARNING] Der Topf wird nur einmal gelesen, beim Start
+> `spawn_random_trait_allowed = true` zu setzen reicht allein nicht. `BaseTraitLibrary.linkAssets()` baut den eigentlichen Topf, `_pot_allowed_to_be_given_randomly`, während das Spiel lädt, bevor deine Mod existiert. Ein Merkmal, das danach registriert wird, ist nie darin, und keine Mutation würfelt es je. Leg es selbst hinein, gewichtet wie in Vanilla:
+>
+> ```csharp
+> trait.spawn_random_trait_allowed = true;
+> AssetManager.subspecies_traits._pot_allowed_to_be_given_randomly.AddTimes(trait.spawn_random_rate, trait);
+> ```
+>
+> `_pot_allowed_to_be_given_randomly` ist `protected`, also kompiliert das gegen die publizierte Assembly, mit der NML deine Mod ohnehin baut. `spawn_random_rate` ist standardmäßig `5`: Erhöhe es, und das Merkmal taucht öfter auf.
+
 ## Grafik: Was kein anderes Eigenschaftssystem bietet
 
 ```csharp

@@ -73,32 +73,32 @@ Neben deinen Bilddateien teilt eine `sprites.json` dem NML-Loader mit, wie die B
 
 ## Wo welche Grafikart hingehört
 
-Das ist die Tabelle, zu der Modder immer wieder zurückkehren. Jedes Asset verweist über ein anderes Feld auf seine Grafik, und einige davon hängen vor dem Laden still und heimlich einen Unterordner an. Der eingetragene Wert ist also **nicht** immer der direkte Dateipfad.
+Das ist die Tabelle, zu der man immer wieder zurückkommt. Jedes Asset verweist mit einem anderen Feld auf seine Grafik, und ein paar davon hängen vor dem Laden stillschweigend einen Ordner davor. Der Wert, den du schreibst, ist also **nicht** immer der Pfad, an dem die Datei liegt.
 
-| Asset | Feld | Speicherort der Datei |
+| Asset | Feld | Die Datei gehört nach |
 | --- | --- | --- |
-| Trait, God Power, Kingdom, Group | `path_icon` | `GameResources/` + exakt das, was du eingetragen hast |
-| Item, in der Hand einer Einheit | `path_gameplay_sprite` | `GameResources/` + exakt das, was du eingetragen hast |
-| Gebäude | `sprite_path` | Ein **Ordner**: `GameResources/` + `sprite_path` + `/`, mit `main_0.png`, `construction_0.png`, `ruin_0.png`. Ist `sprite_path` leer, gilt `main_path` + id, und `main_path` ist standardmäßig `buildings/` |
-| Drop | `path_texture` | Ein **Ordner**: `GameResources/` + exakt das, was du eingetragen hast |
+| Merkmal, göttliche Macht, Königreich, Gruppe | `path_icon` | `GameResources/` + genau das, was du geschrieben hast |
+| Gegenstand in der Hand einer Einheit | `path_gameplay_sprite` | `GameResources/` + genau das, was du geschrieben hast |
+| Gebäude | `sprite_path` | Ein **Ordner**: `GameResources/` + `sprite_path` + `/` mit `main_0.png`, `construction_0.png`, `ruin_0.png`. Ist `sprite_path` leer, gilt `main_path` + ID, und `main_path` ist standardmäßig `buildings/` |
+| Drop | `path_texture` | Ein **Ordner**: `GameResources/` + genau das, was du geschrieben hast, ein PNG pro Frame |
 | Wolke | `path_sprites` | `GameResources/` + jeder Pfad in der Liste |
-| Statuseffekt | `texture` | Ein **Ordner**: `GameResources/effects/` + das, was du eingetragen hast |
-| Projektil | `texture` | Ein **Ordner**: `GameResources/effects/projectiles/` + das, was du eingetragen hast |
-| Ressource, getragen in der Hand | `path_gameplay_sprite` | Ein **Ordner**: `GameResources/items/resources/` + das, was du eingetragen hast |
-| Ressource, Inventar-Icon | `path_icon` | `GameResources/` + das, was du eingetragen hast (Vanilla nutzt Namen wie `iconResBread`, Datei liegt im Root) |
-| Bodenfeld (Tile) & Top Tile | *(kein Feld)* | `GameResources/tiles/<die_id_des_tiles>/` |
+| Statuseffekt | `texture` | Ein **Ordner**: `GameResources/effects/` + was du geschrieben hast, ein PNG pro Frame |
+| Projektil | `texture` | Ein **Ordner**: `GameResources/effects/projectiles/` + was du geschrieben hast, ein PNG pro Frame |
+| Ressource, in der Hand getragen | `path_gameplay_sprite` | Ein **Ordner**: `GameResources/items/resources/` + was du geschrieben hast, ein PNG pro Frame |
+| Ressource, Inventar-Icon | `path_icon` | `GameResources/` + was du geschrieben hast. Vanilla nutzt einen bloßen Namen wie `iconResBread`, die Datei liegt also im Wurzelverzeichnis |
+| Kachel und Top-Kachel | *(kein Feld)* | `GameResources/tiles/<the tile's id>/` |
 
 > [!WARNING] "Ein Ordner" ist keine Stilfrage
-> Jedes oben als **Ordner** markierte Asset wird mit `getSpriteList()` gelesen, das die Frames *in* einem Ordner zurückgibt. Zeig damit auf eine einzelne PNG und es kommt leer zurück: ein Drop fällt unsichtbar, ein Projektil wirft `ArgumentOutOfRangeException` in `QuantumSpriteLibrary.drawProjectiles()`, ein Status wirft in jedem Frame. Ein Frame reicht, er muss nur in seinem eigenen Ordner liegen: `drops/hello_ember/hello_ember_0.png` :wbfacepalm:.
+> Jedes oben als **Ordner** markierte Asset wird mit `getSpriteList()` gelesen, das die Frames *in* einem Ordner zurückgibt. Zeigst du auf ein einzelnes PNG, kommt es leer zurück: Ein Drop fällt unsichtbar, ein Projektil wirft `ArgumentOutOfRangeException` in `QuantumSpriteLibrary.drawProjectiles()`, ein Status wirft in jedem Frame. Ein einziger Frame ist in Ordnung, er muss nur in einem eigenen Ordner liegen: `drops/hello_ember/hello_ember_0.png` :wbfacepalm:.
 
-Drei Stolperfallen lauern hier:
+Drei davon beißen:
 
-- **Status und Projektile hängen automatisch einen Ordner davor.** Wenn du `texture = "effects/status/myThing"` schreibst, sucht das Spiel nach `effects/effects/status/myThing`, was ins Leere läuft. Vanilla-Statuseffekte nutzen einfache Namen: `fx_status_burning_t`.
-- **Tiles ignorieren diese Felder komplett.** Die Grafik eines Tiles wird über seine **ID** in einem eigenen Unterordner gesucht, da ein Tile mehrere Varianten besitzt. `hello_moss` bedeutet: `GameResources/tiles/hello_moss/` mit deinen PNGs darin.
-- **Gebäude kleben nicht, aber sie fallen zurück.** `sprite_path` wird genau so benutzt, wie es dasteht: `"buildings/hello_shrine"` heißt `GameResources/buildings/hello_shrine/`. Lässt du es leer, nimmt das Spiel `main_path` + id, und ein Ordner in `main_path` wird zu `buildings/hello_shrine/hello_shrine` :PESgn_Bruh:.
+- **Status und Projektil hängen einen Ordner davor.** Schreibst du bei einem Status `texture = "effects/status/myThing"`, sucht das Spiel nach `effects/effects/status/myThing`, und das gibt es nicht. Vanilla-Status nutzen einen bloßen Namen: `fx_status_burning_t`.
+- **Kacheln ignorieren die Felder komplett.** Die Grafik einer Kachel wird über ihre **ID** gefunden, in einem eigenen Ordner, weil eine Kachel mehrere Varianten hat. `hello_moss` bedeutet `GameResources/tiles/hello_moss/` mit deinen PNGs darin.
+- **Gebäude kleben nichts zusammen, haben aber einen Fallback.** `sprite_path` wird genau so verwendet, wie es geschrieben ist: `"buildings/hello_shrine"` bedeutet `GameResources/buildings/hello_shrine/`. Lässt du es leer, nimmt das Spiel stattdessen `main_path` + ID, und ein Ordner in `main_path` wird zu `buildings/hello_shrine/hello_shrine` :PESgn_Bruh:.
 
-> [!TIP] Kopiere den Pfad von einem Vanilla-Asset
-> Suche dir das ähnlichste Vanilla-Objekt, lies sein Feld in **[UnityExplorer](#/toolbox/unity-explorer)** oder über die **[Icon-Suche](#/tools/icons)** ab und spiegele das Format exakt. Das geht schneller und passt garantiert beim ersten Versuch :PESgn_Noice:.
+> [!TIP] Kopier den Pfad von einem Vanilla-Asset
+> Nimm das ähnlichste Vanilla-Ding, lies sein Feld in **[UnityExplorer](#/toolbox/unity-explorer)** oder mit dem **[Sprite-Pfad-Finder](#/tools/icons)** aus und bilde die Form exakt nach. Das geht schneller als darüber nachzudenken, und es stimmt beim ersten Mal :PESgn_Noice:.
 
 ## Eine Datei direkt von der Festplatte einlesen
 

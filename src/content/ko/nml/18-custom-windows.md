@@ -31,9 +31,9 @@ ScrollWindow.isWindowActive();               // 현재 열려 있는 창이 *하
 
 ## 네이티브 ScrollWindow 방식
 
-패널이 WorldBox 공식 UI처럼 자연스럽게 어우러지길 원한다면 Canvas를 처음부터 맨땅에 만들지 마세요 :PES2_Shrug:。NeoModLoader는 `WindowCreator`와 `AbstractWindow<T>`를 제공합니다.
+패널이 WorldBox가 직접 만든 것처럼 보이길 원한다면, 제가 첫 시도에서 그랬던 것처럼 canvas를 처음부터 만들지 마세요 :PES2_Shrug:. NeoModLoader에는 스크롤바, 제목 표시줄, 닫기 버튼을 Unity 기본 요소로 조립할 필요가 없도록 `WindowCreator`와 `AbstractWindow<T>`가 들어 있습니다.
 
-`AbstractWindow<T>`를 상속합니다:
+`AbstractWindow<T>`를 상속하고 배관 작업은 NML에 맡기세요:
 
 ```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
 using NeoModLoader.api;
@@ -62,19 +62,21 @@ namespace HelloBox
 }
 ```
 
-모드 로드 시점에 초기화합니다:
+모드 초기화 중에 한 번만 생성하세요:
 
 ```csharp
 HelloNativeWindow.CreateAndInit("hello_native_window");
 ```
 
-창을 열 때는 다음 한 줄이면 됩니다:
+`CreateAndInit()`은 게임의 `"windows/empty"` 프리팹을 복제해 `CanvasMain.instance.transformWindows`의 자식으로 붙이고, 제목 키를 `"<windowId> Title"`로 설정하고, 여러분의 컴포넌트를 붙인 뒤, 창을 `ScrollWindow._all_windows`와 `AssetManager.window_library` 양쪽에 등록합니다. 여는 것은 바닐라 창과 똑같은 한 줄입니다:
 
 ```csharp
 ScrollWindow.showWindow(HelloNativeWindow.WindowId);
 ```
 
-넓은 레이아웃이 필요하면 `AbstractWideWindow<T>`를 상속하거나 `WindowCreator.CreateEmptyWindow(id, titleKey, icon)`을 직접 호출하세요. 등록 과정을 건너뛰면 ESC 키를 눌러도 게임이 창의 존재를 인식하지 못합니다 :wbfacepalm:。
+거대한 표나 여러 열짜리 관리 화면 때문에 화면 공간이 더 필요하다면, 대신 `AbstractWideWindow<T>`를 상속하세요. 동작은 같지만 기본 크기가 `600x280`이고, 넓은 테두리가 자동으로 적용되며, 레이아웃에 공간이 더 필요하면 `SetSize(new Vector2(width, height))`도 쓸 수 있습니다.
+
+`AbstractWindow<T>` 기본 클래스를 아예 원하지 않는다면, `WindowCreator.CreateEmptyWindow(id, titleKey, icon)`을 직접 호출하고 반환된 `ScrollWindow`를 직접 설정하세요. 직접 할 때 등록 단계를 잊으면, ESC를 눌렀을 때 게임은 여러분의 창이 존재하는지조차 모릅니다 :wbfacepalm:.
 
 ## 나만의 플로팅 창 만들기
 

@@ -101,15 +101,15 @@ new WorldLawAsset
 
 ## 文本与本地化
 
-```json Locales/en.json
+```json Mods/HelloBox/Locales/en.json
 {
   "world_law_hello_chaos_title": "Hello Chaos",
   "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one."
 }
 ```
 
-> [!WARNING] 世界法则使用 _title，而不是纯裸 id
-> 几乎所有其他资源都直接使用纯 id 作为名称本地化键。但世界法则要求使用 `<id>_title`。一旦搞错，开关在游戏中就会变成没有任何文字的空白按钮 :PESgn_Really:。
+> [!WARNING] 世界法则用的是 `_title`，不是纯 id
+> 几乎所有其他资源都直接用纯 id 作为名称键。世界法则要的是 `<id>_title`。写错的话，开关就会显示成完全没有标签 :PESgn_Really:。
 
-> [!TIP] 世界法则胜过设置菜单
-> Mod 设置选项藏在玩家只打开一次的菜单深处。而世界法则就在游戏主界面中，紧挨着原版法则，按每个世界单独保存，并且可以在游戏中途随时切换。如果你的 mod 带有开关类行为，这里才是最完美的归宿 :wbblessed:。
+> [!TIP] 法则胜过设置
+> 模组设置藏在玩家只会打开一次的菜单里。世界法则就在游戏里，紧挨着原版法则，每个世界独立，还能在游戏中途切换。如果你的模组有开/关式的行为，它就该放在这里 :wbblessed:。

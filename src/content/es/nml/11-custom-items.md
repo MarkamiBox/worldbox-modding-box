@@ -135,14 +135,15 @@ Mantén los precios sensatos. Una espada de hierro por 43 millones de monedas no
 
 Aquí es donde un objeto deja de ser un montón de números.
 
-| Campo | Lo que hace |
+| Campo | Qué hace |
 | --- | --- |
-| `action_attack_target` | Se ejecuta en cada impacto acertado |
-| `action_special_effect` + `special_effect_interval` | Se ejecuta periódicamente mientras está equipado |
-| `item_modifier_ids` | Encantamientos que puede recibir. Ver **[Encantamientos de armas](#/nml/item-modifiers)** |
-| `addSpell(id)` | Un hechizo que el portador puede lanzar |
-| `addCombatAction(id)` | Un movimiento de combate que otorga |
+| `action_attack_target` | Se ejecuta en cada golpe acertado |
+| `action_special_effect` + `special_effect_interval` | Se ejecuta con un temporizador mientras está equipado |
+| `item_modifier_ids` | Encantamientos que puede obtener. Mira **[Encantamientos de armas](#/nml/item-modifiers)** |
+| `addSpell(id)` + `linkSpells()` | Un hechizo que puede lanzar quien lo lleva. El enlace lo tienes que llamar tú, mira abajo |
+| `addCombatAction(id)` | Compila, y en un objeto no hace nada: una unidad reúne acciones de combate de sus rasgos (y subespecie, clan, religión), nunca de su equipo. Ponlo en un rasgo, mira **[Proyectiles, hechizos y efectos](#/nml/projectiles-spells)** |
 
+El juego convierte esos ids en objetos una sola vez, al arrancar, antes de que cargue tu mod. En un objeto que registraste tú, termina con `linkSpells()` y pon `decisions_assets` a mano (no hay método de enlace para eso), o la concesión no hace nada. Mira **[IA personalizada](#/nml/custom-ai)**.
 
 ## Un efecto mientras se sostiene
 

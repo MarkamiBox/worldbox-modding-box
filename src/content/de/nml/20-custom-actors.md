@@ -194,12 +194,12 @@ Am ersten Tag zählen nur drei davon: `civ`, `actor_size` und `name_locale`. Der
 | `kingdom_id_wild` / `kingdom_id_civilization` | Welchem Reich sie beitreten (wild oder sesshaft) |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … aus welchem Atlas die Sprites stammen |
 | `animation_walk` / `animation_idle` / `animation_swim` | Frame-Sequenzen mit eigenem `_speed`-Feld |
-| `sound_idle`, `sound_spawn`, `sound_death` … | FMOD-Event-Pfade |
+| `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | FMOD-Event-Pfade |
 | `name_taxonomic_*` | Reich, Stamm, Klasse, Ordnung, Familie, Gattung, Art für das Wissensfenster |
 | `collective_term` | Kollektivbezeichnung (z. B. "ein **Rudel** Wölfe") |
 | `allowed_status_tiers` | Welche Statuseffekt-Stufen auf sie angewendet werden können |
 | `production` | Was ihre Städte herstellen |
-| `zombie_id_internal`, `skeleton_id`, `mush_id` … | In was sie sich verwandeln |
+| `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | In was sie sich verwandeln |
 
 ## Eine Zivilisations-Kreatur in die Welt einbinden
 

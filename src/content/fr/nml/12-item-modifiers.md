@@ -12,7 +12,7 @@ Vous connaissez ces petites lignes vertes sur une bonne épée : *"+3 dégâts"*
 
 ## La méthode simple : le créateur de NML
 
-Un `ItemAsset` dans le jeu de base est une classe unique qui remplit sept fonctions différentes, et ses champs ont des significations changeantes selon le cas. NML regroupe les fonctionnalités clés dans `ItemAssetCreator`, et pour les modificateurs, il gère directement l'enregistrement pour vous :
+Un modificateur est un `ItemModAsset`, c'est-à-dire un `ItemAsset` avec un autre chapeau, et il vit dans `AssetManager.items_modifiers` :
 
 ```csharp Mods/HelloBox/Code/HelloModifiers.cs
 namespace HelloBox
@@ -60,12 +60,17 @@ namespace HelloBox
     }
 }
 ```
+
 > [!WARNING] L'enregistrer ne suffit pas
-> `add()` met ton modificateur dans la `list` de la bibliothèque, et le générateur ne lit pas `list`, il lit `pools`. Ces pools sont remplis dans `linkAssets()`, une seule fois, au chargement. Un modificateur qui n'est que dans `list` existe, a un nom, et ne sera jamais tiré sur quoi que ce soit :wbfacepalm:.
+> `add()` met votre modificateur dans la `list` de la bibliothèque, mais le générateur ne lit pas `list`, il lit `pools`. Ces pools sont remplis dans `linkAssets()`, une seule fois, au chargement. Un modificateur qui n'est que dans `list` existe, a un nom, et ne sera jamais tiré sur quoi que ce soit :wbfacepalm:.
 
+```json Mods/HelloBox/Locales/en.json
+{
+  "mod_hello_sharp": "Sharpened"
+}
+```
 
-
-Ajoutez `HelloModifiers.Initialize();` dans votre `Main.cs`, et le jeu pourra désormais attribuer "hello_sharp" aux armes qu'il génère.
+Ajoutez `HelloModifiers.Initialize();` à `Main.cs`, et à partir de là le jeu peut le tirer sur les armes générées.
 
 ### Les arguments qui comptent
 
