@@ -111,7 +111,7 @@ Now any weapon that rolls "hello_burning" sets the ground on fire when it hits. 
 
 ```json Mods/HelloBox/Locales/en.json
 {
-  "hello_sharp": "Sharpened",
+  "mod_hello_sharp": "Sharpened",
   "hello_burning": "Burning"
 }
 ```

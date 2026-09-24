@@ -110,7 +110,7 @@ Ora qualsiasi arma che riceve "hello_burning" darà fuoco al terreno quando colp
 
 ```json Locales/en.json
 {
-  "hello_sharp": "Sharpened",
+  "mod_hello_sharp": "Sharpened",
   "hello_burning": "Burning"
 }
 ```

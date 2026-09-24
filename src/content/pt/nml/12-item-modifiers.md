@@ -110,7 +110,7 @@ Agora qualquer arma que sortear "hello_burning" incendiará o chão ao atingir o
 
 ```json Locales/en.json
 {
-  "hello_sharp": "Sharpened",
+  "mod_hello_sharp": "Sharpened",
   "hello_burning": "Burning"
 }
 ```

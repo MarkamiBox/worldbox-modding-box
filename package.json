@@ -9,7 +9,7 @@
     "lint": "oxlint",
     "check-translations": "node scripts/check-translations.mjs",
     "check-content": "node scripts/check-content.mjs",
-    "test": "node --experimental-strip-types src/utils/csharpCheck.test.ts && node --experimental-strip-types src/lib/naturalSearch.test.ts",
+    "test": "node --experimental-strip-types src/utils/csharpCheck.test.ts && node --experimental-strip-types src/lib/naturalSearch.test.ts && node --experimental-strip-types src/tools/contentBuilder/defs.test.ts",
     "preview": "vite preview",
     "extract-game-api": "node scripts/extract-game-api.mjs",
     "build-hellobox": "node scripts/build-hellobox.mjs"

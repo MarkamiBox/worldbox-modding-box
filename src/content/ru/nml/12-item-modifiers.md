@@ -110,7 +110,7 @@ ItemAssetCreator.CreateAndAddModifier(
 
 ```json Locales/en.json
 {
-  "hello_sharp": "Sharpened",
+  "mod_hello_sharp": "Sharpened",
   "hello_burning": "Burning"
 }
 ```

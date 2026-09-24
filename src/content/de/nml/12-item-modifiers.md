@@ -110,7 +110,7 @@ Jetzt setzt jede Waffe, die "hello_burning" auswürfelt, den Boden bei einem Tre
 
 ```json Locales/en.json
 {
-  "hello_sharp": "Sharpened",
+  "mod_hello_sharp": "Sharpened",
   "hello_burning": "Burning"
 }
 ```

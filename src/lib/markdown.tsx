@@ -6,6 +6,7 @@ import { IconFinder } from '../tools/IconFinder';
 import { FeedbackForm } from '../tools/FeedbackForm';
 import { AssetFields } from '../tools/AssetFields';
 import { HarmonyPatchBuilder } from '../tools/HarmonyPatchBuilder';
+import { ContentBuilder } from '../tools/ContentBuilder';
 import { useLang, type Lang } from './i18n';
 import { replaceIcons } from './icons';
 
@@ -16,6 +17,7 @@ const TOOLS: Record<string, React.FC<{ language: Lang }>> = {
   harmony: HarmonyPatchBuilder,
   feedback: FeedbackForm,
   fields: AssetFields,
+  builder: ContentBuilder,
 };
 
 export interface Heading {
