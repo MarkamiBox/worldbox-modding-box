@@ -337,6 +337,11 @@ namespace HelloBox
 }
 ```
 
+Questo è il file completo: nove poteri divini, la scheda, dieci pulsanti e l'helper delle icone. Ogni pulsante è una funzionalità che questa guida ha insegnato. Le sezioni qui sotto lo smontano pezzo per pezzo.
+
+
+`recalc()` è ciò che dimensiona la scheda attorno ai suoi pulsanti, e `sortButtons()` è ciò che li mette in ordine. Entrambi devono aspettare, e il gioco non ti dirà perché in modo gentile:
+
 > [!WARNING] Non impaginare la scheda durante `OnModLoad`
 > `PowersTab` legge il proprio parent nello `Start()` di Unity, che non è ancora girato sull'oggetto che `CreateTab` ti ha appena dato. Chiama lì `recalc()` e l'intera fase muore con `NullReferenceException` in `PowersTab.setNewWidth()`, il potere non si registra mai e la scheda non compare mai :wbfacepalm:.
 >
@@ -347,9 +352,6 @@ namespace HelloBox
 >     HelloPowers.LayoutWhenReady();
 > }
 > ```
-
-
-`tab.recalc()` è ciò che impagina e dispone i pulsanti. Dimenticatene e la scheda sembrerà vuota anche se i pulsanti sono effettivamente presenti.
 
 ## Due tipi di pulsante
 

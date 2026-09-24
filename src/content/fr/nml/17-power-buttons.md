@@ -337,6 +337,11 @@ namespace HelloBox
 }
 ```
 
+Voilà le fichier entier : neuf pouvoirs divins, l'onglet, dix boutons et l'utilitaire d'icônes. Chaque bouton est une fonctionnalité que ce guide a enseignée. Les sections ci-dessous le décortiquent.
+
+
+`recalc()` est ce qui dimensionne l'onglet autour de ses boutons, et `sortButtons()` est ce qui les met dans l'ordre. Les deux doivent attendre, et le jeu ne vous dira pas pourquoi de manière aimable :
+
 > [!WARNING] Ne dispose pas l'onglet pendant `OnModLoad`
 > `PowersTab` lit son propre parent dans le `Start()` d'Unity, qui n'a pas encore tourné sur l'objet que `CreateTab` vient de te donner. Appelle `recalc()` là et toute l'étape meurt sur `NullReferenceException` dans `PowersTab.setNewWidth()`, ton pouvoir ne s'enregistre jamais et l'onglet n'apparaît jamais :wbfacepalm:.
 >
@@ -347,9 +352,6 @@ namespace HelloBox
 >     HelloPowers.LayoutWhenReady();
 > }
 > ```
-
-
-`tab.recalc()` est ce qui organise et dispose les boutons. Oubliez-le et votre onglet semblera vide alors même que les boutons sont bel et bien là.
 
 ## Deux types de boutons
 

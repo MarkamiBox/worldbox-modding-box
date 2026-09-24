@@ -337,6 +337,11 @@ namespace HelloBox
 }
 ```
 
+Esse é o arquivo inteiro: nove poderes divinos, a aba, dez botões e o auxiliar de ícones. Cada botão é um recurso que este guia ensinou. As seções abaixo o desmontam.
+
+
+`recalc()` é o que ajusta o tamanho da aba aos seus botões, e `sortButtons()` é o que os coloca em ordem. Os dois precisam esperar, e o jogo não vai te dizer o porquê de um jeito gentil:
+
 > [!WARNING] Não organize a aba durante `OnModLoad`
 > `PowersTab` lê o próprio pai no `Start()` do Unity, que ainda não rodou no objeto que `CreateTab` acabou de te dar. Chame `recalc()` ali e a etapa inteira morre com `NullReferenceException` em `PowersTab.setNewWidth()`, seu poder nunca é registrado e a aba nunca aparece :wbfacepalm:.
 >
@@ -347,9 +352,6 @@ namespace HelloBox
 >     HelloPowers.LayoutWhenReady();
 > }
 > ```
-
-
-`tab.recalc()` é o que organiza os botões. Se esquecer dessa linha, sua aba parecerá vazia mesmo que os botões estejam lá.
 
 ## Dois tipos de botão
 

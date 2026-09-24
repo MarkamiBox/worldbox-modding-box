@@ -337,6 +337,11 @@ namespace HelloBox
 }
 ```
 
+这就是整个文件：九个神力、标签页、十个按钮，以及图标辅助方法。每个按钮都是本指南讲过的一个功能。下面的小节会把它逐一拆开。
+
+
+`recalc()` 负责根据按钮调整标签页的尺寸，`sortButtons()` 负责给按钮排序。两者都必须等待，而且游戏不会友好地告诉你原因：
+
 > [!WARNING] 不要在 `OnModLoad` 里排布标签页
 > `PowersTab` 在 Unity 的 `Start()` 里读取自己的父对象，而 `CreateTab` 刚交给你的对象上它还没运行。在那里调用 `recalc()`，整个阶段就会死在 `PowersTab.setNewWidth()` 的 `NullReferenceException` 上，你的神力永远注册不上，标签页也永远不出现 :wbfacepalm:。
 >
@@ -347,9 +352,6 @@ namespace HelloBox
 >     HelloPowers.LayoutWhenReady();
 > }
 > ```
-
-
-`tab.recalc()` 负责计算按钮的排列布局。如果漏掉了这一句，即使按钮确实存在，你的标签页看起来也会是一片空白。
 
 ## 两种类型的按钮
 

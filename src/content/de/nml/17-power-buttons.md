@@ -337,6 +337,11 @@ namespace HelloBox
 }
 ```
 
+Das ist die ganze Datei: neun göttliche Mächte, der Tab, zehn Buttons und der Icon-Helfer. Jeder Button ist ein Feature, das dieser Leitfaden gezeigt hat. Die Abschnitte unten nehmen sie auseinander.
+
+
+`recalc()` passt die Größe des Tabs an seine Buttons an, und `sortButtons()` bringt sie in Reihenfolge. Beide müssen warten, und das Spiel sagt dir nicht auf freundliche Art, warum:
+
 > [!WARNING] Leg den Tab nicht während `OnModLoad` aus
 > `PowersTab` liest seinen eigenen Parent in Unitys `Start()`, das auf dem Objekt, das `CreateTab` dir gerade gegeben hat, noch nicht gelaufen ist. Ruf dort `recalc()` auf und die ganze Stage stirbt mit `NullReferenceException` in `PowersTab.setNewWidth()`, deine Kraft wird nie registriert und der Tab erscheint nie :wbfacepalm:.
 >
@@ -347,9 +352,6 @@ namespace HelloBox
 >     HelloPowers.LayoutWhenReady();
 > }
 > ```
-
-
-`tab.recalc()` ist das, was die Buttons anordnet. Vergisst du es, sieht dein Tab leer aus, obwohl die Buttons da sind.
 
 ## Zwei Arten von Buttons
 

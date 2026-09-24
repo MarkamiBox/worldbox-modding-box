@@ -337,6 +337,11 @@ namespace HelloBox
 }
 ```
 
+이게 파일 전체입니다: 신의 권능 아홉 개, 탭, 버튼 열 개, 그리고 아이콘 헬퍼. 모든 버튼은 이 가이드에서 배운 기능 하나씩입니다. 아래 섹션에서 하나씩 뜯어봅니다.
+
+
+`recalc()`는 버튼에 맞춰 탭 크기를 정하고, `sortButtons()`는 버튼을 순서대로 정렬합니다. 둘 다 기다려야 하고, 게임은 그 이유를 친절하게 알려주지 않습니다:
+
 > [!WARNING] `OnModLoad` 안에서 탭을 배치하지 마세요
 > `PowersTab` 은 Unity의 `Start()` 에서 자기 부모를 읽는데, `CreateTab` 이 방금 준 객체에서는 아직 실행되지 않았습니다. 거기서 `recalc()` 를 부르면 단계 전체가 `PowersTab.setNewWidth()` 의 `NullReferenceException` 으로 죽고, 권능은 등록되지 않으며 탭도 나타나지 않습니다 :wbfacepalm:.
 >
@@ -347,9 +352,6 @@ namespace HelloBox
 >     HelloPowers.LayoutWhenReady();
 > }
 > ```
-
-
-`tab.recalc()` 은 버튼들의 레이아웃을 다시 계산합니다. 이 줄을 빼먹으면 버튼이 존재하더라도 탭이 텅 빈 것처럼 보이게 됩니다.
 
 ## 두 가지 버튼
 

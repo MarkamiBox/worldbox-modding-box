@@ -337,6 +337,11 @@ namespace HelloBox
 }
 ```
 
+これがファイルの全体です：9つの神の力、タブ、10個のボタン、そしてアイコン用ヘルパー。どのボタンも、このガイドで学んだ機能の1つです。以下のセクションで分解していきます。
+
+
+`recalc()` はボタンに合わせてタブのサイズを決め、`sortButtons()` はボタンを並べ替えます。どちらも待つ必要があり、ゲームはその理由を親切には教えてくれません：
+
 > [!WARNING] `OnModLoad` の中でタブをレイアウトしない
 > `PowersTab` はUnityの `Start()` で自分の親を読みますが、`CreateTab` が渡したばかりのオブジェクトではまだ走っていません。そこで `recalc()` を呼ぶとステージ全体が `PowersTab.setNewWidth()` の `NullReferenceException` で死に、力は登録されず、タブも出ません :wbfacepalm:。
 >
@@ -347,9 +352,6 @@ namespace HelloBox
 >     HelloPowers.LayoutWhenReady();
 > }
 > ```
-
-
-`tab.recalc()` がボタンの配置を計算します。これを忘れると、ボタン自体は存在しているのにタブが空っぽに見えてしまいます。
 
 ## 2種類のボタン
 

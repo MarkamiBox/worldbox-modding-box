@@ -337,6 +337,11 @@ namespace HelloBox
 }
 ```
 
+Ese es el archivo completo: nueve poderes divinos, la pestaña, diez botones y el ayudante de iconos. Cada botón es una función que esta guía ha enseñado. Las secciones de abajo lo desmontan.
+
+
+`recalc()` es lo que ajusta el tamaño de la pestaña a sus botones, y `sortButtons()` es lo que los pone en orden. Los dos tienen que esperar, y el juego no te dirá por qué de forma amable:
+
 > [!WARNING] No coloques la pestaña durante `OnModLoad`
 > `PowersTab` lee su propio padre en el `Start()` de Unity, que todavía no ha corrido en el objeto que `CreateTab` te acaba de dar. Llama ahí a `recalc()` y toda la etapa muere con `NullReferenceException` en `PowersTab.setNewWidth()`, tu poder nunca se registra y la pestaña nunca aparece :wbfacepalm:.
 >
@@ -347,9 +352,6 @@ namespace HelloBox
 >     HelloPowers.LayoutWhenReady();
 > }
 > ```
-
-
-`tab.recalc()` es lo que organiza los botones. Si lo olvidas, tu pestaña se verá vacía aunque los botones estén allí.
 
 ## Dos tipos de botón
 
