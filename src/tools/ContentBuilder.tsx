@@ -272,23 +272,10 @@ export function ContentBuilder({ language }: { language: Lang }) {
         </label>
       </div>
 
-      <div className="mt-2 flex items-center justify-between flex-wrap gap-2">
+      <div className="mt-2">
         <a href={`#/${def.page}`} className="inline-flex items-center gap-1 text-xs text-brand hover:underline">
           {t.page} <ExternalLink className="h-3 w-3" />
         </a>
-        <button
-          type="button"
-          onClick={() => setNoComments((s) => !s)}
-          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border transition-all cursor-pointer ${
-            noComments
-              ? 'border-brand bg-brand-soft text-brand shadow-xs'
-              : 'border-line bg-surface text-muted hover:text-fg hover:border-line/80'
-          }`}
-          title={noComments ? t.noComments : t.removeComments}
-        >
-          {noComments ? <MessageSquareOff className="w-3.5 h-3.5 text-brand" /> : <MessageSquare className="w-3.5 h-3.5" />}
-          <span>{noComments ? t.noComments : t.removeComments}</span>
-        </button>
       </div>
 
       <div className="mt-4 grid gap-3 border-t border-line pt-4 sm:grid-cols-2">

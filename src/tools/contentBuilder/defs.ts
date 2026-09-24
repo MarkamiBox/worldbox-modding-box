@@ -1277,18 +1277,125 @@ interface TemplateKind {
   main: (cls: string) => string;
   /** Other HelloBox classes it talks to, which the reader has to make or replace. */
   needs: string[];
+  art?: (prefix: string) => Art[];
 }
 
 const TEMPLATE_KINDS: TemplateKind[] = [
-  { key: 'actor', label: 'Creature', page: 'nml/custom-actors', cls: 'HelloActors', main: (c) => `${c}.Initialize();`, needs: [] },
-  { key: 'building', label: 'Building', page: 'nml/custom-buildings', cls: 'HelloBuildings', main: (c) => `${c}.Initialize();`, needs: [] },
-  { key: 'disaster', label: 'Disaster', page: 'nml/disasters', cls: 'HelloDisasters', main: (c) => `${c}.Initialize();`, needs: [] },
+  {
+    key: 'actor',
+    label: 'Creature',
+    page: 'nml/custom-actors',
+    cls: 'HelloActors',
+    main: (c) => `${c}.Initialize();`,
+    needs: [],
+    art: (p) => {
+      const lower = cleanId(p);
+      const upper = pascal(lower);
+      return [
+        { path: `GameResources/ui/Icons/icon${upper}Sprite.png`, what: 'icon for inspect window and spawn buttons', folder: false },
+        { path: `GameResources/actors/species/other/${lower}_sprite/`, what: 'folder with walk and swim animation frames (when using own art)', folder: true },
+      ];
+    },
+  },
+  {
+    key: 'building',
+    label: 'Building',
+    page: 'nml/custom-buildings',
+    cls: 'HelloBuildings',
+    main: (c) => `${c}.Initialize();`,
+    needs: [],
+    art: (p) => {
+      const lower = cleanId(p);
+      return [
+        { path: `GameResources/buildings/${lower}_shrine/`, what: 'folder with main, construction, ruin and mini frames', folder: true },
+      ];
+    },
+  },
+  {
+    key: 'disaster',
+    label: 'Disaster',
+    page: 'nml/disasters',
+    cls: 'HelloDisasters',
+    main: (c) => `${c}.Initialize();`,
+    needs: [],
+    art: (p) => {
+      const upper = pascal(cleanId(p));
+      return [
+        { path: `GameResources/ui/Icons/icon${upper}Disaster.png`, what: 'world log icon', folder: false },
+      ];
+    },
+  },
   { key: 'combat', label: 'Combat action & spell', page: 'nml/projectiles-spells', cls: 'HelloCombat', main: (c) => `${c}.Initialize();`, needs: ['HelloProjectiles', 'HelloTraits'] },
-  { key: 'ai_job', label: 'AI job & task', page: 'nml/custom-ai', cls: 'HelloAI', main: (c) => `${c}.Initialize();`, needs: [] },
-  { key: 'decision', label: 'AI decision', page: 'nml/custom-ai', cls: 'HelloDecisions', main: (c) => `${c}.Initialize();   // after the job and task it uses`, needs: ['HelloAI'] },
-  { key: 'city_job', label: 'City job', page: 'nml/custom-ai', cls: 'HelloCityJobs', main: (c) => `${c}.Initialize();   // after the job and task it uses`, needs: ['HelloAI'] },
-  { key: 'plot', label: 'Plot', page: 'nml/plots', cls: 'HelloPlots', main: (c) => `${c}.Initialize();`, needs: ['HelloPolitics'] },
-  { key: 'window', label: 'Custom window', page: 'nml/custom-windows', cls: 'HelloWindow', main: (c) => `// no Initialize: open it from a button\nPowerButtonCreator.CreateSimpleButton("my_panel", ${c}.Toggle, Icon("iconMyPanel"), tab.transform);`, needs: [] },
+  {
+    key: 'ai_job',
+    label: 'AI job & task',
+    page: 'nml/custom-ai',
+    cls: 'HelloAI',
+    main: (c) => `${c}.Initialize();`,
+    needs: [],
+    art: (p) => {
+      const upper = pascal(cleanId(p));
+      return [
+        { path: `GameResources/ui/Icons/icon${upper}Drive.png`, what: 'icon in inspect window', folder: false },
+      ];
+    },
+  },
+  {
+    key: 'decision',
+    label: 'AI decision',
+    page: 'nml/custom-ai',
+    cls: 'HelloDecisions',
+    main: (c) => `${c}.Initialize();   // after the job and task it uses`,
+    needs: ['HelloAI'],
+    art: (p) => {
+      const upper = pascal(cleanId(p));
+      return [
+        { path: `GameResources/ui/Icons/icon${upper}Drive.png`, what: 'icon in inspect window', folder: false },
+      ];
+    },
+  },
+  {
+    key: 'city_job',
+    label: 'City job',
+    page: 'nml/custom-ai',
+    cls: 'HelloCityJobs',
+    main: (c) => `${c}.Initialize();   // after the job and task it uses`,
+    needs: ['HelloAI'],
+    art: (p) => {
+      const upper = pascal(cleanId(p));
+      return [
+        { path: `GameResources/ui/Icons/icon${upper}Drive.png`, what: 'icon in inspect window', folder: false },
+      ];
+    },
+  },
+  {
+    key: 'plot',
+    label: 'Plot',
+    page: 'nml/plots',
+    cls: 'HelloPlots',
+    main: (c) => `${c}.Initialize();`,
+    needs: ['HelloPolitics'],
+    art: (p) => {
+      const upper = pascal(cleanId(p));
+      return [
+        { path: `GameResources/ui/Icons/icon${upper}Drop.png`, what: 'icon in plots and schemes list', folder: false },
+      ];
+    },
+  },
+  {
+    key: 'window',
+    label: 'Custom window',
+    page: 'nml/custom-windows',
+    cls: 'HelloWindow',
+    main: (c) => `// no Initialize: open it from a button\nPowerButtonCreator.CreateSimpleButton("hello_panel", ${c}.Toggle, Icon("iconHelloPanel"), tab.transform);`,
+    needs: [],
+    art: (p) => {
+      const upper = pascal(cleanId(p));
+      return [
+        { path: `GameResources/ui/Icons/icon${upper}Panel.png`, what: 'power button icon to toggle window', folder: false },
+      ];
+    },
+  },
 ];
 
 /** HelloBox -> your namespace, Hello... -> your prefix, hello_ -> your prefix. */
@@ -1317,7 +1424,7 @@ const templateDef = (k: TemplateKind): Def => ({
       file: `Code/${cls}.cs`,
       code: rename(TEMPLATES[k.key], ns, prefix),
       locale: [],
-      art: [],
+      art: k.art ? k.art(prefix) : [],
       main: [rename(k.main(k.cls), ns, prefix)],
       notes: [
         'This is the full working file from the guide page, renamed. The page explains every part and lists its text keys and art.',
