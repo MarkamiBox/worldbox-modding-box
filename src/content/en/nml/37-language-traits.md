@@ -10,7 +10,7 @@ order: 112
 
 A **language** belongs to cities and kingdoms, drifts as it spreads, and, this is the part that matters, is what **books** are written in. A language trait is a property of the written and spoken word itself.
 
-It is the smallest of the seven trait systems and the one with the most specific hook: code that runs when somebody **reads a book** in that language.
+It is the smallest of the seven trait systems and the one with the most specific hook: code that runs when somebody **reads a book** in that language. Yes, really :wbscroll:.
 
 | | |
 | --- | --- |
@@ -186,7 +186,7 @@ A `Language` also exposes `cities`, `kingdoms` and `books`, which is what you re
 
 ## New languages rolling a trait on their own
 
-Besides handing it out yourself, a language trait can set `spawn_random_trait_allowed` to be rolled when a new language forms, the same way a culture rolls its starting traits.
+Besides handing it out yourself, a language trait can set `spawn_random_trait_allowed` to be rolled when a new language forms, the same way a culture rolls its starting traits. Same trap as on every other trait page:
 
 > [!WARNING] `spawn_random_trait_allowed` is read once, at startup
 > New languages roll their starting traits from a pool that `BaseTraitLibrary.linkAssets()` builds while the game loads, before your mod exists. Setting the flag on your trait changes nothing on its own: your trait is never in that pool, and it never turns up on a new language by chance. Put it in yourself, weighted the way vanilla does it:

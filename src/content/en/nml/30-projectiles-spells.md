@@ -56,6 +56,8 @@ namespace HelloBox
 
 ### The fields
 
+Most of these come with whatever you cloned and you never look at them again. `speed` and `texture` are the two you will actually change.
+
 | Field | What it does |
 | --- | --- |
 | `texture`, `texture_shadow` | Sprite and its shadow |
@@ -108,7 +110,7 @@ HelloBox/
 bolt.texture = "hello_bolt";   // NOT "effects/projectiles/hello_bolt"
 ```
 
-Projectiles load as a sprite list too: a **folder** named after `texture`, one PNG per frame, and several frames become the flight animation when `animated` is on. A loose `hello_bolt.png` comes back as an empty list, and drawing the projectile throws `ArgumentOutOfRangeException`.
+Projectiles load as a sprite list too: a **folder** named after `texture`, one PNG per frame, and several frames become the flight animation when `animated` is on. A loose `hello_bolt.png` comes back as an empty list, and drawing the projectile throws `ArgumentOutOfRangeException` :PESgn_Oops:.
 
 `texture_shadow` is a full path and does not get the prefix: vanilla points it at the shared `shadows/projectiles/shadow_ball`, and reusing that is almost always the right call.
 

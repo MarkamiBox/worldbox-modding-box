@@ -21,7 +21,7 @@ If you want to add a new kind of *ground*, that is a `TileType`. If you want som
 
 ## Clone, do not build
 
-A tile type has around a hundred fields, most of which only matter for one vanilla tile. Clone the closest relative:
+A tile type has around a hundred fields, most of which only matter for one vanilla tile. I am not going to list all hundred. Clone the closest relative:
 
 ```csharp Mods/HelloBox/Code/HelloTiles.cs
 using UnityEngine;
@@ -88,6 +88,8 @@ namespace HelloBox
 | `biome_tags`, `has_biome_tags` | Which biomes will grow this tile |
 
 ### How it behaves
+
+Start here if your tile is a gameplay idea and not just a new colour.
 
 | Field | What it does |
 | --- | --- |
@@ -187,7 +189,7 @@ if (tile.isOnFire()) { }
 if (tile.hasBuilding()) { }
 ```
 
-Both `main_type` and `top_type` can be `null`. Check before you touch them. This is the single most common crash in any mod that walks the map.
+Both `main_type` and `top_type` can be `null`. Check before you touch them. This is the single most common crash in any mod that walks the map :PES2_F:.
 
 ## Terraform options
 

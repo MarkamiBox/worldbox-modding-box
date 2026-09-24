@@ -130,6 +130,8 @@ namespace HelloBox
 
 ### Behaviour
 
+This is where an item stops being a bag of numbers.
+
 | Field | What it does |
 | --- | --- |
 | `action_attack_target` | Runs on every hit landed |
@@ -233,7 +235,7 @@ private static void RegisterLine(string pPrefix, string pTemplate)
 
 ## The text
 
-Items name themselves differently from everything else in this guide, and it catches everybody out. An item's display name is:
+Items name themselves differently from everything else in this guide, and it catches everybody out, me included :PESgn_Oops:. An item's display name is:
 
 ```text
 translation_key   ?? "item_" + (equipment_subtype ?? id)

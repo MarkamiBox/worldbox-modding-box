@@ -132,7 +132,7 @@ Harmony fills your parameters in **by name**. These are the ones that matter, an
 | `__state` | A value your Prefix stashes for your own Postfix to pick up |
 | any real parameter name | The argument the caller passed, spelled **exactly** as the game spells it |
 
-That last row is what people trip on. If the game declares `getHit(float pDamage, ...)`, your parameter must be called `pDamage`. Not `damage`, not `pDmg`. You may list only the parameters you care about and skip the rest, but the ones you list must match, and in this game they nearly all start with `p`.
+That last row is what people trip on, over and over. If the game declares `getHit(float pDamage, ...)`, your parameter must be called `pDamage`. Not `damage`, not `pDmg`. You may list only the parameters you care about and skip the rest, but the ones you list must match, and in this game they nearly all start with `p`.
 
 ## Changing a result
 
@@ -259,6 +259,8 @@ public static class Patch_Actor_StatDelta
 
 ## When it does not work
 
+Before you blame Harmony, read the log. It is rarely Harmony :PES5_Noted:.
+
 | What you see | What it usually is |
 | --- | --- |
 | Nothing happens, nothing in the log | `Postfix` misspelled, or you never called `PatchAll` |
@@ -275,7 +277,7 @@ public static class Patch_Actor_StatDelta
 - **Guard for null, always.** Your patch will run during world load and during a unit's death.
 - **Cheap check first.** The first line of a hot patch should be the test that lets you `return`.
 - **Patch the narrowest method that does the job.** Patching `Actor.updateStats` for one trait's speed is fine. Patching the world update to do the same thing is how a mod gets uninstalled.
-- **Keep your patches in one file.** When somebody reports a conflict you want to read one file, not twelve.
+- **Keep your patches in one file.** When somebody reports a conflict you want to read one file, not twelve. Be nice to future you.
 
 > [!NOTE] Patching a library's `has`, `get`, `add`, `clone` or `post_init` is pointless
 > It only affects calls made after your mod loads, never the vanilla registration that already happened by then. See **[Asset libraries](#/nml/asset-libraries)**.

@@ -71,7 +71,7 @@ namespace HelloBox
 A leader with ten coins, a city and nothing better to do may now throw an ember festival. When it finishes, everybody in the city cheers up with the happiness event from **[Kingdoms & factions](#/nml/kingdoms)**, and embers fall on the organiser, because this is still HelloBox.
 
 > [!WARNING] `check_is_possible` is not optional
-> `PlotAsset.checkIsPossible()` calls it without a null check, every time a leader considers your plot. Leave it out and the first leader to look at it throws `NullReferenceException`. If you have no condition, return `true`.
+> `PlotAsset.checkIsPossible()` calls it without a null check, every time a leader considers your plot. Leave it out and the first leader to look at it throws `NullReferenceException`. If you have no condition, return `true`. Yes, even then.
 
 > [!WARNING] The basic list is built at startup
 > Leaders only ever pick from `plots_library.basic_plots` (plus their religion's rites). `linkAssets()` fills it with every plot marked `is_basic_plot`, once, before your mod loads. Setting the flag is not enough: add it to the list yourself.

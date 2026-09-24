@@ -29,7 +29,7 @@ MyCoolMod/
 └── GameResources/    <- Custom textures, icons, pixel art and sounds
 ```
 
-Only `mod.json` is mandatory. Make the other folders when you actually need them. A mod with just `mod.json` and `Code/` is a real mod.
+Only `mod.json` is mandatory. Make the other folders when you actually need them. A mod with just `mod.json` and `Code/` is a real mod. Empty folders impress nobody.
 
 #### What each folder does
 

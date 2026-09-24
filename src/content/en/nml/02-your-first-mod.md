@@ -95,7 +95,7 @@ namespace HelloBox
 
 Start WorldBox and open the **Mods** window from the main menu. **HelloBox** should be in the list, and already switched on. A mod you put in `Mods/` yourself is enabled the first time NML finds it.
 
-That window is also where you turn a mod **off** later. Clicking the icon toggles it, and most mods only notice after a restart.
+That window is also where you turn a mod **off** later. Clicking the icon toggles it, and most mods only notice after a restart :PES4_AlrightThen:.
 
 > [!WARNING] No Mods window at all? Experimental Mode is off
 > NML only loads mods when **Settings -> Experimental Mode** is on, and the game **turns it off by itself after every WorldBox update**: it compares the saved `last_used_version` with the version you just launched and, when they differ, writes the flag back to `false`. So "my mod worked yesterday and I changed nothing" is almost always this. Turn it back on and restart.

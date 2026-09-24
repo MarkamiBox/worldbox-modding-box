@@ -167,6 +167,8 @@ This group is for people playing with mods, not writing them. Everything after i
 
 ## Nothing loads
 
+The game acts like your mod does not exist. It is not personal, it is usually one switch or one file name.
+
 ### No Mods button in the menu
 
 - **See**: Game starts fine, no error, no Mods button, and no `[NML]` line anywhere in the log.
@@ -231,6 +233,8 @@ This group is for people playing with mods, not writing them. Everything after i
 ---
 
 ## It loads, nothing shows up
+
+NML found your mod and ran it. Something inside it never made it to the screen.
 
 ### Crash on the line where you set a stat
 
@@ -448,6 +452,8 @@ Every entry in this section has the same cause. The game prepares some part of e
 
 ## Compiles for you, not for them
 
+The classic "works on my machine". The difference is usually your setup, not your code :PES5_Hmmmm:.
+
 ### `CS0122: inaccessible due to its protection level`
 
 - **See**: Code copied from a working mod does not compile: `addStatusEffect`, `getHit`, `_localized_text`, `addBuilding`.
@@ -469,6 +475,8 @@ Every entry in this section has the same cause. The game prepares some part of e
 ---
 
 ## Works, then breaks later
+
+The slow ones. Your mod was fine yesterday, and nothing about it changed :PES2_Shrug:.
 
 ### Another mod silently replaces your content
 

@@ -62,7 +62,7 @@ namespace HelloBox
 
 ## Mutation
 
-This is how a subspecies trait gets into a world without you handing it out. The library keeps two pots, and these two fields decide which pots your trait joins:
+This is how a subspecies trait gets into a world without you handing it out, which is the fun way. The library keeps two pots, and these two fields decide which pots your trait joins:
 
 | Field | What it does |
 | --- | --- |
@@ -117,7 +117,7 @@ trait.texture_asset.shadow = trait.shadow;
 | `remove_for_zombies` | Strip the skin when the unit turns |
 | `priority` | Which skin wins when a unit has two |
 
-Vanilla skin mutations (burger, living rock, tentacle horror, light orb, fractal) are all clones of `$skin_mutation$`, and cloning that template is by far the shortest route to a working one.
+Vanilla skin mutations (burger, living rock, tentacle horror, light orb, fractal) are all clones of `$skin_mutation$`, and cloning that template is by far the shortest route to a working one. Yes, burger is a real mutation. Maxim works in mysterious ways :wbpray:.
 
 ## Phenotypes, diet and eggs
 
@@ -132,7 +132,7 @@ Three smaller systems subspecies traits plug into:
 
 ## Genes
 
-The male and female stat blocks mentioned at the top come from the subspecies' **genome**: chromosomes with slots, and a gene in each. A gene is a `BaseTrait`, so it registers like every other trait on this site, with two extra chores.
+The male and female stat blocks mentioned at the top come from the subspecies' **genome**: chromosomes with slots, and a gene in each. A gene is a `BaseTrait`, so it registers like every other trait on this site, with two extra chores. Biology homework, basically.
 
 ```csharp Mods/HelloBox/Code/HelloGenes.cs
 namespace HelloBox

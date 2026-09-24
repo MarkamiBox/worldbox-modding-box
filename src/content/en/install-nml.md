@@ -46,7 +46,7 @@ Without this switch the game does not even look for mods. No error, no message, 
 2. Scroll down to the section called **Assets**. If it is folded, click it to open it.
 3. Click **NeoModLoader.dll**. It downloads like any other file, usually into your **Downloads** folder.
 
-You only need that one file. The page also lists `nml-setup-win.exe`, and files ending in `.pdb`, `.xml` and "Source code": ignore all of them.
+You only need that one file. The page also lists `nml-setup-win.exe`, and files ending in `.pdb`, `.xml` and "Source code": ignore all of them. They are for NML's developers, not for you.
 
 > [!WARNING] Only from that link
 > A `.dll` is a program. Download NML **only** from the GitHub page above, never from CurseForge, another site, or a file somebody sent you in a chat. An old copy from anywhere else deletes itself the first time the game starts, leaving only an `NML` folder and `NeoModLoader.AutoUpdate_memload.dll` behind - if that happens, come back here and download the real file. GameBanana's "1-click install" button does not install NML either; download the `.dll` by hand.
@@ -67,7 +67,7 @@ A window opens with the game's files in it. You know you are in the right place 
 C:\Program Files (x86)\Steam\steamapps\common\worldbox\
 ```
 
-Keep this window open. From now on, "the WorldBox folder" means this one.
+Keep this window open. From now on, "the WorldBox folder" means this one, and you will be back here more often than you think.
 
 > [!TIP] Make Windows show file extensions
 > By default Windows hides the end of file names, so `NeoModLoader.dll` shows up as just `NeoModLoader`. That makes every guide harder to follow. In the folder window, click **View** at the top, then tick **File name extensions** (on Windows 11: **View → Show → File name extensions**). Nothing breaks, you just see the full names now.
@@ -119,7 +119,7 @@ If none of that happened, jump to **[It did not work](#it-did-not-work)**.
 
 ## Mac
 
-The same five steps. Only the folder is hidden in a different place, because on a Mac the whole game is packed into one app icon.
+The same five steps. Only the folder is hidden in a different place, because on a Mac the whole game is packed into one app icon. Classic Apple :PES3_Shhh:.
 
 1. **Experimental Mode**: exactly like Windows, **[Step 1](#step-1-turn-on-experimental-mode)**. The warning about updates applies to you too.
 2. **Download** `NeoModLoader.dll` from the [same release page](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest). It is the same file for Windows and Mac.
@@ -139,7 +139,7 @@ worldbox/
 
 ## Linux & Steam Deck
 
-The exact same logic. Steam on Linux installs the game into your user directory, and on Steam Deck you just switch to Desktop Mode first.
+The exact same logic. Steam on Linux installs the game into your user directory, and on Steam Deck you just switch to Desktop Mode first. Penguins welcome :wbpenguin:.
 
 1. **Experimental Mode**: exactly like Windows, **[Step 1](#step-1-turn-on-experimental-mode)**.
 2. **Download** `NeoModLoader.dll` from the [official release page](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest). It is the same file across all platforms.

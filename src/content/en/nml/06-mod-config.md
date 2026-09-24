@@ -143,4 +143,4 @@ public ModConfig GetConfig()
 }
 ```
 
-That single method is what makes the settings button appear next to your mod in the mods window.
+That single method is what makes the settings button appear next to your mod in the mods window. One method, and nobody argues with you on Discord any more. In theory.

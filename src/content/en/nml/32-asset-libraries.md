@@ -144,7 +144,7 @@ if (group != null && index != -1)
 
 ## When your code runs
 
-The game builds all 129 libraries at startup, then runs `post_init()` on them, **then** NML loads your mod. Two consequences people trip on constantly:
+The game builds all 129 libraries at startup, then runs `post_init()` on them, **then** NML loads your mod. Two consequences people trip on constantly, me included:
 
 - **Anything a library does automatically in `post_init` has already happened.** Actor traits, for instance, get a default `path_icon` filled in there. Yours does not, because your trait did not exist yet. Set it yourself.
 - **Every vanilla asset already exists when your `OnModLoad` runs.** So `get("human")` works, `clone(..., "human")` works, and editing vanilla content in place works. You are never too early.

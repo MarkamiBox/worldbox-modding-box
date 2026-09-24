@@ -10,7 +10,7 @@ order: 100
 
 A trait is a permanent label on a unit: *brave*, *fast*, *immortal*. It shows in the inspector, it can change the unit's stats, it can run code when the unit is born, hit, or dies, and children can inherit it.
 
-It is also the cheapest thing in the game to add, which is why it is everybody's first mod.
+It is also the cheapest thing in the game to add, which is why it is everybody's first mod. It was mine too [MARKAMI: confirm].
 
 ## Prefix your ids, always
 
@@ -96,7 +96,7 @@ Want your own tab instead? See **[Trait groups & tabs](#/nml/trait-groups)**.
 
 ## The text
 
-Without translations your trait shows in game as the raw key `trait_hello_swift`. Create `Locales/en.json`:
+Without translations your trait shows in game as the raw key `trait_hello_swift`, which looks exactly as professional as it sounds :pepeclown:. Create `Locales/en.json`:
 
 ```json Mods/HelloBox/Locales/en.json
 {

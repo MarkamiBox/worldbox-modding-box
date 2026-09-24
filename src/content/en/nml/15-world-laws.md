@@ -50,7 +50,7 @@ Add `HelloLaws.Initialize();` to `Main.cs` and the switch is in the game. That i
 
 ## Reading the switch in your code
 
-This is the point of it. Anywhere in your mod:
+This is the point of it. A switch nobody reads is a decoration. Anywhere in your mod:
 
 ```csharp
 WorldLawAsset law = AssetManager.world_laws_library.get(HelloLaws.CHAOS);

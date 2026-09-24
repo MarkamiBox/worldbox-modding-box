@@ -82,7 +82,7 @@ HelloBox/
 ember.path_texture = "drops/hello_ember";   // a folder
 ```
 
-Drops are loaded as a **sprite list**: the game reads every PNG *inside* that folder, which is what lets `animated` work. A still drop is still a folder, with one frame in it. A loose `drops/hello_ember.png` comes back as an empty list, and the drop falls invisible.
+Drops are loaded as a **sprite list**: the game reads every PNG *inside* that folder, which is what lets `animated` work. A still drop is still a folder, with one frame in it. A loose `drops/hello_ember.png` comes back as an empty list, and the drop falls invisible :PES4_Invisible:.
 
 ## Making drops fall
 
@@ -96,7 +96,7 @@ World.world.drop_manager.spawn(tile, "hello_ember", 15f, -1f, -1L);
 World.world.drop_manager.spawnParabolicDrop(tile, "hello_ember", 0f, 0.1f, 5f, 0.5f, 4f, 0.15f);
 ```
 
-`spawn` is what you want 90% of the time. The `15f` is the height it falls from: bigger means it takes longer to land.
+`spawn` is what you want 90% of the time. The `15f` is the height it falls from: bigger means it takes longer to land, and looks more dramatic on the way down.
 
 ## A real use: make your god power rain embers
 

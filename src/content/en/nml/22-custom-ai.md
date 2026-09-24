@@ -8,11 +8,11 @@ order: 144
 
 # Custom AI & behaviours :wbgoldenbrain:
 
-This is the deep end. Everything else in this guide adds *things* to the game. This adds **decisions**: what a creature does next, on its own, forever, in a world it shares with thousands of others.
+This is the deep end. Everything else in this guide adds *things* to the game. This adds **decisions**: what a creature does next, on its own, forever, in a world it shares with thousands of others. No pressure :PES_MonkaSweat:.
 
 ## How the game thinks
 
-Three layers, from big to small:
+Three layers, from big to small, plus the one that sits beside them. This took me longer to get than I like to admit:
 
 | Layer | What it is | Library |
 | --- | --- | --- |
@@ -210,7 +210,7 @@ trait.decisions_assets = new DecisionAsset[] { AssetManager.decisions_library.ge
 
 ## City jobs
 
-Citizens get their work from the city, not from their own brain. The city counts what needs doing, opens job slots (builders, farmers, miners...), and hands them out. A **citizen job** is one of those slots, and the unit that takes it runs the actor job with the same id.
+Citizens get their work from the city, not from their own brain. The city counts what needs doing, opens job slots (builders, farmers, miners...), and hands them out. A **citizen job** is one of those slots, and the unit that takes it runs the actor job with the same id. Same id on both sides: that is the whole trick.
 
 ```csharp Mods/HelloBox/Code/HelloCityJobs.cs
 using ai.behaviours;   // CityBehCheckCitizenTasks
@@ -280,7 +280,7 @@ Three things, and each fixes something the game only did at startup, or only for
 
 ## The text
 
-The task's name is what the unit window shows as "doing right now", and a decision borrows the name of the task it starts:
+The task's name is what the unit window shows as "doing right now", so the player will read it more than any other line you write. A decision borrows the name of the task it starts:
 
 ```json Mods/HelloBox/Locales/en.json
 {

@@ -8,7 +8,7 @@ order: 182
 
 # Resources & food :wbtomato:
 
-A resource is anything a city stores, trades, eats or forges with: wheat, bread, stone, mythril, bones, gems. They live in `AssetManager.resources`, and they are the layer underneath the whole economy: what farms produce, what bakers cook, what smiths need, what a hungry unit eats.
+A resource is anything a city stores, trades, eats or forges with: wheat, bread, stone, mythril, bones, gems. They live in `AssetManager.resources`, and they are the layer underneath the whole economy: what farms produce, what bakers cook, what smiths need, what a hungry unit eats. In this economy, even the bread is a data structure :PES2_Cash:.
 
 ## Clone from a template
 
@@ -100,7 +100,7 @@ Worth knowing, because using an existing one is almost always better than adding
 
 ## Your own sprites
 
-A resource has two pieces of art, and they resolve **differently**. This is the one that catches people.
+A resource has two pieces of art, and they resolve **differently**. This is the one that catches people, and it will catch you once too.
 
 ```text Mods/HelloBox/
 HelloBox/

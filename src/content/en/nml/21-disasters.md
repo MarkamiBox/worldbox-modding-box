@@ -70,6 +70,8 @@ Stage it in `Main.cs` (see **[The finished mod](#/nml/all-together)**), load a w
 
 ### The fields
 
+`rate` and `chance` are the two you will fiddle with most. The warning at the bottom of the page explains why.
+
 | Field | What it does |
 | --- | --- |
 | `rate` | Weight in the draw. Higher means picked more often relative to the others |
@@ -145,7 +147,7 @@ The wolf example needs the same two things: its own cloned log asset under `disa
 }
 ```
 
-Write it like a news headline, not a description. It is the line the player reads in the world log.
+Write it like a news headline, not a description. "Embers fall from the sky" beats "an ember-related event has started". It is the line the player reads in the world log.
 
 > [!WARNING] Test with the numbers turned up
 > `rate = 4, chance = 0.5f` means you might wait twenty minutes to see your own disaster. While developing, crank `rate` way up and drop the minimums to zero, then put them back before you publish :PES2_EvilPlan:.

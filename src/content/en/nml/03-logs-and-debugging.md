@@ -148,7 +148,7 @@ public void Update()
 
 ## Reloading code without restarting
 
-Restarting WorldBox to test one changed line is most of what modding costs. NML can recompile your mod while the game runs, and swap in the methods you marked.
+Restarting WorldBox to test one changed line is most of what modding costs. Ask anybody who has done it forty times in one evening. NML can recompile your mod while the game runs, and swap in the methods you marked.
 
 1. Your main class implements `IReloadable`, which is one method, `Reload()`. HelloBox's does, in **[The finished mod](#/nml/all-together)**.
 2. The reload button only shows while `Config.isEditor` is `true`. HelloBox flips it from a `DevReload` switch that ships as `false`.

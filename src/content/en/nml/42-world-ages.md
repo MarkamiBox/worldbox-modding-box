@@ -114,7 +114,7 @@ namespace HelloBox
 
 ## World ages
 
-The Age of Embers rains embers every eight seconds, darkens the screen with ash, spreads fire twice as fast and keeps cities a little more loyal. A new world may put it on slot 4 of its wheel, and the wheel's randomize button can roll it anywhere.
+The Age of Embers rains embers every eight seconds, darkens the screen with ash, spreads fire twice as fast and keeps cities a little more loyal. A new world may put it on slot 4 of its wheel, and the wheel's randomize button can roll it anywhere. Subtlety was never the point of HelloBox :wbfireskull:.
 
 > [!WARNING] Three things the library did at startup
 > `post_init()` sets every age's background from its id, and `linkAssets()` builds `list_only_normal` (the pool for the random "unknown" age) and `pool_by_slots` (the pools a new world fills its wheel from). A new age is in none of them. Skip the background and the wheel shows an empty piece; skip the pools and the age exists but no world ever rolls it.

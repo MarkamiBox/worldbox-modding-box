@@ -10,7 +10,7 @@ order: 94
 
 `AssetManager` is the game's index of everything that can exist. It holds **129 libraries**, and every one of them is a `List` plus a `Dictionary` you can read, edit and add to from your mod.
 
-This page is the whole list. Most of it you will never touch. The point is that when you want to change something in WorldBox, the first question is always "which library is it in?", and the answer is on this page.
+This page is the whole list. Most of it you will never touch, and neither will I. The point is that when you want to change something in WorldBox, the first question is always "which library is it in?", and the answer is on this page.
 
 ## Before this page
 
@@ -31,6 +31,8 @@ AssetManager.traits.dict;                          // every asset, by id
 
 ## Creatures and their traits
 
+The ones you will actually open are the first four. The rest are here so you stop guessing names :PES2_Shrug:.
+
 | Library | Asset | What it holds |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | Every creature type. **[Custom actors](#/nml/custom-actors)** |
@@ -47,6 +49,8 @@ AssetManager.traits.dict;                          // every asset, by id
 | `base_stats_library` | `BaseStatAsset` | Every stat. **[Stats reference](#/nml/stats)** |
 
 ## Societies
+
+Everything a group of units can belong to. The top six have their own pages. The rest you meet when one of those pages sends you here.
 
 | Library | Asset | What it holds |
 | --- | --- | --- |
@@ -69,6 +73,8 @@ AssetManager.traits.dict;                          // every asset, by id
 | `knowledge_library` | `KnowledgeAsset` | The knowledge window |
 
 ## Things in the world
+
+If you can click it on the map, it lives here.
 
 | Library | Asset | What it holds |
 | --- | --- | --- |
@@ -129,6 +135,8 @@ AssetManager.traits.dict;                          // every asset, by id
 
 ## Interface
 
+The game's own UI, as assets. Handy to read, scary to edit :PES_MonkaSweat:.
+
 | Library | Asset | What it holds |
 | --- | --- | --- |
 | `window_library` | `WindowAsset` | Windows. **[Custom windows](#/nml/custom-windows)** |
@@ -154,6 +162,8 @@ One library each, all holding the same two asset types:
 `kingdom_colors_library` · `culture_colors_library` · `clan_colors_library` · `religion_colors_library` · `languages_colors_library` · `subspecies_colors_library` · `families_colors_library` · `armies_colors_library` → all `ColorAsset`
 
 ## Names, words and history
+
+The part of WorldBox that writes the stories. Nobody asks for it until they want their creatures to have proper names.
 
 | Library | Asset | What it holds |
 | --- | --- | --- |
