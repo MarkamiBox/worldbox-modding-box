@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react';
-import { ExternalLink, FileImage, Folder, Plus, X } from 'lucide-react';
+import { ExternalLink, FileImage, Folder, MessageSquare, MessageSquareOff, Plus, X } from 'lucide-react';
 import { CodeBlock } from '../components/CodeBlock';
 import { LANGS, type Lang } from '../lib/i18n';
 import { Dropdown } from './contentBuilder/Dropdown';
 import { DEFS, STATS, type Def, type Field, type StatRow, type Values } from './contentBuilder/defs';
+import { stripCSharpComments } from './contentBuilder/stripComments';
 
 interface Strings {
   type: string;
@@ -25,6 +26,8 @@ interface Strings {
   page: string;
   noText: string;
   search: string;
+  removeComments: string;
+  noComments: string;
 }
 
 const T: Record<Lang, Strings> = {
@@ -34,6 +37,7 @@ const T: Record<Lang, Strings> = {
     art: 'Where your art goes', noArt: 'Nothing to draw for this one.', folder: 'folder', file: 'file',
     main: 'Add to Main.cs', mainHint: 'Inside OnModLoad(), in the order your content depends on each other.',
     notes: 'Good to know', page: 'Full explanation', noText: 'This one has no text of its own.', search: 'Search...',
+    removeComments: 'Remove comments', noComments: 'Comments hidden',
   },
   it: {
     type: 'Cosa vuoi creare?', ns: 'Namespace della tua mod', name: 'Nome (quello che legge il giocatore)', desc: 'Descrizione',
@@ -41,6 +45,7 @@ const T: Record<Lang, Strings> = {
     art: 'Dove va la grafica', noArt: 'Qui non c\'è niente da disegnare.', folder: 'cartella', file: 'file',
     main: 'Da aggiungere a Main.cs', mainHint: 'Dentro OnModLoad(), nell\'ordine in cui i contenuti dipendono l\'uno dall\'altro.',
     notes: 'Da sapere', page: 'Spiegazione completa', noText: 'Questo contenuto non ha un testo suo.', search: 'Cerca...',
+    removeComments: 'Togli commenti', noComments: 'Senza commenti',
   },
   es: {
     type: '¿Qué quieres crear?', ns: 'Namespace de tu mod', name: 'Nombre (lo que lee el jugador)', desc: 'Descripción',
@@ -48,6 +53,7 @@ const T: Record<Lang, Strings> = {
     art: 'Dónde va tu arte', noArt: 'Aquí no hay nada que dibujar.', folder: 'carpeta', file: 'archivo',
     main: 'Añadir a Main.cs', mainHint: 'Dentro de OnModLoad(), en el orden en que tu contenido depende de sí mismo.',
     notes: 'Conviene saber', page: 'Explicación completa', noText: 'Este no tiene texto propio.', search: 'Buscar...',
+    removeComments: 'Quitar comentarios', noComments: 'Sin comentarios',
   },
   pt: {
     type: 'O que você quer criar?', ns: 'Namespace do seu mod', name: 'Nome (o que o jogador lê)', desc: 'Descrição',
@@ -55,6 +61,7 @@ const T: Record<Lang, Strings> = {
     art: 'Onde fica a sua arte', noArt: 'Nada para desenhar neste.', folder: 'pasta', file: 'arquivo',
     main: 'Adicionar ao Main.cs', mainHint: 'Dentro de OnModLoad(), na ordem em que o conteúdo depende um do outro.',
     notes: 'Bom saber', page: 'Explicação completa', noText: 'Este não tem texto próprio.', search: 'Buscar...',
+    removeComments: 'Remover comentários', noComments: 'Sem comentários',
   },
   de: {
     type: 'Was willst du bauen?', ns: 'Namespace deiner Mod', name: 'Name (was Spieler lesen)', desc: 'Beschreibung',
@@ -62,6 +69,7 @@ const T: Record<Lang, Strings> = {
     art: 'Wohin deine Grafiken gehören', noArt: 'Hier gibt es nichts zu zeichnen.', folder: 'Ordner', file: 'Datei',
     main: 'In Main.cs einfügen', mainHint: 'In OnModLoad(), in der Reihenfolge, in der deine Inhalte voneinander abhängen.',
     notes: 'Gut zu wissen', page: 'Ganze Erklärung', noText: 'Das hier hat keinen eigenen Text.', search: 'Suchen...',
+    removeComments: 'Kommentare entfernen', noComments: 'Ohne Kommentare',
   },
   fr: {
     type: 'Que voulez-vous créer ?', ns: 'Namespace de votre mod', name: 'Nom (ce que lit le joueur)', desc: 'Description',
@@ -69,6 +77,7 @@ const T: Record<Lang, Strings> = {
     art: 'Où vont vos images', noArt: 'Rien à dessiner pour celui-ci.', folder: 'dossier', file: 'fichier',
     main: 'À ajouter dans Main.cs', mainHint: 'Dans OnModLoad(), dans l\'ordre où votre contenu dépend de lui-même.',
     notes: 'Bon à savoir', page: 'Explication complète', noText: 'Celui-ci n\'a pas de texte à lui.', search: 'Rechercher...',
+    removeComments: 'Supprimer les commentaires', noComments: 'Sans commentaires',
   },
   ru: {
     type: 'Что вы хотите создать?', ns: 'Namespace вашего мода', name: 'Название (то, что видит игрок)', desc: 'Описание',
@@ -76,6 +85,7 @@ const T: Record<Lang, Strings> = {
     art: 'Куда класть графику', noArt: 'Здесь рисовать нечего.', folder: 'папка', file: 'файл',
     main: 'Добавить в Main.cs', mainHint: 'Внутри OnModLoad(), в том порядке, в котором контент зависит друг от друга.',
     notes: 'Полезно знать', page: 'Полное объяснение', noText: 'У этого нет собственного текста.', search: 'Поиск...',
+    removeComments: 'Убрать комментарии', noComments: 'Без комментариев',
   },
   zh: {
     type: '你想做什么？', ns: '你的 mod 命名空间', name: '名称（玩家看到的）', desc: '描述',
@@ -83,6 +93,7 @@ const T: Record<Lang, Strings> = {
     art: '美术资源放在哪里', noArt: '这个不需要画图。', folder: '文件夹', file: '文件',
     main: '添加到 Main.cs', mainHint: '放在 OnModLoad() 里，按内容之间的依赖顺序排列。',
     notes: '须知', page: '完整说明', noText: '这个没有自己的文本。', search: '搜索...',
+    removeComments: '移除注释', noComments: '无注释',
   },
   ja: {
     type: '何を作りますか？', ns: 'modの名前空間', name: '名前（プレイヤーが読むもの）', desc: '説明',
@@ -90,6 +101,7 @@ const T: Record<Lang, Strings> = {
     art: '画像の置き場所', noArt: 'これには描くものがありません。', folder: 'フォルダ', file: 'ファイル',
     main: 'Main.cs に追加', mainHint: 'OnModLoad() の中に、コンテンツ同士の依存順で並べます。',
     notes: '知っておくこと', page: '詳しい説明', noText: 'これには独自のテキストがありません。', search: '検索...',
+    removeComments: 'コメントを削除', noComments: 'コメントなし',
   },
   ko: {
     type: '무엇을 만들까요?', ns: '모드 네임스페이스', name: '이름 (플레이어가 읽는 것)', desc: '설명',
@@ -97,6 +109,7 @@ const T: Record<Lang, Strings> = {
     art: '그림 파일 위치', noArt: '이건 그릴 것이 없습니다.', folder: '폴더', file: '파일',
     main: 'Main.cs에 추가', mainHint: 'OnModLoad() 안에, 콘텐츠끼리 의존하는 순서대로 넣으세요.',
     notes: '알아 둘 것', page: '자세한 설명', noText: '이건 자체 텍스트가 없습니다.', search: '검색...',
+    removeComments: '주석 제거', noComments: '주석 없음',
   },
 };
 
@@ -208,6 +221,7 @@ export function ContentBuilder({ language }: { language: Lang }) {
   const [ns, setNs] = useState('MyMod');
   const [localeLang, setLocaleLang] = useState<Lang>(language);
   const [values, setValues] = useState<Record<string, Values>>({});
+  const [noComments, setNoComments] = useState(false);
 
   const def = DEFS.find((d) => d.key === key) ?? DEFS[0];
   const v = values[def.key] ?? defaults(def);
@@ -215,6 +229,18 @@ export function ContentBuilder({ language }: { language: Lang }) {
 
   const namespace = ns.trim().replace(/[^A-Za-z0-9_.]/g, '') || 'MyMod';
   const out = useMemo(() => def.gen(v, namespace), [def, v, namespace]);
+
+  const codeToDisplay = useMemo(() => {
+    return noComments ? stripCSharpComments(out.code) : out.code;
+  }, [out.code, noComments]);
+
+  const rawMain = useMemo(() => {
+    return out.main.join('\n') + (out.mainExtra ? `\n\n// ${namespace}.Main, next to OnModLoad()\n${out.mainExtra}` : '');
+  }, [out.main, out.mainExtra, namespace]);
+
+  const mainToDisplay = useMemo(() => {
+    return noComments ? stripCSharpComments(rawMain) : rawMain;
+  }, [rawMain, noComments]);
 
   const locale = useMemo(() => {
     const entries = out.locale.map(([k, text], idx): [string, string] => {
@@ -244,9 +270,24 @@ export function ContentBuilder({ language }: { language: Lang }) {
         </label>
       </div>
 
-      <a href={`#/${def.page}`} className="mt-2 inline-flex items-center gap-1 text-xs text-brand hover:underline">
-        {t.page} <ExternalLink className="h-3 w-3" />
-      </a>
+      <div className="mt-2 flex items-center justify-between flex-wrap gap-2">
+        <a href={`#/${def.page}`} className="inline-flex items-center gap-1 text-xs text-brand hover:underline">
+          {t.page} <ExternalLink className="h-3 w-3" />
+        </a>
+        <button
+          type="button"
+          onClick={() => setNoComments((s) => !s)}
+          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border transition-all cursor-pointer ${
+            noComments
+              ? 'border-brand bg-brand-soft text-brand shadow-xs'
+              : 'border-line bg-surface text-muted hover:text-fg hover:border-line/80'
+          }`}
+          title={noComments ? t.noComments : t.removeComments}
+        >
+          {noComments ? <MessageSquareOff className="w-3.5 h-3.5 text-brand" /> : <MessageSquare className="w-3.5 h-3.5" />}
+          <span>{noComments ? t.noComments : t.removeComments}</span>
+        </button>
+      </div>
 
       <div className="mt-4 grid gap-3 border-t border-line pt-4 sm:grid-cols-2">
         {def.text !== 'none' && (
@@ -276,8 +317,23 @@ export function ContentBuilder({ language }: { language: Lang }) {
         ))}
       </div>
 
-      <h4 className="mt-6 mb-1 text-sm font-semibold">{t.code}</h4>
-      <CodeBlock initialCode={out.code} language="csharp" filename={`Mods/${namespace}/${out.file}`} />
+      <div className="mt-6 mb-1 flex items-center justify-between">
+        <h4 className="text-sm font-semibold">{t.code}</h4>
+        <button
+          type="button"
+          onClick={() => setNoComments((s) => !s)}
+          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border transition-all cursor-pointer ${
+            noComments
+              ? 'border-brand bg-brand-soft text-brand shadow-xs'
+              : 'border-line bg-surface text-muted hover:text-fg hover:border-line/80'
+          }`}
+          title={noComments ? t.noComments : t.removeComments}
+        >
+          {noComments ? <MessageSquareOff className="w-3.5 h-3.5 text-brand" /> : <MessageSquare className="w-3.5 h-3.5" />}
+          <span>{noComments ? t.noComments : t.removeComments}</span>
+        </button>
+      </div>
+      <CodeBlock initialCode={codeToDisplay} language="csharp" filename={`Mods/${namespace}/${out.file}`} />
 
       <h4 className="mt-6 mb-1 text-sm font-semibold">{t.text}</h4>
       {out.locale.length ? (
@@ -306,7 +362,7 @@ export function ContentBuilder({ language }: { language: Lang }) {
       <h4 className="mt-6 mb-1 text-sm font-semibold">{t.main}</h4>
       <p className="mb-1 text-xs text-faint">{t.mainHint}</p>
       <CodeBlock
-        initialCode={out.main.join('\n') + (out.mainExtra ? `\n\n// ${namespace}.Main, next to OnModLoad()\n${out.mainExtra}` : '')}
+        initialCode={mainToDisplay}
         language="csharp"
         filename={`Mods/${namespace}/Code/Main.cs`}
       />

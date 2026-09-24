@@ -3,6 +3,7 @@
 import { DEFS, type Values } from './defs.ts';
 import { checkCode } from '../../utils/csharpCheck.ts';
 import { TEMPLATES } from './templates.ts';
+import { stripCSharpComments } from './stripComments.ts';
 // @ts-expect-error plain JS script
 import { buildTemplates } from '../../../scripts/build-builder-templates.mjs';
 
@@ -34,6 +35,12 @@ for (const def of DEFS) {
     if (!def.template && !out.code.includes('public static void Initialize()')) {
       failed++;
       console.error(`${def.key}: no Initialize()`);
+    }
+    const stripped = stripCSharpComments(out.code);
+    const strippedErrors = checkCode(stripped).filter((d) => d.severity === 'error');
+    if (strippedErrors.length) {
+      failed++;
+      console.error(`${def.key} (stripped): ${strippedErrors.map((e) => `${e.line}: ${e.message}`).join('; ')}`);
     }
   }
 }

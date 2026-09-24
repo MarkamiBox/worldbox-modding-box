@@ -27,7 +27,7 @@ export const SOURCES = {
 export function buildTemplates() {
   const result = {};
   for (const [key, [page, file]] of Object.entries(SOURCES)) {
-    const md = fs.readFileSync(path.join(root, 'src/content/en/nml', `${page}.md`), 'utf8');
+    const md = fs.readFileSync(path.join(root, 'src/content/en/nml', `${page}.md`), 'utf8').replace(/\r\n/g, '\n');
     const header = '```csharp Mods/HelloBox/Code/' + file + '\n';
     const start = md.indexOf(header);
     if (start === -1) throw new Error(`${page}: no ${file} block`);
