@@ -8,7 +8,7 @@ order: 172
 
 # Wolken & Wetter :wbtornado:
 
-Eine Wolke ist ein Sprite, das über die Karte zieht und Dinge auf alles fallen lässt, was sich darunter befindet. Regen, Säure, Lava, Schnee, Feuer: Sie sind alle dasselbe Asset mit einer anderen Farbe und einer anderen `drop_id`.
+Eine Wolke (cloud) ist ein Sprite, das über die Karte zieht und Dinge auf alles fallen lässt, was sich darunter befindet. Regen, Säure, Lava, Schnee, Feuer: Sie sind alle dasselbe Asset mit einer anderen Farbe und einer anderen `drop_id`.
 
 Wolken bieten das beste Preis-Leistungs-Verhältnis im ganzen Spiel für einen Modder. Ein einziges Asset, keine eigene Grafik erforderlich - und es bewegt sich, wirft Tropfen ab, beleuchtet den Boden und taucht von selbst in der Katastrophen-Liste auf.
 
@@ -83,7 +83,7 @@ Klone eine Vanilla-Wolke und ändere dann `drop_id` und `color_hex`. Viele Wolke
 | `interval_action_1` / `interval_action_2` | Sekunden zwischen den Ausführungen jeder Aktion |
 | `speed_min` / `speed_max` | Drift-Geschwindigkeit. Jede Wolke würfelt ihren Wert in diesem Bereich |
 | `path_sprites` | Die Sprite-Liste. Das Spiel wählt zufällig eines pro Wolke |
-| `considered_disaster` | Ob das Spiel sie als Katastrophe einstuft |
+| `considered_disaster` | Ob das Spiel sie als Katastrophe (disaster) einstuft |
 | `normal_cloud` | Markiert sie als gewöhnliches Wetter statt als Event |
 | `draw_light_area`, `draw_light_size`, `draw_light_area_offset_x/y` | Das Leuchten auf dem Boden, für Feuer- und Lavawolken |
 
@@ -95,7 +95,7 @@ Eine `CloudAction` nimmt die aktive Wolke entgegen und gibt nichts zurück:
 public delegate void CloudAction(Cloud pCloud);
 ```
 
-`CloudLibrary.dropAction` ist die Standard-Aktion des Spiels: Sie wählt eine zufällige Kachel unter dem Sprite der Wolke und spawnt dort ein `drop_id`. In 90 % der Fälle ist das die einzige Aktion, die du brauchst - du setzt sie auf `cloud_action_1` und bist fertig. Faul und korrekt, meine Lieblingskombination :pepeOK:.
+`CloudLibrary.dropAction` ist die Standard-Aktion des Spiels: Sie wählt eine zufällige Kachel (tile) unter dem Sprite der Wolke und spawnt dort ein `drop_id`. In 90 % der Fälle ist das die einzige Aktion, die du brauchst - du setzt sie auf `cloud_action_1` und bist fertig. Faul und korrekt, meine Lieblingskombination :pepeOK:.
 
 Für zusätzliche Effekte schreibst du eine eigene Methode und weist sie `cloud_action_2` zu:
 

@@ -8,7 +8,7 @@ order: 42
 
 # Parches de Harmony :wbhammer:
 
-Todo lo visto en las otras páginas **agrega** cosas a WorldBox: un rasgo, un arma, un edificio. Harmony se encarga de la otra mitad del modding: **cambiar lo que el juego ya hace**.
+Todo lo visto en las otras páginas **agrega** cosas a WorldBox: un rasgo (trait), un arma, un edificio (building). Harmony se encarga de la otra mitad del modding: **cambiar lo que el juego ya hace**.
 
 No puedes editar el código del juego directamente. Está compilado, se distribuye como `Assembly-CSharp.dll` y cualquier actualización sobreescribiría tus cambios. Harmony es la biblioteca que te permite enganchar tu propio código a un método existente mientras el juego se está ejecutando.
 
@@ -21,7 +21,7 @@ Un **método** es una acción con nombre dentro del código del juego. Algunos e
 
 | Método | Cuándo lo ejecuta el juego |
 | --- | --- |
-| `Actor.updateStats()` | Cada vez que es necesario recalcular las estadísticas de una unidad |
+| `Actor.updateStats()` | Cada vez que es necesario recalcular las estadísticas (stats) de una unidad |
 | `Actor.getHit(...)` | Cada vez que una unidad recibe daño |
 | `City.makeWarrior(...)` | Cada vez que una ciudad convierte a un ciudadano en soldado |
 

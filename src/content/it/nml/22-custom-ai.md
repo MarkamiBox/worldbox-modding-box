@@ -8,13 +8,13 @@ order: 144
 
 # IA e comportamenti personalizzati :wbgoldenbrain:
 
-Qui si scende in profondità. Tutto il resto in questa guida aggiunge *oggetti e dati* al gioco. Questa parte aggiunge **decisioni**: cosa farà una creatura subito dopo, di sua spontanea volontà, per sempre, in un mondo condiviso con migliaia di altre. Nessuna pressione :PES_MonkaSweat:.
+Qui si scende in profondità. Tutto il resto in questa guida aggiunge *oggetti e dati* al gioco. Questa parte aggiunge **decisioni** (decision): cosa farà una creatura subito dopo, di sua spontanea volontà, per sempre, in un mondo condiviso con migliaia di altre. Nessuna pressione :PES_MonkaSweat:.
 
 ## Come ragiona il gioco
 
 Tre livelli, dal più grande al più piccolo, più quello che sta al loro fianco. Mi ci è voluto più tempo di quanto mi piaccia ammettere:
 
-| Livello | Cos'è | Libreria |
+| Livello | Cos'è | Libreria (library) |
 | --- | --- | --- |
 | **Lavoro** (`ActorJob`) | Cosa fa in generale questa creatura: "fare il cittadino", "fare il soldato" | `AssetManager.job_actor` |
 | **Attività** (`BehaviourTaskActor`) | Un obiettivo concreto dentro un lavoro: "vai a mangiare", "costruisci quello" | `AssetManager.tasks_actor` |
@@ -119,7 +119,7 @@ namespace HelloBox
 > [!WARNING] `beh_tile_target` è internal
 > Il campo in cui scrive il comportamento è marcato `internal` nell'assembly del gioco, quindi questo compila con un `Assembly-CSharp.dll` **pubblicizzato** (vedi la nota in **[Effetti di stato](#/nml/status-effects)**). Senza, il compilatore rifiuta la riga e devi tenere il bersaglio in un tuo campo :PES5_Noted:.
 
-Nota il secondo comportamento: **riusa i nodi vanilla**. Il gioco ha comportamenti per camminare fino a una casella, aggiungere uno stato, trovare un edificio, attaccare un bersaglio. Scrivere la decisione e prendere in prestito l'esecuzione è la differenza tra un weekend e un mese.
+Nota il secondo comportamento: **riusa i nodi vanilla**. Il gioco ha comportamenti per camminare fino a una casella (tile), aggiungere uno stato, trovare un edificio (building), attaccare un bersaglio. Scrivere la decisione e prendere in prestito l'esecuzione è la differenza tra un weekend e un mese.
 
 ## Far usare concretamente il tuo lavoro a una creatura
 
@@ -198,7 +198,7 @@ namespace HelloBox
 > `DecisionsLibrary.linkAssets()` numera ciascuna decisione, copia `priority` in `priority_int_cached` e imposta `has_weight_custom` all'avvio prima del tuo mod. Saltando le tre righe dopo `add()`, la tua decisione condividerà il cooldown con la prima decisione vanilla, rimarrà al livello più basso e ignorerà il peso personalizzato :wbfacepalm:.
 
 > [!WARNING] Le unità preesistenti hanno un solo slot libero
-> Ogni unità memorizza i cooldown delle decisioni in un array dimensionato alla nascita (arrotondato alla potenza di 2 successiva). Il gioco base ha 127 decisioni, quindi l'array ne contiene 128: spazio per esattamente **una** in più. Un'unità preesistente che riceve una seconda decisione di mod lancerà un'eccezione `IndexOutOfRangeException`. Le nuove unità vengono dimensionate correttamente, motivo per cui HelloBox assegna la decisione alla propria creatura e non a un tratto generico.
+> Ogni unità memorizza i cooldown delle decisioni in un array dimensionato alla nascita (arrotondato alla potenza di 2 successiva). Il gioco base ha 127 decisioni, quindi l'array ne contiene 128: spazio per esattamente **una** in più. Un'unità preesistente che riceve una seconda decisione di mod lancerà un'eccezione `IndexOutOfRangeException`. Le nuove unità vengono dimensionate correttamente, motivo per cui HelloBox assegna la decisione alla propria creatura e non a un tratto (trait) generico.
 
 Una decisione raggiunge una creatura tramite l'oggetto che la concede. Un `ActorAsset` la riceve con `addDecision()`. **I tratti funzionano diversamente**: collegano gli ID all'avvio, quindi su un tratto devi assegnare l'array manualmente:
 

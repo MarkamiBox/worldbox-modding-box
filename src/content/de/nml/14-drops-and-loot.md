@@ -8,7 +8,7 @@ order: 126
 
 # Tropfen & fallende Objekte :wbloot:
 
-Ein **Tropfen** (Drop) ist ein kleines Objekt, das vom Himmel fällt, auf einer Kachel landet und etwas bewirkt: Regen, Blut, Samen, Feuer, Säure, Münzen. Sie sind der billigste Weg im gesamten Spiel, etwas auf der Karte *geschehen* zu lassen, und sie bringen kostenlos ihre eigene Animation und ihren eigenen Sound mit.
+Ein **Tropfen** (Drop) ist ein kleines Objekt, das vom Himmel fällt, auf einer Kachel (tile) landet und etwas bewirkt: Regen, Blut, Samen, Feuer, Säure, Münzen. Sie sind der billigste Weg im gesamten Spiel, etwas auf der Karte *geschehen* zu lassen, und sie bringen kostenlos ihre eigene Animation und ihren eigenen Sound mit.
 
 ## Einen registrieren
 

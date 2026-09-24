@@ -8,7 +8,7 @@ order: 142
 
 # 自定义建筑 :wbcities:
 
-在建筑（Building）这一步，WorldBox 的 mod 开发不再是“改改数字”那么轻松，而是变成了“这个资源有一百四十多个字段，而对于我的需求来说大部分毫无用处” :PES2_Weary:。
+在建筑（Building）这一步，WorldBox 的 mod 开发不再是“改改数字”那么轻松，而是变成了“这个资源（resource）有一百四十多个字段，而对于我的需求来说大部分毫无用处” :PES2_Weary:。
 
 所以我们绝不会从零开始手写建筑。我们要克隆一个已经稳定运行的成品。
 
@@ -63,7 +63,7 @@ namespace HelloBox
 | --- | --- |
 | `$building$` | 最纯粹的建筑裸基类 |
 | `$city_building$` | 城市建造的任何常规建筑，如 `well`（水井）和 `mine`（矿井） |
-| `$city_colored_building$` | 同上，但附带王国代表色染色支持 |
+| `$city_colored_building$` | 同上，但附带王国（kingdom）代表色染色支持 |
 | `$building_civ_human$` / `_elf$` / `_orc$` / `_dwarf$` | 各文明种族的专用建筑 |
 | `$building_creep$` | 蔓延感染物（creep）结构 |
 | `$mineral$` | 可开采的矿石与岩石 |
@@ -81,7 +81,7 @@ namespace HelloBox
 | 字段 | 作用说明 |
 | --- | --- |
 | `building_type` | `Building_Civ`, `Building_Nature`, `Building_Tree`, `Building_Mineral`, `Building_Mob`, `Building_Creep`, `Building_Plant`, `Building_Fruits`, `Building_Hives`, `Building_Wheat` |
-| `city_building` | 归属城市，享有王国配色、区域地块与岗位分配 |
+| `city_building` | 归属城市，享有王国配色、区域地块（tile）与岗位分配 |
 | `type` | 游戏内部列表用以分类分组的自由文本标签 |
 | `kingdom`, `civ_kingdom` | 限制建造该建筑的具体阵营 |
 | `ignored_by_cities` | 城市绝不会建造它，也不会将其计入建筑统计 |
@@ -116,10 +116,10 @@ namespace HelloBox
 | --- | --- |
 | `can_be_grown`, `vegetation_random_chance`, `is_vegetation` | 随着世界运转是否会自行随机滋生 |
 | `growth_time`, `has_resources_grown_to_collect` | 瓜果与作物的成熟采集周期 |
-| `biome_tags_growth`, `has_biome_tags` | 适宜生长的群系标签 |
+| `biome_tags_growth`, `has_biome_tags` | 适宜生长的群系（biome）标签 |
 | `resources_given`, `addResource(id, amount, pNewList)` | 被采集或砍伐时提供的资源种类与数量 |
 | `can_be_chopped_down`, `gatherable` | 单位是否能够砍伐或采集它 |
-| `grow_creep` 及其系列 `grow_creep_*` 字段 | 蔓延类生物质的扩散行为 |
+| `grow_creep` 及其系列 `grow_creep_*` 字段 | 蔓延类生物质的扩散行为（behaviour） |
 
 ### 伤害与损毁
 
@@ -140,7 +140,7 @@ namespace HelloBox
 | `shadow`, `shadow_bound`, `shadow_distortion` | 建筑阴影参数 |
 | `has_kingdom_color` | 是否应用所属王国的颜色染色 |
 | `draw_light_area`, `draw_light_size` | 夜间光源发光范围 |
-| `has_special_animation_state`, `animation_speed`, `sparkle_effect` | 动画播放状态与帧率 |
+| `has_special_animation_state`, `animation_speed`, `sparkle_effect` | 动画播放状态（status）与帧率 |
 
 ### 运作行为
 
@@ -209,7 +209,7 @@ if (World.world.buildings.canBuildFrom(tile, asset, null, BuildPlacingType.New))
 
 ## 让城市自主建造该建筑
 
-用神力手动放置神龛玩一晚上确实很有趣。但让城市在规模壮大后自己规划并建造神龛，才是真正的模组体验。城市在决定建造什么时依赖于两套系统，而你的新建筑目前在两边都还不存在：
+用神力（GodPower）手动放置神龛玩一晚上确实很有趣。但让城市在规模壮大后自己规划并建造神龛，才是真正的模组体验。城市在决定建造什么时依赖于两套系统，而你的新建筑目前在两边都还不存在：
 
 | | 包含的内容 |
 | --- | --- |

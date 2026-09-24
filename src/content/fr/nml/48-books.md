@@ -8,7 +8,7 @@ order: 187
 
 # Livres :wbscroll:
 
-Les unités écrivent des livres, les villes les gardent, et d'autres unités les lisent et en ressortent un peu changées. Un type de livre, c'est une nouvelle sorte de livre dans ce cycle : qui l'écrit, comment il s'appelle, à quoi ressemble la couverture, et ce que sa lecture vous fait.
+Les unités écrivent des livres (book), les villes les gardent, et d'autres unités les lisent et en ressortent un peu changées. Un type de livre, c'est une nouvelle sorte de livre dans ce cycle : qui l'écrit, comment il s'appelle, à quoi ressemble la couverture, et ce que sa lecture vous fait.
 
 La page **[Traits de langue](#/nml/language-traits)** en crée déjà un petit, l'Almanach de Braise. Cette page reprend le même livre et le termine : ses propres titres, une vraie récompense, et quelque chose qui se passe à la lecture.
 
@@ -18,7 +18,7 @@ Rien ici n'a besoin d'un patch, il faut juste connaître le cycle :
 
 1. Une unité décide d'écrire. Le jeu rassemble tous les types de livre dont le `requirement_check` passe pour cette unité.
 2. Chacun entre dans un sac `writing_rate` fois (ou `rate_calc` fois, si vous le définissez), **10 au maximum**, et un est tiré.
-3. Le livre a besoin d'un bâtiment avec une place libre pour les livres dans la **ville** de l'auteur. Pas de bibliothèque, pas de livre.
+3. Le livre a besoin d'un bâtiment (building) avec une place libre pour les livres dans la **ville** de l'auteur. Pas de bibliothèque (library), pas de livre.
 4. Le titre vient du générateur de noms de `name_template`, et la couverture du dossier de `path_icons`.
 5. Plus tard, quelqu'un le lit et reçoit les récompenses ci-dessous.
 
@@ -84,20 +84,20 @@ namespace HelloBox
 }
 ```
 
-Ce fichier **remplace** le `HelloBooks.cs` de la page des traits de langue, c'est la même classe en plus grand. `HelloBooks.Initialize()` passe après le trait et le statut qu'elle utilise.
+Ce fichier **remplace** le `HelloBooks.cs` de la page des traits de langue, c'est la même classe en plus grand. `HelloBooks.Initialize()` passe après le trait et le statut (status) qu'elle utilise.
 
 ## Ce que rapporte la lecture
 
 Les nombres de `base_stats` ne sont pas un bonus qui s'estompe. Chaque lecture les distribue une fois :
 
-| Statistique | Ce que reçoit le lecteur |
+| Statistique (stats) | Ce que reçoit le lecteur |
 | --- | --- |
 | `happiness` | Autant de bonheur, sous forme d'événement "vient de lire un livre". Le négatif marche aussi, pour les livres déprimants |
 | `experience` | Autant d'expérience |
 | `mana` | Autant de mana |
 | `diplomacy`, `warfare`, `stewardship`, `intelligence` | Ajoutés au lecteur **pour toujours**. À chaque lecture, encore |
 
-La dernière ligne est la plus puissante. Un livre qui donne `intelligence = 1` rend une ville lectrice plus intelligente à chaque génération, alors gardez ça petit. Un livre à +10, c'est un royaume de génies avant l'an 50 :wbgenius:.
+La dernière ligne est la plus puissante. Un livre qui donne `intelligence = 1` rend une ville lectrice plus intelligente à chaque génération, alors gardez ça petit. Un livre à +10, c'est un royaume (kingdom) de génies avant l'an 50 :wbgenius:.
 
 Les traits de langue et de culture peuvent changer les deux premières : une langue avec `beautiful_calligraphy` rend le bonheur plus grand, et une culture avec `reading_lovers` rend les livres tristes joyeux.
 

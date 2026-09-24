@@ -47,10 +47,10 @@ Encontre seu sintoma na tabela, clique nele, leia três linhas. Essa é a págin
 | --- | --- |
 | Crash na linha em que você define um stat | [ir](#crash-na-linha-em-que-você-define-um-stat) |
 | O mesmo crash, e a ordem já está certa | [ir](#o-mesmo-crash-e-a-ordem-já-está-certa) |
-| Sua construção morre na hora ou não tem tamanho | [ir](#sua-construção-morre-na-hora-ou-não-tem-tamanho) |
+| Sua construção (building) morre na hora ou não tem tamanho | [ir](#sua-construção-morre-na-hora-ou-não-tem-tamanho) |
 | Registrado, mas em nenhuma aba | [ir](#registrado-mas-em-nenhuma-aba) |
 | Aparece `trait_hello_swift` em vez de um nome | [ir](#aparece-trait-hello-swift-em-vez-de-um-nome) |
-| Os nomes funcionam para traços, mas não para itens, status, poderes | [ir](#os-nomes-funcionam-para-traços-mas-não-para-itens-status-poderes) |
+| Os nomes funcionam para traços (trait), mas não para itens (item), status, poderes | [ir](#os-nomes-funcionam-para-traços-mas-não-para-itens-status-poderes) |
 | O ícone é um buraco em branco | [ir](#o-ícone-é-um-buraco-em-branco) |
 | Um botão ocupa espaço mas não desenha nada | [ir](#um-botão-ocupa-espaço-mas-não-desenha-nada) |
 | O efeito de status não desenha nenhum sprite na unidade | [ir](#o-efeito-de-status-não-desenha-nenhum-sprite-na-unidade) |
@@ -65,21 +65,21 @@ Encontre seu sintoma na tabela, clique nele, leia três linhas. Essa é a págin
 | A sua criatura gera um erro de sombra | [ir](#a-sua-criatura-gera-um-erro-de-sombra) |
 | O seu traço, item ou criatura continua bloqueado | [ir](#o-seu-traço-item-ou-criatura-continua-bloqueado) |
 | O jogo quebra ao carregar a sua arma ou a sua comida | [ir](#o-jogo-quebra-ao-carregar-a-sua-arma-ou-a-sua-comida) |
-| Uma nuvem quebra no momento em que aparece | [ir](#uma-nuvem-quebra-no-momento-em-que-aparece) |
+| Uma nuvem (cloud) quebra no momento em que aparece | [ir](#uma-nuvem-quebra-no-momento-em-que-aparece) |
 | Colocar a sua construção dá Index was out of range | [ir](#colocar-a-sua-construção-dá-index-was-out-of-range) |
 | A sua construção quebra em todo frame em que aparece | [ir](#a-sua-construção-quebra-em-todo-frame-em-que-aparece) |
 | O minimapa quebra quando a sua construção existe | [ir](#o-minimapa-quebra-quando-a-sua-construção-existe) |
 | O seu tile pinta, depois o renderizador do mapa quebra | [ir](#o-seu-tile-pinta-depois-o-renderizador-do-mapa-quebra) |
 | Fazer nascer um animal no seu tile quebra o jogo | [ir](#fazer-nascer-um-animal-no-seu-tile-quebra-o-jogo) |
-| Drops caem invisíveis, ou um projétil quebra | [ir](#drops-caem-invisíveis-ou-um-projétil-quebra) |
+| Drops caem invisíveis, ou um projétil (projectile) quebra | [ir](#drops-caem-invisíveis-ou-um-projétil-quebra) |
 | O log enche de ArgumentNullException vindos de projéteis | [ir](#o-log-enche-de-argumentnullexception-vindos-de-projéteis) |
 | A sua aba de poderes nunca aparece | [ir](#a-sua-aba-de-poderes-nunca-aparece) |
 | A janela de configurações mostra ids crus | [ir](#a-janela-de-configurações-mostra-ids-crus) |
-| O mundo gera erros a cada quadro após adicionar um comportamento do mundo | [ir](#o-mundo-gera-erros-a-cada-quadro-após-adicionar-um-comportamento-do-mundo) |
-| Um desastre trava ao gravar no registro do mundo | [ir](#um-desastre-trava-ao-gravar-no-registro-do-mundo) |
+| O mundo gera erros a cada quadro após adicionar um comportamento (behaviour) do mundo | [ir](#o-mundo-gera-erros-a-cada-quadro-após-adicionar-um-comportamento-do-mundo) |
+| Um desastre (disaster) trava ao gravar no registro do mundo | [ir](#um-desastre-trava-ao-gravar-no-registro-do-mundo) |
 | Um desastre sem action trava quando é sorteado | [ir](#um-desastre-sem-action-trava-quando-é-sorteado) |
-| O primeiro governante a avaliar sua trama trava | [ir](#o-primeiro-governante-a-avaliar-sua-trama-trava) |
-| Sua decisão, trama, gene ou arma existe e nada jamais a utiliza | [ir](#sua-decisão-trama-gene-ou-arma-existe-e-nada-jamais-a-utiliza) |
+| O primeiro governante a avaliar sua trama (plot) trava | [ir](#o-primeiro-governante-a-avaliar-sua-trama-trava) |
+| Sua decisão (decision), trama, gene ou arma existe e nada jamais a utiliza | [ir](#sua-decisão-trama-gene-ou-arma-existe-e-nada-jamais-a-utiliza) |
 
 **Compila para você, mas não para os outros**
 
@@ -237,7 +237,7 @@ O NML encontrou o seu mod e o executou. Algo lá dentro nunca chegou à tela.
 ### Crash na linha em que você define um stat
 
 - **O que você vê**: `NullReferenceException` no seu `Initialize()`, e nada depois dela roda.
-- **Por quê**: Um asset novo **não tem bloco de stats**. A biblioteca o cria dentro do `add()`.
+- **Por quê**: Um asset novo **não tem bloco de stats**. A biblioteca (library) o cria dentro do `add()`.
 - **Solução**: Primeiro `add()`, depois os stats. A mesma regra vale para traços, status, itens, construções, atores.
 
 ```csharp
@@ -346,14 +346,14 @@ Toda entrada desta seção tem a mesma causa. O jogo prepara uma parte de cada a
 
 ### O seu traço, item ou criatura continua bloqueado
 
-- **O que você vê**: Ele existe, mas o livro de conhecimento mostra acinzentado e o jogador não pode usar até ele aparecer num mundo.
-- **Por quê**: `needs_to_be_explored` é `true` por padrão em tudo que pode ser desbloqueado: atores, os sete tipos de traço, itens, modificadores de item e leis do mundo.
+- **O que você vê**: Ele existe, mas o livro (book) de conhecimento mostra acinzentado e o jogador não pode usar até ele aparecer num mundo.
+- **Por quê**: `needs_to_be_explored` é `true` por padrão em tudo que pode ser desbloqueado: atores, os sete tipos de traço, itens, modificadores (modifier) de item e leis do mundo (world law).
 - **Solução**: `needs_to_be_explored = false` ao criar. Veja **[Traços personalizados](#/nml/custom-traits)**.
 
 ### O jogo quebra ao carregar a sua arma ou a sua comida
 
 - **O que você vê**: `ArgumentNullException: Value cannot be null. Parameter name: key` em `ItemLibrary.loadSprites()` ou `ResourceLibrary.loadSprites()`.
-- **Por quê**: Armas recebem `path_gameplay_sprite`, e recursos `full_sprite_path`, derivados em `post_init()` durante o carregamento do próprio jogo. Os seus ficam `null`.
+- **Por quê**: Armas recebem `path_gameplay_sprite`, e recursos (resource) `full_sprite_path`, derivados em `post_init()` durante o carregamento do próprio jogo. Os seus ficam `null`.
 - **Solução**: Defina você mesmo. Veja **[Itens personalizados](#/nml/custom-items)** e **[Recursos e comida](#/nml/resources)**.
 
 ### Uma nuvem quebra no momento em que aparece
@@ -389,7 +389,7 @@ Toda entrada desta seção tem a mesma causa. O jogo prepara uma parte de cada a
 ### Fazer nascer um animal no seu tile quebra o jogo
 
 - **O que você vê**: `NullReferenceException` em `Subspecies.generateName()`, só no seu tile e só para animais.
-- **Por quê**: Um clone de um tile de grama mantém `is_biome = true` mas não `biome_asset`, que é ligado em `linkAssets()` na inicialização. Animais acrescentam o bioma ao nome da espécie.
+- **Por quê**: Um clone de um tile de grama mantém `is_biome = true` mas não `biome_asset`, que é ligado em `linkAssets()` na inicialização. Animais acrescentam o bioma (biome) ao nome da espécie.
 - **Solução**: `moss.biome_asset = AssetManager.biome_library.get(moss.biome_id);`
 
 ### Drops caem invisíveis, ou um projétil quebra
@@ -401,7 +401,7 @@ Toda entrada desta seção tem a mesma causa. O jogo prepara uma parte de cada a
 ### O log enche de ArgumentNullException vindos de projéteis
 
 - **O que você vê**: Milhares de `ArgumentNullException: Value cannot be null` em `ProjectileManager.updateProjectiles()` enquanto um projétil está no ar.
-- **Por quê**: Um projétil sem atirador não tem reino, e o gerenciador usa o reino como chave de dicionário em todo frame.
+- **Por quê**: Um projétil sem atirador não tem reino (kingdom), e o gerenciador usa o reino como chave de dicionário em todo frame.
 - **Solução**: Dê um a ele: `pForcedKingdom: World.world.kingdoms_wild.get("nature")`, o dono neutro do próprio jogo.
 
 ### A sua aba de poderes nunca aparece
@@ -521,7 +521,7 @@ _lastWorldTime = now;
 ### O seu patch em `updateStats` quebra para outras pessoas
 
 - **O que você vê**: Tudo bem por uma hora na sua máquina, uma exceção de threads na de um testador.
-- **Por quê**: O jogo roda `updateStats` como um job **paralelo**: o seu Postfix executa em threads de trabalho, em várias unidades ao mesmo tempo.
+- **Por quê**: O jogo roda `updateStats` como um job **paralelo**: o seu Postfix executa em threads de trabalho (job), em várias unidades ao mesmo tempo.
 - **Solução**: Ali mexa só nos números daquela unidade. Enfileire todo o resto (chamadas da Unity, listas compartilhadas, o helper de aleatório) para o seu próprio `Update()`.
 
 ### Você fez patch em `getHit` e as construções ainda levam dano
@@ -538,7 +538,7 @@ _lastWorldTime = now;
 
 ### Uma unidade fica parada para sempre, ou quebra em todo frame
 
-- **O que você vê**: Uma unidade congelada sem nome de tarefa, ou um stack trace a cada tick.
+- **O que você vê**: Uma unidade congelada sem nome de tarefa (task), ou um stack trace a cada tick.
 - **Por quê**: Um id de **tarefa** desconhecido é um "não faz nada" permanente e silencioso; um id de **trabalho** desconhecido é um crash a cada tick.
 - **Solução**: Confira os seus ids uma vez no carregamento, registre as tarefas antes do trabalho que as lista, e nunca passe para `next_job_delegate` um id que você não verificou.
 

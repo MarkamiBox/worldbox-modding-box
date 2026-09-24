@@ -8,7 +8,7 @@ order: 26
 
 # Localizzazione :wbscroll:
 
-Ogni singolo elemento che aggiungi al gioco (tratti, oggetti, poteri, schede, task) appare come una chiave grezza del tipo `trait_hello_swift` finché non gli assegni un testo. È il capitolo più noioso del modding, e saltarlo è il motivo principale per cui una mod sembra incompleta. (Coff.. le mie mod.. Coff Coff :pensiveanimated: )
+Ogni singolo elemento che aggiungi al gioco (tratti (trait), oggetti, poteri, schede, task) appare come una chiave grezza del tipo `trait_hello_swift` finché non gli assegni un testo. È il capitolo più noioso del modding, e saltarlo è il motivo principale per cui una mod sembra incompleta. (Coff.. le mie mod.. Coff Coff :pensiveanimated: )
 
 ## La via pigra: la cartella Locales
 
@@ -105,11 +105,11 @@ Il gioco costruisce queste chiavi da solo, quindi devono combaciare alla perfezi
 | --- | --- | --- |
 | Tratto | `trait_<id>` | `trait_<id>_info` |
 | Oggetto | `translation_key` se ne imposti una, altrimenti `item_<equipment_subtype or id>` | `<id>_description` (senza il prefisso `item_`) |
-| Potere divino | `<power_id>` | `<power_id>_description` |
+| Potere divino (GodPower) | `<power_id>` | `<power_id>_description` |
 | Scheda poteri | il `locale_key` che hai passato | la chiave di descrizione che hai passato |
 | Azione unità | `task_unit_<task_id>` | - |
-| Effetto di stato | il **campo** `locale_id` che imposti | il **campo** `locale_description` che imposti |
-| Legge del mondo | `<law_id>_title` (nota il suffisso) | `<law_id>_description` |
+| Effetto di stato (status) | il **campo** `locale_id` che imposti | il **campo** `locale_description` che imposti |
+| Legge del mondo (world law) | `<law_id>_title` (nota il suffisso) | `<law_id>_description` |
 
 > [!WARNING] Gli ID non sono nomi
 > Il tuo ID è `hello_swift` per sempre, in qualunque lingua, ed è ciò a cui fa riferimento il resto del tuo codice (e le mod di altri). Il **testo di localizzazione** è la parte che cambia. Non rinominare mai un ID solo per correggere un refuso nel nome visualizzato :PESgn_Stop:.

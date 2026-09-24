@@ -52,7 +52,7 @@ public void removeTrait(string pTraitID)
 
 ### 3. ゲーム本体がどう書いているかを見る
 
-これが最も強力な活用法です。正常に動く「世界の法則」を作りたいとします。`WorldLawLibrary` を見つけて `init()` を開き、開発元自身が何を書いているか読み取ってみましょう：
+これが最も強力な活用法です。正常に動く「世界の法則（world law）」を作りたいとします。`WorldLawLibrary` を見つけて `init()` を開き、開発元自身が何を書いているか読み取ってみましょう：
 
 ```csharp Assembly-CSharp / WorldLawLibrary.init()
 world_law_mutant_box = add(new WorldLawAsset

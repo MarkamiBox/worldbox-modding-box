@@ -33,16 +33,16 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%、x0.25ではない
 | 3 | **言語 (Language)** | |
 | 4 | **文化 (Culture)** | |
 | 5 | ユニット自身のデータに属する統率属性 | `diplomacy`, `stewardship`, `intelligence`, `warfare` |
-| 6 | 付与されているすべての**ステータス効果** | |
+| 6 | 付与されているすべての**ステータス効果**（status） | |
 | 7 | **デフォルト攻撃** アイテム | 素手のときのみ |
-| 8 | すべての**アクター特性 (Actor trait)** | 時代限定の特性は、該当する時代以外ではスキップされます |
+| 8 | すべての**アクター特性 (Actor trait)** | 時代（world age）限定の特性は、該当する時代以外ではスキップされます |
 | 9 | そのユニットの**性格** | |
 | 10 | すべての**装備アイテム**とそのモディファイア | |
 
 ここで多くの人が勘違いする点が2つあります：
 
 - **亜種はActorアセットのステータスを置き換えます。** `human` にどれほど数値を盛っても、亜種を持つ人間ユニットには一切反映されません。
-- **宗教はこのリストに含まれていません。** 宗教特性の `base_stats` がユニットに届くことはありません。**[宗教特性](#/nml/religion-traits)** を参照してください。
+- **宗教（religion）はこのリストに含まれていません。** 宗教特性の `base_stats` がユニットに届くことはありません。**[宗教特性](#/nml/religion-traits)** を参照してください。
 
 さらに知っておくべき2つのルール：
 
@@ -171,7 +171,7 @@ if (actor.stats.hasTag("immunity_fire")) { }
 | 耐性 | `immunity_fire` · `immunity_cold` · `building_immunity_fire` · `damaged_by_water` |
 | 移動 | `fast_swimming` · `water_creature` · `immovable` · `walk_adaptation_sand` · `walk_adaptation_snow` · `walk_adaptation_swamp` |
 | 精神 | `strong_mind` · `has_sapience` · `has_emotions` · `has_advanced_memory` · `has_advanced_communication` · `can_read_any_book` · `mad` · `moody` · `unconscious` · `frozen_ai` |
-| 行動 | `ignore_fights` · `love_peace` · `steal_items` · `needs_food` · `needs_mate` · `always_idle_animation` · `stop_idle_animation` · `generate_light` |
+| 行動（behaviour） | `ignore_fights` · `love_peace` · `steal_items` · `needs_food` · `needs_mate` · `always_idle_animation` · `stop_idle_animation` · `generate_light` |
 | 食性 | `diet_meat` · `diet_meat_insect` · `diet_fish` · `diet_blood` · `diet_grass` · `diet_crops` · `diet_fruits` · `diet_flowers` · `diet_nectar` · `diet_algae` · `diet_vegetation` · `diet_wood` · `diet_minerals` · `diet_tiles` · `diet_same_species` |
 | 生殖 | `reproduction_sexual` · `reproduction_asexual` · `oviparity` · `viviparity` |
 | 種別属性 | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |

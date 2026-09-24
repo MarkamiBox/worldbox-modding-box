@@ -8,7 +8,7 @@ order: 186
 
 # Générateurs de noms :wbscroll:
 
-Chaque nom de WorldBox sort d'un générateur : unités, villes, royaumes, clans, guerres, livres. Vos créatures peuvent avoir le leur, pour qu'un village d'esprits de braise soit plein d'Ashra et de Cindox au lieu d'emprunter des noms humains.
+Chaque nom de WorldBox sort d'un générateur : unités, villes, royaumes (kingdom), clans, guerres (war), livres (book). Vos créatures peuvent avoir le leur, pour qu'un village d'esprits de braise soit plein d'Ashra et de Cindox au lieu d'emprunter des noms humains.
 
 ## D'où vient un nom
 

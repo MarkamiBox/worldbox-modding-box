@@ -49,7 +49,7 @@ Arranca el juego con el mod anterior y busca `HelloBox` en `Player.log`. Deberí
 008: Init Mod HelloBox                   = 0,0014
 ```
 
-Línea por línea: NML compiló los archivos en `Code/`, cargó tus recursos y llamó a `OnModLoad`, que imprimió tu mensaje. Las líneas numeradas indican el tiempo de NML para cada fase: el número tras el `=` son segundos, y algunos salen en rojo en el log. **El rojo aquí no indica error**, solo significa que ese paso fue el más lento :hmm:.
+Línea por línea: NML compiló los archivos en `Code/`, cargó tus recursos (resource) y llamó a `OnModLoad`, que imprimió tu mensaje. Las líneas numeradas indican el tiempo de NML para cada fase: el número tras el `=` son segundos, y algunos salen en rojo en el log. **El rojo aquí no indica error**, solo significa que ese paso fue el más lento :hmm:.
 
 La línea que importa es la tuya. Si `[HelloBox]: HelloBox is alive!` no aparece, sigue leyendo.
 
@@ -124,7 +124,7 @@ private static void Stage(string pName, System.Action pAction)
 }
 ```
 
-Ahora un rasgo roto solo te costará ese rasgo, no todo el mod, y el registro señalará exactamente el paso culpable:
+Ahora un rasgo (trait) roto solo te costará ese rasgo, no todo el mod, y el registro señalará exactamente el paso culpable:
 
 ```text Player.log
 [NML]: [HelloBox]: stage 'items' failed: NullReferenceException ...

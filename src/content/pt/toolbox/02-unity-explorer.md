@@ -40,7 +40,7 @@ worldbox/ (C:\Program Files (x86)\Steam\steamapps\common\worldbox\)
 
 Você quer que a sua janela personalizada tenha a mesma cara das janelas do jogo. Então:
 
-1. No jogo, abra a janela que você quer imitar (Leis do Mundo, por exemplo).
+1. No jogo, abra a janela que você quer imitar (Leis do Mundo (world law), por exemplo).
 2. Pressione F7, vá em **Object Explorer → Scene Explorer** e expanda `CanvasMain` → `canvas_ui`.
 3. Vá clicando pelos filhos até que o objeto destacado seja a janela que você abriu.
 4. No Inspector, examine seus componentes: a `Image` com seu sprite 9-slice, os tamanhos no `RectTransform`, o `ScrollRect`.

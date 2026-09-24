@@ -16,27 +16,27 @@ Uns vinte arquivos, e é nisso que eles dão no jogo. Cada linha é uma página 
 
 | O quê | Onde você vê |
 | --- | --- |
-| Um traço de ator, e uma aba sua para guardá-lo | O inspetor da unidade, lista de traços |
-| Traços de cultura, religião, subespécie, clã, idioma e reino | As janelas deles, uma por sistema |
-| Uma arma, seu encantamento e uma categoria para os dois | As mãos de uma unidade, as abas de equipamento |
+| Um traço (trait) de ator, e uma aba sua para guardá-lo | O inspetor da unidade, lista de traços |
+| Traços de cultura (culture), religião (religion), subespécie (subspecies), clã, idioma e reino (kingdom) | As janelas deles, uma por sistema |
+| Uma arma, seu encantamento (modifier) e uma categoria para os dois | As mãos de uma unidade, as abas de equipamento |
 | Um efeito de status | Acima da cabeça da criatura, com o ícone dele |
-| Drops, uma nuvem que chove eles e um projétil | O mapa, no ar, no meio da briga |
+| Drops, uma nuvem (cloud) que chove eles e um projétil (projectile) | O mapa, no ar, no meio da briga |
 | Um tile | O terreno, embaixo de tudo |
 | Uma receita de comida | Os estoques de uma cidade |
-| Uma lei do mundo | A janela de Leis do Mundo |
-| Um poder divino, a aba dele e o botão | A barra de poderes lá embaixo |
+| Uma lei do mundo (world law) | A janela de Leis do Mundo |
+| Um poder divino (GodPower), a aba dele e o botão | A barra de poderes lá embaixo |
 | Uma janela | Onde você decidir |
-| Uma construção | Uma cidade, assim que alguém construir |
+| Uma construção (building) | Uma cidade, assim que alguém construir |
 | Um reino e uma criatura que pertence a ele | O mapa, nascendo e brigando |
-| Um desastre | O menu de desastres |
-| Um trabalho de IA próprio | A criatura, andando para algum lugar de propósito |
-| Uma decisão, um emprego da cidade e uma ferramenta na mão | Fogos-fátuos vagando com uma tocha, um guardião por cidade |
+| Um desastre (disaster) | O menu de desastres |
+| Um trabalho (job) de IA próprio | A criatura, andando para algum lugar de propósito |
+| Uma decisão (decision), um emprego da cidade e uma ferramenta na mão | Fogos-fátuos vagando com uma tocha, um guardião por cidade |
 | Uma ação de combate | Unidades rápidas lançando brasas antes de atacar |
-| Um gene, uma personalidade, um tipo de livro, uma peça de estandarte | O genoma, governantes, bibliotecas, bandeiras |
+| Um gene, uma personalidade, um tipo de livro (book), uma peça de estandarte | O genoma, governantes, bibliotecas (library), bandeiras |
 | Opinião, lealdade e um evento de felicidade | Detalhamentos diplomáticos e de cidades |
-| Uma trama | A lista de tramas, quando um líder planeja um festival |
-| Uma era do mundo e um comportamento do mundo | A roda de eras e o temporizador do mundo |
-| Uma conquista | A janela de conquistas, ao atingir dez fogos-fátuos |
+| Uma trama (plot) | A lista de tramas, quando um líder planeja um festival |
+| Uma era do mundo e um comportamento (behaviour) do mundo | A roda de eras e o temporizador do mundo |
+| Uma conquista (achievement) | A janela de conquistas, ao atingir dez fogos-fátuos |
 | Um pincel, uma dica de contexto e uma tecla de atalho | Rotação de pincéis, dica ao passar o mouse, F6 |
 | Um patch do Harmony | Lugar nenhum, e esse é o ponto: muda uma regra caladinho |
 
@@ -53,7 +53,7 @@ Uns vinte arquivos, e é nisso que eles dão no jogo. Cada linha é uma página 
 Ele é gerado a partir dos blocos de código deste guia, então é o mesmo código que você vem copiando, não uma cópia separada que desanda com o tempo. Leia, quebre, apague os dois terços que você não quer.
 
 > [!WARNING] É uma demo, não um produto
-> Publicar o HelloBox do jeito que está não ajuda ninguém: são vinte recursos que fazem, cada um, uma coisinha mal feita de propósito. Troque os ids, troque o nome, fique com as partes que você realmente queria  :wbbru:.
+> Publicar o HelloBox do jeito que está não ajuda ninguém: são vinte recursos (resource) que fazem, cada um, uma coisinha mal feita de propósito. Troque os ids, troque o nome, fique com as partes que você realmente queria  :wbbru:.
 
 ## A pasta
 
@@ -242,11 +242,11 @@ Seus textos também não exigem nenhuma etapa: o NML carrega `Locales/en.json` a
 
 1. **Grupos antes do conteúdo**, pois um asset cujo `group_id` aponta para o vazio não tem aba onde ser desenhado.
 2. **Gotas antes de nuvens**, pois uma nuvem referencia a gota que faz chover.
-3. **Recursos antes de itens e edifícios**, pois ambos consomem recursos.
+3. **Recursos antes de itens (item) e edifícios**, pois ambos consomem recursos.
 4. **Modificadores antes de itens**, pois uma arma lista os modificadores que pode sortear.
 5. **Reinos antes de atores**, pois um ator especifica seus reinos selvagem e civilizado.
 6. **Poderes antes de seus botões**: o `PowerButtonCreator` busca o poder pelo id, e um botão atrelado a um poder ausente é um botão morto.
-7. **Tudo o que a IA usa antes da própria IA**, já que uma tarefa cita traços e status por id.
+7. **Tudo o que a IA usa antes da própria IA**, já que uma tarefa (task) cita traços e status por id.
 8. **Atores e a IA antes de decisões, empregos da cidade e ferramentas**, porque apontam para uma criatura e uma tarefa que já devem existir.
 9. **A era do mundo após a nuvem, a lei e o status** que seus efeitos utilizam. Tramas, política e conquistas só consultam elementos durante a execução do jogo, podendo ficar em qualquer lugar após suas dependências.
 

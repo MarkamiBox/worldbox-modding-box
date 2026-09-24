@@ -19,7 +19,7 @@ Ein Modloader, der sich vor dem Spielstart in Unity-Spiele einklinkt. WorldBox-M
 ## So installierst du es
 
 1. Scrolle auf der [offiziellen BepInEx-Releases-Seite](https://github.com/BepInEx/BepInEx/releases) zu **Assets** und schnapp dir die Datei namens `BepInEx_win_x64_5.4.x.x.zip`. Ganz genau dieses Format: **win**, **x64**, **5**. Die Varianten für `x86`, `unix`, `macos` sowie `BepInEx 6 / IL2CPP` sehen alle verlockend aus, funktionieren hier aber alle nicht :PES5_Dumb:.
-2. Mache einen Rechtsklick auf die Zip-Datei → **Eigenschaften** → setze ein Häkchen bei **Zulassen**, falls vorhanden, und entpacke sie dann **direkt in deinen WorldBox-Ordner**, wo auch die `worldbox.exe` liegt (Standardpfad bei Steam: `C:\Program Files (x86)\Steam\steamapps\common\worldbox`, oder Rechtsklick auf WorldBox in Steam → **Verwalten** → **Lokale Dateien durchsuchen**). Das Ergebnis sollte so aussehen:
+2. Mache einen Rechtsklick auf die Zip-Datei → **Eigenschaften** (trait) → setze ein Häkchen bei **Zulassen**, falls vorhanden, und entpacke sie dann **direkt in deinen WorldBox-Ordner**, wo auch die `worldbox.exe` liegt (Standardpfad bei Steam: `C:\Program Files (x86)\Steam\steamapps\common\worldbox`, oder Rechtsklick auf WorldBox in Steam → **Verwalten** → **Lokale Dateien durchsuchen**). Das Ergebnis sollte so aussehen:
 
 ```text
 worldbox/

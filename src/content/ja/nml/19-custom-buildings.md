@@ -50,7 +50,7 @@ namespace HelloBox
 }
 ```
 
-設定しなかったものはすべて、動作する都市の建物である `temple_human` のまま残ります。コツはそれだけです。
+設定しなかったものはすべて、動作する都市の建物（building）である `temple_human` のまま残ります。コツはそれだけです。
 
 > [!WARNING] `clone()` の後に `add()` を呼ばない
 > `clone()` はすでにコピーを登録しています。その後で `AssetManager.buildings.add(shrine)` を呼ぶと2回目の登録になり、ライブラリは最初のコピーを捨てて `duplicate asset - overwriting...` をログに出します。動きはしますが、ログのノイズになり、あなたのコードをレビューする人が真っ先に指摘する点になります。
@@ -63,8 +63,8 @@ namespace HelloBox
 | --- | --- |
 | `$building$` | 最小限の基底アセット |
 | `$city_building$` | 都市が建設する汎用施設。`well` や `mine` が使用 |
-| `$city_colored_building$` | 上記と同様だが王国の色で着色される |
-| `$building_civ_human$` / `_elf$` / `_orc$` / `_dwarf$` | 文化別の文明建築物 |
+| `$city_colored_building$` | 上記と同様だが王国（kingdom）の色で着色される |
+| `$building_civ_human$` / `_elf$` / `_orc$` / `_dwarf$` | 文化（culture）別の文明建築物 |
 | `$building_creep$` | 侵食バイオーム（Creep）の建造物 |
 | `$mineral$` | 採掘可能な岩石や鉱石 |
 | `$resource$`, `$flora_small$` | 採取可能な自然物 |
@@ -92,7 +92,7 @@ namespace HelloBox
 | --- | --- |
 | `max_houses`, `housing_slots`, `can_units_live_here` | 市民が居住できるか、およびその定員 |
 | `housing_happiness` | そこに居住することによる幸福度ボーナス |
-| `storage`, `storage_only_food`, `is_stockpile` | 資源の保管庫として機能するか |
+| `storage`, `storage_only_food`, `is_stockpile` | 資源（resource）の保管庫として機能するか |
 | `book_slots` | 図書館に所蔵できる本の容量 |
 | `docks`, `boat_types`, `boat_type_fishing`, `boat_type_trading`, `boat_type_transport` | 船の建造能力 |
 | `spawn_units`, `spawn_units_asset` | クリーチャーをスポーンさせる |

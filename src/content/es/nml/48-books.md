@@ -8,7 +8,7 @@ order: 187
 
 # Libros :wbscroll:
 
-Las unidades escriben libros, las ciudades los guardan, y otras unidades los leen y salen un poco distintas. Un tipo de libro es una nueva clase de libro dentro de ese ciclo: quién lo escribe, cómo se llama, qué portada tiene y qué te hace leerlo.
+Las unidades escriben libros (book), las ciudades los guardan, y otras unidades los leen y salen un poco distintas. Un tipo de libro es una nueva clase de libro dentro de ese ciclo: quién lo escribe, cómo se llama, qué portada tiene y qué te hace leerlo.
 
 La página **[Rasgos lingüísticos](#/nml/language-traits)** ya crea uno pequeño, el Almanaque de Brasa. Esta página toma el mismo libro y lo termina: sus propios títulos, una recompensa de verdad y algo que pasa al leerlo.
 
@@ -18,7 +18,7 @@ Aquí nada necesita un parche, solo tienes que conocer el ciclo:
 
 1. Una unidad decide escribir. El juego reúne todos los tipos de libro cuyo `requirement_check` se cumple para esa unidad.
 2. Cada uno entra en una bolsa `writing_rate` veces (o `rate_calc` veces, si lo pones), **con un máximo de 10**, y se saca uno.
-3. El libro necesita un edificio con un hueco libre para libros en la **ciudad** del escritor. Sin biblioteca, no hay libro.
+3. El libro necesita un edificio (building) con un hueco libre para libros en la **ciudad** del escritor. Sin biblioteca, no hay libro.
 4. El título sale del generador de nombres de `name_template`, y la portada de la carpeta de `path_icons`.
 5. Más tarde alguien lo lee y recibe las recompensas de abajo.
 
@@ -84,22 +84,22 @@ namespace HelloBox
 }
 ```
 
-Este archivo **sustituye** al `HelloBooks.cs` de la página de rasgos lingüísticos, es la misma clase ya crecida. `HelloBooks.Initialize()` va después del rasgo y del estado que usa.
+Este archivo **sustituye** al `HelloBooks.cs` de la página de rasgos (trait) lingüísticos, es la misma clase ya crecida. `HelloBooks.Initialize()` va después del rasgo y del estado que usa.
 
 ## Lo que da leerlo
 
 Los números de `base_stats` no son un efecto que se pasa. Cada lectura los reparte una vez:
 
-| Estadística | Lo que recibe el lector |
+| Estadística (stats) | Lo que recibe el lector |
 | --- | --- |
 | `happiness` | Esa felicidad, como evento de "acaba de leer un libro". También funciona en negativo, para libros deprimentes |
 | `experience` | Esa experiencia |
 | `mana` | Ese maná |
 | `diplomacy`, `warfare`, `stewardship`, `intelligence` | Se suman al lector **para siempre**. En cada lectura, otra vez |
 
-La última fila es la potente. Un libro que da `intelligence = 1` hace más lista a una ciudad lectora con cada generación, así que mantenlo pequeño. Un libro de +10 es la forma de tener un reino de genios para el año 50 :wbgenius:.
+La última fila es la potente. Un libro que da `intelligence = 1` hace más lista a una ciudad lectora con cada generación, así que mantenlo pequeño. Un libro de +10 es la forma de tener un reino (kingdom) de genios para el año 50 :wbgenius:.
 
-Los rasgos de idioma y de cultura pueden cambiar los dos primeros: un idioma con `beautiful_calligraphy` hace más grande la felicidad, y una cultura con `reading_lovers` convierte los libros tristes en alegres.
+Los rasgos de idioma y de cultura (culture) pueden cambiar los dos primeros: un idioma con `beautiful_calligraphy` hace más grande la felicidad, y una cultura con `reading_lovers` convierte los libros tristes en alegres.
 
 ## Los campos que importan
 
@@ -112,7 +112,7 @@ Los rasgos de idioma y de cultura pueden cambiar los dos primeros: un idioma con
 | `read_action` | Tu propio código, una vez por lectura |
 | `path_icons` | Una carpeta dentro de `books/book_icons/`, leída como lista de imágenes. Se elige una por libro |
 | `color_text` | El color del título en la interfaz |
-| `save_culture` / `save_religion` | Si el libro recuerda la cultura y la religión del escritor. Las dos activadas por defecto, e importan en libros que difunden una fe |
+| `save_culture` / `save_religion` | Si el libro recuerda la cultura y la religión (religion) del escritor. Las dos activadas por defecto, e importan en libros que difunden una fe |
 
 ## El generador de títulos
 

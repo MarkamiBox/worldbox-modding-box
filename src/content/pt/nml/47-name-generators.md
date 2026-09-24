@@ -8,7 +8,7 @@ order: 186
 
 # Geradores de nomes :wbscroll:
 
-Todo nome no WorldBox sai de um gerador: unidades, cidades, reinos, clãs, guerras, livros. As suas criaturas podem ter o delas, para que uma vila de espíritos de brasa seja cheia de Ashra e Cindox em vez de pegar nomes humanos emprestados.
+Todo nome no WorldBox sai de um gerador: unidades, cidades, reinos (kingdom), clãs, guerras (war), livros (book). As suas criaturas podem ter o delas, para que uma vila de espíritos de brasa seja cheia de Ashra e Cindox em vez de pegar nomes humanos emprestados.
 
 ## De onde vem um nome
 
@@ -16,7 +16,7 @@ Três passos, da criatura até as letras:
 
 | Passo | Asset | O que guarda |
 | --- | --- | --- |
-| A criatura | `ActorAsset.name_template_sets` | Uma lista de ids de **conjuntos de nomes**. Um é escolhido por cultura |
+| A criatura | `ActorAsset.name_template_sets` | Uma lista de ids de **conjuntos de nomes**. Um é escolhido por cultura (culture) |
 | O conjunto | `NameSetAsset` (`name_sets`) | Qual gerador usar para cada tipo de coisa: `unit`, `city`, `kingdom`, `clan`, `family`, `culture`, `language`, `religion` |
 | O gerador | `NameGeneratorAsset` (`name_generator`) | Como o nome é montado de verdade |
 

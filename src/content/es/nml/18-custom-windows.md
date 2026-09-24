@@ -26,7 +26,7 @@ ScrollWindow.checkWindowExist("worldlaws");  // comprobar si existe
 ScrollWindow.isWindowActive();               // si hay *alguna* ventana abierta ahora mismo
 ```
 
-Esta última importa más de lo que parece: si tu poder divino hace algo al hacer clic, normalmente quieres que no haga nada mientras una ventana esté cubriendo el mapa. Poner `unselect_when_window = true` en tu `GodPower` le pasa ese problema al juego.
+Esta última importa más de lo que parece: si tu poder divino (GodPower) hace algo al hacer clic, normalmente quieres que no haga nada mientras una ventana esté cubriendo el mapa. Poner `unselect_when_window = true` en tu `GodPower` le pasa ese problema al juego.
 
 
 ## La ruta nativa con ScrollWindow
@@ -260,7 +260,7 @@ namespace HelloBox
 }
 ```
 
-`HelloWindow` añade un `HelloTooltipTarget` a su fondo, por lo que pasar el ratón por encima del panel lo muestra. `Tooltip.show()` recibe el GameObject al que pertenece, el ID del tooltip y un objeto `TooltipData` que recibe tu callback: el juego vanilla pasa ahí la unidad, ciudad o rasgo correspondiente. El tooltip `"normal"` no necesita ningún asset propio, solo muestra `tip_name` y `tip_description` como claves de texto.
+`HelloWindow` añade un `HelloTooltipTarget` a su fondo, por lo que pasar el ratón por encima del panel lo muestra. `Tooltip.show()` recibe el GameObject al que pertenece, el ID del tooltip y un objeto `TooltipData` que recibe tu callback: el juego vanilla pasa ahí la unidad, ciudad o rasgo (trait) correspondiente. El tooltip `"normal"` no necesita ningún asset propio, solo muestra `tip_name` y `tip_description` como claves de texto.
 
 | Campo de `TooltipAsset` | Qué hace |
 | --- | --- |

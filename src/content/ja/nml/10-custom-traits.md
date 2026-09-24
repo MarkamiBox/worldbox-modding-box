@@ -16,7 +16,7 @@ order: 100
 
 WorldBoxの全アセットは、`id` をキーとする1つのフラットな一覧で管理されています。もしあなたが `fast` というIDで登録し、他のModも `fast` で登録した場合、後から読み込まれた側が前の側を**上書き**し、誰も読まないログに1行だけ警告が残ります。
 
-したがって、`swift` ではなく `hello_swift` のように命名してください。短いMod名＋アンダースコア＋要素名。これは特性、アイテム、建物、能力、ステータス効果など、あらゆるアセットで徹底してください :aPES4_Noted:。
+したがって、`swift` ではなく `hello_swift` のように命名してください。短いMod名＋アンダースコア＋要素名。これは特性、アイテム、建物（building）、能力、ステータス効果（status）など、あらゆるアセットで徹底してください :aPES4_Noted:。
 
 ## トレイトの作成と登録
 
@@ -84,7 +84,7 @@ protected override void OnModLoad()
 > このルールはステータス効果、アイテム、建物、アクターでも共通です。例外は `clone()` だけで、内部で `add()` を呼んでくれるためクローン直後は安全にアクセスできます。
 
 > [!TIP] 同じスイッチは作るものの大半にある
-> `needs_to_be_explored` はアンロック可能なアセットすべてが共有する基底クラスにあるので、アクター、7種類すべてのtrait、アイテム、修飾、ワールドローで使えます。神の力、ステータス、建物、ドロップ、雲、タイル、飛び道具には、そもそも発見の段階がありません :wbsmirk:。
+> `needs_to_be_explored` はアンロック可能なアセットすべてが共有する基底クラスにあるので、アクター、7種類すべてのtrait、アイテム、修飾、ワールドローで使えます。神の力、ステータス、建物、ドロップ、雲（cloud）、タイル、飛び道具には、そもそも発見の段階がありません :wbsmirk:。
 
 ### バニラのトレイトグループ
 
@@ -205,11 +205,11 @@ if (actor.hasTrait(HelloTraits.SWIFT))
 | システム | 所有対象 | 該当ページ |
 | --- | --- | --- |
 | Actor | 1体の生物個体 | このページ |
-| Culture | 文化（所属都市全体で共有） | **[文化特性](#/nml/culture-traits)** |
-| Religion | 宗教（その信者全体） | **[宗教特性](#/nml/religion-traits)** |
-| Subspecies | 生物の亜種 | **[亜種特性](#/nml/subspecies-traits)** |
+| Culture | 文化（culture）（所属都市全体で共有） | **[文化特性](#/nml/culture-traits)** |
+| Religion | 宗教（religion）（その信者全体） | **[宗教特性](#/nml/religion-traits)** |
+| Subspecies | 生物の亜種（subspecies） | **[亜種特性](#/nml/subspecies-traits)** |
 | Clan | 家系・血統 | **[氏族特性](#/nml/clan-traits)** |
 | Language | 言語（それを話す全員） | **[言語特性](#/nml/language-traits)** |
-| Kingdom | 王国の国策方針 | **[王国特性](#/nml/kingdom-traits)** |
+| Kingdom | 王国（kingdom）の国策方針 | **[王国特性](#/nml/kingdom-traits)** |
 
 特性を作る前に、まず「誰に持たせるべきか」を決めてください。「エルフの射撃が上手くなる」は、都市の発展とともに広まるなら文化特性、繁殖によって遺伝するなら亜種特性、特定の個人だけの才能ならアクター特性です。この選択を間違えると、世界に波及するはずのModが何も起きずに終わってしまいます :PES_ThinkAboutIt:。

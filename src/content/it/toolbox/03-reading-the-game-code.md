@@ -52,7 +52,7 @@ Ora sai per certo che accetta una stringa, restituisce un booleano e ha un secon
 
 ### 3. Guardare come fa il gioco stesso
 
-Questa è la parte migliore. Vuoi creare una legge del mondo che funzioni? Trova `WorldLawLibrary`, apri `init()` e leggi cosa hanno scritto gli sviluppatori:
+Questa è la parte migliore. Vuoi creare una legge del mondo (world law) che funzioni? Trova `WorldLawLibrary`, apri `init()` e leggi cosa hanno scritto gli sviluppatori:
 
 ```csharp Assembly-CSharp / WorldLawLibrary.init()
 world_law_mutant_box = add(new WorldLawAsset

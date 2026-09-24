@@ -8,7 +8,7 @@ order: 186
 
 # Namensgeneratoren :wbscroll:
 
-Jeder Name in WorldBox kommt aus einem Generator: Einheiten, Städte, Königreiche, Clans, Kriege, Bücher. Deine Kreaturen können ihren eigenen haben, damit ein Dorf voller Glutgeister voller Ashra und Cindox ist, statt sich menschliche Namen zu borgen.
+Jeder Name in WorldBox kommt aus einem Generator: Einheiten, Städte, Königreiche (kingdom), Clans, Kriege (war), Bücher (book). Deine Kreaturen können ihren eigenen haben, damit ein Dorf voller Glutgeister voller Ashra und Cindox ist, statt sich menschliche Namen zu borgen.
 
 ## Woher ein Name kommt
 
@@ -16,7 +16,7 @@ Drei Schritte, von der Kreatur runter bis zu den Buchstaben:
 
 | Schritt | Asset | Was es enthält |
 | --- | --- | --- |
-| Die Kreatur | `ActorAsset.name_template_sets` | Eine Liste von **Namenssets**. Pro Kultur wird eines gewählt |
+| Die Kreatur | `ActorAsset.name_template_sets` | Eine Liste von **Namenssets**. Pro Kultur (culture) wird eines gewählt |
 | Das Namensset | `NameSetAsset` (`name_sets`) | Welcher Generator für welche Art Ding: `unit`, `city`, `kingdom`, `clan`, `family`, `culture`, `language`, `religion` |
 | Der Generator | `NameGeneratorAsset` (`name_generator`) | Wie der Name tatsächlich gebaut wird |
 

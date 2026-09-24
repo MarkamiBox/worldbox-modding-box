@@ -8,7 +8,7 @@ order: 28
 
 # Спрайты и ресурсы :wbfanartist:
 
-У вашей черты есть название, характеристики и прекрасное описание. Но вместо иконки красуется огромный уродливый знак вопроса. Пора это исправить.
+У вашей черты (trait) есть название, характеристики (stats) и прекрасное описание. Но вместо иконки красуется огромный уродливый знак вопроса. Пора это исправить.
 
 ## Использование уже имеющихся в игре иконок
 
@@ -65,7 +65,7 @@ HelloBox/GameResources/ui/Icons/iconHelloSwift.png
 | Поле | Назначение |
 | --- | --- |
 | `PixelsPerUnit` | Оставляйте значение `1`, если точно не знаете, зачем вам другое |
-| `PivotX` / `PivotY` | Точка привязки (Pivot). `0.5 / 0.0` - это центр снизу, что обычно и требуется юнитам и зданиям |
+| `PivotX` / `PivotY` | Точка привязки (Pivot). `0.5 / 0.0` - это центр снизу, что обычно и требуется юнитам и зданиям (building) |
 | `BorderL/R/T/B` | Границы 9-slice для растягивающихся рамок окон и кнопок |
 | `Path` | Конкретный файл, к которому применяется это правило |
 
@@ -77,14 +77,14 @@ HelloBox/GameResources/ui/Icons/iconHelloSwift.png
 
 | Ассет | Поле | Файл лежит в |
 | --- | --- | --- |
-| Черта, божественная сила, королевство, группа | `path_icon` | `GameResources/` + ровно то, что вы написали |
-| Предмет в руке юнита | `path_gameplay_sprite` | `GameResources/` + ровно то, что вы написали |
+| Черта, божественная сила (GodPower), королевство (kingdom), группа | `path_icon` | `GameResources/` + ровно то, что вы написали |
+| Предмет (item) в руке юнита | `path_gameplay_sprite` | `GameResources/` + ровно то, что вы написали |
 | Здание | `sprite_path` | **Папка**: `GameResources/` + `sprite_path` + `/`, в которой лежат `main_0.png`, `construction_0.png`, `ruin_0.png`. Если `sprite_path` пуст, берётся `main_path` + id, а `main_path` по умолчанию равен `buildings/` |
 | Дроп | `path_texture` | **Папка**: `GameResources/` + ровно то, что вы написали, по PNG на кадр |
-| Облако | `path_sprites` | `GameResources/` + каждый путь из списка |
-| Эффект статуса | `texture` | **Папка**: `GameResources/effects/` + то, что вы написали, по PNG на кадр |
-| Снаряд | `texture` | **Папка**: `GameResources/effects/projectiles/` + то, что вы написали, по PNG на кадр |
-| Ресурс в руках | `path_gameplay_sprite` | **Папка**: `GameResources/items/resources/` + то, что вы написали, по PNG на кадр |
+| Облако (cloud) | `path_sprites` | `GameResources/` + каждый путь из списка |
+| Эффект статуса (status) | `texture` | **Папка**: `GameResources/effects/` + то, что вы написали, по PNG на кадр |
+| Снаряд (projectile) | `texture` | **Папка**: `GameResources/effects/projectiles/` + то, что вы написали, по PNG на кадр |
+| Ресурс (resource) в руках | `path_gameplay_sprite` | **Папка**: `GameResources/items/resources/` + то, что вы написали, по PNG на кадр |
 | Ресурс, иконка в инвентаре | `path_icon` | `GameResources/` + то, что вы написали. Ваниль использует голое имя вроде `iconResBread`, так что файл лежит в корне |
 | Плитка и верхняя плитка | *(поля нет)* | `GameResources/tiles/<the tile's id>/` |
 

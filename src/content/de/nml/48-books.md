@@ -8,7 +8,7 @@ order: 187
 
 # Bücher :wbscroll:
 
-Einheiten schreiben Bücher, Städte bewahren sie auf, und andere Einheiten lesen sie und kommen ein bisschen anders wieder heraus. Eine Buchart ist eine neue Sorte Buch in diesem Kreislauf: wer es schreibt, wie es heißt, wie der Einband aussieht und was das Lesen mit dir macht.
+Einheiten schreiben Bücher (book), Städte bewahren sie auf, und andere Einheiten lesen sie und kommen ein bisschen anders wieder heraus. Eine Buchart ist eine neue Sorte Buch in diesem Kreislauf: wer es schreibt, wie es heißt, wie der Einband aussieht und was das Lesen mit dir macht.
 
 Die Seite **[Sprach-Eigenschaften](#/nml/language-traits)** baut schon ein kleines, den Glut-Almanach. Diese Seite nimmt dasselbe Buch und macht es fertig: eigene Titel, eine echte Belohnung und etwas, das beim Lesen passiert.
 
@@ -18,7 +18,7 @@ Hier braucht nichts einen Patch, du musst nur den Kreislauf kennen:
 
 1. Eine Einheit beschließt zu schreiben. Das Spiel sammelt jede Buchart, deren `requirement_check` für diese Einheit besteht.
 2. Jede kommt `writing_rate`-mal in einen Beutel (oder `rate_calc`-mal, wenn du das setzt), **höchstens 10**, und eine wird gezogen.
-3. Das Buch braucht ein Gebäude mit freiem Buchplatz in der **Stadt** des Schreibers. Keine Bibliothek, kein Buch.
+3. Das Buch braucht ein Gebäude (building) mit freiem Buchplatz in der **Stadt** des Schreibers. Keine Bibliothek (library), kein Buch.
 4. Der Titel kommt aus dem Namensgenerator in `name_template`, der Einband aus dem Ordner in `path_icons`.
 5. Später liest es jemand und bekommt die Belohnungen unten.
 
@@ -84,7 +84,7 @@ namespace HelloBox
 }
 ```
 
-Diese Datei **ersetzt** die `HelloBooks.cs` von der Seite Sprach-Eigenschaften, es ist dieselbe Klasse in erwachsen. `HelloBooks.Initialize()` kommt nach das Merkmal und den Status, die sie benutzt.
+Diese Datei **ersetzt** die `HelloBooks.cs` von der Seite Sprach-Eigenschaften, es ist dieselbe Klasse in erwachsen. `HelloBooks.Initialize()` kommt nach das Merkmal (trait) und den Status, die sie benutzt.
 
 ## Was Lesen bringt
 
@@ -97,9 +97,9 @@ Die Zahlen in `base_stats` sind kein Buff, der nachlässt. Jedes Lesen verteilt 
 | `mana` | So viel Mana |
 | `diplomacy`, `warfare`, `stewardship`, `intelligence` | Werden dem Leser **dauerhaft** hinzugefügt. Bei jedem Lesen wieder |
 
-Die letzte Zeile ist die mächtige. Ein Buch mit `intelligence = 1` macht eine belesene Stadt mit jeder Generation schlauer, also halte es klein. Ein +10-Buch ist der Weg zu einem Königreich voller Genies bis Jahr 50 :wbgenius:.
+Die letzte Zeile ist die mächtige. Ein Buch mit `intelligence = 1` macht eine belesene Stadt mit jeder Generation schlauer, also halte es klein. Ein +10-Buch ist der Weg zu einem Königreich (kingdom) voller Genies bis Jahr 50 :wbgenius:.
 
-Sprach- und Kultur-Merkmale können die ersten beiden ändern: Eine Sprache mit `beautiful_calligraphy` macht das Glück größer, und eine Kultur mit `reading_lovers` macht traurige Bücher fröhlich.
+Sprach- und Kultur-Merkmale können die ersten beiden ändern: Eine Sprache mit `beautiful_calligraphy` macht das Glück größer, und eine Kultur (culture) mit `reading_lovers` macht traurige Bücher fröhlich.
 
 ## Die wichtigen Felder
 

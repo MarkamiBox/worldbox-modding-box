@@ -337,7 +337,7 @@ namespace HelloBox
 }
 ```
 
-Das ist die ganze Datei: neun göttliche Mächte, der Tab, zehn Buttons und der Icon-Helfer. Jeder Button ist ein Feature, das dieser Leitfaden gezeigt hat. Die Abschnitte unten nehmen sie auseinander.
+Das ist die ganze Datei: neun göttliche Mächte (GodPower), der Tab, zehn Buttons und der Icon-Helfer. Jeder Button ist ein Feature, das dieser Leitfaden gezeigt hat. Die Abschnitte unten nehmen sie auseinander.
 
 `recalc()` passt die Größe des Tabs an seine Buttons an, und `sortButtons()` bringt sie in Reihenfolge. Beide müssen warten, und das Spiel sagt dir nicht auf freundliche Art, warum:
 
@@ -371,7 +371,7 @@ private static void Buttons()
 }
 ```
 
-Verwende `CreateGodPowerButton` für alles, was der Spieler auf der Karte anvisiert (spawnen, angreifen, Einheit inspizieren, Gebäude platzieren), und `CreateSimpleButton` für globale Aktionen (Fenster öffnen, Modus umschalten).
+Verwende `CreateGodPowerButton` für alles, was der Spieler auf der Karte anvisiert (spawnen, angreifen, Einheit inspizieren, Gebäude (building) platzieren), und `CreateSimpleButton` für globale Aktionen (Fenster öffnen, Modus umschalten).
 
 > [!WARNING] Die Kraft muss zuerst existieren
 > `CreateGodPowerButton` sucht die Kraft anhand ihrer ID. Wenn `AssetManager.powers` sie noch nicht hat, erhältst du einen Button, der an nichts gebunden ist. Registriere die Kraft, und erstelle **danach** den Button.

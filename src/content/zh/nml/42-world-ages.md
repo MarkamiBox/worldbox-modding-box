@@ -139,9 +139,9 @@ namespace HelloBox
 世界行为的核心由两个数值和一个委托构成：每隔 `interval` 秒执行一次 `action`，并附加最高 `interval_random` 秒的随机浮动偏量（避免像节拍器一样机械式卡顿）。除非设置 `stop_when_world_on_pause = false`，否则在游戏暂停时定时器也会同步挂起，而在载入新世界时会触发 `action_world_clear`。
 
 > [!WARNING] 管理器在游戏启动初期已全量构建
-> 游戏世界会为每个世界行为资产保留一个 `WorldBehaviour` 计时器，由地图初次载入时的 `createManagers()` 统一生成（早于模组运行）。模组新追加的资产默认 `manager == null`，而世界的每帧更新循环依然会强行调用它：导致每帧持续报出 `NullReferenceException` 崩溃 :wbfacepalm:。在 `add()` 之后手动为其创建管理器实例即可彻底解决。
+> 游戏世界会为每个世界行为资产（asset）保留一个 `WorldBehaviour` 计时器，由地图初次载入时的 `createManagers()` 统一生成（早于模组运行）。模组新追加的资产默认 `manager == null`，而世界的每帧更新循环依然会强行调用它：导致每帧持续报出 `NullReferenceException` 崩溃 :wbfacepalm:。在 `add()` 之后手动为其创建管理器实例即可彻底解决。
 
-HelloBox 中的世界行为在对应世界法则未开启时会直接跳过。这正是推荐的优雅实践：前置条件检查开销极低，让定时器持续走表而在 action 内部判定是否放行。
+HelloBox 中的世界行为在对应世界法则（world law）未开启时会直接跳过。这正是推荐的优雅实践：前置条件检查开销极低，让定时器持续走表而在 action 内部判定是否放行。
 
 ```json Mods/HelloBox/Locales/en.json
 {

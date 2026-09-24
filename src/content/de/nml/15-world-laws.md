@@ -8,7 +8,7 @@ order: 176
 
 # Weltgesetze :wbworldlaws:
 
-Weltgesetze sind die Schalter im Fenster **Weltgesetze**: "Altersschwäche", "Hunger", "Friedliche Monster". Sie sind das spielerfreundlichste Feature, das du hinzufügen kannst, weil die Spieler das Verhalten deiner Mod ein- und ausschalten können, ohne jemals eine Konfigurationsdatei anfassen zu müssen.
+Weltgesetze (world law) sind die Schalter im Fenster **Weltgesetze**: "Altersschwäche", "Hunger", "Friedliche Monster". Sie sind das spielerfreundlichste Feature, das du hinzufügen kannst, weil die Spieler das Verhalten (behaviour) deiner Mod ein- und ausschalten können, ohne jemals eine Konfigurationsdatei anfassen zu müssen.
 
 Sie gehören außerdem zu den einfachsten Assets im gesamten Spiel. Ganze vier Felder.
 

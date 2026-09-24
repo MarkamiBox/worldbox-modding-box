@@ -8,7 +8,7 @@ order: 171
 
 # バイオーム :wbflowerbud:
 
-バイオームは、世界の他のすべてがぶら下がっている部分です：どんな地面を塗るか、どんな木や植物が育つか、どんな生き物がやって来るか、そこで生まれたものがどんな特性を得るか。バイオームmod？このご時世に？ええ、しかも見た目ほど大変ではありません。バイオームはほとんど他人のIDのリストだからです :PESgn_Noice:。
+バイオームは、世界の他のすべてがぶら下がっている部分です：どんな地面を塗るか、どんな木や植物が育つか、どんな生き物がやって来るか、そこで生まれたものがどんな特性（trait）を得るか。バイオームmod？このご時世に？ええ、しかも見た目ほど大変ではありません。バイオームはほとんど他人のIDのリストだからです :PESgn_Noice:。
 
 このページでは **残り火の原** を作ります：自前のタイル2枚、自前の種、サバンナの生き物、そしてそこで生まれるもの全部に付く特性。
 
@@ -130,7 +130,7 @@ namespace HelloBox
 }
 ```
 
-`HelloBiomes.Initialize();` を `OnModLoad` に追加し、ほかのパワーと同じようにボタンを付けてください：**[パワーのタブとボタン](#/nml/power-buttons)**。
+`HelloBiomes.Initialize();` を `OnModLoad` に追加し、ほかのパワー（GodPower）と同じようにボタンを付けてください：**[パワーのタブとボタン](#/nml/power-buttons)**。
 
 > [!WARNING] Initialize の中の順番が大事
 > タイルはバイオームが存在する前に複製されるので、`biome_asset` は `add()` の**後で**設定します。先に結びつけると `null` と結びつくことになり、バイオームが null のタイルは何も育てず誰も出現させません。エラーはひとつも出ません :wbfacepalm:。
@@ -147,12 +147,12 @@ namespace HelloBox
 | `grow_strength` | 広がるときの押しの強さ。デフォルトは6 |
 | `cold_biome` / `dark_biome` | 他のシステムが確認するフラグ。本当に寒い、暗い場合だけ設定 |
 | `special_biome` | 普通の緑のバイオームではない特殊なものの印。バニラは砂地と丘に使っています |
-| `subspecies_name_suffix` | ここで進化した亜種に付くラテン語風の語尾 |
+| `subspecies_name_suffix` | ここで進化した亜種（subspecies）に付くラテン語風の語尾 |
 | `spawn_trait_actor`、`spawn_trait_subspecies`、`spawn_trait_culture`、`spawn_trait_clan`、`spawn_trait_language`、`spawn_trait_religion` | ここで生まれたものが得られる特性 |
 
 ### 何が育ち、何が出現するか
 
-`addTree`、`addPlant`、`addBush`、`addMineral` は建物IDと重みを受け取ります。`addUnit` は野生動物を、`addSapientUnit` はここで文明を興せる種族を追加します。重みはパーセントではなく、IDが袋に入る回数です：`addUnit("buffalo", 2)` なら、バッファローはハイエナの2倍出やすくなります。
+`addTree`、`addPlant`、`addBush`、`addMineral` は建物（building）IDと重みを受け取ります。`addUnit` は野生動物を、`addSapientUnit` はここで文明を興せる種族を追加します。重みはパーセントではなく、IDが袋に入る回数です：`addUnit("buffalo", 2)` なら、バッファローはハイエナの2倍出やすくなります。
 
 どんなIDでも使えます。**[カスタムアクター](#/nml/custom-actors)** で作った自作の生き物も、バイオームより先に登録してあれば大丈夫です。
 

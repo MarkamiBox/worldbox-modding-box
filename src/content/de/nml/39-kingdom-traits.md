@@ -8,13 +8,13 @@ order: 114
 
 # Königreichs-Eigenschaften :wbcrown:
 
-Eine **Königreichs-Eigenschaft** ist Politik. Kein Glaube, keine Blutlinie: eine Entscheidung, die die Krone getroffen hat und die für das gesamte Reich gilt.
+Eine **Königreichs-Eigenschaft** ist Politik. Kein Glaube, keine Blutlinie: eine Entscheidung (decision), die die Krone getroffen hat und die für das gesamte Reich gilt.
 
 Vanilla nutzt dieses System für genau eine einzige Sache: Steuersätze. Das macht es zum kleinsten und leersten der sieben Eigenschaftssysteme – und damit zum spannendsten Ort für eigene Ideen. Niemand macht dir hier den Platz streitig :wbsmirk:.
 
 | | |
 | --- | --- |
-| Bibliothek | `AssetManager.kingdoms_traits` |
+| Bibliothek (library) | `AssetManager.kingdoms_traits` |
 | Klasse | `KingdomTrait` |
 | Gruppen | `AssetManager.kingdoms_traits_groups`, Klasse `KingdomTraitGroupAsset` |
 | Besitzer zur Laufzeit | `Kingdom`, in `World.world.kingdoms` |
@@ -44,11 +44,11 @@ trait.addOpposite("tax_rate_local_low");
 
 | Feld | Funktion |
 | --- | --- |
-| `is_local_tax_trait` | Diese Eigenschaft setzt den **lokalen** Steuersatz des Reiches |
+| `is_local_tax_trait` | Diese Eigenschaft (trait) setzt den **lokalen** Steuersatz des Reiches |
 | `is_tribute_tax_trait` | Diese Eigenschaft setzt den **Tribut**-Satz des Reiches |
 | `tax_rate` | Der Steuersatz selbst, als Dezimalbruch |
 
-Das Königreich berechnet beide Steuersätze von Grund auf neu, sobald sich seine Eigenschaften ändern: Es beginnt beim globalen Standardwert in `SimGlobals`, durchläuft seine Eigenschaften und lässt jede passende den Wert **überschreiben**.
+Das Königreich (kingdom) berechnet beide Steuersätze von Grund auf neu, sobald sich seine Eigenschaften ändern: Es beginnt beim globalen Standardwert in `SimGlobals`, durchläuft seine Eigenschaften und lässt jede passende den Wert **überschreiben**.
 
 > [!WARNING] Der Letzte gewinnt – deklariere daher Gegensätze
 > Steuereigenschaften addieren sich nicht auf. Wenn ein Königreich zwei `is_local_tax_trait`-Eigenschaften besitzt, gewinnt stillschweigend jene, die in der Iteration später an die Reihe kommt.
@@ -107,7 +107,7 @@ trait.addDecision("some_decision_id");
 trait.decisions_assets = new DecisionAsset[] { AssetManager.decisions_library.get("some_decision_id") };
 ```
 
-**Ein Harmony-Patch, der die Eigenschaft abfragt**, womit du ein echtes Regierungssystem aufbaust. Patche die Methode, die das Verhalten der Krone steuert, und prüfe dort die Eigenschaften des Reiches:
+**Ein Harmony-Patch, der die Eigenschaft abfragt**, womit du ein echtes Regierungssystem aufbaust. Patche die Methode, die das Verhalten (behaviour) der Krone steuert, und prüfe dort die Eigenschaften des Reiches:
 
 ```csharp
 [HarmonyPatch(typeof(City), nameof(City.getArmyMaxMultiplier))]

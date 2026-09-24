@@ -8,11 +8,11 @@ order: 108
 
 # Traits de religion :wbpray:
 
-Une **religion** appartient à des cités et des royaumes, se diffuse par conversion, rédige des livres et peut accomplir des **rites** : des complots modifiant le monde que ses fidèles tentent d'exécuter de leur propre initiative. Un trait de religion est une croyance unique.
+Une **religion** appartient à des cités et des royaumes (kingdom), se diffuse par conversion, rédige des livres (book) et peut accomplir des **rites** : des complots (plot) modifiant le monde que ses fidèles tentent d'exécuter de leur propre initiative. Un trait de religion est une croyance unique.
 
 | | |
 | --- | --- |
-| Bibliothèque | `AssetManager.religion_traits` |
+| Bibliothèque (library) | `AssetManager.religion_traits` |
 | Classe | `ReligionTrait` |
 | Groupes | `AssetManager.religion_trait_groups`, classe `ReligionTraitGroupAsset` |
 | Propriétaire à l'exécution | `Religion`, dans `World.world.religions` |
@@ -20,7 +20,7 @@ Une **religion** appartient à des cités et des royaumes, se diffuse par conver
 | Dossier d'icônes par défaut | `ui/Icons/religion_traits/` |
 
 > [!WARNING] Les stats de religion n'atteignent pas les unités
-> C'est l'unique système de traits dont les `base_stats` n'atterrissent jamais sur un `Actor`. `Actor.updateStats()` fusionne les sous-espèces, clans, langues et cultures. **La religion ne figure pas sur cette liste.**
+> C'est l'unique système de traits dont les `base_stats` n'atterrissent jamais sur un `Actor`. `Actor.updateStats()` fusionne les sous-espèces (subspecies), clans, langues et cultures. **La religion ne figure pas sur cette liste.**
 >
 > Un trait de religion modifie donc le monde par ce qu'il *fait* (un rite, une transformation, un crochet d'action), et non par des chiffres. Écrire `base_stats["damage"] = 10` dessus est une opération strictement inutile sans effet, et c'est l'après-midi gâché le plus fréquent sur cette page :PES4_BigSad:.
 
@@ -99,7 +99,7 @@ Le jeu de base s'en sert pour `sands_of_ruin` (désert), `shadowroot` (corrompu)
 
 ## Faire en sorte qu'il *agisse*
 
-Puisque les statistiques sont hors-jeu, les crochets d'action sont le moyen par excellence pour un trait de religion de faire ses preuves. Ce sont les mêmes que pour tous les autres traits :
+Puisque les statistiques (stats) sont hors-jeu, les crochets d'action sont le moyen par excellence pour un trait de religion de faire ses preuves. Ce sont les mêmes que pour tous les autres traits :
 
 ```csharp
 // toutes les quelques secondes, sur chaque fidèle
@@ -117,7 +117,7 @@ trait.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 trait.action_death = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
 ```
 
-Un trait de religion peut également accorder un sort ou une décision, ce qui est généralement bien plus adapté qu'un simple minuteur :
+Un trait de religion peut également accorder un sort ou une décision (decision), ce qui est généralement bien plus adapté qu'un simple minuteur :
 
 ```csharp
 trait.addSpell("hello_bolt");           // voir Projectiles, sorts et effets

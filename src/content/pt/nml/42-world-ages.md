@@ -8,7 +8,7 @@ order: 174
 
 # Eras do mundo e comportamentos :wbsunblessed:
 
-Dois conceitos pertencem ao mundo em si e não a qualquer criatura viva nele. Uma **era do mundo** (world age) é a época na roda das eras: a Era da Esperança, a Era das Cinzas, com seu clima, sua iluminação e suas regras. Um **comportamento do mundo** (world behaviour) é um trecho de código que o mundo executa periodicamente, para sempre: é assim que o jogo nativo agenda desastres, migrantes e deterioração de estradas.
+Dois conceitos pertencem ao mundo em si e não a qualquer criatura viva nele. Uma **era do mundo** (world age) é a época na roda das eras: a Era da Esperança, a Era das Cinzas, com seu clima, sua iluminação e suas regras. Um **comportamento (behaviour) do mundo** (world behaviour) é um trecho de código que o mundo executa periodicamente, para sempre: é assim que o jogo nativo agenda desastres (disaster), migrantes e deterioração de estradas.
 
 ```csharp Mods/HelloBox/Code/HelloAges.cs
 using System.Collections.Generic;
@@ -114,7 +114,7 @@ namespace HelloBox
 
 A Era das Brasas faz chover brasas a cada oito segundos, escurece a tela com partículas de cinza, propaga o fogo duas vezes mais rápido e mantém as cidades um pouco mais leais. Um novo mundo pode colocá-la no slot 4 de sua roda, e o botão de aleatorizar da roda pode sorteá-la em qualquer lugar. Sutileza nunca foi o objetivo do HelloBox :wbfireskull:.
 
-> [!WARNING] Três operações que a biblioteca fez na inicialização
+> [!WARNING] Três operações que a biblioteca (library) fez na inicialização
 > `post_init()` define o fundo de cada era a partir de seu ID, e `linkAssets()` constrói `list_only_normal` (a reserva para a era aleatória desconhecida) e `pool_by_slots` (as reservas com as quais um novo mundo preenche a roda). Uma nova era não está em nenhuma delas. Se você omitir o fundo, a roda exibirá um pedaço vazio; se omitir as reservas, a era existirá, mas nenhum mundo jamais a sorteará.
 
 > [!NOTE] A lista de eras selecionáveis
@@ -124,7 +124,7 @@ A Era das Brasas faz chover brasas a cada oito segundos, escurece a tela com par
 | --- | --- |
 | `rate` | Peso quando uma era é sorteada aleatoriamente |
 | `default_slots` | Quais slots da roda (1 a 8) um novo mundo pode usar para ela |
-| `clouds` + `cloud_interval` | Nuvens geradas e sua frequência |
+| `clouds` + `cloud_interval` | Nuvens (cloud) geradas e sua frequência |
 | `special_effect_action` + `special_effect_interval` | Seu código periódico enquanto a era estiver ativa |
 | `overlay_*`, `particles_*`, `era_effect_overlay_alpha` | Aparência visual: escuridão, chuva, neve, cinza, sol |
 | `title_color`, `light_color` | Cor do título e da iluminação ambiente |

@@ -10,7 +10,7 @@ order: 44
 
 在开发模组时，你迟早会需要记录某些特定生物的状态：它挨了多少次攻击、是否已经领取过奖励、正在哪座神殿前祈祷。如果你用一个以生物为 Key 的静态 Dictionary 来存，当玩家保存地图并重新加载的瞬间，所有数据就会全部化为乌有 :wbfacepalm:。
 
-游戏其实早就为我们准备好了原生方案。每一个生物、城市、王国、建筑物、物品和书籍，都会在自身的数据对象中保存状态，并且它们都附带一个精简的**自定义数据存储器** (Custom Data)，会直接连同地图一同打包存入存档文件中。
+游戏其实早就为我们准备好了原生方案。每一个生物、城市、王国（kingdom）、建筑物（building）、物品（item）和书籍，都会在自身的数据对象中保存状态，并且它们都附带一个精简的**自定义数据存储器** (Custom Data)，会直接连同地图一同打包存入存档文件中。
 
 ## 数据存储器
 
@@ -58,7 +58,7 @@ if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
 
 ## 在 HelloBox 中的实践
 
-下面我们创建一个特质：记录持有者每一次成功命中的攻击，并在累计达到 50 次时一次性赋予老兵奖励：
+下面我们创建一个特质（trait）：记录持有者每一次成功命中的攻击，并在累计达到 50 次时一次性赋予老兵奖励：
 
 ```csharp Mods/HelloBox/Code/HelloMemory.cs
 namespace HelloBox
@@ -135,7 +135,7 @@ namespace HelloBox
 | 城市 | `city.data` |
 | 国家 | `kingdom.data` |
 | 建筑物 | `building.data` |
-| 文化、宗教、家族、语言、世系、军队、阴谋 | 各自的 `data`（底层存储机制完全一致） |
+| 文化（culture）、宗教（religion）、家族、语言、世系、军队、阴谋（plot） | 各自的 `data`（底层存储机制完全一致） |
 
 ## 核心要点与注意事项
 

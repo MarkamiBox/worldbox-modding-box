@@ -57,13 +57,13 @@ namespace HelloBox
 
 ## 무엇을 복제할 것인가
 
-라이브러리에는 `$…$` 로 표시된 템플릿과 완성된 일반 건물 에셋이 둘 다 들어있습니다:
+라이브러리에는 `$…$` 로 표시된 템플릿과 완성된 일반 건물 (building) 에셋이 둘 다 들어있습니다:
 
 | 복제 원본 | 용도 |
 | --- | --- |
 | `$building$` | 가장 순수한 최소 기본형 |
 | `$city_building$` | 도시가 건설하는 일반 시설. `well` 과 `mine` 이 사용 |
-| `$city_colored_building$` | 위와 동일하나 왕국 색상이 덧입혀짐 |
+| `$city_colored_building$` | 위와 동일하나 왕국 (kingdom) 색상이 덧입혀짐 |
 | `$building_civ_human$` / `_elf$` / `_orc$` / `_dwarf$` | 문화별 문명 건물 |
 | `$building_creep$` | 크립(Creep) 오염체 구조물 |
 | `$mineral$` | 채굴 가능한 광물 및 암석 |
@@ -92,7 +92,7 @@ namespace HelloBox
 | --- | --- |
 | `max_houses`, `housing_slots`, `can_units_live_here` | 시민이 거주할 수 있는지 및 최대 인원수 |
 | `housing_happiness` | 해당 건물 거주 시 얻는 행복도 보너스 |
-| `storage`, `storage_only_food`, `is_stockpile` | 자원 저장고 기능 여부 |
+| `storage`, `storage_only_food`, `is_stockpile` | 자원 (resource) 저장고 기능 여부 |
 | `book_slots` | 도서관의 책 수용량 |
 | `docks`, `boat_types`, `boat_type_fishing`, `boat_type_trading`, `boat_type_transport` | 선박 건조 능력 |
 | `spawn_units`, `spawn_units_asset` | 생명체를 지속적으로 소환 |
@@ -119,7 +119,7 @@ namespace HelloBox
 | `biome_tags_growth`, `has_biome_tags` | 자라날 수 있는 바이옴 태그 |
 | `resources_given`, `addResource(id, amount, pNewList)` | 채취 시 획득하는 자원 |
 | `can_be_chopped_down`, `gatherable` | 유닛이 벌목하거나 수확할 수 있는지 |
-| `grow_creep` 및 `grow_creep_*` 계열 | 크립 바이옴 번식 행동 |
+| `grow_creep` 및 `grow_creep_*` 계열 | 크립 바이옴 번식 행동 (behaviour) |
 
 ### 피해 및 파괴
 

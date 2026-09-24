@@ -8,15 +8,15 @@ order: 171
 
 # Biomi :wbflowerbud:
 
-Un bioma è la parte del mondo a cui è appeso tutto il resto: quale terreno dipinge, quali alberi e piante ci crescono, quali creature ci arrivano e quali tratti prende chi ci nasce. Una mod di biomi? In questa economia? Sì, ed è meno lavoro di quanto sembri, perché un bioma è soprattutto una lista di id di altri :PESgn_Noice:.
+Un bioma (biome) è la parte del mondo a cui è appeso tutto il resto: quale terreno dipinge, quali alberi e piante ci crescono, quali creature ci arrivano e quali tratti (trait) prende chi ci nasce. Una mod di biomi? In questa economia? Sì, ed è meno lavoro di quanto sembri, perché un bioma è soprattutto una lista di id di altri :PESgn_Noice:.
 
-Questa pagina crea i **Campi di Brace**: due caselle sue, i suoi semi, qualche creatura della savana e un tratto per tutto quello che ci nasce.
+Questa pagina crea i **Campi di Brace**: due caselle (tile) sue, i suoi semi, qualche creatura della savana e un tratto per tutto quello che ci nasce.
 
 ## I pezzi
 
 Un bioma non è un asset, sono quattro che puntano l'uno all'altro:
 
-| Pezzo | Libreria | Cosa fa |
+| Pezzo | Libreria (library) | Cosa fa |
 | --- | --- | --- |
 | `BiomeAsset` | `biome_library` | Il bioma vero e proprio: cosa cresce, cosa compare, come si espande |
 | Due `TopTileType` | `top_tiles` | Il terreno che dipinge: uno **basso** e uno **alto** |
@@ -147,12 +147,12 @@ Aggiungi `HelloBiomes.Initialize();` a `OnModLoad`, poi dai al potere un pulsant
 | `grow_strength` | Quanto spinge quando si espande. Predefinito 6 |
 | `cold_biome` / `dark_biome` | Flag che controllano altri sistemi. Mettili solo se è davvero freddo o buio |
 | `special_biome` | Segna quelli strani che non sono un normale bioma verde. Vanilla lo usa per sabbia e colline |
-| `subspecies_name_suffix` | Finali in latino per le sottospecie che si evolvono qui |
+| `subspecies_name_suffix` | Finali in latino per le sottospecie (subspecies) che si evolvono qui |
 | `spawn_trait_actor`, `spawn_trait_subspecies`, `spawn_trait_culture`, `spawn_trait_clan`, `spawn_trait_language`, `spawn_trait_religion` | Tratti che può prendere chi viene fondato qui |
 
 ### Cosa cresce e cosa compare
 
-`addTree`, `addPlant`, `addBush` e `addMineral` prendono un id di edificio e un peso. `addUnit` aggiunge la fauna, `addSapientUnit` le specie che possono fondare una civiltà qui. Il peso non è una percentuale, è quante volte l'id finisce nel sacchetto: `addUnit("buffalo", 2)` rende il bufalo due volte più probabile della iena.
+`addTree`, `addPlant`, `addBush` e `addMineral` prendono un id di edificio (building) e un peso. `addUnit` aggiunge la fauna, `addSapientUnit` le specie che possono fondare una civiltà qui. Il peso non è una percentuale, è quante volte l'id finisce nel sacchetto: `addUnit("buffalo", 2)` rende il bufalo due volte più probabile della iena.
 
 Va bene qualsiasi id, anche le tue creature di **[Attori personalizzati](#/nml/custom-actors)**, purché siano registrate prima del bioma.
 

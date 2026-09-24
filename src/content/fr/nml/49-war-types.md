@@ -8,9 +8,9 @@ order: 179
 
 # Types de guerre :wbmartialwarfare:
 
-Chaque guerre du jeu a un type : une conquête normale, une guerre de rancune contre tout le monde, une rébellion. Le type décide comment la guerre reçoit son nom, quelle icône elle affiche, si les alliés s'en mêlent, et quelques règles sur la façon dont elle peut finir. Il n'y en a que cinq en vanilla, donc un nouveau se remarque.
+Chaque guerre (war) du jeu a un type : une conquête normale, une guerre de rancune contre tout le monde, une rébellion. Le type décide comment la guerre reçoit son nom, quelle icône elle affiche, si les alliés s'en mêlent, et quelques règles sur la façon dont elle peut finir. Il n'y en a que cinq en vanilla, donc un nouveau se remarque.
 
-Cette page crée la **Querelle de Braise** : une guerre qui entraîne les alliés des deux camps, reçoit des noms comme "Cinder Feud of Karvia", et peut se terminer par un complot de paix comme une guerre normale.
+Cette page crée la **Querelle de Braise** : une guerre qui entraîne les alliés des deux camps, reçoit des noms comme "Cinder Feud of Karvia", et peut se terminer par un complot (plot) de paix comme une guerre normale.
 
 ## Le code
 
@@ -89,7 +89,7 @@ namespace HelloBox
 | `path_icon` | L'icône de la guerre, chargée exactement comme écrite |
 | `kingdom_for_name_attacker` | Quel nom remplit `$kingdom$` : l'attaquant (`true`) ou le défenseur (`false`) |
 | `alliance_join` | Les alliances des deux camps rejoignent la guerre quand elle commence |
-| `total_war` | L'attaquant est en guerre avec **tous** les royaumes, comme les guerres de rancune. Lancez-la sans défenseur |
+| `total_war` | L'attaquant est en guerre avec **tous** les royaumes (kingdom), comme les guerres de rancune. Lancez-la sans défenseur |
 | `rebellion` | La marque comme rébellion, ce qui change qui peut rejoindre qui |
 | `can_end_with_plot` | Un roi peut la finir avec le complot de paix, une fois qu'elle est assez vieille |
 | `forced_war` | Lu seulement par une fonction utilitaire que rien n'appelle pour l'instant. Laissez-le désactivé |

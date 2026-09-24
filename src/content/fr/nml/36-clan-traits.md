@@ -14,7 +14,7 @@ Les traits de clan sont ce qui se rapproche le plus d'un super-pouvoir hérédit
 
 | | |
 | --- | --- |
-| Bibliothèque | `AssetManager.clan_traits` |
+| Bibliothèque (library) | `AssetManager.clan_traits` |
 | Classe | `ClanTrait` |
 | Groupes | `AssetManager.clan_trait_groups`, classe `ClanTraitGroupAsset` |
 | Propriétaire à l'exécution | `Clan`, dans `World.world.clans` |
@@ -53,7 +53,7 @@ namespace HelloBox
 }
 ```
 
-Les `base_stats` de clan sont fusionnées dans chaque membre du clan. Contrairement à la religion, il s'agit donc d'un véritable système de statistiques. Consultez l'ordre de fusion dans la **[Référence des stats](#/nml/stats)**.
+Les `base_stats` de clan sont fusionnées dans chaque membre du clan. Contrairement à la religion, il s'agit donc d'un véritable système de statistiques (stats). Consultez l'ordre de fusion dans la **[Référence des stats](#/nml/stats)**.
 
 ## La différenciation mâle / femelle
 
@@ -69,7 +69,7 @@ trait.base_stats_female["intelligence"] = 4;   // femelles uniquement
 
 ## Décisions : ce qu'un clan *fait*
 
-Les traits de clan du jeu de base reposent principalement sur des décisions plutôt que sur des actions, car un clan est avant tout une structure sociale :
+Les traits de clan du jeu de base reposent principalement sur des décisions (decision) plutôt que sur des actions, car un clan est avant tout une structure sociale :
 
 ```csharp
 trait.addDecision("banish_unruly_clan_members");
@@ -110,7 +110,7 @@ Plusieurs traits de clan de vanilla constituent des récompenses plutôt que des
 trait.setUnlockedWithAchievement("achievementSegregator");
 ```
 
-Un trait verrouillé existe et fonctionne normalement ; le joueur ne peut simplement pas le sélectionner dans l'éditeur avant d'avoir validé le succès. Notez que `BaseTraitLibrary` applique également automatiquement `rarity = R3_Legendary` à tout élément verrouillé de la sorte, pour que votre récompense ait fière allure :gold_star:.
+Un trait verrouillé existe et fonctionne normalement ; le joueur ne peut simplement pas le sélectionner dans l'éditeur avant d'avoir validé le succès (achievement). Notez que `BaseTraitLibrary` applique également automatiquement `rarity = R3_Legendary` à tout élément verrouillé de la sorte, pour que votre récompense ait fière allure :gold_star:.
 
 ## Les groupes vanilla
 

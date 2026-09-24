@@ -8,7 +8,7 @@ order: 28
 
 # Sprites e recursos :wbfanartist:
 
-Seu traço tem nome, atributos e uma descrição primorosa. Mas ele também tem um ponto de interrogação enorme e feio como ícone. Hora de consertar isso.
+Seu traço (trait) tem nome, atributos (stats) e uma descrição primorosa. Mas ele também tem um ponto de interrogação enorme e feio como ícone. Hora de consertar isso.
 
 ## Usando um ícone que o jogo já possui
 
@@ -65,7 +65,7 @@ Ao lado de suas imagens, um arquivo `sprites.json` explica ao NML como fatiar e 
 | Campo | O que faz |
 | --- | --- |
 | `PixelsPerUnit` | Mantenha em `1`, a menos que você tenha uma razão clara para alterar |
-| `PivotX` / `PivotY` | O ponto de ancoragem. `0.5 / 0.0` significa centro-inferior, exigido para unidades e construções |
+| `PivotX` / `PivotY` | O ponto de ancoragem. `0.5 / 0.0` significa centro-inferior, exigido para unidades e construções (building) |
 | `BorderL/R/T/B` | Bordas de 9-slice para molduras de janelas e botões redimensionáveis |
 | `Path` | O arquivo específico ao qual esta regra se aplica |
 
@@ -77,14 +77,14 @@ Esta é a tabela para a qual todo mundo volta. Cada asset aponta para a sua arte
 
 | Asset | Campo | O arquivo vai em |
 | --- | --- | --- |
-| Traço, poder divino, reino, grupo | `path_icon` | `GameResources/` + exatamente o que você escreveu |
+| Traço, poder divino (GodPower), reino (kingdom), grupo | `path_icon` | `GameResources/` + exatamente o que você escreveu |
 | Item, na mão de uma unidade | `path_gameplay_sprite` | `GameResources/` + exatamente o que você escreveu |
 | Construção | `sprite_path` | Uma **pasta**: `GameResources/` + `sprite_path` + `/`, com `main_0.png`, `construction_0.png`, `ruin_0.png`. Com `sprite_path` vazio é `main_path` + id, e `main_path` por padrão é `buildings/` |
 | Drop | `path_texture` | Uma **pasta**: `GameResources/` + exatamente o que você escreveu, um PNG por frame |
-| Nuvem | `path_sprites` | `GameResources/` + cada caminho da lista |
+| Nuvem (cloud) | `path_sprites` | `GameResources/` + cada caminho da lista |
 | Efeito de status | `texture` | Uma **pasta**: `GameResources/effects/` + o que você escreveu, um PNG por frame |
-| Projétil | `texture` | Uma **pasta**: `GameResources/effects/projectiles/` + o que você escreveu, um PNG por frame |
-| Recurso, carregado na mão | `path_gameplay_sprite` | Uma **pasta**: `GameResources/items/resources/` + o que você escreveu, um PNG por frame |
+| Projétil (projectile) | `texture` | Uma **pasta**: `GameResources/effects/projectiles/` + o que você escreveu, um PNG por frame |
+| Recurso (resource), carregado na mão | `path_gameplay_sprite` | Uma **pasta**: `GameResources/items/resources/` + o que você escreveu, um PNG por frame |
 | Recurso, ícone do inventário | `path_icon` | `GameResources/` + o que você escreveu. O vanilla usa um nome simples como `iconResBread`, então o arquivo fica na raiz |
 | Ladrilho e ladrilho superior | *(nenhum campo)* | `GameResources/tiles/<the tile's id>/` |
 

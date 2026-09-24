@@ -8,7 +8,7 @@ order: 184
 
 # Desastres :wbmeteorite:
 
-Un desastre es algo que el mundo se hace a sí mismo: un tornado, una ola de calor, un meteorito. El juego evalúa su aparición periódicamente a medida que pasa el tiempo, por lo que a diferencia de un poder divino, **nadie tiene que hacer clic en nada**. Tú defines las condiciones y el mundo hace el resto.
+Un desastre (disaster) es algo que el mundo se hace a sí mismo: un tornado, una ola de calor, un meteorito. El juego evalúa su aparición periódicamente a medida que pasa el tiempo, por lo que a diferencia de un poder divino (GodPower), **nadie tiene que hacer clic en nada**. Tú defines las condiciones y el mundo hace el resto.
 
 ## Añadir un desastre
 
@@ -130,7 +130,7 @@ log.locale_id = "worldlog_disaster_hello_ember_storm";   // the text key
 log.path_icon = "ui/Icons/iconHelloDisaster";            // the icon next to the line
 ```
 
-Luego algo tiene que escribir la línea en el log. Los generadores vanilla llaman a `WorldLog.logDisaster(pAsset, tile)` automáticamente. Una `action` personalizada no lo hace sola, por lo que la tuya lo invoca pasándole la casilla donde comenzó la tormenta: esa es la posición a la que salta el botón del registro.
+Luego algo tiene que escribir la línea en el log. Los generadores vanilla llaman a `WorldLog.logDisaster(pAsset, tile)` automáticamente. Una `action` personalizada no lo hace sola, por lo que la tuya lo invoca pasándole la casilla (tile) donde comenzó la tormenta: esa es la posición a la que salta el botón del registro.
 
 | Campo de `WorldLogAsset` | Qué hace |
 | --- | --- |

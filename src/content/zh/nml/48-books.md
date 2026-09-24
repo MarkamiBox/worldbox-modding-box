@@ -18,7 +18,7 @@ order: 187
 
 1. 一个单位决定写书。游戏收集所有对这个单位 `requirement_check` 通过的书籍类型。
 2. 每种类型按 `writing_rate` 次（如果设置了 `rate_calc` 就按它的次数）放进袋子，**最多 10 次**，然后抽出一个。
-3. 书需要作者所在**城市**里有一栋带空书位的建筑。没有图书馆，就没有书。
+3. 书需要作者所在**城市**里有一栋带空书位的建筑（building）。没有图书馆，就没有书。
 4. 书名来自 `name_template` 里的名字生成器，封面来自 `path_icons` 里的文件夹。
 5. 之后，有人读了这本书，得到下面的奖励。
 
@@ -84,22 +84,22 @@ namespace HelloBox
 }
 ```
 
-这个文件**替换**语言特质页面里的 `HelloBooks.cs`，它就是同一个类长大后的样子。`HelloBooks.Initialize()` 要放在它用到的特质和状态之后。
+这个文件**替换**语言特质（trait）页面里的 `HelloBooks.cs`，它就是同一个类长大后的样子。`HelloBooks.Initialize()` 要放在它用到的特质和状态（status）之后。
 
 ## 读书能得到什么
 
 `base_stats` 里的数值不是会消失的增益。每读一次就发放一次：
 
-| 属性 | 读者得到什么 |
+| 属性（stats） | 读者得到什么 |
 | --- | --- |
 | `happiness` | 这么多幸福度，作为"刚读完一本书"事件。负数也行，用于让人消沉的书 |
 | `experience` | 这么多经验 |
 | `mana` | 这么多法力 |
 | `diplomacy`、`warfare`、`stewardship`、`intelligence` | **永久**加到读者身上。每读一次加一次 |
 
-最后一行最强。一本给 `intelligence = 1` 的书，会让爱读书的城市一代比一代聪明，所以数值要小。一本 +10 的书，就是 50 年内得到一个天才王国的方法 :wbgenius:。
+最后一行最强。一本给 `intelligence = 1` 的书，会让爱读书的城市一代比一代聪明，所以数值要小。一本 +10 的书，就是 50 年内得到一个天才王国（kingdom）的方法 :wbgenius:。
 
-语言和文化特质能改变前两项：拥有 `beautiful_calligraphy` 的语言会让幸福度更高，拥有 `reading_lovers` 的文化会把悲伤的书变成开心的书。
+语言和文化（culture）特质能改变前两项：拥有 `beautiful_calligraphy` 的语言会让幸福度更高，拥有 `reading_lovers` 的文化会把悲伤的书变成开心的书。
 
 ## 重要字段
 
@@ -112,7 +112,7 @@ namespace HelloBox
 | `read_action` | 你自己的代码，每读一次运行一次 |
 | `path_icons` | `books/book_icons/` 下的一个文件夹，作为图片列表读取。每本书挑一张 |
 | `color_text` | 界面里书名的颜色 |
-| `save_culture` / `save_religion` | 书是否记住作者的文化和宗教。默认都开启，对传播信仰的书很重要 |
+| `save_culture` / `save_religion` | 书是否记住作者的文化和宗教（religion）。默认都开启，对传播信仰的书很重要 |
 
 ## 书名生成器
 

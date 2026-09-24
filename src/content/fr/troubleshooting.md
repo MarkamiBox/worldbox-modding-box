@@ -45,12 +45,12 @@ Trouvez votre symptôme dans le tableau, cliquez dessus, lisez trois lignes. C'e
 
 | Symptôme | |
 | --- | --- |
-| Crash sur la ligne où vous définissez une statistique | [aller](#crash-sur-la-ligne-où-vous-définissez-une-statistique) |
+| Crash sur la ligne où vous définissez une statistique (stats) | [aller](#crash-sur-la-ligne-où-vous-définissez-une-statistique) |
 | Même crash alors que l'ordre est déjà correct | [aller](#même-crash-alors-que-l-ordre-est-déjà-correct) |
-| Votre bâtiment meurt instantanément ou n'a pas de taille | [aller](#votre-bâtiment-meurt-instantanément-ou-n-a-pas-de-taille) |
+| Votre bâtiment (building) meurt instantanément ou n'a pas de taille | [aller](#votre-bâtiment-meurt-instantanément-ou-n-a-pas-de-taille) |
 | Enregistré, mais visible dans aucun onglet | [aller](#enregistré-mais-visible-dans-aucun-onglet) |
 | Affiche `trait_hello_swift` au lieu d'un nom | [aller](#affiche-trait-hello-swift-au-lieu-d-un-nom) |
-| Les noms fonctionnent pour les traits mais pas pour les objets/statuts/pouvoirs | [aller](#les-noms-fonctionnent-pour-les-traits-mais-pas-pour-les-objets-statuts-pouvoirs) |
+| Les noms fonctionnent pour les traits mais pas pour les objets/statuts (status)/pouvoirs | [aller](#les-noms-fonctionnent-pour-les-traits-mais-pas-pour-les-objets-statuts-pouvoirs) |
 | L'icône est un carré transparent vide | [aller](#l-icône-est-un-carré-transparent-vide) |
 | Un bouton prend de la place et ne dessine rien | [aller](#un-bouton-prend-de-la-place-et-ne-dessine-rien) |
 | L'effet de statut n'affiche aucun sprite sur l'unité | [aller](#l-effet-de-statut-n-affiche-aucun-sprite-sur-l-unité) |
@@ -65,7 +65,7 @@ Trouvez votre symptôme dans le tableau, cliquez dessus, lisez trois lignes. C'e
 | Votre créature déclenche une erreur d'ombre | [aller](#votre-créature-déclenche-une-erreur-d-ombre) |
 | Votre trait, objet ou créature reste verrouillé | [aller](#votre-trait-objet-ou-créature-reste-verrouillé) |
 | Le jeu plante en chargeant votre arme ou votre nourriture | [aller](#le-jeu-plante-en-chargeant-votre-arme-ou-votre-nourriture) |
-| Un nuage plante dès qu'il apparaît | [aller](#un-nuage-plante-dès-qu-il-apparaît) |
+| Un nuage (cloud) plante dès qu'il apparaît | [aller](#un-nuage-plante-dès-qu-il-apparaît) |
 | Poser votre bâtiment lance Index was out of range | [aller](#poser-votre-bâtiment-lance-index-was-out-of-range) |
 | Votre bâtiment plante à chaque frame où il est visible | [aller](#votre-bâtiment-plante-à-chaque-frame-où-il-est-visible) |
 | La minicarte plante dès que votre bâtiment existe | [aller](#la-minicarte-plante-dès-que-votre-bâtiment-existe) |
@@ -75,11 +75,11 @@ Trouvez votre symptôme dans le tableau, cliquez dessus, lisez trois lignes. C'e
 | Le log se remplit d'ArgumentNullException venant des projectiles | [aller](#le-log-se-remplit-d-argumentnullexception-venant-des-projectiles) |
 | Votre onglet de pouvoirs n'apparaît jamais | [aller](#votre-onglet-de-pouvoirs-n-apparaît-jamais) |
 | La fenêtre des réglages affiche des ids bruts | [aller](#la-fenêtre-des-réglages-affiche-des-ids-bruts) |
-| Le monde lève une erreur à chaque frame après l'ajout d'un comportement du monde | [aller](#le-monde-lève-une-erreur-à-chaque-frame-après-l-ajout-d-un-comportement-du-monde) |
+| Le monde lève une erreur à chaque frame après l'ajout d'un comportement (behaviour) du monde | [aller](#le-monde-lève-une-erreur-à-chaque-frame-après-l-ajout-d-un-comportement-du-monde) |
 | Une catastrophe plante lorsqu'elle écrit dans le journal du monde | [aller](#une-catastrophe-plante-lorsqu-elle-écrit-dans-le-journal-du-monde) |
 | Une catastrophe sans action plante dès qu'elle est tirée au sort | [aller](#une-catastrophe-sans-action-plante-dès-qu-elle-est-tirée-au-sort) |
-| Le premier dirigeant qui évalue votre complot plante | [aller](#le-premier-dirigeant-qui-évalue-votre-complot-plante) |
-| Votre décision, complot, gène ou arme existe mais rien ne l'utilise jamais | [aller](#votre-décision-complot-gène-ou-arme-existe-mais-rien-ne-l-utilise-jamais) |
+| Le premier dirigeant qui évalue votre complot (plot) plante | [aller](#le-premier-dirigeant-qui-évalue-votre-complot-plante) |
+| Votre décision (decision), complot, gène ou arme existe mais rien ne l'utilise jamais | [aller](#votre-décision-complot-gène-ou-arme-existe-mais-rien-ne-l-utilise-jamais) |
 
 **Compile chez vous, mais pas chez les autres**
 
@@ -237,7 +237,7 @@ NML a trouvé votre mod et l'a exécuté. Quelque chose à l'intérieur n'est ja
 ### Crash sur la ligne où vous définissez une statistique
 
 - **Ce que vous voyez**: `NullReferenceException` dans votre `Initialize()`.
-- **Pourquoi**: Un nouvel asset n'a **aucun bloc de statistiques**. La bibliothèque le crée dans `add()`.
+- **Pourquoi**: Un nouvel asset n'a **aucun bloc de statistiques**. La bibliothèque (library) le crée dans `add()`.
 - **Solution**: D'abord `add()`, puis les statistiques. Même règle pour les traits, statuts, objets, bâtiments et créatures.
 
 ```csharp
@@ -341,14 +341,14 @@ Chaque entrée de cette section a la même cause. Le jeu prépare une partie de 
 
 ### Votre trait, objet ou créature reste verrouillé
 
-- **Ce que vous voyez**: Il existe, mais le livre des connaissances l'affiche en gris et le joueur ne peut pas l'utiliser tant qu'il n'est pas apparu dans un monde.
-- **Pourquoi**: `needs_to_be_explored` vaut `true` par défaut sur tout ce qui se débloque : acteurs, les sept types de traits, objets, modificateurs et lois du monde.
+- **Ce que vous voyez**: Il existe, mais le livre (book) des connaissances l'affiche en gris et le joueur ne peut pas l'utiliser tant qu'il n'est pas apparu dans un monde.
+- **Pourquoi**: `needs_to_be_explored` vaut `true` par défaut sur tout ce qui se débloque : acteurs, les sept types de traits, objets, modificateurs (modifier) et lois du monde (world law).
 - **Solution**: `needs_to_be_explored = false` à la création. Voir **[Traits personnalisés](#/nml/custom-traits)**.
 
 ### Le jeu plante en chargeant votre arme ou votre nourriture
 
 - **Ce que vous voyez**: `ArgumentNullException: Value cannot be null. Parameter name: key` dans `ItemLibrary.loadSprites()` ou `ResourceLibrary.loadSprites()`.
-- **Pourquoi**: Les armes reçoivent `path_gameplay_sprite`, et les ressources `full_sprite_path`, déduits dans `post_init()` pendant le chargement du jeu. Les vôtres restent `null`.
+- **Pourquoi**: Les armes reçoivent `path_gameplay_sprite`, et les ressources (resource) `full_sprite_path`, déduits dans `post_init()` pendant le chargement du jeu. Les vôtres restent `null`.
 - **Solution**: Définissez-les vous-même. Voir **[Objets personnalisés](#/nml/custom-items)** et **[Ressources et nourriture](#/nml/resources)**.
 
 ### Un nuage plante dès qu'il apparaît
@@ -396,7 +396,7 @@ Chaque entrée de cette section a la même cause. Le jeu prépare une partie de 
 ### Le log se remplit d'ArgumentNullException venant des projectiles
 
 - **Ce que vous voyez**: Des milliers d'`ArgumentNullException: Value cannot be null` dans `ProjectileManager.updateProjectiles()` tant qu'un projectile est en l'air.
-- **Pourquoi**: Un projectile sans tireur n'a pas de royaume, et le gestionnaire utilise le royaume comme clé de dictionnaire à chaque frame.
+- **Pourquoi**: Un projectile sans tireur n'a pas de royaume (kingdom), et le gestionnaire utilise le royaume comme clé de dictionnaire à chaque frame.
 - **Solution**: Donnez-lui-en un : `pForcedKingdom: World.world.kingdoms_wild.get("nature")`, le propriétaire neutre du jeu lui-même.
 
 ### Votre onglet de pouvoirs n'apparaît jamais
@@ -527,8 +527,8 @@ Les lents. Votre mod marchait très bien hier, et rien n'a changé :PES2_Shrug:.
 
 ### Une unité reste immobile pour toujours ou plante à chaque frame
 
-- **Ce que vous voyez** : Une unité figée sans nom de tâche, ou une trace de pile à chaque tick.
-- **Pourquoi** : Un id de **tâche** inconnu est une opération vide, silencieuse et permanente ; un id de **métier** inconnu est un crash à chaque tick.
+- **Ce que vous voyez** : Une unité figée sans nom de tâche (task), ou une trace de pile à chaque tick.
+- **Pourquoi** : Un id de **tâche** inconnu est une opération vide, silencieuse et permanente ; un id de **métier** (job) inconnu est un crash à chaque tick.
 - **Solution** : Vérifiez vos ids une fois au chargement, enregistrez les tâches avant le métier qui les liste, et ne donnez jamais à `next_job_delegate` un id que vous n'avez pas vérifié.
 
 ### Votre comportement d'IA personnalisée se réinitialise discrètement

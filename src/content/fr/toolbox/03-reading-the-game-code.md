@@ -52,7 +52,7 @@ Tu sais maintenant qu'elle prend une chaîne, renvoie un booléen et possède un
 
 ### 3. Voir comment le jeu s'y prend
 
-C'est la meilleure astuce. Tu veux créer une loi du monde qui fonctionne ? Trouve `WorldLawLibrary`, ouvre `init()`, et lis ce que les développeurs ont eux-mêmes écrit :
+C'est la meilleure astuce. Tu veux créer une loi du monde (world law) qui fonctionne ? Trouve `WorldLawLibrary`, ouvre `init()`, et lis ce que les développeurs ont eux-mêmes écrit :
 
 ```csharp Assembly-CSharp / WorldLawLibrary.init()
 world_law_mutant_box = add(new WorldLawAsset

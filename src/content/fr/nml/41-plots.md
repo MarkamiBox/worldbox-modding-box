@@ -8,7 +8,7 @@ order: 180
 
 # Complots :wbrebellion:
 
-Un **complot** (plot) est un projet qu'un dirigeant initie, finance et développe pendant un certain temps : une rébellion, une nouvelle guerre, une alliance. Lorsque la barre de progression est pleine, votre code s'exécute. Tout ce qui sépare "quelqu'un pourrait" de "quelqu'un l'a fait" est géré par le moteur du jeu, et c'est tout l'intérêt de l'utiliser : le joueur voit votre complot dans la liste, avec son auteur, sa progression et sa bannière, sans surcoût.
+Un **complot** (plot) est un projet qu'un dirigeant initie, finance et développe pendant un certain temps : une rébellion, une nouvelle guerre (war), une alliance. Lorsque la barre de progression est pleine, votre code s'exécute. Tout ce qui sépare "quelqu'un pourrait" de "quelqu'un l'a fait" est géré par le moteur du jeu, et c'est tout l'intérêt de l'utiliser : le joueur voit votre complot dans la liste, avec son auteur, sa progression et sa bannière, sans surcoût.
 
 ## En ajouter un
 
@@ -84,7 +84,7 @@ Un dirigeant avec dix pièces, une ville et du temps libre peut désormais organ
 | --- | --- |
 | `can_be_done_by_king` / `can_be_done_by_leader` / `can_be_done_by_clan_member` | Les rôles autorisés. Si aucun n'est défini, personne ne peut le lancer |
 | `min_level`, `min_renown_actor`, `min_renown_kingdom` | Seuils requis sur l'auteur |
-| `min_intelligence`, `min_diplomacy`, `min_warfare`, `min_stewardship` | Seuils de statistiques. Valeur par défaut : 2 |
+| `min_intelligence`, `min_diplomacy`, `min_warfare`, `min_stewardship` | Seuils de statistiques (stats). Valeur par défaut : 2 |
 | `money_cost` | Coût au démarrage, sauf si le complot est forcé par le joueur |
 | `requires_diplomacy` / `requires_rebellion` | Disponible uniquement tant que cette loi mondiale est active |
 | `check_is_possible` | Votre condition de lancement. Obligatoire |

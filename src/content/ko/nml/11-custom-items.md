@@ -10,7 +10,7 @@ order: 120
 
 무기, 갑옷, 반지, 목걸이는 모두 `AssetManager.items` 라이브러리에 `EquipmentAsset`이라는 클래스로 저장됩니다.
 
-가장 먼저 이해해야 할 핵심은, **런타임에 재질을 골라 끼울 수 있는 단일 "검" 아이템 같은 것은 존재하지 않는다**는 사실입니다. 게임 안에는 `sword_wood`, `sword_stone`, `sword_copper`, `sword_bronze`, `sword_silver`, `sword_iron`, `sword_steel`, `sword_mythril`, `sword_adamantine`이 개별적으로 존재합니다. 비용, 능력치, `material` 문자열이 제각각 다른 9개의 완전한 별개 에셋입니다. 모든 갑옷 부위, 모든 활, 모든 목걸이도 마찬가지입니다.
+가장 먼저 이해해야 할 핵심은, **런타임에 재질을 골라 끼울 수 있는 단일 "검" 아이템 같은 것은 존재하지 않는다**는 사실입니다. 게임 안에는 `sword_wood`, `sword_stone`, `sword_copper`, `sword_bronze`, `sword_silver`, `sword_iron`, `sword_steel`, `sword_mythril`, `sword_adamantine`이 개별적으로 존재합니다. 비용, 능력치 (stats), `material` 문자열이 제각각 다른 9개의 완전한 별개 에셋입니다. 모든 갑옷 부위, 모든 활, 모든 목걸이도 마찬가지입니다.
 
 그렇기 때문에 복제(`clone`)는 여기서 단순히 편한 방법이 아니라, 유일하게 제정신을 유지할 수 있는 방법입니다.
 
@@ -128,7 +128,7 @@ namespace HelloBox
 | `path_gameplay_sprite` | 유닛의 손에 들려있는 스프라이트 |
 | `colored`, `animated` | 색상 틴팅 적용 여부, 애니메이션 여부 |
 | `path_slash_animation` | 공격 휘두르기 이펙트 |
-| `projectile` | 원거리 무기일 때 발사될 투사체. **[투사체, 주문 및 이펙트](#/nml/projectiles-spells)** 참조 |
+| `projectile` | 원거리 무기일 때 발사될 투사체 (projectile). **[투사체, 주문 및 이펙트](#/nml/projectiles-spells)** 참조 |
 | `name_class`, `name_templates` | 전설 등급이 되었을 때의 작명 규칙 |
 
 ### Behaviour
@@ -140,14 +140,14 @@ namespace HelloBox
 | `action_attack_target` | 공격이 적중할 때마다 실행됩니다 |
 | `action_special_effect` + `special_effect_interval` | 장착하고 있는 동안 타이머로 실행됩니다 |
 | `item_modifier_ids` | 붙을 수 있는 인챈트. **[무기 인챈트](#/nml/item-modifiers)** 참고 |
-| `addSpell(id)` + `linkSpells()` | 착용자가 시전할 수 있는 주문. 연결은 직접 호출해야 합니다, 아래 참고 |
-| `addCombatAction(id)` | 컴파일은 되지만 아이템에서는 아무것도 하지 않습니다: 유닛은 전투 행동을 특성(과 아종, 씨족, 종교)에서 모으고, 장비에서는 절대 모으지 않습니다. 특성에 붙이세요. **[투사체, 주문과 효과](#/nml/projectiles-spells)** 참고 |
+| `addSpell(id)` + `linkSpells()` | 착용자가 시전할 수 있는 주문 (spell). 연결은 직접 호출해야 합니다, 아래 참고 |
+| `addCombatAction(id)` | 컴파일은 되지만 아이템에서는 아무것도 하지 않습니다: 유닛은 전투 행동을 특성 (trait)(과 아종 (subspecies), 씨족 (clan), 종교 (religion))에서 모으고, 장비에서는 절대 모으지 않습니다. 특성에 붙이세요. **[투사체, 주문과 효과](#/nml/projectiles-spells)** 참고 |
 
 게임은 이 ID들을 시작할 때, 여러분의 모드가 로드되기 전에 한 번만 객체로 바꿉니다. 직접 등록한 아이템에서는 마지막에 `linkSpells()`를 호출하고, `decisions_assets`를 직접 설정하세요(그쪽에는 연결 메서드가 없습니다). 그러지 않으면 부여가 아무 효과도 없습니다. **[커스텀 AI](#/nml/custom-ai)**를 보세요.
 
 ## 장착 중에만 발동하는 효과
 
-"엠버 블레이드를 든 사람은 신속해진다"는 특성처럼 들리지만, 아이템에는 특성을 붙일 수 없습니다. 대신 위 표의 `action_special_effect`로 장착 중 일정 간격마다 코드를 실행할 수 있고, **상태 효과**는 내버려 두면 스스로 만료됩니다. 즉 아이템이 짧은 상태 효과를 주기적으로 다시 걸어 주고, 아이템을 빼면 상태 효과는 그대로 자연스럽게 사라집니다:
+"엠버 블레이드를 든 사람은 신속해진다"는 특성처럼 들리지만, 아이템에는 특성을 붙일 수 없습니다. 대신 위 표의 `action_special_effect`로 장착 중 일정 간격마다 코드를 실행할 수 있고, **상태 효과** (status)는 내버려 두면 스스로 만료됩니다. 즉 아이템이 짧은 상태 효과를 주기적으로 다시 걸어 주고, 아이템을 빼면 상태 효과는 그대로 자연스럽게 사라집니다:
 
 ```csharp Mods/HelloBox/Code/HelloItems.cs
 blade.special_effect_interval = 1f;
@@ -337,7 +337,7 @@ namespace HelloBox
 | --- | --- |
 | `path_gameplay_sprite` | 프레임 폴더 경로입니다. 바니라는 ID를 기반으로 `items/tools/tool_<id>`를 지정합니다 |
 | `animated` | 커피잔처럼 프레임을 반복 재생할지 여부 |
-| `colored` | 깃발처럼 왕국 색상으로 염색할지 여부 |
+| `colored` | 깃발처럼 왕국 (kingdom) 색상으로 염색할지 여부 |
 
 > [!TIP] 무기보다 인챈트를 먼저 만들어 보세요
 > 새로운 무기를 만드는 데는 스프라이트, 재료 라인업, 비용 및 밸런스 작업이 필요합니다. 반면 새로운 **모디파이어(인챈트)**는 단 20줄이면 구현되며 다른 모드의 무기를 포함한 게임 내 모든 무기에 적용됩니다. 오늘 밤 당장 색다른 재미를 느끼고 싶다면 **[무기 인챈트](#/nml/item-modifiers)**를 먼저 읽어보세요 :PESgn_DoIt:.

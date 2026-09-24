@@ -8,7 +8,7 @@ order: 180
 
 # 阴谋与策划分录 :wbrebellion:
 
-**阴谋 (Plot)** 是统治者发起、出资并耗时推演的长期密谋：发起叛乱、发动新战争、缔结同盟。当阴谋进度条填满时，你编写的代码便会触发执行。从“某人起意”到“某事成真”的所有中间调度完全由游戏原生系统托管——这也正是使用该系统的核心价值：玩家可以在阴谋面板中清晰看到你的阴谋，带有发起者、进度条和独立旗帜，全套 UI 均开箱即用。
+**阴谋 (Plot)** 是统治者发起、出资并耗时推演的长期密谋：发起叛乱、发动新战争（war）、缔结同盟。当阴谋进度条填满时，你编写的代码便会触发执行。从“某人起意”到“某事成真”的所有中间调度完全由游戏原生系统托管——这也正是使用该系统的核心价值：玩家可以在阴谋面板中清晰看到你的阴谋，带有发起者、进度条和独立旗帜，全套 UI 均开箱即用。
 
 ## 注册一个阴谋
 
@@ -74,7 +74,7 @@ namespace HelloBox
 > 每当领袖评估是否要开展你的阴谋时，`PlotAsset.checkIsPossible()` 都会在没有 null 检查的情况下直接调用该委托。若未设置该字段，第一个尝试扫描该阴谋的领袖就会直接触发 `NullReferenceException` 崩溃。若无特殊前置条件，请务必直接返回 `true`。没错，就算那样也要。
 
 > [!WARNING] 基础阴谋池在启动时已构建完成
-> 领袖只会从 `plots_library.basic_plots`（以及其所在宗教的仪式池）中挑选阴谋。`linkAssets()` 在游戏启动、你的模组载入之前，就已经把标记了 `is_basic_plot` 的阴谋收集进了该列表。因此仅设置布尔标志是不够的：你必须在代码里手动将其加入该列表。
+> 领袖只会从 `plots_library.basic_plots`（以及其所在宗教（religion）的仪式池）中挑选阴谋。`linkAssets()` 在游戏启动、你的模组载入之前，就已经把标记了 `is_basic_plot` 的阴谋收集进了该列表。因此仅设置布尔标志是不够的：你必须在代码里手动将其加入该列表。
 
 ## 字段全解析
 
@@ -84,9 +84,9 @@ namespace HelloBox
 | --- | --- |
 | `can_be_done_by_king` / `can_be_done_by_leader` / `can_be_done_by_clan_member` | 允许发起该阴谋的身份角色。若均未启用则无人能发起 |
 | `min_level`, `min_renown_actor`, `min_renown_kingdom` | 发起者需达到的最低等级与声望门槛 |
-| `min_intelligence`, `min_diplomacy`, `min_warfare`, `min_stewardship` | 属性门槛。默认值均为 2 |
+| `min_intelligence`, `min_diplomacy`, `min_warfare`, `min_stewardship` | 属性（stats）门槛。默认值均为 2 |
 | `money_cost` | 启动资金消耗（玩家手动强制发起时免费） |
-| `requires_diplomacy` / `requires_rebellion` | 仅在对应的世界法则开启时才允许触发 |
+| `requires_diplomacy` / `requires_rebellion` | 仅在对应的世界法则（world law）开启时才允许触发 |
 | `check_is_possible` | 启动前置判定委托（必填） |
 
 ### 推演与执行流程

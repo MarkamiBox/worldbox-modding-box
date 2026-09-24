@@ -8,7 +8,7 @@ order: 178
 
 # 王国と勢力 :wbkingdoms:
 
-WorldBoxのすべてのユニットはいずれかの王国に所属しています。文明種族だけではありません。オオカミはオオカミの王国に、盗賊は盗賊の勢力に、中立のニワトリは中立の王国に属しています。`KingdomAsset` は勢力の**種類**を定義するものであり、マップ上の個別の王国ではありません。
+WorldBoxのすべてのユニットはいずれかの王国（kingdom）に所属しています。文明種族だけではありません。オオカミはオオカミの王国に、盗賊は盗賊の勢力に、中立のニワトリは中立の王国に属しています。`KingdomAsset` は勢力の**種類**を定義するものであり、マップ上の個別の王国ではありません。
 
 この違いをしっかり押さえておきましょう：
 
@@ -80,7 +80,7 @@ asset.kingdom_id_civilization = HelloKingdoms.CIV;
 
 | フィールド | 役割 |
 | --- | --- |
-| `civ` | 都市を築き、戦争を行い、指導者を持つ |
+| `civ` | 都市を築き、戦争（war）を行い、指導者を持つ |
 | `nomads` | 定住前の放浪段階 |
 | `nature` | 野生動物 |
 | `mobs` | 敵対的モンスター |
@@ -110,7 +110,7 @@ kingdom.addFriendlyTag("neutral"); // 誰を味方とみなすか
 kingdom.addEnemyTag("orc");        // 誰を敵とみなすか
 ```
 
-2つの王国はタグを比較し合って初期の外交関係を決定します。タグを持たない勢力は誰も好まず、誰も嫌わず、何も面白い行動を起こしません。
+2つの王国はタグを比較し合って初期の外交関係を決定します。タグを持たない勢力は誰も好まず、誰も嫌わず、何も面白い行動（behaviour）を起こしません。
 
 ### 外観
 
@@ -128,11 +128,11 @@ kingdom.addEnemyTag("orc");        // 誰を敵とみなすか
 | --- | --- | --- |
 | 旗・紋章 | `AssetManager.kingdom_banners_library` | 自動生成される国旗 |
 | 色 | `AssetManager.kingdom_colors_library` | 王国に割り当てられるカラーパレット |
-| 王国特性 | `AssetManager.kingdoms_traits` | 国家方針（主に税率など）。**[王国特性](#/nml/kingdom-traits)** を参照 |
+| 王国特性（trait） | `AssetManager.kingdoms_traits` | 国家方針（主に税率など）。**[王国特性](#/nml/kingdom-traits)** を参照 |
 | 王国の職務 | `AssetManager.job_kingdom` | 勢力AIが取り組む課題 |
 | 王国のタスク | `AssetManager.tasks_kingdom` | それらの職務を支えるビヘイビアツリー |
 | 戦争の種類 | `AssetManager.war_types_library` | 宣戦布告可能な戦争のカテゴリ |
-| 建築様式 | `AssetManager.architecture_library` | 建物のグラフィック |
+| 建築様式 | `AssetManager.architecture_library` | 建物（building）のグラフィック |
 | 建築順序 | `AssetManager.city_build_orders` | 新しい都市が建てる施設とその優先順位 |
 | 名前ジェネレーター | `AssetManager.name_generator`, `AssetManager.name_sets` | 王国、都市、人名の命名ルール |
 
@@ -280,7 +280,7 @@ namespace HelloBox
 
 ## 他のシステムの旗・紋章
 
-旗を持つのは王国だけではありません。文化、宗教、氏族、言語、亜種、家族のそれぞれに専用の旗パーツライブラリ（`AssetManager.culture_banners_library` など）が存在します。それぞれパスのリストを持つ `main` アセットを1つ持ち、新規文化はそこからインデックスを抽選します。
+旗を持つのは王国だけではありません。文化（culture）、宗教（religion）、氏族（clan）、言語、亜種（subspecies）、家族のそれぞれに専用の旗パーツライブラリ（`AssetManager.culture_banners_library` など）が存在します。それぞれパスのリストを持つ `main` アセットを1つ持ち、新規文化はそこからインデックスを抽選します。
 
 ```csharp Mods/HelloBox/Code/HelloBanners.cs
 namespace HelloBox

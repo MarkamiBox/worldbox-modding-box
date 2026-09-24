@@ -44,7 +44,7 @@ Il nome vecchio non c'è più, quindi cerca il suo sostituto:
 - **[Campi degli asset](#/tools/fields)** per i campi degli asset. Cerca la parte del nome che ti ricordi.
 - **dnSpy**, che ha sempre ragione, perché legge il gioco che hai davvero. Gli strumenti di ricerca qui vengono rigenerati dopo gli update, ma possono restare indietro di qualche giorno su uno appena uscito. Come usarlo: **[Leggere il codice del gioco](#/toolbox/reading-the-game-code)**.
 
-Il trucco che uso di più: apri l'asset o il metodo vanilla che fa lo stesso lavoro del tuo e guarda come lo scrive **il gioco stesso** adesso. Se il gioco ha cambiato il modo di creare i tratti, i suoi tratti usano già il modo nuovo :PESgn_Noice:.
+Il trucco che uso di più: apri l'asset o il metodo vanilla che fa lo stesso lavoro (job) del tuo e guarda come lo scrive **il gioco stesso** adesso. Se il gioco ha cambiato il modo di creare i tratti (trait), i suoi tratti usano già il modo nuovo :PESgn_Noice:.
 
 ## 4. Controlla le patch di Harmony a mano
 
@@ -58,7 +58,7 @@ Una patch può anche andare storta senza nessun errore. Passale una per una e co
 
 Tornare a compilare non è il traguardo. Carica un mondo e controlla che ogni pezzo funzioni ancora: il tratto mostra la sua icona, l'oggetto cade, il potere fa apparire quello che deve.
 
-Un update nuovo può aggiungere un campo che gli asset vanilla adesso riempiono e i tuoi no. L'asset si carica, nessun errore, e semplicemente non fa niente. Confronta il tuo asset campo per campo con quello vanilla più simile nell'`init()` della sua libreria. Quello che il gioco adesso imposta e tu no è il tuo sospettato.
+Un update nuovo può aggiungere un campo che gli asset vanilla adesso riempiono e i tuoi no. L'asset si carica, nessun errore, e semplicemente non fa niente. Confronta il tuo asset campo per campo con quello vanilla più simile nell'`init()` della sua libreria (library). Quello che il gioco adesso imposta e tu no è il tuo sospettato.
 
 ## 6. Prova anche un salvataggio vecchio
 

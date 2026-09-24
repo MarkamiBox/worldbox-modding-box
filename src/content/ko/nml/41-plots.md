@@ -8,7 +8,7 @@ order: 180
 
 # 음모 :wbrebellion:
 
-**음모(Plot)**는 통치자가 계획을 세우고, 비용을 지불하며, 일정 기간 동안 추진하는 책략입니다(반란, 새로운 전쟁, 동맹 등). 진행도 게이지가 가득 차면 작성한 코드가 실행됩니다. "누군가 계획을 품고 실행에 옮기기까지"의 모든 과정은 게임의 자체 시스템이 처리해 줍니다. 플레이어는 음모 목록에서 주동자, 진행도, 전용 깃발과 함께 음모를 확인할 수 있습니다.
+**음모(Plot)**는 통치자가 계획을 세우고, 비용을 지불하며, 일정 기간 동안 추진하는 책략입니다(반란, 새로운 전쟁 (war), 동맹 등). 진행도 게이지가 가득 차면 작성한 코드가 실행됩니다. "누군가 계획을 품고 실행에 옮기기까지"의 모든 과정은 게임의 자체 시스템이 처리해 줍니다. 플레이어는 음모 목록에서 주동자, 진행도, 전용 깃발과 함께 음모를 확인할 수 있습니다.
 
 ## 음모 추가하기
 
@@ -84,7 +84,7 @@ namespace HelloBox
 | --- | --- |
 | `can_be_done_by_king` / `can_be_done_by_leader` / `can_be_done_by_clan_member` | 실행 가능한 직책. 아무것도 설정되지 않으면 아무도 시작할 수 없음 |
 | `min_level`, `min_renown_actor`, `min_renown_kingdom` | 주동자에게 요구되는 최소 레벨 및 명성치 |
-| `min_intelligence`, `min_diplomacy`, `min_warfare`, `min_stewardship` | 요구 능력치 기준값 (기본값: 2) |
+| `min_intelligence`, `min_diplomacy`, `min_warfare`, `min_stewardship` | 요구 능력치 (stats) 기준값 (기본값: 2) |
 | `money_cost` | 시작 시 소비되는 골드 비용 (플레이어 강제 실행 시 무료) |
 | `requires_diplomacy` / `requires_rebellion` | 해당 세계 법칙이 켜져 있을 때만 실행 가능 |
 | `check_is_possible` | 시작 가능 여부 판정 델리게이트 (필수) |
@@ -107,7 +107,7 @@ namespace HelloBox
 | `path_icon` | 음모 목록 및 깃발에 표시될 아이콘 |
 | `group_id` | 카테고리: `diplomacy`, `culture`, `rites_wrathful`, `rites_summoning`, `rites_merciful` |
 | `pot_rate` | 다른 음모 후보들과 비교한 선택 가중치 |
-| `is_basic_plot` | 모든 지도자가 시도 가능. false인 경우 종교 의식으로만 발생 (**[종교 특성](#/nml/religion-traits)** 참조) |
+| `is_basic_plot` | 모든 지도자가 시도 가능. false인 경우 종교 (religion) 의식으로만 발생 (**[종교 특성](#/nml/religion-traits)** 참조) |
 
 ## 텍스트 설정
 

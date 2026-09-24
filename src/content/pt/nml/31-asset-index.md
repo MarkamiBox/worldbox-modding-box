@@ -8,7 +8,7 @@ order: 94
 
 # Todas as bibliotecas de assets :wbworld:
 
-O `AssetManager` é o catálogo geral de tudo o que pode existir no jogo. Ele abriga **129 bibliotecas**, e cada uma delas é uma `List` combinada com um `Dictionary` que você pode ler, editar e expandir a partir do seu mod.
+O `AssetManager` é o catálogo geral de tudo o que pode existir no jogo. Ele abriga **129 bibliotecas (library)**, e cada uma delas é uma `List` combinada com um `Dictionary` que você pode ler, editar e expandir a partir do seu mod.
 
 Esta página é o índice completo. Você nunca encostará na maior parte delas. A razão de ser desta página é que, quando você quiser mudar algo no WorldBox, a primeira pergunta será sempre "em qual biblioteca isso fica?", e a resposta está aqui.
 
@@ -37,9 +37,9 @@ Os que você realmente vai usar são os quatro primeiros. O resto está aqui par
 | Biblioteca | Asset | O que contém |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | Cada tipo de criatura. **[Atores personalizados](#/nml/custom-actors)** |
-| `traits` | `ActorTrait` | Traços de criaturas. **[Traços personalizados](#/nml/custom-traits)** |
+| `traits` | `ActorTrait` | Traços (trait) de criaturas. **[Traços personalizados](#/nml/custom-traits)** |
 | `trait_groups` | `ActorTraitGroupAsset` | Suas abas. **[Grupos de traços e abas](#/nml/trait-groups)** |
-| `subspecies_traits` | `SubspeciesTrait` | Traços de subespécies e suas artes. **[Traços de subespécies](#/nml/subspecies-traits)** |
+| `subspecies_traits` | `SubspeciesTrait` | Traços de subespécies (subspecies) e suas artes. **[Traços de subespécies](#/nml/subspecies-traits)** |
 | `subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | Suas abas |
 | `phenotype_library` | `PhenotypeAsset` | Variantes de pele e cor |
 | `gene_library` | `GeneAsset` | Genes |
@@ -47,26 +47,26 @@ Os que você realmente vai usar são os quatro primeiros. O resto está aqui par
 | `trait_rains` | `TraitRainAsset` | Eventos de "chuva de traços" |
 | `personalities` | `PersonalityAsset` | Personalidades das unidades |
 | `professions` | `ProfessionAsset` | Profissões dos cidadãos |
-| `base_stats_library` | `BaseStatAsset` | Todos os atributos. **[Referência de atributos](#/nml/stats)** |
+| `base_stats_library` | `BaseStatAsset` | Todos os atributos (stats). **[Referência de atributos](#/nml/stats)** |
 
 ## Sociedades
 
 | Biblioteca | Asset | O que contém |
 | --- | --- | --- |
 | `kingdoms` | `KingdomAsset` | Tipos de facção. **[Reinos e facções](#/nml/kingdoms)** |
-| `kingdoms_traits` / `kingdoms_traits_groups` | `KingdomTrait` | Políticas do reino. **[Traços de reino](#/nml/kingdom-traits)** |
-| `culture_traits` / `culture_trait_groups` | `CultureTrait` | Culturas. **[Traços culturais](#/nml/culture-traits)** |
-| `religion_traits` / `religion_trait_groups` | `ReligionTrait` | Religiões. **[Traços religiosos](#/nml/religion-traits)** |
+| `kingdoms_traits` / `kingdoms_traits_groups` | `KingdomTrait` | Políticas do reino (kingdom). **[Traços de reino](#/nml/kingdom-traits)** |
+| `culture_traits` / `culture_trait_groups` | `CultureTrait` | Culturas (culture). **[Traços culturais](#/nml/culture-traits)** |
+| `religion_traits` / `religion_trait_groups` | `ReligionTrait` | Religiões (religion). **[Traços religiosos](#/nml/religion-traits)** |
 | `clan_traits` / `clan_trait_groups` | `ClanTrait` | Clãs. **[Traços de clã](#/nml/clan-traits)** |
 | `language_traits` / `language_trait_groups` | `LanguageTrait` | Idiomas. **[Traços de idioma](#/nml/language-traits)** |
-| `architecture_library` | `ArchitectureAsset` | Visual das construções de cada cultura |
+| `architecture_library` | `ArchitectureAsset` | Visual das construções (building) de cada cultura |
 | `city_build_orders` | `CityBuildOrderAsset` | O que uma nova cidade constrói e em que ordem |
-| `war_types_library` | `WarTypeAsset` | Tipos de guerra. **[Tipos de guerra](#/nml/war-types)** |
+| `war_types_library` | `WarTypeAsset` | Tipos de guerra (war). **[Tipos de guerra](#/nml/war-types)** |
 | `loyalty_library` | `LoyaltyAsset` | Fontes de lealdade |
 | `opinion_library` | `OpinionAsset` | Fontes de opinião |
 | `happiness_library` | `HappinessAsset` | Fontes de felicidade |
 | `plots_library` / `plot_category_library` | `PlotAsset` | Conspirações tramadas por unidades e sistemas |
-| `decisions_library` | `DecisionAsset` | Tomadas de decisão da IA |
+| `decisions_library` | `DecisionAsset` | Tomadas de decisão (decision) da IA |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | Temas de conversa entre unidades |
 | `book_types` | `BookTypeAsset` | Tipos de livros. **[Livros](#/nml/books)** |
 | `knowledge_library` | `KnowledgeAsset` | A janela de conhecimento |
@@ -84,7 +84,7 @@ Os que você realmente vai usar são os quatro primeiros. O resto está aqui par
 | `resources` | `ResourceAsset` | Comida, materiais, moeda. **[Recursos e comida](#/nml/resources)** |
 | `clouds` | `CloudAsset` | Clima. **[Nuvens e clima](#/nml/clouds)** |
 | `drops` | `DropAsset` | Coisas que caem. **[Gotas e coisas caindo](#/nml/drops-and-loot)** |
-| `disasters` | `DisasterAsset` | Desastres. **[Desastres](#/nml/disasters)** |
+| `disasters` | `DisasterAsset` | Desastres (disaster). **[Desastres](#/nml/disasters)** |
 | `projectiles` | `ProjectileAsset` | Objetos que voam. **[Projéteis, feitiços e efeitos](#/nml/projectiles-spells)** |
 | `effects_library` | `EffectAsset` | Efeitos visuais |
 | `months` | `MonthAsset` | O calendário |
@@ -92,7 +92,7 @@ Os que você realmente vai usar são os quatro primeiros. O resto está aqui par
 | `time_scales` | `WorldTimeScaleAsset` | Velocidades de simulação |
 | `map_sizes` | `MapSizeAsset` | Tamanhos de mapa |
 | `map_gen_settings` / `map_gen_templates` | `MapGenSettingsAsset` | Geração de mundos |
-| `world_behaviours` | `WorldBehaviourAsset` | Comportamentos globais de fundo |
+| `world_behaviours` | `WorldBehaviourAsset` | Comportamentos (behaviour) globais de fundo |
 | `sim_globals_library` | `SimGlobalAsset` | Constantes globais da simulação |
 
 ## Itens e combate
@@ -100,11 +100,11 @@ Os que você realmente vai usar são os quatro primeiros. O resto está aqui par
 | Biblioteca | Asset | O que contém |
 | --- | --- | --- |
 | `items` | `EquipmentAsset` | Armas, armaduras, materiais. **[Itens personalizados](#/nml/custom-items)** |
-| `items_modifiers` | `ItemModAsset` | Encantamentos. **[Encantamentos de armas](#/nml/item-modifiers)** |
+| `items_modifiers` | `ItemModAsset` | Encantamentos (modifier). **[Encantamentos de armas](#/nml/item-modifiers)** |
 | `item_groups` | `ItemGroupAsset` | Categorias de equipamento. **[Grupos de itens e abas](#/nml/item-groups)** |
-| `unit_hand_tools` | `UnitHandToolAsset` | Ferramentas empunhadas para trabalho |
+| `unit_hand_tools` | `UnitHandToolAsset` | Ferramentas empunhadas para trabalho (job) |
 | `status` | `StatusAsset` | Efeitos de status. **[Efeitos de status](#/nml/status-effects)** |
-| `spells` | `SpellAsset` | Feitiços conjurados por unidades |
+| `spells` | `SpellAsset` | Feitiços (spell) conjurados por unidades |
 | `combat_action_library` | `CombatActionAsset` | Golpes de combate |
 | `rarity_library` | `RarityAsset` | Graus de raridade |
 
@@ -112,9 +112,9 @@ Os que você realmente vai usar são os quatro primeiros. O resto está aqui par
 
 | Biblioteca | Asset | O que contém |
 | --- | --- | --- |
-| `powers` | `GodPower` | Poderes divinos. **[Poderes divinos](#/nml/god-powers)** |
+| `powers` | `GodPower` | Poderes divinos (GodPower). **[Poderes divinos](#/nml/god-powers)** |
 | `power_tab_library` | `PowerTabAsset` | Abas da barra inferior. **[Abas e botões de poderes](#/nml/power-buttons)** |
-| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | Leis do mundo. **[Leis do mundo](#/nml/world-laws)** |
+| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | Leis do mundo (world law). **[Leis do mundo](#/nml/world-laws)** |
 | `brush_library` | `BrushData` | Tamanhos de pincel |
 | `hotkey_library` | `HotkeyAsset` | Atalhos de teclado |
 | `debug_tool_library` | `DebugToolAsset` | Ferramentas de depuração |
@@ -183,7 +183,7 @@ Uma biblioteca para cada finalidade, todas utilizando os dois mesmos tipos de as
 | `music_box` | `MusicAsset` | Faixas musicais |
 | `game_language_library` | `GameLanguageAsset` | Idiomas da interface |
 | `locale_groups_library` | `LocaleGroupAsset` | Agrupamentos de localização |
-| `achievements` / `achievement_groups` | `Achievement` | Conquistas |
+| `achievements` / `achievement_groups` | `Achievement` | Conquistas (achievement) |
 | `signals` | `SignalAsset` | Sistema interno de sinais |
 
 ---

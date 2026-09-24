@@ -8,7 +8,7 @@ order: 122
 
 # Incantamenti delle armi :wbmagehrm:
 
-Conosci quelle piccole righe verdi su una buona spada: *"+3 danno"*, *"infuocata"*. Quelli sono i **modificatori di oggetto**, ed essi sono il modo più rapido per rendere il bottino entusiasmante, perché il gioco li estrae e li assegna automaticamente alle armi generate.
+Conosci quelle piccole righe verdi su una buona spada: *"+3 danno"*, *"infuocata"*. Quelli sono i **modificatori (modifier) di oggetto**, ed essi sono il modo più rapido per rendere il bottino entusiasmante, perché il gioco li estrae e li assegna automaticamente alle armi generate.
 
 ## La via semplice: il creator di NML
 
@@ -62,7 +62,7 @@ namespace HelloBox
 ```
 
 > [!WARNING] Registrarlo non basta
-> `add()` mette il tuo modificatore nella `list` della libreria, ma il generatore non legge `list`, legge `pools`. Quei pool vengono riempiti in `linkAssets()`, una volta sola, durante il caricamento. Un modificatore che sta solo in `list` esiste, ha un nome, e non verrà mai estratto su niente :wbfacepalm:.
+> `add()` mette il tuo modificatore nella `list` della libreria (library), ma il generatore non legge `list`, legge `pools`. Quei pool vengono riempiti in `linkAssets()`, una volta sola, durante il caricamento. Un modificatore che sta solo in `list` esiste, ha un nome, e non verrà mai estratto su niente :wbfacepalm:.
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -81,7 +81,7 @@ Aggiungi `HelloModifiers.Initialize();` a `Main.cs`, e da quel momento il gioco 
 | `mod_rank` | Livello nella famiglia. Aumenta anche il valore dell'arma |
 | `translation_key` | Chiave di localizzazione per la riga verde |
 | `rarity` | Frequenza di estrazione. Un numero maggiore indica maggiore probabilità |
-| `base_stats` | Il bonus alle statistiche |
+| `base_stats` | Il bonus alle statistiche (stats) |
 | `quality` | Qualità minima dell'arma richiesta per la comparsa |
 | `equipment_value` | Punteggio extra di utilità per l'IA |
 

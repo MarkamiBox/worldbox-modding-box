@@ -40,7 +40,7 @@ worldbox/ (C:\Program Files (x86)\Steam\steamapps\common\worldbox\)
 
 Du möchtest, dass dein eigenes Fenster genau wie das Original im Spiel aussieht. Also:
 
-1. Öffne im Spiel das Fenster, das dir gefällt (zum Beispiel die Weltgesetze).
+1. Öffne im Spiel das Fenster, das dir gefällt (zum Beispiel die Weltgesetze (world law)).
 2. Drücke F7, gehe zu **Object Explorer → Scene Explorer** und klappe `CanvasMain` → `canvas_ui` auf.
 3. Klicke dich durch die untergeordneten Elemente, bis das markierte Objekt genau dem geöffneten Fenster entspricht.
 4. Schau dir im Inspector die Komponenten an: das `Image` mit seinem 9-Slice-Sprite, die Abmessungen im `RectTransform`, das `ScrollRect`.

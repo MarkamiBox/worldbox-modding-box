@@ -68,7 +68,7 @@ Más adelante, cuando crees tu primer mod en la guía **[Tu primer mod](#/nml/yo
 Tres costumbres que hacen que la consola sea realmente útil:
 
 - **Ponle un prefijo a cada log** con el nombre de tu mod, como `[MiMod]`, para distinguir tus líneas al vuelo.
-- **Añade logs al inicio y al final** de cada paso de configuración. Si ves "registrando rasgos..." pero nunca "rasgos registrados", sabes con precisión quirúrgica dónde explotó el código.
+- **Añade logs al inicio y al final** de cada paso de configuración. Si ves "registrando rasgos (trait)..." pero nunca "rasgos registrados", sabes con precisión quirúrgica dónde explotó el código.
 - **Deja la consola en un segundo monitor** (o en media pantalla). Ver aparecer una línea en el instante exacto en que haces clic en un botón es el método de depuración más rápido del mundo :memes:.
 
 ## Cómo la usarás (Vista previa rápida)

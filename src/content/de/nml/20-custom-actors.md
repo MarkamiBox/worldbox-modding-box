@@ -11,7 +11,7 @@ order: 140
 > [!NOTE] Sie heißen Akteure, nicht Rassen
 > Das Spiel nennt jedes lebende Wesen einen **Akteur** (Actor): einen Menschen, einen Wolf, einen Drachen, einen Zombie, eine Krabbe. Sie alle stammen von derselben Klasse ab, `ActorAsset`, und leben alle in `AssetManager.actor_library`. "Rasse" ist die veraltete Bezeichnung. Der einzige Ort, an dem sie überlebt hat, ist eine `race`-Eigenschaft mit dem Vermerk `[Obsolete("use .original_actor_asset instead")]`, die nur noch existiert, um uralte Spielstände zu laden. Schreibe überall `actor`.
 
-Eine neue Kreatur ist die Mod, die jeder machen will und fast niemand fertigstellt, denn ein `ActorAsset` schleppt Animationen, Texturen, Sounds, Taxonomie, Ernährung, KI-Flags, Genom, Kultur und Statuswerte mit sich herum. Wenn du auch nur eines davon falsch machst, hast du eine unsichtbare Einheit, die regungslos im Ozean steht :PES4_Invisible:.
+Eine neue Kreatur ist die Mod, die jeder machen will und fast niemand fertigstellt, denn ein `ActorAsset` schleppt Animationen, Texturen, Sounds, Taxonomie, Ernährung, KI-Flags, Genom, Kultur (culture) und Statuswerte mit sich herum. Wenn du auch nur eines davon falsch machst, hast du eine unsichtbare Einheit, die regungslos im Ozean steht :PES4_Invisible:.
 
 Die gute Nachricht: Auch das Spiel baut Kreaturen nicht von Grund auf neu. Das hier ist wortwörtlich, wie Vanilla einen Elfen erschafft:
 
@@ -84,9 +84,9 @@ namespace HelloBox
 > `loadShadow()` ist `internal`, das braucht also eine **publizierte** `Assembly-CSharp.dll` wie der Rest des Leitfadens. Hast du keine, setz stattdessen `asset.shadow = false;`: kein Schatten, aber auch kein Fehler.
 
 > [!WARNING] `clone()` registriert bereits
-> `AssetManager.<library>.clone(newId, sourceId)` ruft intern `add()` auf. Jede Bibliothek funktioniert so. Rufst du danach selbst `add()` auf, ist das eine doppelte Registrierung: Die Bibliothek entfernt die erste Kopie, loggt einen Fehler und fügt sie neu hinzu. Harmlos, aber Rauschen in deinem Log, das echte Fehler schwerer auffindbar macht, und das Erste, was ein Prüfer sieht.
+> `AssetManager.<library>.clone(newId, sourceId)` ruft intern `add()` auf. Jede Bibliothek (library) funktioniert so. Rufst du danach selbst `add()` auf, ist das eine doppelte Registrierung: Die Bibliothek entfernt die erste Kopie, loggt einen Fehler und fügt sie neu hinzu. Harmlos, aber Rauschen in deinem Log, das echte Fehler schwerer auffindbar macht, und das Erste, was ein Prüfer sieht.
 >
-> Die Kehrseite ist die gute Nachricht: **Nach einem Klon existiert `base_stats` bereits**, also ist die Regel "Werte nach add" aus **[Eigene Merkmale](#/nml/custom-traits)** schon erfüllt.
+> Die Kehrseite ist die gute Nachricht: **Nach einem Klon existiert `base_stats` bereits**, also ist die Regel "Werte (stats) nach add" aus **[Eigene Merkmale](#/nml/custom-traits)** schon erfüllt.
 
 ## Mehrere Akteure auf einmal
 
@@ -176,7 +176,7 @@ Am ersten Tag zählen nur drei davon: `civ`, `actor_size` und `name_locale`. Der
 
 | Feld | Was es bewirkt |
 | --- | --- |
-| `civ` | Zivilisationswesen: Städte, Reiche, Berufe, Krieg. `false` = Tier |
+| `civ` | Zivilisationswesen: Städte, Reiche, Berufe, Krieg (war). `false` = Tier |
 | `auto_civ` | Ob das Spiel sie von alleine zivilisiert |
 | `default_animal` | Markiert sie für spielinterne Prüfungen als Wildtier |
 | `unit_other` | Weder Zivilisation noch Tier: Mob, Konstrukt, Spezialwesen |
@@ -184,11 +184,11 @@ Am ersten Tag zählen nur drei davon: `civ`, `actor_size` und `name_locale`. Der
 | `name_locale` | Schlüssel für den Anzeigenamen |
 | `icon` | Das Icon in Listen und Spawn-Buttons |
 | `color_hex` | Die Färbung für einfärbbare Einheiten |
-| `can_have_subspecies` | Ob sie über Generationen hinweg zu Unterarten mutieren |
+| `can_have_subspecies` | Ob sie über Generationen hinweg zu Unterarten (subspecies) mutieren |
 | `has_ai_system` | Ob sie überhaupt das Verhaltenssystem ausführen |
 | `flying` / `hovering` | Ob sie den Boden verlassen und wie hoch |
 | `force_ocean_creature` / `force_land_creature` | Legt das bewohnbare Terrain strikt fest |
-| `can_attack_buildings` | Ob sie Gebäude angreifen und zerstören |
+| `can_attack_buildings` | Ob sie Gebäude (building) angreifen und zerstören |
 | `has_soul`, `can_receive_traits`, `can_be_cloned` | Was göttliche Kräfte mit ihnen tun dürfen |
 | `kingdom_id_wild` / `kingdom_id_civilization` | Welchem Reich sie beitreten (wild oder sesshaft) |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … aus welchem Atlas die Sprites stammen |

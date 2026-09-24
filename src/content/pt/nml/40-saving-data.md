@@ -10,7 +10,7 @@ order: 44
 
 Cedo ou tarde seu mod precisará lembrar de algo sobre uma unidade específica: quantas vezes ela foi atingida, se já recebeu sua recompensa ou em qual santuário ela reza. Um dicionário estático indexado pela unidade esquecerá absolutamente tudo no instante em que o jogador salvar e recarregar a partida :wbfacepalm:.
 
-O jogo já possui um lugar projetado para isso. Cada unidade, cidade, reino, construção, item e livro mantém seu estado em um objeto de dados, e cada um deles possui um pequeno armazenamento de **dados personalizados** (custom data) que vai junto para o arquivo de save.
+O jogo já possui um lugar projetado para isso. Cada unidade, cidade, reino (kingdom), construção (building), item e livro (book) mantém seu estado em um objeto de dados, e cada um deles possui um pequeno armazenamento de **dados personalizados** (custom data) que vai junto para o arquivo de save.
 
 ## O armazenamento
 
@@ -58,7 +58,7 @@ Por baixo dos panos, o NML serializa seu objeto em JSON e guarda na tabela vanil
 
 ## No HelloBox
 
-Um traço que conta cada golpe desferido pelo portador e concede uma recompensa única ao atingir cinquenta golpes:
+Um traço (trait) que conta cada golpe desferido pelo portador e concede uma recompensa única ao atingir cinquenta golpes:
 
 ```csharp Mods/HelloBox/Code/HelloMemory.cs
 namespace HelloBox
@@ -135,7 +135,7 @@ Seus textos, como em qualquer traço:
 | Uma cidade | `city.data` |
 | Um reino | `kingdom.data` |
 | Uma construção | `building.data` |
-| Culturas, religiões, clãs, idiomas, famílias, exércitos, complôs | os respectivos `data`, todos usam o mesmo armazenamento |
+| Culturas (culture), religiões (religion), clãs, idiomas, famílias, exércitos, complôs (plot) | os respectivos `data`, todos usam o mesmo armazenamento |
 
 ## Coisas para saber
 

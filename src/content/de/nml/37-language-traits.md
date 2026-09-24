@@ -8,13 +8,13 @@ order: 112
 
 # Sprach-Eigenschaften :wbconfused:
 
-Eine **Sprache** gehört Städten und Königreichen, verändert sich mit ihrer Ausbreitung und bildet das Medium, in dem **Bücher** geschrieben werden. Eine Sprach-Eigenschaft ist ein Wesensmerkmal des geschriebenen und gesprochenen Wortes selbst.
+Eine **Sprache** gehört Städten und Königreichen (kingdom), verändert sich mit ihrer Ausbreitung und bildet das Medium, in dem **Bücher** (book) geschrieben werden. Eine Sprach-Eigenschaft ist ein Wesensmerkmal des geschriebenen und gesprochenen Wortes selbst.
 
 Es ist das kleinste der sieben Eigenschaftssysteme und besitzt den spezifischsten Hook überhaupt: Code, der ausgeführt wird, sobald jemand ein **Buch** in dieser Sprache liest. Ja, wirklich :wbscroll:.
 
 | | |
 | --- | --- |
-| Bibliothek | `AssetManager.language_traits` |
+| Bibliothek (library) | `AssetManager.language_traits` |
 | Klasse | `LanguageTrait` |
 | Gruppen | `AssetManager.language_trait_groups`, Klasse `LanguageTraitGroupAsset` |
 | Besitzer zur Laufzeit | `Language`, in `World.world.languages` |
@@ -80,7 +80,7 @@ Exakt so funktionieren die verfluchten und gesegneten Schriften von Vanilla: `wo
 
 Zwei Dinge, die du von Vanilla übernehmen solltest:
 
-- **Lies die Chance aus `pTrait.value` aus, statt eine Konstante fest einzutragen.** Die Eigenschaft wird dir extra übergeben, damit derselbe Delegat mehrere Eigenschaften mit unterschiedlicher Wirkungsstärke bedienen kann.
+- **Lies die Chance aus `pTrait.value` aus, statt eine Konstante fest einzutragen.** Die Eigenschaft (trait) wird dir extra übergeben, damit derselbe Delegat mehrere Eigenschaften mit unterschiedlicher Wirkungsstärke bedienen kann.
 - **Brich frühzeitig bei Einheiten ab, die immun sein sollen.** Jede Vanilla-Implementierung prüft zuerst auf `evil` oder `blessed`.
 
 ## Deine eigene Art von Buch
@@ -186,7 +186,7 @@ Ein `Language`-Objekt legt außerdem `cities`, `kingdoms` und `books` offen – 
 
 ## Neue Sprachen, die selbstständig Traits auswürfeln
 
-Abgesehen von der manuellen Vergabe kann ein Sprach-Trait `spawn_random_trait_allowed` setzen, um bei der Entstehung einer neuen Sprache ausgewürfelt zu werden – genau so, wie eine Kultur ihre Start-Traits wählt. Dieselbe Falle wie auf jeder anderen Merkmalsseite:
+Abgesehen von der manuellen Vergabe kann ein Sprach-Trait `spawn_random_trait_allowed` setzen, um bei der Entstehung einer neuen Sprache ausgewürfelt zu werden – genau so, wie eine Kultur (culture) ihre Start-Traits wählt. Dieselbe Falle wie auf jeder anderen Merkmalsseite:
 
 > [!WARNING] `spawn_random_trait_allowed` wird nur einmal beim Start gelesen
 > Neue Sprachen ziehen ihre Start-Traits aus einem Pool, den `BaseTraitLibrary.linkAssets()` während des Ladens aufbaut, bevor deine Mod existiert. Das Flag an deinem Trait zu setzen ändert für sich genommen nichts: Dein Trait landet nie in diesem Pool und wird einer neuen Sprache nie zufällig verliehen. Füge ihn selbst hinzu, gewichtet nach Vanilla-Vorbild:

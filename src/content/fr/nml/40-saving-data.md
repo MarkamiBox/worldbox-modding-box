@@ -10,7 +10,7 @@ order: 44
 
 Tôt ou tard, votre mod devra se souvenir d'une information propre à une unité précise : combien de fois elle a frappé, si elle a déjà reçu sa récompense ou à quel sanctuaire elle prie. Un dictionnaire statique indexé par l'unité oubliera tout dès l'instant où le joueur sauvegarde et recharge la partie :wbfacepalm:.
 
-Le jeu propose déjà un emplacement dédié. Chaque créature, ville, royaume, bâtiment, objet et livre conserve son état dans un objet de données, et chacun d'eux dispose d'un petit espace de **données personnalisées** (custom data) qui est sauvegardé avec lui.
+Le jeu propose déjà un emplacement dédié. Chaque créature, ville, royaume (kingdom), bâtiment (building), objet et livre (book) conserve son état dans un objet de données, et chacun d'eux dispose d'un petit espace de **données personnalisées** (custom data) qui est sauvegardé avec lui.
 
 ## Le stockage
 
@@ -135,7 +135,7 @@ Ses textes de localisation, comme pour n'importe quel trait :
 | Une ville | `city.data` |
 | Un royaume | `kingdom.data` |
 | Un bâtiment | `building.data` |
-| Cultures, religions, clans, langues, familles, armées, complots | leur `data`, tous partagent le même stockage |
+| Cultures, religions, clans, langues, familles, armées, complots (plot) | leur `data`, tous partagent le même stockage |
 
 ## Ce qu'il faut savoir
 

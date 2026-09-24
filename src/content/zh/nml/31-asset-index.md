@@ -8,7 +8,7 @@ order: 94
 
 # 全部底层资源库 :wbworld:
 
-`AssetManager` 是整款游戏中所有可存在实体的核心总索引。它掌管着 **129 个独立的资源库**，且每一个库都是一个由 `List` 与 `Dictionary` 组成的数据结构，你可以直接从模组中读取、修改或向其追加内容。
+`AssetManager` 是整款游戏中所有可存在实体的核心总索引。它掌管着 **129 个独立的资源（resource）库**，且每一个库都是一个由 `List` 与 `Dictionary` 组成的数据结构，你可以直接从模组中读取、修改或向其追加内容。
 
 本页面是所有资源库的完整全景索引。大部分库你可能永远都不会用到。它的意义在于：每当你想修改 WorldBox 中的某些机制时，首要问题永远是“它归哪个库管？”，而答案就在这一页中。
 
@@ -37,16 +37,16 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 | 资源库 | 承载资源类型 | 存储内容说明 |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | 全游戏所有生物种族。**[自定义生物角色](#/nml/custom-actors)** |
-| `traits` | `ActorTrait` | 生物个体特质。**[自定义特质](#/nml/custom-traits)** |
+| `traits` | `ActorTrait` | 生物个体特质（trait）。**[自定义特质](#/nml/custom-traits)** |
 | `trait_groups` | `ActorTraitGroupAsset` | 特质界面的分类标签页。**[特质组与标签页](#/nml/trait-groups)** |
-| `subspecies_traits` | `SubspeciesTrait` | 亚种特质及其美术贴图。**[亚种特质](#/nml/subspecies-traits)** |
+| `subspecies_traits` | `SubspeciesTrait` | 亚种（subspecies）特质及其美术贴图。**[亚种特质](#/nml/subspecies-traits)** |
 | `subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | 亚种特质分类标签页 |
 | `phenotype_library` | `PhenotypeAsset` | 肤色与外貌表现型变体 |
 | `gene_library` | `GeneAsset` | 遗传基因 |
 | `chromosome_type_library` | `ChromosomeTypeAsset` | 染色体类型 |
 | `trait_rains` | `TraitRainAsset` | “特质之雨”降落事件 |
 | `personalities` | `PersonalityAsset` | 单位性格特征 |
-| `professions` | `ProfessionAsset` | 市民从事的职业岗位 |
+| `professions` | `ProfessionAsset` | 市民从事的职业（job）岗位 |
 | `base_stats_library` | `BaseStatAsset` | 所有底层战斗属性。**[属性与数值参考](#/nml/stats)** |
 
 ## 社会与文明
@@ -54,19 +54,19 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 | 资源库 | 承载资源类型 | 存储内容说明 |
 | --- | --- | --- |
 | `kingdoms` | `KingdomAsset` | 阵营类型模板。**[王国与阵营](#/nml/kingdoms)** |
-| `kingdoms_traits` / `kingdoms_traits_groups` | `KingdomTrait` | 王国国策（税收等）。**[王国特质](#/nml/kingdom-traits)** |
+| `kingdoms_traits` / `kingdoms_traits_groups` | `KingdomTrait` | 王国（kingdom）国策（税收等）。**[王国特质](#/nml/kingdom-traits)** |
 | `culture_traits` / `culture_trait_groups` | `CultureTrait` | 文化系统。**[文化特质](#/nml/culture-traits)** |
-| `religion_traits` / `religion_trait_groups` | `ReligionTrait` | 宗教系统。**[宗教特质](#/nml/religion-traits)** |
+| `religion_traits` / `religion_trait_groups` | `ReligionTrait` | 宗教（religion）系统。**[宗教特质](#/nml/religion-traits)** |
 | `clan_traits` / `clan_trait_groups` | `ClanTrait` | 家族氏族。**[家族特质](#/nml/clan-traits)** |
 | `language_traits` / `language_trait_groups` | `LanguageTrait` | 语言系统。**[语言特质](#/nml/language-traits)** |
-| `architecture_library` | `ArchitectureAsset` | 各文明建筑的贴图与建造风格 |
+| `architecture_library` | `ArchitectureAsset` | 各文明建筑（building）的贴图与建造风格 |
 | `city_build_orders` | `CityBuildOrderAsset` | 新城市建造设施的先后顺序规则 |
 | `war_types_library` | `WarTypeAsset` | 可以发动的战争种类。**[战争类型](#/nml/war-types)** |
 | `loyalty_library` | `LoyaltyAsset` | 影响城市忠诚度的因素 |
 | `opinion_library` | `OpinionAsset` | 影响外交关系的因素 |
 | `happiness_library` | `HappinessAsset` | 影响市民快乐度的因素 |
 | `plots_library` / `plot_category_library` | `PlotAsset` | 单位或宏观系统谋划的密谋与阴谋 |
-| `decisions_library` | `DecisionAsset` | 宏观决策项 |
+| `decisions_library` | `DecisionAsset` | 宏观决策（decision）项 |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | 单位之间交谈的话题 |
 | `book_types` | `BookTypeAsset` | 书籍分类。**[书籍](#/nml/books)** |
 | `knowledge_library` | `KnowledgeAsset` | 知识界面的解锁项 |
@@ -77,7 +77,7 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 | --- | --- | --- |
 | `buildings` | `BuildingAsset` | 所有建筑物。**[自定义建筑](#/nml/custom-buildings)** |
 | `tiles` | `TileType` | 底土地面图层。**[地块与地形](#/nml/tiles)** |
-| `top_tiles` | `TopTileType` | 表面地块图层 |
+| `top_tiles` | `TopTileType` | 表面地块（tile）图层 |
 | `tile_tile_effects` | `TileEffectAsset` | 作用于单地块的特效 |
 | `terraform` | `TerraformOptions` | 地表地形清理预设 |
 | `biome_library` | `BiomeAsset` | 生物群系。**[生物群系](#/nml/biomes)** |
@@ -88,7 +88,7 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 | `projectiles` | `ProjectileAsset` | 飞行物。**[投射物、法术与特效](#/nml/projectiles-spells)** |
 | `effects_library` | `EffectAsset` | 视觉粒子特效 |
 | `months` | `MonthAsset` | 月份历法 |
-| `era_library` | `WorldAgeAsset` | 时代纪元 |
+| `era_library` | `WorldAgeAsset` | 时代（world age）纪元 |
 | `time_scales` | `WorldTimeScaleAsset` | 游戏运行速度挡位 |
 | `map_sizes` | `MapSizeAsset` | 地图尺寸规格 |
 | `map_gen_settings` / `map_gen_templates` | `MapGenSettingsAsset` | 世界生成算法配置 |
@@ -100,11 +100,11 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 | 资源库 | 承载资源类型 | 存储内容说明 |
 | --- | --- | --- |
 | `items` | `EquipmentAsset` | 武器、防具、材质。**[自定义装备物品](#/nml/custom-items)** |
-| `items_modifiers` | `ItemModAsset` | 武器词条附魔。**[武器词条附魔](#/nml/item-modifiers)** |
+| `items_modifiers` | `ItemModAsset` | 武器词条附魔（modifier）。**[武器词条附魔](#/nml/item-modifiers)** |
 | `item_groups` | `ItemGroupAsset` | 装备分类栏。**[物品组与标签页](#/nml/item-groups)** |
 | `unit_hand_tools` | `UnitHandToolAsset` | 单位工作时手持的专用工具 |
 | `status` | `StatusAsset` | 状态效果。**[状态效果](#/nml/status-effects)** |
-| `spells` | `SpellAsset` | 单位主动施放的技能法术 |
+| `spells` | `SpellAsset` | 单位主动施放的技能法术（spell） |
 | `combat_action_library` | `CombatActionAsset` | 战斗攻击招式 |
 | `rarity_library` | `RarityAsset` | 装备稀有度品阶 |
 
@@ -114,7 +114,7 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 | --- | --- | --- |
 | `powers` | `GodPower` | 上帝能力。**[上帝能力（God powers）](#/nml/god-powers)** |
 | `power_tab_library` | `PowerTabAsset` | 底部工具栏标签页。**[能力标签页与按钮](#/nml/power-buttons)** |
-| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | 世界法则。**[世界法则](#/nml/world-laws)** |
+| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | 世界法则（world law）。**[世界法则](#/nml/world-laws)** |
 | `brush_library` | `BrushData` | 笔刷尺寸 |
 | `hotkey_library` | `HotkeyAsset` | 键盘快捷键 |
 | `debug_tool_library` | `DebugToolAsset` | 调试开发工具 |
@@ -183,7 +183,7 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 | `music_box` | `MusicAsset` | 游戏音乐曲目 |
 | `game_language_library` | `GameLanguageAsset` | 游戏内置UI界面语言 |
 | `locale_groups_library` | `LocaleGroupAsset` | 本地化语言分组 |
-| `achievements` / `achievement_groups` | `Achievement` | 成就 |
+| `achievements` / `achievement_groups` | `Achievement` | 成就（achievement） |
 | `signals` | `SignalAsset` | 内部信号通信系统 |
 
 ---

@@ -8,15 +8,15 @@ order: 186
 
 # 名字生成器 :wbscroll:
 
-WorldBox 里的每个名字都出自某个生成器：单位、城市、王国、氏族、战争、书籍。你的生物也可以有自己的生成器，这样一个余烬精灵的村子里满是 Ashra 和 Cindox，而不是借用人类的名字。
+WorldBox 里的每个名字都出自某个生成器：单位、城市、王国（kingdom）、氏族（clan）、战争（war）、书籍。你的生物也可以有自己的生成器，这样一个余烬精灵的村子里满是 Ashra 和 Cindox，而不是借用人类的名字。
 
 ## 名字是从哪来的
 
 三步，从生物一直到字母：
 
-| 步骤 | 资产 | 里面有什么 |
+| 步骤 | 资产（asset） | 里面有什么 |
 | --- | --- | --- |
-| 生物 | `ActorAsset.name_template_sets` | 一组**名字集**的 id。每个文化选其中一个 |
+| 生物 | `ActorAsset.name_template_sets` | 一组**名字集**的 id。每个文化（culture）选其中一个 |
 | 名字集 | `NameSetAsset`（`name_sets`） | 每类东西用哪个生成器：`unit`、`city`、`kingdom`、`clan`、`family`、`culture`、`language`、`religion` |
 | 生成器 | `NameGeneratorAsset`（`name_generator`） | 名字具体怎么拼出来 |
 

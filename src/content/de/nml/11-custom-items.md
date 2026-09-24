@@ -10,7 +10,7 @@ order: 120
 
 Waffen, Rüstungen, Ringe und Amulette leben alle in `AssetManager.items` als `EquipmentAsset`.
 
-Das Erste, was man verstehen muss: **Es gibt keinen "Schwert"-Gegenstand mit einem Materialfeld, das man zur Laufzeit auswählt**. Es gibt `sword_wood`, `sword_stone`, `sword_copper`, `sword_bronze`, `sword_silver`, `sword_iron`, `sword_steel`, `sword_mythril`, `sword_adamantine`. Neun eigenständige Assets, jedes mit eigenen Kosten, Werten und eigenem `material`-String. Dasselbe gilt für jedes Rüstungsteil, jeden Bogen, jedes Amulett.
+Das Erste, was man verstehen muss: **Es gibt keinen "Schwert"-Gegenstand mit einem Materialfeld, das man zur Laufzeit auswählt**. Es gibt `sword_wood`, `sword_stone`, `sword_copper`, `sword_bronze`, `sword_silver`, `sword_iron`, `sword_steel`, `sword_mythril`, `sword_adamantine`. Neun eigenständige Assets, jedes mit eigenen Kosten, Werten (stats) und eigenem `material`-String. Dasselbe gilt für jedes Rüstungsteil, jeden Bogen, jedes Amulett.
 
 Deshalb ist Klonen hier nicht nur der bequeme Weg, sondern der einzig vernünftige.
 
@@ -103,11 +103,11 @@ namespace HelloBox
 | --- | --- |
 | `material` | Der Materialname. Teil des Anzeigenamens und vom Spiel für Upgrades verglichen |
 | `equipment_type` | `Weapon`, `Helmet`, `Armor`, `Boots`, `Ring`, `Amulet`. Welchen Platz es belegt |
-| `equipment_subtype` | `sword`, `axe`, `bow`, … Die Waffengattung. Kulturen bevorzugen Subtypen |
+| `equipment_subtype` | `sword`, `axe`, `bow`, … Die Waffengattung. Kulturen (culture) bevorzugen Subtypen |
 | `group_id` | Die Ausrüstungskategorie. Siehe **[Merkmalsgruppen & Reiter](#/nml/trait-groups)** |
 | `attack_type` | Nahkampf- oder Fernkampf-Verhalten |
 | `quality` | Die Mindestseltenheit, mit der es generiert werden kann |
-| `rarity`, `pool_rate` | Wie oft der Generator diesen Gegenstand auswählt |
+| `rarity`, `pool_rate` | Wie oft der Generator diesen Gegenstand (item) auswählt |
 | `is_pool_weapon` | Ob es überhaupt im allgemeinen Waffenpool landet |
 
 ### Kosten und Wert
@@ -128,7 +128,7 @@ Halte die Preise vernünftig. Ein Eisenschwert für 43 Millionen Münzen ist kei
 | `path_gameplay_sprite` | Das Sprite in der Hand der Einheit |
 | `colored`, `animated` | Ob es eingefärbt ist, ob es animiert ist |
 | `path_slash_animation` | Der Schwungeffekt |
-| `projectile` | Für Fernkampfwaffen: welches Projektil abgefeuert wird. Siehe **[Projektile, Zauber & Effekte](#/nml/projectiles-spells)** |
+| `projectile` | Für Fernkampfwaffen: welches Projektil (projectile) abgefeuert wird. Siehe **[Projektile, Zauber & Effekte](#/nml/projectiles-spells)** |
 | `name_class`, `name_templates` | Wie legendäre Versionen benannt werden |
 
 ### Behaviour
@@ -139,9 +139,9 @@ Hier hört ein Gegenstand auf, nur ein Haufen Zahlen zu sein.
 | --- | --- |
 | `action_attack_target` | Läuft bei jedem gelandeten Treffer |
 | `action_special_effect` + `special_effect_interval` | Läuft per Timer, solange er ausgerüstet ist |
-| `item_modifier_ids` | Verzauberungen, die er würfeln kann. Siehe **[Waffenverzauberungen](#/nml/item-modifiers)** |
-| `addSpell(id)` + `linkSpells()` | Ein Zauber, den der Träger wirken kann. Das Verknüpfen musst du selbst aufrufen, siehe unten |
-| `addCombatAction(id)` | Kompiliert und tut auf einem Gegenstand nichts: Eine Einheit sammelt Kampfaktionen aus ihren Merkmalen (und Unterart, Clan, Religion), nie aus ihrer Ausrüstung. Pack es auf ein Merkmal, siehe **[Projektile, Zauber & Effekte](#/nml/projectiles-spells)** |
+| `item_modifier_ids` | Verzauberungen (modifier), die er würfeln kann. Siehe **[Waffenverzauberungen](#/nml/item-modifiers)** |
+| `addSpell(id)` + `linkSpells()` | Ein Zauber (spell), den der Träger wirken kann. Das Verknüpfen musst du selbst aufrufen, siehe unten |
+| `addCombatAction(id)` | Kompiliert und tut auf einem Gegenstand nichts: Eine Einheit sammelt Kampfaktionen aus ihren Merkmalen (trait) (und Unterart (subspecies), Clan, Religion), nie aus ihrer Ausrüstung. Pack es auf ein Merkmal, siehe **[Projektile, Zauber & Effekte](#/nml/projectiles-spells)** |
 
 Das Spiel verwandelt diese IDs einmal beim Start in Objekte, bevor deine Mod lädt. Bei einem Gegenstand, den du selbst registriert hast, schließ mit `linkSpells()` ab und setz `decisions_assets` von Hand (dafür gibt es keine Link-Methode), sonst bewirkt die Vergabe nichts. Siehe **[Eigene KI](#/nml/custom-ai)**.
 
@@ -294,7 +294,7 @@ actor.equipment.setItem(item, actor);
 
 ## Werkzeuge in Händen
 
-Der Hammer, den ein Bauarbeiter schwingt, und der Korb, den ein Sammler trägt, sind keine Ausrüstungsgegenstände. Sie sind **Handwerkzeuge**: reine visuelle Grafiken, die angezeigt werden, während eine Aufgabe aktiv ist, und danach wieder verschwinden.
+Der Hammer, den ein Bauarbeiter schwingt, und der Korb, den ein Sammler trägt, sind keine Ausrüstungsgegenstände. Sie sind **Handwerkzeuge**: reine visuelle Grafiken, die angezeigt werden, während eine Aufgabe (task) aktiv ist, und danach wieder verschwinden.
 
 ```csharp Mods/HelloBox/Code/HelloTools.cs
 using ai.behaviours;   // BehaviourTaskActor

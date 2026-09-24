@@ -10,7 +10,7 @@ order: 120
 
 Armas, armaduras, anillos y amuletos viven todos en `AssetManager.items` como `EquipmentAsset`.
 
-Lo primero que hay que entender es que **no existe un objeto "espada" con un campo de material que elijas en tiempo de ejecución**. Existen `sword_wood`, `sword_stone`, `sword_copper`, `sword_bronze`, `sword_silver`, `sword_iron`, `sword_steel`, `sword_mythril`, `sword_adamantine`. Nueve assets individuales, cada uno con su propio coste, estadísticas y cadena de `material`. Lo mismo ocurre con cada pieza de armadura, arco y amuleto.
+Lo primero que hay que entender es que **no existe un objeto "espada" con un campo de material que elijas en tiempo de ejecución**. Existen `sword_wood`, `sword_stone`, `sword_copper`, `sword_bronze`, `sword_silver`, `sword_iron`, `sword_steel`, `sword_mythril`, `sword_adamantine`. Nueve assets individuales, cada uno con su propio coste, estadísticas (stats) y cadena de `material`. Lo mismo ocurre con cada pieza de armadura, arco y amuleto.
 
 Por eso clonar no es solo el camino fácil aquí: es el único camino razonable.
 
@@ -103,9 +103,9 @@ namespace HelloBox
 | --- | --- |
 | `material` | Nombre del material. Parte del nombre visible y lo que el juego compara al mejorar equipo |
 | `equipment_type` | `Weapon`, `Helmet`, `Armor`, `Boots`, `Ring`, `Amulet`. Qué ranura ocupa |
-| `equipment_subtype` | `sword`, `axe`, `bow`, … La clase de arma. Las culturas tienen preferencias de subtipo |
+| `equipment_subtype` | `sword`, `axe`, `bow`, … La clase de arma. Las culturas (culture) tienen preferencias de subtipo |
 | `group_id` | Pestaña de categoría de equipo. Ver **[Grupos de rasgos y pestañas](#/nml/trait-groups)** |
-| `attack_type` | Comportamiento cuerpo a cuerpo o a distancia |
+| `attack_type` | Comportamiento (behaviour) cuerpo a cuerpo o a distancia |
 | `quality` | La calidad mínima con la que puede aparecer |
 | `rarity`, `pool_rate` | Con qué frecuencia la elige el generador |
 | `is_pool_weapon` | Si entra en el repertorio general de armas |
@@ -139,9 +139,9 @@ Aquí es donde un objeto deja de ser un montón de números.
 | --- | --- |
 | `action_attack_target` | Se ejecuta en cada golpe acertado |
 | `action_special_effect` + `special_effect_interval` | Se ejecuta con un temporizador mientras está equipado |
-| `item_modifier_ids` | Encantamientos que puede obtener. Mira **[Encantamientos de armas](#/nml/item-modifiers)** |
-| `addSpell(id)` + `linkSpells()` | Un hechizo que puede lanzar quien lo lleva. El enlace lo tienes que llamar tú, mira abajo |
-| `addCombatAction(id)` | Compila, y en un objeto no hace nada: una unidad reúne acciones de combate de sus rasgos (y subespecie, clan, religión), nunca de su equipo. Ponlo en un rasgo, mira **[Proyectiles, hechizos y efectos](#/nml/projectiles-spells)** |
+| `item_modifier_ids` | Encantamientos (modifier) que puede obtener. Mira **[Encantamientos de armas](#/nml/item-modifiers)** |
+| `addSpell(id)` + `linkSpells()` | Un hechizo (spell) que puede lanzar quien lo lleva. El enlace lo tienes que llamar tú, mira abajo |
+| `addCombatAction(id)` | Compila, y en un objeto no hace nada: una unidad reúne acciones de combate de sus rasgos (trait) (y subespecie (subspecies), clan, religión (religion)), nunca de su equipo. Ponlo en un rasgo, mira **[Proyectiles, hechizos y efectos](#/nml/projectiles-spells)** |
 
 El juego convierte esos ids en objetos una sola vez, al arrancar, antes de que cargue tu mod. En un objeto que registraste tú, termina con `linkSpells()` y pon `decisions_assets` a mano (no hay método de enlace para eso), o la concesión no hace nada. Mira **[IA personalizada](#/nml/custom-ai)**.
 
@@ -294,7 +294,7 @@ actor.equipment.setItem(item, actor);
 
 ## Herramientas en mano
 
-El martillo que blande un constructor y la cesta que lleva un recolector no son objetos de inventario. Son **herramientas de mano**: elementos puramente visuales, mostrados mientras una tarea lo indique y ocultados al finalizar.
+El martillo que blande un constructor y la cesta que lleva un recolector no son objetos de inventario. Son **herramientas de mano**: elementos puramente visuales, mostrados mientras una tarea (task) lo indique y ocultados al finalizar.
 
 ```csharp Mods/HelloBox/Code/HelloTools.cs
 using ai.behaviours;   // BehaviourTaskActor
@@ -337,7 +337,7 @@ Una tarea muestra su herramienta mediante `force_hand_tool`, por lo que la antor
 | --- | --- |
 | `path_gameplay_sprite` | La carpeta. El juego la autocompleta desde el ID: `items/tools/tool_<id>` |
 | `animated` | Reproduce los fotogramas en bucle, como la taza de café |
-| `colored` | La tiñe con el color del reino, como la bandera |
+| `colored` | La tiñe con el color del reino (kingdom), como la bandera |
 
 > [!TIP] Primero encantamientos, luego armas
 > Un arma nueva requiere sprites, una línea de materiales, costes y balance. Un nuevo **modificador** son veinte líneas y se aplica a todas las armas del juego, incluidas las de otros mods. Si quieres que el juego se sienta diferente hoy mismo, lee **[Encantamientos de armas](#/nml/item-modifiers)** primero :PESgn_DoIt:.

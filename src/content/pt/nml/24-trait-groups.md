@@ -8,7 +8,7 @@ order: 102
 
 # Grupos de traços e abas :wbfamilies:
 
-Todo traço pertence a um **grupo**, e o grupo é o que desenha uma aba no livro de traços. Se você criar seis traços e jogar todos em `miscellaneous`, eles somem numa lista que ninguém rola :PES4_Invisible:.
+Todo traço (trait) pertence a um **grupo**, e o grupo é o que desenha uma aba no livro (book) de traços. Se você criar seis traços e jogar todos em `miscellaneous`, eles somem numa lista que ninguém rola :PES4_Invisible:.
 
 Ter sua própria aba custa apenas quatro linhas.
 
@@ -91,7 +91,7 @@ if (group != null && index != -1)
 }
 ```
 
-`list` é uma simples `List<T>` em qualquer biblioteca, então este truque funciona para todas elas. Veja **[Bibliotecas de assets](#/nml/asset-libraries)**.
+`list` é uma simples `List<T>` em qualquer biblioteca (library), então este truque funciona para todas elas. Veja **[Bibliotecas de assets](#/nml/asset-libraries)**.
 
 ## Renomear ou recolorir um grupo vanilla
 
@@ -117,7 +117,7 @@ Os traços de ator são apenas um de sete sistemas de traços, e cada um tem sua
 | Ator | `AssetManager.trait_groups` | `ActorTraitGroupAsset` | esta página |
 | Cultura | `AssetManager.culture_trait_groups` | `CultureTraitGroupAsset` | **[Traços culturais](#/nml/culture-traits)** |
 | Religião | `AssetManager.religion_trait_groups` | `ReligionTraitGroupAsset` | **[Traços religiosos](#/nml/religion-traits)** |
-| Subespécie | `AssetManager.subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | **[Traços de subespécies](#/nml/subspecies-traits)** |
+| Subespécie (subspecies) | `AssetManager.subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | **[Traços de subespécies](#/nml/subspecies-traits)** |
 | Clã | `AssetManager.clan_trait_groups` | `ClanTraitGroupAsset` | **[Traços de clã](#/nml/clan-traits)** |
 | Idioma | `AssetManager.language_trait_groups` | `LanguageTraitGroupAsset` | **[Traços de idioma](#/nml/language-traits)** |
 | Reino | `AssetManager.kingdoms_traits_groups` | `KingdomTraitGroupAsset` | **[Traços de reino](#/nml/kingdom-traits)** |

@@ -8,7 +8,7 @@ order: 184
 
 # Katastrophen :wbmeteorite:
 
-Eine Katastrophe ist ein Ereignis, das die Welt von selbst heimsucht: ein Tornado, eine Hitzewelle, ein Meteoriteneinschlag. Das Spiel würfelt im Laufe der Zeit automatisch Katastrophen aus, sodass im Gegensatz zu einer Gotteskraft **niemand auf etwas klicken muss**. Du legst die Bedingungen fest, die Welt erledigt den Rest.
+Eine Katastrophe (disaster) ist ein Ereignis, das die Welt von selbst heimsucht: ein Tornado, eine Hitzewelle, ein Meteoriteneinschlag. Das Spiel würfelt im Laufe der Zeit automatisch Katastrophen aus, sodass im Gegensatz zu einer Gotteskraft **niemand auf etwas klicken muss**. Du legst die Bedingungen fest, die Welt erledigt den Rest.
 
 ## Eine hinzufügen
 
@@ -82,7 +82,7 @@ Binde es in `Main.cs` ein (siehe **[Die fertige Mod](#/nml/all-together)**), lad
 | `action` | Dein Code. Das ist die Katastrophe |
 | `spawn_asset_unit` + `units_min`/`units_max` | Abkürzung für "spawne N von dieser Kreatur" |
 | `max_existing_units` | Nichts mehr spawnen, wenn schon so viele existieren |
-| `ages_allow` / `ages_forbid` | Beschränkt sie auf Weltzeitalter, z. B. nur im Zeitalter der Asche |
+| `ages_allow` / `ages_forbid` | Beschränkt sie auf Weltzeitalter, z. B. nur im Zeitalter (world age) der Asche |
 
 Die Beschränkung auf ein Zeitalter geschieht, nachdem das Asset gebaut ist:
 
@@ -130,7 +130,7 @@ log.locale_id = "worldlog_disaster_hello_ember_storm";   // the text key
 log.path_icon = "ui/Icons/iconHelloDisaster";            // the icon next to the line
 ```
 
-Anschließend muss der Eintrag ins Protokoll geschrieben werden. Die Standard-Spawner rufen `WorldLog.logDisaster(pAsset, tile)` selbstständig auf. Eine eigene `action` tut das nicht automatisch, weshalb dein Code sie einmalig mit der Startkachel des Sturms aufruft: Dies ist die Kachel, zu der der "Hinspringen"-Button des Logs führt.
+Anschließend muss der Eintrag ins Protokoll geschrieben werden. Die Standard-Spawner rufen `WorldLog.logDisaster(pAsset, tile)` selbstständig auf. Eine eigene `action` tut das nicht automatisch, weshalb dein Code sie einmalig mit der Startkachel des Sturms aufruft: Dies ist die Kachel (tile), zu der der "Hinspringen"-Button des Logs führt.
 
 | Feld in `WorldLogAsset` | Was es bewirkt |
 | --- | --- |

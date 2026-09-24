@@ -17,7 +17,7 @@ Bevor du einen Nachmittag mit der Einrichtung einer Build-Pipeline verbringst, w
 
 | Du möchtest... | Wähle | Grund |
 | --- | --- | --- |
-| Eigenschaften, Gegenstände, Gottkräfte, Kreaturen oder Biome hinzufügen | **NML** | NML bietet `AssetManager`, automatisch lokalisierte Texte, Sprites und Speicherhelfer frei Haus |
+| Eigenschaften (trait), Gegenstände (item), Gottkräfte, Kreaturen oder Biome hinzufügen | **NML** | NML bietet `AssetManager`, automatisch lokalisierte Texte, Sprites und Speicherhelfer frei Haus |
 | Entwicklertools, Overlays oder tiefgreifende Engine-Hooks bauen | **BepInEx** | BepInEx lädt auf Mono-Ebene, noch bevor WorldBox initialisiert wird |
 | Code einfach im Editor tippen und speichern | **NML** | NML kompiliert C#-Quelldateien zur Laufzeit |
 | Ein vorkompiliertes Binär-Plugin mit reinen Unity-Komponenten verteilen | **BepInEx** | Du kontrollierst Compiler, Abhängigkeiten und Build-Ziele selbst |

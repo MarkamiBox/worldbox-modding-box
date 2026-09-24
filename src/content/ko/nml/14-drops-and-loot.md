@@ -100,7 +100,7 @@ World.world.drop_manager.spawnParabolicDrop(tile, "hello_ember", 0f, 0.1f, 5f, 0
 
 ## 실전 예제: 신의 권능으로 불씨 비 내리기
 
-**[신의 권능](#/nml/god-powers)** 페이지를 완료하셨다면 이것이 그 결실입니다. 권능 하나로 타일 전체를 불태워보죠.
+**[신의 권능](#/nml/god-powers)** 페이지를 완료하셨다면 이것이 그 결실입니다. 권능 (GodPower) 하나로 타일 전체를 불태워보죠.
 
 ```csharp Mods/HelloBox/Code/HelloPowers.cs
 power.click_action = (WorldTile pTile, string pPowerID) =>

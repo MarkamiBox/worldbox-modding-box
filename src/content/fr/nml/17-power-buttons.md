@@ -8,7 +8,7 @@ order: 202
 
 # Onglets et boutons de pouvoir :wbfingerclick:
 
-Vous avez enregistré un pouvoir divin. Personne ne peut cliquer dessus, car un `GodPower` n'est qu'un ensemble de données : ce sur quoi le joueur clique réellement est un **PowerButton**, et les boutons logent dans des **onglets** situés sur la barre inférieure.
+Vous avez enregistré un pouvoir divin (GodPower). Personne ne peut cliquer dessus, car un `GodPower` n'est qu'un ensemble de données : ce sur quoi le joueur clique réellement est un **PowerButton**, et les boutons logent dans des **onglets** situés sur la barre inférieure.
 
 ## Créer votre propre onglet
 
@@ -371,7 +371,7 @@ private static void Buttons()
 }
 ```
 
-Utilisez `CreateGodPowerButton` pour tout ce que le joueur vise sur la carte (engendrer, frapper, inspecter une unité, placer un bâtiment), et `CreateSimpleButton` pour les actions globales (ouvrir votre fenêtre, basculer un mode).
+Utilisez `CreateGodPowerButton` pour tout ce que le joueur vise sur la carte (engendrer, frapper, inspecter une unité, placer un bâtiment (building)), et `CreateSimpleButton` pour les actions globales (ouvrir votre fenêtre, basculer un mode).
 
 > [!WARNING] Le pouvoir doit exister d'abord
 > `CreateGodPowerButton` recherche le pouvoir par son identifiant. Si `AssetManager.powers` ne le possède pas encore, vous obtiendrez un bouton lié à du vent. Enregistrez le pouvoir, **puis** créez le bouton.

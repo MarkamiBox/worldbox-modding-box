@@ -8,21 +8,21 @@ order: 114
 
 # Tratti del regno :wbcrown:
 
-Un **tratto del regno** è una politica statale. Non una credenza, né una stirpe: una decisione sancita dalla corona che si applica all'intero reame.
+Un **tratto (trait) del regno (kingdom)** è una politica statale. Non una credenza, né una stirpe: una decisione (decision) sancita dalla corona che si applica all'intero reame.
 
 Il gioco vanilla se ne serve per una sola meccanica: le aliquote fiscali. Questo lo rende il più minuto e spoglio dei sette sistemi di tratti, nonché il punto più invitante per introdurre nuove idee. Non c'è alcuna competizione per questo spazio :wbsmirk:.
 
 | | |
 | --- | --- |
-| Libreria | `AssetManager.kingdoms_traits` |
+| Libreria (library) | `AssetManager.kingdoms_traits` |
 | Classe | `KingdomTrait` |
 | Gruppi | `AssetManager.kingdoms_traits_groups`, classe `KingdomTraitGroupAsset` |
 | Proprietario a runtime | `Kingdom`, in `World.world.kingdoms` |
 | Prefisso di localizzazione | `kingdom_trait_` |
 | Cartella icone predefinita | `ui/Icons/kingdom_traits/` |
 
-> [!WARNING] Le statistiche del regno non raggiungono le unità
-> Come per la religione, `kingdom.base_stats` non confluisce mai in un `Actor`. I valori a livello di regno visibili in partita derivano dalle **statistiche personali del sovrano** (`king.stats["cities"]` e simili), non dal blocco tratti del regno.
+> [!WARNING] Le statistiche (stats) del regno non raggiungono le unità
+> Come per la religione (religion), `kingdom.base_stats` non confluisce mai in un `Actor`. I valori a livello di regno visibili in partita derivano dalle **statistiche personali del sovrano** (`king.stats["cities"]` e simili), non dal blocco tratti del regno.
 >
 > Di conseguenza, un tratto del regno trasforma la nazione tramite i propri campi dedicati e tramite codice, non mediante `base_stats`.
 
@@ -107,7 +107,7 @@ trait.addDecision("some_decision_id");
 trait.decisions_assets = new DecisionAsset[] { AssetManager.decisions_library.get("some_decision_id") };
 ```
 
-**Una patch di Harmony che interroga il tratto**, ovvero come strutturare un vero e proprio sistema di leggi di stato. Applica una patch al metodo che regola il comportamento del sovrano e verifica lì i tratti del regno:
+**Una patch di Harmony che interroga il tratto**, ovvero come strutturare un vero e proprio sistema di leggi di stato. Applica una patch al metodo che regola il comportamento (behaviour) del sovrano e verifica lì i tratti del regno:
 
 ```csharp
 [HarmonyPatch(typeof(City), nameof(City.getArmyMaxMultiplier))]

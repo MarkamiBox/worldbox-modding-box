@@ -10,7 +10,7 @@ order: 120
 
 Armi, armature, anelli e amuleti risiedono tutti in `AssetManager.items` come `EquipmentAsset`.
 
-La prima cosa fondamentale da comprendere è che **non esiste un oggetto "spada" generico con un campo materiale da scegliere a runtime**. Esistono `sword_wood`, `sword_stone`, `sword_copper`, `sword_bronze`, `sword_silver`, `sword_iron`, `sword_steel`, `sword_mythril`, `sword_adamantine`. Nove asset distinti, ciascuno con costi, statistiche e stringa `material` propri. Stessa identica cosa per ogni corazza, arco o amuleto.
+La prima cosa fondamentale da comprendere è che **non esiste un oggetto "spada" generico con un campo materiale da scegliere a runtime**. Esistono `sword_wood`, `sword_stone`, `sword_copper`, `sword_bronze`, `sword_silver`, `sword_iron`, `sword_steel`, `sword_mythril`, `sword_adamantine`. Nove asset distinti, ciascuno con costi, statistiche (stats) e stringa `material` propri. Stessa identica cosa per ogni corazza, arco o amuleto.
 
 Ecco perché clonare non è solo la via più comoda: è l'unica ragionevole.
 
@@ -103,9 +103,9 @@ namespace HelloBox
 | --- | --- |
 | `material` | Nome del materiale. Parte del nome a schermo e termine di paragone per i potenziamenti dell'IA |
 | `equipment_type` | `Weapon`, `Helmet`, `Armor`, `Boots`, `Ring`, `Amulet`. Quale slot occupa |
-| `equipment_subtype` | `sword`, `axe`, `bow`, … La classe dell'arma. Le culture hanno preferenze di sottotipo |
+| `equipment_subtype` | `sword`, `axe`, `bow`, … La classe dell'arma. Le culture (culture) hanno preferenze di sottotipo |
 | `group_id` | La scheda dell'equipaggiamento. Vedi **[Gruppi di tratti e schede](#/nml/trait-groups)** |
-| `attack_type` | Comportamento da mischia o a distanza |
+| `attack_type` | Comportamento (behaviour) da mischia o a distanza |
 | `quality` | La rarità minima con cui può apparire |
 | `rarity`, `pool_rate` | Frequenza di estrazione da parte del generatore |
 | `is_pool_weapon` | Se entra nel pool generale delle armi del mondo |
@@ -128,7 +128,7 @@ Tieni i prezzi sensati. Una spada di ferro da 43 milioni di monete non è bilanc
 | `path_gameplay_sprite` | Lo sprite tenuto in mano dall'unità |
 | `colored`, `animated` | Se è colorato dinamicamente, se è animato |
 | `path_slash_animation` | L'effetto grafico del fendente |
-| `projectile` | Per le armi a distanza, quale proiettile scaglia. Vedi **[Proiettili, incantesimi ed effetti](#/nml/projectiles-spells)** |
+| `projectile` | Per le armi a distanza, quale proiettile (projectile) scaglia. Vedi **[Proiettili, incantesimi ed effetti](#/nml/projectiles-spells)** |
 | `name_class`, `name_templates` | Come vengono denominate le versioni leggendarie |
 
 ### Behaviour
@@ -139,9 +139,9 @@ Qui un oggetto smette di essere un mucchio di numeri.
 | --- | --- |
 | `action_attack_target` | Viene eseguito a ogni colpo andato a segno |
 | `action_special_effect` + `special_effect_interval` | Viene eseguito a tempo finché è equipaggiato |
-| `item_modifier_ids` | Gli incantesimi che può ottenere. Vedi **[Incantesimi delle armi](#/nml/item-modifiers)** |
+| `item_modifier_ids` | Gli incantesimi (spell) che può ottenere. Vedi **[Incantesimi delle armi](#/nml/item-modifiers)** |
 | `addSpell(id)` + `linkSpells()` | Un incantesimo che chi lo porta può lanciare. Il collegamento lo devi chiamare tu, vedi sotto |
-| `addCombatAction(id)` | Compila, e su un oggetto non fa niente: un'unità raccoglie le azioni di combattimento dai suoi tratti (e sottospecie, clan, religione), mai dall'equipaggiamento. Mettilo su un tratto, vedi **[Proiettili, incantesimi ed effetti](#/nml/projectiles-spells)** |
+| `addCombatAction(id)` | Compila, e su un oggetto non fa niente: un'unità raccoglie le azioni di combattimento dai suoi tratti (trait) (e sottospecie (subspecies), clan, religione (religion)), mai dall'equipaggiamento. Mettilo su un tratto, vedi **[Proiettili, incantesimi ed effetti](#/nml/projectiles-spells)** |
 
 Il gioco trasforma quegli id in oggetti una sola volta, all'avvio, prima che la tua mod venga caricata. Su un oggetto che hai registrato tu, chiudi con `linkSpells()` e imposta `decisions_assets` a mano (non esiste un metodo di collegamento per quello), altrimenti la concessione non fa nulla. Vedi **[IA personalizzata](#/nml/custom-ai)**.
 
@@ -277,7 +277,7 @@ Un nuovo materiale ha **sempre** bisogno della sua chiave `item_mat_`, altriment
 
 ## Mettere l'arma nelle mani di un'unità
 
-Un **asset** è la ricetta. Un **oggetto** è l'effettiva istanza che una specifica creatura impugna, con la sua qualità casuale, i modificatori e il nome. Due passaggi:
+Un **asset** è la ricetta. Un **oggetto** è l'effettiva istanza che una specifica creatura impugna, con la sua qualità casuale, i modificatori (modifier) e il nome. Due passaggi:
 
 ```csharp
 EquipmentAsset asset = AssetManager.items.get(HelloItems.EMBER_BLADE);
@@ -294,7 +294,7 @@ actor.equipment.setItem(item, actor);
 
 ## Strumenti in mano
 
-Il martello che un costruttore impugna e il cesto portato da un raccoglitore non sono oggetti di inventario. Sono **strumenti manuali**: pura grafica visiva, mostrata quando un'attività lo richiede e nascosta al termine.
+Il martello che un costruttore impugna e il cesto portato da un raccoglitore non sono oggetti di inventario. Sono **strumenti manuali**: pura grafica visiva, mostrata quando un'attività (task) lo richiede e nascosta al termine.
 
 ```csharp Mods/HelloBox/Code/HelloTools.cs
 using ai.behaviours;   // BehaviourTaskActor
@@ -337,7 +337,7 @@ Un'attività mostra il proprio strumento tramite `force_hand_tool`, quindi la to
 | --- | --- |
 | `path_gameplay_sprite` | La cartella. Il gioco la ricava dall'ID: `items/tools/tool_<id>` |
 | `animated` | Riproduce i fotogrammi in loop, come la tazzina di caffè |
-| `colored` | Lo colora con il colore del regno, come la bandiera |
+| `colored` | Lo colora con il colore del regno (kingdom), come la bandiera |
 
 > [!TIP] Prima incantamenti, poi armi
 > Una nuova arma richiede sprite, una serie di materiali, costi e bilanciamento. Un nuovo **modificatore** richiede solo venti righe e si applica a tutte le armi del gioco, incluse quelle di altri mod. Se vuoi che il gioco offra novità fin da subito, leggi prima **[Incantamenti delle armi](#/nml/item-modifiers)** :PESgn_DoIt:.

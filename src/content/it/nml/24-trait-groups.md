@@ -8,7 +8,7 @@ order: 102
 
 # Gruppi di tratti e schede :wbfamilies:
 
-Ogni tratto appartiene a un **gruppo**, ed è il gruppo che disegna una scheda nel libro dei tratti. Se aggiungi sei tratti e li scarichi tutti in `miscellaneous`, svaniscono in una lista che nessuno scorre mai :PES4_Invisible:.
+Ogni tratto (trait) appartiene a un **gruppo**, ed è il gruppo che disegna una scheda nel libro (book) dei tratti. Se aggiungi sei tratti e li scarichi tutti in `miscellaneous`, svaniscono in una lista che nessuno scorre mai :PES4_Invisible:.
 
 Avere una tua scheda personale costa quattro righe.
 
@@ -91,7 +91,7 @@ if (group != null && index != -1)
 }
 ```
 
-`list` è una normale `List<T>` su qualsiasi libreria, quindi questo trucco funziona per ognuna di esse. Vedi **[Librerie di asset](#/nml/asset-libraries)**.
+`list` è una normale `List<T>` su qualsiasi libreria (library), quindi questo trucco funziona per ognuna di esse. Vedi **[Librerie di asset](#/nml/asset-libraries)**.
 
 ## Rinominare o ricolorare un gruppo vanilla
 
@@ -117,7 +117,7 @@ I tratti degli attori sono solo uno di sette sistemi di tratti, e ciascuno possi
 | Attore | `AssetManager.trait_groups` | `ActorTraitGroupAsset` | questa pagina |
 | Cultura | `AssetManager.culture_trait_groups` | `CultureTraitGroupAsset` | **[Tratti culturali](#/nml/culture-traits)** |
 | Religione | `AssetManager.religion_trait_groups` | `ReligionTraitGroupAsset` | **[Tratti religiosi](#/nml/religion-traits)** |
-| Sottospecie | `AssetManager.subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | **[Tratti di sottospecie](#/nml/subspecies-traits)** |
+| Sottospecie (subspecies) | `AssetManager.subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | **[Tratti di sottospecie](#/nml/subspecies-traits)** |
 | Clan | `AssetManager.clan_trait_groups` | `ClanTraitGroupAsset` | **[Tratti del clan](#/nml/clan-traits)** |
 | Lingua | `AssetManager.language_trait_groups` | `LanguageTraitGroupAsset` | **[Tratti della lingua](#/nml/language-traits)** |
 | Regno | `AssetManager.kingdoms_traits_groups` | `KingdomTraitGroupAsset` | **[Tratti del regno](#/nml/kingdom-traits)** |

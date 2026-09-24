@@ -14,7 +14,7 @@ Tres bibliotecas compactas que aparecen constantemente tan pronto como empiezas 
 | --- | --- |
 | `AssetManager.projectiles` | Algo que vuela de A hacia B: una flecha, una bomba de fuego, una antorcha arrojada |
 | `AssetManager.spells` | Algo que una unidad conjura por su cuenta, con coste de maná y probabilidad de IA |
-| `AssetManager.effects_library` | Un efecto visual: una explosión, una nube, un destello, una columna de humo |
+| `AssetManager.effects_library` | Un efecto visual: una explosión, una nube (cloud), un destello, una columna de humo |
 
 ## Proyectiles
 
@@ -89,7 +89,7 @@ World.world.projectiles.spawn(
     pTargetPosition: target.current_tile.posV3);
 ```
 
-Ambas posiciones son de tipo `Vector3`. `posV3` en una casilla es lo más directo; `current_position` en una criatura es un `Vector2`, por lo que requiere conversión previa.
+Ambas posiciones son de tipo `Vector3`. `posV3` en una casilla (tile) es lo más directo; `current_position` en una criatura es un `Vector2`, por lo que requiere conversión previa.
 
 IDs vanilla recomendados para clonar: `arrow` · `snowball` · `firebomb` · `torch`.
 
@@ -110,13 +110,13 @@ HelloBox/
 bolt.texture = "hello_bolt";   // NO "effects/projectiles/hello_bolt"
 ```
 
-Los proyectiles también se cargan como lista de sprites: una **carpeta** con el nombre de `texture`, un PNG por frame, y varios frames se convierten en la animación de vuelo cuando `animated` está activo. Un `hello_bolt.png` suelto vuelve como lista vacía, y dibujar el proyectil lanza `ArgumentOutOfRangeException` :PESgn_Oops:.
+Los proyectiles (projectile) también se cargan como lista de sprites: una **carpeta** con el nombre de `texture`, un PNG por frame, y varios frames se convierten en la animación de vuelo cuando `animated` está activo. Un `hello_bolt.png` suelto vuelve como lista vacía, y dibujar el proyectil lanza `ArgumentOutOfRangeException` :PESgn_Oops:.
 
 `texture_shadow` sí es una ruta completa y no recibe prefijo: vanilla suele apuntarlo al recurso compartido `shadows/projectiles/shadow_ball`, y reusar esa sombra casi siempre es la decisión correcta.
 
 ## Hechizos
 
-Un hechizo es una acción que una unidad lanza por iniciativa propia, sin intervención del jugador. La IA evalúa cuándo lanzarlo en función de `chance`, `cost_mana` y `min_distance`.
+Un hechizo (spell) es una acción que una unidad lanza por iniciativa propia, sin intervención del jugador. La IA evalúa cuándo lanzarlo en función de `chance`, `cost_mana` y `min_distance`.
 
 ```csharp
 SpellAsset bolt = new SpellAsset
@@ -142,7 +142,7 @@ bolt.action = (BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile) =>
 AssetManager.spells.add(bolt);
 ```
 
-`action` es un `AttackAction`, la misma estructura de delegado que usan los modificadores de armas, de modo que la lógica de un hechizo y la de un encantamiento son intercambiables.
+`action` es un `AttackAction`, la misma estructura de delegado que usan los modificadores (modifier) de armas, de modo que la lógica de un hechizo y la de un encantamiento son intercambiables.
 
 ### Otorgar un hechizo a una entidad
 
@@ -156,7 +156,7 @@ item.linkSpells();
 actorAsset.spell_ids = new List<string> { "hello_bolt" };
 ```
 
-`addSpell()` solo añade un id. La biblioteca convierte los ids en hechizos en `linkAssets()`, al arrancar, antes que tu mod: sáltate `linkSpells()` en un rasgo u objeto que registraste tú y no concede nada, en silencio.
+`addSpell()` solo añade un id. La biblioteca convierte los ids en hechizos en `linkAssets()`, al arrancar, antes que tu mod: sáltate `linkSpells()` en un rasgo (trait) u objeto que registraste tú y no concede nada, en silencio.
 
 Ids de hechizos vanilla que vale la pena leer: `teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`.
 
@@ -234,7 +234,7 @@ namespace HelloBox
 | `can_do_action` | Tu condición, dado el objetivo |
 
 > [!WARNING] Solo los rasgos las reparten
-> Una unidad reúne acciones de combate de sus rasgos y de su subespecie, clan y religión, nunca de su equipo. El rasgo guarda ids, y el juego convirtió los ids en objetos al arrancar: llama a `linkCombatActions()` después de `addCombatAction()`, o el rasgo lleva un movimiento que nadie hace nunca :PES2_Shrug:.
+> Una unidad reúne acciones de combate de sus rasgos y de su subespecie (subspecies), clan y religión (religion), nunca de su equipo. El rasgo guarda ids, y el juego convirtió los ids en objetos al arrancar: llama a `linkCombatActions()` después de `addCombatAction()`, o el rasgo lleva un movimiento que nadie hace nunca :PES2_Shrug:.
 
 ## Efectos
 

@@ -8,7 +8,7 @@ order: 187
 
 # Livros :wbscroll:
 
-Unidades escrevem livros, cidades guardam, e outras unidades leem e saem um pouco diferentes. Um tipo de livro é um novo tipo de livro nesse ciclo: quem escreve, como se chama, como é a capa e o que ler faz com você.
+Unidades escrevem livros (book), cidades guardam, e outras unidades leem e saem um pouco diferentes. Um tipo de livro é um novo tipo de livro nesse ciclo: quem escreve, como se chama, como é a capa e o que ler faz com você.
 
 A página **[Traços linguísticos](#/nml/language-traits)** já cria um pequeno, o Almanaque de Brasa. Esta página pega o mesmo livro e termina: títulos próprios, uma recompensa de verdade e algo que acontece ao ler.
 
@@ -18,7 +18,7 @@ Nada aqui precisa de patch, você só precisa conhecer o ciclo:
 
 1. Uma unidade decide escrever. O jogo junta todo tipo de livro cujo `requirement_check` passa para essa unidade.
 2. Cada um entra num saco `writing_rate` vezes (ou `rate_calc` vezes, se você definir), **no máximo 10**, e um é sorteado.
-3. O livro precisa de uma construção com espaço livre para livros na **cidade** de quem escreve. Sem biblioteca, sem livro.
+3. O livro precisa de uma construção (building) com espaço livre para livros na **cidade** de quem escreve. Sem biblioteca (library), sem livro.
 4. O título vem do gerador de nomes em `name_template`, e a capa da pasta em `path_icons`.
 5. Depois, alguém lê e recebe as recompensas abaixo.
 
@@ -84,22 +84,22 @@ namespace HelloBox
 }
 ```
 
-Este arquivo **substitui** o `HelloBooks.cs` da página de traços linguísticos, é a mesma classe crescida. `HelloBooks.Initialize()` vai depois do traço e do status que usa.
+Este arquivo **substitui** o `HelloBooks.cs` da página de traços (trait) linguísticos, é a mesma classe crescida. `HelloBooks.Initialize()` vai depois do traço e do status que usa.
 
 ## O que ler dá
 
 Os números em `base_stats` não são um bônus que passa. Cada leitura entrega eles uma vez:
 
-| Atributo | O que o leitor ganha |
+| Atributo (stats) | O que o leitor ganha |
 | --- | --- |
 | `happiness` | Essa felicidade, como evento de "acabou de ler um livro". Negativo também funciona, para livros deprimentes |
 | `experience` | Essa experiência |
 | `mana` | Essa mana |
 | `diplomacy`, `warfare`, `stewardship`, `intelligence` | Somados ao leitor **para sempre**. A cada leitura, de novo |
 
-A última linha é a poderosa. Um livro que dá `intelligence = 1` deixa uma cidade leitora mais inteligente a cada geração, então mantenha pequeno. Um livro de +10 é o jeito de ter um reino de gênios até o ano 50 :wbgenius:.
+A última linha é a poderosa. Um livro que dá `intelligence = 1` deixa uma cidade leitora mais inteligente a cada geração, então mantenha pequeno. Um livro de +10 é o jeito de ter um reino (kingdom) de gênios até o ano 50 :wbgenius:.
 
-Traços de idioma e de cultura podem mudar os dois primeiros: um idioma com `beautiful_calligraphy` aumenta a felicidade, e uma cultura com `reading_lovers` transforma livros tristes em alegres.
+Traços de idioma e de cultura (culture) podem mudar os dois primeiros: um idioma com `beautiful_calligraphy` aumenta a felicidade, e uma cultura com `reading_lovers` transforma livros tristes em alegres.
 
 ## Os campos que importam
 
@@ -112,7 +112,7 @@ Traços de idioma e de cultura podem mudar os dois primeiros: um idioma com `bea
 | `read_action` | O seu próprio código, uma vez por leitura |
 | `path_icons` | Uma pasta dentro de `books/book_icons/`, lida como lista de imagens. Uma é escolhida por livro |
 | `color_text` | A cor do título na interface |
-| `save_culture` / `save_religion` | Se o livro lembra a cultura e a religião de quem escreveu. Os dois ligados por padrão, e importam para livros que espalham uma fé |
+| `save_culture` / `save_religion` | Se o livro lembra a cultura e a religião (religion) de quem escreveu. Os dois ligados por padrão, e importam para livros que espalham uma fé |
 
 ## O gerador de títulos
 

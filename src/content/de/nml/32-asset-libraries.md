@@ -8,7 +8,7 @@ order: 90
 
 # Asset-Bibliotheken :wbbrain:
 
-Bevor irgendeine der folgenden Seiten Sinn ergibt, brauchst du diese hier. Jedes einzelne Element in WorldBox (eine Eigenschaft, eine Waffe, ein Gebäude, eine Kachel, eine Wolke, ein Königreich) ist ein **Asset**, das in einer **Bibliothek** liegt. Und jede Bibliothek im Spiel ist dieselbe Klasse mit denselben vier Methoden.
+Bevor irgendeine der folgenden Seiten Sinn ergibt, brauchst du diese hier. Jedes einzelne Element in WorldBox (eine Eigenschaft (trait), eine Waffe, ein Gebäude (building), eine Kachel (tile), eine Wolke (cloud), ein Königreich (kingdom)) ist ein **Asset**, das in einer **Bibliothek** (library) liegt. Und jede Bibliothek im Spiel ist dieselbe Klasse mit denselben vier Methoden.
 
 Lerne sie hier einmal, und die anderen dreißig Seiten reduzieren sich auf: "Welche Bibliothek, welche Felder".
 
@@ -70,7 +70,7 @@ Registriert ein neues Asset. Dabei passieren intern drei Dinge, die du unbedingt
    ```
    So bricht eine Mod heimlich die andere. Setze Präfixe vor deine IDs.
 2. `create()` wird auf dem Asset aufgerufen.
-3. **Die Bibliothek initialisiert `base_stats`** (sowie `base_stats_meta`, sofern das Asset eines besitzt). Deshalb lautet die goldene Regel überall in diesem Leitfaden: "Werte erst nach `add()`".
+3. **Die Bibliothek initialisiert `base_stats`** (sowie `base_stats_meta`, sofern das Asset eines besitzt). Deshalb lautet die goldene Regel überall in diesem Leitfaden: "Werte (stats) erst nach `add()`".
 
 ```csharp
 ActorTrait swift = new ActorTrait { id = SWIFT, group_id = "physique" };
@@ -98,7 +98,7 @@ shrine.base_stats["health"] = 200;         // bereits allokiert, da add() lief
 > [!WARNING] Niemals `add()` nach `clone()` aufrufen
 > Ein zweites `add()` entfernt die erste Kopie, loggt `duplicate asset overwriting...` und fügt sie erneut hinzu. Das funktioniert zwar technisch, erzeugt aber unnötigen Müll im Log, der echte Fehler verschleiert.
 
-Klonen ist der beste Standard für alles mit mehr als zehn Feldern: Gebäude, Akteure, Gegenstände, Kacheln. Du erbst eine funktionierende Konfiguration und musst nur die Felder verstehen, die du gezielt verändern willst.
+Klonen ist der beste Standard für alles mit mehr als zehn Feldern: Gebäude, Akteure, Gegenstände (item), Kacheln. Du erbst eine funktionierende Konfiguration und musst nur die Felder verstehen, die du gezielt verändern willst.
 
 ## Vorlagen
 

@@ -10,7 +10,7 @@ order: 120
 
 Armas, armaduras, anéis e amuletos residem todos em `AssetManager.items` como `EquipmentAsset`.
 
-A primeira coisa a entender é que **não existe um item "espada" genérico com um campo de material escolhido em tempo de execução**. Existem `sword_wood`, `sword_stone`, `sword_copper`, `sword_bronze`, `sword_silver`, `sword_iron`, `sword_steel`, `sword_mythril`, `sword_adamantine`. Nove assets separados, cada um com seu custo, atributos e string de `material`. O mesmo vale para cada armadura, arco ou amuleto.
+A primeira coisa a entender é que **não existe um item "espada" genérico com um campo de material escolhido em tempo de execução**. Existem `sword_wood`, `sword_stone`, `sword_copper`, `sword_bronze`, `sword_silver`, `sword_iron`, `sword_steel`, `sword_mythril`, `sword_adamantine`. Nove assets separados, cada um com seu custo, atributos (stats) e string de `material`. O mesmo vale para cada armadura, arco ou amuleto.
 
 É por isso que clonar não é apenas o caminho fácil aqui: é o único caminho sensato.
 
@@ -103,9 +103,9 @@ namespace HelloBox
 | --- | --- |
 | `material` | Nome do material. Compõe o nome exibido e o que o jogo compara em melhorias |
 | `equipment_type` | `Weapon`, `Helmet`, `Armor`, `Boots`, `Ring`, `Amulet`. Qual espaço ocupa |
-| `equipment_subtype` | `sword`, `axe`, `bow`, … A classe da arma. Culturas têm preferências de subtipo |
+| `equipment_subtype` | `sword`, `axe`, `bow`, … A classe da arma. Culturas (culture) têm preferências de subtipo |
 | `group_id` | Aba de categoria de equipamento. Veja **[Grupos de traços e abas](#/nml/trait-groups)** |
-| `attack_type` | Comportamento corpo a corpo ou à distância |
+| `attack_type` | Comportamento (behaviour) corpo a corpo ou à distância |
 | `quality` | A qualidade mínima com que pode surgir |
 | `rarity`, `pool_rate` | Frequência com que o gerador a escolhe |
 | `is_pool_weapon` | Se entra no conjunto geral de armas geradas no mapa |
@@ -128,7 +128,7 @@ Mantenha os preços sensatos. Uma espada de ferro por 43 milhões de moedas não
 | `path_gameplay_sprite` | O sprite desenhado na mão da unidade |
 | `colored`, `animated` | Se recebe tingimento, se é animado |
 | `path_slash_animation` | O efeito visual do golpe |
-| `projectile` | Para armas à distância, qual projétil é disparado. Veja **[Projéteis, feitiços e efeitos](#/nml/projectiles-spells)** |
+| `projectile` | Para armas à distância, qual projétil (projectile) é disparado. Veja **[Projéteis, feitiços e efeitos](#/nml/projectiles-spells)** |
 | `name_class`, `name_templates` | Como as versões lendárias são nomeadas |
 
 ### Behaviour
@@ -139,15 +139,15 @@ Mantenha os preços sensatos. Uma espada de ferro por 43 milhões de moedas não
 | --- | --- |
 | `action_attack_target` | Roda a cada golpe acertado |
 | `action_special_effect` + `special_effect_interval` | Roda num timer enquanto está equipado |
-| `item_modifier_ids` | Encantamentos que ele pode sortear. Veja **[Encantamentos de armas](#/nml/item-modifiers)** |
-| `addSpell(id)` + `linkSpells()` | Um feitiço que quem usa pode lançar. O link é você quem chama, veja abaixo |
-| `addCombatAction(id)` | Compila, e num item não faz nada: uma unidade reúne ações de combate dos seus traços (e subespécie, clã, religião), nunca do equipamento. Coloque num traço, veja **[Projéteis, feitiços e efeitos](#/nml/projectiles-spells)** |
+| `item_modifier_ids` | Encantamentos (modifier) que ele pode sortear. Veja **[Encantamentos de armas](#/nml/item-modifiers)** |
+| `addSpell(id)` + `linkSpells()` | Um feitiço (spell) que quem usa pode lançar. O link é você quem chama, veja abaixo |
+| `addCombatAction(id)` | Compila, e num item não faz nada: uma unidade reúne ações de combate dos seus traços (trait) (e subespécie (subspecies), clã, religião (religion)), nunca do equipamento. Coloque num traço, veja **[Projéteis, feitiços e efeitos](#/nml/projectiles-spells)** |
 
 O jogo transforma esses ids em objetos uma única vez, na inicialização, antes do seu mod carregar. Num item que você mesmo registrou, termine com `linkSpells()` e defina `decisions_assets` à mão (não existe método de link para isso), senão a concessão não faz nada. Veja **[IA personalizada](#/nml/custom-ai)**.
 
 ## Um efeito enquanto é empunhado
 
-"Quem empunhar a Lâmina de Brasas fica Rápido" soa como um traço em um item. Itens não carregam traços, mas executam código em um temporizador enquanto estão equipados (`action_special_effect` da tabela acima), e um **status** expira por conta própria. Assim, o item fica reaplicando um status curto, e quando o item é retirado, o status simplesmente expira:
+"Quem empunhar a Lâmina de Brasas fica Rápido" soa como um traço em um item. Itens (item) não carregam traços, mas executam código em um temporizador enquanto estão equipados (`action_special_effect` da tabela acima), e um **status** expira por conta própria. Assim, o item fica reaplicando um status curto, e quando o item é retirado, o status simplesmente expira:
 
 ```csharp Mods/HelloBox/Code/HelloItems.cs
 blade.special_effect_interval = 1f;
@@ -294,7 +294,7 @@ O `generateItem` sorteia qualidade e modificadores exatamente como o saque gerad
 
 ## Ferramentas nas mãos
 
-O martelo que um construtor empunha e a cesta que um coletor carrega não são itens de inventário. São **ferramentas de mão**: gráficos puramente visuais, exibidos enquanto uma tarefa exigir e ocultados quando ela termina.
+O martelo que um construtor empunha e a cesta que um coletor carrega não são itens de inventário. São **ferramentas de mão**: gráficos puramente visuais, exibidos enquanto uma tarefa (task) exigir e ocultados quando ela termina.
 
 ```csharp Mods/HelloBox/Code/HelloTools.cs
 using ai.behaviours;   // BehaviourTaskActor
@@ -337,7 +337,7 @@ Uma tarefa exibe sua ferramenta através de `force_hand_tool`, de modo que a toc
 | --- | --- |
 | `path_gameplay_sprite` | A pasta. O jogo a preenche a partir do ID: `items/tools/tool_<id>` |
 | `animated` | Reproduz os quadros em loop, como a xícara de café |
-| `colored` | Colore a ferramenta com a cor do reino, como a bandeira |
+| `colored` | Colore a ferramenta com a cor do reino (kingdom), como a bandeira |
 
 > [!TIP] Primeiro encantamentos, depois armas
 > Uma nova arma requer sprites, uma linha de materiais, custos e balanceamento. Um novo **modificador** exige vinte linhas e se aplica a todas as armas do jogo, incluindo as de outros mods. Se quiser novidades no jogo hoje mesmo, leia **[Encantamentos de armas](#/nml/item-modifiers)** primeiro :PESgn_DoIt:.

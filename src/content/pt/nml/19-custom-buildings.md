@@ -50,10 +50,10 @@ namespace HelloBox
 }
 ```
 
-Tudo o que você não definir fica exatamente como estava no `temple_human`, que é uma construção de cidade que funciona. Esse é o truque todo.
+Tudo o que você não definir fica exatamente como estava no `temple_human`, que é uma construção (building) de cidade que funciona. Esse é o truque todo.
 
 > [!WARNING] Não chame `add()` depois de `clone()`
-> `clone()` já registrou a cópia. Chamar `AssetManager.buildings.add(shrine)` depois registra uma segunda vez, o que faz a biblioteca descartar a primeira cópia e registrar `duplicate asset - overwriting...` no log. Continua funcionando, mas é ruído no seu log e a primeira coisa que qualquer um que revisar seu código vai apontar.
+> `clone()` já registrou a cópia. Chamar `AssetManager.buildings.add(shrine)` depois registra uma segunda vez, o que faz a biblioteca (library) descartar a primeira cópia e registrar `duplicate asset - overwriting...` no log. Continua funcionando, mas é ruído no seu log e a primeira coisa que qualquer um que revisar seu código vai apontar.
 
 ## De onde clonar
 
@@ -63,9 +63,9 @@ A biblioteca possui tanto modelos com prefixo `$…$` quanto edifícios completo
 | --- | --- |
 | `$building$` | A base mais pura |
 | `$city_building$` | Qualquer coisa construída por cidades. Usado por `well` e `mine` |
-| `$city_colored_building$` | O mesmo, mas tingido pela cor do reino |
-| `$building_civ_human$` / `_elf$` / `_orc$` / `_dwarf$` | Edifícios civis por cultura |
-| `$building_creep$` | Estruturas de biomas invasores (creep) |
+| `$city_colored_building$` | O mesmo, mas tingido pela cor do reino (kingdom) |
+| `$building_civ_human$` / `_elf$` / `_orc$` / `_dwarf$` | Edifícios civis por cultura (culture) |
+| `$building_creep$` | Estruturas de biomas (biome) invasores (creep) |
 | `$mineral$` | Rochas e minérios mineráveis |
 | `$resource$`, `$flora_small$` | Natureza colhível |
 | `tree_green_1` | Todas as árvores vanilla são clonadas desta |
@@ -81,7 +81,7 @@ Clonar o parente mais próximo leva dez minutos de leitura e poupa uma noite int
 | Campo | O que faz |
 | --- | --- |
 | `building_type` | `Building_Civ`, `Building_Nature`, `Building_Tree`, `Building_Mineral`, `Building_Mob`, `Building_Creep`, `Building_Plant`, `Building_Fruits`, `Building_Hives`, `Building_Wheat` |
-| `city_building` | Pertence a uma cidade, recebendo cores de reino, zonas e postos de trabalho |
+| `city_building` | Pertence a uma cidade, recebendo cores de reino, zonas e postos de trabalho (job) |
 | `type` | Tag de texto livre usada para agrupamento em listas internas |
 | `kingdom`, `civ_kingdom` | Restringe a uma facção específica |
 | `ignored_by_cities` | Cidades nunca constroem ou contabilizam |
@@ -92,7 +92,7 @@ Clonar o parente mais próximo leva dez minutos de leitura e poupa uma noite int
 | --- | --- |
 | `max_houses`, `housing_slots`, `can_units_live_here` | Se e quantos cidadãos moram nele |
 | `housing_happiness` | Bônus de felicidade por morar ali |
-| `storage`, `storage_only_food`, `is_stockpile` | Se armazena recursos |
+| `storage`, `storage_only_food`, `is_stockpile` | Se armazena recursos (resource) |
 | `book_slots` | Capacidade de livros em bibliotecas |
 | `docks`, `boat_types`, `boat_type_fishing`, `boat_type_trading`, `boat_type_transport` | Produção de embarcações |
 | `spawn_units`, `spawn_units_asset` | Gera criaturas |
@@ -119,7 +119,7 @@ Clonar o parente mais próximo leva dez minutos de leitura e poupa uma noite int
 | `biome_tags_growth`, `has_biome_tags` | Quais biomas permitem seu crescimento |
 | `resources_given`, `addResource(id, amount, pNewList)` | Recursos concedidos ao ser colhido |
 | `can_be_chopped_down`, `gatherable` | Se as unidades podem derrubá-lo ou colhê-lo |
-| `grow_creep` e suas variantes `grow_creep_*` | Comportamento de propagação de creep |
+| `grow_creep` e suas variantes `grow_creep_*` | Comportamento (behaviour) de propagação de creep |
 
 ### Dano e destruição
 
@@ -147,7 +147,7 @@ Clonar o parente mais próximo leva dez minutos de leitura e poupa uma noite int
 | Campo | O que faz |
 | --- | --- |
 | `step_action`, `has_step_action` | Código personalizado executado no tick do edifício |
-| `base_stats` | Atributos concedidos pelo edifício |
+| `base_stats` | Atributos (stats) concedidos pelo edifício |
 | `priority` | Prioridade na fila de construção da cidade |
 
 ## Sprites
@@ -209,7 +209,7 @@ Sempre consulte `canBuildFrom` primeiro. Colocar um edifício sobre a água, sob
 
 ## Fazendo as cidades construírem o edifício
 
-Um poder divino que posiciona seu santuário é divertido por uma tarde. Um santuário que as cidades constroem por conta própria, quando atingem o tamanho necessário, é um mod. As cidades escolhem o que construir a partir de duas coisas, e sua construção ainda não está em nenhuma delas:
+Um poder divino (GodPower) que posiciona seu santuário é divertido por uma tarde. Um santuário que as cidades constroem por conta própria, quando atingem o tamanho necessário, é um mod. As cidades escolhem o que construir a partir de duas coisas, e sua construção ainda não está em nenhuma delas:
 
 | | O que contém |
 | --- | --- |

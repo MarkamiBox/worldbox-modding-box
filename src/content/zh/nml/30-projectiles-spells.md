@@ -89,9 +89,9 @@ World.world.projectiles.spawn(
     pTargetPosition: target.current_tile.posV3);
 ```
 
-发射与目标坐标均要求 `Vector3`。地块的 `posV3` 最容易获取；单位身上的 `current_position` 是 `Vector2`，因此需要先进行坐标转换。
+发射与目标坐标均要求 `Vector3`。地块（tile）的 `posV3` 最容易获取；单位身上的 `current_position` 是 `Vector2`，因此需要先进行坐标转换。
 
-推荐克隆的原版投射物ID：`arrow` · `snowball` · `firebomb` · `torch`。
+推荐克隆的原版投射物（projectile）ID：`arrow` · `snowball` · `firebomb` · `torch`。
 
 ### 自定义精灵图路径
 
@@ -116,7 +116,7 @@ bolt.texture = "hello_bolt";   // 切勿写成 "effects/projectiles/hello_bolt"
 
 ## 法术技能
 
-法术是单位在没有玩家干预的情况下自发施放的技能。AI根据 `chance`、`cost_mana` 与 `min_distance` 自行决断何时施放。
+法术（spell）是单位在没有玩家干预的情况下自发施放的技能。AI根据 `chance`、`cost_mana` 与 `min_distance` 自行决断何时施放。
 
 ```csharp
 SpellAsset bolt = new SpellAsset
@@ -142,7 +142,7 @@ bolt.action = (BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile) =>
 AssetManager.spells.add(bolt);
 ```
 
-`action` 是一个 `AttackAction` 委托，与武器词条附魔使用的是同一委托签名，因此法术主体逻辑与附魔打击逻辑完全通用。
+`action` 是一个 `AttackAction` 委托，与武器词条附魔（modifier）使用的是同一委托签名，因此法术主体逻辑与附魔打击逻辑完全通用。
 
 ### 将法术赋予实体
 
@@ -156,7 +156,7 @@ item.linkSpells();
 actorAsset.spell_ids = new List<string> { "hello_bolt" };
 ```
 
-`addSpell()` 只是追加一个 id。资源库会在启动时、在你的模组之前，通过 `linkAssets()` 把 id 转换成法术：如果你在自己注册的特质或物品上漏掉了 `linkSpells()`，它就什么都不授予，而且悄无声息。
+`addSpell()` 只是追加一个 id。资源库会在启动时、在你的模组之前，通过 `linkAssets()` 把 id 转换成法术：如果你在自己注册的特质（trait）或物品（item）上漏掉了 `linkSpells()`，它就什么都不授予，而且悄无声息。
 
 值得一读的原版法术 id：`teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`。
 
@@ -230,11 +230,11 @@ namespace HelloBox
 | --- | --- |
 | `chance` | 动作可用时掷骰，会被单位的 `skill_combat` 提高 |
 | `cost_stamina` / `cost_mana` | 使用时支付。不够的话就不会被选 |
-| `cooldown` | 之后 `recovery_combat_action` 状态持续的秒数，期间所有战斗动作都会被封锁 |
+| `cooldown` | 之后 `recovery_combat_action` 状态（status）持续的秒数，期间所有战斗动作都会被封锁 |
 | `can_do_action` | 你的条件，会传入目标 |
 
 > [!WARNING] 只有特质能分发它们
-> 单位只从自己的特质以及亚种、氏族和宗教收集战斗动作，从不从装备收集。特质保存的是 id，而游戏在启动时就把 id 转成了对象：在 `addCombatAction()` 之后调用 `linkCombatActions()`，否则这个特质身上会带着一个永远没人使出来的招式 :PES2_Shrug:。
+> 单位只从自己的特质以及亚种（subspecies）、氏族（clan）和宗教（religion）收集战斗动作，从不从装备收集。特质保存的是 id，而游戏在启动时就把 id 转成了对象：在 `addCombatAction()` 之后调用 `linkCombatActions()`，否则这个特质身上会带着一个永远没人使出来的招式 :PES2_Shrug:。
 
 ## 视觉特效
 

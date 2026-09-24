@@ -8,7 +8,7 @@ order: 172
 
 # Nuages et météo :wbtornado:
 
-Un nuage est un sprite qui dérive sur la carte en lâchant des projectiles sur ce qui se trouve en dessous. Pluie, acide, lave, neige, feu : ils sont tous le même asset avec une couleur différente et un `drop_id` distinct.
+Un nuage (cloud) est un sprite qui dérive sur la carte en lâchant des projectiles sur ce qui se trouve en dessous. Pluie, acide, lave, neige, feu : ils sont tous le même asset avec une couleur différente et un `drop_id` distinct.
 
 Les nuages représentent le meilleur investissement de tout le jeu pour un moddeur. Un seul asset, aucun dessin requis, et il se déplace, lâche des gouttes, éclaire le sol et apparaît de lui-même dans la liste des catastrophes.
 
@@ -95,7 +95,7 @@ Une `CloudAction` prend le nuage en cours et ne renvoie rien :
 public delegate void CloudAction(Cloud pCloud);
 ```
 
-`CloudLibrary.dropAction` est l'action vanilla standard : elle sélectionne une tuile aléatoire sous le sprite du nuage et y fait apparaître un `drop_id`. Dans 90 % des cas, c'est la seule action dont vous avez besoin : vous la définissez sur `cloud_action_1` et c'est tout. Paresseux et correct, ma combinaison préférée :pepeOK:.
+`CloudLibrary.dropAction` est l'action vanilla standard : elle sélectionne une tuile (tile) aléatoire sous le sprite du nuage et y fait apparaître un `drop_id`. Dans 90 % des cas, c'est la seule action dont vous avez besoin : vous la définissez sur `cloud_action_1` et c'est tout. Paresseux et correct, ma combinaison préférée :pepeOK:.
 
 Pour un effet supplémentaire, écrivez votre propre méthode et attribuez-la à `cloud_action_2` :
 
@@ -150,7 +150,7 @@ Les nuages apparaissent via le système d'effets visuels, et non par un gestionn
 EffectsLibrary.spawn("fx_cloud", tile, HelloClouds.EMBER);
 ```
 
-C'est exactement ce que fait chaque pouvoir divin de nuage dans le jeu. Enveloppez cela dans un pouvoir et le joueur disposera d'un outil d'invocation :
+C'est exactement ce que fait chaque pouvoir divin (GodPower) de nuage dans le jeu. Enveloppez cela dans un pouvoir et le joueur disposera d'un outil d'invocation :
 
 ```csharp
 GodPower power = new GodPower

@@ -8,7 +8,7 @@ order: 184
 
 # Catastrophes :wbmeteorite:
 
-Une catastrophe est un événement que le monde s'inflige à lui-même : une tornade, une vague de chaleur, une météorite. Le jeu tire au sort leur apparition au fil du temps, donc contrairement à un pouvoir divin, **personne n'a besoin de cliquer sur quoi que ce soit**. Vous fixez les conditions, le monde fait le reste.
+Une catastrophe est un événement que le monde s'inflige à lui-même : une tornade, une vague de chaleur, une météorite. Le jeu tire au sort leur apparition au fil du temps, donc contrairement à un pouvoir divin (GodPower), **personne n'a besoin de cliquer sur quoi que ce soit**. Vous fixez les conditions, le monde fait le reste.
 
 ## En ajouter une
 

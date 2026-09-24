@@ -8,7 +8,7 @@ order: 176
 
 # Leis do mundo :wbworldlaws:
 
-Leis do mundo são os interruptores na janela **Leis do mundo**: "velhice", "fome", "monstros pacíficos". Elas são o recurso mais amigável ao jogador que você pode adicionar, permitindo ligar e desligar o comportamento do seu mod sem tocar em nenhum arquivo de configuração.
+Leis do mundo (world law) são os interruptores na janela **Leis do mundo**: "velhice", "fome", "monstros pacíficos". Elas são o recurso mais amigável ao jogador que você pode adicionar, permitindo ligar e desligar o comportamento (behaviour) do seu mod sem tocar em nenhum arquivo de configuração.
 
 Elas também são um dos assets mais fáceis de todo o jogo. Quatro campos.
 

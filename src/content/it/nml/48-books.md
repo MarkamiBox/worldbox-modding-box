@@ -8,7 +8,7 @@ order: 187
 
 # Libri :wbscroll:
 
-Le unità scrivono libri, le città li conservano, e altre unità li leggono e ne escono un po' diverse. Un tipo di libro è un nuovo genere di libro in questo ciclo: chi lo scrive, come si chiama, che copertina ha e cosa ti fa leggerlo.
+Le unità scrivono libri (book), le città li conservano, e altre unità li leggono e ne escono un po' diverse. Un tipo di libro è un nuovo genere di libro in questo ciclo: chi lo scrive, come si chiama, che copertina ha e cosa ti fa leggerlo.
 
 La pagina **[Tratti linguistici](#/nml/language-traits)** ne crea già uno piccolo, l'Almanacco di Brace. Questa pagina prende lo stesso libro e lo finisce: titoli suoi, una ricompensa vera e qualcosa che succede quando lo leggi.
 
@@ -18,7 +18,7 @@ Qui niente ha bisogno di una patch, devi solo conoscere il ciclo:
 
 1. Un'unità decide di scrivere. Il gioco raccoglie tutti i tipi di libro il cui `requirement_check` passa per quell'unità.
 2. Ognuno entra in un sacchetto `writing_rate` volte (o `rate_calc` volte, se lo imposti), **al massimo 10**, e se ne estrae uno.
-3. Il libro ha bisogno di un edificio con un posto libero per i libri nella **città** di chi scrive. Niente biblioteca, niente libro.
+3. Il libro ha bisogno di un edificio (building) con un posto libero per i libri nella **città** di chi scrive. Niente biblioteca, niente libro.
 4. Il titolo viene dal generatore di nomi in `name_template`, la copertina dalla cartella in `path_icons`.
 5. Più tardi qualcuno lo legge e riceve le ricompense qui sotto.
 
@@ -84,22 +84,22 @@ namespace HelloBox
 }
 ```
 
-Questo file **sostituisce** l'`HelloBooks.cs` della pagina dei tratti linguistici, è la stessa classe cresciuta. `HelloBooks.Initialize()` va dopo il tratto e lo stato che usa.
+Questo file **sostituisce** l'`HelloBooks.cs` della pagina dei tratti (trait) linguistici, è la stessa classe cresciuta. `HelloBooks.Initialize()` va dopo il tratto e lo stato che usa.
 
 ## Cosa dà leggerlo
 
 I numeri in `base_stats` non sono un bonus che svanisce. Ogni lettura li distribuisce una volta:
 
-| Statistica | Cosa riceve chi legge |
+| Statistica (stats) | Cosa riceve chi legge |
 | --- | --- |
 | `happiness` | Tanta felicità, come evento "ha appena letto un libro". Funziona anche in negativo, per i libri deprimenti |
 | `experience` | Tanta esperienza |
 | `mana` | Tanto mana |
 | `diplomacy`, `warfare`, `stewardship`, `intelligence` | Aggiunti a chi legge **per sempre**. A ogni lettura, di nuovo |
 
-L'ultima riga è quella potente. Un libro che dà `intelligence = 1` rende una città di lettori più intelligente a ogni generazione, quindi tienilo piccolo. Un libro da +10 è il modo per avere un regno di geni entro l'anno 50 :wbgenius:.
+L'ultima riga è quella potente. Un libro che dà `intelligence = 1` rende una città di lettori più intelligente a ogni generazione, quindi tienilo piccolo. Un libro da +10 è il modo per avere un regno (kingdom) di geni entro l'anno 50 :wbgenius:.
 
-I tratti di lingua e di cultura possono cambiare i primi due: una lingua con `beautiful_calligraphy` rende la felicità più grande, e una cultura con `reading_lovers` rende allegri i libri tristi.
+I tratti di lingua e di cultura (culture) possono cambiare i primi due: una lingua con `beautiful_calligraphy` rende la felicità più grande, e una cultura con `reading_lovers` rende allegri i libri tristi.
 
 ## I campi che contano
 
@@ -112,7 +112,7 @@ I tratti di lingua e di cultura possono cambiare i primi due: una lingua con `be
 | `read_action` | Il tuo codice, una volta per lettura |
 | `path_icons` | Una cartella dentro `books/book_icons/`, letta come lista di immagini. Ne viene scelta una per libro |
 | `color_text` | Il colore del titolo nell'interfaccia |
-| `save_culture` / `save_religion` | Se il libro ricorda la cultura e la religione di chi l'ha scritto. Tutti e due attivi di default, e contano per i libri che diffondono una fede |
+| `save_culture` / `save_religion` | Se il libro ricorda la cultura e la religione (religion) di chi l'ha scritto. Tutti e due attivi di default, e contano per i libri che diffondono una fede |
 
 ## Il generatore di titoli
 

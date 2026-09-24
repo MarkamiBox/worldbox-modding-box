@@ -8,13 +8,13 @@ order: 148
 
 # Projektile, Zauber & Effekte :wblightning:
 
-Drei kleine Bibliotheken, die ständig auftauchen, sobald du Dinge auf der Karte geschehen lassen willst:
+Drei kleine Bibliotheken (library), die ständig auftauchen, sobald du Dinge auf der Karte geschehen lassen willst:
 
 | | |
 | --- | --- |
 | `AssetManager.projectiles` | Etwas, das von A nach B fliegt: ein Pfeil, eine Feuerbombe, eine geworfene Fackel |
 | `AssetManager.spells` | Etwas, das Einheiten selbstständig wirken können, mit Manakosten und KI-Chance |
-| `AssetManager.effects_library` | Reine Optik: eine Explosion, eine Wolke, ein Blitz, eine Rauchwolke |
+| `AssetManager.effects_library` | Reine Optik: eine Explosion, eine Wolke (cloud), ein Blitz, eine Rauchwolke |
 
 ## Projektile
 
@@ -61,7 +61,7 @@ Die meisten davon kommen mit dem, was du geklont hast, und du schaust sie nie wi
 | Feld | Was es tut |
 | --- | --- |
 | `texture`, `texture_shadow` | Sprite und dessen Schatten |
-| `animated`, `animation_speed`, `frames` | Ob das Projektil im Flug animiert ist |
+| `animated`, `animation_speed`, `frames` | Ob das Projektil (projectile) im Flug animiert ist |
 | `speed`, `speed_random` | Fluggeschwindigkeit plus Streuung pro Schuss |
 | `look_at_target` | Ob sich das Sprite in Flugrichtung dreht |
 | `scale_start`, `scale_target` | Größe beim Start und beim Einschlag |
@@ -89,7 +89,7 @@ World.world.projectiles.spawn(
     pTargetPosition: target.current_tile.posV3);
 ```
 
-Beide Positionen sind `Vector3`. `posV3` einer Kachel ist am einfachsten zu greifen; `current_position` einer Einheit ist ein `Vector2` und muss vorher konvertiert werden.
+Beide Positionen sind `Vector3`. `posV3` einer Kachel (tile) ist am einfachsten zu greifen; `current_position` einer Einheit ist ein `Vector2` und muss vorher konvertiert werden.
 
 Vanilla-IDs zum Klonen: `arrow` · `snowball` · `firebomb` · `torch`.
 
@@ -116,7 +116,7 @@ Projektile werden ebenfalls als Sprite-Liste geladen: ein **Ordner** mit dem Nam
 
 ## Zauber
 
-Ein Zauber ist etwas, das eine Einheit eigenständig ohne den Spieler wirkt. Die KI entscheidet anhand von `chance`, `cost_mana` und `min_distance`, wann er eingesetzt wird.
+Ein Zauber (spell) ist etwas, das eine Einheit eigenständig ohne den Spieler wirkt. Die KI entscheidet anhand von `chance`, `cost_mana` und `min_distance`, wann er eingesetzt wird.
 
 ```csharp
 SpellAsset bolt = new SpellAsset
@@ -142,7 +142,7 @@ bolt.action = (BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile) =>
 AssetManager.spells.add(bolt);
 ```
 
-`action` ist eine `AttackAction`, dieselbe Delegaten-Signatur wie bei Waffen-Modifikatoren, sodass ein Zaubereffekt und eine Verzauberung austauschbar sind.
+`action` ist eine `AttackAction`, dieselbe Delegaten-Signatur wie bei Waffen-Modifikatoren, sodass ein Zaubereffekt und eine Verzauberung (modifier) austauschbar sind.
 
 ### Einer Entität einen Zauber verleihen
 
@@ -156,7 +156,7 @@ item.linkSpells();
 actorAsset.spell_ids = new List<string> { "hello_bolt" };
 ```
 
-`addSpell()` hängt nur eine ID an. Die Bibliothek verwandelt IDs in `linkAssets()` in Zauber, beim Start, vor deiner Mod: Lässt du `linkSpells()` bei einem Merkmal oder Gegenstand weg, den du selbst registriert hast, gewährt er nichts, und zwar stillschweigend.
+`addSpell()` hängt nur eine ID an. Die Bibliothek verwandelt IDs in `linkAssets()` in Zauber, beim Start, vor deiner Mod: Lässt du `linkSpells()` bei einem Merkmal (trait) oder Gegenstand (item) weg, den du selbst registriert hast, gewährt er nichts, und zwar stillschweigend.
 
 Vanilla-Zauber-IDs, die sich zu lesen lohnen: `teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`.
 
@@ -234,7 +234,7 @@ namespace HelloBox
 | `can_do_action` | Deine Bedingung, mit dem Ziel als Eingabe |
 
 > [!WARNING] Nur Merkmale verteilen sie
-> Eine Einheit sammelt Kampfaktionen aus ihren Merkmalen und aus ihrer Unterart, ihrem Clan und ihrer Religion, nie aus ihrer Ausrüstung. Das Merkmal speichert IDs, und das Spiel hat IDs beim Start in Objekte verwandelt: Ruf `linkCombatActions()` nach `addCombatAction()` auf, sonst trägt das Merkmal einen Move, den nie jemand macht :PES2_Shrug:.
+> Eine Einheit sammelt Kampfaktionen aus ihren Merkmalen und aus ihrer Unterart (subspecies), ihrem Clan und ihrer Religion, nie aus ihrer Ausrüstung. Das Merkmal speichert IDs, und das Spiel hat IDs beim Start in Objekte verwandelt: Ruf `linkCombatActions()` nach `addCombatAction()` auf, sonst trägt das Merkmal einen Move, den nie jemand macht :PES2_Shrug:.
 
 ## Effekte
 

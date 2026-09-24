@@ -260,7 +260,7 @@ namespace HelloBox
 }
 ```
 
-`HelloWindow` fügt seiner Hintergrundebene eine `HelloTooltipTarget`-Komponente hinzu, sodass er beim Überfahren mit der Maus sichtbar wird. `Tooltip.show()` erwartet das zugehörige GameObject, die Tooltip-ID und ein `TooltipData`-Objekt, das dein Callback empfängt. Das Hauptspiel übergibt darin beispielsweise die betreffende Einheit, Stadt oder das Merkmal. Der Standard-Tooltip `"normal"` benötigt kein eigenes Asset, sondern liest direkt `tip_name` und `tip_description` aus den Textschlüsseln aus.
+`HelloWindow` fügt seiner Hintergrundebene eine `HelloTooltipTarget`-Komponente hinzu, sodass er beim Überfahren mit der Maus sichtbar wird. `Tooltip.show()` erwartet das zugehörige GameObject, die Tooltip-ID und ein `TooltipData`-Objekt, das dein Callback empfängt. Das Hauptspiel übergibt darin beispielsweise die betreffende Einheit, Stadt oder das Merkmal (trait). Der Standard-Tooltip `"normal"` benötigt kein eigenes Asset, sondern liest direkt `tip_name` und `tip_description` aus den Textschlüsseln aus.
 
 | Feld in `TooltipAsset` | Was es bewirkt |
 | --- | --- |
@@ -322,4 +322,4 @@ Die `check_*`-Flags sind der einfachste Weg, Konflikte zu vermeiden: `check_cont
 ```
 
 > [!TIP] Kopiere zuerst aus dem Spiel
-> Öffne **UnityExplorer**, suche ein vanilla Fenster in der Hierarchie und lies die Komponenten und Werte direkt ab. Eine funktionierende Struktur zu kopieren ist unendlich besser, als drei Stunden lang Ankerpunkte zu erraten :PES2_GaSmart:.
+> Öffne **UnityExplorer**, suche ein vanilla Fenster in der Hierarchie und lies die Komponenten und Werte (stats) direkt ab. Eine funktionierende Struktur zu kopieren ist unendlich besser, als drei Stunden lang Ankerpunkte zu erraten :PES2_GaSmart:.

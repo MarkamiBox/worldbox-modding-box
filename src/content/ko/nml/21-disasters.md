@@ -84,7 +84,7 @@ namespace HelloBox
 | `max_existing_units` | 이미 이만큼 있으면 더 소환하지 않음 |
 | `ages_allow` / `ages_forbid` | 특정 세계 시대로 제한합니다. 예: 재의 시대에만 |
 
-시대 제한은 에셋을 만든 뒤에 설정합니다:
+시대 (world age) 제한은 에셋을 만든 뒤에 설정합니다:
 
 ```csharp
 emberStorm.ages_allow.Add("age_ash");

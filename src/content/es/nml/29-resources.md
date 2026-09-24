@@ -8,7 +8,7 @@ order: 182
 
 # Recursos y comida :wbtomato:
 
-Un recurso es todo aquello que una ciudad almacena, comercia, come o forja: trigo, pan, piedra, mitril, huesos, gemas. Viven en `AssetManager.resources` y representan la base de toda la economía: lo que cultivan las granjas, lo que hornean los panaderos, lo que necesitan los herreros y lo que come un ciudadano hambriento. Con esta economía, hasta el pan es una estructura de datos :PES2_Cash:.
+Un recurso (resource) es todo aquello que una ciudad almacena, comercia, come o forja: trigo, pan, piedra, mitril, huesos, gemas. Viven en `AssetManager.resources` y representan la base de toda la economía: lo que cultivan las granjas, lo que hornean los panaderos, lo que necesitan los herreros y lo que come un ciudadano hambriento. Con esta economía, hasta el pan es una estructura de datos :PES2_Cash:.
 
 ## Clonar desde una plantilla
 
@@ -75,7 +75,7 @@ namespace HelloBox
 | `tastiness`, `favorite_food_chance` | Probabilidad de que una unidad lo adopte como comida favorita |
 | `diet` | Qué dietas biológicas pueden consumirlo |
 | `eat_action` | Tu propio código ejecutado cuando alguien lo come |
-| `give_trait_id`, `give_status_id`, `give_chance` | Rasgos o estados aplicados al consumirlo |
+| `give_trait_id`, `give_status_id`, `give_chance` | Rasgos (trait) o estados aplicados al consumirlo |
 
 ### Fabricación y transporte
 
@@ -86,7 +86,7 @@ namespace HelloBox
 | `mine_rate` | Velocidad a la que se extrae o cosecha |
 | `drop_max`, `drop_per_mass` | Cuánto suelta cuando su fuente es destruida |
 | `stack_size`, `storage_max`, `maximum` | Límites de transporte y almacenamiento |
-| `supply_give`, `supply_bound_give`, `supply_bound_take` | Comportamiento en suministros militares |
+| `supply_give`, `supply_bound_give`, `supply_bound_take` | Comportamiento (behaviour) en suministros militares |
 | `trade_cost`, `trade_give`, `trade_bound` | Comportamiento en rutas comerciales |
 | `money_cost`, `loot_value` | Valor monetario y valor como botín |
 
@@ -144,4 +144,4 @@ El **material** de un objeto (hierro, acero, mitril) es un `ItemAsset` en una bi
 El enlace entre ambos es el campo `cost_resources` en el material, que especifica los identificadores de recursos y cantidades requeridas.
 
 > [!TIP] Añade la receta, no el ingrediente
-> Un nuevo *ingrediente* necesita una fuente: algo que lo cultive, un bioma que lo genere, un empleo que lo coseche. Una nueva *receta* solo necesita ingredientes ya existentes y se acopla de inmediato a las panaderías y rutas de comercio en funcionamiento. Lo primero toma una semana; lo segundo, una tarde :PES_ChillPill:.
+> Un nuevo *ingrediente* necesita una fuente: algo que lo cultive, un bioma (biome) que lo genere, un empleo que lo coseche. Una nueva *receta* solo necesita ingredientes ya existentes y se acopla de inmediato a las panaderías y rutas de comercio en funcionamiento. Lo primero toma una semana; lo segundo, una tarde :PES_ChillPill:.

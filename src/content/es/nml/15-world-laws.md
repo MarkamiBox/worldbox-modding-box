@@ -8,7 +8,7 @@ order: 176
 
 # Leyes del mundo :wbworldlaws:
 
-Las leyes del mundo son los interruptores de la ventana **Leyes del mundo**: "vejez", "hambre", "monstruos pacíficos". Son lo más amigable para el jugador que puedes añadir, ya que permiten activar y desactivar el comportamiento de tu mod sin tener que tocar ningún archivo de configuración.
+Las leyes del mundo (world law) son los interruptores de la ventana **Leyes del mundo**: "vejez", "hambre", "monstruos pacíficos". Son lo más amigable para el jugador que puedes añadir, ya que permiten activar y desactivar el comportamiento (behaviour) de tu mod sin tener que tocar ningún archivo de configuración.
 
 Además, son uno de los assets más fáciles de todo el juego. Cuatro campos.
 

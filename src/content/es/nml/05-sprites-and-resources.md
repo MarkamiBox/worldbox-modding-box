@@ -8,7 +8,7 @@ order: 28
 
 # Sprites y recursos :wbfanartist:
 
-Tu rasgo ya tiene nombre, estadísticas y una descripción maravillosa. Pero también tiene un signo de interrogación enorme y horrible como icono. Es hora de arreglarlo.
+Tu rasgo (trait) ya tiene nombre, estadísticas (stats) y una descripción maravillosa. Pero también tiene un signo de interrogación enorme y horrible como icono. Es hora de arreglarlo.
 
 ## Usar un icono que el juego ya tiene
 
@@ -65,7 +65,7 @@ Junto a tus imágenes, un archivo `sprites.json` le explica a NML cómo recortar
 | Campo | Qué hace |
 | --- | --- |
 | `PixelsPerUnit` | Mantenlo en `1` a menos que tengas un motivo muy específico para cambiarlo |
-| `PivotX` / `PivotY` | El punto de anclaje. `0.5 / 0.0` es abajo al centro, que es lo habitual para unidades y edificios |
+| `PivotX` / `PivotY` | El punto de anclaje. `0.5 / 0.0` es abajo al centro, que es lo habitual para unidades y edificios (building) |
 | `BorderL/R/T/B` | Bordes de 9-slice para marcos de ventana y botones reescalables |
 | `Path` | Archivo específico al que se aplica esta regla |
 
@@ -77,16 +77,16 @@ Esta es la tabla a la que la gente siempre vuelve. Cada asset apunta a su arte c
 
 | Asset | Campo | El archivo va en |
 | --- | --- | --- |
-| Rasgo, poder divino, reino, grupo | `path_icon` | `GameResources/` + exactamente lo que escribiste |
+| Rasgo, poder divino (GodPower), reino (kingdom), grupo | `path_icon` | `GameResources/` + exactamente lo que escribiste |
 | Objeto, en la mano de una unidad | `path_gameplay_sprite` | `GameResources/` + exactamente lo que escribiste |
 | Edificio | `sprite_path` | Una **carpeta**: `GameResources/` + `sprite_path` + `/`, con `main_0.png`, `construction_0.png`, `ruin_0.png`. Con `sprite_path` vacío es `main_path` + id, y `main_path` por defecto es `buildings/` |
 | Drop | `path_texture` | Una **carpeta**: `GameResources/` + exactamente lo que escribiste, un PNG por fotograma |
-| Nube | `path_sprites` | `GameResources/` + cada ruta de la lista |
-| Efecto de estado | `texture` | Una **carpeta**: `GameResources/effects/` + lo que escribiste, un PNG por fotograma |
+| Nube (cloud) | `path_sprites` | `GameResources/` + cada ruta de la lista |
+| Efecto de estado (status) | `texture` | Una **carpeta**: `GameResources/effects/` + lo que escribiste, un PNG por fotograma |
 | Proyectil | `texture` | Una **carpeta**: `GameResources/effects/projectiles/` + lo que escribiste, un PNG por fotograma |
-| Recurso, llevado en la mano | `path_gameplay_sprite` | Una **carpeta**: `GameResources/items/resources/` + lo que escribiste, un PNG por fotograma |
+| Recurso (resource), llevado en la mano | `path_gameplay_sprite` | Una **carpeta**: `GameResources/items/resources/` + lo que escribiste, un PNG por fotograma |
 | Recurso, icono del inventario | `path_icon` | `GameResources/` + lo que escribiste. Vanilla usa un nombre simple como `iconResBread`, así que el archivo va en la raíz |
-| Casilla y casilla superior | *(sin campo)* | `GameResources/tiles/<the tile's id>/` |
+| Casilla (tile) y casilla superior | *(sin campo)* | `GameResources/tiles/<the tile's id>/` |
 
 > [!WARNING] "Una carpeta" no es una cuestión de estilo
 > Todos los assets marcados como **carpeta** arriba se leen con `getSpriteList()`, que devuelve los fotogramas *dentro* de una carpeta. Apúntalo a un solo PNG y vuelve vacío: un drop cae invisible, un proyectil lanza `ArgumentOutOfRangeException` en `QuantumSpriteLibrary.drawProjectiles()`, un estado lanza un error en cada fotograma. Un solo fotograma está bien, solo tiene que estar en su propia carpeta: `drops/hello_ember/hello_ember_0.png` :wbfacepalm:.

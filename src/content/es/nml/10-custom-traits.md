@@ -8,7 +8,7 @@ order: 100
 
 # Rasgos personalizados :wbstrongminded:
 
-Un rasgo (trait) es una etiqueta permanente en una unidad: *valiente*, *rápido*, *inmortal*. Aparece en el inspector, puede alterar las estadísticas de la unidad, puede ejecutar código cuando la unidad nace, recibe daño o muere, y los hijos pueden heredarlo.
+Un rasgo (trait) es una etiqueta permanente en una unidad: *valiente*, *rápido*, *inmortal*. Aparece en el inspector, puede alterar las estadísticas (stats) de la unidad, puede ejecutar código cuando la unidad nace, recibe daño o muere, y los hijos pueden heredarlo.
 
 También es lo más sencillo de añadir en todo el juego, razón por la cual es el primer mod de todo el mundo. El mío no: mi primer mod era un wrapper alrededor del mod de otra persona, que es su propia forma de hacer trampa :trollface:.
 
@@ -16,7 +16,7 @@ También es lo más sencillo de añadir en todo el juego, razón por la cual es 
 
 Cada asset en WorldBox vive en una única lista plana indexada por `id`. Si registras `fast` y otro mod registra `fast`, el segundo **sobrescribe** al primero y el log recibe una línea al respecto que nadie lee jamás.
 
-Por lo tanto: `hello_swift`, no `swift`. Nombre corto del mod, guion bajo, tu nombre para el objeto. Haz esto para rasgos, objetos, edificios, poderes, estados, para absolutamente todo :aPES4_Noted:.
+Por lo tanto: `hello_swift`, no `swift`. Nombre corto del mod, guion bajo, tu nombre para el objeto. Haz esto para rasgos, objetos, edificios (building), poderes, estados, para absolutamente todo :aPES4_Noted:.
 
 ## El rasgo
 
@@ -71,7 +71,7 @@ protected override void OnModLoad()
 
 - **`AssetManager.traits`**: La biblioteca que alberga cada rasgo de unidad en el juego, vanilla y modificado. `has`, `get`, `add` y `clone` son los cuatro métodos que utilizarás en cada biblioteca en cada página a partir de aquí.
 - **`path_icon`**: La pequeña imagen en el inspector. Una *ruta*, no un archivo. Consulta **[Sprites y recursos](#/nml/sprites-and-resources)**. El juego solo completa esto automáticamente mientras construye sus propias bibliotecas (lo cual ocurre antes de que cargue cualquier mod), por lo que para tu rasgo estará vacío a menos que lo especifiques.
-- **`needs_to_be_explored`**: `true` por defecto, así que el rasgo sigue bloqueado en el libro de conocimiento hasta que el jugador lo encuentre en un mundo. `false` lo deja disponible desde el primer segundo. HelloBox lo pone en todo, para que veas lo que has hecho sin tener que buscarlo.
+- **`needs_to_be_explored`**: `true` por defecto, así que el rasgo sigue bloqueado en el libro (book) de conocimiento hasta que el jugador lo encuentre en un mundo. `false` lo deja disponible desde el primer segundo. HelloBox lo pone en todo, para que veas lo que has hecho sin tener que buscarlo.
 - **`group_id`**: Bajo qué pestaña del libro de rasgos aparece. La lista completa está más abajo.
 - **`rate_birth`**: La probabilidad de que un recién nacido lo obtenga de forma natural. `0` significa "solo si algo se lo concede".
 - **`can_be_given` / `can_be_removed`**: Si el jugador puede añadirlo o quitarlo en el editor de rasgos. Ambos están por defecto en `true`; pon uno en `false` para un rasgo pensado para ser permanente o concedido solo por tu propio código.
@@ -84,7 +84,7 @@ protected override void OnModLoad()
 > La misma regla aplica a estados, objetos, edificios y criaturas. La excepción es `clone()`, que llama a `add()` internamente por ti, así que tras clonar las estadísticas ya están listas.
 
 > [!TIP] El mismo interruptor existe en casi todo lo que creas
-> `needs_to_be_explored` vive en la clase base que comparten todos los assets desbloqueables, así que funciona en actores, los siete tipos de rasgo, objetos, modificadores y leyes del mundo. Poderes divinos, estados, edificios, drops, nubes, tiles y proyectiles no tienen paso de descubrimiento :wbsmirk:.
+> `needs_to_be_explored` vive en la clase base que comparten todos los assets desbloqueables, así que funciona en actores, los siete tipos de rasgo, objetos, modificadores (modifier) y leyes del mundo (world law). Poderes divinos (GodPower), estados, edificios, drops, nubes (cloud), tiles y proyectiles (projectile) no tienen paso de descubrimiento :wbsmirk:.
 
 ### Los grupos de rasgos vanilla
 
@@ -205,11 +205,11 @@ Los rasgos de criatura son solo uno de **siete** sistemas de rasgos. Cada uno ti
 | Sistema | Pertenece a | Página |
 | --- | --- | --- |
 | Actor | una criatura | esta página |
-| Culture | una cultura, compartida por sus ciudades | **[Rasgos de cultura](#/nml/culture-traits)** |
-| Religion | una religión y sus creyentes | **[Rasgos de religión](#/nml/religion-traits)** |
+| Culture | una cultura (culture), compartida por sus ciudades | **[Rasgos de cultura](#/nml/culture-traits)** |
+| Religion | una religión (religion) y sus creyentes | **[Rasgos de religión](#/nml/religion-traits)** |
 | Subspecies | una rama de una especie | **[Rasgos de subespecie](#/nml/subspecies-traits)** |
 | Clan | un linaje de sangre | **[Rasgos de clan](#/nml/clan-traits)** |
 | Language | un idioma y quienes lo hablan | **[Rasgos de idioma](#/nml/language-traits)** |
-| Kingdom | la política de un reino | **[Rasgos de reino](#/nml/kingdom-traits)** |
+| Kingdom | la política de un reino (kingdom) | **[Rasgos de reino](#/nml/kingdom-traits)** |
 
-Elige al portador antes de escribir el rasgo. "Los elfos disparan mejor" es un rasgo cultural si debe propagarse con sus ciudades, un rasgo de subespecie si debe heredarse por reproducción, y un rasgo de criatura si pertenece a un individuo. Confundirse en eso es la diferencia entre un mod que transforma un mundo a lo largo de una hora y uno que no hace nada en absoluto :PES_ThinkAboutIt:.
+Elige al portador antes de escribir el rasgo. "Los elfos disparan mejor" es un rasgo cultural si debe propagarse con sus ciudades, un rasgo de subespecie (subspecies) si debe heredarse por reproducción, y un rasgo de criatura si pertenece a un individuo. Confundirse en eso es la diferencia entre un mod que transforma un mundo a lo largo de una hora y uno que no hace nada en absoluto :PES_ThinkAboutIt:.

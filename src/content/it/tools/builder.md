@@ -16,7 +16,7 @@ Scegli cosa vuoi creare, riempi le caselle e ottieni tutto: il file di codice, i
 1. **Il codice** va nella cartella `Code/` della tua mod, in un file con il nome scritto sopra il blocco.
 2. **Il testo** va in `Locales/<lingua>.json`. Se hai già quel file, copia solo le righe dentro le `{ }`, e occhio alle virgole.
 3. **La grafica** va esattamente dove dice la lista. Leggi la parola accanto a ognuna: **cartella** vuol dire una cartella di PNG, anche se hai un solo frame. Un PNG singolo dove serve una cartella è il motivo numero uno per cui la grafica non si vede :wbfacepalm:.
-4. **La riga di Main.cs** va dentro `OnModLoad()`. L'ordine conta: un tratto che sta nella tua scheda ha bisogno prima della scheda, un oggetto che costa una tua risorsa ha bisogno prima della risorsa.
+4. **La riga di Main.cs** va dentro `OnModLoad()`. L'ordine conta: un tratto (trait) che sta nella tua scheda ha bisogno prima della scheda, un oggetto che costa una tua risorsa (resource) ha bisogno prima della risorsa.
 
 Avvia il gioco e controlla il log. Se qualcosa non va, il link **Spiegazione completa** sotto il selettore ti porta alla pagina che spiega quel contenuto nel dettaglio.
 
@@ -25,7 +25,7 @@ Avvia il gioco e controlla il log. Se qualcosa non va, il link **Spiegazione com
 
 ## Modelli
 
-L'ultimo gruppo del selettore, **Templates**, funziona in modo diverso. Creature, edifici, disastri, IA, complotti e finestre sono soprattutto logica tua, quindi nessun modulo potrebbe scriverli al posto tuo. Ricevi invece il file funzionante della pagina della guida, rinominato con il tuo namespace e il tuo prefisso. Compila e funziona così com'è, e la pagina dietro **Spiegazione completa** spiega ogni riga, così sai cosa cambiare.
+L'ultimo gruppo del selettore, **Templates**, funziona in modo diverso. Creature, edifici (building), disastri (disaster), IA, complotti (plot) e finestre sono soprattutto logica tua, quindi nessun modulo potrebbe scriverli al posto tuo. Ricevi invece il file funzionante della pagina della guida, rinominato con il tuo namespace e il tuo prefisso. Compila e funziona così com'è, e la pagina dietro **Spiegazione completa** spiega ogni riga, così sai cosa cambiare.
 
 ## Cosa non fa
 

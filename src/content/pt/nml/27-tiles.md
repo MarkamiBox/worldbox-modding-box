@@ -10,7 +10,7 @@ order: 170
 
 O mapa é uma grade de `WorldTile`, e cada ladrilho carrega **dois** tipos empilhados um sobre o outro:
 
-| Camada | Campo no ladrilho | Biblioteca | Classe | Exemplos |
+| Camada | Campo no ladrilho | Biblioteca (library) | Classe | Exemplos |
 | --- | --- | --- | --- | --- |
 | Chão | `main_type` | `AssetManager.tiles` | `TileType` | terra, areia, rochas, oceano profundo, lava |
 | Topo | `top_type` | `AssetManager.top_tiles` | `TopTileType` | `grass_low`, `grass_high`, `road`, `field`, `frozen_low`, muros |
@@ -72,7 +72,7 @@ namespace HelloBox
 }
 ```
 
-> [!WARNING] Um tile de bioma precisa do bioma ligado
+> [!WARNING] Um tile de bioma (biome) precisa do bioma ligado
 > Clonar um tile de grama copia `is_biome = true` e o `biome_id`, mas o `BiomeAsset` em si só é buscado em `TopTileLibrary.linkAssets()`, uma vez, enquanto o jogo carrega. Pule essa linha e tudo funciona até um animal nascer no seu tile: o nome da espécie ganha o sufixo do bioma, o bioma é `null`, e o spawn morre com `NullReferenceException` em `Subspecies.generateName()` :wbfacepalm:.
 >
 > As imagens têm o mesmo problema. `TopTileLibrary` transforma os PNGs em `tiles/<id>/` em `sprites` na inicialização, então sem o último bloco o tile pinta normal e depois o renderizador do mapa lança em `WorldTilemap.getVariation()` para cada tile dele na tela.
@@ -103,7 +103,7 @@ Comece aqui se o seu ladrilho é uma ideia de gameplay e não só uma cor nova.
 | `damaged_when_walked` | O próprio ladrilho sofre desgaste quando pisado |
 | `step_action`, `step_action_chance` | Seu código executado a cada passo sobre ele |
 | `unit_death_action` | Seu código quando algo morre sobre ele |
-| `can_be_set_on_fire`, `burnable`, `burn_rate` | Comportamento com fogo |
+| `can_be_set_on_fire`, `burnable`, `burn_rate` | Comportamento (behaviour) com fogo |
 | `can_be_frozen`, `forever_frozen`, `fast_freeze`, `remove_on_freeze` | Comportamento com congelamento |
 | `remove_on_heat`, `terraform_after_fire` | O que o calor e o fogo deixam para trás |
 | `explodable`, `explodable_delayed`, `explodable_timed`, `explode_range` | Detonação |
@@ -117,7 +117,7 @@ Comece aqui se o seu ladrilho é uma ideia de gameplay e não só uma cor nova.
 | `can_be_removed_with_spade` / `_bucket` / `_demolish` / `_pickaxe` / `_axe` / `_sickle` | Qual ferramenta limpa o ladrilho |
 | `allowed_to_be_finger_copied` | Se a ferramenta de cópia do dedo pode copiá-lo |
 | `can_build_on`, `can_be_farm` | Se uma cidade pode construir ou cultivar sobre ele |
-| `only_allowed_to_build_with_tag` | Restringe construções a uma tag específica |
+| `only_allowed_to_build_with_tag` | Restringe construções (building) a uma tag específica |
 
 ### Transições
 
@@ -198,7 +198,7 @@ Tanto `main_type` quanto `top_type` podem ser `null`. Verifique antes de manipul
 
 ## Opções de terraformação
 
-Um `TerraformOptions` em `AssetManager.terraform` é um pacote de limpeza de ladrilho, usado por poderes divinos e projéteis:
+Um `TerraformOptions` em `AssetManager.terraform` é um pacote de limpeza de ladrilho, usado por poderes divinos (GodPower) e projéteis (projectile):
 
 | Campo | O que faz |
 | --- | --- |

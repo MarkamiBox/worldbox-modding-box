@@ -16,7 +16,7 @@ order: 100
 
 월드박스의 모든 에셋은 `id`를 키로 하는 단일 평면 리스트에 보관됩니다. 여러분이 `fast`를 등록했는데 다른 모드도 `fast`를 등록한다면, 나중에 등록된 모드가 앞선 모드를 **덮어써 버리며** 콘솔 창에는 아무도 읽지 않는 경고 로그 한 줄만 남게 됩니다.
 
-따라서: `swift`가 아니라 `hello_swift`로 짓습니다. 짧은 모드 이름, 밑줄, 내가 붙인 이름. 이 규칙은 특성, 아이템, 건물, 능력, 상태 이상 등 모든 것에 예외 없이 적용하세요 :aPES4_Noted:.
+따라서: `swift`가 아니라 `hello_swift`로 짓습니다. 짧은 모드 이름, 밑줄, 내가 붙인 이름. 이 규칙은 특성, 아이템, 건물 (building), 능력, 상태 이상 등 모든 것에 예외 없이 적용하세요 :aPES4_Noted:.
 
 ## 특성(Trait) 정의하기
 
@@ -84,7 +84,7 @@ protected override void OnModLoad()
 > 상태 이상, 아이템, 건물, 액터도 동일한 규칙이 적용됩니다. 유일한 예외는 내부에서 `add()`를 대신 호출해주는 `clone()`뿐입니다.
 
 > [!TIP] 같은 스위치가 만드는 것 대부분에 있습니다
-> `needs_to_be_explored` 는 잠금 해제 가능한 모든 에셋이 공유하는 기반 클래스에 있어서, 액터, 일곱 종류 특성 전부, 아이템, 수식어, 월드 법칙에 다 됩니다. 신의 권능, 상태, 건물, 드롭, 구름, 타일, 투사체에는 발견 단계 자체가 없습니다 :wbsmirk:.
+> `needs_to_be_explored` 는 잠금 해제 가능한 모든 에셋이 공유하는 기반 클래스에 있어서, 액터, 일곱 종류 특성 전부, 아이템, 수식어 (modifier), 월드 법칙에 다 됩니다. 신의 권능 (GodPower), 상태, 건물, 드롭, 구름 (cloud), 타일, 투사체에는 발견 단계 자체가 없습니다 :wbsmirk:.
 
 ### 바닐라 특성 그룹
 
@@ -205,9 +205,9 @@ if (actor.hasTrait(HelloTraits.SWIFT))
 | 시스템 | 소유 대상 | 가이드 페이지 |
 | --- | --- | --- |
 | Actor | 생물 개체 한 마리 | 이 페이지 |
-| Culture | 문화 (소속 도시 전체가 공유) | **[문화 특성](#/nml/culture-traits)** |
-| Religion | 종교 (해당 종교를 믿는 신자 전체) | **[종교 특성](#/nml/religion-traits)** |
-| Subspecies | 생물의 아종 | **[아종 특성](#/nml/subspecies-traits)** |
+| Culture | 문화 (culture) (소속 도시 전체가 공유) | **[문화 특성](#/nml/culture-traits)** |
+| Religion | 종교 (religion) (해당 종교를 믿는 신자 전체) | **[종교 특성](#/nml/religion-traits)** |
+| Subspecies | 생물의 아종 (subspecies) | **[아종 특성](#/nml/subspecies-traits)** |
 | Clan | 가문 및 혈통 | **[클랜 특성](#/nml/clan-traits)** |
 | Language | 언어 (해당 언어를 구사하는 화자 전체) | **[언어 특성](#/nml/language-traits)** |
 | Kingdom | 왕국의 국정 방침 | **[왕국 특성](#/nml/kingdom-traits)** |

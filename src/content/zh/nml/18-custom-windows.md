@@ -26,7 +26,7 @@ ScrollWindow.checkWindowExist("worldlaws");  // 检查该窗口是否存在
 ScrollWindow.isWindowActive();               // 当前是否“有任何”窗口处于打开状态
 ```
 
-最后这个方法远比表面看起来重要：如果你的神力在点击时会触发动作，你通常希望当窗口遮挡住地图时什么都不要发生。在 `GodPower` 上设置 `unselect_when_window = true` 即可把这个问题完全交给游戏处理。
+最后这个方法远比表面看起来重要：如果你的神力（GodPower）在点击时会触发动作，你通常希望当窗口遮挡住地图时什么都不要发生。在 `GodPower` 上设置 `unselect_when_window = true` 即可把这个问题完全交给游戏处理。
 
 ## 原生 ScrollWindow 方案
 
@@ -272,7 +272,7 @@ namespace HelloBox
 }
 ```
 
-`HelloWindow` 在自身背景上挂载了 `HelloTooltipTarget` 组件，因此鼠标悬停在窗口上时就会展示该提示框。`Tooltip.show()` 接收所属的 UI GameObject、提示框 ID 以及传递给回调函数的 `TooltipData` 数据包：原版逻辑通常将关联的生物、城镇或特质实例打包传入。对于常规说明，原版默认的 `"normal"` 提示框甚至无需注册专属资产，只需直接配置 `tip_name` 与 `tip_description` 本地化文本键即可。
+`HelloWindow` 在自身背景上挂载了 `HelloTooltipTarget` 组件，因此鼠标悬停在窗口上时就会展示该提示框。`Tooltip.show()` 接收所属的 UI GameObject、提示框 ID 以及传递给回调函数的 `TooltipData` 数据包：原版逻辑通常将关联的生物、城镇或特质（trait）实例打包传入。对于常规说明，原版默认的 `"normal"` 提示框甚至无需注册专属资产，只需直接配置 `tip_name` 与 `tip_description` 本地化文本键即可。
 
 | `TooltipAsset` 字段 | 作用说明 |
 | --- | --- |

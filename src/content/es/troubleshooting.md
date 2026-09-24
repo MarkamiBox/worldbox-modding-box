@@ -45,15 +45,15 @@ Encuentra tu síntoma en la tabla, haz clic, lee tres líneas. Esa es toda la p�
 
 | Síntoma | |
 | --- | --- |
-| Bloqueo en la línea donde asignas una estadística | [ir](#bloqueo-en-la-línea-donde-asignas-una-estadística) |
+| Bloqueo en la línea donde asignas una estadística (stats) | [ir](#bloqueo-en-la-línea-donde-asignas-una-estadística) |
 | El mismo bloqueo, y el orden ya es el correcto | [ir](#el-mismo-bloqueo-y-el-orden-ya-es-el-correcto) |
-| Tu edificio muere instantáneamente o no tiene tamaño | [ir](#tu-edificio-muere-instantáneamente-o-no-tiene-tamaño) |
+| Tu edificio (building) muere instantáneamente o no tiene tamaño | [ir](#tu-edificio-muere-instantáneamente-o-no-tiene-tamaño) |
 | Registrado, pero no aparece en ninguna pestaña | [ir](#registrado-pero-no-aparece-en-ninguna-pestaña) |
 | Muestra `trait_hello_swift` en vez de un nombre | [ir](#muestra-trait-hello-swift-en-vez-de-un-nombre) |
-| Los nombres funcionan para rasgos pero no para objetos, estados o poderes | [ir](#los-nombres-funcionan-para-rasgos-pero-no-para-objetos-estados-o-poderes) |
+| Los nombres funcionan para rasgos (trait) pero no para objetos, estados o poderes | [ir](#los-nombres-funcionan-para-rasgos-pero-no-para-objetos-estados-o-poderes) |
 | El icono es un hueco en blanco | [ir](#el-icono-es-un-hueco-en-blanco) |
 | Un botón ocupa espacio y no dibuja nada | [ir](#un-botón-ocupa-espacio-y-no-dibuja-nada) |
-| El efecto de estado no dibuja ningún sprite en la unidad | [ir](#el-efecto-de-estado-no-dibuja-ningún-sprite-en-la-unidad) |
+| El efecto de estado (status) no dibuja ningún sprite en la unidad | [ir](#el-efecto-de-estado-no-dibuja-ningún-sprite-en-la-unidad) |
 | Botones apilados uno encima de otro | [ir](#botones-apilados-uno-encima-de-otro) |
 | El botón está ahí, hacer clic no activa nada | [ir](#el-botón-está-ahí-hacer-clic-no-activa-nada) |
 | `addOpposite` / `addDecision` / `addSpell` no hacen nada | [ir](#addopposite-adddecision-addspell-no-hacen-nada) |
@@ -65,21 +65,21 @@ Encuentra tu síntoma en la tabla, haz clic, lee tres líneas. Esa es toda la p�
 | Tu criatura da un error de sombra | [ir](#tu-criatura-da-un-error-de-sombra) |
 | Tu rasgo, objeto o criatura sigue bloqueado | [ir](#tu-rasgo-objeto-o-criatura-sigue-bloqueado) |
 | El juego se cae al cargar tu arma o tu comida | [ir](#el-juego-se-cae-al-cargar-tu-arma-o-tu-comida) |
-| Una nube revienta en cuanto aparece | [ir](#una-nube-revienta-en-cuanto-aparece) |
+| Una nube (cloud) revienta en cuanto aparece | [ir](#una-nube-revienta-en-cuanto-aparece) |
 | Colocar tu edificio lanza Index was out of range | [ir](#colocar-tu-edificio-lanza-index-was-out-of-range) |
 | Tu edificio lanza errores en cada frame en que se ve | [ir](#tu-edificio-lanza-errores-en-cada-frame-en-que-se-ve) |
 | El minimapa lanza errores en cuanto existe tu edificio | [ir](#el-minimapa-lanza-errores-en-cuanto-existe-tu-edificio) |
 | Tu tile se pinta y luego el renderizador del mapa revienta | [ir](#tu-tile-se-pinta-y-luego-el-renderizador-del-mapa-revienta) |
 | Hacer aparecer un animal en tu tile revienta | [ir](#hacer-aparecer-un-animal-en-tu-tile-revienta) |
 | Los drops caen invisibles, o un proyectil revienta | [ir](#los-drops-caen-invisibles-o-un-proyectil-revienta) |
-| El log se llena de ArgumentNullException de proyectiles | [ir](#el-log-se-llena-de-argumentnullexception-de-proyectiles) |
+| El log se llena de ArgumentNullException de proyectiles (projectile) | [ir](#el-log-se-llena-de-argumentnullexception-de-proyectiles) |
 | Tu pestaña de poderes nunca aparece | [ir](#tu-pestaña-de-poderes-nunca-aparece) |
 | La ventana de ajustes muestra ids en crudo | [ir](#la-ventana-de-ajustes-muestra-ids-en-crudo) |
-| El mundo lanza errores en cada frame tras añadir un comportamiento del mundo | [ir](#el-mundo-lanza-errores-en-cada-frame-tras-añadir-un-comportamiento-del-mundo) |
-| Un desastre se bloquea al escribir en el registro del mundo | [ir](#un-desastre-se-bloquea-al-escribir-en-el-registro-del-mundo) |
+| El mundo lanza errores en cada frame tras añadir un comportamiento (behaviour) del mundo | [ir](#el-mundo-lanza-errores-en-cada-frame-tras-añadir-un-comportamiento-del-mundo) |
+| Un desastre (disaster) se bloquea al escribir en el registro del mundo | [ir](#un-desastre-se-bloquea-al-escribir-en-el-registro-del-mundo) |
 | Un desastre sin action se bloquea cuando es seleccionado | [ir](#un-desastre-sin-action-se-bloquea-cuando-es-seleccionado) |
-| El primer gobernante que evalúa tu complot lanza un error | [ir](#el-primer-gobernante-que-evalúa-tu-complot-lanza-un-error) |
-| Tu decisión, complot, gen o arma existe y nada lo usa jamás | [ir](#tu-decisión-complot-gen-o-arma-existe-y-nada-lo-usa-jamás) |
+| El primer gobernante que evalúa tu complot (plot) lanza un error | [ir](#el-primer-gobernante-que-evalúa-tu-complot-lanza-un-error) |
+| Tu decisión (decision), complot, gen o arma existe y nada lo usa jamás | [ir](#tu-decisión-complot-gen-o-arma-existe-y-nada-lo-usa-jamás) |
 
 **Compila para ti, pero no para otros**
 
@@ -346,14 +346,14 @@ Todas las entradas de esta sección tienen la misma causa. El juego prepara algu
 
 ### Tu rasgo, objeto o criatura sigue bloqueado
 
-- **Qué ves**: Existe, pero el libro de conocimiento lo muestra en gris y el jugador no puede usarlo hasta que aparezca en un mundo.
-- **Por qué**: `needs_to_be_explored` es `true` por defecto en todo lo que se desbloquea: actores, los siete tipos de rasgo, objetos, modificadores y leyes del mundo.
+- **Qué ves**: Existe, pero el libro (book) de conocimiento lo muestra en gris y el jugador no puede usarlo hasta que aparezca en un mundo.
+- **Por qué**: `needs_to_be_explored` es `true` por defecto en todo lo que se desbloquea: actores, los siete tipos de rasgo, objetos, modificadores (modifier) y leyes del mundo (world law).
 - **Solución**: `needs_to_be_explored = false` al crearlo. Mira **[Rasgos personalizados](#/nml/custom-traits)**.
 
 ### El juego se cae al cargar tu arma o tu comida
 
 - **Qué ves**: `ArgumentNullException: Value cannot be null. Parameter name: key` en `ItemLibrary.loadSprites()` o `ResourceLibrary.loadSprites()`.
-- **Por qué**: Las armas reciben `path_gameplay_sprite`, y los recursos `full_sprite_path`, derivados en `post_init()` durante la carga del propio juego. Los tuyos se quedan en `null`.
+- **Por qué**: Las armas reciben `path_gameplay_sprite`, y los recursos (resource) `full_sprite_path`, derivados en `post_init()` durante la carga del propio juego. Los tuyos se quedan en `null`.
 - **Solución**: Ponlos tú. Mira **[Objetos personalizados](#/nml/custom-items)** y **[Recursos y comida](#/nml/resources)**.
 
 ### Una nube revienta en cuanto aparece
@@ -389,7 +389,7 @@ Todas las entradas de esta sección tienen la misma causa. El juego prepara algu
 ### Hacer aparecer un animal en tu tile revienta
 
 - **Qué ves**: `NullReferenceException` en `Subspecies.generateName()`, solo en tu tile y solo con animales.
-- **Por qué**: Un clon de un tile de hierba conserva `is_biome = true` pero no `biome_asset`, que se enlaza en `linkAssets()` al arrancar. Los animales añaden el bioma al nombre de la especie.
+- **Por qué**: Un clon de un tile de hierba conserva `is_biome = true` pero no `biome_asset`, que se enlaza en `linkAssets()` al arrancar. Los animales añaden el bioma (biome) al nombre de la especie.
 - **Solución**: `moss.biome_asset = AssetManager.biome_library.get(moss.biome_id);`
 
 ### Los drops caen invisibles, o un proyectil revienta
@@ -401,7 +401,7 @@ Todas las entradas de esta sección tienen la misma causa. El juego prepara algu
 ### El log se llena de ArgumentNullException de proyectiles
 
 - **Qué ves**: Miles de `ArgumentNullException: Value cannot be null` en `ProjectileManager.updateProjectiles()` mientras un proyectil está en el aire.
-- **Por qué**: Un proyectil sin tirador no tiene reino, y el gestor usa el reino como clave de diccionario en cada frame.
+- **Por qué**: Un proyectil sin tirador no tiene reino (kingdom), y el gestor usa el reino como clave de diccionario en cada frame.
 - **Solución**: Dale uno: `pForcedKingdom: World.world.kingdoms_wild.get("nature")`, el dueño neutral del propio juego.
 
 ### Tu pestaña de poderes nunca aparece
@@ -443,7 +443,7 @@ Todas las entradas de esta sección tienen la misma causa. El juego prepara algu
 ### Tu decisión, complot, gen o arma existe y nada lo usa jamás
 
 - **Sintoma**: Ningún error. El asset está en su librería, pero el juego nunca lo elige.
-- **Causa**: El juego selecciona desde listas generadas al inicio: `basic_plots`, las listas de decisiones, la reserva de mutación de genes, las reservas de armas, las reservas de casillas de eras. El tuyo se añadió después.
+- **Causa**: El juego selecciona desde listas generadas al inicio: `basic_plots`, las listas de decisiones, la reserva de mutación de genes, las reservas de armas, las reservas de casillas (tile) de eras. El tuyo se añadió después.
 - **Solución**: Añádelo a la lista que el juego realmente lee. Cada página indica cuál: **[IA y comportamientos personalizados](#/nml/custom-ai)**, **[Complots](#/nml/plots)**, **[Rasgos de subespecie](#/nml/subspecies-traits)**, **[Objetos personalizados](#/nml/custom-items)**, **[Edades del mundo y comportamientos](#/nml/world-ages)**.
 
 ---
@@ -521,7 +521,7 @@ _lastWorldTime = now;
 ### Tu parche de `updateStats` falla a otros jugadores
 
 - **Qué ves**: Funciona durante horas en tu equipo pero genera excepciones de hilos en otros jugadores.
-- **Por qué**: El juego ejecuta `updateStats` como un trabajo **paralelo**: tu Postfix corre en hilos de trabajo simultáneos sobre varias unidades.
+- **Por qué**: El juego ejecuta `updateStats` como un trabajo (job) **paralelo**: tu Postfix corre en hilos de trabajo simultáneos sobre varias unidades.
 - **Solución**: Modifica solo los números de esa unidad en ese parche. Pasa todo lo demás a tu propio `Update()`.
 
 ### Parcheaste `getHit` y los edificios siguen recibiendo daño
@@ -538,7 +538,7 @@ _lastWorldTime = now;
 
 ### Una unidad se queda quieta para siempre o falla en cada fotograma
 
-- **Qué ves**: Una unidad quieta sin tarea activa o errores constantes en el registro.
+- **Qué ves**: Una unidad quieta sin tarea (task) activa o errores constantes en el registro.
 - **Por qué**: Un id de **task** desconocido se ignora silenciosamente; un id de **job** desconocido provoca un fallo en cada tick.
 - **Solución**: Valida los ids al inicio, registra las tareas antes del trabajo que las requiere y nunca pases a `next_job_delegate` un id no comprobado.
 

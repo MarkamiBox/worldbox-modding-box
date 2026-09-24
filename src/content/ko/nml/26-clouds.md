@@ -89,7 +89,7 @@ namespace HelloBox
 
 ## 구름 액션이란 무엇인가
 
-`CloudAction`은 활성화된 구름 인스턴스를 받아 아무것도 반환하지 않는 델리게이트입니다:
+`CloudAction`은 활성화된 구름 (cloud) 인스턴스를 받아 아무것도 반환하지 않는 델리게이트입니다:
 
 ```csharp
 public delegate void CloudAction(Cloud pCloud);

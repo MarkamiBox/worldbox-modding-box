@@ -36,7 +36,7 @@ Solo `mod.json` è obbligatorio. Crea le altre cartelle soltanto quando ne avrai
 - **`mod.json`**: La carta d'identità. Senza questo file, NML farà finta che la tua mod non esista nemmeno.
 - **`icon.png`**: L'immagine di anteprima mostrata nel menu delle mod all'interno del gioco.
 - **`Code/`**: La cartella dove metti tutti i tuoi file sorgente `.cs` (come `Main.cs`). In realtà NML compila qualsiasi `.cs` che trova nella tua mod (saltando `bin/`, `obj/` e compagnia), ma metterli in `Code/` evita che il progetto diventi una discarica. **NML li compila a ogni avvio del gioco**, quindi non dovrai mai compilare una `.dll` a mano e non ti servirà mai Visual Studio.
-- **`Locales/`**: Dove risiedono i tuoi file di traduzione (come `en.json`). Senza questi, tutti i tuoi oggetti e tratti appariranno in gioco come chiavi di testo grezze.
+- **`Locales/`**: Dove risiedono i tuoi file di traduzione (come `en.json`). Senza questi, tutti i tuoi oggetti e tratti (trait) appariranno in gioco come chiavi di testo grezze.
 - **`GameResources/`**: Tutte le tue texture personalizzate, pixel art, icone di tratti, sprite di armi ed effetti sonori. Il nome deve essere esattamente questo, poiché è quello cercato da NML. Consulta **[Sprite e risorse](#/nml/sprites-and-resources)**.
 
 ### Il manifesto

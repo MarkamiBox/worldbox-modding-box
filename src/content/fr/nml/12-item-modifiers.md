@@ -8,7 +8,7 @@ order: 122
 
 # Enchantements d'armes :wbmagehrm:
 
-Vous connaissez ces petites lignes vertes sur une bonne épée : *"+3 dégâts"*, *"brûlant"*. Ce sont des **modificateurs d'objet**, et ils constituent la façon la plus rapide de rendre le butin palpitant, car le jeu les applique automatiquement aux armes créées.
+Vous connaissez ces petites lignes vertes sur une bonne épée : *"+3 dégâts"*, *"brûlant"*. Ce sont des **modificateurs (modifier) d'objet**, et ils constituent la façon la plus rapide de rendre le butin palpitant, car le jeu les applique automatiquement aux armes créées.
 
 ## La méthode simple : le créateur de NML
 
@@ -62,7 +62,7 @@ namespace HelloBox
 ```
 
 > [!WARNING] L'enregistrer ne suffit pas
-> `add()` met votre modificateur dans la `list` de la bibliothèque, mais le générateur ne lit pas `list`, il lit `pools`. Ces pools sont remplis dans `linkAssets()`, une seule fois, au chargement. Un modificateur qui n'est que dans `list` existe, a un nom, et ne sera jamais tiré sur quoi que ce soit :wbfacepalm:.
+> `add()` met votre modificateur dans la `list` de la bibliothèque (library), mais le générateur ne lit pas `list`, il lit `pools`. Ces pools sont remplis dans `linkAssets()`, une seule fois, au chargement. Un modificateur qui n'est que dans `list` existe, a un nom, et ne sera jamais tiré sur quoi que ce soit :wbfacepalm:.
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -81,7 +81,7 @@ Ajoutez `HelloModifiers.Initialize();` à `Main.cs`, et à partir de là le jeu 
 | `mod_rank` | Niveau au sein de la famille. Augmente aussi la valeur globale de l'arme |
 | `translation_key` | Clé de traduction pour la ligne verte affichée |
 | `rarity` | Probabilité de tirage. Plus la valeur est haute, plus le bonus est fréquent |
-| `base_stats` | Le bonus de statistiques |
+| `base_stats` | Le bonus de statistiques (stats) |
 | `quality` | Qualité minimale requise sur l'arme |
 | `equipment_value` | Bonus d'évaluation pour le choix de l'IA |
 

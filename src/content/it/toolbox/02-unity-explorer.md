@@ -40,7 +40,7 @@ worldbox/ (C:\Program Files (x86)\Steam\steamapps\common\worldbox\)
 
 Vuoi che la tua finestra abbia lo stesso stile di quelle del gioco. Quindi:
 
-1. Nel gioco, apri la finestra che ti interessa (per esempio Leggi del mondo).
+1. Nel gioco, apri la finestra che ti interessa (per esempio Leggi del mondo (world law)).
 2. Premi F7, vai su **Object Explorer → Scene Explorer**, ed espandi `CanvasMain` → `canvas_ui`.
 3. Clicca sui nodi figli finché l'oggetto evidenziato non coincide con la finestra aperta.
 4. Nell'Inspector, esamina i suoi componenti: l'`Image` con il suo sprite 9-slice, le dimensioni in `RectTransform`, la `ScrollRect`.
@@ -65,7 +65,7 @@ Nel log di UnityExplorer vedrai subito comparire:
 [Message:UnityExplorer] Invoked REPL (no return value)
 ```
 
-Hai appena letto il percorso dell'icona e il gruppo di un tratto vanilla, pescati direttamente dal gioco in esecuzione. Copiali nel tuo tratto personalizzato e comparirà nello stesso identico punto della UI, con un'icona che esiste davvero.
+Hai appena letto il percorso dell'icona e il gruppo di un tratto (trait) vanilla, pescati direttamente dal gioco in esecuzione. Copiali nel tuo tratto personalizzato e comparirà nello stesso identico punto della UI, con un'icona che esiste davvero.
 
 ## Esempio 3: testare un'idea prima di scriverci una mod sopra
 

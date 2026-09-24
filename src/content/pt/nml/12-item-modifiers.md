@@ -8,7 +8,7 @@ order: 122
 
 # Encantamentos de armas :wbmagehrm:
 
-Você conhece aquelas pequenas linhas verdes em uma boa espada: *"+3 de dano"*, *"ardente"*. Esses são os **modificadores de item**, e eles são a forma mais rápida de tornar o saque emocionante, porque o jogo os sorteia automaticamente nas armas criadas.
+Você conhece aquelas pequenas linhas verdes em uma boa espada: *"+3 de dano"*, *"ardente"*. Esses são os **modificadores (modifier) de item**, e eles são a forma mais rápida de tornar o saque emocionante, porque o jogo os sorteia automaticamente nas armas criadas.
 
 ## O jeito fácil: o criador do NML
 
@@ -62,7 +62,7 @@ namespace HelloBox
 ```
 
 > [!WARNING] Registrar não basta
-> `add()` coloca seu modificador na `list` da biblioteca, mas o gerador não lê `list`, ele lê `pools`. Esses pools são preenchidos em `linkAssets()`, uma única vez, durante o carregamento. Um modificador que está só em `list` existe, tem nome, e nunca vai ser sorteado em nada :wbfacepalm:.
+> `add()` coloca seu modificador na `list` da biblioteca (library), mas o gerador não lê `list`, ele lê `pools`. Esses pools são preenchidos em `linkAssets()`, uma única vez, durante o carregamento. Um modificador que está só em `list` existe, tem nome, e nunca vai ser sorteado em nada :wbfacepalm:.
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -81,7 +81,7 @@ Adicione `HelloModifiers.Initialize();` ao `Main.cs`, e a partir daí o jogo pod
 | `mod_rank` | Nível dentro da família. Também agrega valor à arma |
 | `translation_key` | A chave de localização da linha verde lida pelo jogador |
 | `rarity` | Frequência de sorteio. Números maiores são mais comuns |
-| `base_stats` | O bônus de atributos |
+| `base_stats` | O bônus de atributos (stats) |
 | `quality` | Qualidade mínima da arma necessária para aparecer |
 | `equipment_value` | Pontuação extra de utilidade avaliada pela IA |
 

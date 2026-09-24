@@ -8,7 +8,7 @@ order: 202
 
 # Abas e botões de poder :wbfingerclick:
 
-Você registrou um poder divino. Ninguém pode clicar nele, porque um `GodPower` são apenas dados: o que o jogador realmente aperta é um **PowerButton**, e os botões vivem dentro de **abas** na barra inferior.
+Você registrou um poder divino (GodPower). Ninguém pode clicar nele, porque um `GodPower` são apenas dados: o que o jogador realmente aperta é um **PowerButton**, e os botões vivem dentro de **abas** na barra inferior.
 
 ## Crie sua própria aba
 
@@ -355,7 +355,7 @@ Esse é o arquivo inteiro: nove poderes divinos, a aba, dez botões e o ajudante
 > ```
 
 > [!TIP] Pulando a dança do Update() com IStagedLoad
-> Se ficar consultando dentro do `Update()` parece desajeitado, implemente `IStagedLoad` na classe do seu mod. O método `Init()` dele dispara no frame 2 depois da construção do mod, bem quando o jogo base e os controladores de interface já estão totalmente acordados.
+> Se ficar consultando dentro do `Update()` parece desajeitado, implemente `IStagedLoad` na classe do seu mod. O método `Init()` dele dispara no frame 2 depois da construção (building) do mod, bem quando o jogo base e os controladores de interface já estão totalmente acordados.
 
 ## Dois tipos de botão
 

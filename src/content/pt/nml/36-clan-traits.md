@@ -8,13 +8,13 @@ order: 110
 
 # Traços de clã :wbclanroses:
 
-Um **clã** é uma linhagem sanguínea: uma família que cresceu o bastante para se tornar uma entidade própria, com estandarte, cor característica e reputação exclusiva. Um traço de clã é o que corre nas veias dessa linhagem.
+Um **clã** é uma linhagem sanguínea: uma família que cresceu o bastante para se tornar uma entidade própria, com estandarte, cor característica e reputação exclusiva. Um traço (trait) de clã é o que corre nas veias dessa linhagem.
 
 Os traços de clã são o que há de mais próximo a um superpoder hereditário no jogo, e representam o único sistema de traços com uma **divisão macho / fêmea** nativa.
 
 | | |
 | --- | --- |
-| Biblioteca | `AssetManager.clan_traits` |
+| Biblioteca (library) | `AssetManager.clan_traits` |
 | Classe | `ClanTrait` |
 | Grupos | `AssetManager.clan_trait_groups`, classe `ClanTraitGroupAsset` |
 | Dono em tempo de execução | `Clan`, em `World.world.clans` |
@@ -53,7 +53,7 @@ namespace HelloBox
 }
 ```
 
-Os `base_stats` de clã se fundem em cada membro do clã. Logo, ao contrário da religião, este é um sistema de atributos real. Veja a ordem de fusão na **[Referência de atributos](#/nml/stats)**.
+Os `base_stats` de clã se fundem em cada membro do clã. Logo, ao contrário da religião (religion), este é um sistema de atributos (stats) real. Veja a ordem de fusão na **[Referência de atributos](#/nml/stats)**.
 
 ## A divisão macho / fêmea
 
@@ -69,7 +69,7 @@ trait.base_stats_female["intelligence"] = 4;   // apenas fêmeas
 
 ## Decisões: o que um clã *faz*
 
-Os traços de clã do jogo base apoiam-se em decisões mais do que em ações, já que um clã é fundamentalmente uma estrutura social:
+Os traços de clã do jogo base apoiam-se em decisões (decision) mais do que em ações, já que um clã é fundamentalmente uma estrutura social:
 
 ```csharp
 trait.addDecision("banish_unruly_clan_members");
@@ -110,7 +110,7 @@ Vários traços de clã vanilla são recompensas em vez de opções padrão:
 trait.setUnlockedWithAchievement("achievementSegregator");
 ```
 
-Um traço bloqueado ainda existe e funciona perfeitamente; o jogador apenas não pode selecioná-lo no editor até completar a conquista. Note que `BaseTraitLibrary` também define automaticamente `rarity = R3_Legendary` para qualquer traço bloqueado dessa maneira, para a sua recompensa parecer à altura :gold_star:.
+Um traço bloqueado ainda existe e funciona perfeitamente; o jogador apenas não pode selecioná-lo no editor até completar a conquista (achievement). Note que `BaseTraitLibrary` também define automaticamente `rarity = R3_Legendary` para qualquer traço bloqueado dessa maneira, para a sua recompensa parecer à altura :gold_star:.
 
 ## Os grupos vanilla
 
@@ -146,7 +146,7 @@ foreach (Clan clan in World.world.clans)
 O clã de uma unidade está em `actor.clan`, e `actor.hasClan()` informa se ela pertence a algum; muitas unidades nunca chegam a integrar um clã.
 
 > [!TIP] Clãs são pequenos, pode ser generoso
-> Uma cultura abrange um continente; um clã abrange uma família, e `limit_clan_members` limita seu tamanho máximo. Um traço de clã pode ser muito mais forte que um traço cultural para o mesmo impacto no equilíbrio do mundo, tornando os clãs o lugar ideal para mecânicas dramáticas :PES5_Menace:.
+> Uma cultura (culture) abrange um continente; um clã abrange uma família, e `limit_clan_members` limita seu tamanho máximo. Um traço de clã pode ser muito mais forte que um traço cultural para o mesmo impacto no equilíbrio do mundo, tornando os clãs o lugar ideal para mecânicas dramáticas :PES5_Menace:.
 
 ## Novos clãs sorteando um traço por conta própria
 

@@ -65,7 +65,7 @@ HelloBox/GameResources/ui/Icons/iconHelloSwift.png
 | フィールド | 内容 |
 | --- | --- |
 | `PixelsPerUnit` | 明確な理由がない限り `1` のままにしてください |
-| `PivotX` / `PivotY` | アンカー位置。`0.5 / 0.0` は下部中央を意味し、ユニットや建物で通常使われます |
+| `PivotX` / `PivotY` | アンカー位置。`0.5 / 0.0` は下部中央を意味し、ユニットや建物（building）で通常使われます |
 | `BorderL/R/T/B` | 伸縮可能なウィンドウ枠やボタン用の9スライス境界線 |
 | `Path` | この設定を適用する特定の画像ファイル名 |
 
@@ -77,14 +77,14 @@ HelloBox/GameResources/ui/Icons/iconHelloSwift.png
 
 | アセット | フィールド | ファイルの置き場所 |
 | --- | --- | --- |
-| 特性、神の力、王国、グループ | `path_icon` | `GameResources/` + 書いたとおりのパス |
+| 特性（trait）、神の力、王国（kingdom）、グループ | `path_icon` | `GameResources/` + 書いたとおりのパス |
 | アイテム（ユニットが手に持つもの） | `path_gameplay_sprite` | `GameResources/` + 書いたとおりのパス |
 | 建物 | `sprite_path` | **フォルダー**：`GameResources/` + `sprite_path` + `/` の中に `main_0.png`、`construction_0.png`、`ruin_0.png`。`sprite_path` が空なら `main_path` + ID で、`main_path` のデフォルトは `buildings/` |
 | ドロップ | `path_texture` | **フォルダー**：`GameResources/` + 書いたとおりのパス、1フレームにつきPNG 1枚 |
-| 雲 | `path_sprites` | `GameResources/` + リスト内の各パス |
-| ステータス効果 | `texture` | **フォルダー**：`GameResources/effects/` + 書いた値、1フレームにつきPNG 1枚 |
+| 雲（cloud） | `path_sprites` | `GameResources/` + リスト内の各パス |
+| ステータス効果（status） | `texture` | **フォルダー**：`GameResources/effects/` + 書いた値、1フレームにつきPNG 1枚 |
 | 発射物 | `texture` | **フォルダー**：`GameResources/effects/projectiles/` + 書いた値、1フレームにつきPNG 1枚 |
-| 資源（手に持つもの） | `path_gameplay_sprite` | **フォルダー**：`GameResources/items/resources/` + 書いた値、1フレームにつきPNG 1枚 |
+| 資源（resource）（手に持つもの） | `path_gameplay_sprite` | **フォルダー**：`GameResources/items/resources/` + 書いた値、1フレームにつきPNG 1枚 |
 | 資源（インベントリのアイコン） | `path_icon` | `GameResources/` + 書いた値。バニラは `iconResBread` のような名前だけを使うので、ファイルはルートに置かれます |
 | タイルとトップタイル | *（フィールドなし）* | `GameResources/tiles/<the tile's id>/` |
 

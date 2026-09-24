@@ -8,7 +8,7 @@ order: 104
 
 # Rasgos de subespecies :wbelf:
 
-Una **subespecie** es una rama de una especie que ha divergido genéticamente: más longeva, con escamas, ovípara o bioluminiscente. Se propaga mediante la **reproducción**, no a través de la educación, y es el único sistema de rasgos que cuenta con sus propios sprites; por eso una subespecie puede lucir completamente distinta a su especie matriz sin necesidad de ser un actor independiente.
+Una **subespecie** (subspecies) es una rama de una especie que ha divergido genéticamente: más longeva, con escamas, ovípara o bioluminiscente. Se propaga mediante la **reproducción**, no a través de la educación, y es el único sistema de rasgos (trait) que cuenta con sus propios sprites; por eso una subespecie puede lucir completamente distinta a su especie matriz sin necesidad de ser un actor independiente.
 
 | | |
 | --- | --- |
@@ -19,7 +19,7 @@ Una **subespecie** es una rama de una especie que ha divergido genéticamente: m
 | Prefijo de traducción | `subspecies_trait_` |
 | Carpeta de iconos por defecto | `ui/Icons/subspecies_traits/` |
 
-> [!WARNING] Una subespecie **reemplaza** las estadísticas del asset del actor
+> [!WARNING] Una subespecie **reemplaza** las estadísticas (stats) del asset del actor
 > En `Actor.updateStats()`, una unidad con subespecie fusiona `subspecies.base_stats` y *omite* por completo `asset.base_stats`. Es una disyuntiva excluyente, no una suma acumulativa.
 >
 > Por tanto, un valor que configures en `human` será invisible para cualquier humano con subespecie, que en un mundo con algo de rodaje serán casi todos :PES4_IDunnoMan:.
@@ -216,5 +216,5 @@ if (asset != null) asset.addSubspeciesTrait(HelloSubspecies.SCALES);
 
 Eso hace que toda subespecie nueva de esa criatura empiece con él. Si lo omites y te fías de `in_mutation_pot_add`, aparece por su cuenta, en algún sitio, algún día, que suele ser la versión más interesante.
 
-> [!TIP] Los hechizos viven bien aquí
+> [!TIP] Los hechizos (spell) viven bien aquí
 > Los linajes mágicos de vanilla son rasgos de subespecie que conceden un hechizo y nada más: `trait.addSpell("summon_lightning")`, luego `trait.linkSpells()` porque la biblioteca resolvió los ids de hechizos al arrancar. Dos líneas, heredadas por los hijos, y produce un linaje visible de invocadores de tormentas por todo un continente :PES5_CrazyPog:.

@@ -16,7 +16,7 @@ Choisissez ce que vous voulez créer, remplissez les cases, et vous obtenez tout
 1. **Le code** va dans le dossier `Code/` de votre mod, dans un fichier au nom affiché au-dessus du bloc.
 2. **Le texte** va dans `Locales/<langue>.json`. Si vous avez déjà ce fichier, copiez seulement les lignes à l'intérieur des `{ }`, et attention aux virgules.
 3. **Les images** vont exactement là où la liste l'indique. Lisez le mot à côté de chacune : **dossier** veut dire un dossier de PNG, même si vous n'avez qu'une seule image. Un PNG seul là où il faut un dossier, c'est la raison numéro un pour laquelle une image n'apparaît pas :wbfacepalm:.
-4. **La ligne de Main.cs** va dans `OnModLoad()`. L'ordre compte : un trait rangé dans votre propre onglet a besoin de l'onglet d'abord, un objet qui coûte votre propre ressource a besoin de la ressource d'abord.
+4. **La ligne de Main.cs** va dans `OnModLoad()`. L'ordre compte : un trait rangé dans votre propre onglet a besoin de l'onglet d'abord, un objet qui coûte votre propre ressource (resource) a besoin de la ressource d'abord.
 
 Lancez le jeu et regardez le log. Si quelque chose cloche, le lien **Explication complète** sous le sélecteur mène à la page qui explique ce contenu en détail.
 
@@ -25,7 +25,7 @@ Lancez le jeu et regardez le log. Si quelque chose cloche, le lien **Explication
 
 ## Modèles
 
-Le dernier groupe du sélecteur, **Templates**, fonctionne autrement. Créatures, bâtiments, catastrophes, IA, complots et fenêtres, c'est surtout votre propre logique, donc aucun formulaire ne peut les écrire à votre place. À la place, vous recevez le fichier qui marche de la page du guide, renommé avec votre namespace et votre préfixe. Il compile et tourne tel quel, et la page derrière **Explication complète** passe chaque ligne en revue, pour que vous sachiez quoi changer.
+Le dernier groupe du sélecteur, **Templates**, fonctionne autrement. Créatures, bâtiments (building), catastrophes, IA, complots (plot) et fenêtres, c'est surtout votre propre logique, donc aucun formulaire ne peut les écrire à votre place. À la place, vous recevez le fichier qui marche de la page du guide, renommé avec votre namespace et votre préfixe. Il compile et tourne tel quel, et la page derrière **Explication complète** passe chaque ligne en revue, pour que vous sachiez quoi changer.
 
 ## Ce qu'il ne fait pas
 

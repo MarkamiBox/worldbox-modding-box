@@ -8,9 +8,9 @@ order: 170
 
 # Kacheln & Terrain :wbrockies:
 
-Die Spielkarte ist ein Gitter aus `WorldTile`, und jede Kachel trägt **zwei** übereinander gestapelte Typen:
+Die Spielkarte ist ein Gitter aus `WorldTile`, und jede Kachel (tile) trägt **zwei** übereinander gestapelte Typen:
 
-| Ebene | Feld auf der Kachel | Bibliothek | Klasse | Beispiele |
+| Ebene | Feld auf der Kachel | Bibliothek (library) | Klasse | Beispiele |
 | --- | --- | --- | --- | --- |
 | Boden | `main_type` | `AssetManager.tiles` | `TileType` | Erde, Sand, Felsen, tiefer Ozean, Lava |
 | Oben | `top_type` | `AssetManager.top_tiles` | `TopTileType` | `grass_low`, `grass_high`, `road`, `field`, `frozen_low`, Mauern |
@@ -198,13 +198,13 @@ Sowohl `main_type` als auch `top_type` können `null` sein. Prüfe sie, bevor du
 
 ## Terraform-Optionen
 
-Ein `TerraformOptions` in `AssetManager.terraform` ist ein benanntes Paket zum "Bereinigen dieser Kachel", das von Gotteskräften und Projektilen genutzt wird:
+Ein `TerraformOptions` in `AssetManager.terraform` ist ein benanntes Paket zum "Bereinigen dieser Kachel", das von Gotteskräften und Projektilen (projectile) genutzt wird:
 
 | Feld | Was es tut |
 | --- | --- |
 | `remove_top_tile`, `remove_roads`, `remove_borders` | Bauwerke entfernen |
 | `remove_trees_fully`, `remove_burned`, `remove_ruins` | Überreste entfernen |
-| `destroy_buildings`, `make_ruins` | Was mit Gebäuden geschieht |
+| `destroy_buildings`, `make_ruins` | Was mit Gebäuden (building) geschieht |
 | `remove_water`, `remove_fire`, `remove_frozen`, `remove_tornado` | Zustände entfernen |
 | `add_burned`, `add_heat`, `flash` | Zustände hinzufügen |
 

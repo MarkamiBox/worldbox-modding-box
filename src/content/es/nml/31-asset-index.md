@@ -37,9 +37,9 @@ Los que realmente vas a abrir son los primeros cuatro. Los demás están aquí p
 | Biblioteca | Asset | Qué contiene |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | Cada tipo de criatura. **[Actores personalizados](#/nml/custom-actors)** |
-| `traits` | `ActorTrait` | Rasgos de criaturas. **[Rasgos personalizados](#/nml/custom-traits)** |
+| `traits` | `ActorTrait` | Rasgos (trait) de criaturas. **[Rasgos personalizados](#/nml/custom-traits)** |
 | `trait_groups` | `ActorTraitGroupAsset` | Sus pestañas. **[Grupos de rasgos y pestañas](#/nml/trait-groups)** |
-| `subspecies_traits` | `SubspeciesTrait` | Rasgos de subespecies y su arte. **[Rasgos de subespecies](#/nml/subspecies-traits)** |
+| `subspecies_traits` | `SubspeciesTrait` | Rasgos de subespecies (subspecies) y su arte. **[Rasgos de subespecies](#/nml/subspecies-traits)** |
 | `subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | Sus pestañas |
 | `phenotype_library` | `PhenotypeAsset` | Variantes de piel y color |
 | `gene_library` | `GeneAsset` | Genes |
@@ -47,26 +47,26 @@ Los que realmente vas a abrir son los primeros cuatro. Los demás están aquí p
 | `trait_rains` | `TraitRainAsset` | Eventos de "lluvia de rasgos" |
 | `personalities` | `PersonalityAsset` | Personalidades de las unidades |
 | `professions` | `ProfessionAsset` | Oficios que ejerce un ciudadano |
-| `base_stats_library` | `BaseStatAsset` | Cada estadística. **[Referencia de estadísticas](#/nml/stats)** |
+| `base_stats_library` | `BaseStatAsset` | Cada estadística (stats). **[Referencia de estadísticas](#/nml/stats)** |
 
 ## Sociedades
 
 | Biblioteca | Asset | Qué contiene |
 | --- | --- | --- |
 | `kingdoms` | `KingdomAsset` | Tipos de facción. **[Reinos y facciones](#/nml/kingdoms)** |
-| `kingdoms_traits` / `kingdoms_traits_groups` | `KingdomTrait` | Políticas del reino. **[Rasgos de reinos](#/nml/kingdom-traits)** |
-| `culture_traits` / `culture_trait_groups` | `CultureTrait` | Culturas. **[Rasgos culturales](#/nml/culture-traits)** |
-| `religion_traits` / `religion_trait_groups` | `ReligionTrait` | Religiones. **[Rasgos religiosos](#/nml/religion-traits)** |
+| `kingdoms_traits` / `kingdoms_traits_groups` | `KingdomTrait` | Políticas del reino (kingdom). **[Rasgos de reinos](#/nml/kingdom-traits)** |
+| `culture_traits` / `culture_trait_groups` | `CultureTrait` | Culturas (culture). **[Rasgos culturales](#/nml/culture-traits)** |
+| `religion_traits` / `religion_trait_groups` | `ReligionTrait` | Religiones (religion). **[Rasgos religiosos](#/nml/religion-traits)** |
 | `clan_traits` / `clan_trait_groups` | `ClanTrait` | Clanes. **[Rasgos de clanes](#/nml/clan-traits)** |
 | `language_traits` / `language_trait_groups` | `LanguageTrait` | Idiomas. **[Rasgos de idioma](#/nml/language-traits)** |
-| `architecture_library` | `ArchitectureAsset` | Apariencia de los edificios de una cultura |
+| `architecture_library` | `ArchitectureAsset` | Apariencia de los edificios (building) de una cultura |
 | `city_build_orders` | `CityBuildOrderAsset` | Qué construye una ciudad nueva y en qué orden |
-| `war_types_library` | `WarTypeAsset` | Tipos de guerra. **[Tipos de guerra](#/nml/war-types)** |
+| `war_types_library` | `WarTypeAsset` | Tipos de guerra (war). **[Tipos de guerra](#/nml/war-types)** |
 | `loyalty_library` | `LoyaltyAsset` | Fuentes de lealtad |
 | `opinion_library` | `OpinionAsset` | Fuentes de opinión |
 | `happiness_library` | `HappinessAsset` | Fuentes de felicidad |
 | `plots_library` / `plot_category_library` | `PlotAsset` | Conspiraciones que traman unidades y sistemas |
-| `decisions_library` | `DecisionAsset` | Decisiones de la IA |
+| `decisions_library` | `DecisionAsset` | Decisiones (decision) de la IA |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | Temas de conversación entre unidades |
 | `book_types` | `BookTypeAsset` | Tipos de libros. **[Libros](#/nml/books)** |
 | `knowledge_library` | `KnowledgeAsset` | La ventana de conocimiento |
@@ -78,13 +78,13 @@ Los que realmente vas a abrir son los primeros cuatro. Los demás están aquí p
 | `buildings` | `BuildingAsset` | Cada edificio. **[Edificios personalizados](#/nml/custom-buildings)** |
 | `tiles` | `TileType` | Capa de suelo. **[Casillas y terreno](#/nml/tiles)** |
 | `top_tiles` | `TopTileType` | Capa superior |
-| `tile_tile_effects` | `TileEffectAsset` | Efectos por casilla |
+| `tile_tile_effects` | `TileEffectAsset` | Efectos por casilla (tile) |
 | `terraform` | `TerraformOptions` | Reglas de limpieza de terreno |
 | `biome_library` | `BiomeAsset` | Biomas. **[Biomas](#/nml/biomes)** |
 | `resources` | `ResourceAsset` | Comida, materiales, dinero. **[Recursos y comida](#/nml/resources)** |
 | `clouds` | `CloudAsset` | Clima. **[Nubes y clima](#/nml/clouds)** |
 | `drops` | `DropAsset` | Cosas que caen. **[Gotas y cosas que caen](#/nml/drops-and-loot)** |
-| `disasters` | `DisasterAsset` | Desastres. **[Desastres](#/nml/disasters)** |
+| `disasters` | `DisasterAsset` | Desastres (disaster). **[Desastres](#/nml/disasters)** |
 | `projectiles` | `ProjectileAsset` | Objetos que vuelan. **[Proyectiles, hechizos y efectos](#/nml/projectiles-spells)** |
 | `effects_library` | `EffectAsset` | Efectos visuales |
 | `months` | `MonthAsset` | El calendario |
@@ -92,7 +92,7 @@ Los que realmente vas a abrir son los primeros cuatro. Los demás están aquí p
 | `time_scales` | `WorldTimeScaleAsset` | Velocidades de simulación |
 | `map_sizes` | `MapSizeAsset` | Tamaños de mapa |
 | `map_gen_settings` / `map_gen_templates` | `MapGenSettingsAsset` | Generación de mundos |
-| `world_behaviours` | `WorldBehaviourAsset` | Comportamientos de fondo globales |
+| `world_behaviours` | `WorldBehaviourAsset` | Comportamientos (behaviour) de fondo globales |
 | `sim_globals_library` | `SimGlobalAsset` | Constantes globales de simulación |
 
 ## Objetos y combate
@@ -100,11 +100,11 @@ Los que realmente vas a abrir son los primeros cuatro. Los demás están aquí p
 | Biblioteca | Asset | Qué contiene |
 | --- | --- | --- |
 | `items` | `EquipmentAsset` | Armas, armaduras, materiales. **[Objetos personalizados](#/nml/custom-items)** |
-| `items_modifiers` | `ItemModAsset` | Encantamientos. **[Encantamientos de armas](#/nml/item-modifiers)** |
+| `items_modifiers` | `ItemModAsset` | Encantamientos (modifier). **[Encantamientos de armas](#/nml/item-modifiers)** |
 | `item_groups` | `ItemGroupAsset` | Categorías de equipo. **[Grupos de objetos y pestañas](#/nml/item-groups)** |
 | `unit_hand_tools` | `UnitHandToolAsset` | Herramientas laborales que portan unidades |
-| `status` | `StatusAsset` | Efectos de estado. **[Efectos de estado](#/nml/status-effects)** |
-| `spells` | `SpellAsset` | Hechizos que conjuran las unidades |
+| `status` | `StatusAsset` | Efectos de estado (status). **[Efectos de estado](#/nml/status-effects)** |
+| `spells` | `SpellAsset` | Hechizos (spell) que conjuran las unidades |
 | `combat_action_library` | `CombatActionAsset` | Movimientos de combate |
 | `rarity_library` | `RarityAsset` | Grados de rareza |
 
@@ -112,9 +112,9 @@ Los que realmente vas a abrir son los primeros cuatro. Los demás están aquí p
 
 | Biblioteca | Asset | Qué contiene |
 | --- | --- | --- |
-| `powers` | `GodPower` | Poderes divinos. **[Poderes divinos](#/nml/god-powers)** |
+| `powers` | `GodPower` | Poderes divinos (GodPower). **[Poderes divinos](#/nml/god-powers)** |
 | `power_tab_library` | `PowerTabAsset` | Pestañas inferiores. **[Pestañas y botones de poderes](#/nml/power-buttons)** |
-| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | Leyes del mundo. **[Leyes del mundo](#/nml/world-laws)** |
+| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | Leyes del mundo (world law). **[Leyes del mundo](#/nml/world-laws)** |
 | `brush_library` | `BrushData` | Tamaños de pincel |
 | `hotkey_library` | `HotkeyAsset` | Atajos de teclado |
 | `debug_tool_library` | `DebugToolAsset` | Herramientas de depuración |
@@ -126,7 +126,7 @@ Los que realmente vas a abrir son los primeros cuatro. Los demás están aquí p
 | `job_actor` / `tasks_actor` | `ActorJob` / `BehaviourTaskActor` | IA de unidades. **[IA y comportamientos personalizados](#/nml/custom-ai)** |
 | `job_city` / `tasks_city` | `JobCityAsset` / `BehaviourTaskCity` | IA de ciudades |
 | `job_kingdom` / `tasks_kingdom` | `KingdomJob` / `BehaviourTaskKingdom` | IA de reinos |
-| `citizen_job_library` | `CitizenJobAsset` | Trabajo civil |
+| `citizen_job_library` | `CitizenJobAsset` | Trabajo (job) civil |
 | `neural_layers` | `NeuralLayerAsset` | Vista de capas neuronales de depuración |
 | `tester_jobs` / `tester_tasks` | `JobTesterAsset` | Banco de pruebas de IA interno del juego |
 
@@ -183,7 +183,7 @@ Una biblioteca para cada ámbito, todas conteniendo los mismos dos tipos de asse
 | `music_box` | `MusicAsset` | Pistas musicales |
 | `game_language_library` | `GameLanguageAsset` | Idiomas disponibles en la interfaz |
 | `locale_groups_library` | `LocaleGroupAsset` | Agrupaciones de idiomas |
-| `achievements` / `achievement_groups` | `Achievement` | Logros |
+| `achievements` / `achievement_groups` | `Achievement` | Logros (achievement) |
 | `signals` | `SignalAsset` | El sistema interno de señales |
 
 ---

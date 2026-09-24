@@ -8,7 +8,7 @@ order: 178
 
 # Königreiche & Fraktionen :wbkingdoms:
 
-Jede Einheit in WorldBox gehört zu einem Königreich. Nicht nur die zivilisierten: Wölfe gehören zu einem Wolfs-Königreich, Banditen zu einer Banditen-Fraktion, und ein neutrales Huhn gehört zu einem neutralen Königreich. Ein `KingdomAsset` ist der **Typ** der Fraktion, nicht ein einzelnes Königreich auf der Karte.
+Jede Einheit in WorldBox gehört zu einem Königreich (kingdom). Nicht nur die zivilisierten: Wölfe gehören zu einem Wolfs-Königreich, Banditen zu einer Banditen-Fraktion, und ein neutrales Huhn gehört zu einem neutralen Königreich. Ein `KingdomAsset` ist der **Typ** der Fraktion, nicht ein einzelnes Königreich auf der Karte.
 
 Das ist die entscheidende Unterscheidung:
 
@@ -80,7 +80,7 @@ Ohne das spawnt deine Kreatur in dem Königreich, das ihr Klon-Spender genutzt h
 
 | Feld | Was es tut |
 | --- | --- |
-| `civ` | Gründet Städte, führt Kriege, hat einen Herrscher |
+| `civ` | Gründet Städte, führt Kriege (war), hat einen Herrscher |
 | `nomads` | Wandernde Phase vor der Stadtgründung |
 | `nature` | Wildtiere |
 | `mobs` | Feindselige Monster |
@@ -118,11 +118,11 @@ Zwei Königreiche vergleichen Tags, um ihre Grundeinstellung zueinander festzule
 | --- | --- |
 | `path_icon`, `show_icon` | Das Fraktions-Icon. `setIcon(path)` setzt beides |
 | `default_kingdom_color`, `default_civ_color_index` | Die Startfarbe |
-| `color_building` | Farbton, der auf ihre Gebäude gelegt wird |
+| `color_building` | Farbton, der auf ihre Gebäude (building) gelegt wird |
 
 ## Die restliche Fraktions-Verdrahtung
 
-Ein Königreich-Asset allein ist nur ein Bezeichner. Ein sehr offizieller Bezeichner, aber eben ein Bezeichner. Das sind die weiteren Bibliotheken, die ein vollständiges Volk berührt:
+Ein Königreich-Asset allein ist nur ein Bezeichner. Ein sehr offizieller Bezeichner, aber eben ein Bezeichner. Das sind die weiteren Bibliotheken (library), die ein vollständiges Volk berührt:
 
 | Was | Bibliothek | Verwendungszweck |
 | --- | --- | --- |
@@ -200,7 +200,7 @@ namespace HelloBox
 }
 ```
 
-Der Postfix läuft nach jeder Werteaktualisierung, sodass der Tausch dauerhaft bestehen bleibt. Er zieht die Werte der vanilla Persönlichkeit wieder ab, bevor er deine hinzufügt, damit der Herrscher nicht beide trägt. `s_personality` und `mergeStats()` sind `internal`: Dies kompiliert gegen die **publicized** Assembly von NML.
+Der Postfix läuft nach jeder Werteaktualisierung, sodass der Tausch dauerhaft bestehen bleibt. Er zieht die Werte (stats) der vanilla Persönlichkeit wieder ab, bevor er deine hinzufügt, damit der Herrscher nicht beide trägt. `s_personality` und `mergeStats()` sind `internal`: Dies kompiliert gegen die **publicized** Assembly von NML.
 
 ## Meinung, Loyalität und Zufriedenheit
 
@@ -280,7 +280,7 @@ Meinung und Loyalität werden jedes Mal aus der gesamten Liste aufsummiert, soda
 
 ## Banner für andere Systeme
 
-Königreiche sind nicht die einzigen Systeme mit Bannern: Kulturen, Religionen, Clans, Sprachen, Unterarten und Familien besitzen jeweils eigene Bibliotheken für Bannerkomponenten (`AssetManager.culture_banners_library` usw.). Jede enthält ein `main`-Asset mit Pfadlisten, und eine neue Kultur würfelt einen Index daraus aus.
+Königreiche sind nicht die einzigen Systeme mit Bannern: Kulturen (culture), Religionen, Clans, Sprachen, Unterarten (subspecies) und Familien besitzen jeweils eigene Bibliotheken für Bannerkomponenten (`AssetManager.culture_banners_library` usw.). Jede enthält ein `main`-Asset mit Pfadlisten, und eine neue Kultur würfelt einen Index daraus aus.
 
 ```csharp Mods/HelloBox/Code/HelloBanners.cs
 namespace HelloBox
@@ -316,4 +316,4 @@ Pfade werden beim Zeichnen des Banners einzeln geladen, es muss also nichts aktu
 ```
 
 > [!TIP] Du brauchst wahrscheinlich kein neues Königreichs-Asset
-> Eine neue Kreatur benötigt eines. Ein neues *Verhalten* dagegen nicht: Die meisten "Fraktions"-Mods lassen sich besser über Königreichs-Merkmale, eine Kultur oder einen Harmony-Patch auf Diplomatieprüfungen umsetzen. Füge ein Königreichs-Asset hinzu, wenn deine Kreatur ihren eigenen Platz in der Welt braucht, nicht wenn bestehende Königreiche anders handeln sollen.
+> Eine neue Kreatur benötigt eines. Ein neues *Verhalten (behaviour)* dagegen nicht: Die meisten "Fraktions"-Mods lassen sich besser über Königreichs-Merkmale, eine Kultur oder einen Harmony-Patch auf Diplomatieprüfungen umsetzen. Füge ein Königreichs-Asset hinzu, wenn deine Kreatur ihren eigenen Platz in der Welt braucht, nicht wenn bestehende Königreiche anders handeln sollen.

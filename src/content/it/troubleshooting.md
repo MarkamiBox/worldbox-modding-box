@@ -45,15 +45,15 @@ Trova il tuo sintomo nella tabella, cliccalo, leggi tre righe. Questa è l'inter
 
 | Sintomo | |
 | --- | --- |
-| Crash sulla riga in cui assegni una statistica | [vai](#crash-sulla-riga-in-cui-assegni-una-statistica) |
+| Crash sulla riga in cui assegni una statistica (stats) | [vai](#crash-sulla-riga-in-cui-assegni-una-statistica) |
 | Stesso crash, anche se l'ordine è già corretto | [vai](#stesso-crash-anche-se-l-ordine-è-già-corretto) |
-| Il tuo edificio muore istantaneamente o non ha dimensione | [vai](#il-tuo-edificio-muore-istantaneamente-o-non-ha-dimensione) |
+| Il tuo edificio (building) muore istantaneamente o non ha dimensione | [vai](#il-tuo-edificio-muore-istantaneamente-o-non-ha-dimensione) |
 | Registrato, ma non compare in nessuna scheda | [vai](#registrato-ma-non-compare-in-nessuna-scheda) |
 | Mostra `trait_hello_swift` invece del nome | [vai](#mostra-trait-hello-swift-invece-del-nome) |
-| I nomi funzionano per i tratti ma non per oggetti, status o poteri | [vai](#i-nomi-funzionano-per-i-tratti-ma-non-per-oggetti-status-o-poteri) |
+| I nomi funzionano per i tratti (trait) ma non per oggetti, status o poteri | [vai](#i-nomi-funzionano-per-i-tratti-ma-non-per-oggetti-status-o-poteri) |
 | L'icona è un riquadro vuoto | [vai](#l-icona-è-un-riquadro-vuoto) |
 | Un pulsante occupa spazio ma non disegna nulla | [vai](#un-pulsante-occupa-spazio-ma-non-disegna-nulla) |
-| L'effetto di stato non disegna nessuno sprite sull'unità | [vai](#l-effetto-di-stato-non-disegna-nessuno-sprite-sull-unità) |
+| L'effetto di stato (status) non disegna nessuno sprite sull'unità | [vai](#l-effetto-di-stato-non-disegna-nessuno-sprite-sull-unità) |
 | Pulsanti sovrapposti l'uno sull'altro | [vai](#pulsanti-sovrapposti-l-uno-sull-altro) |
 | Il pulsante c'è, ma cliccarlo non attiva il potere | [vai](#il-pulsante-c-è-ma-cliccarlo-non-attiva-il-potere) |
 | `addOpposite` / `addDecision` / `addSpell` non fanno nulla | [vai](#addopposite-adddecision-addspell-non-fanno-nulla) |
@@ -65,21 +65,21 @@ Trova il tuo sintomo nella tabella, cliccalo, leggi tre righe. Questa è l'inter
 | La tua creatura dà un errore d'ombra | [vai](#la-tua-creatura-dà-un-errore-d-ombra) |
 | Il tuo tratto, oggetto o creatura resta bloccato | [vai](#il-tuo-tratto-oggetto-o-creatura-resta-bloccato) |
 | Il gioco crasha caricando la tua arma o il tuo cibo | [vai](#il-gioco-crasha-caricando-la-tua-arma-o-il-tuo-cibo) |
-| Una nuvola crasha appena compare | [vai](#una-nuvola-crasha-appena-compare) |
+| Una nuvola (cloud) crasha appena compare | [vai](#una-nuvola-crasha-appena-compare) |
 | Piazzare il tuo edificio dà Index was out of range | [vai](#piazzare-il-tuo-edificio-dà-index-was-out-of-range) |
 | Il tuo edificio lancia errori a ogni frame in cui si vede | [vai](#il-tuo-edificio-lancia-errori-a-ogni-frame-in-cui-si-vede) |
 | La minimappa lancia errori appena esiste il tuo edificio | [vai](#la-minimappa-lancia-errori-appena-esiste-il-tuo-edificio) |
 | Il tuo tile si dipinge, poi il renderer della mappa esplode | [vai](#il-tuo-tile-si-dipinge-poi-il-renderer-della-mappa-esplode) |
 | Far nascere un animale sul tuo tile crasha | [vai](#far-nascere-un-animale-sul-tuo-tile-crasha) |
-| I drop cadono invisibili, o un proiettile esplode | [vai](#i-drop-cadono-invisibili-o-un-proiettile-esplode) |
+| I drop cadono invisibili, o un proiettile (projectile) esplode | [vai](#i-drop-cadono-invisibili-o-un-proiettile-esplode) |
 | Il log si riempie di ArgumentNullException dai proiettili | [vai](#il-log-si-riempie-di-argumentnullexception-dai-proiettili) |
 | La tua scheda dei poteri non compare mai | [vai](#la-tua-scheda-dei-poteri-non-compare-mai) |
 | La finestra delle impostazioni mostra id grezzi | [vai](#la-finestra-delle-impostazioni-mostra-id-grezzi) |
-| Il mondo lancia errori a ogni frame dopo aver aggiunto un comportamento del mondo | [salta](#il-mondo-lancia-errori-a-ogni-frame-dopo-aver-aggiunto-un-comportamento-del-mondo) |
-| Un disastro va in crash quando scrive nel log del mondo | [salta](#un-disastro-va-in-crash-quando-scrive-nel-log-del-mondo) |
+| Il mondo lancia errori a ogni frame dopo aver aggiunto un comportamento (behaviour) del mondo | [salta](#il-mondo-lancia-errori-a-ogni-frame-dopo-aver-aggiunto-un-comportamento-del-mondo) |
+| Un disastro (disaster) va in crash quando scrive nel log del mondo | [salta](#un-disastro-va-in-crash-quando-scrive-nel-log-del-mondo) |
 | Un disastro senza action va in crash non appena viene sorteggiato | [salta](#un-disastro-senza-action-va-in-crash-non-appena-viene-sorteggiato) |
-| Il primo governante che prende in considerazione il tuo complotto va in crash | [salta](#il-primo-governante-che-prende-in-considerazione-il-tuo-complotto-va-in-crash) |
-| La tua decisione, complotto, gene o arma esiste ma nulla lo usa mai | [salta](#la-tua-decisione-complotto-gene-o-arma-esiste-ma-nulla-lo-usa-mai) |
+| Il primo governante che prende in considerazione il tuo complotto (plot) va in crash | [salta](#il-primo-governante-che-prende-in-considerazione-il-tuo-complotto-va-in-crash) |
+| La tua decisione (decision), complotto, gene o arma esiste ma nulla lo usa mai | [salta](#la-tua-decisione-complotto-gene-o-arma-esiste-ma-nulla-lo-usa-mai) |
 
 **Compila a te, ma non agli altri**
 
@@ -237,7 +237,7 @@ NML ha trovato la tua mod e l'ha eseguita. Qualcosa al suo interno non è mai ar
 ### Crash sulla riga in cui assegni una statistica
 
 - **Cosa vedi**: `NullReferenceException` nel tuo `Initialize()`, e tutto il codice successivo non parte.
-- **Perché**: Un asset appena creato non possiede **alcun blocco di statistiche**. La libreria lo alloca dentro `add()`.
+- **Perché**: Un asset appena creato non possiede **alcun blocco di statistiche**. La libreria (library) lo alloca dentro `add()`.
 - **Risoluzione**: Prima `add()`, poi le statistiche. Stessa regola per tratti, status, oggetti, edifici e creature.
 
 ```csharp
@@ -346,14 +346,14 @@ Ogni voce di questa sezione ha la stessa causa. Il gioco prepara una parte di og
 
 ### Il tuo tratto, oggetto o creatura resta bloccato
 
-- **Cosa vedi**: Esiste, ma il libro della conoscenza lo mostra grigio e il giocatore non può usarlo finché non salta fuori in un mondo.
-- **Perché**: `needs_to_be_explored` è `true` di default su tutto ciò che si sblocca: attori, i sette tipi di tratto, oggetti, modificatori e leggi del mondo.
+- **Cosa vedi**: Esiste, ma il libro (book) della conoscenza lo mostra grigio e il giocatore non può usarlo finché non salta fuori in un mondo.
+- **Perché**: `needs_to_be_explored` è `true` di default su tutto ciò che si sblocca: attori, i sette tipi di tratto, oggetti, modificatori (modifier) e leggi del mondo (world law).
 - **Risoluzione**: `needs_to_be_explored = false` quando lo crei. Vedi **[Tratti personalizzati](#/nml/custom-traits)**.
 
 ### Il gioco crasha caricando la tua arma o il tuo cibo
 
 - **Cosa vedi**: `ArgumentNullException: Value cannot be null. Parameter name: key` in `ItemLibrary.loadSprites()` o `ResourceLibrary.loadSprites()`.
-- **Perché**: Le armi ricevono `path_gameplay_sprite`, e le risorse `full_sprite_path`, ricavati in `post_init()` durante il caricamento del gioco. I tuoi restano `null`.
+- **Perché**: Le armi ricevono `path_gameplay_sprite`, e le risorse (resource) `full_sprite_path`, ricavati in `post_init()` durante il caricamento del gioco. I tuoi restano `null`.
 - **Risoluzione**: Impostali tu. Vedi **[Oggetti personalizzati](#/nml/custom-items)** e **[Risorse e cibo](#/nml/resources)**.
 
 ### Una nuvola crasha appena compare
@@ -389,7 +389,7 @@ Ogni voce di questa sezione ha la stessa causa. Il gioco prepara una parte di og
 ### Far nascere un animale sul tuo tile crasha
 
 - **Cosa vedi**: `NullReferenceException` in `Subspecies.generateName()`, solo sul tuo tile e solo per gli animali.
-- **Perché**: Un clone di un tile d'erba tiene `is_biome = true` ma non `biome_asset`, che viene collegato in `linkAssets()` all'avvio. Gli animali aggiungono il bioma al nome della specie.
+- **Perché**: Un clone di un tile d'erba tiene `is_biome = true` ma non `biome_asset`, che viene collegato in `linkAssets()` all'avvio. Gli animali aggiungono il bioma (biome) al nome della specie.
 - **Risoluzione**: `moss.biome_asset = AssetManager.biome_library.get(moss.biome_id);`
 
 ### I drop cadono invisibili, o un proiettile esplode
@@ -401,7 +401,7 @@ Ogni voce di questa sezione ha la stessa causa. Il gioco prepara una parte di og
 ### Il log si riempie di ArgumentNullException dai proiettili
 
 - **Cosa vedi**: Migliaia di `ArgumentNullException: Value cannot be null` in `ProjectileManager.updateProjectiles()` mentre un proiettile è in aria.
-- **Perché**: Un proiettile senza tiratore non ha regno, e il gestore usa il regno come chiave di dizionario a ogni frame.
+- **Perché**: Un proiettile senza tiratore non ha regno (kingdom), e il gestore usa il regno come chiave di dizionario a ogni frame.
 - **Risoluzione**: Dagliene uno: `pForcedKingdom: World.world.kingdoms_wild.get("nature")`, il proprietario neutro del gioco stesso.
 
 ### La tua scheda dei poteri non compare mai
@@ -443,7 +443,7 @@ Ogni voce di questa sezione ha la stessa causa. Il gioco prepara una parte di og
 ### La tua decisione, complotto, gene o arma esiste ma nulla lo usa mai
 
 - **Sintomo**: Nessun errore. L'asset è registrato nella sua libreria, ma il gioco non lo sceglie mai.
-- **Causa**: Il gioco sceglie da elenchi costruiti all'avvio: `basic_plots`, gli elenchi delle decisioni, il pool di mutazione dei geni, i pool delle armi, i pool degli slot delle ere. Il tuo è stato aggiunto dopo.
+- **Causa**: Il gioco sceglie da elenchi costruiti all'avvio: `basic_plots`, gli elenchi delle decisioni, il pool di mutazione dei geni, i pool delle armi, i pool degli slot delle ere (world age). Il tuo è stato aggiunto dopo.
 - **Soluzione**: Aggiungilo alla lista da cui il gioco legge effettivamente. Ogni pagina spiega quale: **[IA e comportamenti personalizzati](#/nml/custom-ai)**, **[Complotti](#/nml/plots)**, **[Tratti delle sottospecie](#/nml/subspecies-traits)**, **[Oggetti personalizzati](#/nml/custom-items)**, **[Ere del mondo e comportamenti](#/nml/world-ages)**.
 
 ---
@@ -521,7 +521,7 @@ _lastWorldTime = now;
 ### La tua patch su `updateStats` va in crash per altri utenti
 
 - **Cosa vedi**: Funziona perfettamente sul tuo PC per ore, ma genera eccezioni di concorrenza/threading sui PC dei tester.
-- **Perché**: Il gioco esegue `updateStats` come job **parallelo**: il tuo Postfix gira su thread di lavoro contemporaneamente su più unità.
+- **Perché**: Il gioco esegue `updateStats` come job **parallelo**: il tuo Postfix gira su thread di lavoro (job) contemporaneamente su più unità.
 - **Risoluzione**: In quella patch modifica solo i valori numerici dell'unità stessa. Accoda qualsiasi altra operazione (chiamate Unity, liste condivise, generatori random) per il tuo metodo `Update()`.
 
 ### Hai applicato la patch a `getHit` ma gli edifici subiscono comunque danno

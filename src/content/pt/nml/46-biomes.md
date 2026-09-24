@@ -8,7 +8,7 @@ order: 171
 
 # Biomas :wbflowerbud:
 
-Um bioma é a parte do mundo de onde todo o resto pendura: que chão ele pinta, que árvores e plantas crescem nele, que criaturas aparecem e que traços ganha quem nasce lá. Um mod de bioma? Nessa economia? Sim, e dá menos trabalho do que parece, porque um bioma é principalmente uma lista de ids dos outros :PESgn_Noice:.
+Um bioma (biome) é a parte do mundo de onde todo o resto pendura: que chão ele pinta, que árvores e plantas crescem nele, que criaturas aparecem e que traços (trait) ganha quem nasce lá. Um mod de bioma? Nessa economia? Sim, e dá menos trabalho do que parece, porque um bioma é principalmente uma lista de ids dos outros :PESgn_Noice:.
 
 Esta página cria os **Campos de Brasa**: dois tiles próprios, sementes próprias, algumas criaturas de savana e um traço para tudo que nasce lá.
 
@@ -16,7 +16,7 @@ Esta página cria os **Campos de Brasa**: dois tiles próprios, sementes própri
 
 Um bioma não é um asset, são quatro que apontam uns para os outros:
 
-| Peça | Biblioteca | O que faz |
+| Peça | Biblioteca (library) | O que faz |
 | --- | --- | --- |
 | `BiomeAsset` | `biome_library` | O bioma em si: o que cresce, o que aparece, como se espalha |
 | Dois `TopTileType` | `top_tiles` | O chão que ele pinta: um **baixo** e um **alto** |
@@ -147,12 +147,12 @@ Adicione `HelloBiomes.Initialize();` ao `OnModLoad` e depois dê um botão ao po
 | `grow_strength` | A força com que empurra ao se espalhar. Padrão 6 |
 | `cold_biome` / `dark_biome` | Marcações que outros sistemas checam. Só ligue se for mesmo frio ou escuro |
 | `special_biome` | Marca os diferentes, que não são um bioma verde normal. O vanilla usa para areia e colinas |
-| `subspecies_name_suffix` | Terminações meio latinas para subespécies que evoluem aqui |
+| `subspecies_name_suffix` | Terminações meio latinas para subespécies (subspecies) que evoluem aqui |
 | `spawn_trait_actor`, `spawn_trait_subspecies`, `spawn_trait_culture`, `spawn_trait_clan`, `spawn_trait_language`, `spawn_trait_religion` | Traços que o que for fundado aqui pode ganhar |
 
 ### O que cresce e o que aparece
 
-`addTree`, `addPlant`, `addBush` e `addMineral` recebem um id de construção e um peso. `addUnit` adiciona animais selvagens, `addSapientUnit` as espécies que podem fundar uma civilização aqui. O peso não é porcentagem, é quantas vezes o id entra no saco: `addUnit("buffalo", 2)` deixa o búfalo duas vezes mais provável que a hiena.
+`addTree`, `addPlant`, `addBush` e `addMineral` recebem um id de construção (building) e um peso. `addUnit` adiciona animais selvagens, `addSapientUnit` as espécies que podem fundar uma civilização aqui. O peso não é porcentagem, é quantas vezes o id entra no saco: `addUnit("buffalo", 2)` deixa o búfalo duas vezes mais provável que a hiena.
 
 Qualquer id funciona, inclusive as suas criaturas de **[Atores personalizados](#/nml/custom-actors)**, desde que registradas antes do bioma.
 

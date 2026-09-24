@@ -8,7 +8,7 @@ order: 178
 
 # Royaumes et factions :wbkingdoms:
 
-Dans WorldBox, chaque unité appartient à un royaume. Pas uniquement les civilisations : les loups appartiennent à un royaume de loups, les bandits à une faction de bandits, et un poulet neutre appartient à un royaume neutre. Un `KingdomAsset` est le **type** de faction, et non un royaume spécifique présent sur la carte.
+Dans WorldBox, chaque unité appartient à un royaume (kingdom). Pas uniquement les civilisations : les loups appartiennent à un royaume de loups, les bandits à une faction de bandits, et un poulet neutre appartient à un royaume neutre. Un `KingdomAsset` est le **type** de faction, et non un royaume spécifique présent sur la carte.
 
 C'est la nuance fondamentale à retenir :
 
@@ -80,7 +80,7 @@ Sans cela, votre créature apparaîtra dans le royaume qu'utilisait le modèle d
 
 | Champ | Ce qu'il fait |
 | --- | --- |
-| `civ` | Fonde des villes, mène des guerres, possède un roi |
+| `civ` | Fonde des villes, mène des guerres (war), possède un roi |
 | `nomads` | Étape errante avant de s'implanter |
 | `nature` | Animaux sauvages |
 | `mobs` | Monstres hostiles |
@@ -98,11 +98,11 @@ Sans cela, votre créature apparaîtra dans le royaume qu'utilisait le modèle d
 | `count_as_danger` | Les autres factions la traitent-elles comme une menace. `true` par défaut |
 | `friendship_for_everyone` | Pacifique avec absolument tout le monde |
 | `force_look_all_chunks` | Les unités scannent la carte entière, pas juste les environs. Coûteux |
-| `building_attractor_id` | Type de bâtiment qui les attire |
+| `building_attractor_id` | Type de bâtiment (building) qui les attire |
 
 ### Les tags : qui combat qui
 
-C'est la pièce maîtresse, et ce n'est pas une statistique numérique mais trois ensembles de chaînes :
+C'est la pièce maîtresse, et ce n'est pas une statistique (stats) numérique mais trois ensembles de chaînes :
 
 ```csharp
 kingdom.addTag("civ");             // ce que je suis
@@ -122,15 +122,15 @@ Deux royaumes comparent leurs tags pour fixer leur position diplomatique par dé
 
 ## Le reste de l'écosystème d'une faction
 
-Un asset de royaume isolé n'est qu'une étiquette. Une étiquette très officielle, mais une étiquette. Voici les autres bibliothèques qu'une faction complète mobilise :
+Un asset de royaume isolé n'est qu'une étiquette. Une étiquette très officielle, mais une étiquette. Voici les autres bibliothèques (library) qu'une faction complète mobilise :
 
 | Élément | Bibliothèque | Rôle |
 | --- | --- | --- |
 | Bannières | `AssetManager.kingdom_banners_library` | Le drapeau généré |
 | Couleurs | `AssetManager.kingdom_colors_library` | La palette attribuée aux royaumes |
 | Traits de royaume | `AssetManager.kingdoms_traits` | Politiques, principalement fiscales. Voir **[Traits de royaume](#/nml/kingdom-traits)** |
-| Métiers de royaume | `AssetManager.job_kingdom` | Ce sur quoi travaille l'IA de la faction |
-| Tâches de royaume | `AssetManager.tasks_kingdom` | L'arbre de comportement derrière ces métiers |
+| Métiers (job) de royaume | `AssetManager.job_kingdom` | Ce sur quoi travaille l'IA de la faction |
+| Tâches (task) de royaume | `AssetManager.tasks_kingdom` | L'arbre de comportement (behaviour) derrière ces métiers |
 | Types de guerre | `AssetManager.war_types_library` | Les motifs de déclaration de guerre |
 | Architecture | `AssetManager.architecture_library` | L'apparence de leurs bâtiments |
 | Ordres de construction | `AssetManager.city_build_orders` | Ce qu'une nouvelle cité bâtit et dans quel ordre |
@@ -280,7 +280,7 @@ L'opinion et la loyauté sont recalculées en sommant toute la liste à chaque f
 
 ## Bannières pour les autres systèmes
 
-Les royaumes ne sont pas les seuls à arborer une bannière : les cultures, religions, clans, langues, sous-espèces et familles possèdent chacune leur propre bibliothèque d'éléments (`AssetManager.culture_banners_library`, etc.). Chacune possède un asset `main` contenant des listes de chemins, et une nouvelle culture tire au sort un index.
+Les royaumes ne sont pas les seuls à arborer une bannière : les cultures, religions, clans, langues, sous-espèces (subspecies) et familles possèdent chacune leur propre bibliothèque d'éléments (`AssetManager.culture_banners_library`, etc.). Chacune possède un asset `main` contenant des listes de chemins, et une nouvelle culture tire au sort un index.
 
 ```csharp Mods/HelloBox/Code/HelloBanners.cs
 namespace HelloBox

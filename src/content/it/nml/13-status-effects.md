@@ -8,7 +8,7 @@ order: 146
 
 # Effetti di stato :wbcursed:
 
-Un tratto definisce chi una creatura **è**. Un effetto di stato definisce cosa le sta accadendo **in questo preciso momento**: brucia, congelata, avvelenata, benedetta. Scadono da soli col tempo, sovrappongono il proprio sprite all'unità e possono eseguire un'azione a intervalli regolari.
+Un tratto (trait) definisce chi una creatura **è**. Un effetto di stato (status) definisce cosa le sta accadendo **in questo preciso momento**: brucia, congelata, avvelenata, benedetta. Scadono da soli col tempo, sovrappongono il proprio sprite all'unità e possono eseguire un'azione a intervalli regolari.
 
 ## Registrarne uno
 
@@ -89,7 +89,7 @@ La lista breve. Quella vera è più lunga e per lo più noiosa :wbyawn:.
 | `affects_mind` | Lo etichetta come effetto mentale |
 | `opposite_status` | Status che non possono coesistere con questo |
 | `remove_status` | Status che vengono rimossi quando questo si applica |
-| `base_stats` | Modificatori alle statistiche attivi durante lo status |
+| `base_stats` | Modificatori (modifier) alle statistiche (stats) attivi durante lo status |
 | `locale_id` / `locale_description` | Chiavi del nome e del tooltip. **Obbligatorie** |
 | `path_icon` | Icona nella lista degli status |
 | `texture`, `sprite_list`, `animated`, `loop`, `animation_speed` | Lo sprite disegnato sull'unità. `texture` è il nome semplice dentro `effects/` |
@@ -100,7 +100,7 @@ La lista breve. Quella vera è più lunga e per lo più noiosa :wbyawn:.
 
 ## Il tuo sprite personalizzato
 
-Qui c'è una trappola, e tutti ci cadono almeno una volta :wbbre:. `texture` **non** è un percorso completo: la libreria degli stati aggiunge `effects/` davanti prima del caricamento, quindi scrivi solo il nome.
+Qui c'è una trappola, e tutti ci cadono almeno una volta :wbbre:. `texture` **non** è un percorso completo: la libreria (library) degli stati aggiunge `effects/` davanti prima del caricamento, quindi scrivi solo il nome.
 
 ```text Mods/HelloBox/
 HelloBox/
@@ -145,7 +145,7 @@ StatusAsset asset = AssetManager.status.get(HelloStatus.CURSED);
 World.world.statuses.newStatus(actor, asset, 20f);   // 20s, o 0 per la durata nativa dell'asset
 ```
 
-Negli alberi di comportamento ci sono nodi già pronti: `new BehActorAddStatus("hello_cursed", 20f)` e `new BehActorRemoveStatus("hello_cursed")`.
+Negli alberi di comportamento (behaviour) ci sono nodi già pronti: `new BehActorAddStatus("hello_cursed", 20f)` e `new BehActorRemoveStatus("hello_cursed")`.
 
 ## Non dimenticare i testi
 

@@ -8,7 +8,7 @@ order: 176
 
 # Leggi del mondo :wbworldlaws:
 
-Le leggi del mondo sono gli interruttori nella finestra **Leggi del mondo**: "vecchiaia", "fame", "mostri pacifici". Sono la cosa più comoda in assoluto per i giocatori, perché permettono loro di attivare e disattivare il comportamento della tua mod senza toccare alcun file di configurazione.
+Le leggi del mondo (world law) sono gli interruttori nella finestra **Leggi del mondo**: "vecchiaia", "fame", "mostri pacifici". Sono la cosa più comoda in assoluto per i giocatori, perché permettono loro di attivare e disattivare il comportamento (behaviour) della tua mod senza toccare alcun file di configurazione.
 
 Sono anche uno degli asset più facili dell'intero gioco. Quattro campi.
 

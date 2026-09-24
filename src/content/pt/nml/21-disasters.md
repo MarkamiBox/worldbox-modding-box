@@ -8,7 +8,7 @@ order: 184
 
 # Desastres :wbmeteorite:
 
-Um desastre é algo que o mundo causa a si mesmo: um tornado, uma onda de calor, um meteorito. O jogo sorteia desastres ao longo do tempo, então, diferente de um poder divino, **ninguém precisa clicar em nada**. Você define as condições, o mundo cuida do resto.
+Um desastre (disaster) é algo que o mundo causa a si mesmo: um tornado, uma onda de calor, um meteorito. O jogo sorteia desastres ao longo do tempo, então, diferente de um poder divino (GodPower), **ninguém precisa clicar em nada**. Você define as condições, o mundo cuida do resto.
 
 ## Adicionando um desastre
 

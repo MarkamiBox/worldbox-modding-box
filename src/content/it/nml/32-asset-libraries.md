@@ -8,7 +8,7 @@ order: 90
 
 # Librerie di asset :wbbrain:
 
-Prima che le pagine successive abbiano senso, ti serve questa. Ogni singola cosa in WorldBox (un tratto, un'arma, un edificio, una casella, una nuvola, un regno) è un **asset** custodito in una **libreria**, e ogni libreria del gioco appartiene alla medesima classe con i medesimi quattro metodi.
+Prima che le pagine successive abbiano senso, ti serve questa. Ogni singola cosa in WorldBox (un tratto (trait), un'arma, un edificio (building), una casella (tile), una nuvola (cloud), un regno (kingdom)) è un **asset** custodito in una **libreria** (library), e ogni libreria del gioco appartiene alla medesima classe con i medesimi quattro metodi.
 
 Imparali una volta qui e le successive trenta pagine si ridurranno a: "quale libreria, quali campi".
 
@@ -70,7 +70,7 @@ Registra un nuovo asset. Al suo interno accadono tre passaggi fondamentali che d
    ```
    È così che una mod ne danneggia silenziosamente un'altra. Metti sempre un prefisso ai tuoi id.
 2. Viene invocato `create()` sull'asset.
-3. **La libreria alloca il blocco `base_stats`** (e `base_stats_meta` se presente). Ecco perché la regola categorica di tutta questa guida è "le statistiche vanno sempre dopo `add()`".
+3. **La libreria alloca il blocco `base_stats`** (e `base_stats_meta` se presente). Ecco perché la regola categorica di tutta questa guida è "le statistiche (stats) vanno sempre dopo `add()`".
 
 ```csharp
 ActorTrait swift = new ActorTrait { id = SWIFT, group_id = "physique" };

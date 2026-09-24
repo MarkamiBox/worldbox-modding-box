@@ -8,9 +8,9 @@ order: 42
 
 # Patch Harmony :wbhammer:
 
-Tutto quanto visto nelle altre pagine **aggiunge** cose a WorldBox: un tratto, un'arma, un edificio. Harmony serve per l'altra metà del modding: **cambiare ciò che il gioco fa già**.
+Tutto quanto visto nelle altre pagine **aggiunge** cose a WorldBox: un tratto (trait), un'arma, un edificio (building). Harmony serve per l'altra metà del modding: **cambiare ciò che il gioco fa già**.
 
-Non puoi modificare direttamente il codice del gioco. È compilato, viene distribuito come `Assembly-CSharp.dll`, e qualsiasi aggiornamento sovrascriverebbe le tue modifiche. Harmony è la libreria che ti permette di agganciare il tuo codice a un metodo già esistente mentre il gioco è in esecuzione.
+Non puoi modificare direttamente il codice del gioco. È compilato, viene distribuito come `Assembly-CSharp.dll`, e qualsiasi aggiornamento sovrascriverebbe le tue modifiche. Harmony è la libreria (library) che ti permette di agganciare il tuo codice a un metodo già esistente mentre il gioco è in esecuzione.
 
 > [!NOTE] Non hai mai scritto codice prima?
 > Leggi "Cos'è un metodo" e "Il post-it", poi vai a creare qualcosa dalle pagine di **Contenuto di gioco** e torna qui dopo. Harmony non è difficile, ma è la prima cosa capace di rompere i mod di *altre persone*, e scriverai patch migliori una volta visto come sono strutturati gli asset del gioco :PES_Wise:.
@@ -21,7 +21,7 @@ Un **metodo** è un'azione con un nome all'interno del codice del gioco. Alcuni 
 
 | Metodo | Quando il gioco lo esegue |
 | --- | --- |
-| `Actor.updateStats()` | Ogni volta che le statistiche di un'unità devono essere ricalcolate |
+| `Actor.updateStats()` | Ogni volta che le statistiche (stats) di un'unità devono essere ricalcolate |
 | `Actor.getHit(...)` | Ogni volta che un'unità subisce danni |
 | `City.makeWarrior(...)` | Ogni volta che una città trasforma un cittadino in un soldato |
 
@@ -106,7 +106,7 @@ Succedono sei cose:
 - **`stats["speed"] += 20f;`**: la modifica vera e propria. `updateStats` svuota e ricostruisce il blocco delle statistiche all'inizio, quindi sommare in un Postfix parte da zero invece di accumularsi a ogni tick.
 
 > [!DANGER] `updateStats` non gira sul thread principale
-> Il gioco lo registra come job **parallelo** (`createJob(out c_stats_dirty, updateStats, JobType.Parallel, ...)`, e `Config.parallel_jobs_updater` è `true` di default), quindi il tuo Postfix gira su un thread di lavoro, su molte unità contemporaneamente. Lì dentro tocca **solo i numeri di quell'unità**. Chiamare Unity (`Time.time`, `transform`, `Destroy`, `Resources.Load`), l'helper casuale del gioco `Randy`, o scrivere in una tua lista condivisa è un crash che salta fuori solo sul PC di qualcun altro.
+> Il gioco lo registra come job **parallelo** (`createJob(out c_stats_dirty, updateStats, JobType.Parallel, ...)`, e `Config.parallel_jobs_updater` è `true` di default), quindi il tuo Postfix gira su un thread di lavoro (job), su molte unità contemporaneamente. Lì dentro tocca **solo i numeri di quell'unità**. Chiamare Unity (`Time.time`, `transform`, `Destroy`, `Resources.Load`), l'helper casuale del gioco `Randy`, o scrivere in una tua lista condivisa è un crash che salta fuori solo sul PC di qualcun altro.
 >
 > Se ti serve una di queste cose, metti l'unità in coda e fai il lavoro nel tuo `Update()`:
 > ```csharp

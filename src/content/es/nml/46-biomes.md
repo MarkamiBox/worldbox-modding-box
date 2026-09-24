@@ -8,9 +8,9 @@ order: 171
 
 # Biomas :wbflowerbud:
 
-Un bioma es la parte del mundo de la que cuelga todo lo demás: qué suelo pinta, qué árboles y plantas crecen en él, qué criaturas entran y qué rasgos recibe lo que nace allí. ¿Un mod de biomas? ¿En esta economía? Sí, y es menos trabajo del que parece, porque un bioma es sobre todo una lista de ids de otros :PESgn_Noice:.
+Un bioma (biome) es la parte del mundo de la que cuelga todo lo demás: qué suelo pinta, qué árboles y plantas crecen en él, qué criaturas entran y qué rasgos (trait) recibe lo que nace allí. ¿Un mod de biomas? ¿En esta economía? Sí, y es menos trabajo del que parece, porque un bioma es sobre todo una lista de ids de otros :PESgn_Noice:.
 
-Esta página crea los **Campos de Brasa**: dos casillas propias, sus propias semillas, algunas criaturas de sabana y un rasgo para todo lo que nazca allí.
+Esta página crea los **Campos de Brasa**: dos casillas (tile) propias, sus propias semillas, algunas criaturas de sabana y un rasgo para todo lo que nazca allí.
 
 ## Las piezas
 
@@ -147,12 +147,12 @@ Añade `HelloBiomes.Initialize();` a `OnModLoad` y luego dale al poder un botón
 | `grow_strength` | Con cuánta fuerza empuja al extenderse. Por defecto 6 |
 | `cold_biome` / `dark_biome` | Marcas que revisan otros sistemas. Ponlas solo si de verdad es frío u oscuro |
 | `special_biome` | Marca los raros que no son un bioma verde normal. Vanilla lo usa para arena y colinas |
-| `subspecies_name_suffix` | Terminaciones latinas para las subespecies que evolucionan aquí |
+| `subspecies_name_suffix` | Terminaciones latinas para las subespecies (subspecies) que evolucionan aquí |
 | `spawn_trait_actor`, `spawn_trait_subspecies`, `spawn_trait_culture`, `spawn_trait_clan`, `spawn_trait_language`, `spawn_trait_religion` | Rasgos que puede recibir lo que se funda aquí |
 
 ### Qué crece y qué aparece
 
-`addTree`, `addPlant`, `addBush` y `addMineral` reciben un id de edificio y un peso. `addUnit` añade fauna, `addSapientUnit` añade las especies que pueden fundar una civilización aquí. El peso no es un porcentaje, es cuántas veces entra el id en la bolsa: `addUnit("buffalo", 2)` hace el búfalo el doble de probable que la hiena.
+`addTree`, `addPlant`, `addBush` y `addMineral` reciben un id de edificio (building) y un peso. `addUnit` añade fauna, `addSapientUnit` añade las especies que pueden fundar una civilización aquí. El peso no es un porcentaje, es cuántas veces entra el id en la bolsa: `addUnit("buffalo", 2)` hace el búfalo el doble de probable que la hiena.
 
 Sirve cualquier id, también tus propias criaturas de **[Actores personalizados](#/nml/custom-actors)**, siempre que se registren antes que el bioma.
 

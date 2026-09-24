@@ -70,7 +70,7 @@ Füge `HelloPowers.Initialize();` zu `Main.cs` hinzu.
 - **`rank = PowerRank.Rank0_free`**: von Anfang an verfügbar, nichts freizuschalten.
 - **`path_icon`**: das Cursor-/Werkzeug-Icon.
 - **`unselect_when_window`**: Öffnet der Spieler ein Fenster, legt sich das Werkzeug von selbst ab, damit er nicht versehentlich die Karte hinter dem Panel zerschmettert.
-- **`click_action`**: dein Code. Er bekommt das **angeklickte Feld** und die **ID der Macht** und gibt `true` zurück, wenn er etwas getan hat.
+- **`click_action`**: dein Code. Er bekommt das **angeklickte Feld** und die **ID der Macht (GodPower)** und gibt `true` zurück, wenn er etwas getan hat.
 
 > [!WARNING] Die Klick-Signatur ist `(WorldTile, string)`
 > `click_action` ist eine `PowerActionWithID`, also ist das zweite Argument die **ID der Macht als String**, keine `GodPower`. Es gibt ein zweites Feld, `click_power_action`, das `(WorldTile, GodPower)` nimmt. Die falsche Form beschert dir einen Compilerfehler, der sich wie Unsinn liest :PES_DaFuq:.
@@ -136,7 +136,7 @@ strike.path_icon = "ui/Icons/iconHelloStrike";
 
 ## Pinselformen
 
-Eine Gotteskraft malt mit einem **Pinsel**: das Muster an Kacheln, das ein Klick abdeckt. Das Spiel erzeugt die Pixelliste und das Vorschaubild jedes Pinsels per Code, sodass eine neue Form überhaupt keine Bilddateien benötigt.
+Eine Gotteskraft malt mit einem **Pinsel**: das Muster an Kacheln (tile), das ein Klick abdeckt. Das Spiel erzeugt die Pixelliste und das Vorschaubild jedes Pinsels per Code, sodass eine neue Form überhaupt keine Bilddateien benötigt.
 
 ```csharp Mods/HelloBox/Code/HelloBrushes.cs
 using System.Collections.Generic;

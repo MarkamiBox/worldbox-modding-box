@@ -8,7 +8,7 @@ order: 179
 
 # Kriegsarten :wbmartialwarfare:
 
-Jeder Krieg im Spiel hat eine Art: ein normaler Eroberungskrieg, ein Trotzkrieg gegen alle, eine Rebellion. Die Art entscheidet, wie der Krieg zu seinem Namen kommt, welches Icon er zeigt, ob Verbündete mitmachen und ein paar Regeln dazu, wie er enden kann. Vanilla hat nur fünf, also fällt eine neue auf.
+Jeder Krieg (war) im Spiel hat eine Art: ein normaler Eroberungskrieg, ein Trotzkrieg gegen alle, eine Rebellion. Die Art entscheidet, wie der Krieg zu seinem Namen kommt, welches Icon er zeigt, ob Verbündete mitmachen und ein paar Regeln dazu, wie er enden kann. Vanilla hat nur fünf, also fällt eine neue auf.
 
 Diese Seite baut die **Glutfehde**: einen Krieg, der die Verbündeten beider Seiten mit hineinzieht, Namen wie "Cinder Feud of Karvia" bekommt und wie ein normaler Krieg durch einen Friedensplan beendet werden kann.
 
@@ -89,7 +89,7 @@ namespace HelloBox
 | `path_icon` | Das Icon des Kriegs, genau so geladen, wie es dasteht |
 | `kingdom_for_name_attacker` | Wessen Name `$kingdom$` füllt: der Angreifer (`true`) oder der Verteidiger (`false`) |
 | `alliance_join` | Die Bündnisse beider Seiten treten bei, wenn er beginnt |
-| `total_war` | Der Angreifer ist mit **jedem** Königreich im Krieg, wie bei Trotzkriegen. Ohne Verteidiger starten |
+| `total_war` | Der Angreifer ist mit **jedem** Königreich (kingdom) im Krieg, wie bei Trotzkriegen. Ohne Verteidiger starten |
 | `rebellion` | Markiert ihn als Rebellion, was ändert, wer wem beitreten kann |
 | `can_end_with_plot` | Ein König kann ihn mit dem Friedensplan beenden, sobald er alt genug ist |
 | `forced_war` | Wird nur von einer Hilfsmethode gelesen, die gerade nichts aufruft. Aus lassen |

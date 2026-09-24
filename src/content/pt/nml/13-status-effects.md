@@ -8,7 +8,7 @@ order: 146
 
 # Efeitos de status :wbcursed:
 
-Um traço define quem uma criatura **é**. Um efeito de status define o que está acontecendo com ela **neste exato momento**: pegando fogo, congelada, envenenada, abençoada. Eles expiram sozinhos com o tempo, sobrepõem seu próprio sprite sobre a criatura e podem executar código em um temporizador.
+Um traço (trait) define quem uma criatura **é**. Um efeito de status define o que está acontecendo com ela **neste exato momento**: pegando fogo, congelada, envenenada, abençoada. Eles expiram sozinhos com o tempo, sobrepõem seu próprio sprite sobre a criatura e podem executar código em um temporizador.
 
 ## Registrando um efeito
 
@@ -89,7 +89,7 @@ A lista curta. A de verdade é maior e quase toda chata :wbyawn:.
 | `affects_mind` | Marca o efeito como perturbação mental |
 | `opposite_status` | Status que não podem coexistir com este |
 | `remove_status` | Status removidos imediatamente quando este entra |
-| `base_stats` | Modificadores de atributos durante o efeito |
+| `base_stats` | Modificadores (modifier) de atributos (stats) durante o efeito |
 | `locale_id` / `locale_description` | Chaves de nome e tooltip. **Obrigatórias** |
 | `path_icon` | O ícone na lista de status |
 | `texture`, `sprite_list`, `animated`, `loop`, `animation_speed` | O sprite desenhado sobre a unidade. `texture` é o nome direto sob `effects/` |
@@ -100,7 +100,7 @@ A lista curta. A de verdade é maior e quase toda chata :wbyawn:.
 
 ## Seu próprio sprite
 
-Esta tem uma armadilha, e todo mundo cai nela uma vez :wbbre:. `texture` **não** é um caminho completo: a biblioteca de status coloca `effects/` na frente antes de carregar, então você escreve só o nome.
+Esta tem uma armadilha, e todo mundo cai nela uma vez :wbbre:. `texture` **não** é um caminho completo: a biblioteca (library) de status coloca `effects/` na frente antes de carregar, então você escreve só o nome.
 
 ```text Mods/HelloBox/
 HelloBox/
@@ -145,7 +145,7 @@ StatusAsset asset = AssetManager.status.get(HelloStatus.CURSED);
 World.world.statuses.newStatus(actor, asset, 20f);   // 20s, ou 0 para a duração original do asset
 ```
 
-Dentro de árvores de comportamento há nós prontos: `new BehActorAddStatus("hello_cursed", 20f)` e `new BehActorRemoveStatus("hello_cursed")`.
+Dentro de árvores de comportamento (behaviour) há nós prontos: `new BehActorAddStatus("hello_cursed", 20f)` e `new BehActorRemoveStatus("hello_cursed")`.
 
 ## Não esqueça dos textos
 
@@ -159,4 +159,4 @@ Dentro de árvores de comportamento há nós prontos: `new BehActorAddStatus("he
 As chaves são exatamente o que você colocar em `locale_id` e `locale_description`. Seguir o formato vanilla `status_title_<id>` / `status_description_<id>` mantém seus arquivos organizados.
 
 > [!TIP] Status são ideais para efeitos temporários
-> Qualquer efeito passageiro (um bônus do seu poder divino, uma penalidade da sua arma, uma marcação temporária) deve ser um status, não um traço. Traços são permanentes e são herdados pelos filhos, o que quase nunca é o que você pretendia :PES2_Uhm:.
+> Qualquer efeito passageiro (um bônus do seu poder divino (GodPower), uma penalidade da sua arma, uma marcação temporária) deve ser um status, não um traço. Traços são permanentes e são herdados pelos filhos, o que quase nunca é o que você pretendia :PES2_Uhm:.

@@ -8,7 +8,7 @@ order: 26
 
 # Localisation :wbscroll:
 
-Chaque élément que vous ajoutez au jeu (traits, objets, pouvoirs, onglets, tâches) apparaît sous forme de clé brute comme `trait_hello_swift` tant que vous ne lui donnez pas de texte. C'est le chapitre le plus rébarbatif du modding, et l'ignorer est la raison principale pour laquelle un mod donne l'impression d'être inachevé. (Tousse.. mes mods.. Tousse Tousse :pensiveanimated: )
+Chaque élément que vous ajoutez au jeu (traits, objets, pouvoirs, onglets, tâches (task)) apparaît sous forme de clé brute comme `trait_hello_swift` tant que vous ne lui donnez pas de texte. C'est le chapitre le plus rébarbatif du modding, et l'ignorer est la raison principale pour laquelle un mod donne l'impression d'être inachevé. (Tousse.. mes mods.. Tousse Tousse :pensiveanimated: )
 
 ## La méthode paresseuse : le dossier Locales
 
@@ -105,11 +105,11 @@ Le jeu construit ces clés lui-même, elles doivent donc correspondre exactement
 | --- | --- | --- |
 | Trait | `trait_<id>` | `trait_<id>_info` |
 | Objet | `translation_key` si vous en définissez une, sinon `item_<equipment_subtype or id>` | `<id>_description` (sans le préfixe `item_`) |
-| Pouvoir divin | `<power_id>` | `<power_id>_description` |
+| Pouvoir divin (GodPower) | `<power_id>` | `<power_id>_description` |
 | Onglet de pouvoirs | le `locale_key` que vous avez passé | la clé de description que vous avez passée |
 | Tâche d'acteur | `task_unit_<task_id>` | - |
-| Effet de statut | le **champ** `locale_id` que vous définissez | le **champ** `locale_description` que vous définissez |
-| Loi du monde | `<law_id>_title` (attention au suffixe) | `<law_id>_description` |
+| Effet de statut (status) | le **champ** `locale_id` que vous définissez | le **champ** `locale_description` que vous définissez |
+| Loi du monde (world law) | `<law_id>_title` (attention au suffixe) | `<law_id>_description` |
 
 > [!WARNING] Les ids ne sont pas des noms
 > Votre id reste `hello_swift` pour toujours, dans toutes les langues, et c'est à lui que se réfèrent le reste de votre code (et les mods des autres). Le **texte localisé** est la partie qui change. Ne renommez jamais un id juste pour corriger une faute dans le nom affiché :PESgn_Stop:.

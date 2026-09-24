@@ -8,9 +8,9 @@ order: 42
 
 # Patches com Harmony :wbhammer:
 
-Tudo nas outras páginas **adiciona** coisas ao WorldBox: um traço, uma arma, uma construção. O Harmony serve para a outra metade do modding: **alterar o que o jogo já faz**.
+Tudo nas outras páginas **adiciona** coisas ao WorldBox: um traço (trait), uma arma, uma construção (building). O Harmony serve para a outra metade do modding: **alterar o que o jogo já faz**.
 
-Você não pode editar o código do jogo diretamente. Ele é compilado, vem como `Assembly-CSharp.dll` e a próxima atualização sobrescreveria qualquer alteração. O Harmony é a biblioteca que permite acoplar o seu próprio código a um método existente enquanto o jogo está rodando.
+Você não pode editar o código do jogo diretamente. Ele é compilado, vem como `Assembly-CSharp.dll` e a próxima atualização sobrescreveria qualquer alteração. O Harmony é a biblioteca (library) que permite acoplar o seu próprio código a um método existente enquanto o jogo está rodando.
 
 > [!NOTE] Nunca escreveu código antes?
 > Leia "O que é um método" e "O bilhete adesivo", depois vá criar algo nas páginas de **Conteúdo do jogo** e volte depois. O Harmony não é difícil, mas é a primeira coisa que pode quebrar os mods de *outras pessoas*, e você escreverá patches muito melhores depois de ver como os próprios assets do jogo são estruturados :PES_Wise:.
@@ -21,7 +21,7 @@ Um **método** é uma ação nomeada dentro do código do jogo. Alguns exemplos 
 
 | Método | Quando o jogo executa |
 | --- | --- |
-| `Actor.updateStats()` | Toda vez que os atributos de uma unidade precisam ser recalculados |
+| `Actor.updateStats()` | Toda vez que os atributos (stats) de uma unidade precisam ser recalculados |
 | `Actor.getHit(...)` | Toda vez que uma unidade sofre dano |
 | `City.makeWarrior(...)` | Toda vez que uma cidade transforma um cidadão em guerreiro |
 
@@ -29,7 +29,7 @@ O jogo chama milhares desses métodos por segundo. Cada um deles é um ponto ond
 
 ## O post-it
 
-Imagine um método como uma página no livro de receitas do jogo. O Harmony não reescreve a página. Ele cola dois bilhetes nela:
+Imagine um método como uma página no livro (book) de receitas do jogo. O Harmony não reescreve a página. Ele cola dois bilhetes nela:
 
 ```text
 ┌─────────────────────────────┐
@@ -106,7 +106,7 @@ Seis coisas estão acontecendo:
 - **`stats["speed"] += 20f;`**: a mudança de verdade. `updateStats` limpa e reconstrói o bloco de atributos no começo, então somar num Postfix cai numa folha em branco em vez de acumular a cada tick.
 
 > [!DANGER] `updateStats` não roda na thread principal
-> O jogo o registra como um job **paralelo** (`createJob(out c_stats_dirty, updateStats, JobType.Parallel, ...)`, e `Config.parallel_jobs_updater` é `true` por padrão), então seu Postfix roda numa thread de trabalho, em várias unidades ao mesmo tempo. Lá dentro, mexa **só nos números daquela unidade**. Chamar o Unity (`Time.time`, `transform`, `Destroy`, `Resources.Load`), o ajudante aleatório do jogo `Randy`, ou escrever numa lista compartilhada sua é um crash que só aparece no computador de outra pessoa.
+> O jogo o registra como um job **paralelo** (`createJob(out c_stats_dirty, updateStats, JobType.Parallel, ...)`, e `Config.parallel_jobs_updater` é `true` por padrão), então seu Postfix roda numa thread de trabalho (job), em várias unidades ao mesmo tempo. Lá dentro, mexa **só nos números daquela unidade**. Chamar o Unity (`Time.time`, `transform`, `Destroy`, `Resources.Load`), o ajudante aleatório do jogo `Randy`, ou escrever numa lista compartilhada sua é um crash que só aparece no computador de outra pessoa.
 >
 > Se precisar de alguma dessas coisas, coloque a unidade numa fila e faça o trabalho no seu próprio `Update()`:
 > ```csharp

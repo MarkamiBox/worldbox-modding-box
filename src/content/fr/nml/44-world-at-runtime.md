@@ -8,9 +8,9 @@ order: 96
 
 # Le monde à l'exécution :wbworld:
 
-Toutes les autres pages enregistrent des éléments pendant le chargement du jeu. Celle-ci est dédiée à l'autre moitié : manipuler ce qui existe déjà dans un monde en cours d'exécution et le modifier. Détruire une ville, la transférer à un autre royaume, déclencher une guerre, remplir une ville avec ses propres habitants.
+Toutes les autres pages enregistrent des éléments pendant le chargement du jeu. Celle-ci est dédiée à l'autre moitié : manipuler ce qui existe déjà dans un monde en cours d'exécution et le modifier. Détruire une ville, la transférer à un autre royaume (kingdom), déclencher une guerre (war), remplir une ville avec ses propres habitants.
 
-Tout cela s'exécute à partir du `click_action` d'un pouvoir divin, depuis `Update()`, ou depuis un world behaviour, et **jamais** depuis `OnModLoad`, où aucun monde n'existe encore. Consultez **[Logs et débogage](#/nml/logs-and-debugging)** pour connaître la condition de garde.
+Tout cela s'exécute à partir du `click_action` d'un pouvoir divin (GodPower), depuis `Update()`, ou depuis un world behaviour, et **jamais** depuis `OnModLoad`, où aucun monde n'existe encore. Consultez **[Logs et débogage](#/nml/logs-and-debugging)** pour connaître la condition de garde.
 
 ## Parcourir ce qui existe
 
@@ -35,7 +35,7 @@ foreach (Building building in World.world.buildings)
 city.joinAnotherKingdom(pNewSetKingdom: kingdom);
 ```
 
-`pCaptured: true` la comptabilise comme conquise dans les statistiques, `pRebellion: true` comme une rébellion. Les unités suivent leur ville.
+`pCaptured: true` la comptabilise comme conquise dans les statistiques (stats), `pRebellion: true` comme une rébellion. Les unités suivent leur ville.
 
 ## Détruire des éléments
 
@@ -65,7 +65,7 @@ Actor actor = World.world.units.createNewUnit(city.getActorAsset().id, tile, pSu
 actor?.joinCity(city);
 ```
 
-`spawnNewUnit` de **[Acteurs personnalisés](#/nml/custom-actors)** choisit la sous-espèce à votre place. `createNewUnit` vous permet de la choisir vous-même, ce qui fait la différence entre "un humain" et "l'un de *ces* humains".
+`spawnNewUnit` de **[Acteurs personnalisés](#/nml/custom-actors)** choisit la sous-espèce (subspecies) à votre place. `createNewUnit` vous permet de la choisir vous-même, ce qui fait la différence entre "un humain" et "l'un de *ces* humains".
 
 ## Parents
 

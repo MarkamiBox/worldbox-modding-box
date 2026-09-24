@@ -37,29 +37,29 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 | 라이브러리 | 에셋 | 담고 있는 내용 |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | 모든 크리처 유형. **[커스텀 액터](#/nml/custom-actors)** |
-| `traits` | `ActorTrait` | 액터 특성. **[커스텀 특성](#/nml/custom-traits)** |
+| `traits` | `ActorTrait` | 액터 특성 (trait). **[커스텀 특성](#/nml/custom-traits)** |
 | `trait_groups` | `ActorTraitGroupAsset` | 특성 탭. **[특성 그룹 및 탭](#/nml/trait-groups)** |
-| `subspecies_traits` | `SubspeciesTrait` | 아종 특성 및 외형 텍스처. **[아종 특성](#/nml/subspecies-traits)** |
+| `subspecies_traits` | `SubspeciesTrait` | 아종 (subspecies) 특성 및 외형 텍스처. **[아종 특성](#/nml/subspecies-traits)** |
 | `subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | 아종 특성 탭 |
 | `phenotype_library` | `PhenotypeAsset` | 피부색 및 색상 변형 |
 | `gene_library` | `GeneAsset` | 유전자 |
 | `chromosome_type_library` | `ChromosomeTypeAsset` | 염색체 종류 |
 | `trait_rains` | `TraitRainAsset` | "특성의 비" 이벤트 |
 | `personalities` | `PersonalityAsset` | 유닛 성격 |
-| `professions` | `ProfessionAsset` | 시민의 직업 |
-| `base_stats_library` | `BaseStatAsset` | 모든 능력치 정의. **[스탯 레퍼런스](#/nml/stats)** |
+| `professions` | `ProfessionAsset` | 시민의 직업 (job) |
+| `base_stats_library` | `BaseStatAsset` | 모든 능력치 (stats) 정의. **[스탯 레퍼런스](#/nml/stats)** |
 
 ## 사회 시스템
 
 | 라이브러리 | 에셋 | 담고 있는 내용 |
 | --- | --- | --- |
 | `kingdoms` | `KingdomAsset` | 세력 유형. **[왕국 및 세력](#/nml/kingdoms)** |
-| `kingdoms_traits` / `kingdoms_traits_groups` | `KingdomTrait` | 왕국 정책 및 조세. **[왕국 특성](#/nml/kingdom-traits)** |
+| `kingdoms_traits` / `kingdoms_traits_groups` | `KingdomTrait` | 왕국 (kingdom) 정책 및 조세. **[왕국 특성](#/nml/kingdom-traits)** |
 | `culture_traits` / `culture_trait_groups` | `CultureTrait` | 문화. **[문화 특성](#/nml/culture-traits)** |
-| `religion_traits` / `religion_trait_groups` | `ReligionTrait` | 종교. **[종교 특성](#/nml/religion-traits)** |
+| `religion_traits` / `religion_trait_groups` | `ReligionTrait` | 종교 (religion). **[종교 특성](#/nml/religion-traits)** |
 | `clan_traits` / `clan_trait_groups` | `ClanTrait` | 가문. **[가문 특성](#/nml/clan-traits)** |
 | `language_traits` / `language_trait_groups` | `LanguageTrait` | 언어. **[언어 특성](#/nml/language-traits)** |
-| `architecture_library` | `ArchitectureAsset` | 문화별 건물 외형 양식 |
+| `architecture_library` | `ArchitectureAsset` | 문화별 건물 (building) 외형 양식 |
 | `city_build_orders` | `CityBuildOrderAsset` | 신생 도시의 건설 우선순위 |
 | `war_types_library` | `WarTypeAsset` | 전쟁 유형. **[전쟁 유형](#/nml/war-types)** |
 | `loyalty_library` | `LoyaltyAsset` | 충성도 증감 요인 |
@@ -81,14 +81,14 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 | `tile_tile_effects` | `TileEffectAsset` | 타일별 이펙트 |
 | `terraform` | `TerraformOptions` | 타일 정격 정리 규칙 |
 | `biome_library` | `BiomeAsset` | 바이옴. **[생물 군계](#/nml/biomes)** |
-| `resources` | `ResourceAsset` | 음식, 자원, 화폐. **[자원 및 음식](#/nml/resources)** |
+| `resources` | `ResourceAsset` | 음식, 자원 (resource), 화폐. **[자원 및 음식](#/nml/resources)** |
 | `clouds` | `CloudAsset` | 날씨 및 구름. **[구름 및 날씨](#/nml/clouds)** |
 | `drops` | `DropAsset` | 낙하물. **[드롭 및 낙하물](#/nml/drops-and-loot)** |
 | `disasters` | `DisasterAsset` | 재앙. **[재앙](#/nml/disasters)** |
-| `projectiles` | `ProjectileAsset` | 날아가는 투사체. **[투사체, 주문 및 이펙트](#/nml/projectiles-spells)** |
+| `projectiles` | `ProjectileAsset` | 날아가는 투사체 (projectile). **[투사체, 주문 및 이펙트](#/nml/projectiles-spells)** |
 | `effects_library` | `EffectAsset` | 시각 특수효과 |
 | `months` | `MonthAsset` | 달력 및 월 |
-| `era_library` | `WorldAgeAsset` | 세계의 시대 구분 |
+| `era_library` | `WorldAgeAsset` | 세계의 시대 (world age) 구분 |
 | `time_scales` | `WorldTimeScaleAsset` | 게임 진행 속도 |
 | `map_sizes` | `MapSizeAsset` | 맵 크기 정의 |
 | `map_gen_settings` / `map_gen_templates` | `MapGenSettingsAsset` | 월드 생성 설정 |
@@ -104,7 +104,7 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 | `item_groups` | `ItemGroupAsset` | 장비 분류군. **[아이템 그룹 및 탭](#/nml/item-groups)** |
 | `unit_hand_tools` | `UnitHandToolAsset` | 노동 시 유닛이 손에 쥐는 도구 |
 | `status` | `StatusAsset` | 상태 효과. **[상태 효과](#/nml/status-effects)** |
-| `spells` | `SpellAsset` | 유닛이 시전하는 마법 주문 |
+| `spells` | `SpellAsset` | 유닛이 시전하는 마법 주문 (spell) |
 | `combat_action_library` | `CombatActionAsset` | 전투 모션 및 기술 |
 | `rarity_library` | `RarityAsset` | 희귀도 등급 |
 
@@ -112,7 +112,7 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 
 | 라이브러리 | 에셋 | 담고 있는 내용 |
 | --- | --- | --- |
-| `powers` | `GodPower` | 신의 권능. **[신의 권능](#/nml/god-powers)** |
+| `powers` | `GodPower` | 신의 권능 (GodPower). **[신의 권능](#/nml/god-powers)** |
 | `power_tab_library` | `PowerTabAsset` | 하단 바 탭. **[파워 탭 및 버튼](#/nml/power-buttons)** |
 | `world_laws_library` / `world_law_groups` | `WorldLawAsset` | 세계의 법칙. **[세계의 법칙](#/nml/world-laws)** |
 | `brush_library` | `BrushData` | 브러시 크기 |
@@ -183,7 +183,7 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 | `music_box` | `MusicAsset` | 배경 음악 트랙 |
 | `game_language_library` | `GameLanguageAsset` | 게임 공식 UI 지원 언어 |
 | `locale_groups_library` | `LocaleGroupAsset` | 로케일 그룹 |
-| `achievements` / `achievement_groups` | `Achievement` | 업적 |
+| `achievements` / `achievement_groups` | `Achievement` | 업적 (achievement) |
 | `signals` | `SignalAsset` | 내부 신호 전파 시스템 |
 
 ---

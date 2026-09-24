@@ -8,7 +8,7 @@ order: 102
 
 # 特性グループとタブ :wbfamilies:
 
-すべての特性はいずれかの**グループ**に属しており、そのグループが特性図鑑にタブを描画します。6つの特性を追加してすべて `miscellaneous` に放り込むと、誰もスクロールしない一覧の奥底へと消え去ってしまいます :PES4_Invisible:。
+すべての特性（trait）はいずれかの**グループ**に属しており、そのグループが特性図鑑にタブを描画します。6つの特性を追加してすべて `miscellaneous` に放り込むと、誰もスクロールしない一覧の奥底へと消え去ってしまいます :PES4_Invisible:。
 
 自分専用のタブを作るのに必要なのは、たったの4行です。
 
@@ -117,7 +117,7 @@ if (fun != null)
 | アクター | `AssetManager.trait_groups` | `ActorTraitGroupAsset` | 本ページ |
 | 文化 | `AssetManager.culture_trait_groups` | `CultureTraitGroupAsset` | **[文化特性](#/nml/culture-traits)** |
 | 宗教 | `AssetManager.religion_trait_groups` | `ReligionTraitGroupAsset` | **[宗教特性](#/nml/religion-traits)** |
-| 亜種 | `AssetManager.subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | **[亜種特性](#/nml/subspecies-traits)** |
+| 亜種（subspecies） | `AssetManager.subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | **[亜種特性](#/nml/subspecies-traits)** |
 | 一族 | `AssetManager.clan_trait_groups` | `ClanTraitGroupAsset` | **[一族特性](#/nml/clan-traits)** |
 | 言語 | `AssetManager.language_trait_groups` | `LanguageTraitGroupAsset` | **[言語特性](#/nml/language-traits)** |
 | 王国 | `AssetManager.kingdoms_traits_groups` | `KingdomTraitGroupAsset` | **[王国特性](#/nml/kingdom-traits)** |

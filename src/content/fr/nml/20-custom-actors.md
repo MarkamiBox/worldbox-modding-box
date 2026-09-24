@@ -11,7 +11,7 @@ order: 140
 > [!NOTE] Ils s'appellent des acteurs, pas des races
 > Le jeu désigne chaque être vivant sous le terme d'**acteur** (actor) : un humain, un loup, un dragon, un zombie, un crabe. Ils dérivent tous de la même classe, `ActorAsset`, et logent tous dans `AssetManager.actor_library`. "Race" est l'ancien vocable. Le seul endroit où il subsiste est une propriété `race` étiquetée `[Obsolete("use .original_actor_asset instead")]`, présente uniquement pour charger des sauvegardes antédiluviennes. Écrivez `actor` partout.
 
-Créer une nouvelle créature est le mod dont tout le monde rêve et que presque personne ne termine, car un `ActorAsset` transporte avec lui animations, textures, sons, taxonomie, régime alimentaire, drapeaux d'IA, génome, culture et statistiques. En rater un seul vous garantit une unité invisible plantée au milieu de l'océan :PES4_Invisible:.
+Créer une nouvelle créature est le mod dont tout le monde rêve et que presque personne ne termine, car un `ActorAsset` transporte avec lui animations, textures, sons, taxonomie, régime alimentaire, drapeaux d'IA, génome, culture et statistiques (stats). En rater un seul vous garantit une unité invisible plantée au milieu de l'océan :PES4_Invisible:.
 
 Bonne nouvelle : le jeu de base ne fabrique pas non plus ses créatures ex nihilo. Voici littéralement la manière dont vanilla conçoit un elfe :
 
@@ -31,7 +31,7 @@ Les identifiants encadrés de `$` sont des **modèles** (templates) : des acteur
 | `$animal$` | Un animal sauvage |
 | `$mob$` | Un monstre hostile |
 | `$civ_unit$` | Une créature civilisée de base |
-| `$civ_advanced_unit$` | Une créature de civilisation complète : villes, royaumes, culture, religion. Ce que partagent humain, elfe, orque et nain |
+| `$civ_advanced_unit$` | Une créature de civilisation complète : villes, royaumes (kingdom), culture, religion. Ce que partagent humain, elfe, orque et nain |
 
 Vous pouvez aussi cloner un acteur fini - `human`, `wolf`, `zombie` - ce qui reste le chemin le plus simple pour vos débuts, car les sprites du donneur sont inclus et votre créature devient visible sur-le-champ.
 
@@ -84,7 +84,7 @@ namespace HelloBox
 > `loadShadow()` est `internal`, donc il faut un `Assembly-CSharp.dll` **publicisé** comme dans le reste du guide. Si vous n'en avez pas, mettez plutôt `asset.shadow = false;` : pas d'ombre, mais pas d'erreur non plus.
 
 > [!WARNING] `clone()` enregistre déjà
-> `AssetManager.<library>.clone(newId, sourceId)` appelle `add()` en interne. Toutes les bibliothèques fonctionnent ainsi. Appeler `add()` vous-même ensuite est un double enregistrement : la bibliothèque retire la première copie, écrit une erreur et la rajoute. Sans danger, mais c'est du bruit dans votre log qui rend les vraies erreurs plus difficiles à trouver, et c'est la première chose qu'un relecteur remarquera.
+> `AssetManager.<library>.clone(newId, sourceId)` appelle `add()` en interne. Toutes les bibliothèques (library) fonctionnent ainsi. Appeler `add()` vous-même ensuite est un double enregistrement : la bibliothèque retire la première copie, écrit une erreur et la rajoute. Sans danger, mais c'est du bruit dans votre log qui rend les vraies erreurs plus difficiles à trouver, et c'est la première chose qu'un relecteur remarquera.
 >
 > Le bon côté : **après un clone, `base_stats` existe déjà**, donc la règle "stats après add" de **[Traits personnalisés](#/nml/custom-traits)** est déjà respectée.
 
@@ -176,7 +176,7 @@ Le premier jour, seuls trois comptent : `civ`, `actor_size` et `name_locale`. Le
 
 | Champ | Ce qu'il fait |
 | --- | --- |
-| `civ` | Créature de civilisation : cités, royaumes, métiers, guerre. `false` = animal |
+| `civ` | Créature de civilisation : cités, royaumes, métiers (job), guerre (war). `false` = animal |
 | `auto_civ` | Si le jeu commence à les civiliser de manière autonome |
 | `default_animal` | L'identifie comme faune sauvage pour les vérifications internes |
 | `unit_other` | Ni civ ni animal : créature hostile, automate, entité spéciale |
@@ -184,19 +184,19 @@ Le premier jour, seuls trois comptent : `civ`, `actor_size` et `name_locale`. Le
 | `name_locale` | Clé du nom d'affichage |
 | `icon` | Icône utilisée dans les listes et boutons d'apparition |
 | `color_hex` | Teinte appliquée aux unités colorables |
-| `can_have_subspecies` | Si elles mutent en sous-espèces au fil des générations |
-| `has_ai_system` | Si elles exécutent le système de comportement général |
+| `can_have_subspecies` | Si elles mutent en sous-espèces (subspecies) au fil des générations |
+| `has_ai_system` | Si elles exécutent le système de comportement (behaviour) général |
 | `flying` / `hovering` | Si elles quittent le sol et à quelle altitude |
 | `force_ocean_creature` / `force_land_creature` | Verrouille le type de milieu où elles peuvent vivre |
 | `can_attack_buildings` | Si elles attaquent et démolissent les structures |
-| `has_soul`, `can_receive_traits`, `can_be_cloned` | Ce que les pouvoirs divins ont le droit de leur faire subir |
+| `has_soul`, `can_receive_traits`, `can_be_cloned` | Ce que les pouvoirs divins (GodPower) ont le droit de leur faire subir |
 | `kingdom_id_wild` / `kingdom_id_civilization` | Dans quel royaume elles apparaissent (sauvages ou établies) |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … atlas d'origine des sprites |
 | `animation_walk` / `animation_idle` / `animation_swim` | Séquences de frames, chacune accompagnée d'un champ `_speed` |
 | `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | Chemins d'événements sonores FMOD |
 | `name_taxonomic_*` | Règne, embranchement, classe, ordre, famille, genre, espèce pour l'encyclopédie |
 | `collective_term` | Nom de groupe ("une **meute** de loups") |
-| `allowed_status_tiers` | Niveaux d'effets de statut autorisés à s'appliquer |
+| `allowed_status_tiers` | Niveaux d'effets de statut (status) autorisés à s'appliquer |
 | `production` | Ce que produisent leurs cités |
 | `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | Ce en quoi elles se métamorphosent |
 

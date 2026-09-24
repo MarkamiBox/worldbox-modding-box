@@ -16,27 +16,27 @@ Unos veinte archivos, y esto es en lo que se convierten dentro del juego. Cada f
 
 | Qué | Dónde lo ves |
 | --- | --- |
-| Un rasgo de actor, y una pestaña propia para guardarlo | El inspector de la unidad, lista de rasgos |
-| Rasgos de cultura, religión, subespecie, clan, idioma y reino | Sus propias ventanas, una por sistema |
-| Un arma, su encantamiento y una categoría para ambos | Las manos de una unidad, las pestañas de equipo |
-| Un efecto de estado | Sobre la cabeza de la criatura, con su icono |
-| Drops, una nube que los llueve y un proyectil | El mapa, en el aire, en plena pelea |
+| Un rasgo (trait) de actor, y una pestaña propia para guardarlo | El inspector de la unidad, lista de rasgos |
+| Rasgos de cultura (culture), religión (religion), subespecie (subspecies), clan, idioma y reino (kingdom) | Sus propias ventanas, una por sistema |
+| Un arma, su encantamiento (modifier) y una categoría para ambos | Las manos de una unidad, las pestañas de equipo |
+| Un efecto de estado (status) | Sobre la cabeza de la criatura, con su icono |
+| Drops, una nube (cloud) que los llueve y un proyectil | El mapa, en el aire, en plena pelea |
 | Un tile | El terreno, debajo de todo |
 | Una receta de comida | Los almacenes de una ciudad |
-| Una ley del mundo | La ventana de Leyes del Mundo |
-| Un poder divino, su pestaña y su botón | La barra de poderes de abajo |
+| Una ley del mundo | La ventana de Leyes del Mundo (world law) |
+| Un poder divino (GodPower), su pestaña y su botón | La barra de poderes de abajo |
 | Una ventana | Donde tú decidas |
-| Un edificio | Una ciudad, en cuanto alguien lo construya |
+| Un edificio (building) | Una ciudad, en cuanto alguien lo construya |
 | Un reino y una criatura que le pertenece | El mapa, apareciendo y peleando |
-| Un desastre | El menú de desastres |
-| Su propio trabajo de IA | La criatura, caminando a algún sitio a propósito |
-| Una decisión, un empleo urbano y una herramienta en mano | Fuego fatuo deambulando con antorchas, un guardián por ciudad |
+| Un desastre (disaster) | El menú de desastres |
+| Su propio trabajo (job) de IA | La criatura, caminando a algún sitio a propósito |
+| Una decisión (decision), un empleo urbano y una herramienta en mano | Fuego fatuo deambulando con antorchas, un guardián por ciudad |
 | Una acción de combate | Unidades veloces lanzando ascuas antes de trabar combate |
-| Un gen, una personalidad, un tipo de libro, una pieza de estandarte | El genoma, gobernantes, bibliotecas, banderas |
+| Un gen, una personalidad, un tipo de libro (book), una pieza de estandarte | El genoma, gobernantes, bibliotecas, banderas |
 | Opinión, lealtad y un evento de felicidad | Desglose diplomático y de ciudades |
 | Un complot | La lista de complots, cuando un líder organiza un festival de ascuas |
-| Una era del mundo y un comportamiento del mundo | La rueda de eras y el temporizador del mundo |
-| Un logro | La ventana de logros, al alcanzar diez fuegos fatuos |
+| Una era del mundo y un comportamiento (behaviour) del mundo | La rueda de eras y el temporizador del mundo |
+| Un logro (achievement) | La ventana de logros, al alcanzar diez fuegos fatuos |
 | Un pincel, un tooltip y un atajo de teclado | Rotación de pinceles, tooltip al pasar el ratón, F6 |
 | Un parche de Harmony | En ninguna parte, y de eso se trata: cambia una regla en silencio |
 
@@ -242,11 +242,11 @@ Tus textos tampoco necesitan una etapa: NML carga `Locales/en.json` antes de lla
 
 1. **Grupos antes de lo que va dentro**, porque un asset cuyo `group_id` no apunta a nada no tiene pestaña en la que mostrarse.
 2. **Gotas antes que nubes**, porque una nube nombra la gota que hace llover.
-3. **Recursos antes que objetos y edificios**, porque ambos consumen recursos.
+3. **Recursos (resource) antes que objetos y edificios**, porque ambos consumen recursos.
 4. **Modificadores antes que objetos**, porque un arma lista los modificadores que puede obtener.
 5. **Reinos antes que actores**, porque un actor define sus reinos salvajes y civilizados.
 6. **Poderes antes que sus botones**: `PowerButtonCreator` busca el poder por id, y un botón atado a un poder inexistente es un botón inservible.
-7. **Todo lo que use la IA antes que la IA**, dado que una tarea hace referencia a rasgos y estados por id.
+7. **Todo lo que use la IA antes que la IA**, dado que una tarea (task) hace referencia a rasgos y estados por id.
 8. **Actores y la IA antes de decisiones, empleos urbanos y herramientas**, porque estos apuntan a una criatura y una tarea que ya deben existir.
 9. **La era del mundo tras la nube, la ley y el estado** que usan sus efectos. Los complots, la política y los logros solo consultan datos mientras el juego se ejecuta, por lo que pueden ir en cualquier lugar tras sus propias dependencias.
 

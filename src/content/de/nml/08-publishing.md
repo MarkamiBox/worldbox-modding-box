@@ -108,4 +108,4 @@ Die Kommentare werden exakt drei Arten von Nachrichten enthalten: "funktioniert 
 
 Antworte auf die zweite. Für die erste pinne einen Hinweis an, der den Leuten erklärt, wo `Player.log` liegt (siehe **[Logs & Debugging](#/nml/logs-and-debugging)**), denn ein Fehlerbericht ohne Log ist ein Fehlerbericht, auf den du nicht reagieren kannst.
 
-Und willkommen. Jede neue Mod macht diese kleine Community ein bisschen weniger zum Friedhof, und fünf in einer Woche sind das goldene Zeitalter des Moddings :PES5_CrazyPog:.
+Und willkommen. Jede neue Mod macht diese kleine Community ein bisschen weniger zum Friedhof, und fünf in einer Woche sind das goldene Zeitalter (world age) des Moddings :PES5_CrazyPog:.

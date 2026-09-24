@@ -58,7 +58,7 @@ Un patch peut aussi mal tourner sans la moindre erreur. Passez-les un par un et 
 
 Recompiler n'est pas la ligne d'arrivée. Chargez un monde et vérifiez que chaque morceau marche encore : le trait affiche son icône, l'objet tombe, le pouvoir fait apparaître ce qu'il doit.
 
-Une mise à jour peut ajouter un champ que les assets vanilla remplissent maintenant et pas les vôtres. L'asset se charge, aucune erreur, et il ne fait simplement rien. Comparez votre asset champ par champ avec le vanilla le plus proche dans le `init()` de sa bibliothèque. Ce que le jeu définit maintenant et pas vous, c'est votre suspect.
+Une mise à jour peut ajouter un champ que les assets vanilla remplissent maintenant et pas les vôtres. L'asset se charge, aucune erreur, et il ne fait simplement rien. Comparez votre asset champ par champ avec le vanilla le plus proche dans le `init()` de sa bibliothèque (library). Ce que le jeu définit maintenant et pas vous, c'est votre suspect.
 
 ## 6. Testez aussi une ancienne sauvegarde
 

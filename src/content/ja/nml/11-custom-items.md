@@ -103,7 +103,7 @@ namespace HelloBox
 | --- | --- |
 | `material` | 素材名。表示名の一部になり、AIの装備更新判定でも比較される |
 | `equipment_type` | `Weapon`, `Helmet`, `Armor`, `Boots`, `Ring`, `Amulet`。どのスロットを占有するか |
-| `equipment_subtype` | `sword`, `axe`, `bow` … 武器カテゴリ。文化ごとに好みの武器種が存在 |
+| `equipment_subtype` | `sword`, `axe`, `bow` … 武器カテゴリ。文化（culture）ごとに好みの武器種が存在 |
 | `group_id` | 装備カテゴリタブ。**[特性グループとタブ](#/nml/trait-groups)** を参照 |
 | `attack_type` | 近接または遠距離の攻撃挙動 |
 | `quality` | 出現しうる最低品質レアリティ |
@@ -140,14 +140,14 @@ namespace HelloBox
 | `action_attack_target` | 攻撃が当たるたびに実行されます |
 | `action_special_effect` + `special_effect_interval` | 装備中、タイマーで実行されます |
 | `item_modifier_ids` | 付与されうるエンチャント。**[武器エンチャント](#/nml/item-modifiers)** を参照 |
-| `addSpell(id)` + `linkSpells()` | 装備者が唱えられる呪文。リンクは自分で呼ぶ必要があります、下を参照 |
-| `addCombatAction(id)` | コンパイルは通りますが、アイテムでは何もしません：ユニットは戦闘アクションを特性（と亜種、氏族、宗教）から集め、装備からは決して集めません。特性に付けてください。**[発射物・呪文・エフェクト](#/nml/projectiles-spells)** を参照 |
+| `addSpell(id)` + `linkSpells()` | 装備者が唱えられる呪文（spell）。リンクは自分で呼ぶ必要があります、下を参照 |
+| `addCombatAction(id)` | コンパイルは通りますが、アイテムでは何もしません：ユニットは戦闘アクションを特性（trait）（と亜種（subspecies）、氏族（clan）、宗教（religion））から集め、装備からは決して集めません。特性に付けてください。**[発射物・呪文・エフェクト](#/nml/projectiles-spells)** を参照 |
 
 ゲームはこれらのIDを、起動時にあなたのModが読み込まれる前に一度だけオブジェクトに変換します。自分で登録したアイテムでは、最後に `linkSpells()` を呼び、`decisions_assets` を手で設定してください（そちらにはリンク用メソッドがありません）。そうしないと付与は何もしません。**[カスタムAI](#/nml/custom-ai)** を参照してください。
 
 ## 装備中だけ発動する効果
 
-「Ember Bladeを持つ者はSwiftになる」というのは特性のように聞こえますが、アイテムに特性は付けられません。ただし上の表にある `action_special_effect` で装備中だけタイマー実行することはでき、**ステータス効果**は放っておけば自然に切れます。つまりアイテム側が短いステータスを一定間隔で再適用し続け、アイテムを外せばステータスはそのまま自然消滅します：
+「Ember Bladeを持つ者はSwiftになる」というのは特性のように聞こえますが、アイテムに特性は付けられません。ただし上の表にある `action_special_effect` で装備中だけタイマー実行することはでき、**ステータス効果**（status）は放っておけば自然に切れます。つまりアイテム側が短いステータスを一定間隔で再適用し続け、アイテムを外せばステータスはそのまま自然消滅します：
 
 ```csharp Mods/HelloBox/Code/HelloItems.cs
 blade.special_effect_interval = 1f;
@@ -337,7 +337,7 @@ namespace HelloBox
 | --- | --- |
 | `path_gameplay_sprite` | 画像フォルダ。バニラは ID から `items/tools/tool_<id>` を自動生成します |
 | `animated` | コーヒーカップのようにフレームをループ再生するかどうか |
-| `colored` | 旗のように王国の色で着色するかどうか |
+| `colored` | 旗のように王国（kingdom）の色で着色するかどうか |
 
 > [!TIP] 武器本体より先にエンチャントを作るのがおすすめ
 > 新しい武器の作成にはスプライト、素材リスト、コスト、バランス調整が必要です。一方、新しい **モディファイア（エンチャント）** は20行程度で実装でき、他の Mod の武器も含めてゲーム内のすべての武器に適用されます。手軽に新しいゲーム体験を作りたい場合は、まず **[武器エンチャント](#/nml/item-modifiers)** をご覧ください :PESgn_DoIt:。

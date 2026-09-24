@@ -8,9 +8,9 @@ order: 106
 
 # Rasgos culturales :wbtiphat:
 
-Una **cultura** representa los hábitos y costumbres compartidos por un grupo de ciudades. Decide qué construyen, qué forjan, cómo heredan, qué leen y qué valores aprecian. Un rasgo cultural es uno de esos hábitos.
+Una **cultura** (culture) representa los hábitos y costumbres compartidos por un grupo de ciudades. Decide qué construyen, qué forjan, cómo heredan, qué leen y qué valores aprecian. Un rasgo (trait) cultural es uno de esos hábitos.
 
-De los siete sistemas de rasgos, el cultural es el de mayor alcance. Una cultura se expande con las ciudades, sobrevive a su fundador y fusiona sus estadísticas en cada unidad que pertenezca a ella. Si buscas un mod cuyo impacto resuene por el mundo a lo largo de una hora de partida, esta es la biblioteca adecuada. Gran alcance, gran responsabilidad :PES5_Menace:.
+De los siete sistemas de rasgos, el cultural es el de mayor alcance. Una cultura se expande con las ciudades, sobrevive a su fundador y fusiona sus estadísticas (stats) en cada unidad que pertenezca a ella. Si buscas un mod cuyo impacto resuene por el mundo a lo largo de una hora de partida, esta es la biblioteca adecuada. Gran alcance, gran responsabilidad :PES5_Menace:.
 
 | | |
 | --- | --- |
@@ -147,5 +147,5 @@ foreach (Culture culture in World.world.cultures)
 if (actor.hasCultureTrait("hello_duellists")) { }
 ```
 
-> [!TIP] ¿Cultura o subespecie?
+> [!TIP] ¿Cultura o subespecie (subspecies)?
 > Ambas se propagan, pero no por el mismo camino. Un rasgo **cultural** se expande con las ciudades y lo adopta cualquiera que se una a ellas. Un rasgo de **subespecie** se transmite por linaje genético y no puede transferirse de otro modo. "Los elfos disparan mejor porque así los criaron" es cultura; "los elfos disparan mejor por la agudeza de sus ojos" es subespecie. Consulta **[Rasgos de subespecies](#/nml/subspecies-traits)** :catnoted:.

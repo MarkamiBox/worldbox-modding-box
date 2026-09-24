@@ -8,15 +8,15 @@ order: 171
 
 # Biome :wbflowerbud:
 
-Ein Biom ist der Teil der Welt, an dem alles andere hängt: welchen Boden es malt, welche Bäume und Pflanzen darauf wachsen, welche Kreaturen hereinwandern und welche Merkmale alles bekommt, was dort geboren wird. Eine Biom-Mod? In dieser Wirtschaftslage? Ja, und es ist weniger Arbeit, als es aussieht, denn ein Biom ist vor allem eine Liste von IDs anderer Leute :PESgn_Noice:.
+Ein Biom ist der Teil der Welt, an dem alles andere hängt: welchen Boden es malt, welche Bäume und Pflanzen darauf wachsen, welche Kreaturen hereinwandern und welche Merkmale (trait) alles bekommt, was dort geboren wird. Eine Biom-Mod? In dieser Wirtschaftslage? Ja, und es ist weniger Arbeit, als es aussieht, denn ein Biom ist vor allem eine Liste von IDs anderer Leute :PESgn_Noice:.
 
-Diese Seite baut die **Glutfelder**: zwei eigene Kacheln, eigene Samen, ein paar Savannen-Kreaturen und ein Merkmal für alles, was dort geboren wird.
+Diese Seite baut die **Glutfelder**: zwei eigene Kacheln (tile), eigene Samen, ein paar Savannen-Kreaturen und ein Merkmal für alles, was dort geboren wird.
 
 ## Die Teile
 
 Ein Biom ist nicht ein Asset, sondern vier, die aufeinander zeigen:
 
-| Teil | Bibliothek | Was es macht |
+| Teil | Bibliothek (library) | Was es macht |
 | --- | --- | --- |
 | `BiomeAsset` | `biome_library` | Das Biom selbst: was wächst, was spawnt, wie es sich ausbreitet |
 | Zwei `TopTileType` | `top_tiles` | Der Boden, den es malt: ein **niedriger** und ein **hoher** |
@@ -130,7 +130,7 @@ namespace HelloBox
 }
 ```
 
-Füg `HelloBiomes.Initialize();` zu `OnModLoad` hinzu und gib der Macht dann einen Button wie jeder anderen: **[Macht-Tabs & Buttons](#/nml/power-buttons)**.
+Füg `HelloBiomes.Initialize();` zu `OnModLoad` hinzu und gib der Macht (GodPower) dann einen Button wie jeder anderen: **[Macht-Tabs & Buttons](#/nml/power-buttons)**.
 
 > [!WARNING] Die Reihenfolge in Initialize zählt
 > Die Kacheln werden geklont, bevor das Biom existiert, also wird ihr `biome_asset` **nach** `add()` gesetzt. Verknüpfst du es früher, verknüpfst du mit `null`, und eine Kachel mit null-Biom lässt nichts wachsen und spawnt niemanden, ohne einen einzigen Fehler :wbfacepalm:.
@@ -147,7 +147,7 @@ Füg `HelloBiomes.Initialize();` zu `OnModLoad` hinzu und gib der Macht dann ein
 | `grow_strength` | Wie stark es beim Ausbreiten drückt. Standard 6 |
 | `cold_biome` / `dark_biome` | Flags, die andere Systeme prüfen. Nur setzen, wenn es wirklich kalt oder dunkel ist |
 | `special_biome` | Markiert die Sonderfälle, die kein normales grünes Biom sind. Vanilla nutzt es für Sand und Hügel |
-| `subspecies_name_suffix` | Lateinisch klingende Endungen für Unterarten, die sich hier entwickeln |
+| `subspecies_name_suffix` | Lateinisch klingende Endungen für Unterarten (subspecies), die sich hier entwickeln |
 | `spawn_trait_actor`, `spawn_trait_subspecies`, `spawn_trait_culture`, `spawn_trait_clan`, `spawn_trait_language`, `spawn_trait_religion` | Merkmale, die hier Gegründetes bekommen kann |
 
 ### Was wächst und was spawnt
@@ -186,4 +186,4 @@ Die Kacheln folgen denselben Regeln wie bei **[Kacheln & Terrain](#/nml/tiles)**
 Erstell ein paar Mal eine neue Welt und such nach deiner Farbe. Mit `generator_pot_amount = 3` gegen die 8 vom Gras taucht es nicht jedes Mal auf, also wirf zum Testen lieber deine Samen auf etwas Gras. Es sollte sich verwandeln, Savannenbäume wachsen lassen, und nach einer Weile wandern Hyänen herein.
 
 > [!NOTE] Was ich nicht behandelt habe
-> Kriech-Biome, die Gebäude wie die Verderbnis ausbreiten, laufen über einen anderen Weg (`grow_creep_type` am Gebäude). Das ist eine eigene Seite, und die habe ich noch nicht geschrieben :PES2_Shrug:.
+> Kriech-Biome, die Gebäude (building) wie die Verderbnis ausbreiten, laufen über einen anderen Weg (`grow_creep_type` am Gebäude). Das ist eine eigene Seite, und die habe ich noch nicht geschrieben :PES2_Shrug:.

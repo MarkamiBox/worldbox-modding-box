@@ -77,14 +77,14 @@ HelloBox/GameResources/ui/Icons/iconHelloSwift.png
 
 | 에셋 | 필드 | 파일 위치 |
 | --- | --- | --- |
-| 특성, 신의 권능, 왕국, 그룹 | `path_icon` | `GameResources/` + 쓴 그대로 |
+| 특성 (trait), 신의 권능 (GodPower), 왕국 (kingdom), 그룹 | `path_icon` | `GameResources/` + 쓴 그대로 |
 | 아이템(유닛이 손에 든 것) | `path_gameplay_sprite` | `GameResources/` + 쓴 그대로 |
-| 건물 | `sprite_path` | **폴더**: `GameResources/` + `sprite_path` + `/` 안에 `main_0.png`, `construction_0.png`, `ruin_0.png`. `sprite_path`가 비어 있으면 `main_path` + ID이고, `main_path`의 기본값은 `buildings/` |
+| 건물 (building) | `sprite_path` | **폴더**: `GameResources/` + `sprite_path` + `/` 안에 `main_0.png`, `construction_0.png`, `ruin_0.png`. `sprite_path`가 비어 있으면 `main_path` + ID이고, `main_path`의 기본값은 `buildings/` |
 | 드롭 | `path_texture` | **폴더**: `GameResources/` + 쓴 그대로, 프레임당 PNG 1장 |
-| 구름 | `path_sprites` | `GameResources/` + 목록의 각 경로 |
-| 상태 효과 | `texture` | **폴더**: `GameResources/effects/` + 쓴 값, 프레임당 PNG 1장 |
-| 투사체 | `texture` | **폴더**: `GameResources/effects/projectiles/` + 쓴 값, 프레임당 PNG 1장 |
-| 자원(손에 든 것) | `path_gameplay_sprite` | **폴더**: `GameResources/items/resources/` + 쓴 값, 프레임당 PNG 1장 |
+| 구름 (cloud) | `path_sprites` | `GameResources/` + 목록의 각 경로 |
+| 상태 효과 (status) | `texture` | **폴더**: `GameResources/effects/` + 쓴 값, 프레임당 PNG 1장 |
+| 투사체 (projectile) | `texture` | **폴더**: `GameResources/effects/projectiles/` + 쓴 값, 프레임당 PNG 1장 |
+| 자원 (resource)(손에 든 것) | `path_gameplay_sprite` | **폴더**: `GameResources/items/resources/` + 쓴 값, 프레임당 PNG 1장 |
 | 자원(인벤토리 아이콘) | `path_icon` | `GameResources/` + 쓴 값. 바닐라는 `iconResBread` 같은 이름만 쓰므로 파일은 루트에 있습니다 |
 | 타일과 상단 타일 | *(필드 없음)* | `GameResources/tiles/<the tile's id>/` |
 

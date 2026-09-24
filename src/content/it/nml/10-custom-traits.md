@@ -8,7 +8,7 @@ order: 100
 
 # Tratti personalizzati :wbstrongminded:
 
-Un tratto (trait) è un'etichetta permanente su un'unità: *coraggioso*, *veloce*, *immortale*. Compare nell'inspector, può modificare le statistiche dell'unità, può eseguire codice quando l'unità nasce, viene colpita o muore, e i figli possono ereditarlo.
+Un tratto (trait) è un'etichetta permanente su un'unità: *coraggioso*, *veloce*, *immortale*. Compare nell'inspector, può modificare le statistiche (stats) dell'unità, può eseguire codice quando l'unità nasce, viene colpita o muore, e i figli possono ereditarlo.
 
 È anche la cosa più semplice e immediata da aggiungere nell'intero gioco, motivo per cui è il primo mod di chiunque. Il mio no: la mia prima mod era un wrapper attorno alla mod di qualcun altro, che è un modo tutto suo di barare :trollface:.
 
@@ -16,7 +16,7 @@ Un tratto (trait) è un'etichetta permanente su un'unità: *coraggioso*, *veloce
 
 Ogni asset in WorldBox vive in un'unica lista piatta indicizzata per `id`. Se registri `fast` e un altro mod registra `fast`, il secondo **sovrascrive** il primo e il log registra una riga che nessuno leggerà mai.
 
-Quindi: `hello_swift`, non `swift`. Nome breve del mod, trattino basso, il tuo nome per l'oggetto. Fallo per tratti, oggetti, edifici, poteri, status, qualunque cosa :aPES4_Noted:.
+Quindi: `hello_swift`, non `swift`. Nome breve del mod, trattino basso, il tuo nome per l'oggetto. Fallo per tratti, oggetti, edifici (building), poteri, status, qualunque cosa :aPES4_Noted:.
 
 ## Il tratto
 
@@ -69,9 +69,9 @@ protected override void OnModLoad()
 
 ### Cosa fa ciascuna parte
 
-- **`AssetManager.traits`**: La libreria che raccoglie ogni tratto delle unità nel gioco, vanilla e moddato. `has`, `get`, `add` e `clone` sono i quattro metodi che utilizzerai su ogni libreria in ogni pagina a seguire.
+- **`AssetManager.traits`**: La libreria (library) che raccoglie ogni tratto delle unità nel gioco, vanilla e moddato. `has`, `get`, `add` e `clone` sono i quattro metodi che utilizzerai su ogni libreria in ogni pagina a seguire.
 - **`path_icon`**: La piccola icona nell'inspector. Un *percorso*, non un file con estensione. Vedi **[Sprite e risorse](#/nml/sprites-and-resources)**. Il gioco la imposta automaticamente solo durante la costruzione delle librerie interne (che avviene prima del caricamento dei mod), quindi per il tuo tratto risulterà vuota se non la imposti.
-- **`needs_to_be_explored`**: `true` di default, cioè il tratto resta bloccato nel libro della conoscenza finché il giocatore non lo trova in un mondo. `false` lo rende disponibile dal primo secondo. HelloBox lo mette su tutto, così vedi quello che hai costruito senza doverlo cercare.
+- **`needs_to_be_explored`**: `true` di default, cioè il tratto resta bloccato nel libro (book) della conoscenza finché il giocatore non lo trova in un mondo. `false` lo rende disponibile dal primo secondo. HelloBox lo mette su tutto, così vedi quello che hai costruito senza doverlo cercare.
 - **`group_id`**: La scheda del libro dei tratti in cui compare. L'elenco completo è riportato sotto.
 - **`rate_birth`**: La probabilità che un neonato lo riceva naturalmente. `0` significa "solo se conferito esplicitamente da qualcosa".
 - **`can_be_given` / `can_be_removed`**: Se il giocatore può aggiungerlo o toglierlo nell'editor dei tratti. Entrambi sono `true` per impostazione predefinita; impostane uno su `false` per un tratto permanente o riservato al tuo codice.
@@ -84,7 +84,7 @@ protected override void OnModLoad()
 > Stessa identica regola per status, oggetti, edifici e creature. L'unica eccezione è `clone()`, che chiama `add()` per te.
 
 > [!TIP] Lo stesso interruttore c'è su quasi tutto quello che crei
-> `needs_to_be_explored` sta nella classe base che tutti gli asset sbloccabili condividono, quindi funziona su attori, tutti e sette i tipi di tratto, oggetti, modificatori e leggi del mondo. Poteri divini, status, edifici, drop, nuvole, tile e proiettili non hanno proprio una fase di scoperta :wbsmirk:.
+> `needs_to_be_explored` sta nella classe base che tutti gli asset sbloccabili condividono, quindi funziona su attori, tutti e sette i tipi di tratto, oggetti, modificatori (modifier) e leggi del mondo (world law). Poteri divini (GodPower), status, edifici, drop, nuvole (cloud), tile e proiettili (projectile) non hanno proprio una fase di scoperta :wbsmirk:.
 
 ### I gruppi di tratti vanilla
 
@@ -136,7 +136,7 @@ swift.path_icon = "ui/Icons/iconHelloSwift";
 
 Le icone dei tratti sono piccole e vengono disegnate a circa 32x32. Metti il tuo PNG in una cartella a tuo piacimento: `ui/Icons/hellobox/iconSwift` funziona altrettanto bene, l'importante è che coincida con la stringa.
 
-Gli altri sei sistemi di tratti hanno ciascuno la propria cartella vanilla (`ui/Icons/culture_traits/`, `religion_traits/`, `clan_traits/` ecc.). Non sei obbligato a usarle, ma affiancarti ai tratti che stai clonando rende le tue risorse molto più facili da ritrovare. Tabella completa su **[Sprite e risorse](#/nml/sprites-and-resources)**.
+Gli altri sei sistemi di tratti hanno ciascuno la propria cartella vanilla (`ui/Icons/culture_traits/`, `religion_traits/`, `clan_traits/` ecc.). Non sei obbligato a usarle, ma affiancarti ai tratti che stai clonando rende le tue risorse (resource) molto più facili da ritrovare. Tabella completa su **[Sprite e risorse](#/nml/sprites-and-resources)**.
 
 ## Far *fare* qualcosa a un tratto
 
@@ -206,10 +206,10 @@ I tratti di creatura sono solo uno di **sette** sistemi di tratti. Ognuno ha la 
 | --- | --- | --- |
 | Actor | una singola creatura | questa pagina |
 | Culture | una cultura, condivisa dalle sue città | **[Tratti di cultura](#/nml/culture-traits)** |
-| Religion | una religione e i suoi fedeli | **[Tratti di religione](#/nml/religion-traits)** |
+| Religion | una religione (religion) e i suoi fedeli | **[Tratti di religione](#/nml/religion-traits)** |
 | Subspecies | un ramo di una specie | **[Tratti di sottospecie](#/nml/subspecies-traits)** |
 | Clan | una dinastia di sangue | **[Tratti di clan](#/nml/clan-traits)** |
 | Language | una lingua e tutti coloro che la parlano | **[Tratti di lingua](#/nml/language-traits)** |
-| Kingdom | la politica di un regno | **[Tratti di regno](#/nml/kingdom-traits)** |
+| Kingdom | la politica di un regno (kingdom) | **[Tratti di regno](#/nml/kingdom-traits)** |
 
-Scegli il possessore prima di scrivere il tratto. "Gli elfi tirano meglio con l'arco" è un tratto di cultura se deve diffondersi con le loro città, un tratto di sottospecie se deve trasmettersi geneticamente, e un tratto di creatura se appartiene a uno specifico individuo. Sbagliare questo è la differenza tra un mod che trasforma il mondo in un'ora e uno che non fa assolutamente nulla :PES_ThinkAboutIt:.
+Scegli il possessore prima di scrivere il tratto. "Gli elfi tirano meglio con l'arco" è un tratto di cultura se deve diffondersi con le loro città, un tratto di sottospecie (subspecies) se deve trasmettersi geneticamente, e un tratto di creatura se appartiene a uno specifico individuo. Sbagliare questo è la differenza tra un mod che trasforma il mondo in un'ora e uno che non fa assolutamente nulla :PES_ThinkAboutIt:.

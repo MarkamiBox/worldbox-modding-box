@@ -8,9 +8,9 @@ order: 42
 
 # Harmony-Patches :wbhammer:
 
-Alles auf den anderen Seiten **fügt** WorldBox neue Dinge hinzu: ein Merkmal, eine Waffe, ein Gebäude. Harmony ist für die andere Hälfte des Moddings da: **das Verhalten des vorhandenen Spiels verändern**.
+Alles auf den anderen Seiten **fügt** WorldBox neue Dinge hinzu: ein Merkmal (trait), eine Waffe, ein Gebäude (building). Harmony ist für die andere Hälfte des Moddings da: **das Verhalten des vorhandenen Spiels verändern**.
 
-Du kannst den Code des Spiels nicht direkt bearbeiten. Er ist kompiliert, wird als `Assembly-CSharp.dll` ausgeliefert und das nächste Update würde deine Änderungen überschreiben. Harmony ist die Bibliothek, mit der du deinen eigenen Code an eine bereits existierende Methode anhängst, während das Spiel läuft.
+Du kannst den Code des Spiels nicht direkt bearbeiten. Er ist kompiliert, wird als `Assembly-CSharp.dll` ausgeliefert und das nächste Update würde deine Änderungen überschreiben. Harmony ist die Bibliothek (library), mit der du deinen eigenen Code an eine bereits existierende Methode anhängst, während das Spiel läuft.
 
 > [!NOTE] Noch nie Code geschrieben?
 > Lies "Was eine Methode ist" und "Der Haftnotiz-Zettel", baue dann zuerst etwas aus den **Spielinhalte**-Seiten und kehre später zurück. Harmony ist nicht schwer, aber es ist das Erste, was die Mods *anderer Leute* kaputtmachen kann, und deine Patches werden sauberer, sobald du gesehen hast, wie die spieleigenen Assets aufgebaut sind :PES_Wise:.
@@ -21,7 +21,7 @@ Eine **Methode** ist eine benannte Aktion im Spielcode. Einige echte Beispiele:
 
 | Methode | Wann das Spiel sie ausführt |
 | --- | --- |
-| `Actor.updateStats()` | Jedes Mal, wenn die Werte einer Einheit neu berechnet werden müssen |
+| `Actor.updateStats()` | Jedes Mal, wenn die Werte (stats) einer Einheit neu berechnet werden müssen |
 | `Actor.getHit(...)` | Jedes Mal, wenn eine Einheit Schaden erleidet |
 | `City.makeWarrior(...)` | Jedes Mal, wenn eine Stadt einen Bürger zum Krieger ernennt |
 

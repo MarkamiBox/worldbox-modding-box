@@ -11,7 +11,7 @@ order: 140
 > [!NOTE] 種族ではなく「アクター」と呼ぶ
 > ゲーム内では、人間、狼、ドラゴン、ゾンビ、カニなど、すべての生きた存在を **アクター**（actor）と呼びます。これらはすべて同一の `ActorAsset` クラスから派生し、`AssetManager.actor_library` に格納されています。「種族（Race）」は過去の呼称です。コード内に唯一残っているのは `[Obsolete("use .original_actor_asset instead")]` と注記された `race` プロパティだけであり、古代のセーブデータを読み込むためだけに存在しています。コード内では常に `actor` と記述してください。
 
-新しいクリーチャーの追加は、誰もが一度は作りたがり、そしてほぼ全員が挫折するジャンルです。なぜなら `ActorAsset` はアニメーション、テクスチャ、効果音、分類学、食性、AIフラグ、ゲノム、文化、ステータスといった膨大な要素を抱え込んでいるからです。たった1つの設定を誤っただけで、大洋の真ん中に直立不動の透明なユニットが佇むことになります :PES4_Invisible:。
+新しいクリーチャーの追加は、誰もが一度は作りたがり、そしてほぼ全員が挫折するジャンルです。なぜなら `ActorAsset` はアニメーション、テクスチャ、効果音、分類学、食性、AIフラグ、ゲノム、文化（culture）、ステータスといった膨大な要素を抱え込んでいるからです。たった1つの設定を誤っただけで、大洋の真ん中に直立不動の透明なユニットが佇むことになります :PES4_Invisible:。
 
 朗報です。ゲーム本体もクリーチャーをゼロから組み上げているわけではありません。バニラがエルフを生成する処理は、文字通りこれだけです:
 
@@ -31,7 +31,7 @@ clone("elf", "$civ_advanced_unit$");
 | `$animal$` | 野生動物 |
 | `$mob$` | 敵対的モンスター |
 | `$civ_unit$` | 文明を持つ基本生物 |
-| `$civ_advanced_unit$` | 都市、国家、文化、宗教を持つ完全な文明生物。人間、エルフ、オーク、ドワーフが使用 |
+| `$civ_advanced_unit$` | 都市、国家、文化、宗教（religion）を持つ完全な文明生物。人間、エルフ、オーク、ドワーフが使用 |
 
 また、`human`、`wolf`、`zombie` といった完成済みアクターをクローンすることも可能です。最初のMOD制作ではドナーのスプライトが最初から付随し、すぐにゲーム内で姿を確認できるため、こちらのルートが最も簡単です。
 
@@ -176,7 +176,7 @@ namespace HelloBox
 
 | フィールド | 説明 |
 | --- | --- |
-| `civ` | 文明生物フラグ: 都市、国家、職業、戦争の対象。`false` = 動物 |
+| `civ` | 文明生物フラグ: 都市、国家、職業、戦争（war）の対象。`false` = 動物 |
 | `auto_civ` | ゲーム側が自動的に文明化を開始するかどうか |
 | `default_animal` | ゲーム内部の判定において野生動物として扱う |
 | `unit_other` | 文明でも動物でもない分類: モブ、ゴーレム、特殊ユニットなど |
@@ -184,8 +184,8 @@ namespace HelloBox
 | `name_locale` | 表示名用のローカライズキー |
 | `icon` | リストやスポーンボタンで表示されるアイコン |
 | `color_hex` | 着色可能なユニットに適用されるカラーコード |
-| `can_have_subspecies` | 世代交代を経て亜種に変異するかどうか |
-| `has_ai_system` | 一般的な行動AIシステムを実行するかどうか |
+| `can_have_subspecies` | 世代交代を経て亜種（subspecies）に変異するかどうか |
+| `has_ai_system` | 一般的な行動（behaviour）AIシステムを実行するかどうか |
 | `flying` / `hovering` | 地面から浮上するかどうか、およびその高度 |
 | `force_ocean_creature` / `force_land_creature` | 生息可能な地形を海洋または陸地に固定 |
 | `can_attack_buildings` | 建造物を標的に攻撃・破壊できるか |
@@ -196,7 +196,7 @@ namespace HelloBox
 | `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | FMOD サウンドイベントのパス |
 | `name_taxonomic_*` | 知識ウィンドウに表示される界・門・綱・目・科・属・種 |
 | `collective_term` | 群れの呼び方（「狼の **群れ**」など） |
-| `allowed_status_tiers` | 付与可能なステータス効果の階級 |
+| `allowed_status_tiers` | 付与可能なステータス効果（status）の階級 |
 | `production` | 都市が生産する品目 |
 | `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | 死亡時や変異時の転換先 |
 
@@ -247,7 +247,7 @@ Actor actor = World.world.units.spawnNewUnit("hello_sprite", tile, pSpawnSound: 
 
 ## 亜種（Subspecies）
 
-亜種とは、アクターが何世代にもわたる繁殖の中で分岐していく変異種のことです。アクター特性とは完全に分離された独自の特性ライブラリとグループリストを持っています:
+亜種とは、アクターが何世代にもわたる繁殖の中で分岐していく変異種のことです。アクター特性（trait）とは完全に分離された独自の特性ライブラリとグループリストを持っています:
 
 ```csharp
 SubspeciesTrait scales = new SubspeciesTrait

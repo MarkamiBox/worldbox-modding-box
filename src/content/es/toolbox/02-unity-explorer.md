@@ -40,7 +40,7 @@ worldbox/ (C:\Program Files (x86)\Steam\steamapps\common\worldbox\)
 
 Quieres que tu ventana personalizada tenga el mismo aspecto que las del juego. Así que:
 
-1. Dentro del juego, abre la ventana que te interese (Leyes del mundo, por ejemplo).
+1. Dentro del juego, abre la ventana que te interese (Leyes del mundo (world law), por ejemplo).
 2. Pulsa F7, ve a **Object Explorer → Scene Explorer** y despliega `CanvasMain` → `canvas_ui`.
 3. Ve haciendo clic en los elementos hijos hasta que el objeto resaltado coincida con la ventana que abriste.
 4. En el Inspector, revisa sus componentes: la `Image` con su sprite 9-slice, los tamaños de `RectTransform`, el `ScrollRect`.
@@ -65,7 +65,7 @@ En la salida de log de UnityExplorer verás al instante:
 [Message:UnityExplorer] Invoked REPL (no return value)
 ```
 
-Acabas de leer la ruta del icono y el grupo de un rasgo vanilla, sacados directamente del juego en marcha. Cópialos en tu propio rasgo y quedará en el mismo sitio de la interfaz, con un icono que existe de verdad.
+Acabas de leer la ruta del icono y el grupo de un rasgo (trait) vanilla, sacados directamente del juego en marcha. Cópialos en tu propio rasgo y quedará en el mismo sitio de la interfaz, con un icono que existe de verdad.
 
 ## Ejemplo 3: probar una idea antes de ponerte a crear un mod
 

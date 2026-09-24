@@ -17,13 +17,13 @@ order: 1
   - **Flusso di sviluppo base**: Struttura di una mod, la tua prima mod, log & debug, localizzazione e sprite personalizzati.
   - **Avanzate & Pubblicazione**: Menu impostazioni in-game, patch Harmony, salvataggio dati nei salvataggi e pubblicazione su Steam Workshop.
 - **Contenuti di gioco**: Ciò che aggiungi effettivamente al mondo di gioco, organizzato in 7 categorie chiare:
-  - **Architettura & Statistiche**: Come funzionano le librerie di asset, riferimento statistiche e indice asset.
-  - **Tratti & Genetica**: Tratti unità, gruppi di tratti, tratti sottospecie & geni, cultura, religione, clan, lingue e tratti regno.
-  - **Oggetti & Equipaggiamento**: Armi & armature personalizzate, modificatori oggetto & materiali, gruppi oggetti e drop & loot.
-  - **Creature, Edifici & IA**: Creature personalizzate, edifici, comportamenti IA personalizzati & lavori cittadini, effetti di stato e proiettili & incantesimi.
-  - **Mondo & Civiltà**: Tile personalizzati, nuvole dei biomi, ere del mondo, leggi del mondo, regni & diplomazia, complotti & ribellioni, risorse e disastri.
-  - **Poteri Divini & UI**: Poteri divini & pennelli, pulsanti potere e finestre personalizzate con schede & tooltip.
-  - **Rifiniture finali**: Obiettivi di gioco e assemblaggio di tutto in una mod completa.
+  - **Architettura & Statistiche (stats)**: Come funzionano le librerie (library) di asset, riferimento statistiche e indice asset.
+  - **Tratti (trait) & Genetica**: Tratti unità, gruppi di tratti, tratti sottospecie (subspecies) & geni, cultura (culture), religione (religion), clan, lingue e tratti regno (kingdom).
+  - **Oggetti & Equipaggiamento**: Armi & armature personalizzate, modificatori (modifier) oggetto & materiali, gruppi oggetti e drop & loot.
+  - **Creature, Edifici (building) & IA**: Creature personalizzate, edifici, comportamenti (behaviour) IA personalizzati & lavori (job) cittadini, effetti di stato (status) e proiettili (projectile) & incantesimi (spell).
+  - **Mondo & Civiltà**: Tile personalizzati, nuvole (cloud) dei biomi (biome), ere (world age) del mondo, leggi del mondo (world law), regni & diplomazia, complotti (plot) & ribellioni, risorse (resource) e disastri (disaster).
+  - **Poteri Divini (GodPower) & UI**: Poteri divini & pennelli, pulsanti potere e finestre personalizzate con schede & tooltip.
+  - **Rifiniture finali**: Obiettivi (achievement) di gioco e assemblaggio di tutto in una mod completa.
 - **Strumenti di modding**: Utility interattive integrate direttamente in questa guida (Harmony Patch Builder, Esploratore campi asset, Ricerca metodi e Cercatore icone Discord).
 
 Leggila dall'inizio alla fine la prima volta. Dopo, salta da una pagina all'altra come fanno tutti :PES2_Shrug:.

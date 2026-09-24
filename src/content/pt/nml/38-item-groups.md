@@ -8,7 +8,7 @@ order: 124
 
 # Grupos de itens e abas :wbgold:
 
-Um grupo de itens é uma categoria na janela de equipamentos: elmos, espadas, amuletos. Trata-se do mesmíssimo e diminuto `BaseCategoryAsset` que renderiza as abas de traços (veja **[Grupos de traços e abas](#/nml/trait-groups)**), residindo desta vez em `AssetManager.item_groups`.
+Um grupo de itens (item) é uma categoria na janela de equipamentos: elmos, espadas, amuletos. Trata-se do mesmíssimo e diminuto `BaseCategoryAsset` que renderiza as abas de traços (trait) (veja **[Grupos de traços e abas](#/nml/trait-groups)**), residindo desta vez em `AssetManager.item_groups`.
 
 A diferença essencial é que um grupo de itens gerencia um **pool**, e esquecer esse pool é o que faz seu mod quebrar :PESgn_Yikes:.
 
@@ -96,7 +96,7 @@ namespace HelloBox
 
 ## Os pools
 
-O jogo mantém um reservatório de equipamentos por grupo e preenche esses reservatórios enquanto suas próprias bibliotecas carregam – o que acontece **antes do seu mod sequer existir**. Um grupo recém-criado não tem reservatório algum, e a primeira rotina que requisitar um disparará uma exceção:
+O jogo mantém um reservatório de equipamentos por grupo e preenche esses reservatórios enquanto suas próprias bibliotecas (library) carregam – o que acontece **antes do seu mod sequer existir**. Um grupo recém-criado não tem reservatório algum, e a primeira rotina que requisitar um disparará uma exceção:
 
 ```text
 KeyNotFoundException: The given key was not present in the dictionary.

@@ -8,7 +8,7 @@ order: 184
 
 # Disastri :wbmeteorite:
 
-Un disastro è qualcosa che il mondo fa a se stesso: un tornado, un'ondata di calore, un meteorite. Il gioco esegue periodicamente dei tiri con il passare del tempo, quindi a differenza di un potere divino, **nessuno deve cliccare nulla**. Tu imposti le condizioni, il mondo fa il resto.
+Un disastro (disaster) è qualcosa che il mondo fa a se stesso: un tornado, un'ondata di calore, un meteorite. Il gioco esegue periodicamente dei tiri con il passare del tempo, quindi a differenza di un potere divino (GodPower), **nessuno deve cliccare nulla**. Tu imposti le condizioni, il mondo fa il resto.
 
 ## Aggiungerne uno
 
@@ -82,7 +82,7 @@ Registralo in `Main.cs` (vedi **[Il mod completo](#/nml/all-together)**), carica
 | `action` | Il tuo codice. Questo è il disastro |
 | `spawn_asset_unit` + `units_min`/`units_max` | Scorciatoia per "genera N di questa creatura" |
 | `max_existing_units` | Non generarne altre se ne esistono già tante |
-| `ages_allow` / `ages_forbid` | Lo limita a certe ere del mondo, per esempio solo nell'Era della Cenere |
+| `ages_allow` / `ages_forbid` | Lo limita a certe ere (world age) del mondo, per esempio solo nell'Era della Cenere |
 
 Il limite a un'era si imposta dopo aver costruito l'asset:
 
@@ -130,7 +130,7 @@ log.locale_id = "worldlog_disaster_hello_ember_storm";   // the text key
 log.path_icon = "ui/Icons/iconHelloDisaster";            // the icon next to the line
 ```
 
-Poi qualcosa deve scrivere la riga nel log. Gli spawner vanilla invocano `WorldLog.logDisaster(pAsset, tile)` da soli. Un'`action` personalizzata non lo fa automaticamente, quindi la tua la chiama una volta con la casella su cui la tempesta è iniziata: è il punto su cui salta il pulsante "vai lì" del log.
+Poi qualcosa deve scrivere la riga nel log. Gli spawner vanilla invocano `WorldLog.logDisaster(pAsset, tile)` da soli. Un'`action` personalizzata non lo fa automaticamente, quindi la tua la chiama una volta con la casella (tile) su cui la tempesta è iniziata: è il punto su cui salta il pulsante "vai lì" del log.
 
 | Campo di `WorldLogAsset` | Cosa fa |
 | --- | --- |

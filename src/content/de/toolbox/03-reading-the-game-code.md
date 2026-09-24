@@ -52,7 +52,7 @@ Jetzt weißt du sicher: Die Methode erwartet einen String, gibt ein Bool zurück
 
 ### 3. Schauen, wie das Spiel es selbst macht
 
-Das ist der beste Trick überhaupt. Du willst ein funktionierendes Weltgesetz? Such nach `WorldLawLibrary`, öffne `init()` und lies, was die Entwickler selbst geschrieben haben:
+Das ist der beste Trick überhaupt. Du willst ein funktionierendes Weltgesetz (world law)? Such nach `WorldLawLibrary`, öffne `init()` und lies, was die Entwickler selbst geschrieben haben:
 
 ```csharp Assembly-CSharp / WorldLawLibrary.init()
 world_law_mutant_box = add(new WorldLawAsset

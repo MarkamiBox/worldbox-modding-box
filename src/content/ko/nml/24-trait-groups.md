@@ -8,7 +8,7 @@ order: 102
 
 # 특성 그룹 및 탭 :wbfamilies:
 
-모든 특성은 특정 **그룹**에 속하며, 이 그룹이 특성 책에서 탭을 렌더링합니다. 여섯 개의 특성을 만들어 모두 `miscellaneous`에 던져 넣으면 아무도 스크롤하지 않는 목록 속에 묻혀 사라집니다 :PES4_Invisible:.
+모든 특성은 특정 **그룹**에 속하며, 이 그룹이 특성 (trait) 책에서 탭을 렌더링합니다. 여섯 개의 특성을 만들어 모두 `miscellaneous`에 던져 넣으면 아무도 스크롤하지 않는 목록 속에 묻혀 사라집니다 :PES4_Invisible:.
 
 자신만의 탭을 만드는 데는 단 네 줄이면 충분합니다.
 
@@ -117,7 +117,7 @@ if (fun != null)
 | 액터 | `AssetManager.trait_groups` | `ActorTraitGroupAsset` | 본 페이지 |
 | 문화 | `AssetManager.culture_trait_groups` | `CultureTraitGroupAsset` | **[문화 특성](#/nml/culture-traits)** |
 | 종교 | `AssetManager.religion_trait_groups` | `ReligionTraitGroupAsset` | **[종교 특성](#/nml/religion-traits)** |
-| 아종 | `AssetManager.subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | **[아종 특성](#/nml/subspecies-traits)** |
+| 아종 (subspecies) | `AssetManager.subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | **[아종 특성](#/nml/subspecies-traits)** |
 | 가문 | `AssetManager.clan_trait_groups` | `ClanTraitGroupAsset` | **[가문 특성](#/nml/clan-traits)** |
 | 언어 | `AssetManager.language_trait_groups` | `LanguageTraitGroupAsset` | **[언어 특성](#/nml/language-traits)** |
 | 왕국 | `AssetManager.kingdoms_traits_groups` | `KingdomTraitGroupAsset` | **[왕국 특성](#/nml/kingdom-traits)** |

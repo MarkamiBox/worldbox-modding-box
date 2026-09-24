@@ -44,7 +44,7 @@ Der alte Name ist weg, also such seinen Ersatz:
 - **[Asset-Felder](#/tools/fields)** für Felder von Assets. Such nach dem Teil des Namens, an den du dich erinnerst.
 - **dnSpy**, das immer recht hat, weil es das Spiel liest, das du wirklich hast. Die Suchwerkzeuge hier werden nach Updates neu gebaut, können einem frischen Update aber ein paar Tage hinterherhinken. Wie es geht: **[Den Code des Spiels lesen](#/toolbox/reading-the-game-code)**.
 
-Der Trick, den ich am meisten benutze: Öffne das Vanilla-Asset oder die Methode, die denselben Job wie deine macht, und schau, wie **das Spiel selbst** es jetzt schreibt. Wenn das Spiel geändert hat, wie Merkmale gebaut werden, benutzen seine eigenen Merkmale schon den neuen Weg :PESgn_Noice:.
+Der Trick, den ich am meisten benutze: Öffne das Vanilla-Asset oder die Methode, die denselben Job wie deine macht, und schau, wie **das Spiel selbst** es jetzt schreibt. Wenn das Spiel geändert hat, wie Merkmale (trait) gebaut werden, benutzen seine eigenen Merkmale schon den neuen Weg :PESgn_Noice:.
 
 ## 4. Deine Harmony-Patches von Hand prüfen
 
@@ -56,9 +56,9 @@ Ein Patch kann auch ganz ohne Fehler schiefgehen. Geh jeden einzeln durch und pr
 
 ## 5. Nach Dingen suchen, die nichts mehr tun
 
-Wieder zu kompilieren ist nicht die Ziellinie. Lade eine Welt und prüf, dass jedes Teil noch funktioniert: Das Merkmal zeigt sein Icon, der Gegenstand droppt, die Macht spawnt, was sie soll.
+Wieder zu kompilieren ist nicht die Ziellinie. Lade eine Welt und prüf, dass jedes Teil noch funktioniert: Das Merkmal zeigt sein Icon, der Gegenstand (item) droppt, die Macht (GodPower) spawnt, was sie soll.
 
-Ein neues Update kann ein Feld hinzufügen, das Vanilla-Assets jetzt ausfüllen und deine nicht. Das Asset lädt, kein Fehler, und es tut einfach nichts. Vergleich dein Asset Feld für Feld mit dem ähnlichsten Vanilla-Asset im `init()` seiner Bibliothek. Was das Spiel jetzt setzt und du nicht, ist dein Verdächtiger.
+Ein neues Update kann ein Feld hinzufügen, das Vanilla-Assets jetzt ausfüllen und deine nicht. Das Asset lädt, kein Fehler, und es tut einfach nichts. Vergleich dein Asset Feld für Feld mit dem ähnlichsten Vanilla-Asset im `init()` seiner Bibliothek (library). Was das Spiel jetzt setzt und du nicht, ist dein Verdächtiger.
 
 ## 6. Auch einen alten Spielstand testen
 

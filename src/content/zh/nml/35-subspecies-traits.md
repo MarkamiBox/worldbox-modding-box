@@ -8,7 +8,7 @@ order: 104
 
 # 亚种特质 :wbelf:
 
-**亚种**是物种发生基因漂变产生的分支：寿命更长、长有鳞片、卵生或发光。它通过**繁衍**而非教育来传播，并且它是唯一拥有自身独立贴图精灵的特质系统；正因如此，亚种可以在无需成为独立 Actor 的情况下，拥有与母物种截然不同的外观形态。
+**亚种**（subspecies）是物种发生基因漂变产生的分支：寿命更长、长有鳞片、卵生或发光。它通过**繁衍**而非教育来传播，并且它是唯一拥有自身独立贴图精灵的特质（trait）系统；正因如此，亚种可以在无需成为独立 Actor 的情况下，拥有与母物种截然不同的外观形态。
 
 | | |
 | --- | --- |
@@ -19,7 +19,7 @@ order: 104
 | 本地化前缀 | `subspecies_trait_` |
 | 默认图标路径 | `ui/Icons/subspecies_traits/` |
 
-> [!WARNING] 亚种会**替换** Actor 基础属性
+> [!WARNING] 亚种会**替换** Actor 基础属性（stats）
 > 在 `Actor.updateStats()` 中，拥有亚种的单位会合并 `subspecies.base_stats`，并完全**跳过** `asset.base_stats`。这属于二选一的替换，绝非累加叠加。
 >
 > 因此，你在 `human` 上配置的任何数值，对任何拥有亚种的人类都是完全不可见的 —— 而在一个运行了一段时间的世界里，绝大多数人类都会演化出亚种 :PES4_IDunnoMan:。
@@ -216,5 +216,5 @@ if (asset != null) asset.addSubspeciesTrait(HelloSubspecies.SCALES);
 
 这会让该生物的每一个新亚种都自带这个特质。如果不写这一行，改为依赖 `in_mutation_pot_add`，它就会在某个时候、某个地方自己冒出来，这通常是更有意思的版本。
 
-> [!TIP] 法术很适合放在这里
+> [!TIP] 法术（spell）很适合放在这里
 > 原版的魔法血脉就是只授予一个法术、别的什么都不做的亚种特质：`trait.addSpell("summon_lightning")`，然后因为资源库在启动时就解析了法术 id，所以再调用 `trait.linkSpells()`。两行代码，由子代继承，就能在整片大陆上形成一支看得见的唤雷者血脉 :PES5_CrazyPog:。

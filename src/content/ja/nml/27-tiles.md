@@ -198,7 +198,7 @@ if (tile.hasBuilding()) { }
 
 ## テラフォームオプション
 
-`AssetManager.terraform` 内の `TerraformOptions` は、神の力や投射物が利用する「このタイルを整地・浄化する」ルールのプリセットです：
+`AssetManager.terraform` 内の `TerraformOptions` は、神の力や投射物（projectile）が利用する「このタイルを整地・浄化する」ルールのプリセットです：
 
 | フィールド | 役割 |
 | --- | --- |

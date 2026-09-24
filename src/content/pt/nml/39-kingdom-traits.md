@@ -8,21 +8,21 @@ order: 114
 
 # Traços de reino :wbcrown:
 
-Um **traço de reino** representa uma política de estado. Não é uma crença nem uma linhagem: é uma diretriz promulgada pela coroa que vigora sobre todo o reino.
+Um **traço (trait) de reino (kingdom)** representa uma política de estado. Não é uma crença nem uma linhagem: é uma diretriz promulgada pela coroa que vigora sobre todo o reino.
 
 O jogo base usa este sistema para exatamente uma finalidade: alíquotas de tributação. Isso faz dele o menor e mais deserto dos sete sistemas de traços – e portanto o lugar mais fértil para se introduzir mecânicas novas. Não há disputa por esse espaço :wbsmirk:.
 
 | | |
 | --- | --- |
-| Biblioteca | `AssetManager.kingdoms_traits` |
+| Biblioteca (library) | `AssetManager.kingdoms_traits` |
 | Classe | `KingdomTrait` |
 | Grupos | `AssetManager.kingdoms_traits_groups`, classe `KingdomTraitGroupAsset` |
 | Dono em tempo de execução | `Kingdom`, em `World.world.kingdoms` |
 | Prefixo de localização | `kingdom_trait_` |
 | Pasta de ícones padrão | `ui/Icons/kingdom_traits/` |
 
-> [!WARNING] Atributos de reino não chegam às unidades
-> Da mesma forma que na religião, `kingdom.base_stats` nunca se funde em um `Actor`. Os números a nível de reino visíveis no jogo decorrem dos **atributos pessoais do monarca** (`king.stats["cities"]` e similares), não do bloco de traços do reino.
+> [!WARNING] Atributos (stats) de reino não chegam às unidades
+> Da mesma forma que na religião (religion), `kingdom.base_stats` nunca se funde em um `Actor`. Os números a nível de reino visíveis no jogo decorrem dos **atributos pessoais do monarca** (`king.stats["cities"]` e similares), não do bloco de traços do reino.
 >
 > Sendo assim, um traço de reino transforma a nação através de seus campos próprios e de código, não por `base_stats`.
 
@@ -99,7 +99,7 @@ namespace HelloBox
 
 Como `base_stats` não tem efeito, um traço de reino comprova sua relevância por dois caminhos: Os dois dão mais trabalho que um número, e os dois valem a pena.
 
-**Uma decisão**, a alternativa limpa e direta:
+**Uma decisão (decision)**, a alternativa limpa e direta:
 
 ```csharp
 trait.addDecision("some_decision_id");
@@ -123,7 +123,7 @@ public static class Patch_City_ArmyMax
 }
 ```
 
-Esse é o padrão universal para qualquer diretriz de reino que não seja uma taxa fiscal: o traço atua como interruptor e seu patch executa o comportamento. Veja **[Patches do Harmony](#/nml/harmony-patches)**.
+Esse é o padrão universal para qualquer diretriz de reino que não seja uma taxa fiscal: o traço atua como interruptor e seu patch executa o comportamento (behaviour). Veja **[Patches do Harmony](#/nml/harmony-patches)**.
 
 ## Os grupos vanilla
 

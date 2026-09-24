@@ -32,17 +32,17 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, x0.25가 아님
 | 2 | **클랜 (Clan)** 및 해당 성별 블록 | |
 | 3 | **언어 (Language)** | |
 | 4 | **문화 (Culture)** | |
-| 5 | 유닛 고유 데이터의 지도자 능력치 | `diplomacy`, `stewardship`, `intelligence`, `warfare` |
+| 5 | 유닛 고유 데이터의 지도자 능력치 (stats) | `diplomacy`, `stewardship`, `intelligence`, `warfare` |
 | 6 | 유닛에 걸린 모든 **상태 이상** | |
 | 7 | **기본 공격** 아이템 | 비무장 맨손일 때만 |
-| 8 | 유닛이 가진 모든 **액터 특성** | 시대 한정 특성은 해당 시대가 아닐 때 스킵됨 |
+| 8 | 유닛이 가진 모든 **액터 특성 (trait)** | 시대 (world age) 한정 특성은 해당 시대가 아닐 때 스킵됨 |
 | 9 | 유닛의 **성격** | |
 | 10 | 유닛이 **착용한 모든 장비** 및 모디파이어 | |
 
 여기서 많은 사람들이 흔히 저지르는 실수 두 가지:
 
 - **아종은 액터 에셋의 스탯을 완전히 대체합니다.** `human`에 스탯을 아무리 얹어봐야 아종을 가진 인간 유닛은 그 숫자를 영원히 구경조차 못 합니다.
-- **종교는 이 목록에 없습니다.** 종교 특성의 `base_stats`는 유닛에게 결코 도달하지 않습니다. **[종교 특성](#/nml/religion-traits)**을 확인하세요.
+- **종교는 이 목록에 없습니다.** 종교 (religion) 특성의 `base_stats`는 유닛에게 결코 도달하지 않습니다. **[종교 특성](#/nml/religion-traits)**을 확인하세요.
 
 추가적인 두 가지 계산 규칙:
 
@@ -69,7 +69,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, x0.25가 아님
 | `range` | 공격 사거리 |
 | `throwing_range` | 투척 무기 사거리 |
 | `targets` | 한 번의 공격으로 타격 가능한 최대 대상 수 |
-| `projectiles` | 한 번에 발사되는 투사체 개수 |
+| `projectiles` | 한 번에 발사되는 투사체 (projectile) 개수 |
 | `knockback` | 피격 대상을 밀쳐내는 거리 |
 | `recoil` | 타격 시 *공격자 본인*이 밀려나는 반동 |
 | `skill_combat` | 근접 전투 숙련도 |
@@ -171,7 +171,7 @@ if (actor.stats.hasTag("immunity_fire")) { }
 | 면역 | `immunity_fire` · `immunity_cold` · `building_immunity_fire` · `damaged_by_water` |
 | 이동 | `fast_swimming` · `water_creature` · `immovable` · `walk_adaptation_sand` · `walk_adaptation_snow` · `walk_adaptation_swamp` |
 | 정신 | `strong_mind` · `has_sapience` · `has_emotions` · `has_advanced_memory` · `has_advanced_communication` · `can_read_any_book` · `mad` · `moody` · `unconscious` · `frozen_ai` |
-| 행동 | `ignore_fights` · `love_peace` · `steal_items` · `needs_food` · `needs_mate` · `always_idle_animation` · `stop_idle_animation` · `generate_light` |
+| 행동 (behaviour) | `ignore_fights` · `love_peace` · `steal_items` · `needs_food` · `needs_mate` · `always_idle_animation` · `stop_idle_animation` · `generate_light` |
 | 식성 | `diet_meat` · `diet_meat_insect` · `diet_fish` · `diet_blood` · `diet_grass` · `diet_crops` · `diet_fruits` · `diet_flowers` · `diet_nectar` · `diet_algae` · `diet_vegetation` · `diet_wood` · `diet_minerals` · `diet_tiles` · `diet_same_species` |
 | 번식 | `reproduction_sexual` · `reproduction_asexual` · `oviparity` · `viviparity` |
 | 생태 속성 | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |

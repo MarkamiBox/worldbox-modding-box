@@ -106,10 +106,10 @@ namespace HelloBox
 | 特性 | `trait_<id>` | `trait_<id>_info` |
 | アイテム | 設定していれば `translation_key`、なければ `item_<equipment_subtype or id>` | `<id>_description`（`item_` 接頭辞なし） |
 | 神の力 | `<power_id>` | `<power_id>_description` |
-| パワータブ | 渡した `locale_key` | 渡した説明キー |
+| パワー（GodPower）タブ | 渡した `locale_key` | 渡した説明キー |
 | アクターのタスク | `task_unit_<task_id>` | - |
-| ステータス効果 | 設定した `locale_id` **フィールド** | 設定した `locale_description` **フィールド** |
-| 世界の法則 | `<law_id>_title`（接尾辞に注意） | `<law_id>_description` |
+| ステータス効果（status） | 設定した `locale_id` **フィールド** | 設定した `locale_description` **フィールド** |
+| 世界の法則（world law） | `<law_id>_title`（接尾辞に注意） | `<law_id>_description` |
 
 > [!WARNING] IDは名前ではない
 > あなたのIDはどの言語でも永遠に `hello_swift` であり、残りのコード（や他人のMod）が参照するのはこれです。変わるのは **ローカライズされたテキスト** の方です。表示名のタイプミスを直すためだけにIDを変えてはいけません :PESgn_Stop:。

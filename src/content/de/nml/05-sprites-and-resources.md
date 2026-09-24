@@ -8,7 +8,7 @@ order: 28
 
 # Sprites & Ressourcen :wbfanartist:
 
-Deine Eigenschaft hat einen Namen, Werte und eine fantastische Beschreibung. Sie hat allerdings auch ein großes, hässliches Fragezeichen als Icon. Zeit, das in Ordnung zu bringen.
+Deine Eigenschaft (trait) hat einen Namen, Werte (stats) und eine fantastische Beschreibung. Sie hat allerdings auch ein großes, hässliches Fragezeichen als Icon. Zeit, das in Ordnung zu bringen.
 
 ## Ein bereits im Spiel vorhandenes Icon nutzen
 
@@ -65,7 +65,7 @@ Neben deinen Bilddateien teilt eine `sprites.json` dem NML-Loader mit, wie die B
 | Feld | Bedeutung |
 | --- | --- |
 | `PixelsPerUnit` | Belasse diesen Wert auf `1`, außer du hast einen ganz bestimmten Grund dafür |
-| `PivotX` / `PivotY` | Der Ankerpunkt. `0.5 / 0.0` bedeutet unten zentriert, was Einheiten und Gebäude normalerweise verlangen |
+| `PivotX` / `PivotY` | Der Ankerpunkt. `0.5 / 0.0` bedeutet unten zentriert, was Einheiten und Gebäude (building) normalerweise verlangen |
 | `BorderL/R/T/B` | 9-Slice-Ränder für dehnbare Fensterrahmen und Schaltflächen |
 | `Path` | Auf welche konkrete Datei sich dieser spezifische Eintrag bezieht |
 
@@ -77,16 +77,16 @@ Das ist die Tabelle, zu der man immer wieder zurückkommt. Jedes Asset verweist 
 
 | Asset | Feld | Die Datei gehört nach |
 | --- | --- | --- |
-| Merkmal, göttliche Macht, Königreich, Gruppe | `path_icon` | `GameResources/` + genau das, was du geschrieben hast |
-| Gegenstand in der Hand einer Einheit | `path_gameplay_sprite` | `GameResources/` + genau das, was du geschrieben hast |
+| Merkmal, göttliche Macht (GodPower), Königreich (kingdom), Gruppe | `path_icon` | `GameResources/` + genau das, was du geschrieben hast |
+| Gegenstand (item) in der Hand einer Einheit | `path_gameplay_sprite` | `GameResources/` + genau das, was du geschrieben hast |
 | Gebäude | `sprite_path` | Ein **Ordner**: `GameResources/` + `sprite_path` + `/` mit `main_0.png`, `construction_0.png`, `ruin_0.png`. Ist `sprite_path` leer, gilt `main_path` + ID, und `main_path` ist standardmäßig `buildings/` |
 | Drop | `path_texture` | Ein **Ordner**: `GameResources/` + genau das, was du geschrieben hast, ein PNG pro Frame |
-| Wolke | `path_sprites` | `GameResources/` + jeder Pfad in der Liste |
+| Wolke (cloud) | `path_sprites` | `GameResources/` + jeder Pfad in der Liste |
 | Statuseffekt | `texture` | Ein **Ordner**: `GameResources/effects/` + was du geschrieben hast, ein PNG pro Frame |
-| Projektil | `texture` | Ein **Ordner**: `GameResources/effects/projectiles/` + was du geschrieben hast, ein PNG pro Frame |
-| Ressource, in der Hand getragen | `path_gameplay_sprite` | Ein **Ordner**: `GameResources/items/resources/` + was du geschrieben hast, ein PNG pro Frame |
+| Projektil (projectile) | `texture` | Ein **Ordner**: `GameResources/effects/projectiles/` + was du geschrieben hast, ein PNG pro Frame |
+| Ressource (resource), in der Hand getragen | `path_gameplay_sprite` | Ein **Ordner**: `GameResources/items/resources/` + was du geschrieben hast, ein PNG pro Frame |
 | Ressource, Inventar-Icon | `path_icon` | `GameResources/` + was du geschrieben hast. Vanilla nutzt einen bloßen Namen wie `iconResBread`, die Datei liegt also im Wurzelverzeichnis |
-| Kachel und Top-Kachel | *(kein Feld)* | `GameResources/tiles/<the tile's id>/` |
+| Kachel (tile) und Top-Kachel | *(kein Feld)* | `GameResources/tiles/<the tile's id>/` |
 
 > [!WARNING] "Ein Ordner" ist keine Stilfrage
 > Jedes oben als **Ordner** markierte Asset wird mit `getSpriteList()` gelesen, das die Frames *in* einem Ordner zurückgibt. Zeigst du auf ein einzelnes PNG, kommt es leer zurück: Ein Drop fällt unsichtbar, ein Projektil wirft `ArgumentOutOfRangeException` in `QuantumSpriteLibrary.drawProjectiles()`, ein Status wirft in jedem Frame. Ein einziger Frame ist in Ordnung, er muss nur in einem eigenen Ordner liegen: `drops/hello_ember/hello_ember_0.png` :wbfacepalm:.

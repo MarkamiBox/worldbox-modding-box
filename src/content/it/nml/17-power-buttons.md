@@ -8,7 +8,7 @@ order: 202
 
 # Schede e pulsanti di potere :wbfingerclick:
 
-Hai registrato un potere divino. Nessuno può cliccarci sopra, perché un `GodPower` è solo un insieme di dati: ciò che il giocatore preme effettivamente è un **PowerButton**, e i pulsanti vivono all'interno delle **schede** sulla barra inferiore.
+Hai registrato un potere divino (GodPower). Nessuno può cliccarci sopra, perché un `GodPower` è solo un insieme di dati: ciò che il giocatore preme effettivamente è un **PowerButton**, e i pulsanti vivono all'interno delle **schede** sulla barra inferiore.
 
 ## Crea la tua scheda personale
 
@@ -371,7 +371,7 @@ private static void Buttons()
 }
 ```
 
-Usa `CreateGodPowerButton` per qualsiasi cosa il giocatore debba mirare sulla mappa (generare, scagliare fulmini, ispezionare un'unità, posizionare un edificio), e `CreateSimpleButton` per qualsiasi cosa globale (aprire la tua finestra, attivare/disattivare una modalità).
+Usa `CreateGodPowerButton` per qualsiasi cosa il giocatore debba mirare sulla mappa (generare, scagliare fulmini, ispezionare un'unità, posizionare un edificio (building)), e `CreateSimpleButton` per qualsiasi cosa globale (aprire la tua finestra, attivare/disattivare una modalità).
 
 > [!WARNING] Il potere deve esistere prima
 > `CreateGodPowerButton` cerca il potere in base all'id. Se `AssetManager.powers` non lo possiede ancora, otterrai un pulsante collegato al nulla. Registra il potere, **poi** crea il pulsante.

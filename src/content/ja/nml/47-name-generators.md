@@ -8,7 +8,7 @@ order: 186
 
 # 名前ジェネレーター :wbscroll:
 
-WorldBoxのすべての名前はジェネレーターから生まれます：ユニット、都市、王国、氏族、戦争、本。あなたの生き物も自分専用のものを持てるので、残り火の精霊の村を人間の名前の借り物ではなく、Ashra や Cindox でいっぱいにできます。
+WorldBoxのすべての名前はジェネレーターから生まれます：ユニット、都市、王国（kingdom）、氏族（clan）、戦争（war）、本。あなたの生き物も自分専用のものを持てるので、残り火の精霊の村を人間の名前の借り物ではなく、Ashra や Cindox でいっぱいにできます。
 
 ## 名前はどこから来るか
 
@@ -16,7 +16,7 @@ WorldBoxのすべての名前はジェネレーターから生まれます：ユ
 
 | 段階 | アセット | 中身 |
 | --- | --- | --- |
-| 生き物 | `ActorAsset.name_template_sets` | **名前セット**のIDのリスト。文化ごとにひとつ選ばれる |
+| 生き物 | `ActorAsset.name_template_sets` | **名前セット**のIDのリスト。文化（culture）ごとにひとつ選ばれる |
 | 名前セット | `NameSetAsset`（`name_sets`） | 物の種類ごとに使うジェネレーター：`unit`、`city`、`kingdom`、`clan`、`family`、`culture`、`language`、`religion` |
 | ジェネレーター | `NameGeneratorAsset`（`name_generator`） | 名前を実際にどう組み立てるか |
 

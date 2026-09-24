@@ -8,9 +8,9 @@ order: 170
 
 # Плитки и ландшафт :wbrockies:
 
-Карта представляет собой сетку из `WorldTile`, и каждая клетка содержит **два** слоя плиток, наложенных друг на друга:
+Карта представляет собой сетку из `WorldTile`, и каждая клетка (tile) содержит **два** слоя плиток, наложенных друг на друга:
 
-| Слой | Поле на клетке | Библиотека | Класс | Примеры |
+| Слой | Поле на клетке | Библиотека (library) | Класс | Примеры |
 | --- | --- | --- | --- | --- |
 | Земля | `main_type` | `AssetManager.tiles` | `TileType` | почва, песок, скалы, глубокий океан, лава |
 | Поверхность | `top_type` | `AssetManager.top_tiles` | `TopTileType` | `grass_low`, `grass_high`, `road`, `field`, `frozen_low`, стены |
@@ -72,7 +72,7 @@ namespace HelloBox
 }
 ```
 
-> [!WARNING] Тайлу-биому нужен привязанный биом
+> [!WARNING] Тайлу-биому нужен привязанный биом (biome)
 > Клон травяного тайла копирует `is_biome = true` и `biome_id`, но сам `BiomeAsset` ищется только в `TopTileLibrary.linkAssets()`, один раз, при загрузке. Пропустите эту строку — и всё работает, пока на вашем тайле не появится животное: к названию вида добавляется суффикс биома, биом `null`, и спавн падает с `NullReferenceException` в `Subspecies.generateName()` :wbfacepalm:.
 >
 > У картинок та же беда. `TopTileLibrary` превращает PNG из `tiles/<id>/` в `sprites` при старте, так что без последнего блока тайл рисуется, а потом рендер карты кидает исключение в `WorldTilemap.getVariation()` для каждого такого тайла на экране.
@@ -103,7 +103,7 @@ namespace HelloBox
 | `damaged_when_walked` | Изнашивается ли сама плитка от ходьбы существ |
 | `step_action`, `step_action_chance` | Ваш код при каждом шаге по плитке |
 | `unit_death_action` | Ваш код при гибели существа на ней |
-| `can_be_set_on_fire`, `burnable`, `burn_rate` | Поведение при контакте с огнем |
+| `can_be_set_on_fire`, `burnable`, `burn_rate` | Поведение (behaviour) при контакте с огнем |
 | `can_be_frozen`, `forever_frozen`, `fast_freeze`, `remove_on_freeze` | Поведение при замерзании |
 | `remove_on_heat`, `terraform_after_fire` | Что оставляют после себя жар и пламя |
 | `explodable`, `explodable_delayed`, `explodable_timed`, `explode_range` | Детонация |
@@ -198,7 +198,7 @@ if (tile.hasBuilding()) { }
 
 ## Опции терраформирования
 
-Класс `TerraformOptions` в `AssetManager.terraform` представляет собой именованный набор правил по расчистке клетки, используемый божественными силами и снарядами:
+Класс `TerraformOptions` в `AssetManager.terraform` представляет собой именованный набор правил по расчистке клетки, используемый божественными силами (GodPower) и снарядами (projectile):
 
 | Поле | Что делает |
 | --- | --- |

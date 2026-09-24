@@ -44,7 +44,7 @@ El nombre viejo ya no está, así que busca su sustituto:
 - **[Campos de assets](#/tools/fields)** para los campos de los assets. Busca la parte del nombre que recuerdes.
 - **dnSpy**, que siempre tiene razón, porque lee el juego que tienes de verdad. Las herramientas de búsqueda de aquí se regeneran tras las actualizaciones, pero pueden ir unos días por detrás de una recién salida. Cómo usarlo: **[Leer el código del juego](#/toolbox/reading-the-game-code)**.
 
-El truco que más uso: abre el asset o el método vanilla que hace lo mismo que el tuyo y mira cómo lo escribe **el propio juego** ahora. Si el juego cambió la forma de crear rasgos, sus propios rasgos ya usan la forma nueva :PESgn_Noice:.
+El truco que más uso: abre el asset o el método vanilla que hace lo mismo que el tuyo y mira cómo lo escribe **el propio juego** ahora. Si el juego cambió la forma de crear rasgos (trait), sus propios rasgos ya usan la forma nueva :PESgn_Noice:.
 
 ## 4. Revisa tus parches de Harmony a mano
 
@@ -74,7 +74,7 @@ Luego responde a los comentarios de "¿¿está actualizado??", te lo has ganado 
 
 ## Para que la próxima actualización duela menos
 
-- **Parchea menos.** Cada parche de Harmony es un punto que se puede romper. Si un campo de asset o una función de NML puede hacer el trabajo, usa eso.
+- **Parchea menos.** Cada parche de Harmony es un punto que se puede romper. Si un campo de asset o una función de NML puede hacer el trabajo (job), usa eso.
 - **Envuelve tu código en try/catch.** Una función rota escribe un error en el registro y el resto de tu mod sigue funcionando. Mira **[Registros y depuración](#/nml/logs-and-debugging)**.
 - **Una clase de parches por tarea.** Cuando un parche se rompe, solo cae esa función, no todas.
 - **Guarda tus ids en un solo sitio.** Constantes como `HelloTraits.SWIFT` hacen que renombrar sea un cambio, no veinte.

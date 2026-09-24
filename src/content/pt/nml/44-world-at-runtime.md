@@ -8,9 +8,9 @@ order: 96
 
 # O mundo em tempo de execução :wbworld:
 
-Todas as outras páginas registram elementos durante a inicialização do jogo. Esta é dedicada à outra metade: manipular o que já existe em um mundo em execução e alterá-lo. Destruir uma cidade, entregá-la a outro reino, iniciar uma guerra, encher uma cidade com seus próprios habitantes.
+Todas as outras páginas registram elementos durante a inicialização do jogo. Esta é dedicada à outra metade: manipular o que já existe em um mundo em execução e alterá-lo. Destruir uma cidade, entregá-la a outro reino (kingdom), iniciar uma guerra (war), encher uma cidade com seus próprios habitantes.
 
-Tudo isso é executado a partir do `click_action` de um poder divino, de `Update()`, ou de um world behaviour, e **nunca** de `OnModLoad`, onde ainda não existe mundo algum. Consulte **[Logs e depuração](#/nml/logs-and-debugging)** para ver a condição de segurança.
+Tudo isso é executado a partir do `click_action` de um poder divino (GodPower), de `Update()`, ou de um world behaviour, e **nunca** de `OnModLoad`, onde ainda não existe mundo algum. Consulte **[Logs e depuração](#/nml/logs-and-debugging)** para ver a condição de segurança.
 
 ## Percorrendo o que existe
 
@@ -65,7 +65,7 @@ Actor actor = World.world.units.createNewUnit(city.getActorAsset().id, tile, pSu
 actor?.joinCity(city);
 ```
 
-`spawnNewUnit` de **[Criaturas customizadas](#/nml/custom-actors)** escolhe a subespécie para você. `createNewUnit` permite que você a escolha, o que é a diferença entre "um humano" e "um *desses* humanos".
+`spawnNewUnit` de **[Criaturas customizadas](#/nml/custom-actors)** escolhe a subespécie (subspecies) para você. `createNewUnit` permite que você a escolha, o que é a diferença entre "um humano" e "um *desses* humanos".
 
 ## Pais
 
@@ -78,4 +78,4 @@ foreach (Actor parent in actor.getParents())
 long first = actor.data.parent_id_1;   // os IDs são preservados após a morte
 ```
 
-`getParents()` retorna apenas os pais que ainda estão vivos: ele busca cada ID com `World.world.units.get(id)` e ignora itens faltantes ou mortos. Os IDs permanecem nos dados da unidade para sempre, mas o jogo não guarda histórico das pessoas por trás deles. Uma árvore genealógica que queira lembrar dos mortos deve gravar o que precisa nos dados de cada filho ao nascer, veja **[Salvando dados](#/nml/saving-data)**, pois não há um local global para armazenar dados para o mundo inteiro :PES_ThinkAboutIt:.
+`getParents()` retorna apenas os pais que ainda estão vivos: ele busca cada ID com `World.world.units.get(id)` e ignora itens (item) faltantes ou mortos. Os IDs permanecem nos dados da unidade para sempre, mas o jogo não guarda histórico das pessoas por trás deles. Uma árvore genealógica que queira lembrar dos mortos deve gravar o que precisa nos dados de cada filho ao nascer, veja **[Salvando dados](#/nml/saving-data)**, pois não há um local global para armazenar dados para o mundo inteiro :PES_ThinkAboutIt:.

@@ -8,7 +8,7 @@ order: 144
 
 # IA y comportamientos personalizados :wbgoldenbrain:
 
-Aquí entramos en aguas profundas. Todo lo demás en esta guía añade *cosas* al juego. Esto añade **decisiones**: lo que hace una criatura a continuación, por su cuenta, para siempre, en un mundo que comparte con miles de otras entidades. Sin presión :PES_MonkaSweat:.
+Aquí entramos en aguas profundas. Todo lo demás en esta guía añade *cosas* al juego. Esto añade **decisiones** (decision): lo que hace una criatura a continuación, por su cuenta, para siempre, en un mundo que comparte con miles de otras entidades. Sin presión :PES_MonkaSweat:.
 
 ## Cómo piensa el juego
 
@@ -119,7 +119,7 @@ namespace HelloBox
 > [!WARNING] `beh_tile_target` es internal
 > El campo en el que escribe el comportamiento está marcado como `internal` en el ensamblado del juego, así que esto compila contra un `Assembly-CSharp.dll` **publicitado** (mira la nota en **[Efectos de estado](#/nml/status-effects)**). Sin uno, el compilador rechaza la línea y tienes que guardar el objetivo en un campo tuyo :PES5_Noted:.
 
-Fíjate en el segundo comportamiento: **reutiliza los nodos vanilla**. El juego tiene comportamientos para caminar a una casilla, añadir un estado, encontrar un edificio, atacar un objetivo. Escribir la decisión y tomar prestada la ejecución es la diferencia entre un fin de semana y un mes.
+Fíjate en el segundo comportamiento: **reutiliza los nodos vanilla**. El juego tiene comportamientos para caminar a una casilla (tile), añadir un estado, encontrar un edificio (building), atacar un objetivo. Escribir la decisión y tomar prestada la ejecución es la diferencia entre un fin de semana y un mes.
 
 ## Hacer que una criatura use realmente tu trabajo
 
@@ -198,7 +198,7 @@ namespace HelloBox
 > `DecisionsLibrary.linkAssets()` numera las decisiones, copia `priority` en `priority_int_cached` y define `has_weight_custom` al iniciar el juego antes de tu mod. Si omites las tres líneas tras `add()`, tu decisión compartirá enfriamiento con la primera decisión vanilla, quedará en la capa más baja e ignorará su peso personalizado :wbfacepalm:.
 
 > [!WARNING] Las unidades ya existentes tienen un solo espacio libre
-> Cada unidad guarda sus enfriamientos de decisiones en un array dimensionado al crearse la unidad, redondeado a potencia de dos. El juego vanilla tiene 127 decisiones, por lo que el array tiene 128: espacio para exactamente **una** más. Una unidad previa que reciba una segunda decisión de mod lanzará `IndexOutOfRangeException`. Las nuevas unidades se dimensionan correctamente, por lo que HelloBox asigna su decisión a su propia criatura y no a un rasgo general.
+> Cada unidad guarda sus enfriamientos de decisiones en un array dimensionado al crearse la unidad, redondeado a potencia de dos. El juego vanilla tiene 127 decisiones, por lo que el array tiene 128: espacio para exactamente **una** más. Una unidad previa que reciba una segunda decisión de mod lanzará `IndexOutOfRangeException`. Las nuevas unidades se dimensionan correctamente, por lo que HelloBox asigna su decisión a su propia criatura y no a un rasgo (trait) general.
 
 Una decisión llega a una criatura mediante lo que la otorga. Un `ActorAsset` la recibe con `addDecision()`. **Los rasgos son diferentes**: resuelven sus IDs al inicio, por lo que en un rasgo asignas el array manualmente:
 

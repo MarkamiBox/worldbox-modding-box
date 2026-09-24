@@ -12,7 +12,7 @@ Quase todo asset que você registrar possui um bloco `base_stats`, e quase todas
 
 ## Como o base_stats funciona
 
-`base_stats` é um dicionário de `string` para `float`. A chave deve ser um dos ids de atributos listados abaixo. Escrever uma chave desconhecida **não** é inofensivo: o setter procura o id na `base_stats_library`, recebe `null` e lança uma `NullReferenceException` bem no meio do seu `Initialize()`.
+`base_stats` é um dicionário de `string` para `float`. A chave deve ser um dos ids de atributos (stats) listados abaixo. Escrever uma chave desconhecida **não** é inofensivo: o setter procura o id na `base_stats_library`, recebe `null` e lança uma `NullReferenceException` bem no meio do seu `Initialize()`.
 
 Portanto, um erro de digitação em um atributo não falha silenciosamente: ele derruba toda a sua fase de registro e nada depois dessa linha executa. Mantenha os nomes de seus atributos em campos `const string` se for usá-los em mais de um lugar.
 
@@ -27,22 +27,22 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, não x0.25
 
 | # | Fonte | Nota |
 | --- | --- | --- |
-| 1 | **Subespécie**, mais o bloco masculino ou feminino | Se a unidade tiver uma |
+| 1 | **Subespécie** (subspecies), mais o bloco masculino ou feminino | Se a unidade tiver uma |
 | 1b | **Actor asset** | Apenas quando **não** há subespécie. A subespécie o *substitui*, não se acumula por cima |
 | 2 | **Clã**, mais o bloco masculino ou feminino | |
 | 3 | **Idioma** | |
-| 4 | **Cultura** | |
+| 4 | **Cultura** (culture) | |
 | 5 | Atributos de liderança dos dados próprios da unidade | `diplomacy`, `stewardship`, `intelligence`, `warfare` |
 | 6 | Cada **efeito de status** ativo nela | |
 | 7 | O item de **ataque padrão** | Apenas quando desarmada |
-| 8 | Cada **traço de criatura** | Traços presos a uma era são ignorados quando a era não está ativa |
+| 8 | Cada **traço (trait) de criatura** | Traços presos a uma era são ignorados quando a era não está ativa |
 | 9 | Sua **personalidade** | |
-| 10 | Cada **item equipado**, com seus modificadores | |
+| 10 | Cada **item equipado**, com seus modificadores (modifier) | |
 
 Dois erros frequentes aqui:
 
 - **Uma subespécie substitui os atributos do actor asset.** Coloque um número em `human` e uma unidade com subespécie nunca o verá.
-- **Religião não está nesta lista.** Os `base_stats` de um traço de religião nunca alcançam uma unidade. Veja **[Traços de religião](#/nml/religion-traits)**.
+- **Religião (religion) não está nesta lista.** Os `base_stats` de um traço de religião nunca alcançam uma unidade. Veja **[Traços de religião](#/nml/religion-traits)**.
 
 Mais duas consequências:
 
@@ -69,7 +69,7 @@ Dê diplomacia a um lobo e ele não negociará :PES2_Shrug:.
 | `range` | Alcance do ataque |
 | `throwing_range` | Alcance para armas de arremesso |
 | `targets` | Quantos alvos um único ataque pode atingir |
-| `projectiles` | Quantos projéteis são disparados de uma vez |
+| `projectiles` | Quantos projéteis (projectile) são disparados de uma vez |
 | `knockback` | O quanto um golpe empurra o alvo |
 | `recoil` | O quanto um golpe empurra *você* |
 | `skill_combat` | Nível de habilidade em combate |
@@ -90,7 +90,7 @@ Dê diplomacia a um lobo e ele não negociará :PES2_Shrug:.
 | `scale` | Escala de renderização visual |
 | `max_nutrition` | Capacidade de alimento que a unidade aguenta |
 | `metabolic_rate` | Velocidade com que queima esse alimento |
-| `construction_speed` | Velocidade de construção |
+| `construction_speed` | Velocidade de construção (building) |
 | `experience` | Ganho de experiência |
 
 ## Ciclo de vida
@@ -114,11 +114,11 @@ Estes não fazem absolutamente nada em animais. O jogo os marca como `used_only_
 | Atributo | O que faz |
 | --- | --- |
 | `diplomacy` | Atributo de líder: diplomacia |
-| `warfare` | Atributo de líder: guerra |
+| `warfare` | Atributo de líder: guerra (war) |
 | `stewardship` | Atributo de líder: administração |
 | `intelligence` | Atributo de líder: intelecto |
 | `army` | Contribuição para o tamanho do exército |
-| `cities` | Quantas cidades o reino almeja ter |
+| `cities` | Quantas cidades o reino (kingdom) almeja ter |
 | `bonus_towers` | Torres extras que a cidade pode erguer |
 | `limit_population` | Teto de população |
 | `limit_clan_members` | Limite de membros do clã |
@@ -171,7 +171,7 @@ As tags que o próprio jogo avalia:
 | Imunidade | `immunity_fire` · `immunity_cold` · `building_immunity_fire` · `damaged_by_water` |
 | Movimento | `fast_swimming` · `water_creature` · `immovable` · `walk_adaptation_sand` · `walk_adaptation_snow` · `walk_adaptation_swamp` |
 | Mente | `strong_mind` · `has_sapience` · `has_emotions` · `has_advanced_memory` · `has_advanced_communication` · `can_read_any_book` · `mad` · `moody` · `unconscious` · `frozen_ai` |
-| Comportamento | `ignore_fights` · `love_peace` · `steal_items` · `needs_food` · `needs_mate` · `always_idle_animation` · `stop_idle_animation` · `generate_light` |
+| Comportamento (behaviour) | `ignore_fights` · `love_peace` · `steal_items` · `needs_food` · `needs_mate` · `always_idle_animation` · `stop_idle_animation` · `generate_light` |
 | Dieta | `diet_meat` · `diet_meat_insect` · `diet_fish` · `diet_blood` · `diet_grass` · `diet_crops` · `diet_fruits` · `diet_flowers` · `diet_nectar` · `diet_algae` · `diet_vegetation` · `diet_wood` · `diet_minerals` · `diet_tiles` · `diet_same_species` |
 | Reprodução | `reproduction_sexual` · `reproduction_asexual` · `oviparity` · `viviparity` |
 | Natureza | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |

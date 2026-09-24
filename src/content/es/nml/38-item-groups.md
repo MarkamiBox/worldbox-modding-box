@@ -8,7 +8,7 @@ order: 124
 
 # Grupos de objetos y pestañas :wbgold:
 
-Un grupo de objetos es una categoría en la ventana de equipamiento: cascos, espadas, amuletos. Es exactamente el mismo pequeño `BaseCategoryAsset` que dibuja las pestañas de rasgos (consulta **[Grupos de rasgos y pestañas](#/nml/trait-groups)**), residiendo en este caso en `AssetManager.item_groups`.
+Un grupo de objetos es una categoría en la ventana de equipamiento: cascos, espadas, amuletos. Es exactamente el mismo pequeño `BaseCategoryAsset` que dibuja las pestañas de rasgos (trait) (consulta **[Grupos de rasgos y pestañas](#/nml/trait-groups)**), residiendo en este caso en `AssetManager.item_groups`.
 
 La diferencia fundamental es que un grupo de objetos gestiona un **pool**, y olvidarse de inicializar dicho pool provocará el bloqueo de tu mod :PESgn_Yikes:.
 
@@ -132,7 +132,7 @@ Tres conceptos independientes que resultan muy fáciles de confundir:
 | --- | --- |
 | `group_id` | Bajo qué **pestaña** aparece en la ventana |
 | `equipment_type` | Qué **ranura** ocupa: `Weapon`, `Helmet`, `Armor`, `Boots`, `Ring`, `Amulet` |
-| `equipment_subtype` | Qué **clase de arma** es: `sword`, `axe`, `bow`… lo que prefieren los rasgos de cultura |
+| `equipment_subtype` | Qué **clase de arma** es: `sword`, `axe`, `bow`… lo que prefieren los rasgos de cultura (culture) |
 
 Crear un nuevo grupo **no** te otorga una nueva ranura de equipo. `EquipmentType` es un enumerado inmutable del ensamblado del juego, de modo que tus reliquias siguen ocupando la casilla de amuleto, solo que disfrutan de su propio estante en la interfaz.
 

@@ -8,9 +8,9 @@ order: 179
 
 # Tipos de guerra :wbmartialwarfare:
 
-Cada guerra del juego tiene un tipo: una conquista normal, una guerra de rencor contra todos, una rebelión. El tipo decide cómo recibe su nombre la guerra, qué icono muestra, si se unen los aliados y algunas reglas sobre cómo puede terminar. En vanilla solo hay cinco, así que uno nuevo llama la atención.
+Cada guerra (war) del juego tiene un tipo: una conquista normal, una guerra de rencor contra todos, una rebelión. El tipo decide cómo recibe su nombre la guerra, qué icono muestra, si se unen los aliados y algunas reglas sobre cómo puede terminar. En vanilla solo hay cinco, así que uno nuevo llama la atención.
 
-Esta página crea la **Rencilla de Brasa**: una guerra que arrastra a los aliados de ambos bandos, recibe nombres como "Cinder Feud of Karvia" y se puede terminar con una trama de paz como una guerra normal.
+Esta página crea la **Rencilla de Brasa**: una guerra que arrastra a los aliados de ambos bandos, recibe nombres como "Cinder Feud of Karvia" y se puede terminar con una trama (plot) de paz como una guerra normal.
 
 ## El código
 
@@ -89,7 +89,7 @@ namespace HelloBox
 | `path_icon` | El icono de la guerra, cargado tal cual lo escribes |
 | `kingdom_for_name_attacker` | Qué nombre rellena `$kingdom$`: el atacante (`true`) o el defensor (`false`) |
 | `alliance_join` | Las alianzas de ambos bandos se unen cuando empieza |
-| `total_war` | El atacante está en guerra con **todos** los reinos, como en las guerras de rencor. Empiézala sin defensor |
+| `total_war` | El atacante está en guerra con **todos** los reinos (kingdom), como en las guerras de rencor. Empiézala sin defensor |
 | `rebellion` | La marca como rebelión, lo que cambia quién puede unirse a quién |
 | `can_end_with_plot` | Un rey puede terminarla con la trama de paz, cuando ya es lo bastante vieja |
 | `forced_war` | Solo lo lee una función auxiliar que ahora mismo nadie llama. Déjalo desactivado |

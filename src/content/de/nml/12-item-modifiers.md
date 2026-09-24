@@ -62,7 +62,7 @@ namespace HelloBox
 ```
 
 > [!WARNING] Registrieren reicht nicht
-> `add()` legt deinen Modifikator in die `list` der Bibliothek, aber der Generator liest nicht `list`, sondern `pools`. Diese Pools werden in `linkAssets()` gefüllt, einmal, beim Laden. Ein Modifikator, der nur in `list` steht, existiert, hat einen Namen und wird nie auf irgendetwas gewürfelt :wbfacepalm:.
+> `add()` legt deinen Modifikator in die `list` der Bibliothek (library), aber der Generator liest nicht `list`, sondern `pools`. Diese Pools werden in `linkAssets()` gefüllt, einmal, beim Laden. Ein Modifikator, der nur in `list` steht, existiert, hat einen Namen und wird nie auf irgendetwas gewürfelt :wbfacepalm:.
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -87,7 +87,7 @@ Füge `HelloModifiers.Initialize();` zu `Main.cs` hinzu, und ab dann kann das Sp
 
 ## Dem Modifier echte Effekte verleihen
 
-Werte sind schön, aber ein Modifikator kann auch echten Code ausführen, und da wird es spaßig. `action_attack_target` feuert jedes Mal, wenn die Waffe einen Treffer landet:
+Werte (stats) sind schön, aber ein Modifikator kann auch echten Code ausführen, und da wird es spaßig. `action_attack_target` feuert jedes Mal, wenn die Waffe einen Treffer landet:
 
 ```csharp
 ItemAssetCreator.CreateAndAddModifier(

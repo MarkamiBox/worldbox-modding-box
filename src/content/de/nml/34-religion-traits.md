@@ -8,11 +8,11 @@ order: 108
 
 # Religions-Eigenschaften :wbpray:
 
-Eine **Religion** gehört Städten und Königreichen, verbreitet sich durch Bekehrung, verfasst Bücher und kann **Riten** vollziehen: weltverändernde Komplotte, die ihre Anhänger auf eigene Faust anstreben. Eine Religions-Eigenschaft ist ein einzelner Glaubenssatz.
+Eine **Religion** gehört Städten und Königreichen (kingdom), verbreitet sich durch Bekehrung, verfasst Bücher (book) und kann **Riten** vollziehen: weltverändernde Komplotte, die ihre Anhänger auf eigene Faust anstreben. Eine Religions-Eigenschaft ist ein einzelner Glaubenssatz.
 
 | | |
 | --- | --- |
-| Bibliothek | `AssetManager.religion_traits` |
+| Bibliothek (library) | `AssetManager.religion_traits` |
 | Klasse | `ReligionTrait` |
 | Gruppen | `AssetManager.religion_trait_groups`, Klasse `ReligionTraitGroupAsset` |
 | Besitzer zur Laufzeit | `Religion`, in `World.world.religions` |
@@ -20,7 +20,7 @@ Eine **Religion** gehört Städten und Königreichen, verbreitet sich durch Beke
 | Standard-Icon-Ordner | `ui/Icons/religion_traits/` |
 
 > [!WARNING] Religions-Stats erreichen keine Einheiten
-> Dies ist das einzige Eigenschaftssystem, dessen `base_stats` niemals bei einem `Actor` ankommen. `Actor.updateStats()` verschmilzt Unterarten, Clans, Sprachen und Kulturen. **Religion steht nicht auf dieser Liste.**
+> Dies ist das einzige Eigenschaftssystem, dessen `base_stats` niemals bei einem `Actor` ankommen. `Actor.updateStats()` verschmilzt Unterarten (subspecies), Clans, Sprachen und Kulturen (culture). **Religion steht nicht auf dieser Liste.**
 >
 > Eine Religions-Eigenschaft verändert die Welt also durch das, was sie *tut* (ein Ritus, eine Transformation, ein Aktions-Hook), nicht durch Statuswerte. `base_stats["damage"] = 10` darauf zu schreiben, ist ein stiller No-Op und der häufigste verschwendete Nachmittag auf dieser Seite :PES4_BigSad:.
 
@@ -89,7 +89,7 @@ Der Plot bestimmt, wer ihn versuchen darf und wie anspruchsvoll er ist:
 
 ## Transformationen: das Feld `transformation_biome_id`
 
-Das andere Feld, das exklusiv für Religions-Eigenschaften existiert. Es markiert die Eigenschaft als Transformation und benennt das Biom, das der Glaube im Umfeld verbreitet:
+Das andere Feld, das exklusiv für Religions-Eigenschaften existiert. Es markiert die Eigenschaft (trait) als Transformation und benennt das Biom, das der Glaube im Umfeld verbreitet:
 
 ```csharp
 trait.transformation_biome_id = "biome_desert";
@@ -117,7 +117,7 @@ trait.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 trait.action_death = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
 ```
 
-Eine Religions-Eigenschaft kann auch einen Zauber oder eine Entscheidung gewähren, was meist passender ist als ein einfacher Timer:
+Eine Religions-Eigenschaft kann auch einen Zauber (spell) oder eine Entscheidung (decision) gewähren, was meist passender ist als ein einfacher Timer:
 
 ```csharp
 trait.addSpell("hello_bolt");           // siehe Projektile, Zauber & Effekte

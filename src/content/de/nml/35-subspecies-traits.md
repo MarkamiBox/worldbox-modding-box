@@ -8,11 +8,11 @@ order: 104
 
 # Unterarten-Eigenschaften :wbelf:
 
-Eine **Unterart** ist ein evolutionär abgedrifteter Zweig einer Spezies: langlebiger, geschuppt, eierlegend, im Dunkeln leuchtend. Sie verbreitet sich über **Fortpflanzung**, nicht über Erziehung oder Bildung, und sie ist das einzige Eigenschaftssystem, das eigene Sprites mitbringt. Aus diesem Grund kann eine Unterart visuell völlig anders aussehen als ihre Ursprungsspezies, ohne ein eigenständiger Actor sein zu müssen.
+Eine **Unterart** (subspecies) ist ein evolutionär abgedrifteter Zweig einer Spezies: langlebiger, geschuppt, eierlegend, im Dunkeln leuchtend. Sie verbreitet sich über **Fortpflanzung**, nicht über Erziehung oder Bildung, und sie ist das einzige Eigenschaftssystem, das eigene Sprites mitbringt. Aus diesem Grund kann eine Unterart visuell völlig anders aussehen als ihre Ursprungsspezies, ohne ein eigenständiger Actor sein zu müssen.
 
 | | |
 | --- | --- |
-| Bibliothek | `AssetManager.subspecies_traits` |
+| Bibliothek (library) | `AssetManager.subspecies_traits` |
 | Klasse | `SubspeciesTrait` |
 | Gruppen | `AssetManager.subspecies_trait_groups`, Klasse `SubspeciesTraitGroupAsset` |
 | Besitzer zur Laufzeit | `Subspecies`, in `World.world.subspecies` |
@@ -20,11 +20,11 @@ Eine **Unterart** ist ein evolutionär abgedrifteter Zweig einer Spezies: langle
 | Standard-Icon-Ordner | `ui/Icons/subspecies_traits/` |
 
 > [!WARNING] Eine Unterart **ersetzt** die Stats des Actor-Assets
-> In `Actor.updateStats()` verschmilzt eine Einheit mit Unterart die Werte von `subspecies.base_stats` und *überspringt* `asset.base_stats` vollständig. Es ist ein Entweder-oder, kein additiver Stapel.
+> In `Actor.updateStats()` verschmilzt eine Einheit mit Unterart die Werte (stats) von `subspecies.base_stats` und *überspringt* `asset.base_stats` vollständig. Es ist ein Entweder-oder, kein additiver Stapel.
 >
 > Jeder Wert, den du auf `human` konfigurierst, ist für jeden Menschen mit einer Unterart völlig unsichtbar – und in einer Welt, die eine Weile läuft, sind das die allermeisten :PES4_IDunnoMan:.
 
-Eine Unterart wendet darüber hinaus zwar separate männliche und weibliche Werteblöcke an, diese stammen jedoch **nicht** aus ihren Eigenschaften. Sie stammen aus ihrem Genom in `AssetManager.gene_library`. Eine Unterarten-Eigenschaft besitzt ein einziges `base_stats` für alle. Wenn du eine Geschlechtertrennung aus einer Eigenschaft willst, ist das eine Clan-Eigenschaft, siehe **[Clan-Eigenschaften](#/nml/clan-traits)**.
+Eine Unterart wendet darüber hinaus zwar separate männliche und weibliche Werteblöcke an, diese stammen jedoch **nicht** aus ihren Eigenschaften (trait). Sie stammen aus ihrem Genom in `AssetManager.gene_library`. Eine Unterarten-Eigenschaft besitzt ein einziges `base_stats` für alle. Wenn du eine Geschlechtertrennung aus einer Eigenschaft willst, ist das eine Clan-Eigenschaft, siehe **[Clan-Eigenschaften](#/nml/clan-traits)**.
 
 ## Eine registrieren
 
@@ -216,5 +216,5 @@ if (asset != null) asset.addSubspeciesTrait(HelloSubspecies.SCALES);
 
 Damit startet jede neue Unterart dieser Kreatur mit dem Merkmal. Lässt du das weg und verlässt dich stattdessen auf `in_mutation_pot_add`, erscheint es von selbst, irgendwo, irgendwann, und das ist meistens die interessantere Version.
 
-> [!TIP] Zauber sind hier gut aufgehoben
+> [!TIP] Zauber (spell) sind hier gut aufgehoben
 > Die magischen Blutlinien in Vanilla sind Unterart-Merkmale, die einen Zauber gewähren und sonst nichts: `trait.addSpell("summon_lightning")`, dann `trait.linkSpells()`, weil die Bibliothek Zauber-IDs beim Start aufgelöst hat. Zwei Zeilen, von Kindern geerbt, und es entsteht eine sichtbare Abstammungslinie von Sturmrufern über einen ganzen Kontinent :PES5_CrazyPog:.

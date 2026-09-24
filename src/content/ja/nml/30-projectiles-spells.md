@@ -14,7 +14,7 @@ order: 148
 | --- | --- |
 | `AssetManager.projectiles` | AからBへ飛ぶもの：矢、火炎瓶、投げられた松明 |
 | `AssetManager.spells` | ユニットが自発的に詠唱するもの（マナ消費、AI発動確率） |
-| `AssetManager.effects_library` | 視覚効果：爆発、雲、閃光、煙 |
+| `AssetManager.effects_library` | 視覚効果：爆発、雲（cloud）、閃光、煙 |
 
 ## 投射物
 
@@ -91,7 +91,7 @@ World.world.projectiles.spawn(
 
 どちらの座標も `Vector3` です。タイルの `posV3` はそのまま渡せますが、ユニットの `current_position` は `Vector2` なので変換が必要です。
 
-クローン元におすすめのバニラ投射物ID：`arrow` · `snowball` · `firebomb` · `torch`。
+クローン元におすすめのバニラ投射物（projectile）ID：`arrow` · `snowball` · `firebomb` · `torch`。
 
 ### 自作スプライトを使用する
 
@@ -116,7 +116,7 @@ bolt.texture = "hello_bolt";   // "effects/projectiles/hello_bolt" は不可
 
 ## 呪文
 
-呪文とは、プレイヤーの指示なしにユニットが自力で詠唱する能力です。AIが `chance`, `cost_mana`, `min_distance` に基づいて使用タイミングを判定します。
+呪文（spell）とは、プレイヤーの指示なしにユニットが自力で詠唱する能力です。AIが `chance`, `cost_mana`, `min_distance` に基づいて使用タイミングを判定します。
 
 ```csharp
 SpellAsset bolt = new SpellAsset
@@ -156,7 +156,7 @@ item.linkSpells();
 actorAsset.spell_ids = new List<string> { "hello_bolt" };
 ```
 
-`addSpell()` はIDを追加するだけです。ライブラリはあなたのModより前、起動時に `linkAssets()` でIDを呪文に変換します。自分で登録した特性やアイテムで `linkSpells()` を省くと、何も与えられず、しかも何も言われません。
+`addSpell()` はIDを追加するだけです。ライブラリはあなたのModより前、起動時に `linkAssets()` でIDを呪文に変換します。自分で登録した特性（trait）やアイテムで `linkSpells()` を省くと、何も与えられず、しかも何も言われません。
 
 読む価値のあるバニラの呪文ID：`teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`。
 
@@ -234,7 +234,7 @@ namespace HelloBox
 | `can_do_action` | ターゲットを受け取る、あなたの条件 |
 
 > [!WARNING] 与えられるのは特性からだけ
-> ユニットは戦闘アクションを、特性と、亜種・氏族・宗教から集め、装備からは決して集めません。特性はIDを保持し、ゲームは起動時にIDをオブジェクトに変換しています：`addCombatAction()` の後で `linkCombatActions()` を呼ばないと、その特性は誰も使わない技を抱えたままになります :PES2_Shrug:。
+> ユニットは戦闘アクションを、特性と、亜種（subspecies）・氏族（clan）・宗教（religion）から集め、装備からは決して集めません。特性はIDを保持し、ゲームは起動時にIDをオブジェクトに変換しています：`addCombatAction()` の後で `linkCombatActions()` を呼ばないと、その特性は誰も使わない技を抱えたままになります :PES2_Shrug:。
 
 ## エフェクト
 

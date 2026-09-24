@@ -14,7 +14,7 @@ order: 148
 | --- | --- |
 | `AssetManager.projectiles` | A에서 B로 날아가는 것: 화살, 화염병, 던져진 횃불 |
 | `AssetManager.spells` | 마나를 소모하고 AI 확률에 따라 유닛이 스스로 시전하는 것 |
-| `AssetManager.effects_library` | 시각 연출: 폭발, 구름, 섬광, 연기 피어오름 |
+| `AssetManager.effects_library` | 시각 연출: 폭발, 구름 (cloud), 섬광, 연기 피어오름 |
 
 ## 투사체
 
@@ -91,7 +91,7 @@ World.world.projectiles.spawn(
 
 두 위치 좌표는 모두 `Vector3`입니다. 타일의 `posV3`를 가져오는 것이 가장 간단하며, 유닛의 `current_position`은 `Vector2`이므로 사전 변환이 필요합니다.
 
-클론하기 좋은 바닐라 투사체 ID: `arrow` · `snowball` · `firebomb` · `torch`.
+클론하기 좋은 바닐라 투사체 (projectile) ID: `arrow` · `snowball` · `firebomb` · `torch`.
 
 ### 나만의 스프라이트 등록
 
@@ -158,7 +158,7 @@ actorAsset.spell_ids = new List<string> { "hello_bolt" };
 
 `addSpell()`은 ID를 추가할 뿐입니다. 라이브러리는 여러분의 모드보다 먼저, 시작할 때 `linkAssets()`에서 ID를 주문으로 바꿉니다. 직접 등록한 특성이나 아이템에서 `linkSpells()`를 빼먹으면 아무것도 주지 않고, 조용히 넘어갑니다.
 
-읽어 볼 만한 바닐라 주문 ID: `teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`.
+읽어 볼 만한 바닐라 주문 (spell) ID: `teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`.
 
 ## 전투 액션
 
@@ -234,7 +234,7 @@ namespace HelloBox
 | `can_do_action` | 목표를 받아 판단하는 여러분의 조건 |
 
 > [!WARNING] 특성만이 이것을 나눠 줍니다
-> 유닛은 전투 행동을 특성과, 아종·씨족·종교에서 모으며, 장비에서는 절대 모으지 않습니다. 특성은 ID를 보관하고, 게임은 시작할 때 ID를 객체로 바꿨습니다: `addCombatAction()` 다음에 `linkCombatActions()`를 호출하세요. 그러지 않으면 그 특성은 아무도 쓰지 않는 기술을 들고 다니게 됩니다 :PES2_Shrug:.
+> 유닛은 전투 행동을 특성과, 아종 (subspecies)·씨족 (clan)·종교에서 모으며, 장비에서는 절대 모으지 않습니다. 특성은 ID를 보관하고, 게임은 시작할 때 ID를 객체로 바꿨습니다: `addCombatAction()` 다음에 `linkCombatActions()`를 호출하세요. 그러지 않으면 그 특성은 아무도 쓰지 않는 기술을 들고 다니게 됩니다 :PES2_Shrug:.
 
 ## 이펙트
 

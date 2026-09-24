@@ -8,9 +8,9 @@ order: 179
 
 # Tipi di guerra :wbmartialwarfare:
 
-Ogni guerra del gioco ha un tipo: una normale conquista, una guerra di rancore contro tutti, una ribellione. Il tipo decide come la guerra prende il nome, quale icona mostra, se gli alleati si uniscono e qualche regola su come può finire. In vanilla ce ne sono solo cinque, quindi uno nuovo si nota.
+Ogni guerra (war) del gioco ha un tipo: una normale conquista, una guerra di rancore contro tutti, una ribellione. Il tipo decide come la guerra prende il nome, quale icona mostra, se gli alleati si uniscono e qualche regola su come può finire. In vanilla ce ne sono solo cinque, quindi uno nuovo si nota.
 
-Questa pagina crea la **Faida di Brace**: una guerra che trascina dentro gli alleati di entrambe le parti, riceve nomi come "Cinder Feud of Karvia" e si può chiudere con un complotto di pace come una guerra normale.
+Questa pagina crea la **Faida di Brace**: una guerra che trascina dentro gli alleati di entrambe le parti, riceve nomi come "Cinder Feud of Karvia" e si può chiudere con un complotto (plot) di pace come una guerra normale.
 
 ## Il codice
 
@@ -89,7 +89,7 @@ namespace HelloBox
 | `path_icon` | L'icona della guerra, caricata esattamente come scritta |
 | `kingdom_for_name_attacker` | Il nome di chi riempie `$kingdom$`: l'attaccante (`true`) o il difensore (`false`) |
 | `alliance_join` | Le alleanze di entrambe le parti entrano in guerra quando comincia |
-| `total_war` | L'attaccante è in guerra con **tutti** i regni, come nelle guerre di rancore. Avviala senza difensore |
+| `total_war` | L'attaccante è in guerra con **tutti** i regni (kingdom), come nelle guerre di rancore. Avviala senza difensore |
 | `rebellion` | La segna come ribellione, il che cambia chi può unirsi a chi |
 | `can_end_with_plot` | Un re può chiuderla con il complotto di pace, quando è abbastanza vecchia |
 | `forced_war` | Letto solo da una funzione di supporto che al momento nessuno chiama. Lascialo spento |

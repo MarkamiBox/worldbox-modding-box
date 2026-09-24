@@ -8,13 +8,13 @@ order: 148
 
 # Projectiles, sorts et effets :wblightning:
 
-Trois bibliothèques compactes qui interviennent constamment dès que vous commencez à déclencher des événements sur la carte :
+Trois bibliothèques (library) compactes qui interviennent constamment dès que vous commencez à déclencher des événements sur la carte :
 
 | | |
 | --- | --- |
 | `AssetManager.projectiles` | Tout ce qui vole d'un point A à un point B : flèche, bombe incendiaire, torche lancée |
 | `AssetManager.spells` | Ce qu'une unité peut lancer d'elle-même, avec un coût en mana et une probabilité IA |
-| `AssetManager.effects_library` | Du pur visuel : explosion, nuage, flash lumineux, panache de fumée |
+| `AssetManager.effects_library` | Du pur visuel : explosion, nuage (cloud), flash lumineux, panache de fumée |
 
 ## Projectiles
 
@@ -89,7 +89,7 @@ World.world.projectiles.spawn(
     pTargetPosition: target.current_tile.posV3);
 ```
 
-Les deux positions attendent un `Vector3`. Le `posV3` d'une tuile est le plus pratique ; le `current_position` d'une créature est un `Vector2` et doit d'abord être converti.
+Les deux positions attendent un `Vector3`. Le `posV3` d'une tuile (tile) est le plus pratique ; le `current_position` d'une créature est un `Vector2` et doit d'abord être converti.
 
 Identifiants vanilla à cloner : `arrow` · `snowball` · `firebomb` · `torch`.
 
@@ -142,7 +142,7 @@ bolt.action = (BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile) =>
 AssetManager.spells.add(bolt);
 ```
 
-`action` est un délégué `AttackAction`, la même signature que les modificateurs d'armes : le corps d'un sort et celui d'un enchantement sont donc parfaitement interchangeables.
+`action` est un délégué `AttackAction`, la même signature que les modificateurs (modifier) d'armes : le corps d'un sort et celui d'un enchantement sont donc parfaitement interchangeables.
 
 ### Donner un sort à une entité
 
@@ -230,11 +230,11 @@ namespace HelloBox
 | --- | --- |
 | `chance` | Tiré quand l'action est possible, augmenté par le `skill_combat` de l'unité |
 | `cost_stamina` / `cost_mana` | Payé à l'utilisation. Pas assez, pas d'option |
-| `cooldown` | Secondes du statut `recovery_combat_action` ensuite, qui bloque toute action de combat |
+| `cooldown` | Secondes du statut (status) `recovery_combat_action` ensuite, qui bloque toute action de combat |
 | `can_do_action` | Votre condition, à partir de la cible |
 
 > [!WARNING] Seuls les traits les distribuent
-> Une unité récupère ses actions de combat depuis ses traits et depuis sa sous-espèce, son clan et sa religion, jamais depuis son équipement. Le trait garde des ids, et le jeu a transformé les ids en objets au démarrage : appelez `linkCombatActions()` après `addCombatAction()`, sinon le trait porte un mouvement que personne ne fait jamais :PES2_Shrug:.
+> Une unité récupère ses actions de combat depuis ses traits et depuis sa sous-espèce (subspecies), son clan et sa religion, jamais depuis son équipement. Le trait garde des ids, et le jeu a transformé les ids en objets au démarrage : appelez `linkCombatActions()` après `addCombatAction()`, sinon le trait porte un mouvement que personne ne fait jamais :PES2_Shrug:.
 
 ## Effets
 

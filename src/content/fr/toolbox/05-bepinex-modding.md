@@ -31,7 +31,7 @@ Si vous ajoutez du contenu de jeu, faites un mod NML. Si vous créez des outils 
 
 ## 2. Configuration du projet
 
-Ouvrez un terminal dans le dossier de vos projets et générez une nouvelle bibliothèque de classes :
+Ouvrez un terminal dans le dossier de vos projets et générez une nouvelle bibliothèque (library) de classes :
 
 ```bash
 dotnet new classlib -n HelloBepInEx -f net472

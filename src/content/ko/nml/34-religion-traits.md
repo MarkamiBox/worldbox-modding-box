@@ -8,7 +8,7 @@ order: 108
 
 # 종교 특성 :wbpray:
 
-**종교**는 도시와 왕국에 속하며 개종을 통해 확산되고, 경전을 집필하며, **의식(Rite)**을 거행할 수 있습니다. 의식이란 신도들이 독자적으로 시도하는 세상을 뒤흔드는 음모입니다. 종교 특성은 바로 그러한 믿음 중 하나입니다.
+**종교** (religion)는 도시와 왕국에 속하며 개종을 통해 확산되고, 경전을 집필하며, **의식(Rite)**을 거행할 수 있습니다. 의식이란 신도들이 독자적으로 시도하는 세상을 뒤흔드는 음모입니다. 종교 특성은 바로 그러한 믿음 중 하나입니다.
 
 | | |
 | --- | --- |
@@ -20,7 +20,7 @@ order: 108
 | 기본 아이콘 폴더 | `ui/Icons/religion_traits/` |
 
 > [!WARNING] 종교 스탯은 유닛에게 도달하지 않습니다
-> 종교는 `base_stats` 가 `Actor` 에게 결코 전달되지 않는 유일한 특성 시스템입니다. `Actor.updateStats()` 가 합성하는 대상은 아종, 가문, 언어, 문화뿐입니다. **종교는 이 목록에 없습니다.**
+> 종교는 `base_stats` 가 `Actor` 에게 결코 전달되지 않는 유일한 특성 (trait) 시스템입니다. `Actor.updateStats()` 가 합성하는 대상은 아종 (subspecies), 가문, 언어, 문화뿐입니다. **종교는 이 목록에 없습니다.**
 >
 > 따라서 종교 특성은 수치가 아니라 그것이 *수행하는 행위*(의식, 지형 변환, 액션 훅)를 통해 세상에 변화를 줍니다. 여기에 `base_stats["damage"] = 10` 을 작성하는 것은 아무런 효과가 없는 무의미한 짓이며, 이 페이지에서 가장 흔히 낭비되는 오후 시간입니다 :PES4_BigSad:.
 
@@ -67,7 +67,7 @@ namespace HelloBox
 
 ## 의식: `plot_id` 필드
 
-`plot_id` 가 설정된 종교 특성은 **의식(Rite)**이 됩니다. 종교는 의식들을 `possible_rites` 에 수집하며, 음모 조건이 충족되면 지도자와 사제들이 자발적으로 실행을 시도합니다. 여러분은 믿음을 쓰고, 나머지는 사제들이 합니다 :wbpray:.
+`plot_id` 가 설정된 종교 특성은 **의식(Rite)**이 됩니다. 종교는 의식들을 `possible_rites` 에 수집하며, 음모 (plot) 조건이 충족되면 지도자와 사제들이 자발적으로 실행을 시도합니다. 여러분은 믿음을 쓰고, 나머지는 사제들이 합니다 :wbpray:.
 
 ```csharp
 trait.plot_id = "summon_meteor_rain";
@@ -80,7 +80,7 @@ trait.plot_id = "summon_meteor_rain";
 | PlotAsset 필드 | 역할 |
 | --- | --- |
 | `can_be_done_by_king`, `can_be_done_by_leader`, `can_be_done_by_clan_member` | 누가 음모를 시작할 수 있는지 |
-| `min_intelligence`, `min_diplomacy`, `min_warfare`, `min_stewardship` | 능력치 조건 |
+| `min_intelligence`, `min_diplomacy`, `min_warfare`, `min_stewardship` | 능력치 (stats) 조건 |
 | `min_level`, `min_renown_actor`, `min_renown_kingdom` | 레벨 및 명성 조건 |
 | `progress_needed`, `money_cost` | 소요 기간 및 금전 비용 |
 | `pot_rate`, `rarity` | AI가 이를 선택하는 빈도 |

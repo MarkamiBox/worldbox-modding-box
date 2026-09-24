@@ -49,7 +49,7 @@ namespace HelloBox
 008: Init Mod HelloBox                   = 0,0014
 ```
 
-逐行解释：NML 编译了 `Code/` 中的文件，加载了你的素材资源，然后调用了 `OnModLoad`，输出了你的那一行文字。带编号的行是 NML 对每个步骤的耗时统计：`=` 后面的数字是秒数，有时会在日志里显示为红色。**这里的红色并不代表报错**，只说明该步骤是耗时最长的一个环节 :hmm:。
+逐行解释：NML 编译了 `Code/` 中的文件，加载了你的素材资源（resource），然后调用了 `OnModLoad`，输出了你的那一行文字。带编号的行是 NML 对每个步骤的耗时统计：`=` 后面的数字是秒数，有时会在日志里显示为红色。**这里的红色并不代表报错**，只说明该步骤是耗时最长的一个环节 :hmm:。
 
 最关键的是你自己输出的那行内容。如果没有看到 `[HelloBox]: HelloBox is alive!`，请继续往下阅读。
 
@@ -124,7 +124,7 @@ private static void Stage(string pName, System.Action pAction)
 }
 ```
 
-这样一来，某个特质写崩了也只会丢失该特质，而不至于拖垮整个 Mod，日志也会清楚标明是哪个环节出了差错：
+这样一来，某个特质（trait）写崩了也只会丢失该特质，而不至于拖垮整个 Mod，日志也会清楚标明是哪个环节出了差错：
 
 ```text Player.log
 [NML]: [HelloBox]: stage 'items' failed: NullReferenceException ...
@@ -169,7 +169,7 @@ public static WorldTile PickTile(Actor pActor)
 > [!NOTE] 如果你真的要打开 `Config.isEditor`
 > `Config.isEditor` 是游戏内部的 Unity 开关。手动打开它，WorldBox 会以为自己在 Unity 编辑器里运行，部分界面会切换成移动端布局。在新版 NML 中使用 `IReloadable` 就用不到它，所以别去碰它。
 
-不支持的范围：`Awake`、`Update` 等 Unity 原生生命周期回调、构造函数，以及游戏已经根据旧代码实例化的持久化数据。启动时注册的资产仍会保留当时赋予的委托回调，因此应在 `Reload()` 方法中手动重新赋值更新。
+不支持的范围：`Awake`、`Update` 等 Unity 原生生命周期回调、构造函数，以及游戏已经根据旧代码实例化的持久化数据。启动时注册的资产（asset）仍会保留当时赋予的委托回调，因此应在 `Reload()` 方法中手动重新赋值更新。
 
 ## 每个人都会踩一遍的经典错误
 

@@ -8,7 +8,7 @@ order: 124
 
 # アイテムグループとタブ :wbgold:
 
-アイテムグループとは、装備ウィンドウ内の分類カテゴリです（兜、剣、アミュレットなど）。これは特性タブを描画するのと同一の小さな `BaseCategoryAsset` であり（**[特性グループとタブ](#/nml/trait-groups)** を参照）、`AssetManager.item_groups` に格納されています。
+アイテムグループとは、装備ウィンドウ内の分類カテゴリです（兜、剣、アミュレットなど）。これは特性（trait）タブを描画するのと同一の小さな `BaseCategoryAsset` であり（**[特性グループとタブ](#/nml/trait-groups)** を参照）、`AssetManager.item_groups` に格納されています。
 
 大きな違いは、アイテムグループが内部に**プール（抽選枠）**を保持している点であり、このプールを作り忘れるとMODがクラッシュします :PESgn_Yikes:。
 
@@ -132,7 +132,7 @@ relic.equipment_subtype = "hello_relic";       // 文化特性が参照する武
 | --- | --- |
 | `group_id` | ウィンドウのどの**タブ**の下に表示されるか |
 | `equipment_type` | 身体のどの**スロット**に装着されるか: `Weapon`, `Helmet`, `Armor`, `Boots`, `Ring`, `Amulet` |
-| `equipment_subtype` | どの**武器クラス**に属するか: `sword`, `axe`, `bow`… 文化特性の好みの対象 |
+| `equipment_subtype` | どの**武器クラス**に属するか: `sword`, `axe`, `bow`… 文化（culture）特性の好みの対象 |
 
 新しいグループを作っても、新しい装備スロットが手に入るわけでは**ありません**。`EquipmentType` はゲームアセンブリ内で固定された列挙型であるため、自作の遺物（Relics）はアミュレットのスロットを占有しつつ、ウィンドウ内では独立した専用の棚を得ることになります。
 

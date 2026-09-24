@@ -10,10 +10,10 @@ order: 8
 
 代码告诉你*该怎么写*。而 **AssetRipper** 则能让你看清美术素材长什么样，更重要的是，**它在游戏里的真实路径到底是什么**。
 
-WorldBox 中的每一个图标、生物单位、建筑和粒子特效，都是通过类似 `ui/Icons/iconFly` 这样的字符串路径进行加载的。一旦路径写错一个字母，你的按钮就会变成界面上的一个隐形黑洞。AssetRipper 能让你彻底告别盲猜。
+WorldBox 中的每一个图标、生物单位、建筑（building）和粒子特效，都是通过类似 `ui/Icons/iconFly` 这样的字符串路径进行加载的。一旦路径写错一个字母，你的按钮就会变成界面上的一个隐形黑洞。AssetRipper 能让你彻底告别盲猜。
 
 > [!TIP] 如果你只需要路径，完全不需要做这些
-> 本站的 **[图标搜索](#/tools/icons)** 就是基于这次导出的资源构建的：游戏中所有的资源路径都可以轻松搜索。只有当你想要亲眼*查看*美术素材、选取合适尺寸或匹配调色盘时，才需要自己提取游戏资源。本页接下来的内容正是为此准备的 :PES4_HappyAwesome:.
+> 本站的 **[图标搜索](#/tools/icons)** 就是基于这次导出的资源（resource）构建的：游戏中所有的资源路径都可以轻松搜索。只有当你想要亲眼*查看*美术素材、选取合适尺寸或匹配调色盘时，才需要自己提取游戏资源。本页接下来的内容正是为此准备的 :PES4_HappyAwesome:.
 
 ## 导出游戏资源
 
@@ -38,11 +38,11 @@ ExportedProject/Assets/Resources/ui/Icons/iconFly.png
 
 | 文件夹 | 里面存放的内容 |
 | --- | --- |
-| `ui/Icons/` | 界面所有小型图标：特质、上帝力量、功能按钮 |
-| `ui/Icons/worldrules/` | 世界法则图标 |
+| `ui/Icons/` | 界面所有小型图标：特质（trait）、上帝力量、功能按钮 |
+| `ui/Icons/worldrules/` | 世界法则（world law）图标 |
 | `actors/` | 生物单位及其各帧动作动画 |
 | `buildings/` | 房屋建筑、树木植被、矿石资源 |
-| `effects/` | 爆炸特效、投射物、状态效果贴图 |
+| `effects/` | 爆炸特效、投射物（projectile）、状态效果（status）贴图 |
 
 ## 在你的 Mod 中直接调用
 
@@ -52,7 +52,7 @@ ExportedProject/Assets/Resources/ui/Icons/iconFly.png
 Sprite icon = SpriteTextureLoader.getSprite("ui/Icons/iconFly");
 ```
 
-或者在定义资产时直接把它赋值给字符串字段：
+或者在定义资产（asset）时直接把它赋值给字符串字段：
 
 ```csharp
 trait.path_icon = "ui/Icons/iconFly";

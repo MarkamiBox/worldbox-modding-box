@@ -40,7 +40,7 @@ worldbox/ (C:\Program Files (x86)\Steam\steamapps\common\worldbox\)
 
 내가 만들 커스텀 창을 게임 기본 창과 똑같은 모양으로 만들고 싶다면 다음과 같이 하세요:
 
-1. 게임 내에서 원하는 창(예: 세계 법칙 창)을 엽니다.
+1. 게임 내에서 원하는 창(예: 세계 법칙 (world law) 창)을 엽니다.
 2. F7을 누르고 **Object Explorer → Scene Explorer**로 이동한 뒤, `CanvasMain` → `canvas_ui`를 차례로 펼칩니다.
 3. 하위 항목들을 하나씩 클릭하면서, 하이라이트 표시되는 오브젝트가 방금 연 창과 일치할 때까지 찾습니다.
 4. Inspector에서 해당 창의 컴포넌트들을 살펴봅니다: 9-슬라이스 스프라이트가 적용된 `Image`, `RectTransform` 크기, `ScrollRect` 등.

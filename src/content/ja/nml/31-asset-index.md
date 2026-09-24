@@ -37,9 +37,9 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 | ライブラリ | アセット | 保持内容 |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | 全クリーチャー種族。**[カスタムアクター](#/nml/custom-actors)** |
-| `traits` | `ActorTrait` | アクター特性。**[カスタム特性](#/nml/custom-traits)** |
+| `traits` | `ActorTrait` | アクター特性（trait）。**[カスタム特性](#/nml/custom-traits)** |
 | `trait_groups` | `ActorTraitGroupAsset` | 特性タブ。**[特性グループとタブ](#/nml/trait-groups)** |
-| `subspecies_traits` | `SubspeciesTrait` | 亜種特性とグラフィック。**[亜種特性](#/nml/subspecies-traits)** |
+| `subspecies_traits` | `SubspeciesTrait` | 亜種（subspecies）特性とグラフィック。**[亜種特性](#/nml/subspecies-traits)** |
 | `subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | 亜種特性タブ |
 | `phenotype_library` | `PhenotypeAsset` | 肌色や色彩バリエーション |
 | `gene_library` | `GeneAsset` | 遺伝子 |
@@ -66,7 +66,7 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 | `opinion_library` | `OpinionAsset` | 外交感情の算出要素 |
 | `happiness_library` | `HappinessAsset` | 幸福度の算出要素 |
 | `plots_library` / `plot_category_library` | `PlotAsset` | ユニットや国家が企てる陰謀 |
-| `decisions_library` | `DecisionAsset` | AIの意思決定 |
+| `decisions_library` | `DecisionAsset` | AIの意思決定（decision） |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | ユニット間の会話トピック |
 | `book_types` | `BookTypeAsset` | 書物の種類。**[本](#/nml/books)** |
 | `knowledge_library` | `KnowledgeAsset` | 知識ウィンドウの項目 |
@@ -88,7 +88,7 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 | `projectiles` | `ProjectileAsset` | 飛翔体。**[投射物、呪文、エフェクト](#/nml/projectiles-spells)** |
 | `effects_library` | `EffectAsset` | 視覚効果エフェクト |
 | `months` | `MonthAsset` | 暦・月 |
-| `era_library` | `WorldAgeAsset` | 世界の時代区分 |
+| `era_library` | `WorldAgeAsset` | 世界の時代（world age）区分 |
 | `time_scales` | `WorldTimeScaleAsset` | ゲーム進行速度 |
 | `map_sizes` | `MapSizeAsset` | マップサイズ定義 |
 | `map_gen_settings` / `map_gen_templates` | `MapGenSettingsAsset` | ワールド自動生成設定 |
@@ -104,7 +104,7 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 | `item_groups` | `ItemGroupAsset` | 装備カテゴリ。**[アイテムグループとタブ](#/nml/item-groups)** |
 | `unit_hand_tools` | `UnitHandToolAsset` | ユニットが労働時に持つ手持ち道具 |
 | `status` | `StatusAsset` | ステータス効果。**[ステータス効果](#/nml/status-effects)** |
-| `spells` | `SpellAsset` | ユニットが自発詠唱する呪文 |
+| `spells` | `SpellAsset` | ユニットが自発詠唱する呪文（spell） |
 | `combat_action_library` | `CombatActionAsset` | 戦闘アクション |
 | `rarity_library` | `RarityAsset` | レア度ランク |
 
@@ -114,7 +114,7 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 | --- | --- | --- |
 | `powers` | `GodPower` | 神の力。**[神の力（God powers）](#/nml/god-powers)** |
 | `power_tab_library` | `PowerTabAsset` | 下部ツールバーのタブ。**[パワーのタブとボタン](#/nml/power-buttons)** |
-| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | 世界の法則。**[世界の法則](#/nml/world-laws)** |
+| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | 世界の法則（world law）。**[世界の法則](#/nml/world-laws)** |
 | `brush_library` | `BrushData` | ブラシサイズ |
 | `hotkey_library` | `HotkeyAsset` | キーボードショートカット |
 | `debug_tool_library` | `DebugToolAsset` | デバッグツール群 |
@@ -138,7 +138,7 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 | ライブラリ | アセット | 保持内容 |
 | --- | --- | --- |
 | `window_library` | `WindowAsset` | ウィンドウ。**[カスタムウィンドウ](#/nml/custom-windows)** |
-| `list_window_library` | `ListWindowAsset` | 一覧ウィンドウ（王国リスト、都市リスト等） |
+| `list_window_library` | `ListWindowAsset` | 一覧ウィンドウ（王国（kingdom）リスト、都市リスト等） |
 | `tooltips` | `TooltipAsset` | ツールチップレイアウト |
 | `nameplates_library` | `NameplateAsset` | 頭上のネームプレート |
 | `options_library` | `OptionAsset` | ゲーム設定項目 |
@@ -183,7 +183,7 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 | `music_box` | `MusicAsset` | 楽曲トラック |
 | `game_language_library` | `GameLanguageAsset` | ゲームのUI言語定義 |
 | `locale_groups_library` | `LocaleGroupAsset` | ロケールグループ |
-| `achievements` / `achievement_groups` | `Achievement` | 実績 |
+| `achievements` / `achievement_groups` | `Achievement` | 実績（achievement） |
 | `signals` | `SignalAsset` | 内部シグナル配信システム |
 
 ---

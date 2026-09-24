@@ -8,7 +8,7 @@ order: 180
 
 # Pläne & Intrigen :wbrebellion:
 
-Ein **Plan** (Plot) ist ein Vorhaben, das ein Herrscher beginnt, finanziert und über einige Zeit hinweg vorantreibt: eine Rebellion, ein neuer Krieg, eine Allianz. Sobald der Fortschrittsbalken voll ist, wird dein Code ausgeführt. Alles zwischen „jemand könnte“ und „jemand hat es getan“ übernimmt die spielinterne Mechanik – und genau das ist der Grund, sie zu nutzen: Der Spieler sieht dein Vorhaben in der Liste der Pläne samt Urheber, Fortschritt und Banner, völlig kostenlos.
+Ein **Plan** (Plot) ist ein Vorhaben, das ein Herrscher beginnt, finanziert und über einige Zeit hinweg vorantreibt: eine Rebellion, ein neuer Krieg (war), eine Allianz. Sobald der Fortschrittsbalken voll ist, wird dein Code ausgeführt. Alles zwischen „jemand könnte“ und „jemand hat es getan“ übernimmt die spielinterne Mechanik – und genau das ist der Grund, sie zu nutzen: Der Spieler sieht dein Vorhaben in der Liste der Pläne samt Urheber, Fortschritt und Banner, völlig kostenlos.
 
 ## Einen Plan hinzufügen
 
@@ -86,7 +86,7 @@ Ein Anführer mit zehn Goldmünzen, einer Stadt und etwas Freizeit kann nun ein 
 | `min_level`, `min_renown_actor`, `min_renown_kingdom` | Schwellenwerte für den Initiator |
 | `min_intelligence`, `min_diplomacy`, `min_warfare`, `min_stewardship` | Stat-Schwellenwerte. Standardwert ist 2 |
 | `money_cost` | Kosten beim Start, sofern der Plan nicht vom Spieler erzwungen wurde |
-| `requires_diplomacy` / `requires_rebellion` | Nur aktiv, solange dieses Weltgesetz eingeschaltet ist |
+| `requires_diplomacy` / `requires_rebellion` | Nur aktiv, solange dieses Weltgesetz (world law) eingeschaltet ist |
 | `check_is_possible` | Deine Startbedingung. Zwingend erforderlich |
 
 ### Wie der Plan abläuft

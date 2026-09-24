@@ -18,10 +18,10 @@ order: 1
   - **Fortgeschritten & Veröffentlichung**: In-Game-Einstellungsmenüs, Harmony-Patches, Daten in Spielständen speichern und Veröffentlichung im Steam Workshop.
 - **Spielinhalte**: Was du tatsächlich in die Spielwelt einfügst, aufgeteilt in 7 klare Kategorien:
   - **Architektur & Stats**: Funktionsweise von Asset-Bibliotheken, Stats-Referenz und Asset-Index.
-  - **Eigenschaften & Genetik**: Einheiteneigenschaften, Eigenschaftsgruppen, Unterarten-Eigenschaften & Gene, Kultur, Religion, Clans, Sprachen und Königreich-Eigenschaften.
-  - **Gegenstände & Ausrüstung**: Eigene Waffen & Rüstungen, Modifikatoren & Materialien, Gegenstandsgruppen und Drops & Beute.
-  - **Kreaturen, Gebäude & KI**: Eigene Kreaturen, Gebäude, benutzerdefiniertes KI-Verhalten & Stadtberufe, Statuseffekte und Projektile & Zauber.
-  - **Welt & Zivilisationen**: Eigene Tiles, Biom-Wolken, Weltzeitalter, Weltgesetze, Königreiche & Diplomatie, Verschwörungen, Ressourcen und Katastrophen.
+  - **Eigenschaften (trait) & Genetik**: Einheiteneigenschaften, Eigenschaftsgruppen, Unterarten-Eigenschaften & Gene, Kultur (culture), Religion, Clans, Sprachen und Königreich-Eigenschaften.
+  - **Gegenstände (item) & Ausrüstung**: Eigene Waffen & Rüstungen, Modifikatoren & Materialien, Gegenstandsgruppen und Drops & Beute.
+  - **Kreaturen, Gebäude (building) & KI**: Eigene Kreaturen, Gebäude, benutzerdefiniertes KI-Verhalten & Stadtberufe, Statuseffekte und Projektile (projectile) & Zauber (spell).
+  - **Welt & Zivilisationen**: Eigene Tiles, Biom-Wolken, Weltzeitalter, Weltgesetze (world law), Königreiche (kingdom) & Diplomatie, Verschwörungen, Ressourcen (resource) und Katastrophen (disaster).
   - **Göttliche Kräfte & Benutzeroberfläche**: Gottkräfte & Pinsel, Kraft-Buttons und eigene Fenster mit Tabs & Tooltips.
   - **Feinschliff**: Eigene Errungenschaften im Spiel und Zusammenbau der fertigen Mod.
 - **Modding-Tools**: Interaktive Werkzeuge direkt im Guide (Harmony Patch Builder, Asset-Felder-Explorer, Methodensucher und Discord-Icon-Finder).

@@ -8,7 +8,7 @@ order: 124
 
 # 아이템 그룹 및 탭 :wbgold:
 
-아이템 그룹은 장비 창의 카테고리입니다(투구, 검, 부적 등). 이는 특성 탭을 그리는 것과 완전히 동일한 경량 `BaseCategoryAsset` 이며(**[특성 그룹 및 탭](#/nml/trait-groups)** 참조), `AssetManager.item_groups` 에 상주합니다.
+아이템 그룹은 장비 창의 카테고리입니다(투구, 검, 부적 등). 이는 특성 (trait) 탭을 그리는 것과 완전히 동일한 경량 `BaseCategoryAsset` 이며(**[특성 그룹 및 탭](#/nml/trait-groups)** 참조), `AssetManager.item_groups` 에 상주합니다.
 
 결정적인 차이점은 아이템 그룹이 **풀(Pool)**을 관리한다는 점이며, 이 풀을 누락하는 것이 모드 충돌의 가장 주된 원인입니다 :PESgn_Yikes:.
 
@@ -132,7 +132,7 @@ relic.equipment_subtype = "hello_relic";       // 문화 특성이 선호도를 
 | --- | --- |
 | `group_id` | 창의 어떤 **탭** 아래에 나타날지 |
 | `equipment_type` | 신체의 어떤 **슬롯**에 장착되는지: `Weapon`, `Helmet`, `Armor`, `Boots`, `Ring`, `Amulet` |
-| `equipment_subtype` | 어떤 **무기 분류**인지: `sword`, `axe`, `bow`… 문화 특성이 선호하는 대상 |
+| `equipment_subtype` | 어떤 **무기 분류**인지: `sword`, `axe`, `bow`… 문화 (culture) 특성이 선호하는 대상 |
 
 새로운 그룹을 만든다고 해서 새로운 장비 슬롯이 생기는 것은 **아닙니다**. `EquipmentType` 은 게임 어셈블리에 고정된 열거형이므로, 여러분의 성물(Relic)은 여전히 부적 슬롯을 공유하면서 창 안에서 별도의 전용 선반을 얻게 될 뿐입니다.
 

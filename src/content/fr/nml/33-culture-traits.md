@@ -10,7 +10,7 @@ order: 106
 
 Une **culture** désigne l'ensemble des habitudes partagées par un groupe de cités. Elle détermine ce qu'elles construisent, ce qu'elles forgent, comment elles héritent, ce qu'elles lisent et ce qu'elles valorisent. Un trait de culture est l'une de ces habitudes.
 
-Parmi les sept systèmes de traits, la culture est celui qui a la portée la plus vaste. Une culture se propage avec les villes, survit à son fondateur et injecte ses statistiques dans absolument chaque unité qui lui est affiliée. Si vous cherchez un mod dont l'effet se diffuse dans le monde entier sur une heure de jeu, c'est cette bibliothèque qu'il vous faut. Grande portée, grande responsabilité :PES5_Menace:.
+Parmi les sept systèmes de traits, la culture est celui qui a la portée la plus vaste. Une culture se propage avec les villes, survit à son fondateur et injecte ses statistiques (stats) dans absolument chaque unité qui lui est affiliée. Si vous cherchez un mod dont l'effet se diffuse dans le monde entier sur une heure de jeu, c'est cette bibliothèque (library) qu'il vous faut. Grande portée, grande responsabilité :PES5_Menace:.
 
 | | |
 | --- | --- |
@@ -146,5 +146,5 @@ foreach (Culture culture in World.world.cultures)
 if (actor.hasCultureTrait("hello_duellists")) { }
 ```
 
-> [!TIP] Culture ou sous-espèce ?
+> [!TIP] Culture ou sous-espèce (subspecies) ?
 > Les deux se transmettent, mais pas de la même façon. Un trait de **culture** se diffuse avec les cités et peut être adopté par quiconque les rejoint. Un trait de **sous-espèce** se transmet par la génétique et ne peut être obtenu autrement. "Les elfes tirent mieux à l'arc car c'est leur éducation" relève de la culture ; "les elfes tirent mieux grâce à leurs yeux" relève de la sous-espèce. Voir **[Traits de sous-espèce](#/nml/subspecies-traits)** :catnoted:.

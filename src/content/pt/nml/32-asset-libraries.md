@@ -8,7 +8,7 @@ order: 90
 
 # Bibliotecas de assets :wbbrain:
 
-Antes que qualquer uma das páginas seguintes faça sentido, você precisa desta. Absolutamente tudo no WorldBox (um traço, uma arma, uma construção, um ladrilho, uma nuvem, um reino) é um **asset** guardado em uma **biblioteca**, e cada biblioteca do jogo é a mesmíssima classe com os mesmíssimos quatro métodos.
+Antes que qualquer uma das páginas seguintes faça sentido, você precisa desta. Absolutamente tudo no WorldBox (um traço (trait), uma arma, uma construção (building), um ladrilho, uma nuvem (cloud), um reino (kingdom)) é um **asset** guardado em uma **biblioteca** (library), e cada biblioteca do jogo é a mesmíssima classe com os mesmíssimos quatro métodos.
 
 Aprenda-os uma vez aqui e as próximas trinta páginas viram apenas: "qual biblioteca, quais campos".
 
@@ -52,7 +52,7 @@ ActorTrait brave = AssetManager.traits.get("brave");
 if (brave == null) return;   // sempre. absolutamente todas as vezes.
 ```
 
-O fato de `get` retornar o objeto *vivo* é o recurso mais poderoso desta página. Significa que você pode alterar conteúdos vanilla sem precisar substituí-los:
+O fato de `get` retornar o objeto *vivo* é o recurso (resource) mais poderoso desta página. Significa que você pode alterar conteúdos vanilla sem precisar substituí-los:
 
 ```csharp
 // Torne os dragões vanilla mais resistentes sem mexer em mais nada deles.
@@ -70,7 +70,7 @@ Registra um novo asset. Três coisas fundamentais acontecem internamente:
    ```
    É assim que um mod quebra silenciosamente o outro. Use prefixos em seus ids.
 2. O método `create()` é executado no asset.
-3. **A biblioteca aloca o bloco de `base_stats`** (e `base_stats_meta`, se o asset possuir). É por isso que a regra de ouro em todo este guia é "atributos sempre após `add()`".
+3. **A biblioteca aloca o bloco de `base_stats`** (e `base_stats_meta`, se o asset possuir). É por isso que a regra de ouro em todo este guia é "atributos (stats) sempre após `add()`".
 
 ```csharp
 ActorTrait swift = new ActorTrait { id = SWIFT, group_id = "physique" };
@@ -98,7 +98,7 @@ shrine.base_stats["health"] = 200;         // já alocado, porque add() já rodo
 > [!WARNING] Nunca chame `add()` após `clone()`
 > Um segundo `add()` remove a primeira cópia, gera a mensagem `duplicate asset overwriting...` no log e a adiciona de novo. Funciona, mas polui os logs e dificulta enxergar os erros de verdade.
 
-Clonar é a melhor opção padrão para qualquer coisa com mais de dez campos: construções, atores, itens, ladrilhos. Você herda uma configuração estável e só precisa entender os campos que resolver modificar.
+Clonar é a melhor opção padrão para qualquer coisa com mais de dez campos: construções, atores, itens (item), ladrilhos. Você herda uma configuração estável e só precisa entender os campos que resolver modificar.
 
 ## Modelos
 

@@ -10,13 +10,13 @@ order: 171
 
 Un biome, c'est la partie du monde à laquelle tout le reste s'accroche : quel sol il peint, quels arbres et plantes y poussent, quelles créatures y entrent, et quels traits reçoit ce qui y naît. Un mod de biome ? Dans cette économie ? Oui, et c'est moins de travail qu'il n'y paraît, parce qu'un biome est surtout une liste d'ids des autres :PESgn_Noice:.
 
-Cette page crée les **Champs de Braise** : deux tuiles à eux, leurs propres graines, quelques créatures de savane, et un trait pour tout ce qui y naît.
+Cette page crée les **Champs de Braise** : deux tuiles (tile) à eux, leurs propres graines, quelques créatures de savane, et un trait pour tout ce qui y naît.
 
 ## Les morceaux
 
 Un biome n'est pas un asset, c'en est quatre qui pointent les uns vers les autres :
 
-| Morceau | Bibliothèque | Ce qu'il fait |
+| Morceau | Bibliothèque (library) | Ce qu'il fait |
 | --- | --- | --- |
 | `BiomeAsset` | `biome_library` | Le biome lui-même : ce qui pousse, ce qui apparaît, comment il s'étend |
 | Deux `TopTileType` | `top_tiles` | Le sol qu'il peint : un **bas** et un **haut** |
@@ -147,12 +147,12 @@ Ajoutez `HelloBiomes.Initialize();` dans `OnModLoad`, puis donnez un bouton au p
 | `grow_strength` | La force avec laquelle il pousse en s'étendant. 6 par défaut |
 | `cold_biome` / `dark_biome` | Des drapeaux que d'autres systèmes vérifient. À mettre seulement s'il est vraiment froid ou sombre |
 | `special_biome` | Marque les cas à part qui ne sont pas un biome vert normal. Vanilla l'utilise pour le sable et les collines |
-| `subspecies_name_suffix` | Des terminaisons latines pour les sous-espèces qui évoluent ici |
+| `subspecies_name_suffix` | Des terminaisons latines pour les sous-espèces (subspecies) qui évoluent ici |
 | `spawn_trait_actor`, `spawn_trait_subspecies`, `spawn_trait_culture`, `spawn_trait_clan`, `spawn_trait_language`, `spawn_trait_religion` | Les traits que peut recevoir ce qui est fondé ici |
 
 ### Ce qui pousse et ce qui apparaît
 
-`addTree`, `addPlant`, `addBush` et `addMineral` prennent un id de bâtiment et un poids. `addUnit` ajoute la faune, `addSapientUnit` les espèces qui peuvent fonder une civilisation ici. Le poids n'est pas un pourcentage, c'est combien de fois l'id entre dans le sac : `addUnit("buffalo", 2)` rend le buffle deux fois plus probable que la hyène.
+`addTree`, `addPlant`, `addBush` et `addMineral` prennent un id de bâtiment (building) et un poids. `addUnit` ajoute la faune, `addSapientUnit` les espèces qui peuvent fonder une civilisation ici. Le poids n'est pas un pourcentage, c'est combien de fois l'id entre dans le sac : `addUnit("buffalo", 2)` rend le buffle deux fois plus probable que la hyène.
 
 N'importe quel id marche, y compris vos propres créatures de **[Acteurs personnalisés](#/nml/custom-actors)**, tant qu'elles sont enregistrées avant le biome.
 

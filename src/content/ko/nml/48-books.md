@@ -84,13 +84,13 @@ namespace HelloBox
 }
 ```
 
-이 파일은 언어 특성 페이지의 `HelloBooks.cs` 를 **대체합니다**. 같은 클래스가 자란 모습입니다. `HelloBooks.Initialize()` 는 이 클래스가 쓰는 특성과 상태 뒤에 둡니다.
+이 파일은 언어 특성 (trait) 페이지의 `HelloBooks.cs` 를 **대체합니다**. 같은 클래스가 자란 모습입니다. `HelloBooks.Initialize()` 는 이 클래스가 쓰는 특성과 상태 뒤에 둡니다.
 
 ## 읽으면 얻는 것
 
 `base_stats` 의 숫자는 시간이 지나면 사라지는 버프가 아닙니다. 읽을 때마다 한 번씩 나눠 줍니다:
 
-| 능력치 | 읽은 사람이 받는 것 |
+| 능력치 (stats) | 읽은 사람이 받는 것 |
 | --- | --- |
 | `happiness` | 그만큼의 행복, "방금 책을 읽음" 이벤트로. 음수도 됩니다, 우울한 책용 |
 | `experience` | 그만큼의 경험치 |
@@ -99,7 +99,7 @@ namespace HelloBox
 
 마지막 줄이 강력합니다. `intelligence = 1` 을 주는 책은 책 읽는 도시를 세대마다 더 똑똑하게 만드니, 값을 작게 두세요. +10짜리 책이면 50년 안에 천재 왕국이 됩니다 :wbgenius:.
 
-언어와 문화 특성이 처음 두 개를 바꿀 수 있습니다: `beautiful_calligraphy` 를 가진 언어는 행복을 더 크게 만들고, `reading_lovers` 를 가진 문화는 슬픈 책을 즐거운 책으로 바꿉니다.
+언어와 문화 (culture) 특성이 처음 두 개를 바꿀 수 있습니다: `beautiful_calligraphy` 를 가진 언어는 행복을 더 크게 만들고, `reading_lovers` 를 가진 문화는 슬픈 책을 즐거운 책으로 바꿉니다.
 
 ## 중요한 필드
 

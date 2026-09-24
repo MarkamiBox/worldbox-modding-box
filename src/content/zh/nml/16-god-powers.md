@@ -8,7 +8,7 @@ order: 200
 
 # 神力 :wbgodfinger:
 
-神力就是当玩家选中你的工具并点击世界地图时发生的事情。生成生物、赋予祝福、或者引爆某些东西。
+神力（GodPower）就是当玩家选中你的工具并点击世界地图时发生的事情。生成生物、赋予祝福、或者引爆某些东西。
 
 这里涉及两件完全独立的事情，把它们混淆是初学者最经典的错误：
 
@@ -70,7 +70,7 @@ namespace HelloBox
 - **`rank = PowerRank.Rank0_free`**：一开始就能用，不需要解锁。
 - **`path_icon`**：光标/工具图标。
 - **`unselect_when_window`**：玩家打开窗口时，工具会自动取消选中，免得他们一不小心把面板后面的地图劈了。
-- **`click_action`**：你的代码。它接收**被点击的地块**和**神力 id**，如果做了事情就返回 `true`。
+- **`click_action`**：你的代码。它接收**被点击的地块（tile）**和**神力 id**，如果做了事情就返回 `true`。
 
 > [!WARNING] 点击的签名是 `(WorldTile, string)`
 > `click_action` 是一个 `PowerActionWithID`，所以它的第二个参数是**字符串形式的神力 id**，而不是 `GodPower`。还有另一个字段 `click_power_action`，它接收的是 `(WorldTile, GodPower)`。用错了形式，你会得到一个读起来毫无道理的编译错误 :PES_DaFuq:。
