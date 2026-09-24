@@ -95,6 +95,9 @@ body {
 .prose ul { list-style: disc; }
 .prose ol { list-style: decimal; }
 .prose li + li { margin-top: 0.35rem; }
+/* widgets inside a page (like the Content builder's dropdowns) opt out of the article styles */
+.prose .not-prose ul, .prose .not-prose ol { margin: 0; padding-left: 0; list-style: none; }
+.prose .not-prose li + li { margin-top: 0; }
 .prose :not(pre) > code {
   font-family: var(--font-mono);
   font-size: 0.85em;

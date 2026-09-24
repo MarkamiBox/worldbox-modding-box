@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { ExternalLink, FileImage, Folder, Plus, X } from 'lucide-react';
 import { CodeBlock } from '../components/CodeBlock';
 import { LANGS, type Lang } from '../lib/i18n';
+import { Dropdown } from './contentBuilder/Dropdown';
 import { DEFS, STATS, type Def, type Field, type StatRow, type Values } from './contentBuilder/defs';
 
 interface Strings {
@@ -23,6 +24,7 @@ interface Strings {
   notes: string;
   page: string;
   noText: string;
+  search: string;
 }
 
 const T: Record<Lang, Strings> = {
@@ -31,70 +33,70 @@ const T: Record<Lang, Strings> = {
     localeFile: 'Language of this text', stat: 'stat', addStat: 'Add a stat', code: 'The code', text: 'The text',
     art: 'Where your art goes', noArt: 'Nothing to draw for this one.', folder: 'folder', file: 'file',
     main: 'Add to Main.cs', mainHint: 'Inside OnModLoad(), in the order your content depends on each other.',
-    notes: 'Good to know', page: 'Full explanation', noText: 'This one has no text of its own.',
+    notes: 'Good to know', page: 'Full explanation', noText: 'This one has no text of its own.', search: 'Search...',
   },
   it: {
     type: 'Cosa vuoi creare?', ns: 'Namespace della tua mod', name: 'Nome (quello che legge il giocatore)', desc: 'Descrizione',
     localeFile: 'Lingua di questo testo', stat: 'statistica', addStat: 'Aggiungi una statistica', code: 'Il codice', text: 'Il testo',
     art: 'Dove va la grafica', noArt: 'Qui non c\'è niente da disegnare.', folder: 'cartella', file: 'file',
     main: 'Da aggiungere a Main.cs', mainHint: 'Dentro OnModLoad(), nell\'ordine in cui i contenuti dipendono l\'uno dall\'altro.',
-    notes: 'Da sapere', page: 'Spiegazione completa', noText: 'Questo contenuto non ha un testo suo.',
+    notes: 'Da sapere', page: 'Spiegazione completa', noText: 'Questo contenuto non ha un testo suo.', search: 'Cerca...',
   },
   es: {
     type: '¿Qué quieres crear?', ns: 'Namespace de tu mod', name: 'Nombre (lo que lee el jugador)', desc: 'Descripción',
     localeFile: 'Idioma de este texto', stat: 'estadística', addStat: 'Añadir una estadística', code: 'El código', text: 'El texto',
     art: 'Dónde va tu arte', noArt: 'Aquí no hay nada que dibujar.', folder: 'carpeta', file: 'archivo',
     main: 'Añadir a Main.cs', mainHint: 'Dentro de OnModLoad(), en el orden en que tu contenido depende de sí mismo.',
-    notes: 'Conviene saber', page: 'Explicación completa', noText: 'Este no tiene texto propio.',
+    notes: 'Conviene saber', page: 'Explicación completa', noText: 'Este no tiene texto propio.', search: 'Buscar...',
   },
   pt: {
     type: 'O que você quer criar?', ns: 'Namespace do seu mod', name: 'Nome (o que o jogador lê)', desc: 'Descrição',
     localeFile: 'Idioma deste texto', stat: 'atributo', addStat: 'Adicionar um atributo', code: 'O código', text: 'O texto',
     art: 'Onde fica a sua arte', noArt: 'Nada para desenhar neste.', folder: 'pasta', file: 'arquivo',
     main: 'Adicionar ao Main.cs', mainHint: 'Dentro de OnModLoad(), na ordem em que o conteúdo depende um do outro.',
-    notes: 'Bom saber', page: 'Explicação completa', noText: 'Este não tem texto próprio.',
+    notes: 'Bom saber', page: 'Explicação completa', noText: 'Este não tem texto próprio.', search: 'Buscar...',
   },
   de: {
     type: 'Was willst du bauen?', ns: 'Namespace deiner Mod', name: 'Name (was Spieler lesen)', desc: 'Beschreibung',
     localeFile: 'Sprache dieses Texts', stat: 'Wert', addStat: 'Wert hinzufügen', code: 'Der Code', text: 'Der Text',
     art: 'Wohin deine Grafiken gehören', noArt: 'Hier gibt es nichts zu zeichnen.', folder: 'Ordner', file: 'Datei',
     main: 'In Main.cs einfügen', mainHint: 'In OnModLoad(), in der Reihenfolge, in der deine Inhalte voneinander abhängen.',
-    notes: 'Gut zu wissen', page: 'Ganze Erklärung', noText: 'Das hier hat keinen eigenen Text.',
+    notes: 'Gut zu wissen', page: 'Ganze Erklärung', noText: 'Das hier hat keinen eigenen Text.', search: 'Suchen...',
   },
   fr: {
     type: 'Que voulez-vous créer ?', ns: 'Namespace de votre mod', name: 'Nom (ce que lit le joueur)', desc: 'Description',
     localeFile: 'Langue de ce texte', stat: 'statistique', addStat: 'Ajouter une statistique', code: 'Le code', text: 'Le texte',
     art: 'Où vont vos images', noArt: 'Rien à dessiner pour celui-ci.', folder: 'dossier', file: 'fichier',
     main: 'À ajouter dans Main.cs', mainHint: 'Dans OnModLoad(), dans l\'ordre où votre contenu dépend de lui-même.',
-    notes: 'Bon à savoir', page: 'Explication complète', noText: 'Celui-ci n\'a pas de texte à lui.',
+    notes: 'Bon à savoir', page: 'Explication complète', noText: 'Celui-ci n\'a pas de texte à lui.', search: 'Rechercher...',
   },
   ru: {
     type: 'Что вы хотите создать?', ns: 'Namespace вашего мода', name: 'Название (то, что видит игрок)', desc: 'Описание',
     localeFile: 'Язык этого текста', stat: 'характеристика', addStat: 'Добавить характеристику', code: 'Код', text: 'Текст',
     art: 'Куда класть графику', noArt: 'Здесь рисовать нечего.', folder: 'папка', file: 'файл',
     main: 'Добавить в Main.cs', mainHint: 'Внутри OnModLoad(), в том порядке, в котором контент зависит друг от друга.',
-    notes: 'Полезно знать', page: 'Полное объяснение', noText: 'У этого нет собственного текста.',
+    notes: 'Полезно знать', page: 'Полное объяснение', noText: 'У этого нет собственного текста.', search: 'Поиск...',
   },
   zh: {
     type: '你想做什么？', ns: '你的 mod 命名空间', name: '名称（玩家看到的）', desc: '描述',
     localeFile: '这段文字的语言', stat: '属性', addStat: '添加属性', code: '代码', text: '文本',
     art: '美术资源放在哪里', noArt: '这个不需要画图。', folder: '文件夹', file: '文件',
     main: '添加到 Main.cs', mainHint: '放在 OnModLoad() 里，按内容之间的依赖顺序排列。',
-    notes: '须知', page: '完整说明', noText: '这个没有自己的文本。',
+    notes: '须知', page: '完整说明', noText: '这个没有自己的文本。', search: '搜索...',
   },
   ja: {
     type: '何を作りますか？', ns: 'modの名前空間', name: '名前（プレイヤーが読むもの）', desc: '説明',
     localeFile: 'このテキストの言語', stat: 'ステータス', addStat: 'ステータスを追加', code: 'コード', text: 'テキスト',
     art: '画像の置き場所', noArt: 'これには描くものがありません。', folder: 'フォルダ', file: 'ファイル',
     main: 'Main.cs に追加', mainHint: 'OnModLoad() の中に、コンテンツ同士の依存順で並べます。',
-    notes: '知っておくこと', page: '詳しい説明', noText: 'これには独自のテキストがありません。',
+    notes: '知っておくこと', page: '詳しい説明', noText: 'これには独自のテキストがありません。', search: '検索...',
   },
   ko: {
     type: '무엇을 만들까요?', ns: '모드 네임스페이스', name: '이름 (플레이어가 읽는 것)', desc: '설명',
     localeFile: '이 텍스트의 언어', stat: '능력치', addStat: '능력치 추가', code: '코드', text: '텍스트',
     art: '그림 파일 위치', noArt: '이건 그릴 것이 없습니다.', folder: '폴더', file: '파일',
     main: 'Main.cs에 추가', mainHint: 'OnModLoad() 안에, 콘텐츠끼리 의존하는 순서대로 넣으세요.',
-    notes: '알아 둘 것', page: '자세한 설명', noText: '이건 자체 텍스트가 없습니다.',
+    notes: '알아 둘 것', page: '자세한 설명', noText: '이건 자체 텍스트가 없습니다.', search: '검색...',
   },
 };
 
@@ -141,26 +143,19 @@ function FieldInput({ field, value, onChange, t }: {
           </div>
         </label>
       );
-    case 'select': {
-      const listId = `cb-${field.key}`;
+    case 'select':
       return (
-        <label>
+        <div>
           <span className={fieldCls}>{field.label}</span>
-          {field.free ? (
-            <>
-              <input list={listId} value={String(value)} onChange={(e) => onChange(e.target.value)} className={input} />
-              <datalist id={listId}>
-                {field.options?.map((o) => <option key={o} value={o} />)}
-              </datalist>
-            </>
-          ) : (
-            <select value={String(value)} onChange={(e) => onChange(e.target.value)} className={`${input} cursor-pointer`}>
-              {field.options?.map((o) => <option key={o} value={o}>{o}</option>)}
-            </select>
-          )}
-        </label>
+          <Dropdown
+            value={String(value)}
+            options={(field.options ?? []).map((o) => ({ value: o }))}
+            onChange={(x) => onChange(x)}
+            free={field.free}
+            placeholder={t.search}
+          />
+        </div>
       );
-    }
     case 'stats': {
       const rows = (value as StatRow[]) ?? [];
       const set = (next: StatRow[]) => onChange(next);
@@ -170,19 +165,19 @@ function FieldInput({ field, value, onChange, t }: {
           <div className="flex flex-col gap-2">
             {rows.map((r, idx) => (
               <div key={idx} className="flex gap-2">
-                <select
+                <Dropdown
+                  className="flex-1"
                   value={r.stat}
-                  onChange={(e) => set(rows.map((x, j) => (j === idx ? { ...x, stat: e.target.value } : x)))}
-                  className={`${input} cursor-pointer`}
-                >
-                  {STATS.map((st) => <option key={st} value={st}>{st}</option>)}
-                </select>
+                  options={STATS.map((st) => ({ value: st }))}
+                  onChange={(x) => set(rows.map((y, j) => (j === idx ? { ...y, stat: x } : y)))}
+                  placeholder={t.search}
+                />
                 <input
                   type="number"
                   step="any"
                   value={r.value}
                   onChange={(e) => set(rows.map((x, j) => (j === idx ? { ...x, value: Number(e.target.value) } : x)))}
-                  className={`${input} w-28 shrink-0`}
+                  className="w-28 shrink-0 rounded-md border border-line bg-surface px-3 py-2 text-sm outline-none focus:border-brand"
                 />
                 <button type="button" onClick={() => set(rows.filter((_, j) => j !== idx))} className="shrink-0 rounded-md border border-line px-2 text-faint hover:text-brand cursor-pointer" aria-label="Remove">
                   <X className="h-4 w-4" />
@@ -218,7 +213,6 @@ export function ContentBuilder({ language }: { language: Lang }) {
   const v = values[def.key] ?? defaults(def);
   const set = (k: string, x: Values[string]) => setValues((all) => ({ ...all, [def.key]: { ...v, [k]: x } }));
 
-  const cats = useMemo(() => [...new Set(DEFS.map((d) => d.cat))], []);
   const namespace = ns.trim().replace(/[^A-Za-z0-9_.]/g, '') || 'MyMod';
   const out = useMemo(() => def.gen(v, namespace), [def, v, namespace]);
 
@@ -235,18 +229,15 @@ export function ContentBuilder({ language }: { language: Lang }) {
   return (
     <div className="my-6 rounded-xl border border-line bg-raised p-4">
       <div className="grid gap-3 sm:grid-cols-2">
-        <label>
+        <div>
           <span className={labelCls}>{t.type}</span>
-          <select value={def.key} onChange={(e) => setKey(e.target.value)} className={`${input} cursor-pointer`}>
-            {cats.map((c) => (
-              <optgroup key={c} label={c}>
-                {DEFS.filter((d) => d.cat === c).map((d) => (
-                  <option key={d.key} value={d.key}>{d.label}</option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-        </label>
+          <Dropdown
+            value={def.key}
+            options={DEFS.map((d) => ({ value: d.key, label: d.label, group: d.cat }))}
+            onChange={setKey}
+            placeholder={t.search}
+          />
+        </div>
         <label>
           <span className={labelCls}>{t.ns}</span>
           <input value={ns} onChange={(e) => setNs(e.target.value)} className={input} />
@@ -264,12 +255,14 @@ export function ContentBuilder({ language }: { language: Lang }) {
               <span className={labelCls}>{t.name}</span>
               <input value={String(v.name)} onChange={(e) => set('name', e.target.value)} className={input} />
             </label>
-            <label>
+            <div>
               <span className={labelCls}>{t.localeFile}</span>
-              <select value={localeLang} onChange={(e) => setLocaleLang(e.target.value as Lang)} className={`${input} cursor-pointer`}>
-                {LANGS.map((l) => <option key={l} value={l}>{l}</option>)}
-              </select>
-            </label>
+              <Dropdown
+                value={localeLang}
+                options={LANGS.map((l) => ({ value: l }))}
+                onChange={(x) => setLocaleLang(x as Lang)}
+              />
+            </div>
             {def.text === 'both' && (
               <label className="sm:col-span-2">
                 <span className={labelCls}>{t.desc}</span>
