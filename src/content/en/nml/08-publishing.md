@@ -102,7 +102,7 @@ NML handles load order and warns the player, which is much nicer than a null ref
 
 ## After release
 
-Comments will contain exactly three kinds of message: "it doesn't work" with no log attached, a genuinely great idea you did not think of, and somebody asking for multiplayer :PESgn_DidIAsk:. I made a multiplayer mod. They still ask.
+Comments will contain exactly three kinds of message: "it doesn't work" with no log attached, a genuinely great idea you did not think of, and somebody asking for multiplayer :PESgn_DidIAsk:.
 
 Answer the second one. For the first one, pin a line telling people where `Player.log` is (see **[Logs & debugging](#/nml/logs-and-debugging)**), because a bug report without it is a bug report you cannot act on.
 

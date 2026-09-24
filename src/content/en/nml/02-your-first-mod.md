@@ -10,7 +10,7 @@ order: 22
 
 Everything in this guide is built on **one single mod**. We start it here, and every later page adds one file to it.
 
-By the end HelloBox has about twenty files in it, and you will have written every line yourself: an actor trait and a culture trait with a tab of their own, a weapon and an enchantment for it, a status effect, drops, a cloud, a tile, a food recipe, a projectile, a world law, a god power with its own button, a window, a settings panel, a building, a faction, a creature, a disaster, its own AI, and a Harmony patch to bend a rule the game thought was settled.
+By the end HelloBox has about forty files in it, and you will have written every line yourself: an actor trait and a culture trait with a tab of their own, a weapon and an enchantment for it, a status effect, drops, a cloud, a tile, a food recipe, a projectile, a world law, a god power with its own button, a window, a settings panel, a building, a faction, a creature, a disaster, its own AI, and a Harmony patch to bend a rule the game thought was settled.
 
 That is more than any real mod needs, which is the point. You take the two or three parts you actually wanted and delete the rest :PES4_DeleteThis:.
 
