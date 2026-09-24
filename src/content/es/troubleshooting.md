@@ -169,9 +169,9 @@ El juego se comporta como si tu mod no existiera. No es nada personal, normalmen
 
 ### Sin botón de Mods en el menú
 
-- **Qué ves**: El juego inicia bien, sin errores, sin botón de Mods y sin ninguna línea `[NML]` en el log.
-- **Por qué**: Dos carpetas se llaman "Mods". La DLL del cargador va en la carpeta de datos del juego; `worldbox\Mods/` es para *tus* mods.
-- **Solución**: Coloca `NeoModLoader.dll` en `worldbox\worldbox_Data\StreamingAssets\mods/`, reinicia y busca `[NML]: NeoModLoader Version:` en el registro.
+- **Qué ves**: El juego arranca bien, sin errores, sin botón de Mods y sin ninguna línea `[NML]` en el registro.
+- **Por qué**: Hay dos carpetas llamadas "Mods". La DLL del cargador va en la carpeta de datos del juego; `worldbox\Mods/` es para *tus* mods.
+- **Solución**: Pon `NeoModLoader.dll` en `worldbox\worldbox_Data\StreamingAssets\mods/`, reinicia y busca `[NML]: NeoModLoader Version:` en el registro. Cada clic, Mac incluido: **[Instalar NML](#/install-nml)**.
 
 ### Ventana de Mods vacía, antes funcionaba
 
@@ -181,9 +181,9 @@ El juego se comporta como si tu mod no existiera. No es nada personal, normalmen
 
 ### La carpeta del mod está ahí, pero no aparece en la lista
 
-- **Qué ves**: Nada en la lista, sin línea `Compile Mod <tu_mod>`.
-- **Por qué**: Por orden de frecuencia: el archivo se llama en realidad `mod.json.txt`; el JSON es inválido (coma tras el último elemento o comillas tipográficas `"`); la carpeta no está dentro de `worldbox\Mods/`.
-- **Solución**: Explorador → **Ver → Mostrar → Extensiones de nombre de archivo**, luego comprueba el nombre. Abre `mod.json` en VS Code para ver errores de sintaxis.
+- **Qué ves**: Nada en la lista, ninguna línea `Compile Mod <yours>`.
+- **Por qué**: Por orden de frecuencia: el archivo en realidad se llama `mod.json.txt`; el JSON no es válido (una coma después de la última entrada, o comillas `"` tipográficas pegadas desde una app de chat); la carpeta no está dentro de `worldbox\Mods/`.
+- **Solución**: Explorador → **Vista → Mostrar → Extensiones de nombre de archivo**, y luego comprueba el nombre real. Abre `mod.json` en VS Code, que te subraya los errores de JSON.
 
 ### El mod aparece en gris
 
@@ -218,15 +218,15 @@ El juego se comporta como si tu mod no existiera. No es nada personal, normalmen
 
 ### El Bloc de notas no guarda en la carpeta del juego
 
-- **Qué ves**: "No tienes permiso para guardar en esta ubicación", sugiriendo Documentos.
-- **Por qué**: El juego reside en `C:\Program Files (x86)/`, protegido por Windows.
-- **Solución**: Crea el archivo desde el Explorador primero (clic derecho → Nuevo → Documento de texto, renómbralo) y luego edítalo.
+- **Qué ves**: Reinicias, el registro dice `Compile Mod`, y el juego sigue ejecutando tu código viejo. La compilación tarda una fracción de segundo.
+- **Por qué**: Dos carpetas en `Mods/` tienen el mismo `GUID` en `mod.json`, normalmente una copia antigua que el instalador de NML descomprimió como `COM_YOURNAME_HELLOBOX/`. NML carga **un mod por GUID** e ignora la otra carpeta sin avisar, y puede ser justo la que estás editando.
+- **Solución**: Busca tu GUID en `Mods/` y deja exactamente una carpeta. Si las cuentas no salen, esto es lo primero que hay que mirar.
 
 ### Tus cambios nunca aparecen, ni después de reiniciar
 
-- **Qué ves**: Reinicias, el log dice `Compile Mod`, y el juego sigue ejecutando tu código viejo. La compilación dura una fracción de segundo.
-- **Por qué**: Dos carpetas en `Mods/` tienen el mismo `GUID` en `mod.json`, normalmente una copia vieja que el instalador de NML descomprimió como `COM_YOURNAME_HELLOBOX/`. NML carga **un mod por GUID** e ignora la otra carpeta en silencio, y bien puede ser la que estás editando.
-- **Solución**: Busca tu GUID en `Mods/` y deja exactamente una carpeta. Si las cuentas no salen, es lo primero que hay que revisar.
+- **Qué ves**: "No tienes permiso para guardar en esta ubicación", y te ofrece Documentos en su lugar.
+- **Por qué**: El juego está en `C:\Program Files (x86)/`, que Windows protege.
+- **Solución**: Crea primero el archivo en el Explorador (clic derecho → Nuevo → Documento de texto, y renómbralo), y luego edita ese archivo que ya existe.
 
 ---
 
@@ -274,17 +274,17 @@ swift.base_stats["speed"] = 20f;     // seguro a partir de aquí
 
 ### Los nombres funcionan para rasgos pero no para objetos, estados o poderes
 
-- **Qué ves**: Copiaste el patrón de rasgos y este elemento sigue mostrando la clave sin traducir.
-- **Por qué**: Cuatro tipos de assets **no** construyen la clave a partir del id:
+- **Qué ves**: Copiaste el patrón de los rasgos y aquí sigue saliendo una clave en bruto.
+- **Por qué**: Cuatro assets **no** construyen la clave a partir del id:
 
-| Asset | Clave de nombre | Clave de descripción |
+| Asset | Clave del nombre | Clave de la descripción |
 | --- | --- | --- |
-| `GodPower` | campo **`name`**, snake_case | `<name>_description` |
-| `ItemAsset` | `translation_key`, si no `item_<subtype o id>` | `<id>_description`, sin `item_` |
-| `StatusAsset` | campo **`locale_id`** | campo **`locale_description`** |
+| `GodPower` | el **campo** `name`, en snake_case | `<name>_description` |
+| `ItemAsset` | `translation_key`, si no `item_<subtype or id>` | `<id>_description`, sin `item_` |
+| `StatusAsset` | el **campo** `locale_id` | el **campo** `locale_description` |
 | `WorldLawAsset` | `<id>_title` | `<id>_description` |
 
-- **Solución**: Establece `name` = id en poderes, `translation_key` en objetos, `locale_id` en estados. Usa snake_case en minúsculas: se normalizan al guardar pero **not** al buscar :PESgn_SMH:.
+- **Solución**: Pon `name` = id en los poderes, `translation_key` en los objetos y `locale_id` en los estados. Usa claves en minúsculas y snake_case: se normalizan al guardarlas pero **no** al buscarlas, así que `MyKey` se guarda como `my_key` y nunca se vuelve a encontrar :PESgn_SMH:.
 
 ### El icono es un hueco en blanco
 
@@ -328,9 +328,9 @@ cursed.need_visual_render = true;
 
 ### `addOpposite` / `addDecision` / `addSpell` no hacen nada
 
-- **Qué ves**: El rasgo opuesto nunca se elimina o la decisión nunca se activa. Sin errores.
-- **Por qué**: Esas llamadas solo añaden un **id**. El enlazado con objetos reales ocurre una sola vez al inicio antes de cargar mods.
-- **Solución**: Asigna los campos resueltos tú mismo tras `add()`: `linkCombatActions()`, `linkSpells()` y asigna `opposite_traits`. Si defines `opposite_trait_mod` dejando `opposite_traits` nulo, el juego fallará en el sistema social; un `HashSet` vacío lo previene.
+- **Qué ves**: El rasgo opuesto nunca se quita, la decisión nunca se activa. Sin avisos.
+- **Por qué**: Esas llamadas solo añaden un **id**. Convertir los ids en objetos reales pasa una sola vez al arrancar, antes de que cargue tu mod.
+- **Solución**: Rellena tú mismo los campos resueltos después de `add()`: `linkCombatActions()`, `linkSpells()`, `decisions_assets` (un array que construyes con `AssetManager.decisions_library.get()`, no hay método de enlace) y asigna `opposite_traits` directamente. Si pones `opposite_trait_mod` y dejas `opposite_traits` en null, el juego se cuelga más tarde dentro de su código social - un `HashSet` vacío lo evita.
 
 ---
 
@@ -532,9 +532,9 @@ _lastWorldTime = now;
 
 ### Tu Prefix rompió otros tres mods
 
-- **Qué ves**: "Tu mod rompió el mod X". Nada en el log y el autor de X no puede reproducirlo solo.
-- **Por qué**: Devolver `false` omite el método original **y todos los parches posteriores de otros mods**. En `updateStats`, además deja valores en caché congelados.
-- **Solución**: Prefiere Postfix (`__result *= 0.5f`) antes que cancelar con Prefix. Si debes cancelar, hazlo en el método más específico y devuelve `true` de inmediato en los demás casos.
+- **Qué ves**: "Tu mod ha roto el mod X." Nada en el registro, y el autor de X no consigue reproducirlo por su cuenta.
+- **Por qué**: Devolver `false` se salta el original **y el parche de cualquier otro mod que vaya después del tuyo**. En `updateStats`, además, deja para siempre flags en caché desactualizados en la unidad.
+- **Solución**: Mejor Postfix y ajustar (`__result *= 0.5f`) que Prefix y cancelar. Si tienes que cancelar, cancela el método más concreto posible y haz `return true` pronto en todos los casos que no te interesan.
 
 ### Una unidad se queda quieta para siempre o falla en cada fotograma
 
@@ -556,9 +556,9 @@ _lastWorldTime = now;
 
 ### Los clics caen en el mapa detrás de tu ventana
 
-- **Qué ves**: El jugador hace clic en tu panel y se genera una unidad en el mapa debajo.
-- **Por qué**: Un canvas sin `GraphicRaycaster` no captura eventos de clic. Y `unselect_when_window` solo conoce las ventanas nativas del juego.
-- **Solución**: Usa `Canvas` + `overrideSorting` + `sortingOrder` + `GraphicRaycaster` y un `Image` de fondo. Desarma el poder activo manualmente al abrir la ventana.
+- **Qué ves**: El jugador hace clic en un control de tu panel y aparece una unidad debajo.
+- **Por qué**: Un canvas sin `GraphicRaycaster` se dibuja pero no recibe clics. Y `unselect_when_window` solo conoce las ventanas del propio juego, así que un panel hecho a mano nunca desactiva el poder activo.
+- **Solución**: `Canvas` + `overrideSorting` + `sortingOrder` + `GraphicRaycaster` + una `Image` de fondo, todo junto. `raycastTarget = false` en las etiquetas. Desactiva el poder tú mismo cuando se abra la ventana.
 
 ### La memoria aumenta cada vez que se abre el panel
 

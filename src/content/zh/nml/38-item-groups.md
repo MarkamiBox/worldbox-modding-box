@@ -138,7 +138,7 @@ relic.equipment_subtype = "hello_relic";       // 文化特质所偏好的武器
 
 ## 分类标签的显示位置
 
-分组依照列表顺序绘制，而 `add()` 会将你的分组置于最后。你可以将其移至相关分类旁边：
+分组按 `list` 的顺序绘制，`add()` 会把你的放在最后。把它挪到相关分组旁边：
 
 ```csharp
 private static void PlaceAfter(string pId, string pAfterId)

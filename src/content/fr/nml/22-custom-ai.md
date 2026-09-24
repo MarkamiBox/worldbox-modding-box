@@ -12,23 +12,22 @@ Nous plongeons ici dans le grand bain. Tout le reste dans ce guide ajoute des *�
 
 ## Comment le jeu réfléchit
 
-Trois strates, du plus général au plus précis, plus celui qui se tient à côté. Ça m'a pris plus de temps que je ne veux l'admettre :
+Trois couches, de la plus grande à la plus petite, plus celle qui se tient à côté. Ça m'a pris plus de temps que je ne veux l'admettre :
 
-| Strate | Ce que c'est | Bibliothèque |
+| Couche | Ce que c'est | Bibliothèque |
 | --- | --- | --- |
-| **Métier** (`ActorJob`) | L'occupation globale de la créature : "être un citoyen", "être un soldat" | `AssetManager.job_actor` |
-| **Tâche** (`BehaviourTaskActor`) | Un objectif concret au sein d'un métier : "aller manger", "construire ceci" | `AssetManager.tasks_actor` |
-| **Comportement** (`BehaviourActionActor`) | Une étape élémentaire d'une tâche, exécutée chaque tick, indiquant la suite | greffé sur une tâche |
+| **Métier** (`ActorJob`) | Ce que fait cette créature en général : "être un citoyen", "être un soldat" | `AssetManager.job_actor` |
+| **Tâche** (`BehaviourTaskActor`) | Un objectif concret dans un métier : "aller manger", "construire ça" | `AssetManager.tasks_actor` |
+| **Comportement** (`BehaviourActionActor`) | Une étape d'une tâche, exécutée à chaque tick, qui renvoie la suite | ajouté à une tâche |
+| **Décision** (`DecisionAsset`) | Quand lancer une tâche : les options qu'une créature pèse chaque fois qu'elle est libre | `AssetManager.decisions_library` |
 
-Un métier regroupe des tâches, une tâche regroupe des comportements, et les comportements s'enchaînent dans l'ordre jusqu'à ce que l'un d'eux demande l'arrêt.
+Un métier contient des tâches, une tâche contient des comportements, et les comportements s'exécutent dans l'ordre jusqu'à ce que l'un d'eux dise stop. Les décisions se tiennent à côté des métiers : c'est ainsi qu'une créature libre choisit sa prochaine tâche d'elle-même, voir **[Décisions](#décisions-laisser-la-créature-choisir-votre-tâche)** plus bas.
 
 ## Écrire un comportement
 
 Un comportement est une classe dotée d'une unique méthode. Elle reçoit l'acteur, effectue une petite action et renvoie un `BehResult` :
 
-```csharp Mods/HelloBox/Code/HelloAI.cs
-using ai.behaviours;   // BehaviourTaskActor, BehaviourActionActor, BehResult, the vanilla behaviours
-
+```csharp
 namespace HelloBox
 {
     public class BehHelloDrive : BehaviourActionActor
@@ -37,55 +36,16 @@ namespace HelloBox
         {
             if (pActor == null || !pActor.isAlive()) return BehResult.Stop;
 
+            // decide something, write it onto the actor
             WorldTile target = HelloAI.PickTile(pActor);
             if (target == null) return BehResult.Stop;
 
             pActor.beh_tile_target = target;
-            return BehResult.Continue;
-        }
-    }
-
-    public static class HelloAI
-    {
-        public const string JOB = "hellobox_job";
-        public const string TASK = "hellobox_drive";
-
-        public static void Initialize()
-        {
-            BehaviourTaskActor drive = new BehaviourTaskActor
-            {
-                id = TASK,
-                ignore_fight_check = true,        // don't let the combat system hijack the task
-                locale_key = "task_unit_" + TASK
-            };
-
-            AssetManager.tasks_actor.add(drive);  // add first
-            drive.setIcon("ui/Icons/iconHelloDrive");    // then decorate
-            drive.addBeh(new BehHelloDrive());    // my decision
-            drive.addBeh(new BehGoToTileTarget()); // the game's own pathing does the walking
-
-            ActorJob job = new ActorJob { id = JOB };
-            job.addTask(TASK);
-            AssetManager.job_actor.add(job);
-        }
-
-        /** Where the creature should walk next. One random neighbour it can actually reach. */
-        public static WorldTile PickTile(Actor pActor)
-        {
-            WorldTile from = pActor.current_tile;
-            if (from == null) return null;
-
-            // the game's own helper: a random neighbour that is not across water
-            return from.getTileAroundThisOnSameIsland(from);
+            return BehResult.Continue;   // let the next behaviour in the task run
         }
     }
 }
 ```
-`PickTile` est tout l'intérêt de l'exercice : c'est la seule partie que le jeu ne fait pas déjà pour toi. Tout le reste du fichier, c'est de la tuyauterie.
-
-> [!WARNING] `beh_tile_target` est internal
-> Le champ dans lequel le behaviour écrit est marqué `internal` dans l'assembly du jeu, donc ceci compile contre une `Assembly-CSharp.dll` **publicized** (voir la note dans **[Effets de statut](#/nml/status-effects)**). Sans elle, le compilateur refuse la ligne et tu dois garder la cible dans ton propre champ :PES5_Noted:.
-
 
 | Résultat | Signification |
 | --- | --- |
@@ -154,7 +114,12 @@ namespace HelloBox
 }
 ```
 
-Remarquez le second comportement : **réutilisez les nœuds de base**. Le jeu possède déjà des comportements pour marcher vers une case, appliquer un statut, trouver un bâtiment ou attaquer une cible. Écrire la décision et emprunter l'exécution fait toute la différence entre un week-end et un mois de travail.
+`PickTile` est tout l'intérêt de l'exercice : c'est la seule partie que le jeu ne fait pas déjà pour vous. Tout le reste de ce fichier, c'est de la plomberie.
+
+> [!WARNING] `beh_tile_target` est internal
+> Le champ dans lequel écrit le comportement est marqué `internal` dans l'assembly du jeu, donc ceci compile contre un `Assembly-CSharp.dll` **publicisé** (voir la note dans **[Effets de statut](#/nml/status-effects)**). Sans lui, le compilateur refuse la ligne et vous devez garder la cible dans votre propre champ :PES5_Noted:.
+
+Remarquez le deuxième comportement : **réutilisez les nœuds vanilla**. Le jeu a des comportements pour marcher jusqu'à une case, ajouter un statut, trouver un bâtiment, attaquer une cible. Écrire la décision et emprunter l'exécution, c'est la différence entre un week-end et un mois.
 
 ## Faire en sorte qu'une créature utilise votre métier
 

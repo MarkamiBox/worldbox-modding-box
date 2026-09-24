@@ -78,16 +78,15 @@ namespace HelloBox
     }
 }
 ```
-> [!WARNING] Carga la sombra tú, o el juego se queja de cada actor
-> `ActorAssetLibrary` recorre su lista al arrancar y llama a `loadShadow()` en cada actor, que carga el sprite de `shadows/<shadow_texture>` y lo mide. Eso pasó antes de que tu mod registrara nada, así que la sombra de tu actor se queda en `(0.00, 0.00)` y el juego escribe un error de asset por ella, tres veces: adulto, huevo y bebé :wbfacepalm:.
+> [!WARNING] Carga la sombra tú mismo, o el juego se quejará de cada actor
+> `ActorAssetLibrary` recorre su lista al arrancar y llama a `loadShadow()` en cada actor, que lee el sprite en `shadows/<shadow_texture>` y lo mide. Eso ocurrió antes de que tu mod registrara nada, así que la sombra de tu actor se queda en `(0.00, 0.00)` y el juego registra un error de asset por ella, tres veces, una por el adulto, el huevo y la cría :wbfacepalm:.
 >
-> `loadShadow()` es `internal`, así que necesita una `Assembly-CSharp.dll` **publicized** como el resto de la guía. Si no tienes una, pon `asset.shadow = false;`: sin sombra, pero sin error.
+> `loadShadow()` es `internal`, así que esto necesita un `Assembly-CSharp.dll` **publicitado** como el resto de la guía. Si no tienes uno, pon `asset.shadow = false;` en su lugar: sin sombra, pero tampoco sin error.
 
-
-> [!WARNING] clone() ya registra
-> `AssetManager.<library>.clone(newId, sourceId)` llama a `add()` internamente. Cada librería funciona así. Llamar a `add()` tú mismo después es un registro duplicado: la librería elimina la primera copia, registra un error y la vuelve a añadir. Es inofensivo, pero ensucia el log dificultando encontrar errores reales, y es lo primero que un revisor notará.
+> [!WARNING] `clone()` ya registra
+> `AssetManager.<library>.clone(newId, sourceId)` llama a `add()` por dentro. Todas las bibliotecas funcionan así. Llamar tú a `add()` después es un registro duplicado: la biblioteca quita la primera copia, registra un error y la vuelve a añadir. Inofensivo, pero es ruido en tu log que hace más difícil encontrar los errores reales, y es lo primero que verá quien revise tu código.
 >
-> La contrapartida es la buena noticia: **tras un clone, `base_stats` ya existe**, por lo que la regla de "estadísticas después de add" de **[Rasgos personalizados](#/nml/custom-traits)** ya queda cumplida.
+> La parte buena de esto: **tras un clon, `base_stats` ya existe**, así que la regla de "estadísticas después de add" de **[Rasgos personalizados](#/nml/custom-traits)** ya se cumple.
 
 ## Varios actores a la vez
 

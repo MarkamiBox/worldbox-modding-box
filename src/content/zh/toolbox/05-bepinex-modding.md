@@ -170,17 +170,17 @@ namespace HelloBepInEx
 
 ## 5. 编译与安装运行
 
-在终端中执行编译命令：
+从命令行编译你的项目：
 
 ```bash
 dotnet build -c Release
 ```
 
-编译好的插件位于 `bin/Release/net472/HelloBepInEx.dll`。
+编译好的 `.dll` 会生成在 `bin/Release/net472/HelloBepInEx.dll`。
 
-1. 打开 WorldBox 游戏根目录：`C:\Program Files (x86)\Steam\steamapps\common\worldbox\`。
-2. 进入 `BepInEx/plugins/` 目录，新建一个名为 `HelloBepInEx` 的文件夹。
-3. 将 `HelloBepInEx.dll` 复制进 `BepInEx/plugins/HelloBepInEx/`。
+1. 打开你的 WorldBox 文件夹：`C:\Program Files (x86)\Steam\steamapps\common\worldbox\`。
+2. 在 `BepInEx/plugins/` 里新建一个名为 `HelloBepInEx` 的文件夹。
+3. 把 `HelloBepInEx.dll` 复制到 `BepInEx/plugins/HelloBepInEx/`。
 
 ```text
 worldbox/
@@ -190,7 +190,7 @@ worldbox/
             └── HelloBepInEx.dll
 ```
 
-启动游戏并观察控制台，你将看到 BepInEx 成功加载插件的信息：
+开启控制台后启动游戏。你会看到 BepInEx 找到并加载你的程序集：
 
 ```text BepInEx console
 [Info   :   BepInEx] Loading [HelloBepInEx 1.0.0]

@@ -144,10 +144,13 @@ if (group != null && index != -1)
 
 ## Wann dein Code ausgeführt wird
 
-Das Spiel initialisiert alle 129 Bibliotheken beim Start, führt `post_init()` darauf aus, und **erst danach** lädt NML deine Mod. Zwei Konsequenzen, über die Entwickler ständig stolpern, ich eingeschlossen:
+Das Spiel baut beim Start alle 129 Bibliotheken, führt dann `post_init()` auf ihnen aus, **dann** lädt NML deine Mod. Zwei Folgen, über die Leute ständig stolpern, ich eingeschlossen:
 
-- **Alles, was eine Bibliothek automatisch in `post_init` tut, ist bereits gelaufen.** Akteurseigenschaften bekommen dort beispielsweise ein Standard-`path_icon` zugewiesen. Deine Eigenschaft bekommt das nicht, weil sie damals noch nicht existierte. Setze es selbst.
-- **Jedes Vanilla-Asset existiert bereits, wenn dein `OnModLoad` läuft.** Daher funktioniert `get("human")`, `clone(..., "human")` funktioniert, und das direkte Bearbeiten von Vanilla-Inhalten funktioniert. Du bist niemals zu früh dran.
+- **Alles, was eine Bibliothek automatisch in `post_init` erledigt, ist schon passiert.** Akteur-Merkmale zum Beispiel bekommen dort einen Standard-`path_icon`. Deins nicht, weil dein Merkmal da noch nicht existierte. Setz ihn selbst.
+- **Jedes Vanilla-Asset existiert schon, wenn dein `OnModLoad` läuft.** Also funktioniert `get("human")`, `clone(..., "human")` funktioniert, und Vanilla-Inhalte direkt zu bearbeiten funktioniert. Du bist nie zu früh.
+
+> [!NOTE] Diese Methoden zu patchen berührt keine Vanilla-Inhalte
+> `has`, `get`, `add`, `clone` und `post_init` laufen alle beim Spielstart auf den 129 Bibliotheken, bevor NML auch nur eine Mod lädt. Ein Harmony-Patch auf eine davon betrifft nur Aufrufe *nach* dem Laden deiner Mod. Er berührt nie die Vanilla-Registrierung, die bis dahin schon passiert ist. Willst du andere Vanilla-Inhalte? Ändere sie danach mit `get()`, so wie der Rest dieser Seite es macht.
 
 ## Das Standardmuster aller folgenden Seiten
 

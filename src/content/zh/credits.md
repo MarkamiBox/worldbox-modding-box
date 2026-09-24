@@ -36,6 +36,15 @@ order: 10
 
 ---
 
+## 指南灵感来源与社区作者
+
+特别鸣谢在 GameBanana 上发布 WorldBox 模组与环境配置原始教程的作者们，他们清晰易懂的流程是我们编写“安装 NML”章节的重要灵感来源：
+
+- **[Keymasterer ._.](https://gamebanana.com/members/2594582)**：原始教程的创作者与作者，为本站 NML 安装步骤提供了直接启发。
+- **[ToonLunk](https://gamebanana.com/members/2712995)**：原始教程的校对者（Proofreader）与贡献者。
+
+---
+
 ## mod 平台与核心框架
 
 - **[NeoModLoader (NML)](https://github.com/WorldBoxOpenMods/ModLoader)**
@@ -55,15 +64,6 @@ order: 10
   - 反编译器和调试器，让我们能读游戏编译好的 `Assembly-CSharp.dll`，搞懂机制、找到内部方法。
 - **[AssetRipper](https://github.com/AssetRipper/AssetRipper)**
   - 一个开源工具，用来查看并提取 Unity asset bundle 和序列化文件里的精灵图、贴图、字体和音效。
-
----
-
-## 指南灵感来源与社区作者
-
-特别鸣谢在 GameBanana 上发布 WorldBox 模组与环境配置原始教程的作者们，他们清晰易懂的流程是我们编写“安装 NML”章节的重要灵感来源：
-
-- **[Keymasterer ._.](https://gamebanana.com/members/2594582)**：原始教程的创作者与作者，为本站 NML 安装步骤提供了直接启发。
-- **[ToonLunk](https://gamebanana.com/members/2712995)**：原始教程的校对者（Proofreader）与贡献者。
 
 ---
 

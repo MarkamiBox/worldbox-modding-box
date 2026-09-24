@@ -138,7 +138,7 @@ Un nuovo gruppo **non** ti dà un nuovo slot di equipaggiamento. `EquipmentType`
 
 ## Dove appare la categoria
 
-I gruppi vengono disegnati nell'ordine della lista, e `add()` inserisce il tuo in fondo. Spostalo accanto a una categoria correlata:
+I gruppi vengono disegnati nell'ordine di `list`, e `add()` mette il tuo per ultimo. Spostalo accanto a un parente:
 
 ```csharp
 private static void PlaceAfter(string pId, string pAfterId)

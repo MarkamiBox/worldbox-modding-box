@@ -27,16 +27,16 @@ worldbox/worldbox_Data/Managed/Assembly-CSharp.dll
 
 ### 1. 查阅类定义
 
-按下 `Ctrl+Shift+K` 快速搜索类型。输入 `ActorTrait` 并打开它，你就能看到你能设置的每一个字段，连同它们的数据类型和默认值一览无余：
+`Ctrl+Shift+K` 用来搜索类型。输入 `ActorTrait` 并打开，你就能看到所有可以设置的字段，连同它们的类型和默认值：
 
 ```csharp Assembly-CSharp / ActorTrait
 public string path_icon;
 public string group_id;
-public float rate_birth;
+public int rate_birth;
 public bool can_be_cured;
 ```
 
-这份列表本身*就是***[自定义特质](#/nml/custom-traits)**页面的权威文档。同样的技巧完全适用于 `ItemAsset`、`BuildingAsset`、`StatusAsset` 等任何资产类型。
+这份列表*就是* **[自定义特质](#/nml/custom-traits)** 页面的文档。也要看**类型**：`rate_birth` 是 `int`，所以 `rate_birth = 0.5f` 编译不过。同样的办法也适用于 `ItemAsset`、`BuildingAsset`、`StatusAsset`，任何东西都行。
 
 ### 2. 确认方法的真实签名
 

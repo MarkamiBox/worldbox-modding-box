@@ -74,14 +74,22 @@ Registralo in `Main.cs` (vedi **[Il mod completo](#/nml/all-together)**), carica
 
 | Campo | Cosa fa |
 | --- | --- |
-| `rate` | Peso: quanto spesso viene sorteggiato rispetto agli altri |
-| `chance` | Un secondo tiro una volta sorteggiato |
-| `min_world_population` / `min_world_cities` | Condizioni minime prima che possa verificarsi |
+| `rate` | Peso nell'estrazione. Più alto significa scelto più spesso rispetto agli altri |
+| `chance` | Un secondo tiro una volta scelto |
+| `min_world_population` / `min_world_cities` | Condizioni prima che possa anche solo accadere |
 | `type` | `DisasterType.Nature`, `Other`, … |
-| `world_log` | L'ID di un `WorldLogAsset`: la riga nel log del mondo. **Non** una chiave di testo, vedi sotto |
-| `action` | Il tuo codice. Questo è il disastro vero e proprio |
-| `spawn_asset_unit` + `units_min`/`units_max` | Scorciatoia per "genera N esemplari di questa creatura" |
-| `max_existing_units` | Non generarne altri se ne esistono già così tanti |
+| `world_log` | L'id di un `WorldLogAsset`: la riga nel registro del mondo. **Non** è una chiave di localizzazione, vedi sotto |
+| `action` | Il tuo codice. Questo è il disastro |
+| `spawn_asset_unit` + `units_min`/`units_max` | Scorciatoia per "genera N di questa creatura" |
+| `max_existing_units` | Non generarne altre se ne esistono già tante |
+| `ages_allow` / `ages_forbid` | Lo limita a certe ere del mondo, per esempio solo nell'Era della Cenere |
+
+Il limite a un'era si imposta dopo aver costruito l'asset:
+
+```csharp
+emberStorm.ages_allow.Add("age_ash");
+emberStorm.ages_allow.Add("age_chaos");
+```
 
 ## Generare creature senza codice
 

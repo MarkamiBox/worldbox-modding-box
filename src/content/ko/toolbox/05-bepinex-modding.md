@@ -170,17 +170,17 @@ namespace HelloBepInEx
 
 ## 5. 빌드 및 배포
 
-터미널에서 프로젝트를 빌드합니다:
+명령줄에서 프로젝트를 컴파일하세요:
 
 ```bash
 dotnet build -c Release
 ```
 
-생성된 파일은 `bin/Release/net472/HelloBepInEx.dll`에 위치합니다.
+컴파일된 `.dll`은 `bin/Release/net472/HelloBepInEx.dll`에 만들어집니다.
 
-1. WorldBox 폴더로 이동합니다: `C:\Program Files (x86)\Steam\steamapps\common\worldbox\`
-2. `BepInEx/plugins/` 안에 `HelloBepInEx` 폴더를 만듭니다.
-3. `HelloBepInEx.dll` 파일을 `BepInEx/plugins/HelloBepInEx/` 폴더 안으로 복사합니다.
+1. WorldBox 폴더로 가세요: `C:\Program Files (x86)\Steam\steamapps\common\worldbox\`.
+2. `BepInEx/plugins/` 안에 `HelloBepInEx`라는 폴더를 만드세요.
+3. `HelloBepInEx.dll`을 `BepInEx/plugins/HelloBepInEx/`에 복사하세요.
 
 ```text
 worldbox/
@@ -190,7 +190,7 @@ worldbox/
             └── HelloBepInEx.dll
 ```
 
-콘솔이 켜진 상태로 게임을 시작하면 BepInEx가 플러그인을 정상 로드합니다:
+콘솔을 켠 상태로 게임을 시작하세요. BepInEx가 여러분의 어셈블리를 찾아 불러오는 것이 보입니다:
 
 ```text BepInEx console
 [Info   :   BepInEx] Loading [HelloBepInEx 1.0.0]

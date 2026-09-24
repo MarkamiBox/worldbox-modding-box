@@ -78,16 +78,15 @@ namespace HelloBox
     }
 }
 ```
-> [!WARNING] Lade den Schatten selbst, sonst meckert das Spiel über jeden Actor
-> `ActorAssetLibrary` geht beim Start seine Liste durch und ruft auf jedem Actor `loadShadow()` auf, was den Sprite unter `shadows/<shadow_texture>` lädt und vermisst. Das passierte, bevor deine Mod irgendetwas registriert hat, also bleibt der Schatten deines Actors bei `(0.00, 0.00)` und das Spiel loggt dafür einen Asset-Fehler, dreimal: Erwachsener, Ei und Baby :wbfacepalm:.
+> [!WARNING] Lade den Schatten selbst, sonst beschwert sich das Spiel über jeden Akteur
+> `ActorAssetLibrary` geht beim Start seine Liste durch und ruft bei jedem Akteur `loadShadow()` auf, das das Sprite unter `shadows/<shadow_texture>` liest und vermisst. Das passierte, bevor deine Mod irgendetwas registriert hat, also bleibt der Schatten deines Akteurs `(0.00, 0.00)`, und das Spiel loggt dafür einen Asset-Fehler, dreimal, je einmal für den Erwachsenen, das Ei und das Baby :wbfacepalm:.
 >
-> `loadShadow()` ist `internal`, das braucht also wie der Rest des Guides eine **publicized** `Assembly-CSharp.dll`. Hast du keine, setz stattdessen `asset.shadow = false;`: kein Schatten, aber auch kein Fehler.
+> `loadShadow()` ist `internal`, das braucht also eine **publizierte** `Assembly-CSharp.dll` wie der Rest des Leitfadens. Hast du keine, setz stattdessen `asset.shadow = false;`: kein Schatten, aber auch kein Fehler.
 
-
-> [!WARNING] clone() registriert bereits
-> `AssetManager.<library>.clone(newId, sourceId)` ruft intern `add()` auf. Jede Bibliothek funktioniert so. Ein eigenes `add()` danach ist eine doppelte Registrierung: Die Bibliothek entfernt die erste Kopie, schreibt einen Fehler ins Log und fügt sie erneut hinzu. Das ist zwar harmlos, erzeugt aber Rauschen im Log, das echte Fehler verschleiert, und springt jedem Reviewer sofort ins Auge.
+> [!WARNING] `clone()` registriert bereits
+> `AssetManager.<library>.clone(newId, sourceId)` ruft intern `add()` auf. Jede Bibliothek funktioniert so. Rufst du danach selbst `add()` auf, ist das eine doppelte Registrierung: Die Bibliothek entfernt die erste Kopie, loggt einen Fehler und fügt sie neu hinzu. Harmlos, aber Rauschen in deinem Log, das echte Fehler schwerer auffindbar macht, und das Erste, was ein Prüfer sieht.
 >
-> Die Kehrseite ist die gute Nachricht: **Nach einem Klon existiert `base_stats` bereits**, sodass die Regel "Stats erst nach add" aus **[Eigene Merkmale](#/nml/custom-traits)** bereits erfüllt ist.
+> Die Kehrseite ist die gute Nachricht: **Nach einem Klon existiert `base_stats` bereits**, also ist die Regel "Werte nach add" aus **[Eigene Merkmale](#/nml/custom-traits)** schon erfüllt.
 
 ## Mehrere Akteure auf einmal
 

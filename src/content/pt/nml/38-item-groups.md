@@ -138,7 +138,7 @@ Um novo grupo **não** lhe dá um novo slot de equipamento. `EquipmentType` é u
 
 ## Onde a categoria aparece
 
-Os grupos são desenhados na ordem da lista interna, e `add()` coloca o seu no final. Mova-o para perto de uma categoria similar:
+Os grupos são desenhados na ordem da `list`, e `add()` coloca o seu por último. Mova-o para perto de um parente:
 
 ```csharp
 private static void PlaceAfter(string pId, string pAfterId)

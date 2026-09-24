@@ -27,16 +27,16 @@ worldbox/worldbox_Data/Managed/Assembly-CSharp.dll
 
 ### 1. 클래스 찾아보기
 
-`Ctrl+Shift+K`를 누르면 타입을 검색할 수 있습니다. `ActorTrait`를 입력하고 열어보면 설정 가능한 모든 필드가 데이터 타입 및 기본값과 함께 일목요연하게 표시됩니다:
+`Ctrl+Shift+K`로 타입을 검색합니다. `ActorTrait`를 입력해 열면, 설정할 수 있는 모든 필드가 타입과 기본값과 함께 보입니다:
 
 ```csharp Assembly-CSharp / ActorTrait
 public string path_icon;
 public string group_id;
-public float rate_birth;
+public int rate_birth;
 public bool can_be_cured;
 ```
 
-이 목록 자체가 바로 **[커스텀 특성](#/nml/custom-traits)** 페이지의 가장 확실한 공식 문서입니다. `ItemAsset`, `BuildingAsset`, `StatusAsset` 등 그 어떤 에셋에도 동일한 방법을 쓰면 됩니다.
+그 목록이 바로 **[커스텀 특성](#/nml/custom-traits)** 페이지의 문서*입니다*. **타입**도 읽으세요: `rate_birth`는 `int`이므로 `rate_birth = 0.5f`는 컴파일되지 않습니다. `ItemAsset`, `BuildingAsset`, `StatusAsset` 등 무엇이든 같은 방법이 통합니다.
 
 ### 2. 메서드의 실제 시그니처 확인하기
 

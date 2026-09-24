@@ -146,43 +146,95 @@ AssetManager.spells.add(bolt);
 
 ### 엔티티에 주문 부여하기
 
-주문은 id를 통해 그것을 제공하는 대상에 부착됩니다:
+주문은 그것을 주는 대상에 ID로 붙입니다:
 
 ```csharp
-trait.addSpell("hello_bolt");        // 7대 특성 시스템의 모든 특성
-item.addSpell("hello_bolt");         // 장비 아이템
+trait.addSpell("hello_bolt");        // any trait, of any of the seven systems
+trait.linkSpells();                  // the ids became objects at startup: do it for yours
+item.addSpell("hello_bolt");         // an item
+item.linkSpells();
 actorAsset.spell_ids = new List<string> { "hello_bolt" };
 ```
 
-참고하기 좋은 바닐라 주문 ID: `teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`.
+`addSpell()`은 ID를 추가할 뿐입니다. 라이브러리는 여러분의 모드보다 먼저, 시작할 때 `linkAssets()`에서 ID를 주문으로 바꿉니다. 직접 등록한 특성이나 아이템에서 `linkSpells()`를 빼먹으면 아무것도 주지 않고, 조용히 넘어갑니다.
+
+읽어 볼 만한 바닐라 주문 ID: `teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`.
 
 ## 전투 액션
 
-`CombatActionAsset`은 전투 이벤트가 발생할 때 실행되는 델리게이트로, 주로 주문이나 이펙트를 발동시키는 데 사용됩니다:
+주문은 유닛이 시전하는 것입니다. **전투 행동**은 싸우는 도중에 유닛이 *하는* 것입니다: 돌진, 회피, 달려들기 전에 던지는 횃불. 게임은 풀이라고 부르는 전투 중 정해진 순간에 이것들을 추첨합니다.
 
-```csharp Mods/HelloBox/Code/HelloSpells.cs
-CombatActionAsset action = new CombatActionAsset
+```csharp Mods/HelloBox/Code/HelloCombat.cs
+using UnityEngine;
+
+namespace HelloBox
 {
-    id = "hello_cast_on_attack",
-    action = (pSelf, pTarget, pWorldTile) =>
+    public static class HelloCombat
     {
-        if (pSelf == null || !pSelf.isAlive()) return false;
+        public const string TOSS = "hello_ember_toss";
 
-        // do the cast
-        return true;
+        public static void Initialize()
+        {
+            if (AssetManager.combat_action_library.has(TOSS)) return;
+
+            CombatActionAsset toss = new CombatActionAsset
+            {
+                id = TOSS,
+                cost_stamina = 10,
+                chance = 0.3f,        // rolled each time the unit could use it, plus its combat skill
+                cooldown = 4f,
+                pools = new CombatActionPool[] { CombatActionPool.BEFORE_ATTACK_MELEE },
+
+                // same range as the vanilla torch throw: not point blank, not across the map
+                can_do_action = (Actor pSelf, BaseSimObject pTarget) =>
+                {
+                    float dist = Toolbox.SquaredDistVec2Float(pSelf.current_position, pTarget.current_position);
+                    return dist > 36f && dist < 2500f;
+                },
+
+                action_actor_target_position = (Actor pSelf, Vector2 pTarget, WorldTile pTile) =>
+                {
+                    if (pSelf == null || !pSelf.isAlive() || pTile == null) return false;
+
+                    Vector3 launch = pSelf.current_position;
+                    launch.y += 0.5f;
+                    // a shooter means a kingdom, so no pForcedKingdom here
+                    World.world.projectiles.spawn(pSelf, null, HelloProjectiles.EMBER_BOLT, launch, pTile.posV3);
+                    MusicBox.playSound("event:/SFX/WEAPONS/WeaponFireballStart", pTile);
+                    return true;
+                }
+            };
+
+            AssetManager.combat_action_library.add(toss);
+
+            // Combat actions come from traits. The trait only stores ids, and the game turned
+            // ids into objects at startup: link it yourself or the trait never uses it.
+            ActorTrait swift = AssetManager.traits.get(HelloTraits.SWIFT);
+            if (swift == null) return;
+            swift.addCombatAction(TOSS);
+            swift.linkCombatActions();
+        }
     }
-};
-AssetManager.combat_actions.add(action);
+}
 ```
 
-특성의 이벤트에 훅을 연결합니다:
+| 풀 | 추첨되는 때 |
+| --- | --- |
+| `BEFORE_ATTACK_MELEE` | 근접 공격을 위해 다가갈 때. `action_actor_target_position` 사용 |
+| `BEFORE_ATTACK_RANGE` | 막 쏘려고 할 때. 같은 델리게이트 |
+| `BEFORE_HIT` | 막 맞으려고 할 때. 회피처럼 `action_actor` 사용 |
+| `BEFORE_HIT_BLOCK` | 막 맞으려고 할 때, 대신 막기. 막기와 같음 |
+| `BEFORE_HIT_DEFLECT` | 투사체가 날아올 때. 튕겨 내기와 같음 |
 
-```csharp
-trait.addCombatAction(CombatActionAsset.BEFORE_ATTACK_MELEE, "hello_cast_on_attack");
-```
+| 필드 | 하는 일 |
+| --- | --- |
+| `chance` | 행동이 가능할 때 굴리며, 유닛의 `skill_combat`으로 올라갑니다 |
+| `cost_stamina` / `cost_mana` | 사용할 때 지불합니다. 부족하면 선택지가 되지 않습니다 |
+| `cooldown` | 사용 후 `recovery_combat_action` 상태의 초 단위 시간으로, 그동안 모든 전투 행동이 막힙니다 |
+| `can_do_action` | 목표를 받아 판단하는 여러분의 조건 |
 
-> [!WARNING] 오직 특성을 통해서만 부여됩니다
-> 전투 액션을 `ActorAsset`에 직접 연결할 수는 없습니다. 모든 전투 이벤트는 액터의 특성을 순회하며 액션을 조회하므로, 유닛에 액션을 추가하려면 특성에 넣은 뒤 그 특성을 유닛에 부여해야 합니다 :PES2_Shrug:.
+> [!WARNING] 특성만이 이것을 나눠 줍니다
+> 유닛은 전투 행동을 특성과, 아종·씨족·종교에서 모으며, 장비에서는 절대 모으지 않습니다. 특성은 ID를 보관하고, 게임은 시작할 때 ID를 객체로 바꿨습니다: `addCombatAction()` 다음에 `linkCombatActions()`를 호출하세요. 그러지 않으면 그 특성은 아무도 쓰지 않는 기술을 들고 다니게 됩니다 :PES2_Shrug:.
 
 ## 이펙트
 

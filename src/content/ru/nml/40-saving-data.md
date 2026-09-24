@@ -30,7 +30,9 @@ order: 44
 
 ## Сохранение сложных объектов в NML
 
-Если пяти примитивных типов мало и требуется сохранить целый класс, NML предоставляет `DataExtension` в `NeoModLoader.General.Game.extensions`:
+Если пять примитивных типов кажутся вам 1995 годом и вам действительно нужно сохранить на акторе целый класс или список, NML предлагает `DataExtension` в `NeoModLoader.General.Game.extensions`.
+
+Оберните свой класс данных в `BasicCustomData<T>`:
 
 ```csharp
 using NeoModLoader.General.Game.extensions;
@@ -52,7 +54,7 @@ if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
 }
 ```
 
-NML сериализует объект в JSON и пишет его в `custom_data_string`. Для версионирования реализуйте интерфейс `ICustomData` :PES5_Hmmmm:.
+Под капотом NML сериализует ваш объект в JSON и кладёт его в ванильную таблицу `custom_data_string` под вашим ключом. Если вы ожидаете, что формат данных будет меняться между обновлениями мода, реализуйте `ICustomData` прямо в своём классе вместо `BasicCustomData<T>` - это даёт явные проверки `ModId` и `DataVersion`, чтобы устаревшее сохранение молча не отравило ваше новое состояние :PES5_Hmmmm:.
 
 ## В HelloBox
 

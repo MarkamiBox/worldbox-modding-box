@@ -85,7 +85,7 @@ trait.read_book_trait_action = delegate(Actor pActor, LanguageTrait pTrait, Book
 
 ## Собственный тип книги
 
-Игра определяет форматы книг в `AssetManager.book_types`:
+Хук книг выше меняет то, что делает книга. **Тип книги** - это новый вид книги: как она называется, кто её пишет и что даёт её чтение.
 
 ```csharp Mods/HelloBox/Code/HelloBooks.cs
 namespace HelloBox
@@ -98,18 +98,27 @@ namespace HelloBox
         {
             if (AssetManager.book_types.has(ALMANAC)) return;
 
-            BookTypeAsset book = new BookTypeAsset
+            BookTypeAsset almanac = new BookTypeAsset
             {
                 id = ALMANAC,
-                name = "book_type_" + ALMANAC,
-                description = "book_type_info_" + ALMANAC,
-                rarity = 5
+                name_template = "book_name_fable",   // a vanilla name template
+                color_text = "#D14219",
+                writing_rate = 2,                    // weight against the other book types
+                path_icons = "fable/",               // borrow the fables' covers: books/book_icons/fable/
+                requirement_check = (Actor pActor, BookTypeAsset pAsset) => pActor.hasTrait(HelloTraits.SWIFT)
             };
-            AssetManager.book_types.add(book);
+
+            AssetManager.book_types.add(almanac);
+
+            // what a reader gets out of it
+            almanac.base_stats["experience"] = 5f;
+            almanac.base_stats["happiness"] = 5f;
         }
     }
 }
 ```
+
+Автор выбирает тип среди тех, чей `requirement_check` проходит, с весом по `writing_rate` (или вашему `rate_calc`, с потолком 10), каждый раз из всего списка: `add()` достаточно. `path_icons` - это папка внутри `books/book_icons/`, которая читается как список обложек, так что позаимствовать ванильную ничего не стоит.
 
 ```json Mods/HelloBox/Locales/en.json
 {

@@ -29,7 +29,9 @@ order: 44
 
 ## NML을 사용한 복잡한 객체 저장
 
-5가지 기본 타입만으로는 부족하고 클래스나 리스트 전체를 저장해야 하는 경우, NML은 `NeoModLoader.General.Game.extensions`에서 `DataExtension`을 제공합니다:
+기본형 다섯 개가 1995년처럼 느껴지고, 정말로 클래스나 목록 전체를 액터에 저장해야 한다면, NML은 `NeoModLoader.General.Game.extensions`에 `DataExtension`을 제공합니다.
+
+데이터 클래스를 `BasicCustomData<T>`로 감싸세요:
 
 ```csharp
 using NeoModLoader.General.Game.extensions;
@@ -51,7 +53,7 @@ if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
 }
 ```
 
-내부적으로 NML은 객체를 JSON으로 직렬화하여 `custom_data_string`에 보관합니다. 데이터 구조 변경에 대비하려면 `ICustomData`를 직접 구현하여 버전 관리를 적용하세요 :PES5_Hmmmm:。
+내부적으로 NML은 객체를 JSON으로 직렬화해 여러분의 키로 바닐라 `custom_data_string` 테이블에 넣습니다. 모드 업데이트마다 데이터 형식이 바뀔 것 같다면, `BasicCustomData<T>` 대신 클래스에 직접 `ICustomData`를 구현하세요. `ModId`와 `DataVersion`을 명시적으로 확인할 수 있어서, 오래된 저장 데이터가 새 상태를 조용히 오염시키지 않습니다 :PES5_Hmmmm:.
 
 ## HelloBox 구현
 

@@ -138,7 +138,7 @@ Crear un nuevo grupo **no** te otorga una nueva ranura de equipo. `EquipmentType
 
 ## Dónde aparece la categoría
 
-Los grupos se dibujan en el orden de la lista interna, y `add()` coloca el tuyo al final. Desplázalo junto a una categoría afín:
+Los grupos se dibujan en el orden de `list`, y `add()` pone el tuyo al final. Muévelo junto a uno relacionado:
 
 ```csharp
 private static void PlaceAfter(string pId, string pAfterId)

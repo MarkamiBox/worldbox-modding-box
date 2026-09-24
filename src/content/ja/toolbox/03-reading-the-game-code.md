@@ -27,16 +27,16 @@ worldbox/worldbox_Data/Managed/Assembly-CSharp.dll
 
 ### 1. クラスを調べる
 
-`Ctrl+Shift+K` で型（クラス）を検索できます。`ActorTrait` と入力して開くと、設定可能なすべてのフィールドが、その型と初期値つきで一覧表示されます：
+`Ctrl+Shift+K` で型を検索します。`ActorTrait` と入力して開くと、設定できるすべてのフィールドが、その型とデフォルト値付きで表示されます：
 
 ```csharp Assembly-CSharp / ActorTrait
 public string path_icon;
 public string group_id;
-public float rate_birth;
+public int rate_birth;
 public bool can_be_cured;
 ```
 
-このリストこそが、**[カスタム特性](#/nml/custom-traits)** のページの公式ドキュメントそのものです。まったく同じ要領で `ItemAsset`、`BuildingAsset`、`StatusAsset` など、あらゆるアセットを調べられます。
+そのリストこそが **[カスタム特性](#/nml/custom-traits)** ページのドキュメントです。**型**も読んでください：`rate_birth` は `int` なので、`rate_birth = 0.5f` はコンパイルできません。`ItemAsset`、`BuildingAsset`、`StatusAsset`、何でも同じ方法が使えます。
 
 ### 2. メソッドの正確なシグネチャを確認する
 

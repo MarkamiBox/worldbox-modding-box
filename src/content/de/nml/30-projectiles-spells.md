@@ -146,43 +146,95 @@ AssetManager.spells.add(bolt);
 
 ### Einer Entität einen Zauber verleihen
 
-Zauber werden dem Verleiher per ID zugewiesen:
+Zauber hängen an dem, was sie gewährt, per ID:
 
 ```csharp
-trait.addSpell("hello_bolt");        // jede Eigenschaft aller 7 Systeme
-item.addSpell("hello_bolt");         // ein Gegenstand
+trait.addSpell("hello_bolt");        // any trait, of any of the seven systems
+trait.linkSpells();                  // the ids became objects at startup: do it for yours
+item.addSpell("hello_bolt");         // an item
+item.linkSpells();
 actorAsset.spell_ids = new List<string> { "hello_bolt" };
 ```
 
-Interessante Vanilla-Zauber: `teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`.
+`addSpell()` hängt nur eine ID an. Die Bibliothek verwandelt IDs in `linkAssets()` in Zauber, beim Start, vor deiner Mod: Lässt du `linkSpells()` bei einem Merkmal oder Gegenstand weg, den du selbst registriert hast, gewährt er nichts, und zwar stillschweigend.
+
+Vanilla-Zauber-IDs, die sich zu lesen lohnen: `teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`.
 
 ## Kampfaktionen
 
-Ein `CombatActionAsset` ist ein Delegat, der bei einem Kampfereignis ausgelöst wird, üblicherweise um einen Zauber oder einen Effekt zu triggern:
+Ein Zauber ist etwas, das eine Einheit wirkt. Eine **Kampfaktion** ist etwas, das sie mitten im Kampf *tut*: ein Sprint, ein Ausweichen, eine Fackel, geworfen, bevor sie heranrückt. Das Spiel würfelt sie zu festen Zeitpunkten eines Kampfes aus, den sogenannten Pools.
 
-```csharp Mods/HelloBox/Code/HelloSpells.cs
-CombatActionAsset action = new CombatActionAsset
+```csharp Mods/HelloBox/Code/HelloCombat.cs
+using UnityEngine;
+
+namespace HelloBox
 {
-    id = "hello_cast_on_attack",
-    action = (pSelf, pTarget, pWorldTile) =>
+    public static class HelloCombat
     {
-        if (pSelf == null || !pSelf.isAlive()) return false;
+        public const string TOSS = "hello_ember_toss";
 
-        // do the cast
-        return true;
+        public static void Initialize()
+        {
+            if (AssetManager.combat_action_library.has(TOSS)) return;
+
+            CombatActionAsset toss = new CombatActionAsset
+            {
+                id = TOSS,
+                cost_stamina = 10,
+                chance = 0.3f,        // rolled each time the unit could use it, plus its combat skill
+                cooldown = 4f,
+                pools = new CombatActionPool[] { CombatActionPool.BEFORE_ATTACK_MELEE },
+
+                // same range as the vanilla torch throw: not point blank, not across the map
+                can_do_action = (Actor pSelf, BaseSimObject pTarget) =>
+                {
+                    float dist = Toolbox.SquaredDistVec2Float(pSelf.current_position, pTarget.current_position);
+                    return dist > 36f && dist < 2500f;
+                },
+
+                action_actor_target_position = (Actor pSelf, Vector2 pTarget, WorldTile pTile) =>
+                {
+                    if (pSelf == null || !pSelf.isAlive() || pTile == null) return false;
+
+                    Vector3 launch = pSelf.current_position;
+                    launch.y += 0.5f;
+                    // a shooter means a kingdom, so no pForcedKingdom here
+                    World.world.projectiles.spawn(pSelf, null, HelloProjectiles.EMBER_BOLT, launch, pTile.posV3);
+                    MusicBox.playSound("event:/SFX/WEAPONS/WeaponFireballStart", pTile);
+                    return true;
+                }
+            };
+
+            AssetManager.combat_action_library.add(toss);
+
+            // Combat actions come from traits. The trait only stores ids, and the game turned
+            // ids into objects at startup: link it yourself or the trait never uses it.
+            ActorTrait swift = AssetManager.traits.get(HelloTraits.SWIFT);
+            if (swift == null) return;
+            swift.addCombatAction(TOSS);
+            swift.linkCombatActions();
+        }
     }
-};
-AssetManager.combat_actions.add(action);
+}
 ```
 
-Hänge ihn in ein Ereignis deiner Eigenschaft ein:
+| Pool | Wann gewürfelt wird |
+| --- | --- |
+| `BEFORE_ATTACK_MELEE` | Beim Heranrücken für einen Nahkampftreffer. Nutzt `action_actor_target_position` |
+| `BEFORE_ATTACK_RANGE` | Kurz vor dem Schuss. Derselbe Delegate |
+| `BEFORE_HIT` | Kurz bevor sie getroffen wird. Nutzt `action_actor`, wie das Ausweichen |
+| `BEFORE_HIT_BLOCK` | Kurz bevor sie getroffen wird, stattdessen blocken. Wie der Block |
+| `BEFORE_HIT_DEFLECT` | Ein Projektil kommt. Wie das Abwehren |
 
-```csharp
-trait.addCombatAction(CombatActionAsset.BEFORE_ATTACK_MELEE, "hello_cast_on_attack");
-```
+| Feld | Was es tut |
+| --- | --- |
+| `chance` | Wird gewürfelt, wenn die Aktion möglich ist, erhöht durch `skill_combat` der Einheit |
+| `cost_stamina` / `cost_mana` | Wird beim Einsatz bezahlt. Nicht genug, keine Option |
+| `cooldown` | Sekunden des Status `recovery_combat_action` danach, der jede Kampfaktion blockiert |
+| `can_do_action` | Deine Bedingung, mit dem Ziel als Eingabe |
 
-> [!WARNING] Nur Eigenschaften vergeben sie
-> Du kannst eine Kampfaktion nicht direkt an ein `ActorAsset` anhängen. Jedes Kampfereignis durchläuft die Eigenschaften der Kreatur und fragt deren Aktionen ab. Wenn du also eine Aktion auf einer Einheit haben möchtest, packe sie auf eine Eigenschaft und gib die Eigenschaft der Einheit :PES2_Shrug:.
+> [!WARNING] Nur Merkmale verteilen sie
+> Eine Einheit sammelt Kampfaktionen aus ihren Merkmalen und aus ihrer Unterart, ihrem Clan und ihrer Religion, nie aus ihrer Ausrüstung. Das Merkmal speichert IDs, und das Spiel hat IDs beim Start in Objekte verwandelt: Ruf `linkCombatActions()` nach `addCombatAction()` auf, sonst trägt das Merkmal einen Move, den nie jemand macht :PES2_Shrug:.
 
 ## Effekte
 

@@ -132,34 +132,54 @@ Tres subsistemas adicionales a los que se integran los rasgos de subespecie:
 
 ## Genes
 
-Un gen es la forma en que un rasgo de subespecie muta en otro rasgo. El juego recorre `AssetManager.genes` durante la reproducción para decidir qué se transmite: Deberes de biología, básicamente.
+Los bloques de estadísticas de macho y hembra mencionados arriba vienen del **genoma** de la subespecie: cromosomas con huecos, y un gen en cada uno. Un gen es un `BaseTrait`, así que se registra como cualquier otro rasgo de esta web, con dos tareas extra. Deberes de biología, básicamente.
 
 ```csharp Mods/HelloBox/Code/HelloGenes.cs
 namespace HelloBox
 {
     public static class HelloGenes
     {
+        public const string EMBER_BLOOD = "hello_ember_blood";
+
         public static void Initialize()
         {
+            if (AssetManager.gene_library.has(EMBER_BLOOD)) return;
+
             GeneAsset gene = new GeneAsset
             {
-                id = "hello_swift_gene",
-                id_trait = HelloSubspecies.SWIFT,
-                rate = 0.05f
+                id = EMBER_BLOOD,
+                path_icon = "ui/Icons/iconHelloGene",
+                needs_to_be_explored = false
             };
-            AssetManager.genes.add(gene);
-            AssetManager.genes._gene_assets_mutations.Add(gene);
+
+            AssetManager.gene_library.add(gene);
+            gene.base_stats["damage"] = 2f;
+
+            // Each world rolls every gene's DNA letters from its life seed when it loads.
+            // A world may already be open, so roll yours now the same way.
+            if (World.world != null && World.world.map_stats != null)
+            {
+                gene.generateDNA(World.world.map_stats.life_dna + gene.getIndexID());
+            }
+
+            // linkAssets() filled the mutation pool at startup. Without this, only the
+            // player's gene editor can ever place it.
+            AssetManager.gene_library._gene_assets_mutations.Add(gene);
         }
     }
 }
 ```
 
-Dos campos:
+- **Las letras del ADN.** Cada gen muestra un código corto `ACGT`, sorteado por mundo a partir de su semilla de vida cuando carga el mundo. Tu gen no estaba ahí para ese sorteo, así que sortea el suyo de la misma forma.
+- **El pool de mutaciones.** Las mutaciones eligen de `_gene_assets_mutations`, una lista privada que `linkAssets()` llenó al arrancar. Un ensamblado **publicitado** te deja añadir a ella, y NML compila contra uno. Sáltatelo y el gen solo aparece donde el jugador lo ponga a mano.
 
-- `gene.id_trait` lo vincula al rasgo de subespecie que registraste.
-- `gene.rate` es la probabilidad de mutación, de 0.0 a 1.0.
+La clave de texto de un gen es `gene_<id>`. Los genes no tienen línea de descripción: `GeneLibrary.add()` la desactiva.
 
-Sin la llamada a `_gene_assets_mutations.Add(gene)`, el gen se registra pero nunca entra en la tirada de mutación.
+```json Mods/HelloBox/Locales/en.json
+{
+  "gene_hello_ember_blood": "Ember Blood"
+}
+```
 
 ## Etiquetas meta
 
@@ -194,7 +214,7 @@ ActorAsset asset = AssetManager.actor_library.get("hello_sprite");
 if (asset != null) asset.addSubspeciesTrait(HelloSubspecies.SCALES);
 ```
 
-Eso hace que cada nueva subespecie surgida de esa criatura nazca con él. Si lo omites y confías en `in_mutation_pot_add`, surgirá por sí solo en algún rincón tarde o temprano, lo que habitualmente resulta mucho más fascinante.
+Eso hace que toda subespecie nueva de esa criatura empiece con él. Si lo omites y te fías de `in_mutation_pot_add`, aparece por su cuenta, en algún sitio, algún día, que suele ser la versión más interesante.
 
-> [!TIP] Los hechizos encajan de maravilla aquí
-> Los linajes mágicos de vanilla son rasgos de subespecie que únicamente conceden un hechizo: `trait.addSpell("summon_lightning")`. Una sola línea de código, heredada de padres a hijos, y tienes ante ti una dinastía de invocadores de tormentas cruzando continentes enteros :PES5_CrazyPog:.
+> [!TIP] Los hechizos viven bien aquí
+> Los linajes mágicos de vanilla son rasgos de subespecie que conceden un hechizo y nada más: `trait.addSpell("summon_lightning")`, luego `trait.linkSpells()` porque la biblioteca resolvió los ids de hechizos al arrancar. Dos líneas, heredadas por los hijos, y produce un linaje visible de invocadores de tormentas por todo un continente :PES5_CrazyPog:.

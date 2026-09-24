@@ -132,34 +132,54 @@ trait.texture_asset.shadow = trait.shadow;
 
 ## 유전자
 
-유전자(Gene)는 한 아종 특성이 다른 특성으로 돌연변이를 일으키는 경로입니다. 게임은 번식 시점에 `AssetManager.genes`를 순회하며 물려줄 형질을 결정합니다: 사실상 생물 숙제입니다.
+처음에 언급한 수컷과 암컷 스탯 블록은 아종의 **게놈**에서 옵니다: 슬롯이 있는 염색체와, 각 슬롯에 들어 있는 유전자 하나. 유전자는 `BaseTrait`이므로 이 사이트의 다른 모든 특성처럼 등록하되, 추가로 할 일이 두 가지 있습니다. 사실상 생물 숙제입니다.
 
 ```csharp Mods/HelloBox/Code/HelloGenes.cs
 namespace HelloBox
 {
     public static class HelloGenes
     {
+        public const string EMBER_BLOOD = "hello_ember_blood";
+
         public static void Initialize()
         {
+            if (AssetManager.gene_library.has(EMBER_BLOOD)) return;
+
             GeneAsset gene = new GeneAsset
             {
-                id = "hello_swift_gene",
-                id_trait = HelloSubspecies.SWIFT,
-                rate = 0.05f
+                id = EMBER_BLOOD,
+                path_icon = "ui/Icons/iconHelloGene",
+                needs_to_be_explored = false
             };
-            AssetManager.genes.add(gene);
-            AssetManager.genes._gene_assets_mutations.Add(gene);
+
+            AssetManager.gene_library.add(gene);
+            gene.base_stats["damage"] = 2f;
+
+            // Each world rolls every gene's DNA letters from its life seed when it loads.
+            // A world may already be open, so roll yours now the same way.
+            if (World.world != null && World.world.map_stats != null)
+            {
+                gene.generateDNA(World.world.map_stats.life_dna + gene.getIndexID());
+            }
+
+            // linkAssets() filled the mutation pool at startup. Without this, only the
+            // player's gene editor can ever place it.
+            AssetManager.gene_library._gene_assets_mutations.Add(gene);
         }
     }
 }
 ```
 
-두 가지 핵심 필드:
+- **DNA 글자.** 모든 유전자는 짧은 `ACGT` 코드를 보여 주는데, 세계가 로드될 때 그 세계의 생명 시드로부터 세계마다 추첨됩니다. 여러분의 유전자는 그 추첨 때 없었으므로, 같은 방식으로 자기 코드를 추첨합니다.
+- **돌연변이 풀.** 돌연변이는 시작할 때 `linkAssets()`가 채운 비공개 목록 `_gene_assets_mutations`에서 고릅니다. **퍼블리사이즈된** 어셈블리라면 여기에 추가할 수 있고, NML은 그런 어셈블리로 컴파일합니다. 빼먹으면 유전자는 플레이어가 직접 넣은 곳에만 나타납니다.
 
-- `gene.id_trait`는 등록한 아종 특성과 연결합니다.
-- `gene.rate`는 돌연변이 발생 확률입니다 (0.0 ~ 1.0).
+유전자의 텍스트 키는 `gene_<id>`입니다. 유전자에는 설명 줄이 없습니다: `GeneLibrary.add()`가 그것을 끕니다.
 
-`_gene_assets_mutations.Add(gene)` 호출이 없으면 유전자가 등록은 되지만 돌연변이 추첨 풀에 영원히 들어가지 않습니다.
+```json Mods/HelloBox/Locales/en.json
+{
+  "gene_hello_ember_blood": "Ember Blood"
+}
+```
 
 ## 메타 태그
 
@@ -194,7 +214,7 @@ ActorAsset asset = AssetManager.actor_library.get("hello_sprite");
 if (asset != null) asset.addSubspeciesTrait(HelloSubspecies.SCALES);
 ```
 
-이렇게 하면 해당 생명체에서 파생되는 모든 새로운 아종이 이 특성을 가지고 시작합니다. 이 코드를 생략하고 `in_mutation_pot_add` 에만 의존하면 언젠가 세상 어딘가에서 스스로 발현하게 되며, 대개 이쪽이 훨씬 흥미진진한 결과를 낳습니다.
+이러면 그 생명체의 새 아종이 모두 이 특성을 가지고 시작합니다. 이걸 빼고 대신 `in_mutation_pot_add`에 맡기면, 언젠가 어딘가에서 저절로 나타나는데, 보통은 그쪽이 더 재미있습니다.
 
-> [!TIP] 주문과의 궁합이 환상적입니다
-> 바닐라의 마법 혈통은 주문 하나만 부여하는 아종 특성입니다: `trait.addSpell("summon_lightning")`. 단 한 줄의 코드가 자손에게 대물림되며 온 대륙을 아우르는 뇌전 소환사 가계도를 탄생시킵니다 :PES5_CrazyPog:.
+> [!TIP] 주문은 여기에 잘 어울립니다
+> 바닐라의 마법 혈통은 주문 하나만 주고 다른 건 없는 아종 특성입니다: `trait.addSpell("summon_lightning")` 다음, 라이브러리가 시작할 때 주문 ID를 해석했기 때문에 `trait.linkSpells()`. 두 줄이면 자식에게 이어지고, 대륙을 가로지르는 폭풍 소환사들의 눈에 보이는 혈통이 생깁니다 :PES5_CrazyPog:.

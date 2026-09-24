@@ -27,16 +27,16 @@ Ce fichier unique contient tout le code du jeu. Sur la gauche, tu as l'arboresce
 
 ### 1. Chercher une classe
 
-`Ctrl+Shift+K` permet de chercher les types. Tape `ActorTrait`, ouvre la classe, et tu verras chaque champ modifiable, avec son type et sa valeur par défaut :
+`Ctrl+Shift+K` cherche les types. Tapez `ActorTrait`, ouvrez-le, et vous voyez chaque champ que vous pouvez définir, avec son type et sa valeur par défaut :
 
 ```csharp Assembly-CSharp / ActorTrait
 public string path_icon;
 public string group_id;
-public float rate_birth;
+public int rate_birth;
 public bool can_be_cured;
 ```
 
-Cette liste *est* la documentation pour la page **[Traits personnalisés](#/nml/custom-traits)**. La même astuce fonctionne pour `ItemAsset`, `BuildingAsset`, `StatusAsset`, ou n'importe quoi d'autre.
+Cette liste *est* la documentation de la page **[Traits personnalisés](#/nml/custom-traits)**. Lisez aussi les **types** : `rate_birth` est un `int`, donc `rate_birth = 0.5f` ne compile pas. Même astuce pour `ItemAsset`, `BuildingAsset`, `StatusAsset`, n'importe quoi.
 
 ### 2. Vérifier la vraie signature d'une méthode
 

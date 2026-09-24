@@ -78,16 +78,15 @@ namespace HelloBox
     }
 }
 ```
-> [!WARNING] Charge l'ombre toi-même, sinon le jeu râle sur chaque acteur
-> `ActorAssetLibrary` parcourt sa liste au démarrage et appelle `loadShadow()` sur chaque acteur, ce qui charge le sprite dans `shadows/<shadow_texture>` et le mesure. C'est arrivé avant que ton mod n'enregistre quoi que ce soit, donc l'ombre de ton acteur reste à `(0.00, 0.00)` et le jeu logge une erreur d'asset pour elle, trois fois : adulte, œuf et bébé :wbfacepalm:.
+> [!WARNING] Chargez l'ombre vous-même, sinon le jeu se plaint de chaque acteur
+> `ActorAssetLibrary` parcourt sa liste au démarrage et appelle `loadShadow()` sur chaque acteur, qui lit le sprite dans `shadows/<shadow_texture>` et le mesure. Cela s'est passé avant que votre mod n'enregistre quoi que ce soit, donc l'ombre de votre acteur reste à `(0.00, 0.00)` et le jeu enregistre une erreur d'asset pour elle, trois fois, une pour l'adulte, l'œuf et le bébé :wbfacepalm:.
 >
-> `loadShadow()` est `internal`, il faut donc une `Assembly-CSharp.dll` **publicized** comme pour le reste du guide. Si tu n'en as pas, mets plutôt `asset.shadow = false;` : pas d'ombre, mais pas d'erreur non plus.
+> `loadShadow()` est `internal`, donc il faut un `Assembly-CSharp.dll` **publicisé** comme dans le reste du guide. Si vous n'en avez pas, mettez plutôt `asset.shadow = false;` : pas d'ombre, mais pas d'erreur non plus.
 
-
-> [!WARNING] clone() enregistre déjà
-> `AssetManager.<library>.clone(newId, sourceId)` appelle `add()` en interne. Chaque bibliothèque procède ainsi. Appeler vous-même `add()` ensuite constitue un enregistrement en double : la bibliothèque éjecte la première copie, consigne une erreur et la réinsère. C'est inoffensif, mais cela pollue vos logs au détriment des vrais problèmes et sautera aux yeux de n'importe quel relecteur.
+> [!WARNING] `clone()` enregistre déjà
+> `AssetManager.<library>.clone(newId, sourceId)` appelle `add()` en interne. Toutes les bibliothèques fonctionnent ainsi. Appeler `add()` vous-même ensuite est un double enregistrement : la bibliothèque retire la première copie, écrit une erreur et la rajoute. Sans danger, mais c'est du bruit dans votre log qui rend les vraies erreurs plus difficiles à trouver, et c'est la première chose qu'un relecteur remarquera.
 >
-> Le corollaire constitue une excellente nouvelle : **après un clone, `base_stats` existe déjà**, si bien que la règle "les stats après add" expliquée dans **[Traits personnalisés](#/nml/custom-traits)** est d'ores et déjà respectée.
+> Le bon côté : **après un clone, `base_stats` existe déjà**, donc la règle "stats après add" de **[Traits personnalisés](#/nml/custom-traits)** est déjà respectée.
 
 ## Plusieurs acteurs à la fois
 

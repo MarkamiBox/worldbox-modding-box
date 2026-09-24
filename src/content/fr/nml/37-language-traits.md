@@ -85,7 +85,7 @@ Deux habitudes à calquer sur le jeu de base :
 
 ## Votre propre type de livre
 
-Le jeu définit les formats de livres dans `AssetManager.book_types` :
+Le hook de livre ci-dessus change ce que fait un livre. Un **type de livre** est une nouvelle sorte de livre : son nom, qui l'écrit, et ce que sa lecture apporte.
 
 ```csharp Mods/HelloBox/Code/HelloBooks.cs
 namespace HelloBox
@@ -98,18 +98,27 @@ namespace HelloBox
         {
             if (AssetManager.book_types.has(ALMANAC)) return;
 
-            BookTypeAsset book = new BookTypeAsset
+            BookTypeAsset almanac = new BookTypeAsset
             {
                 id = ALMANAC,
-                name = "book_type_" + ALMANAC,
-                description = "book_type_info_" + ALMANAC,
-                rarity = 5
+                name_template = "book_name_fable",   // a vanilla name template
+                color_text = "#D14219",
+                writing_rate = 2,                    // weight against the other book types
+                path_icons = "fable/",               // borrow the fables' covers: books/book_icons/fable/
+                requirement_check = (Actor pActor, BookTypeAsset pAsset) => pActor.hasTrait(HelloTraits.SWIFT)
             };
-            AssetManager.book_types.add(book);
+
+            AssetManager.book_types.add(almanac);
+
+            // what a reader gets out of it
+            almanac.base_stats["experience"] = 5f;
+            almanac.base_stats["happiness"] = 5f;
         }
     }
 }
 ```
+
+L'auteur choisit un type parmi ceux dont le `requirement_check` passe, pondéré par `writing_rate` (ou votre `rate_calc`, plafonné à 10), dans toute la liste à chaque fois : `add()` suffit. `path_icons` est un dossier dans `books/book_icons/` lu comme une liste de couvertures, donc emprunter une couverture vanilla ne coûte rien.
 
 ```json Mods/HelloBox/Locales/en.json
 {

@@ -12,23 +12,22 @@ Qui si scende in profondità. Tutto il resto in questa guida aggiunge *oggetti e
 
 ## Come ragiona il gioco
 
-Tre livelli, dal generale al particolare, più quello che sta al loro fianco. Mi ci è voluto più tempo di quanto mi piaccia ammettere:
+Tre livelli, dal più grande al più piccolo, più quello che sta al loro fianco. Mi ci è voluto più tempo di quanto mi piaccia ammettere:
 
 | Livello | Cos'è | Libreria |
 | --- | --- | --- |
-| **Lavoro** (`ActorJob`) | L'occupazione generale della creatura: "fare il cittadino", "fare il soldato" | `AssetManager.job_actor` |
-| **Attività** (`BehaviourTaskActor`) | Un obiettivo concreto all'interno di un lavoro: "andare a mangiare", "costruire quello" | `AssetManager.tasks_actor` |
-| **Comportamento** (`BehaviourActionActor`) | Un singolo passo di un'attività, eseguito ogni tick, che stabilisce cosa fare dopo | agganciato a un'attività |
+| **Lavoro** (`ActorJob`) | Cosa fa in generale questa creatura: "fare il cittadino", "fare il soldato" | `AssetManager.job_actor` |
+| **Attività** (`BehaviourTaskActor`) | Un obiettivo concreto dentro un lavoro: "vai a mangiare", "costruisci quello" | `AssetManager.tasks_actor` |
+| **Comportamento** (`BehaviourActionActor`) | Un passo di un'attività, eseguito a ogni tick, che restituisce cosa fare dopo | aggiunto a un'attività |
+| **Decisione** (`DecisionAsset`) | Quando iniziare un'attività: le opzioni che una creatura valuta ogni volta che è libera | `AssetManager.decisions_library` |
 
-Un lavoro contiene attività, un'attività contiene comportamenti, e i comportamenti vengono eseguiti in sequenza finché uno di essi non ordina lo stop.
+Un lavoro contiene attività, un'attività contiene comportamenti, e i comportamenti vengono eseguiti in ordine finché uno non dice basta. Le decisioni stanno accanto ai lavori: sono il modo in cui una creatura libera sceglie da sola la sua prossima attività, vedi **[Decisioni](#decisioni-lascia-che-sia-la-creatura-a-scegliere-la-tua-attività)** più sotto.
 
 ## Scrivere un comportamento
 
 Un comportamento è una classe con un unico metodo. Riceve l'attore, compie una piccola azione e restituisce un `BehResult`:
 
-```csharp Mods/HelloBox/Code/HelloAI.cs
-using ai.behaviours;   // BehaviourTaskActor, BehaviourActionActor, BehResult, the vanilla behaviours
-
+```csharp
 namespace HelloBox
 {
     public class BehHelloDrive : BehaviourActionActor
@@ -37,55 +36,16 @@ namespace HelloBox
         {
             if (pActor == null || !pActor.isAlive()) return BehResult.Stop;
 
+            // decide something, write it onto the actor
             WorldTile target = HelloAI.PickTile(pActor);
             if (target == null) return BehResult.Stop;
 
             pActor.beh_tile_target = target;
-            return BehResult.Continue;
-        }
-    }
-
-    public static class HelloAI
-    {
-        public const string JOB = "hellobox_job";
-        public const string TASK = "hellobox_drive";
-
-        public static void Initialize()
-        {
-            BehaviourTaskActor drive = new BehaviourTaskActor
-            {
-                id = TASK,
-                ignore_fight_check = true,        // don't let the combat system hijack the task
-                locale_key = "task_unit_" + TASK
-            };
-
-            AssetManager.tasks_actor.add(drive);  // add first
-            drive.setIcon("ui/Icons/iconHelloDrive");    // then decorate
-            drive.addBeh(new BehHelloDrive());    // my decision
-            drive.addBeh(new BehGoToTileTarget()); // the game's own pathing does the walking
-
-            ActorJob job = new ActorJob { id = JOB };
-            job.addTask(TASK);
-            AssetManager.job_actor.add(job);
-        }
-
-        /** Where the creature should walk next. One random neighbour it can actually reach. */
-        public static WorldTile PickTile(Actor pActor)
-        {
-            WorldTile from = pActor.current_tile;
-            if (from == null) return null;
-
-            // the game's own helper: a random neighbour that is not across water
-            return from.getTileAroundThisOnSameIsland(from);
+            return BehResult.Continue;   // let the next behaviour in the task run
         }
     }
 }
 ```
-`PickTile` è tutto il senso dell'esercizio: è l'unica parte che il gioco non fa già al posto tuo. Tutto il resto in quel file è idraulica.
-
-> [!WARNING] `beh_tile_target` è internal
-> Il campo in cui scrive il behaviour è marcato `internal` nell'assembly del gioco, quindi questo compila contro una `Assembly-CSharp.dll` **publicized** (vedi la nota in **[Effetti di stato](#/nml/status-effects)**). Senza, il compilatore rifiuta la riga e il bersaglio te lo tieni in un campo tuo :PES5_Noted:.
-
 
 | Risultato | Significato |
 | --- | --- |
@@ -154,7 +114,12 @@ namespace HelloBox
 }
 ```
 
-Nota il secondo comportamento: **riutilizza i nodi vanilla**. Il gioco possiede già comportamenti rodati per camminare verso una tessera, infliggere uno stato, cercare un edificio o attaccare un bersaglio. Scrivere la decisione e delegare l'esecuzione fa tutta la differenza tra un fine settimana e un mese di lavoro.
+`PickTile` è il senso di tutto l'esercizio: è l'unica parte che il gioco non fa già per te. Tutto il resto in quel file è impianto idraulico.
+
+> [!WARNING] `beh_tile_target` è internal
+> Il campo in cui scrive il comportamento è marcato `internal` nell'assembly del gioco, quindi questo compila con un `Assembly-CSharp.dll` **pubblicizzato** (vedi la nota in **[Effetti di stato](#/nml/status-effects)**). Senza, il compilatore rifiuta la riga e devi tenere il bersaglio in un tuo campo :PES5_Noted:.
+
+Nota il secondo comportamento: **riusa i nodi vanilla**. Il gioco ha comportamenti per camminare fino a una casella, aggiungere uno stato, trovare un edificio, attaccare un bersaglio. Scrivere la decisione e prendere in prestito l'esecuzione è la differenza tra un weekend e un mese.
 
 ## Far usare concretamente il tuo lavoro a una creatura
 

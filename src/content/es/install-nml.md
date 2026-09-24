@@ -42,14 +42,16 @@ Sin este interruptor el juego ni siquiera busca mods. Sin error, sin mensaje, si
 
 ### Paso 2. Descarga NML
 
-1. Abre este enlace: **[github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest)**. Siempre apunta al NML más reciente, puedes guardarlo en marcadores.
-2. Baja hasta la sección **Assets**. Si está plegada, haz clic para abrirla.
+1. Abre este enlace: **[github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest)**. Siempre apunta al NML más nuevo, así que puedes guardarlo en marcadores.
+2. Baja hasta la sección llamada **Assets**. Si está plegada, haz clic para abrirla.
 3. Haz clic en **NeoModLoader.dll**. Se descarga como cualquier otro archivo, normalmente en tu carpeta **Descargas**.
 
-Solo necesitas ese archivo. La página también lista archivos que terminan en `.pdb`, `.xml` y "Source code": ignóralos. Son para los desarrolladores de NML, no para ti.
+Solo necesitas ese archivo. La página también muestra `nml-setup-win.exe` y archivos que terminan en `.pdb`, `.xml` y "Source code": ignóralos todos. Son para los desarrolladores de NML, no para ti.
 
 > [!WARNING] Solo desde ese enlace
-> Un `.dll` es un programa. Descarga NML **solo** desde la página de GitHub de arriba, nunca desde una web cualquiera ni desde un archivo que alguien te pasó por chat. Si el navegador pregunta "¿conservar este archivo?", pregunta porque es un `.dll`, y desde esa página la respuesta es conservar.
+> Un `.dll` es un programa. Descarga NML **solo** desde la página de GitHub de arriba, nunca desde CurseForge, otra web o un archivo que alguien te mandó por chat. Una copia vieja de cualquier otro sitio se borra sola la primera vez que arranca el juego y deja solo una carpeta `NML` y `NeoModLoader.AutoUpdate_memload.dll` - si pasa eso, vuelve aquí y descarga el archivo de verdad. El botón de "instalación en 1 clic" de GameBanana tampoco instala NML; descarga el `.dll` a mano.
+>
+> Si tu navegador pregunta "¿conservar este archivo?", o Chrome lo marca como **No confirmado**, es porque un `.dll` es un programa y no mucha gente descarga este. Desde esa página de GitHub la respuesta es conservar (en Chrome: abre la lista de descargas y luego **Conservar de todos modos**).
 
 ### Paso 3. Abre la carpeta de WorldBox
 
@@ -164,14 +166,13 @@ worldbox/
 
 ## Instalar un mod
 
-Ahora la parte fácil, la que harás una y otra vez.
+Ahora la parte fácil, y la que harás una y otra vez.
 
-1. Descarga el mod. Lee antes su descripción: algunos mods necesitan algo más, y el autor suele decirlo.
-2. Si vino como archivo **.zip**, descomprímelo. En Windows: clic derecho → **Extraer todo**. En Mac: doble clic.
-3. Arrastra la carpeta que obtienes a **`worldbox\Mods/`**, la que está junto a `worldbox.exe`.
-4. Inicia el juego.
+1. Descarga el mod. Lee primero su descripción: algunos mods necesitan algo extra, y el autor suele decirlo.
+2. Pon el `.zip` directamente en **`worldbox\Mods/`**, la que está junto a `worldbox.exe`. No lo descomprimas: NML descomprime sus propios zips la próxima vez que arranca el juego.
+3. Arranca el juego.
 
-Una carpeta de mod siempre tiene un archivo llamado `mod.json` en algún sitio dentro. Así la reconoce NML. Si el zip te dio una carpeta dentro de otra, no pasa nada, NML mira dentro.
+¿Ya lo descomprimiste por costumbre? También funciona, siempre que la carpeta que contiene `mod.json` quede directamente dentro de `Mods/`. Una carpeta de mod siempre tiene un archivo llamado `mod.json` en algún sitio, así es como NML la reconoce. El error a evitar es una carpeta dentro de otra carpeta dentro de `Mods/`, o los archivos del mod sueltos en `Mods/` sin ninguna carpeta alrededor.
 
 ```text
 worldbox/
@@ -184,52 +185,69 @@ worldbox/
 ```
 
 > [!TIP] Pruébalo con HelloBox
-> ¿No sabes si funciona? El mod que construye esta guía es una prueba ya hecha. Descárgalo desde **[El mod terminado](#/nml/all-together)**, descomprímelo en `Mods` e inicia el juego. Si aparece una pestaña de poderes nueva llena de botones tontos, todo está bien instalado :wbpeak:.
+> ¿No estás seguro de que funcione? El mod que construye esta guía es una prueba lista para usar. Descárgalo desde **[El mod terminado](#/nml/all-together)**, descomprímelo en `Mods` y arranca el juego. Si aparece una pestaña de poderes nueva llena de botones tontos, todo está bien instalado :wbpeak:.
 
-**Para quitar un mod**, cierra el juego y borra su carpeta de `Mods`. **Para apagarlo sin borrarlo**, usa la lista de mods de NML en el juego.
+**Para quitar un mod**, cierra el juego y borra su carpeta de `Mods`. **Para desactivarlo sin borrarlo**, usa la lista de mods de NML en el juego.
 
-**Los mods del Workshop** también funcionan: suscríbete en el Steam Workshop y NML los encuentra solo, sin copiar nada.
+**Los mods del Workshop** también funcionan: suscríbete en el Steam Workshop y NML los recoge, sin copiar nada.
 
 ---
 
 ## No funcionó
 
-Revísalos en orden. El primero arregla a casi todo el mundo.
+Revisa esto en orden. Lo primero arregla a la mayoría.
 
-| Qué ves | Qué hacer |
+| Lo que ves | Qué hacer |
 | --- | --- |
-| Ni botón de NML, ni carpeta `Mods` junto a `worldbox.exe` | Experimental Mode está apagado. Actívalo y reinicia. También tras cada actualización del juego |
-| Sigue sin pasar nada, Experimental Mode está activado | `NeoModLoader.dll` está en la carpeta equivocada. Tiene que estar en `worldbox_Data\StreamingAssets\Mods/`, junto a `test_asset_load` |
+| No hay botón de NML ni carpeta `Mods` junto a `worldbox.exe` | El Modo Experimental está apagado. Actívalo y reinicia. También después de cada actualización del juego |
+| Sigue sin haber nada, el Modo Experimental está activado | `NeoModLoader.dll` está en la carpeta equivocada. Tiene que estar en `worldbox_Data\StreamingAssets\Mods/`, junto a `test_asset_load` |
 | El archivo se llama `NeoModLoader.dll.dll` o `NeoModLoader (1).dll` | Renómbralo exactamente a `NeoModLoader.dll` |
-| NML está, pero un mod no aparece | El mod está en la `Mods` equivocada. Va en la que está junto a `worldbox.exe`, como carpeta con `mod.json` dentro, no como `.zip` |
-| NML dice que un mod "has been disabled due to an error" | El mod está roto o es demasiado viejo para tu versión del juego. Busca una actualización de ese mod o pregunta a su autor |
-| Todo se rompió justo después de una actualización de WorldBox | Vuelve a activar Experimental Mode. Luego espera a que tus mods se actualicen: una actualización del juego suele romper los mods viejos unos días |
+| NML está, pero un mod no aparece | El mod está en la `Mods` equivocada. Va en la que está junto a `worldbox.exe`, como su propio `.zip` o como una carpeta con `mod.json` dentro |
+| Un aluvión de texto rojo llena la pantalla y dice `YOU SHOULD RESTART THE GAME` | NML se llama `NeoModLoader (1).dll` o algo parecido. Mira el **[Paso 4](#paso-4-pon-nml-en-su-sitio)** |
+| NML dice que un mod "has been disabled due to an error" | El mod está roto o es demasiado viejo para tu versión del juego. Busca una actualización de ese mod o pregúntale a su autor |
+| La versión de la esquina del menú principal nunca cambia | Tu juego está en una rama beta de Steam. Mira **[Solución de problemas](#/troubleshooting)** |
+| Todo se rompió justo después de una actualización de WorldBox | Vuelve a activar el Modo Experimental. Luego espera a que tus mods se actualicen: una actualización del juego suele romper los mods viejos durante unos días |
 
-¿Sigues atascado? **[Solución de problemas](#/troubleshooting)** tiene la lista larga, y **[Logs y depuración](#/nml/logs-and-debugging)** muestra dónde apunta el juego lo que salió mal. Cuando pidas ayuda, di qué mods usas, qué hiciste justo antes de que se rompiera, e incluye el texto del error. "No funciona" no es algo que nadie pueda arreglar, ni yo :PESgn_ReadRules:.
+¿Sigues atascado? **[Solución de problemas](#/troubleshooting)** tiene la lista larga, y **[Logs y depuración](#/nml/logs-and-debugging)** muestra dónde apunta el juego lo que salió mal. Cuando pidas ayuda, di qué mods usas, qué hiciste justo antes de que se rompiera, e incluye el texto del error. "No funciona" no es algo que nadie pueda arreglar, ni siquiera yo :PESgn_ReadRules:.
 
 ---
 
 ## Lo que todo el mundo pregunta
 
-**¿Puedo usar NML y BepInEx a la vez?**
-Sí. No se molestan. Dos *mods* concretos pueden chocar igualmente, pero eso es cosa de los mods, no de los cargadores.
+**¿Puedo usar NML y BepInEx juntos?**
+Sí. No se estorban entre sí. Dos *mods* concretos pueden chocar, pero eso es cosa de los mods, no de los cargadores.
 
 **El mod dice que necesita BepInEx, no NML.**
-Entonces no va en `Mods`. Instala BepInEx como se explica en **[La consola en vivo (BepInEx)](#/toolbox/bepinex-console)** (Windows), abre el juego una vez y pon ese mod en `BepInEx\plugins/`. La descripción del mod dice qué cargador quiere.
+Entonces no va en `Mods`. Instala BepInEx como se muestra en **[La consola en vivo (BepInEx)](#/toolbox/bepinex-console)** (Windows), arranca el juego una vez y pon ese mod en `BepInEx\plugins/`. La descripción del mod dice qué cargador quiere.
 
 **¿NML o NCMS?**
-NML. NCMS dejó de actualizarse y no funciona en las versiones actuales del juego. NML ejecuta igualmente los viejos mods de NCMS, así que no pierdes nada.
+NML. NCMS dejó de actualizarse y no funciona en las versiones actuales del juego. NML ejecuta igualmente los mods viejos de NCMS, así que no pierdes nada.
 
-**¿Es NML un virus?**
-No. Los navegadores advierten sobre él porque un archivo `.dll` es un programa ejecutable y no mucha gente descarga este en particular. Descárgalo únicamente desde el enlace de GitHub de arriba: los mods en GameBanana son revisados por sus moderadores, mientras que un archivo que alguien te pasa por chat no lo revisa nadie :PESgn_ReadRules:.
+**¿NML es un virus?**
+No. Los navegadores avisan porque un `.dll` es un programa y no mucha gente descarga este. Consíguelo solo desde el enlace de GitHub de arriba: los mods de GameBanana los revisan sus moderadores, y un archivo que alguien te manda por chat no lo revisa nadie :PESgn_ReadRules:.
 
 **¿Tengo que reinstalar NML para cada mod?**
 No. Con una vez basta. Después, cada mod es solo una carpeta en `Mods`.
 
 **¿Tengo que actualizar NML?**
-Normalmente no. NML busca una versión nueva cada vez que arranca el juego y se reemplaza solo (para eso está el `NeoModLoader.AutoUpdate_memload.dll` que aparece a su lado). Si alguna vez falla, descarga el nuevo `NeoModLoader.dll` del mismo enlace y reemplaza el viejo a mano.
+Normalmente no. NML busca una versión nueva cada vez que arranca el juego y se reemplaza solo (eso es el `NeoModLoader.AutoUpdate_memload.dll` que aparece a su lado). Si alguna vez falla, descarga el `NeoModLoader.dll` nuevo del mismo enlace y reemplaza el viejo a mano.
 
-**¿Los mods me rompen las partidas guardadas?**
-Pueden. Un guardado hecho con un mod puede no cargar bien cuando quitas ese mod. Haz una copia de los mundos que te importan antes de probar algo nuevo :PES_MonkaSweat:.
+**¿Los mods me romperán las partidas guardadas?**
+Pueden. Una partida hecha con un mod puede no cargar bien cuando quitas ese mod. Guarda una copia de los mundos que te importan antes de probar algo nuevo :PES_MonkaSweat:.
 
-¿Quieres hacer mods en vez de solo usarlos? Se empieza en **[Primeros pasos](#/getting-started)**.
+**Mi mod favorito está desactualizado. ¿Puedo seguir jugándolo?**
+O esperas a su autor, o juegas la versión del juego para la que se hizo: en Steam, clic derecho en WorldBox → **Propiedades → Betas**, y elige esa rama. También necesitas la versión de NML correspondiente, enlazada en los mensajes fijados del canal de modding del Discord de WorldBox. Mientras estés ahí, todos los mods hechos para la versión actual dejan de funcionar. Para volver, elige **Ninguna** en el mismo menú.
+
+**¿Cómo actualizo un mod?**
+Los mods del Workshop se actualizan solos. Para todo lo demás: cierra el juego, borra la carpeta vieja del mod (y su `.zip` viejo) de `Mods`, y pon el `.zip` nuevo.
+
+**Borré un mod y sigue en el juego.**
+Venía del Steam Workshop. Desmarcarlo en la lista de mods no basta: cancela la suscripción en su página del Workshop.
+
+**¿Puedo cambiar un mod para mí?**
+Si tiene una carpeta `Code` llena de archivos `.cs`, sí: son texto plano, NML los compila cada vez que arranca el juego, y su arte está en `GameResources`. Guarda antes una copia del original. Compartir tu versión modificada es otra cuestión, pregunta al autor. Un mod que solo trae un `.dll` no se puede editar, solo recompilar desde su código fuente.
+
+**Alguien que me ayuda me pidió mi log.**
+Pega `%USERPROFILE%\AppData\LocalLow\mkarpenko\WorldBox` en la barra de direcciones del Explorador y mándale `Player.log`, el archivo en sí, no una captura. Si el juego acaba de crashear, manda `Player-prev.log` en su lugar: arrancar el juego de nuevo sobrescribe `Player.log`.
+
+¿Quieres hacer mods en vez de solo usarlos? Empieza en **[Primeros pasos](#/getting-started)**.

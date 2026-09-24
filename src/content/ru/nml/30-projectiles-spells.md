@@ -146,43 +146,95 @@ AssetManager.spells.add(bolt);
 
 ### Выдача заклинания сущности
 
-Заклинания привязываются по id к тому, что их дает:
+Заклинания привязываются по id к тому, что их даёт:
 
 ```csharp
-trait.addSpell("hello_bolt");        // любая черта из всех 7 систем
-item.addSpell("hello_bolt");         // предмет экипировки
+trait.addSpell("hello_bolt");        // any trait, of any of the seven systems
+trait.linkSpells();                  // the ids became objects at startup: do it for yours
+item.addSpell("hello_bolt");         // an item
+item.linkSpells();
 actorAsset.spell_ids = new List<string> { "hello_bolt" };
 ```
 
-Полезные ванильные заклинания для изучения: `teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`.
+`addSpell()` только добавляет id. Библиотека превращает id в заклинания в `linkAssets()`, при запуске, до вашего мода: пропустите `linkSpells()` у черты или предмета, которые вы зарегистрировали сами, и они ничего не дадут, причём молча.
+
+Ванильные id заклинаний, которые стоит почитать: `teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`.
 
 ## Боевые действия
 
-`CombatActionAsset` — это делегат, срабатывающий при боевом событии, обычно для вызова заклинания или эффекта:
+Заклинание - это то, что юнит колдует. **Боевое действие** - это то, что он *делает* посреди схватки: рывок, уклонение, факел, брошенный перед сближением. Игра разыгрывает их в фиксированные моменты боя, называемые пулами.
 
-```csharp Mods/HelloBox/Code/HelloSpells.cs
-CombatActionAsset action = new CombatActionAsset
+```csharp Mods/HelloBox/Code/HelloCombat.cs
+using UnityEngine;
+
+namespace HelloBox
 {
-    id = "hello_cast_on_attack",
-    action = (pSelf, pTarget, pWorldTile) =>
+    public static class HelloCombat
     {
-        if (pSelf == null || !pSelf.isAlive()) return false;
+        public const string TOSS = "hello_ember_toss";
 
-        // do the cast
-        return true;
+        public static void Initialize()
+        {
+            if (AssetManager.combat_action_library.has(TOSS)) return;
+
+            CombatActionAsset toss = new CombatActionAsset
+            {
+                id = TOSS,
+                cost_stamina = 10,
+                chance = 0.3f,        // rolled each time the unit could use it, plus its combat skill
+                cooldown = 4f,
+                pools = new CombatActionPool[] { CombatActionPool.BEFORE_ATTACK_MELEE },
+
+                // same range as the vanilla torch throw: not point blank, not across the map
+                can_do_action = (Actor pSelf, BaseSimObject pTarget) =>
+                {
+                    float dist = Toolbox.SquaredDistVec2Float(pSelf.current_position, pTarget.current_position);
+                    return dist > 36f && dist < 2500f;
+                },
+
+                action_actor_target_position = (Actor pSelf, Vector2 pTarget, WorldTile pTile) =>
+                {
+                    if (pSelf == null || !pSelf.isAlive() || pTile == null) return false;
+
+                    Vector3 launch = pSelf.current_position;
+                    launch.y += 0.5f;
+                    // a shooter means a kingdom, so no pForcedKingdom here
+                    World.world.projectiles.spawn(pSelf, null, HelloProjectiles.EMBER_BOLT, launch, pTile.posV3);
+                    MusicBox.playSound("event:/SFX/WEAPONS/WeaponFireballStart", pTile);
+                    return true;
+                }
+            };
+
+            AssetManager.combat_action_library.add(toss);
+
+            // Combat actions come from traits. The trait only stores ids, and the game turned
+            // ids into objects at startup: link it yourself or the trait never uses it.
+            ActorTrait swift = AssetManager.traits.get(HelloTraits.SWIFT);
+            if (swift == null) return;
+            swift.addCombatAction(TOSS);
+            swift.linkCombatActions();
+        }
     }
-};
-AssetManager.combat_actions.add(action);
+}
 ```
 
-Привяжите его к событию в вашей черте:
+| Пул | Когда разыгрывается |
+| --- | --- |
+| `BEFORE_ATTACK_MELEE` | При сближении для удара в ближнем бою. Использует `action_actor_target_position` |
+| `BEFORE_ATTACK_RANGE` | Перед выстрелом. Тот же делегат |
+| `BEFORE_HIT` | Перед тем как получить удар. Использует `action_actor`, как уклонение |
+| `BEFORE_HIT_BLOCK` | Перед тем как получить удар, вместо этого блокировать. Как блок |
+| `BEFORE_HIT_DEFLECT` | Летит снаряд. Как отражение |
 
-```csharp
-trait.addCombatAction(CombatActionAsset.BEFORE_ATTACK_MELEE, "hello_cast_on_attack");
-```
+| Поле | Что делает |
+| --- | --- |
+| `chance` | Бросается, когда действие возможно, растёт от `skill_combat` юнита |
+| `cost_stamina` / `cost_mana` | Платится при использовании. Не хватает - не вариант |
+| `cooldown` | Секунды статуса `recovery_combat_action` после, который блокирует любое боевое действие |
+| `can_do_action` | Ваше условие, с учётом цели |
 
-> [!WARNING] Их раздают только черты
-> Вы не можете прикрепить боевое действие напрямую к `ActorAsset`. Каждое боевое событие перебирает черты актора и опрашивает их действия, поэтому если вам нужно действие на существе, поместите его в черту, а черту выдайте существу :PES2_Shrug:.
+> [!WARNING] Выдают их только черты
+> Юнит собирает боевые действия из своих черт, а также из подвида, клана и религии, но никогда из снаряжения. Черта хранит id, а игра превратила id в объекты при запуске: вызовите `linkCombatActions()` после `addCombatAction()`, иначе черта будет нести приём, который никто никогда не сделает :PES2_Shrug:.
 
 ## Эффекты
 

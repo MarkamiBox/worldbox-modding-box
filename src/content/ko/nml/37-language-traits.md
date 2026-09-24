@@ -85,7 +85,7 @@ trait.read_book_trait_action = delegate(Actor pActor, LanguageTrait pTrait, Book
 
 ## 나만의 책 종류 만들기
 
-게임은 `AssetManager.book_types`에서 책 형식을 정의합니다:
+위의 책 훅은 책이 하는 일을 바꿉니다. **책 종류**는 새로운 종류의 책으로, 이름이 무엇인지, 누가 쓰는지, 읽으면 무엇을 주는지를 정합니다.
 
 ```csharp Mods/HelloBox/Code/HelloBooks.cs
 namespace HelloBox
@@ -98,18 +98,27 @@ namespace HelloBox
         {
             if (AssetManager.book_types.has(ALMANAC)) return;
 
-            BookTypeAsset book = new BookTypeAsset
+            BookTypeAsset almanac = new BookTypeAsset
             {
                 id = ALMANAC,
-                name = "book_type_" + ALMANAC,
-                description = "book_type_info_" + ALMANAC,
-                rarity = 5
+                name_template = "book_name_fable",   // a vanilla name template
+                color_text = "#D14219",
+                writing_rate = 2,                    // weight against the other book types
+                path_icons = "fable/",               // borrow the fables' covers: books/book_icons/fable/
+                requirement_check = (Actor pActor, BookTypeAsset pAsset) => pActor.hasTrait(HelloTraits.SWIFT)
             };
-            AssetManager.book_types.add(book);
+
+            AssetManager.book_types.add(almanac);
+
+            // what a reader gets out of it
+            almanac.base_stats["experience"] = 5f;
+            almanac.base_stats["happiness"] = 5f;
         }
     }
 }
 ```
+
+작가는 매번 전체 목록에서, `requirement_check`를 통과한 종류들 중 `writing_rate`(또는 여러분의 `rate_calc`, 최대 10)로 가중치를 두어 하나를 고릅니다: `add()`면 충분합니다. `path_icons`는 표지 목록으로 읽히는 `books/book_icons/` 아래의 폴더이므로, 바닐라 것을 빌려 쓰는 데 아무 비용도 들지 않습니다.
 
 ```json Mods/HelloBox/Locales/en.json
 {

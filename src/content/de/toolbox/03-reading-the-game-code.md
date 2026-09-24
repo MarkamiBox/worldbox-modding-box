@@ -27,16 +27,16 @@ Diese eine Datei ist der komplette Code des Spiels. Auf der linken Seite bekomms
 
 ### 1. Eine Klasse nachschlagen
 
-Mit `Strg+Umschalt+K` suchst du nach Typen. Tippe `ActorTrait` ein, öffne die Klasse, und du siehst jedes einzelne Feld, das du setzen kannst - samt Datentyp und Standardwert:
+`Ctrl+Shift+K` durchsucht Typen. Tipp `ActorTrait` ein, öffne es, und du siehst jedes Feld, das du setzen kannst, mit seinem Typ und seinem Standardwert:
 
 ```csharp Assembly-CSharp / ActorTrait
 public string path_icon;
 public string group_id;
-public float rate_birth;
+public int rate_birth;
 public bool can_be_cured;
 ```
 
-Diese Liste *ist* die Dokumentation für die Seite **[Eigene Traits](#/nml/custom-traits)**. Genau derselbe Trick funktioniert für `ItemAsset`, `BuildingAsset`, `StatusAsset` und alles andere.
+Diese Liste *ist* die Dokumentation für die Seite **[Eigene Merkmale](#/nml/custom-traits)**. Lies auch die **Typen**: `rate_birth` ist ein `int`, also kompiliert `rate_birth = 0.5f` nicht. Derselbe Trick für `ItemAsset`, `BuildingAsset`, `StatusAsset`, alles.
 
 ### 2. Die echte Methodensignatur prüfen
 

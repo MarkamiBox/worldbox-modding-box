@@ -30,7 +30,9 @@ Jeder Datentyp hat seine eigene Tabelle, daher kollidieren ein `int` und ein `st
 
 ## Speichern komplexer Objekte mit NML
 
-Wenn dir fünf primitive Typen nicht reichen und du eine ganze Klasse speichern möchtest, bietet NML `DataExtension` in `NeoModLoader.General.Game.extensions`:
+Wenn sich fünf Grundtypen wie 1995 anfühlen und du tatsächlich eine ganze Klasse oder Liste an einem Akteur speichern musst, bietet NML `DataExtension` in `NeoModLoader.General.Game.extensions`.
+
+Pack deine Datenklasse in `BasicCustomData<T>`:
 
 ```csharp
 using NeoModLoader.General.Game.extensions;
@@ -52,7 +54,7 @@ if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
 }
 ```
 
-NML serialisiert das Objekt als JSON in `custom_data_string`. Für Versionskontrolle bei Formatänderungen implementiere `ICustomData` :PES5_Hmmmm:.
+Unter der Haube serialisiert NML dein Objekt zu JSON und packt es unter deinem Schlüssel in die Vanilla-Tabelle `custom_data_string`. Wenn du erwartest, dass sich dein Datenformat über Mod-Updates hinweg ändert, implementiere `ICustomData` direkt in deiner Klasse, statt `BasicCustomData<T>` zu nutzen - das gibt dir explizite Prüfungen von `ModId` und `DataVersion`, damit ein veralteter Spielstand deinen neuen Zustand nicht stillschweigend vergiftet :PES5_Hmmmm:.
 
 ## In HelloBox
 

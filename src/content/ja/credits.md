@@ -36,6 +36,15 @@ order: 10
 
 ---
 
+## ガイドの着想元とコミュニティの執筆者
+
+NMLインストール章の着想を得たMod作成＆セットアップガイドの著者の方々に深く感謝します：
+
+- **[Keymasterer ._.](https://gamebanana.com/members/2594582)**：ステップバイステップのNMLインストールの着想元となったガイドの著者・執筆者。
+- **[ToonLunk](https://gamebanana.com/members/2712995)**: オリジナルガイドの校正者（Proofreader）および貢献者。
+
+---
+
 ## moddingのプラットフォームと中核フレームワーク
 
 - **[NeoModLoader (NML)](https://github.com/WorldBoxOpenMods/ModLoader)**
@@ -55,15 +64,6 @@ order: 10
   - コンパイル済みの `Assembly-CSharp.dll` を読んで仕組みを理解し、内部メソッドを見つけるためのデコンパイラとデバッガ。
 - **[AssetRipper](https://github.com/AssetRipper/AssetRipper)**
   - Unityのasset bundleやシリアライズされたファイルから、スプライト、テクスチャ、フォント、効果音を覗いて取り出せるオープンソースのツール。
-
----
-
-## ガイドの着想元とコミュニティの執筆者
-
-NMLインストール章の着想を得たMod作成＆セットアップガイドの著者の方々に深く感謝します：
-
-- **[Keymasterer ._.](https://gamebanana.com/members/2594582)**：ステップバイステップのNMLインストールの着想元となったガイドの著者・執筆者。
-- **[ToonLunk](https://gamebanana.com/members/2712995)**: オリジナルガイドの校正者（Proofreader）および貢献者。
 
 ---
 

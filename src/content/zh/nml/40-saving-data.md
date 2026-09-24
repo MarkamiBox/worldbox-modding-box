@@ -30,7 +30,9 @@ order: 44
 
 ## 使用 NML 存储复杂对象
 
-如果五个基础类型无法满足你的需求，你需要在生物数据上存入一整个自定义类或列表，NML 在 `NeoModLoader.General.Game.extensions` 中提供了 `DataExtension` 扩展方法：
+如果五种基本类型让你觉得像是 1995 年，而你确实需要把整个类或列表保存在一个角色身上，NML 在 `NeoModLoader.General.Game.extensions` 里提供了 `DataExtension`。
+
+把你的数据类包进 `BasicCustomData<T>`：
 
 ```csharp
 using NeoModLoader.General.Game.extensions;
@@ -52,7 +54,7 @@ if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
 }
 ```
 
-在底层，NML 会把对象序列化为 JSON 字符串并存入原版的 `custom_data_string` 数据表中。若数据结构未来会发生变动，建议直接让类实现 `ICustomData` 接口以获得明确的版本校验控制 :PES5_Hmmmm:。
+在底层，NML 会把你的对象序列化成 JSON，并以你的键存进原版的 `custom_data_string` 表里。如果你预计数据格式会随模组更新而变化，就直接在你的类上实现 `ICustomData`，而不是使用 `BasicCustomData<T>`：它会给你显式的 `ModId` 和 `DataVersion` 检查，免得旧存档里的数据悄悄污染你的新状态 :PES5_Hmmmm:。
 
 ## 在 HelloBox 中的实践
 

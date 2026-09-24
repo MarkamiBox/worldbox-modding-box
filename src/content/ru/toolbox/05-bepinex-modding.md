@@ -170,16 +170,16 @@ namespace HelloBepInEx
 
 ## 5. Сборка и установка
 
-Скомпилируйте проект через терминал:
+Соберите проект из командной строки:
 
 ```bash
 dotnet build -c Release
 ```
 
-Готовая библиотека появится по пути `bin/Release/net472/HelloBepInEx.dll`.
+Скомпилированная `.dll` появится в `bin/Release/net472/HelloBepInEx.dll`.
 
-1. Перейдите в папку WorldBox: `C:\Program Files (x86)\Steam\steamapps\common\worldbox\`.
-2. Внутри `BepInEx/plugins/` создайте папку `HelloBepInEx`.
+1. Откройте папку WorldBox: `C:\Program Files (x86)\Steam\steamapps\common\worldbox\`.
+2. Внутри `BepInEx/plugins/` создайте папку с именем `HelloBepInEx`.
 3. Скопируйте `HelloBepInEx.dll` в `BepInEx/plugins/HelloBepInEx/`.
 
 ```text
@@ -190,7 +190,7 @@ worldbox/
             └── HelloBepInEx.dll
 ```
 
-Запустите игру с включенной консолью. BepInEx загрузит ваш плагин:
+Запустите игру с включённой консолью. Вы увидите, как BepInEx находит и загружает вашу сборку:
 
 ```text BepInEx console
 [Info   :   BepInEx] Loading [HelloBepInEx 1.0.0]

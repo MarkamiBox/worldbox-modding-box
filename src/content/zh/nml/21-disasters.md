@@ -72,16 +72,24 @@ namespace HelloBox
 
 `rate` 和 `chance` 是你最常调整的两个。页面底部的警告解释了原因。
 
-| 字段 | 说明 |
+| 字段 | 作用 |
 | --- | --- |
-| `rate` | 权重：与其他灾害相比被抽中的相对概率 |
-| `chance` | 被初选后进行的二次触发概率判定 |
-| `min_world_population` / `min_world_cities` | 发生所需满足的最小世界人口/城市数门槛 |
-| `type` | `DisasterType.Nature`, `Other`, … |
-| `world_log` | `WorldLogAsset` 的 ID：世界日志中的事件分录。**不是**直接填本地化文本键，详见下文 |
-| `action` | 自定义执行代码。灾害的具体逻辑 |
-| `spawn_asset_unit` + `units_min`/`units_max` | 快捷配置：“生成 N 个该生物” |
-| `max_existing_units` | 若世界上已有该数量的生物则不再生成 |
+| `rate` | 抽取时的权重。越高，相对其他灾难就越常被选中 |
+| `chance` | 被选中之后的第二次判定 |
+| `min_world_population` / `min_world_cities` | 它能发生的前提条件 |
+| `type` | `DisasterType.Nature`、`Other`、… |
+| `world_log` | 一个 `WorldLogAsset` 的 id：世界日志里的那一行。**不是**本地化键，见下文 |
+| `action` | 你的代码。这就是灾难本身 |
+| `spawn_asset_unit` + `units_min`/`units_max` | “生成 N 个这种生物”的快捷方式 |
+| `max_existing_units` | 已经存在这么多时就不再生成 |
+| `ages_allow` / `ages_forbid` | 把它限制在某些世界时代，比如只在灰烬时代 |
+
+限制时代要在构建资源之后进行：
+
+```csharp
+emberStorm.ages_allow.Add("age_ash");
+emberStorm.ages_allow.Add("age_chaos");
+```
 
 ## 无需编写逻辑生成生物
 

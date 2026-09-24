@@ -74,14 +74,22 @@ Enregistrez-le dans `Main.cs` (voir **[Le mod complet](#/nml/all-together)**), c
 
 | Champ | Ce qu'il fait |
 | --- | --- |
-| `rate` | Poids : fréquence de tirage par rapport aux autres catastrophes |
-| `chance` | Un second tirage une fois la catastrophe sélectionnée |
-| `min_world_population` / `min_world_cities` | Conditions préalables pour que l'événement puisse survenir |
+| `rate` | Poids dans le tirage. Plus il est haut, plus il sort souvent par rapport aux autres |
+| `chance` | Un second jet une fois qu'il a été choisi |
+| `min_world_population` / `min_world_cities` | Conditions avant qu'il puisse même se produire |
 | `type` | `DisasterType.Nature`, `Other`, … |
-| `world_log` | L'ID d'un `WorldLogAsset` : la ligne dans le journal du monde. **Pas** une clé de texte, voir ci-dessous |
-| `action` | Votre code. C'est la catastrophe elle-même |
-| `spawn_asset_unit` + `units_min`/`units_max` | Raccourci pour "faire apparaître N unités de cette créature" |
-| `max_existing_units` | Ne pas en faire apparaître davantage s'il en existe déjà autant |
+| `world_log` | L'id d'un `WorldLogAsset` : la ligne dans le journal du monde. **Pas** une clé de traduction, voir plus bas |
+| `action` | Votre code. C'est ça, la catastrophe |
+| `spawn_asset_unit` + `units_min`/`units_max` | Raccourci pour "fais apparaître N de cette créature" |
+| `max_existing_units` | Ne plus en faire apparaître si autant existent déjà |
+| `ages_allow` / `ages_forbid` | La limite à certains âges du monde, par exemple seulement pendant l'Âge des Cendres |
+
+La limitation à un âge se fait après la construction de l'asset :
+
+```csharp
+emberStorm.ages_allow.Add("age_ash");
+emberStorm.ages_allow.Add("age_chaos");
+```
 
 ## Faire apparaître des créatures sans code
 

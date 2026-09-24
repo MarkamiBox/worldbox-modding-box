@@ -146,43 +146,95 @@ AssetManager.spells.add(bolt);
 
 ### Otorgar un hechizo a una entidad
 
-Los hechizos se asocian mediante su identificador:
+Los hechizos se enganchan a lo que los concede, por id:
 
 ```csharp
-trait.addSpell("hello_bolt");        // cualquier rasgo de cualquiera de los 7 sistemas
-item.addSpell("hello_bolt");         // un objeto o arma
+trait.addSpell("hello_bolt");        // any trait, of any of the seven systems
+trait.linkSpells();                  // the ids became objects at startup: do it for yours
+item.addSpell("hello_bolt");         // an item
+item.linkSpells();
 actorAsset.spell_ids = new List<string> { "hello_bolt" };
 ```
 
-Hechizos vanilla útiles para examinar: `teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`.
+`addSpell()` solo añade un id. La biblioteca convierte los ids en hechizos en `linkAssets()`, al arrancar, antes que tu mod: sáltate `linkSpells()` en un rasgo u objeto que registraste tú y no concede nada, en silencio.
+
+Ids de hechizos vanilla que vale la pena leer: `teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`.
 
 ## Acciones de combate
 
-Un `CombatActionAsset` es un delegado que se dispara ante un evento de combate, generalmente para activar un hechizo o un efecto:
+Un hechizo es algo que una unidad lanza. Una **acción de combate** es algo que *hace* en mitad de la pelea: un embiste, una esquiva, una antorcha lanzada antes de acercarse. El juego las sortea en momentos fijos de un combate, llamados pools.
 
-```csharp Mods/HelloBox/Code/HelloSpells.cs
-CombatActionAsset action = new CombatActionAsset
+```csharp Mods/HelloBox/Code/HelloCombat.cs
+using UnityEngine;
+
+namespace HelloBox
 {
-    id = "hello_cast_on_attack",
-    action = (pSelf, pTarget, pWorldTile) =>
+    public static class HelloCombat
     {
-        if (pSelf == null || !pSelf.isAlive()) return false;
+        public const string TOSS = "hello_ember_toss";
 
-        // do the cast
-        return true;
+        public static void Initialize()
+        {
+            if (AssetManager.combat_action_library.has(TOSS)) return;
+
+            CombatActionAsset toss = new CombatActionAsset
+            {
+                id = TOSS,
+                cost_stamina = 10,
+                chance = 0.3f,        // rolled each time the unit could use it, plus its combat skill
+                cooldown = 4f,
+                pools = new CombatActionPool[] { CombatActionPool.BEFORE_ATTACK_MELEE },
+
+                // same range as the vanilla torch throw: not point blank, not across the map
+                can_do_action = (Actor pSelf, BaseSimObject pTarget) =>
+                {
+                    float dist = Toolbox.SquaredDistVec2Float(pSelf.current_position, pTarget.current_position);
+                    return dist > 36f && dist < 2500f;
+                },
+
+                action_actor_target_position = (Actor pSelf, Vector2 pTarget, WorldTile pTile) =>
+                {
+                    if (pSelf == null || !pSelf.isAlive() || pTile == null) return false;
+
+                    Vector3 launch = pSelf.current_position;
+                    launch.y += 0.5f;
+                    // a shooter means a kingdom, so no pForcedKingdom here
+                    World.world.projectiles.spawn(pSelf, null, HelloProjectiles.EMBER_BOLT, launch, pTile.posV3);
+                    MusicBox.playSound("event:/SFX/WEAPONS/WeaponFireballStart", pTile);
+                    return true;
+                }
+            };
+
+            AssetManager.combat_action_library.add(toss);
+
+            // Combat actions come from traits. The trait only stores ids, and the game turned
+            // ids into objects at startup: link it yourself or the trait never uses it.
+            ActorTrait swift = AssetManager.traits.get(HelloTraits.SWIFT);
+            if (swift == null) return;
+            swift.addCombatAction(TOSS);
+            swift.linkCombatActions();
+        }
     }
-};
-AssetManager.combat_actions.add(action);
+}
 ```
 
-Engánchalo a un evento en tu rasgo:
+| Pool | Cuándo se sortea |
+| --- | --- |
+| `BEFORE_ATTACK_MELEE` | Al acercarse para un golpe cuerpo a cuerpo. Usa `action_actor_target_position` |
+| `BEFORE_ATTACK_RANGE` | Justo antes de disparar. El mismo delegado |
+| `BEFORE_HIT` | Justo antes de recibir un golpe. Usa `action_actor`, como la esquiva |
+| `BEFORE_HIT_BLOCK` | Justo antes de recibir un golpe, bloquear en su lugar. Como el bloqueo |
+| `BEFORE_HIT_DEFLECT` | Se acerca un proyectil. Como el desvío |
 
-```csharp
-trait.addCombatAction(CombatActionAsset.BEFORE_ATTACK_MELEE, "hello_cast_on_attack");
-```
+| Campo | Qué hace |
+| --- | --- |
+| `chance` | Se tira cuando la acción es posible, lo sube el `skill_combat` de la unidad |
+| `cost_stamina` / `cost_mana` | Se paga al usarla. Si no alcanza, no es una opción |
+| `cooldown` | Segundos del estado `recovery_combat_action` después, que bloquea toda acción de combate |
+| `can_do_action` | Tu condición, dado el objetivo |
 
-> [!WARNING] Solo los rasgos las distribuyen
-> No puedes vincular una acción de combate directamente a un `ActorAsset`. Cada evento de combate recorre los rasgos del actor y consulta sus acciones, así que si quieres una acción en una unidad, colócala en un rasgo y ponle el rasgo a la unidad :PES2_Shrug:.
+> [!WARNING] Solo los rasgos las reparten
+> Una unidad reúne acciones de combate de sus rasgos y de su subespecie, clan y religión, nunca de su equipo. El rasgo guarda ids, y el juego convirtió los ids en objetos al arrancar: llama a `linkCombatActions()` después de `addCombatAction()`, o el rasgo lleva un movimiento que nadie hace nunca :PES2_Shrug:.
 
 ## Efectos
 

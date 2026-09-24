@@ -9,7 +9,7 @@ order: 420
 
 Escolha um método real do jogo e receba o esqueleto do patch com a classe, o método e os nomes de parâmetros certos, para que um erro de digitação em `__instance` pare de custar uma noite.
 
-> [!NOTE] Fazer patch em has, get, add, clone ou post_init de uma biblioteca é inútil
-> Afeta apenas chamadas feitas após o carregamento do seu mod, nunca o registro vanilla que já aconteceu antes. Veja **[Bibliotecas de assets](#/nml/asset-libraries)**.
+> [!NOTE] Fazer patch em `has`, `get`, `add`, `clone` ou `post_init` de uma biblioteca não adianta
+> Isso só afeta chamadas feitas depois que o seu mod carrega, nunca o registro vanilla que já aconteceu até lá. Veja **[Bibliotecas de assets](#/nml/asset-libraries)**.
 
 ::tool:harmony::

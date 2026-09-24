@@ -169,9 +169,9 @@ Das Spiel tut so, als gäbe es deine Mod nicht. Nimm es nicht persönlich, meist
 
 ### Kein Mods-Button im Menü
 
-- **Was du siehst**: Das Spiel startet normal, kein Fehler, kein Mods-Button und keine `[NML]`-Zeile im Log.
+- **Was du siehst**: Das Spiel startet normal, kein Fehler, kein Mods-Button und nirgends eine `[NML]`-Zeile im Log.
 - **Warum**: Zwei Ordner heißen "Mods". Die Loader-DLL gehört in den Datenordner des Spiels; `worldbox\Mods/` ist für *deine* Mods.
-- **Lösung**: Lege `NeoModLoader.dll` in `worldbox\worldbox_Data\StreamingAssets\mods/`, starte neu und achte auf `[NML]: NeoModLoader Version:` im Log.
+- **Lösung**: Leg `NeoModLoader.dll` in `worldbox\worldbox_Data\StreamingAssets\mods/`, starte neu und such im Log nach `[NML]: NeoModLoader Version:`. Jeder Klick, Mac inklusive: **[NML installieren](#/install-nml)**.
 
 ### Mods-Fenster leer, funktionierte vorher
 
@@ -181,9 +181,9 @@ Das Spiel tut so, als gäbe es deine Mod nicht. Nimm es nicht persönlich, meist
 
 ### Mod-Ordner vorhanden, aber Mod fehlt in der Liste
 
-- **Was du siehst**: Nichts in der Liste, keine `Compile Mod <deinemod>`-Zeile.
-- **Warum**: Häufigste Gründe: Die Datei heißt `mod.json.txt`; das JSON ist ungültig; oder der Ordner liegt nicht direkt in `worldbox\Mods/`.
-- **Lösung**: Explorer → **Ansicht → Anzeigen → Dateinamenerweiterungen**, Namen prüfen. Öffne `mod.json` in VS Code zur Syntaxprüfung.
+- **Was du siehst**: Nichts in der Liste, keine Zeile `Compile Mod <yours>`.
+- **Warum**: Nach Häufigkeit: Die Datei heißt in Wahrheit `mod.json.txt`; das JSON ist ungültig (Komma nach dem letzten Eintrag oder typografische `"`-Anführungszeichen aus einer Chat-App); der Ordner liegt nicht in `worldbox\Mods/`.
+- **Lösung**: Explorer → **Ansicht → Anzeigen → Dateinamenerweiterungen**, dann den echten Namen prüfen. Öffne `mod.json` in VS Code, das JSON-Fehler für dich unterstreicht.
 
 ### Die Mod ist ausgegraut
 
@@ -218,15 +218,15 @@ Das Spiel tut so, als gäbe es deine Mod nicht. Nimm es nicht persönlich, meist
 
 ### Notepad speichert nicht im Spielordner
 
-- **Was du siehst**: "Sie haben keine Berechtigung zum Speichern an diesem Ort".
-- **Warum**: Das Spiel liegt unter `C:\Program Files (x86)/`, was durch Windows geschützt ist.
-- **Lösung**: Datei zuerst im Explorer anlegen (Rechtsklick → Neu → Textdokument) und dann bearbeiten.
+- **Was du siehst**: Du startest neu, das Log sagt `Compile Mod`, und das Spiel führt trotzdem deinen alten Code aus. Das Kompilieren dauert einen Bruchteil einer Sekunde.
+- **Warum**: Zwei Ordner in `Mods/` haben dieselbe `GUID` in `mod.json`, typischerweise eine ältere Kopie, die der NML-Installer als `COM_YOURNAME_HELLOBOX/` entpackt hat. NML lädt **eine Mod pro GUID** und ignoriert den anderen Ordner stillschweigend, und das kann gut der sein, den du gerade bearbeitest.
+- **Lösung**: Durchsuch `Mods/` nach deiner GUID und behalte genau einen Ordner. Wenn die Zahlen nicht aufgehen, ist das das Erste, was du prüfen solltest.
 
 ### Deine Änderungen kommen nie an, auch nicht nach einem Neustart
 
-- **Was du siehst**: Du startest neu, im Log steht `Compile Mod`, und das Spiel läuft trotzdem mit dem alten Code. Das Kompilieren dauert einen Bruchteil einer Sekunde.
-- **Warum**: Zwei Ordner in `Mods/` haben dieselbe `GUID` in `mod.json`, meist eine alte Kopie, die der NML-Installer als `COM_YOURNAME_HELLOBOX/` entpackt hat. NML lädt **eine Mod pro GUID** und ignoriert den anderen Ordner stillschweigend, und das kann genau der sein, den du bearbeitest.
-- **Lösung**: Such deine GUID in `Mods/` und behalte genau einen Ordner. Wenn die Rechnung nicht aufgeht, prüf das zuerst.
+- **Was du siehst**: "Sie haben keine Berechtigung, an diesem Speicherort zu speichern", mit dem Angebot, in Dokumente zu speichern.
+- **Warum**: Das Spiel liegt unter `C:\Program Files (x86)/`, und das schützt Windows.
+- **Lösung**: Erstelle die Datei zuerst im Explorer (Rechtsklick → Neu → Textdokument, umbenennen) und bearbeite dann diese vorhandene Datei.
 
 ---
 
@@ -250,41 +250,41 @@ swift.base_stats["speed"] = 20f;     // ab hier sicher
 
 ### Gleicher Absturz, obwohl die Reihenfolge stimmt
 
-- **Was du siehst**: Dieselbe `NullReferenceException` nach `add()`.
-- **Warum**: Du hast einen erfundenen Stat-Namen verwendet. Unbekannte Stat-IDs führen zu Abstürzen.
-- **Lösung**: Nutze echte IDs: `damage`, `health`, `speed`, `armor`, `attack_speed`, `stamina`, `mana`, `range`, `critical_chance`, `lifespan`, `warfare`. Vollständige Liste unter **[Stats-Referenz](#/nml/stats)**.
+- **Was du siehst**: Dieselbe `NullReferenceException`, in einer Wertezeile, die nach `add()` läuft.
+- **Warum**: Du hast einen Wertenamen erfunden. Eine unbekannte Werte-ID ist ein Absturz, keine leere Aktion.
+- **Lösung**: Nutz echte IDs: `damage`, `health`, `speed`, `armor`, `attack_speed`, `stamina`, `mana`, `range`, `critical_chance`, `lifespan`, `warfare`. Multiplikatoren sind eigene Werte: `multiplier_damage`, `multiplier_health`, `multiplier_speed`. Die vollständige Liste steht in der **[Werte-Referenz](#/nml/stats)**.
 
 ### Gebäude stirbt sofort oder hat keine Größe
 
-- **Was du siehst**: Gebäude erscheint und verschwindet sofort, oder lässt sich nicht anvisieren.
-- **Warum**: Standardwerte für `health` und `size` werden in `add()` nur gesetzt, wenn `base_stats` noch null ist.
-- **Lösung**: `base_stats` niemals vorab erstellen. Erst klonen oder `add()` aufrufen.
+- **Was du siehst**: Das Gebäude erscheint und verschwindet dann, oder es lässt sich nicht anvisieren. Kein Fehler.
+- **Warum**: Die Standardwerte `health` und `size` eines Gebäudes werden nur in `add()` gesetzt, und nur solange `base_stats` noch null ist. Legst du den Block vorher selbst an, bekommst du `health = 0`.
+- **Lösung**: Leg `base_stats` nie vorab an. Erst klonen oder `add()`, dann nur ändern, was abweichen soll.
 
 ### Registriert, aber in keinem Tab sichtbar
 
-- **Was du siehst**: Logzeile erscheint ohne Fehler, aber das Asset fehlt in allen Kategorien.
-- **Warum**: `group_id` verweist auf eine Gruppe, die nicht existiert.
-- **Lösung**: Gültige Gruppen-ID verwenden (z. B. `physique`, `mind`, `special`). Eigene Tabs unter **[Trait-Gruppen & Tabs](#/nml/trait-groups)**.
+- **Was du siehst**: Deine Log-Zeile erscheint, keine Exception, und das Ding ist in keiner Kategorie.
+- **Warum**: `group_id` zeigt auf eine Gruppe, die es nicht gibt, also gibt es keinen Tab, in dem es gezeichnet werden kann.
+- **Lösung**: Nutz eine echte Gruppen-ID. Akteur-Merkmale: `cognitive`, `mind`, `spirit`, `physique`, `health`, `body`, `appearance`, `protection`, `skills`, `merits`, `acquired`, `fun`, `fate`, `miscellaneous`, `special`. Ein eigener Tab: **[Merkmalsgruppen & Tabs](#/nml/trait-groups)**.
 
 ### Zeigt `trait_hello_swift` statt eines Namens
 
-- **Was du siehst**: Unübersetzter Schlüssel im Tooltip, `missing text:` im Log.
-- **Warum**: Keine Lokalisierung hinterlegt. Das Spiel sucht nach `trait_<id>` und `trait_<id>_info`.
-- **Lösung**: Beide Schlüssel in `Locales/en.json` (und `de.json`) eintragen.
+- **Was du siehst**: Der rohe Schlüssel auf dem Bildschirm, ein leerer Tooltip, `missing text:` im Log.
+- **Warum**: Keine Übersetzung registriert. Das Spiel baut den Schlüssel selbst: `trait_<id>` und `trait_<id>_info`.
+- **Lösung**: Füg diese beiden Schlüssel zu `Locales/en.json` hinzu. Achtung vor `en.json.txt`.
 
 ### Namen klappen bei Traits, aber nicht bei Items, Status, Kräften
 
-- **Was du siehst**: Du hast das Trait-Schema kopiert, aber hier erscheint weiter der Rohschlüssel.
-- **Warum**: Vier Asset-Typen bauen Schlüssel anders auf:
+- **Was du siehst**: Du hast das Muster der Merkmale kopiert, und hier steht trotzdem ein roher Schlüssel.
+- **Warum**: Vier Assets bauen den Schlüssel **nicht** aus der ID:
 
-| Asset | Namens-Schlüssel | Beschreibungs-Schlüssel |
+| Asset | Namensschlüssel | Beschreibungsschlüssel |
 | --- | --- | --- |
-| `GodPower` | Feld **`name`**, snake_case | `<name>_description` |
-| `ItemAsset` | `translation_key`, sonst `item_<id>` | `<id>_description` |
-| `StatusAsset` | Feld **`locale_id`** | Feld **`locale_description`** |
+| `GodPower` | das **Feld** `name`, in snake_case | `<name>_description` |
+| `ItemAsset` | `translation_key`, sonst `item_<subtype or id>` | `<id>_description`, ohne `item_` |
+| `StatusAsset` | das **Feld** `locale_id` | das **Feld** `locale_description` |
 | `WorldLawAsset` | `<id>_title` | `<id>_description` |
 
-- **Lösung**: Kleingeschriebenes snake_case verwenden :PESgn_SMH:.
+- **Lösung**: Setz bei Mächten `name` = ID, bei Gegenständen `translation_key`, bei Status `locale_id`. Halte Schlüssel klein in snake_case: Sie werden beim Speichern normalisiert, aber **nicht** beim Nachschlagen, also wird `MyKey` als `my_key` gespeichert und nie wieder gefunden :PESgn_SMH:.
 
 ### Das Icon ist ein leeres Loch
 
@@ -317,15 +317,15 @@ cursed.need_visual_render = true;
 
 ### Button ist da, aber Klick aktiviert nichts
 
-- **Was du siehst**: Cursor bleibt gleich, Klick bewirkt nichts.
-- **Warum**: Der Button bindet sich beim Erstellen fest an die Power-ID.
-- **Lösung**: Erst die Power registrieren, dann den Button erstellen. `click_action` nutzt `(WorldTile, string)`.
+- **Was du siehst**: Der Cursor ändert sich nicht, ein Klick auf die Karte tut nichts.
+- **Warum**: Der Button wird **beim Erstellen, per ID** an die Macht gebunden.
+- **Lösung**: Registriere zuerst die Macht, erstelle danach den Button - im selben Helfer, damit die Reihenfolge nicht verrutschen kann. Und `click_action` ist `(WorldTile, string)`; die Form `(WorldTile, GodPower)` gehört zu `click_power_action`.
 
 ### `addOpposite` / `addDecision` / `addSpell` bewirken nichts
 
-- **Was du siehst**: Gegenteiliges Trait bleibt erhalten, Entscheidung feuert nicht.
-- **Warum**: Diese Aufrufe tragen nur IDs ein. Die Verknüpfung erfolgt vor dem Mod-Laden.
-- **Lösung**: Felder nach `add()` manuell befüllen (`linkCombatActions()`, `linkSpells()`, `opposite_traits`).
+- **Was du siehst**: Das gegensätzliche Merkmal wird nie entfernt, die Entscheidung feuert nie. Ohne Meldung.
+- **Warum**: Diese Aufrufe hängen nur eine **ID** an. IDs werden einmal beim Start in echte Objekte verwandelt, bevor deine Mod lädt.
+- **Lösung**: Füll die aufgelösten Felder nach `add()` selbst: `linkCombatActions()`, `linkSpells()`, `decisions_assets` (ein Array, das du aus `AssetManager.decisions_library.get()` baust, es gibt keine Link-Methode) und weise `opposite_traits` direkt zu. Setzt du `opposite_trait_mod` und lässt `opposite_traits` null, stürzt das Spiel später in seinem sozialen Code ab - ein leeres `HashSet` verhindert das.
 
 ---
 
@@ -448,21 +448,21 @@ Der Klassiker "bei mir läuft's". Der Unterschied liegt meistens an deinem Setup
 
 ### `CS0122: inaccessible due to its protection level`
 
-- **Was du siehst**: Code kompiliert nicht: `addStatusEffect`, `getHit`, `_localized_text`.
-- **Warum**: Die sind `internal`. NML kompiliert dein `Code/*.cs` gegen seine eigene **publicized** Kopie (`StreamingAssets/Mods/NML/Assembly-CSharp-Publicized.dll`), in einer normalen Quellcode-Mod funktionieren sie also einfach. Der Fehler kommt, wenn du in Visual Studio eine eigene `.dll` gegen die normale `Assembly-CSharp.dll` baust, die sie versteckt.
-- **Lösung**: Referenzier diese publicized Kopie in deinem Projekt, oder nimm den öffentlichen Weg:
+- **Was du siehst**: Code, der aus einer funktionierenden Mod kopiert ist, kompiliert nicht: `addStatusEffect`, `getHit`, `_localized_text`, `addBuilding`.
+- **Warum**: Die sind `internal`. NML kompiliert deine `Code/*.cs` gegen seine eigene **publizierte** Kopie (`StreamingAssets/Mods/NML/Assembly-CSharp-Publicized.dll`), also funktionieren sie in einer normalen Quellcode-Mod einfach. Der Fehler taucht auf, wenn du in Visual Studio deine eigene `.dll` gegen die normale `Assembly-CSharp.dll` baust, die sie versteckt.
+- **Lösung**: Referenziere diese publizierte Kopie in deinem Projekt, oder nimm den öffentlichen Weg:
 
-| Statt | Nutze |
+| Statt | Nimm |
 | --- | --- |
 | `actor.addStatusEffect("x", 20f)` | `World.world.statuses.newStatus(actor, AssetManager.status.get("x"), 20f)` |
 | `actor.getHit(5f, ...)` | `actor.changeHealth(-5)` |
-| `LocalizedTextManager.instance._localized_text[k] = v` | `LM.Add("en", k, v)` und dann `LM.ApplyLocale(false)` |
+| `LocalizedTextManager.instance._localized_text[k] = v` | `LM.Add("en", k, v)` dann `LM.ApplyLocale(false)` |
 
 ### Funktioniert auf deinem PC, macht nichts bei anderen
 
-- **Was du siehst**: Mod lädt bei Testern ohne Inhalt oder stürzt ab.
-- **Warum**: Feste Pfade mit deinem Windows-Benutzernamen, falsch gepacktes Zip-Archiv, geänderte GUID oder gleichzeitige Auslieferung von `Code/` und `.dll`.
-- **Lösung**: Pfade über `GetDeclaration().FolderPath` ermitteln, gesamten Ordner zippen, GUID beibehalten.
+- **Was du siehst**: Berichte, dass die Mod lädt und keinen Inhalt hat, oder schon in der ersten Zeile wirft.
+- **Warum**: Fast immer eines von vier Dingen: ein fest eingetragener Pfad mit deinem Benutzernamen; ein Zip vom *Inhalt* der Mod statt vom *Ordner*; eine `GUID`, die sich zwischen Versionen geändert hat; `Code/` neben einer veralteten `.dll` ausgeliefert.
+- **Lösung**: Leite Pfade aus `GetDeclaration().FolderPath` ab. Zip den Ordner. Setz die `GUID` einmal und ändere sie nie. Liefere `Code/` **oder** eine `.dll` aus, nie beides.
 
 ---
 
@@ -472,33 +472,40 @@ Die langsamen. Gestern lief deine Mod noch, und an ihr hat sich nichts geändert
 
 ### Eine andere Mod überschreibt still deine Inhalte
 
-- **Was du siehst**: Dein Trait ist weg, wenn eine andere Mod aktiv ist (`duplicate asset - overwriting...` im Log).
-- **Warum**: Es gibt einen gemeinsamen Namensraum pro Asset-Bibliothek. Die letzte Registrierung gewinnt.
-- **Lösung**: Alle IDs mit Präfix versehen: `hello_swift`. Mit `AssetManager.traits.has(SWIFT)` absichern.
+- **Was du siehst**: Dein Merkmal ist weg, sobald eine bestimmte andere Mod an ist. Eine Zeile im Log, längst weggescrollt: `duplicate asset - overwriting...`
+- **Warum**: Ein flacher ID-Namensraum pro Bibliothek, geteilt von Vanilla und jeder Mod. Die letzte Registrierung gewinnt, und die Ladereihenfolge bestimmst nicht du.
+- **Lösung**: Versieh jede ID mit einem Präfix: `hello_swift`, niemals `swift`. Sichere ab mit `if (AssetManager.traits.has(SWIFT)) return;`. Um Vanilla-Inhalte zu *ändern*, hol sie mit `get()` und bearbeite sie direkt, statt einen Ersatz hinzuzufügen.
 
 ### Absturz bei `World.world` während des Mod-Ladens
 
-- **Was du siehst**: Absturz beim ersten Zugriff auf die Welt.
-- **Warum**: `OnModLoad` läuft vor der Weltgenerierung.
-- **Lösung**: In `OnModLoad` nur Assets registrieren, Weltzugriffe in `Update()` hinter `if (!Config.game_loaded) return;` verlegen.
+- **Was du siehst**: Der Absturz passiert in deiner ersten Zeile, die die Karte anfasst.
+- **Warum**: `OnModLoad` läuft, bevor es eine Welt gibt. Die Asset-Bibliotheken sind bereit, die Welt nicht.
+- **Lösung**: Registriere in `OnModLoad` und fass die Welt aus `Update()` an, hinter `if (!Config.game_loaded) return;` plus einer Null-Prüfung auf `World.world`, `World.world.units` und `MapBox.instance`.
 
 ### Deine Daten steuern plötzlich falsche Kreaturen
 
-- **Was du siehst**: Nach Neuladen verhalten sich fremde Einheiten fehlerhaft.
-- **Warum**: Einheiten-IDs gelten nur pro Welt. Tote Actor-Objekte werden im Speicher recycelt.
-- **Lösung**: Welt-Reset erkennen und Datenlisten leeren (z. B. wenn Weltzeit zurückspringt).
+- **Was du siehst**: Nach dem Laden eines Spielstands oder dem Erstellen einer neuen Welt verhalten sich fremde Einheiten wie besessen.
+- **Warum**: Einheiten-IDs gelten **pro Welt** und werden von vorn neu vergeben. Das `Actor`-Objekt zu behalten ist noch schlimmer: Tote Akteure werden gepoolt und wiederbelebt, also ist deine Referenz nie null - sie ist jetzt jemand anderes.
+- **Lösung**: Bemerke den Weltwechsel und wirf alles weg. Rückwärts laufende Weltzeit ist das billigste Signal:
+
+```csharp
+double now = World.world.getCurWorldTime();
+if (_lastWorldTime >= 0.0 && now < _lastWorldTime - 1.0) MyRegister.Clear();
+_lastWorldTime = now;
+```
 
 ### Nach Speichern/Laden ist alles weg
 
-- **Was du siehst**: Einheiten behalten das Trait-Icon, verlieren aber benutzerdefinierte Daten.
-- **Warum**: Statische Mod-Variablen werden nicht im Savegame gespeichert.
-- **Lösung**: Daten über `action_on_augmentation_load` aus dem Trait wiederherstellen.
+- **Was du siehst**: Deine Einheiten verhalten sich wieder wie in Vanilla, tragen aber noch dein Merkmal.
+- **Warum**: Nur die eigenen Datenklassen des Spiels werden serialisiert; dein statisches Dictionary nicht. Merkmale werden als IDs gespeichert, und eine ID, die **beim Laden nicht in der Bibliothek ist, wird stillschweigend verworfen** - also deaktivieren, laden, wieder aktivieren, und das Merkmal ist von jeder Einheit entfernt.
+- **Lösung**: Lass das Merkmal der Schalter sein, der überlebt, und stell daraus alles wieder her: `trait.action_on_augmentation_load = (pActor, pTrait) => MyRegister.Restore(pActor);`
+- **Oder**: Behalte den Zustand in der Einheit selbst. Ihr eigener Datenspeicher wird mit ihr gespeichert: siehe **[Dinge merken](#/nml/saving-data)**.
 
 ### Einheiten frieren gruppenweise ein
 
-- **Was du siehst**: Einheiten stoppen plötzlich; jede Runde eine Exception.
-- **Warum**: Schleifen haben kein try/catch; ein Fehler bricht das gesamte Frame für alle folgenden Einheiten ab.
-- **Lösung**: Patches und `execute`-Methoden immer in `try/catch` einbetten.
+- **Was du siehst**: Gruppen von Einheiten bleiben stehen; die Gruppe wechselt jeden Frame. Eine Exception pro Frame, nicht Tausende.
+- **Warum**: Die Schleifen pro Einheit haben kein try/catch. Eine Exception bei Einheit *i* überspringt in diesem Frame jede Einheit danach.
+- **Lösung**: Pack den Körper jedes Patches und jedes `execute` eines eigenen Verhaltens in try/catch und gib bei einem Fehler `BehResult.Stop` zurück.
 
 ### Die Hälfte deiner Harmony-Patches wurde nie angewendet
 
@@ -520,51 +527,51 @@ Die langsamen. Gestern lief deine Mod noch, und an ihr hat sich nichts geändert
 
 ### Dein Prefix hat drei andere Mods beschädigt
 
-- **Was du siehst**: Konflikte mit anderen Mods.
-- **Warum**: Ein Prefix mit `return false` überspringt die Methode und alle nachfolgenden Patches anderer Mods.
-- **Lösung**: Postfix bevorzugen (`__result *= 0.5f`).
+- **Was du siehst**: "Deine Mod hat Mod X kaputt gemacht." Nichts im Log, und der Autor von X kann es allein nicht nachstellen.
+- **Warum**: `false` zurückzugeben überspringt das Original **und jeden Patch anderer Mods nach deinem**. Bei `updateStats` bleiben außerdem für immer veraltete, zwischengespeicherte Flags an der Einheit hängen.
+- **Lösung**: Nimm lieber Postfix und passe an (`__result *= 0.5f`), statt Prefix und abbrechen. Wenn du abbrechen musst, brich die engste Methode ab und gib für jeden Fall, der dich nicht interessiert, früh `return true` zurück.
 
 ### Einheit steht für immer still oder stürzt jeden Frame ab
 
-- **Was du siehst**: Einheit reagiert nicht mehr oder stürzt jeden Tick ab.
-- **Warum**: Eine unbekannte Job-ID führt zu dauerhaften Fehlern.
-- **Lösung**: Tasks und Jobs sorgfältig prüfen und registrieren.
+- **Was du siehst**: Eine Einheit ist ohne Aufgabennamen eingefroren, oder es gibt jeden Tick einen Stacktrace.
+- **Warum**: Eine unbekannte **Aufgaben**-ID ist eine stille, dauerhafte leere Aktion; eine unbekannte **Job**-ID ist ein Absturz in jedem Tick.
+- **Lösung**: Prüf deine IDs einmal beim Laden, registriere Aufgaben vor dem Job, der sie auflistet, und gib `next_job_delegate` nie eine ID, die du nicht geprüft hast.
 
 ### Deine benutzerdefinierte KI wird heimlich zurückgesetzt
 
-- **Was du siehst**: Einheiten wechseln nach Kampf oder Neuspawn zurück zur Vanilla-KI.
-- **Warum**: Recycelte Einheiten-Objekte setzen den Job-Delegaten zurück.
-- **Lösung**: Delegaten in regelmäßigen Abständen erneut zuweisen.
+- **Was du siehst**: Nach einer Weile sind manche Einheiten wieder auf Vanilla-KI, obwohl dein Register sie noch führt.
+- **Warum**: Akteure werden gepoolt: Eine "neue" Einheit ist ein wiederverwendetes Objekt, dessen Job-Delegate gerade zurückgesetzt wurde. Kampf setzt ihn ebenfalls zurück.
+- **Lösung**: Setz ihn nach deinem eigenen Takt immer wieder, statt nur einmal: `if (pActor.ai.next_job_delegate != MyAI.NextJob) pActor.ai.next_job_delegate = MyAI.NextJob;`
 
 ### Das Spiel ruckelt viermal pro Sekunde
 
-- **Was du siehst**: Regelmäßige Ruckler trotz guter FPS.
-- **Warum**: Alle Einheiten beenden Aktionen gleichzeitig.
-- **Lösung**: Logik auf eigene Timer verteilen, Berechnungen aufteilen und LINQ im Hotpath vermeiden.
+- **Was du siehst**: Die durchschnittlichen FPS sehen gut aus, das Spiel ruckelt rhythmisch, keine einzelne heiße Funktion.
+- **Warum**: Alles denkt im selben Tick, und Einheiten kommen erst weiter, wenn ihre aktuelle Aktion endet, also werden sie gemeinsam fertig.
+- **Lösung**: Denk nach deinem eigenen Timer, nicht in `execute`. Teil die Bevölkerung in Scheiben und bearbeite pro Durchgang eine Scheibe. Reservier Listen im Voraus; halte LINQ, Lambdas und `Debug.Log` aus diesem Pfad heraus.
 
 ### Klicks landen auf der Karte hinter deinem Fenster
 
-- **Was du siehst**: Klick ins eigene UI platziert Einheiten auf der Weltkarte.
-- **Warum**: Dem Canvas fehlt der `GraphicRaycaster` oder ein Hintergrund-Image.
-- **Lösung**: `Canvas`, `GraphicRaycaster` und Hintergrund-Image einbinden.
+- **Was du siehst**: Der Spieler klickt auf ein Steuerelement deines Panels, und darunter spawnt eine Einheit.
+- **Warum**: Ein Canvas ohne `GraphicRaycaster` wird gezeichnet, aber nicht auf Treffer geprüft. Und `unselect_when_window` kennt nur die eigenen Fenster des Spiels, also legt ein selbst gebautes Panel die aktive Macht nie ab.
+- **Lösung**: `Canvas` + `overrideSorting` + `sortingOrder` + `GraphicRaycaster` + ein Hintergrund-`Image`, zusammen. `raycastTarget = false` auf Beschriftungen. Leg die Macht selbst ab, wenn das Fenster aufgeht.
 
 ### Speicherverbrauch steigt bei jedem Öffnen des Panels
 
-- **Was du siehst**: RAM-Verbrauch wächst stetig an.
-- **Warum**: Selbst erstellte Texturen oder Sprites müssen explizit per `Destroy()` freigegeben werden.
-- **Lösung**: Eigene Texturen beim Schließen zerstören (keine `SpriteTextureLoader`-Assets!).
+- **Was du siehst**: Der Speicher wächst in Stufen, passend zum Öffnen des Panels; lange Sitzungen werden schlechter.
+- **Warum**: `Destroy(root)` gibt den GameObject-Baum frei, aber eine `Texture2D` oder ein `Sprite`, die **du** erstellt hast, ist ein eigenes Objekt, das niemand einsammelt.
+- **Lösung**: Zerstör, was du erstellt hast, und setz die Referenzen auf null. Zerstör **keine** Sprites, die von `SpriteTextureLoader` kommen - die werden geteilt.
 
 ### Neuer Standardwert erreicht bestehende Spieler nicht
 
-- **Was du siehst**: Änderungen in `default_config.json` greifen bei bestehenden Spielern nicht.
-- **Warum**: Werte werden in `mods_config\<UID>.config` lokal gecacht.
-- **Lösung**: Neue Einstellungs-IDs vergeben, wenn bestehende Werte migriert werden müssen.
+- **Was du siehst**: Du änderst einen Standardwert in `default_config.json`, und wiederkehrende Spieler behalten den alten Wert. Neuinstallationen sind in Ordnung.
+- **Warum**: Diese Datei ist nur eine Vorlage. Die echten Werte liegen in `mods_config\<UID>.config`, und das speichert das **ganze Element** - also werden auch geänderte Grenzen und umbenannte Callbacks überdeckt.
+- **Lösung**: Teste mit gelöschter Datei. Wenn sich Grenzen oder ein Callback für bestehende Nutzer ändern müssen, füg eine neue `Id` hinzu, statt die alte zu bearbeiten.
 
 ### Einstellungs-Slider bewegt sich, aber Callback läuft nie
 
-- **Was du siehst**: Wert wird gespeichert, Methode wird nicht aufgerufen.
-- **Warum**: Callback-Signatur falsch; Methode muss `static` sein.
-- **Lösung**: Namespace angeben, Methode statisch machen, Datentyp anpassen.
+- **Was du siehst**: Die Zeile funktioniert, der Wert wird gespeichert, deine Methode wird nie aufgerufen.
+- **Warum**: Der Callback ist `Namespace.Type:MethodName`, die Methode muss **static** sein, und ihr Parameter muss zum Typ passen (`INT_SLIDER` → `int`, `SLIDER` → `float`, `SWITCH` → `bool`, `TEXT` → `string`).
+- **Lösung**: Gib den Namespace an, mach sie static, pass den Typ an. Änderungen greifen, wenn das Fenster **geschlossen** wird, nicht beim Ziehen.
 
 ---
 

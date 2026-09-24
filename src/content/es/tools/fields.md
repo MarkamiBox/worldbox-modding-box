@@ -15,10 +15,10 @@ Elige el tipo de asset, filtra y haz clic en un nombre para copiarlo.
 
 ## Cómo interpretarlo
 
-- **Columna izquierda**: es el tipo de dato. `int` significa un número entero, por lo que `rate_birth = 0.5f` no compilará. `float` toma decimales con sufijo `f`, como `0.5f`. `string` toma texto entre comillas.
-- **El `= valor`**: es el valor predeterminado que el juego ya asigna. Si te sirve, no lo pongas. Menos código, menos erratas.
-- **"inherited from"**: significa que el campo proviene de una clase padre.
-- **La cadena superior**: (p. ej. `ActorTrait -> BaseTrait -> BaseAugmentationAsset -> Asset`) muestra la jerarquía de herencia.
+- **La columna izquierda** es el tipo. `int` significa un número entero, así que `rate_birth = 0.5f` no compila. `float` admite decimales y pide el sufijo `f`, como `0.5f`. `string` admite texto entre comillas.
+- **El `= value`** es el valor por defecto que el juego ya da a ese campo. Si el valor por defecto te sirve, no lo pongas. Menos código, menos erratas.
+- **"inherited from"** significa que el campo viene de una clase padre. Funciona exactamente igual; solo está declarado más arriba. `id`, `base_stats` y `path_icon` suelen ser heredados.
+- **La cadena encima de la tabla** (por ejemplo `ActorTrait -> BaseTrait -> BaseAugmentationAsset -> Asset`) indica de dónde vienen los campos, del más específico al más general.
 
-> [!WARNING] Los campos no lo dicen todo
-> Esta herramienta te indica que un campo **existe** y qué tipo tiene. No garantiza que el juego lo procese en tu caso específico. En caso de duda, revisa **[Leer el código del juego](#/toolbox/reading-the-game-code)**.
+> [!WARNING] Los campos no lo son todo
+> Esta herramienta te dice que un campo **existe** y de qué tipo es. No te dice si el juego de verdad lo lee en tu caso: algunos campos solo importan en unidades civilizadas, o solo cuando otro ajuste está activado. Ante la duda, busca un asset vanilla que haga lo que quieres y copia sus valores, mira **[Leer el código del juego](#/toolbox/reading-the-game-code)**.

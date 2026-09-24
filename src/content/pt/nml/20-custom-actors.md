@@ -79,15 +79,14 @@ namespace HelloBox
 }
 ```
 > [!WARNING] Carregue a sombra você mesmo, ou o jogo reclama de cada ator
-> `ActorAssetLibrary` percorre a lista dele na inicialização e chama `loadShadow()` em cada ator, o que carrega o sprite em `shadows/<shadow_texture>` e mede. Isso aconteceu antes do seu mod registrar qualquer coisa, então a sombra do seu ator fica em `(0.00, 0.00)` e o jogo loga um erro de asset para ela, três vezes: adulto, ovo e filhote :wbfacepalm:.
+> `ActorAssetLibrary` percorre a lista na inicialização e chama `loadShadow()` em cada ator, que lê o sprite em `shadows/<shadow_texture>` e o mede. Isso aconteceu antes do seu mod registrar qualquer coisa, então a sombra do seu ator fica em `(0.00, 0.00)` e o jogo registra um erro de asset para ela, três vezes, uma para o adulto, o ovo e o filhote :wbfacepalm:.
 >
-> `loadShadow()` é `internal`, então precisa de uma `Assembly-CSharp.dll` **publicized** como o resto do guia. Se você não tem uma, use `asset.shadow = false;`: sem sombra, mas sem erro.
+> `loadShadow()` é `internal`, então isso precisa de um `Assembly-CSharp.dll` **publicizado** como o resto do guia. Se você não tiver um, use `asset.shadow = false;`: sem sombra, mas também sem erro.
 
-
-> [!WARNING] clone() já realiza o registro
-> `AssetManager.<library>.clone(newId, sourceId)` chama `add()` internamente. Toda biblioteca funciona dessa forma. Chamar `add()` por conta própria depois é um registro duplicado: a biblioteca remove a primeira cópia, gera um erro no log e reinsere o item. É inofensivo, mas gera ruído no log ocultando erros reais, e é a primeira coisa que um revisor de código vai notar.
+> [!WARNING] `clone()` já registra
+> `AssetManager.<library>.clone(newId, sourceId)` chama `add()` internamente. Todas as bibliotecas funcionam assim. Chamar `add()` você mesmo depois é um registro duplicado: a biblioteca remove a primeira cópia, registra um erro e adiciona de novo. Inofensivo, mas é ruído no seu log que dificulta achar os erros de verdade, e é a primeira coisa que um revisor vai notar.
 >
-> Por outro lado, a excelente notícia: **após um clone, `base_stats` já existe**, de modo que a regra de "atributos após add" de **[Traços personalizados](#/nml/custom-traits)** já está automaticamente cumprida.
+> O lado bom disso: **depois de um clone, `base_stats` já existe**, então a regra "atributos depois do add" de **[Traços personalizados](#/nml/custom-traits)** já está cumprida.
 
 ## Vários atores de uma vez
 

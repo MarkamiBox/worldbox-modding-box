@@ -29,7 +29,9 @@ WorldBox にはそのための仕組みがあらかじめ用意されていま�
 
 ## NMLによる複雑なオブジェクトの保存
 
-5つの基本型では足りずクラスやリスト全体を保存したい場合、NML は `NeoModLoader.General.Game.extensions` にて `DataExtension` を提供しています：
+プリミティブ型5つでは1995年みたいに感じて、クラスやリストを丸ごとアクターに保存したいなら、NMLは `NeoModLoader.General.Game.extensions` に `DataExtension` を用意しています。
+
+データクラスを `BasicCustomData<T>` で包みます：
 
 ```csharp
 using NeoModLoader.General.Game.extensions;
@@ -51,7 +53,7 @@ if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
 }
 ```
 
-NML はオブジェクトを JSON にシリアライズして `custom_data_string` に書き込みます。データ構造の更新に対応するには `ICustomData` を直接実装してください :PES5_Hmmmm:。
+内部では、NMLがオブジェクトをJSONにシリアライズし、あなたのキーでバニラの `custom_data_string` テーブルに詰め込みます。Modのアップデートでデータ形式が変わりそうなら、`BasicCustomData<T>` を使う代わりにクラスに直接 `ICustomData` を実装してください。`ModId` と `DataVersion` を明示的にチェックできるので、古いセーブデータが新しい状態を黙って汚染することがなくなります :PES5_Hmmmm:。
 
 ## HelloBoxでの実装例
 

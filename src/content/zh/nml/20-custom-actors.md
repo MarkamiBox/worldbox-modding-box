@@ -78,16 +78,15 @@ namespace HelloBox
     }
 }
 ```
-> [!WARNING] 自己加载影子，不然游戏会对每个角色报错
-> `ActorAssetLibrary` 启动时会遍历自己的列表，对每个角色调用 `loadShadow()`，它读取 `shadows/<shadow_texture>` 的精灵图并量出尺寸。这件事发生在你的 mod 注册任何东西之前，所以你角色的影子一直是 `(0.00, 0.00)`，游戏会为它报三次资源错误：成体、蛋、幼体 :wbfacepalm:。
+> [!WARNING] 自己加载阴影，否则游戏会为每个角色报错
+> `ActorAssetLibrary` 在启动时会遍历它的列表，对每个角色调用 `loadShadow()`，读取 `shadows/<shadow_texture>` 处的精灵图并测量尺寸。这一步发生在你的模组注册任何东西之前，所以你的角色的阴影会一直是 `(0.00, 0.00)`，游戏会为它记录资源错误，而且是三次，成体、蛋和幼体各一次 :wbfacepalm:。
 >
-> `loadShadow()` 是 `internal`，所以和这份指南里其他地方一样，需要 **publicized** 过的 `Assembly-CSharp.dll`。如果没有，就改成 `asset.shadow = false;`：没有影子，但也不会报错。
+> `loadShadow()` 是 `internal` 的，所以和本指南其他地方一样需要一个**公开化**的 `Assembly-CSharp.dll`。如果没有，就改为设置 `asset.shadow = false;`：没有阴影，但也不会报错。
 
-
-> [!WARNING] clone() 内部已经完成了注册
-> `AssetManager.<library>.clone(newId, sourceId)` 内部会自动调用 `add()`。每个资源库都是这样设计的。克隆之后再手写一个 `add()` 属于重复注册：资源库会强制丢弃第一个副本，记录一条错误警告，然后再次添加。虽然不至于让游戏崩溃，但这会污染日志掩盖真正的错误，而且任何熟悉 mod 开发的人审阅代码时都会第一时间提出质疑。
+> [!WARNING] `clone()` 已经注册过了
+> `AssetManager.<library>.clone(newId, sourceId)` 内部会调用 `add()`。所有资源库都是这样。之后你再自己调用 `add()` 就是重复注册：资源库会移除第一个副本、记录一条错误，然后重新添加。无害，但这是日志里的噪音，会让真正的错误更难找到，也是审查者第一眼就会注意到的地方。
 >
-> 其直接的好处在于：**在克隆之后，`base_stats` 已经存在**，所以 **[自定义特质](#/nml/custom-traits)** 中强调的“add 之后才能配置属性”的原则在这里已经天然满足。
+> 反过来这也是好消息：**克隆之后 `base_stats` 就已经存在了**，所以 **[自定义特质](#/nml/custom-traits)** 里“先 add 再设属性”的规则已经自动满足。
 
 ## 批量定义多个生物
 

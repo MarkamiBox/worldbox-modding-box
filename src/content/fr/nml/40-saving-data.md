@@ -30,7 +30,9 @@ Chaque type possède sa propre table interne, donc un `int` et une `string` sous
 
 ## Sauvegarder des objets complexes avec NML
 
-Si cinq primitives ne suffisent pas et que vous devez sauvegarder une classe entière, NML fournit `DataExtension` dans `NeoModLoader.General.Game.extensions` :
+Si cinq types primitifs vous semblent dater de 1995 et que vous devez vraiment sauvegarder une classe ou une liste entière sur un acteur, NML fournit `DataExtension` dans `NeoModLoader.General.Game.extensions`.
+
+Enveloppez votre classe de données dans `BasicCustomData<T>` :
 
 ```csharp
 using NeoModLoader.General.Game.extensions;
@@ -52,7 +54,7 @@ if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
 }
 ```
 
-En coulisses, NML sérialise en JSON dans `custom_data_string`. Si vos modèles changent, implémentez directement `ICustomData` :PES5_Hmmmm:.
+En coulisses, NML sérialise votre objet en JSON et le range dans la table vanilla `custom_data_string` sous votre clé. Si vous prévoyez que votre format de données change entre les mises à jour du mod, implémentez `ICustomData` directement sur votre classe au lieu d'utiliser `BasicCustomData<T>` : cela vous donne des vérifications explicites de `ModId` et `DataVersion`, pour qu'une vieille sauvegarde n'empoisonne pas en silence votre nouvel état :PES5_Hmmmm:.
 
 ## Dans HelloBox
 

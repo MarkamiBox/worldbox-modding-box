@@ -74,14 +74,22 @@ Registre-o no `Main.cs` (veja **[O mod completo](#/nml/all-together)**), carregu
 
 | Campo | O que faz |
 | --- | --- |
-| `rate` | Peso: frequência com que é escolhido em relação a outros desastres |
-| `chance` | Uma segunda rolagem após ser selecionado |
+| `rate` | Peso no sorteio. Maior significa escolhido com mais frequência em relação aos outros |
+| `chance` | Uma segunda rolagem depois de escolhido |
 | `min_world_population` / `min_world_cities` | Condições antes que possa acontecer |
 | `type` | `DisasterType.Nature`, `Other`, … |
-| `world_log` | O ID de um `WorldLogAsset`: a linha no registro do mundo. **Não** é uma chave de texto, veja abaixo |
+| `world_log` | O id de um `WorldLogAsset`: a linha no registro do mundo. **Não** é uma chave de tradução, veja abaixo |
 | `action` | Seu código. Este é o desastre |
-| `spawn_asset_unit` + `units_min`/`units_max` | Atalho para "gerar N desta criatura" |
-| `max_existing_units` | Não gerar mais se já existir essa quantidade |
+| `spawn_asset_unit` + `units_min`/`units_max` | Atalho para "gere N desta criatura" |
+| `max_existing_units` | Não gerar mais se já existirem tantas |
+| `ages_allow` / `ages_forbid` | Limita a certas eras do mundo, por exemplo só na Era das Cinzas |
+
+Limitar a uma era é feito depois de montar o asset:
+
+```csharp
+emberStorm.ages_allow.Add("age_ash");
+emberStorm.ages_allow.Add("age_chaos");
+```
 
 ## Gerando criaturas sem código
 

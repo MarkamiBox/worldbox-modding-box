@@ -72,16 +72,24 @@ namespace HelloBox
 
 `rate`와 `chance`가 가장 많이 만지게 될 두 가지입니다. 이유는 페이지 맨 아래 경고에서 설명합니다.
 
-| 필드 | 역할 |
+| 필드 | 하는 일 |
 | --- | --- |
-| `rate` | 가중치: 다른 재앙에 비해 얼마나 자주 선택되는지 |
-| `chance` | 선택된 후 진행되는 2차 확률 판정 |
-| `min_world_population` / `min_world_cities` | 발생하기 위한 최소 조건 |
+| `rate` | 추첨에서의 가중치. 높을수록 다른 것들보다 자주 뽑힙니다 |
+| `chance` | 뽑힌 뒤의 두 번째 판정 |
+| `min_world_population` / `min_world_cities` | 애초에 일어날 수 있기 위한 조건 |
 | `type` | `DisasterType.Nature`, `Other`, … |
-| `world_log` | `WorldLogAsset`의 ID: 월드 로그에 표시되는 한 줄입니다. 텍스트 키가 **아닙니다** (아래 참조) |
-| `action` | 실행할 코드. 재앙 자체의 동작 |
-| `spawn_asset_unit` + `units_min`/`units_max` | "이 생명체 N마리 소환" 편의 기능 |
-| `max_existing_units` | 이미 이만큼 존재한다면 더 이상 소환하지 않음 |
+| `world_log` | `WorldLogAsset`의 ID: 월드 로그에 나오는 줄입니다. 로컬라이즈 키가 **아닙니다**, 아래 참고 |
+| `action` | 여러분의 코드. 이것이 재앙 그 자체입니다 |
+| `spawn_asset_unit` + `units_min`/`units_max` | "이 생명체를 N마리 소환" 지름길 |
+| `max_existing_units` | 이미 이만큼 있으면 더 소환하지 않음 |
+| `ages_allow` / `ages_forbid` | 특정 세계 시대로 제한합니다. 예: 재의 시대에만 |
+
+시대 제한은 에셋을 만든 뒤에 설정합니다:
+
+```csharp
+emberStorm.ages_allow.Add("age_ash");
+emberStorm.ages_allow.Add("age_chaos");
+```
 
 ## 코드 없이 생명체 소환하기
 

@@ -132,34 +132,54 @@ Trois systèmes complémentaires auxquels se rattachent les traits de sous-espè
 
 ## Gènes
 
-Un gène est la façon dont un trait de sous-espèce mute en un autre trait. Le jeu parcourt `AssetManager.genes` pendant la reproduction pour décider de ce qui est transmis : Des devoirs de biologie, en gros.
+Les blocs de stats mâle et femelle mentionnés plus haut viennent du **génome** de la sous-espèce : des chromosomes avec des emplacements, et un gène dans chacun. Un gène est un `BaseTrait`, il s'enregistre donc comme n'importe quel autre trait de ce site, avec deux corvées en plus. Des devoirs de biologie, en gros.
 
 ```csharp Mods/HelloBox/Code/HelloGenes.cs
 namespace HelloBox
 {
     public static class HelloGenes
     {
+        public const string EMBER_BLOOD = "hello_ember_blood";
+
         public static void Initialize()
         {
+            if (AssetManager.gene_library.has(EMBER_BLOOD)) return;
+
             GeneAsset gene = new GeneAsset
             {
-                id = "hello_swift_gene",
-                id_trait = HelloSubspecies.SWIFT,
-                rate = 0.05f
+                id = EMBER_BLOOD,
+                path_icon = "ui/Icons/iconHelloGene",
+                needs_to_be_explored = false
             };
-            AssetManager.genes.add(gene);
-            AssetManager.genes._gene_assets_mutations.Add(gene);
+
+            AssetManager.gene_library.add(gene);
+            gene.base_stats["damage"] = 2f;
+
+            // Each world rolls every gene's DNA letters from its life seed when it loads.
+            // A world may already be open, so roll yours now the same way.
+            if (World.world != null && World.world.map_stats != null)
+            {
+                gene.generateDNA(World.world.map_stats.life_dna + gene.getIndexID());
+            }
+
+            // linkAssets() filled the mutation pool at startup. Without this, only the
+            // player's gene editor can ever place it.
+            AssetManager.gene_library._gene_assets_mutations.Add(gene);
         }
     }
 }
 ```
 
-Deux champs :
+- **Les lettres de l'ADN.** Chaque gène affiche un court code `ACGT`, tiré par monde à partir de sa graine de vie au chargement du monde. Votre gène n'était pas là pour ce tirage, il tire donc le sien de la même manière.
+- **Le pool de mutations.** Les mutations piochent dans `_gene_assets_mutations`, une liste privée que `linkAssets()` a remplie au démarrage. Un assembly **publicisé** vous permet d'y ajouter, et NML compile contre l'un d'eux. Oubliez ça et le gène n'apparaît que là où le joueur le place à la main.
 
-- `gene.id_trait` le lie au trait de sous-espèce que vous avez enregistré.
-- `gene.rate` est la chance de mutation, de 0.0 à 1.0.
+La clé de texte d'un gène est `gene_<id>`. Les gènes n'ont pas de ligne de description : `GeneLibrary.add()` la désactive.
 
-Sans l'appel à `_gene_assets_mutations.Add(gene)`, le gène est enregistré mais n'entre jamais dans le tirage de mutation.
+```json Mods/HelloBox/Locales/en.json
+{
+  "gene_hello_ember_blood": "Ember Blood"
+}
+```
 
 ## Balises meta
 
@@ -194,7 +214,7 @@ ActorAsset asset = AssetManager.actor_library.get("hello_sprite");
 if (asset != null) asset.addSubspeciesTrait(HelloSubspecies.SCALES);
 ```
 
-Cela permet à chaque nouvelle sous-espèce de cette créature de naître avec le trait. Si vous omettez cette ligne et vous en remettez à `in_mutation_pot_add`, il se manifestera de lui-même avec le temps, ce qui est généralement bien plus captivant.
+Ainsi, chaque nouvelle sous-espèce de cette créature démarre avec. Si vous l'omettez et comptez plutôt sur `in_mutation_pot_add`, il apparaît tout seul, quelque part, un jour, ce qui est souvent la version la plus intéressante.
 
-> [!TIP] Les sorts s'y épanouissent parfaitement
-> Les lignées magiques du jeu de base sont des traits de sous-espèce qui accordent un sort et rien d'autre : `trait.addSpell("summon_lightning")`. Une seule ligne de code, transmise aux descendants, et vous donnez naissance à une authentique dynastie d'invocateurs d'éclairs à l'échelle d'un continent entier :PES5_CrazyPog:.
+> [!TIP] Les sorts sont à leur place ici
+> Les lignées magiques vanilla sont des traits de sous-espèce qui accordent un sort et rien d'autre : `trait.addSpell("summon_lightning")`, puis `trait.linkSpells()` parce que la bibliothèque a résolu les ids de sorts au démarrage. Deux lignes, héritées par les enfants, et on obtient une lignée visible d'invocateurs de tempêtes à travers tout un continent :PES5_CrazyPog:.

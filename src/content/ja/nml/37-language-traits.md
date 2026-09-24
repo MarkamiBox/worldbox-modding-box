@@ -85,7 +85,7 @@ trait.read_book_trait_action = delegate(Actor pActor, LanguageTrait pTrait, Book
 
 ## 独自の本の種類を作成する
 
-ゲーム内の書籍フォーマットは `AssetManager.book_types` で定義されています:
+上のブックフックは、本が何をするかを変えます。**本の種類**は新しい種類の本で、その名前、誰が書くか、読むと何が得られるかを決めます。
 
 ```csharp Mods/HelloBox/Code/HelloBooks.cs
 namespace HelloBox
@@ -98,18 +98,27 @@ namespace HelloBox
         {
             if (AssetManager.book_types.has(ALMANAC)) return;
 
-            BookTypeAsset book = new BookTypeAsset
+            BookTypeAsset almanac = new BookTypeAsset
             {
                 id = ALMANAC,
-                name = "book_type_" + ALMANAC,
-                description = "book_type_info_" + ALMANAC,
-                rarity = 5
+                name_template = "book_name_fable",   // a vanilla name template
+                color_text = "#D14219",
+                writing_rate = 2,                    // weight against the other book types
+                path_icons = "fable/",               // borrow the fables' covers: books/book_icons/fable/
+                requirement_check = (Actor pActor, BookTypeAsset pAsset) => pActor.hasTrait(HelloTraits.SWIFT)
             };
-            AssetManager.book_types.add(book);
+
+            AssetManager.book_types.add(almanac);
+
+            // what a reader gets out of it
+            almanac.base_stats["experience"] = 5f;
+            almanac.base_stats["happiness"] = 5f;
         }
     }
 }
 ```
+
+書き手は毎回リスト全体から、`requirement_check` を通る種類の中で、`writing_rate`（またはあなたの `rate_calc`、上限は10）で重み付けして種類を選びます：`add()` だけで十分です。`path_icons` は表紙のリストとして読まれる `books/book_icons/` 以下のフォルダーなので、バニラのものを借りても何のコストもかかりません。
 
 ```json Mods/HelloBox/Locales/en.json
 {

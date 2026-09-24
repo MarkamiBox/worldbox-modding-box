@@ -132,34 +132,54 @@ trait.texture_asset.shadow = trait.shadow;
 
 ## 基因
 
-基因（Gene）是亚种特质突变为其他特质的核心途径。在生物繁殖时，游戏会遍历 `AssetManager.genes` 以决定遗传和变异的内容：说白了就是生物作业。
+开头提到的雄性和雌性属性块来自亚种的**基因组**：带槽位的染色体，每个槽位里一个基因。基因是一个 `BaseTrait`，所以它的注册方式和本站其他特质一样，只是多了两件杂事。说白了就是生物作业。
 
 ```csharp Mods/HelloBox/Code/HelloGenes.cs
 namespace HelloBox
 {
     public static class HelloGenes
     {
+        public const string EMBER_BLOOD = "hello_ember_blood";
+
         public static void Initialize()
         {
+            if (AssetManager.gene_library.has(EMBER_BLOOD)) return;
+
             GeneAsset gene = new GeneAsset
             {
-                id = "hello_swift_gene",
-                id_trait = HelloSubspecies.SWIFT,
-                rate = 0.05f
+                id = EMBER_BLOOD,
+                path_icon = "ui/Icons/iconHelloGene",
+                needs_to_be_explored = false
             };
-            AssetManager.genes.add(gene);
-            AssetManager.genes._gene_assets_mutations.Add(gene);
+
+            AssetManager.gene_library.add(gene);
+            gene.base_stats["damage"] = 2f;
+
+            // Each world rolls every gene's DNA letters from its life seed when it loads.
+            // A world may already be open, so roll yours now the same way.
+            if (World.world != null && World.world.map_stats != null)
+            {
+                gene.generateDNA(World.world.map_stats.life_dna + gene.getIndexID());
+            }
+
+            // linkAssets() filled the mutation pool at startup. Without this, only the
+            // player's gene editor can ever place it.
+            AssetManager.gene_library._gene_assets_mutations.Add(gene);
         }
     }
 }
 ```
 
-两个关键字段：
+- **DNA 字母。** 每个基因都会显示一段简短的 `ACGT` 代码，在世界加载时根据该世界的生命种子逐世界掷出。你的基因没赶上那次掷骰，所以它会用同样的方式为自己掷一个。
+- **突变池。** 突变会从 `_gene_assets_mutations` 里挑选，这是 `linkAssets()` 在启动时填好的私有列表。**公开化**的程序集能让你往里加东西，而 NML 正是针对这样的程序集编译的。漏掉这一步，基因就只会出现在玩家手动放置的地方。
 
-- `gene.id_trait` 将其链接到你注册的亚种特质。
-- `gene.rate` 是突变概率（0.0 到 1.0）。
+基因的文本键是 `gene_<id>`。基因没有描述行：`GeneLibrary.add()` 会把它关掉。
 
-如果缺少 `_gene_assets_mutations.Add(gene)` 调用，该基因虽然完成注册，但永远不会进入突变判定池中。
+```json Mods/HelloBox/Locales/en.json
+{
+  "gene_hello_ember_blood": "Ember Blood"
+}
+```
 
 ## Meta 标签
 
@@ -194,7 +214,7 @@ ActorAsset asset = AssetManager.actor_library.get("hello_sprite");
 if (asset != null) asset.addSubspeciesTrait(HelloSubspecies.SCALES);
 ```
 
-这会让该生物衍生出的所有新亚种出生时均自带此特质。如果不写此代码而依赖 `in_mutation_pot_add`，特质最终会在世界的某处自发诞生 —— 这往往能带来更有趣的游戏体验。
+这会让该生物的每一个新亚种都自带这个特质。如果不写这一行，改为依赖 `in_mutation_pot_add`，它就会在某个时候、某个地方自己冒出来，这通常是更有意思的版本。
 
-> [!TIP] 法术在此相得益彰
-> 原版的魔法血脉正是只赋予单一法术的亚种特质：`trait.addSpell("summon_lightning")`。仅仅一行代码，即可由子孙后代代代相传，在整片大陆上谱写出风暴召唤者家族的壮阔篇章 :PES5_CrazyPog:。
+> [!TIP] 法术很适合放在这里
+> 原版的魔法血脉就是只授予一个法术、别的什么都不做的亚种特质：`trait.addSpell("summon_lightning")`，然后因为资源库在启动时就解析了法术 id，所以再调用 `trait.linkSpells()`。两行代码，由子代继承，就能在整片大陆上形成一支看得见的唤雷者血脉 :PES5_CrazyPog:。

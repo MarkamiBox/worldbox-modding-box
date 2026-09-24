@@ -78,16 +78,15 @@ namespace HelloBox
     }
 }
 ```
-> [!WARNING] Caricati l'ombra da solo, o il gioco si lamenta per ogni attore
-> `ActorAssetLibrary` scorre la sua lista all'avvio e chiama `loadShadow()` su ogni attore, che carica lo sprite in `shadows/<shadow_texture>` e lo misura. È successo prima che la tua mod registrasse qualunque cosa, quindi l'ombra del tuo attore resta a `(0.00, 0.00)` e il gioco logga un errore di asset, tre volte: adulto, uovo e cucciolo :wbfacepalm:.
+> [!WARNING] Carica tu l'ombra, o il gioco si lamenterà di ogni attore
+> `ActorAssetLibrary` scorre la sua lista all'avvio e chiama `loadShadow()` su ogni attore, che legge lo sprite in `shadows/<shadow_texture>` e lo misura. Questo è successo prima che la tua mod registrasse qualcosa, quindi l'ombra del tuo attore resta `(0.00, 0.00)` e il gioco registra un errore di asset, tre volte, una per l'adulto, l'uovo e il cucciolo :wbfacepalm:.
 >
-> `loadShadow()` è `internal`, quindi serve una `Assembly-CSharp.dll` **publicized** come per il resto della guida. Se non ce l'hai, metti `asset.shadow = false;`: niente ombra, ma nemmeno errore.
+> `loadShadow()` è `internal`, quindi serve un `Assembly-CSharp.dll` **pubblicizzato** come nel resto della guida. Se non ce l'hai, imposta invece `asset.shadow = false;`: niente ombra, ma nemmeno errori.
 
-
-> [!WARNING] clone() esegue già la registrazione
-> `AssetManager.<library>.clone(newId, sourceId)` invoca internamente `add()`. Ogni libreria funziona in questo modo. Chiamare `add()` manualmente subito dopo genera una registrazione duplicata: la libreria scarta la prima copia, registra un errore e la reinserisce. È innocuo, ma produce rumore nei log nascondendo i problemi veri, ed è la prima cosa che un revisore noterà nel tuo codice.
+> [!WARNING] `clone()` registra già
+> `AssetManager.<library>.clone(newId, sourceId)` chiama `add()` al suo interno. Tutte le librerie funzionano così. Chiamare tu `add()` dopo è una registrazione doppia: la libreria rimuove la prima copia, scrive un errore e la riaggiunge. Innocuo, ma è rumore nel log che rende più difficile trovare gli errori veri, ed è la prima cosa che noterà chi rivede il codice.
 >
-> Il risvolto positivo è un'ottima notizia: **dopo una clonazione, `base_stats` esiste già**, per cui la regola fondamentale "statistiche solo dopo add" vista in **[Tratti personalizzati](#/nml/custom-traits)** è automaticamente soddisfatta.
+> Il rovescio della medaglia è la buona notizia: **dopo un clone, `base_stats` esiste già**, quindi la regola "statistiche dopo add" di **[Tratti personalizzati](#/nml/custom-traits)** è già rispettata.
 
 ## Diversi attori contemporaneamente
 

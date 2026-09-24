@@ -70,18 +70,26 @@ namespace HelloBox
 
 ### フィールド一覧
 
-`rate` と `chance` がいちばんいじることになる2つです。理由はページ下部の警告で説明しています。
+いちばんいじることになるのは `rate` と `chance` です。理由はページ下部の警告で説明しています。
 
-| フィールド | 説明 |
+| フィールド | 役割 |
 | --- | --- |
-| `rate` | 重み：他の災害と比較して選ばれる頻度 |
-| `chance` | 選ばれた後の2回目の確率判定 |
-| `min_world_population` / `min_world_cities` | 発生に必要な最低限の条件 |
-| `type` | `DisasterType.Nature`, `Other`, … |
-| `world_log` | `WorldLogAsset` の ID：ワールドログに表示される行。テキストキーでは**ありません**（後述） |
-| `action` | 実行コード。災害処理の本体 |
-| `spawn_asset_unit` + `units_min`/`units_max` | 「この生物をN体スポーンさせる」ショートカット |
-| `max_existing_units` | 既に同種がこの数存在する場合は生成しない |
+| `rate` | 抽選での重み。高いほど他と比べて選ばれやすくなります |
+| `chance` | 選ばれた後の2回目の判定 |
+| `min_world_population` / `min_world_cities` | そもそも発生するための条件 |
+| `type` | `DisasterType.Nature`、`Other`、… |
+| `world_log` | `WorldLogAsset` のID：ワールドログに出る行です。ローカライズキーでは**ありません**、下を参照 |
+| `action` | あなたのコード。これが災害そのものです |
+| `spawn_asset_unit` + `units_min`/`units_max` | 「このクリーチャーをN体出す」の近道 |
+| `max_existing_units` | すでにこの数だけいれば、それ以上は出さない |
+| `ages_allow` / `ages_forbid` | 特定の時代に限定します。例えば「灰の時代」だけ |
+
+時代による制限は、アセットを作った後で行います：
+
+```csharp
+emberStorm.ages_allow.Add("age_ash");
+emberStorm.ages_allow.Add("age_chaos");
+```
 
 ## コードなしで生物をスポーンさせる
 

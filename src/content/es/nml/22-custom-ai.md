@@ -12,23 +12,22 @@ Aquí entramos en aguas profundas. Todo lo demás en esta guía añade *cosas* a
 
 ## Cómo piensa el juego
 
-Tres capas, de mayor a menor, más la que está a su lado. Entender esto me costó más de lo que me gusta admitir:
+Tres capas, de grande a pequeña, más la que va al lado. Entender esto me costó más de lo que me gusta admitir:
 
-| Capa | Qué es | Librería |
+| Capa | Qué es | Biblioteca |
 | --- | --- | --- |
-| **Trabajo** (`ActorJob`) | Qué hace esta criatura en general: "ser un ciudadano", "ser un soldado" | `AssetManager.job_actor` |
+| **Trabajo** (`ActorJob`) | A qué se dedica esta criatura en general: "ser ciudadano", "ser soldado" | `AssetManager.job_actor` |
 | **Tarea** (`BehaviourTaskActor`) | Un objetivo concreto dentro de un trabajo: "ir a comer", "construir eso" | `AssetManager.tasks_actor` |
-| **Comportamiento** (`BehaviourActionActor`) | Un paso de una tarea, ejecutado en cada tick, que devuelve qué hacer a continuación | añadido a una tarea |
+| **Comportamiento** (`BehaviourActionActor`) | Un paso de una tarea, se ejecuta cada tick y devuelve qué hacer a continuación | se añade a una tarea |
+| **Decisión** (`DecisionAsset`) | Cuándo empezar una tarea: las opciones que una criatura sopesa cada vez que está libre | `AssetManager.decisions_library` |
 
-Un trabajo contiene tareas, una tarea contiene comportamientos, y los comportamientos se ejecutan en orden hasta que uno de ellos dice basta.
+Un trabajo contiene tareas, una tarea contiene comportamientos, y los comportamientos se ejecutan en orden hasta que uno dice basta. Las decisiones van al lado de los trabajos: son la forma en que una criatura libre elige su siguiente tarea por su cuenta, mira **[Decisiones](#decisiones-deja-que-la-criatura-elija-tu-tarea)** más abajo.
 
 ## Escribir un comportamiento
 
 Un comportamiento es una clase con un único método. Recibe el actor, realiza una pequeña acción y devuelve un `BehResult`:
 
-```csharp Mods/HelloBox/Code/HelloAI.cs
-using ai.behaviours;   // BehaviourTaskActor, BehaviourActionActor, BehResult, the vanilla behaviours
-
+```csharp
 namespace HelloBox
 {
     public class BehHelloDrive : BehaviourActionActor
@@ -37,55 +36,16 @@ namespace HelloBox
         {
             if (pActor == null || !pActor.isAlive()) return BehResult.Stop;
 
+            // decide something, write it onto the actor
             WorldTile target = HelloAI.PickTile(pActor);
             if (target == null) return BehResult.Stop;
 
             pActor.beh_tile_target = target;
-            return BehResult.Continue;
-        }
-    }
-
-    public static class HelloAI
-    {
-        public const string JOB = "hellobox_job";
-        public const string TASK = "hellobox_drive";
-
-        public static void Initialize()
-        {
-            BehaviourTaskActor drive = new BehaviourTaskActor
-            {
-                id = TASK,
-                ignore_fight_check = true,        // don't let the combat system hijack the task
-                locale_key = "task_unit_" + TASK
-            };
-
-            AssetManager.tasks_actor.add(drive);  // add first
-            drive.setIcon("ui/Icons/iconHelloDrive");    // then decorate
-            drive.addBeh(new BehHelloDrive());    // my decision
-            drive.addBeh(new BehGoToTileTarget()); // the game's own pathing does the walking
-
-            ActorJob job = new ActorJob { id = JOB };
-            job.addTask(TASK);
-            AssetManager.job_actor.add(job);
-        }
-
-        /** Where the creature should walk next. One random neighbour it can actually reach. */
-        public static WorldTile PickTile(Actor pActor)
-        {
-            WorldTile from = pActor.current_tile;
-            if (from == null) return null;
-
-            // the game's own helper: a random neighbour that is not across water
-            return from.getTileAroundThisOnSameIsland(from);
+            return BehResult.Continue;   // let the next behaviour in the task run
         }
     }
 }
 ```
-`PickTile` es todo el sentido del ejercicio: es la única parte que el juego no hace ya por ti. Todo lo demás en ese archivo es fontanería.
-
-> [!WARNING] `beh_tile_target` es internal
-> El campo en el que escribe el behaviour está marcado como `internal` en el assembly del juego, así que esto compila contra una `Assembly-CSharp.dll` **publicized** (mira la nota en **[Efectos de estado](#/nml/status-effects)**). Sin ella el compilador rechaza la línea y tienes que guardar el objetivo en un campo tuyo :PES5_Noted:.
-
 
 | Resultado | Significado |
 | --- | --- |
@@ -154,7 +114,12 @@ namespace HelloBox
 }
 ```
 
-Fíjate en el segundo comportamiento: **reutiliza los nodos vainilla**. El juego ya cuenta con comportamientos para caminar hasta una casilla, aplicar un estado, encontrar un edificio o atacar a un objetivo. Escribir la decisión y tomar prestada la ejecución es la diferencia entre un fin de semana y un mes entero.
+`PickTile` es todo el sentido del ejercicio: es la única parte que el juego no hace ya por ti. Todo lo demás en ese archivo es fontanería.
+
+> [!WARNING] `beh_tile_target` es internal
+> El campo en el que escribe el comportamiento está marcado como `internal` en el ensamblado del juego, así que esto compila contra un `Assembly-CSharp.dll` **publicitado** (mira la nota en **[Efectos de estado](#/nml/status-effects)**). Sin uno, el compilador rechaza la línea y tienes que guardar el objetivo en un campo tuyo :PES5_Noted:.
+
+Fíjate en el segundo comportamiento: **reutiliza los nodos vanilla**. El juego tiene comportamientos para caminar a una casilla, añadir un estado, encontrar un edificio, atacar un objetivo. Escribir la decisión y tomar prestada la ejecución es la diferencia entre un fin de semana y un mes.
 
 ## Hacer que una criatura use realmente tu trabajo
 

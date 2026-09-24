@@ -12,23 +12,22 @@ order: 144
 
 ## Как устроено мышление в игре
 
-Три уровня, от общего к частному, плюс тот, что стоит рядом. У меня ушло на это больше времени, чем хочется признавать:
+Три уровня, от крупного к мелкому, плюс тот, что стоит рядом. У меня ушло на это больше времени, чем хочется признавать:
 
 | Уровень | Что это | Библиотека |
 | --- | --- | --- |
-| **Работа** (`ActorJob`) | Общая деятельность существа: "быть горожанином", "быть солдатом" | `AssetManager.job_actor` |
-| **Задача** (`BehaviourTaskActor`) | Конкретная цель внутри работы: "пойти поесть", "построить дом" | `AssetManager.tasks_actor` |
-| **Действие** (`BehaviourActionActor`) | Один шаг задачи, выполняемый каждый тик и возвращающий следующий шаг | прикрепляется к задаче |
+| **Работа** (`ActorJob`) | Чем это существо занято в целом: «быть горожанином», «быть солдатом» | `AssetManager.job_actor` |
+| **Задача** (`BehaviourTaskActor`) | Одна конкретная цель внутри работы: «пойти поесть», «построить вот это» | `AssetManager.tasks_actor` |
+| **Поведение** (`BehaviourActionActor`) | Один шаг задачи, выполняется каждый тик и возвращает, что делать дальше | добавляется к задаче |
+| **Решение** (`DecisionAsset`) | Когда начинать задачу: варианты, которые существо взвешивает каждый раз, когда свободно | `AssetManager.decisions_library` |
 
-Работа содержит задачи, задача содержит действия (Behaviours), а действия выполняются по порядку, пока одно из них не скажет остановиться.
+Работа содержит задачи, задача содержит поведения, и поведения выполняются по порядку, пока одно из них не скажет «стоп». Решения стоят рядом с работами: через них свободное существо само выбирает следующую задачу, см. **[Решения](#решения-пусть-существо-само-выбирает-вашу-задачу)** ниже.
 
 ## Написание действия (Behaviour)
 
 Действие - это класс с одним-единственным методом. Он принимает актера, выполняет одно небольшое действие и возвращает `BehResult`:
 
-```csharp Mods/HelloBox/Code/HelloAI.cs
-using ai.behaviours;   // BehaviourTaskActor, BehaviourActionActor, BehResult, the vanilla behaviours
-
+```csharp
 namespace HelloBox
 {
     public class BehHelloDrive : BehaviourActionActor
@@ -37,55 +36,16 @@ namespace HelloBox
         {
             if (pActor == null || !pActor.isAlive()) return BehResult.Stop;
 
+            // decide something, write it onto the actor
             WorldTile target = HelloAI.PickTile(pActor);
             if (target == null) return BehResult.Stop;
 
             pActor.beh_tile_target = target;
-            return BehResult.Continue;
-        }
-    }
-
-    public static class HelloAI
-    {
-        public const string JOB = "hellobox_job";
-        public const string TASK = "hellobox_drive";
-
-        public static void Initialize()
-        {
-            BehaviourTaskActor drive = new BehaviourTaskActor
-            {
-                id = TASK,
-                ignore_fight_check = true,        // don't let the combat system hijack the task
-                locale_key = "task_unit_" + TASK
-            };
-
-            AssetManager.tasks_actor.add(drive);  // add first
-            drive.setIcon("ui/Icons/iconHelloDrive");    // then decorate
-            drive.addBeh(new BehHelloDrive());    // my decision
-            drive.addBeh(new BehGoToTileTarget()); // the game's own pathing does the walking
-
-            ActorJob job = new ActorJob { id = JOB };
-            job.addTask(TASK);
-            AssetManager.job_actor.add(job);
-        }
-
-        /** Where the creature should walk next. One random neighbour it can actually reach. */
-        public static WorldTile PickTile(Actor pActor)
-        {
-            WorldTile from = pActor.current_tile;
-            if (from == null) return null;
-
-            // the game's own helper: a random neighbour that is not across water
-            return from.getTileAroundThisOnSameIsland(from);
+            return BehResult.Continue;   // let the next behaviour in the task run
         }
     }
 }
 ```
-`PickTile` — это и есть весь смысл упражнения: единственная часть, которую игра не делает за вас. Всё остальное в файле — проводка.
-
-> [!WARNING] `beh_tile_target` — internal
-> Поле, в которое пишет behaviour, помечено `internal` в сборке игры, так что это компилируется против **publicized** `Assembly-CSharp.dll` (см. заметку в **[Эффекты статуса](#/nml/status-effects)**). Без неё компилятор отвергнет строку, и цель придётся держать в своём поле :PES5_Noted:.
-
 
 | Результат | Значение |
 | --- | --- |
@@ -154,7 +114,12 @@ namespace HelloBox
 }
 ```
 
-Обратите внимание на второе действие: **переиспользуйте ванильные узлы**. В игре уже есть готовые действия для ходьбы к тайлу, наложения статуса, поиска здания или атаки цели. Написать логику решения и позаимствовать реализацию шагов - это разница между одними выходными и целым месяцем работы.
+`PickTile` - весь смысл упражнения: это единственная часть, которую игра не делает за вас. Всё остальное в этом файле - обвязка.
+
+> [!WARNING] `beh_tile_target` помечен как internal
+> Поле, в которое пишет поведение, помечено в сборке игры как `internal`, поэтому это компилируется против **публицированной** `Assembly-CSharp.dll` (см. примечание в **[Эффектах статуса](#/nml/status-effects)**). Без неё компилятор отвергнет строку, и цель придётся хранить в своём поле :PES5_Noted:.
+
+Обратите внимание на второе поведение: **переиспользуйте ванильные узлы**. В игре есть поведения для того, чтобы дойти до клетки, добавить статус, найти здание, атаковать цель. Написать решение самому, а исполнение взять взаймы - это разница между выходными и месяцем.
 
 ## Как заставить существо выполнять вашу работу
 

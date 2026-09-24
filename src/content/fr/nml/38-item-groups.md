@@ -138,7 +138,7 @@ Un nouveau groupe ne vous confère **aucun** nouvel emplacement d'équipement. `
 
 ## Où apparaît la catégorie
 
-Les groupes s'affichent selon l'ordre de la liste interne, et `add()` relègue le vôtre en toute fin. Repositionnez-le auprès d'un groupe voisin :
+Les groupes s'affichent dans l'ordre de `list`, et `add()` met le vôtre en dernier. Déplacez-le à côté d'un groupe proche :
 
 ```csharp
 private static void PlaceAfter(string pId, string pAfterId)

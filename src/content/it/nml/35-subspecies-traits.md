@@ -132,34 +132,54 @@ Tre sottosistemi a cui si collegano i tratti delle sottospecie:
 
 ## Geni
 
-Un gene è il modo in cui un tratto di sottospecie muta in un altro tratto. Il gioco esamina `AssetManager.genes` durante la riproduzione per decidere cosa tramandare: Compiti di biologia, in pratica.
+I blocchi di statistiche maschili e femminili citati all'inizio vengono dal **genoma** della sottospecie: cromosomi con degli slot, e un gene in ciascuno. Un gene è un `BaseTrait`, quindi si registra come ogni altro tratto di questo sito, con due compiti in più. Compiti di biologia, in pratica.
 
 ```csharp Mods/HelloBox/Code/HelloGenes.cs
 namespace HelloBox
 {
     public static class HelloGenes
     {
+        public const string EMBER_BLOOD = "hello_ember_blood";
+
         public static void Initialize()
         {
+            if (AssetManager.gene_library.has(EMBER_BLOOD)) return;
+
             GeneAsset gene = new GeneAsset
             {
-                id = "hello_swift_gene",
-                id_trait = HelloSubspecies.SWIFT,
-                rate = 0.05f
+                id = EMBER_BLOOD,
+                path_icon = "ui/Icons/iconHelloGene",
+                needs_to_be_explored = false
             };
-            AssetManager.genes.add(gene);
-            AssetManager.genes._gene_assets_mutations.Add(gene);
+
+            AssetManager.gene_library.add(gene);
+            gene.base_stats["damage"] = 2f;
+
+            // Each world rolls every gene's DNA letters from its life seed when it loads.
+            // A world may already be open, so roll yours now the same way.
+            if (World.world != null && World.world.map_stats != null)
+            {
+                gene.generateDNA(World.world.map_stats.life_dna + gene.getIndexID());
+            }
+
+            // linkAssets() filled the mutation pool at startup. Without this, only the
+            // player's gene editor can ever place it.
+            AssetManager.gene_library._gene_assets_mutations.Add(gene);
         }
     }
 }
 ```
 
-Due campi:
+- **Le lettere del DNA.** Ogni gene mostra un breve codice `ACGT`, estratto per mondo dal suo seme vitale quando il mondo si carica. Il tuo gene non c'era per quell'estrazione, quindi estrae il suo allo stesso modo.
+- **Il pool delle mutazioni.** Le mutazioni pescano da `_gene_assets_mutations`, una lista privata che `linkAssets()` ha riempito all'avvio. Un assembly **pubblicizzato** ti permette di aggiungerci qualcosa, e NML compila con uno di questi. Saltalo e il gene compare solo dove il giocatore lo mette a mano.
 
-- `gene.id_trait` lo collega al tratto di sottospecie che hai registrato.
-- `gene.rate` è la probabilità di mutazione, da 0.0 a 1.0.
+La chiave di testo di un gene è `gene_<id>`. I geni non hanno una riga di descrizione: `GeneLibrary.add()` la disattiva.
 
-Senza la chiamata a `_gene_assets_mutations.Add(gene)`, il gene viene registrato ma non entra mai nel calcolo delle mutazioni.
+```json Mods/HelloBox/Locales/en.json
+{
+  "gene_hello_ember_blood": "Ember Blood"
+}
+```
 
 ## Tag meta
 
@@ -194,7 +214,7 @@ ActorAsset asset = AssetManager.actor_library.get("hello_sprite");
 if (asset != null) asset.addSubspeciesTrait(HelloSubspecies.SCALES);
 ```
 
-In questo modo ogni nuova sottospecie originata da quella creatura comincerà con il tratto. Ometterlo e affidarsi a `in_mutation_pot_add` fa sì che compaia spontaneamente prima o poi, il che si rivela solitamente molto più interessante.
+Così ogni nuova sottospecie di quella creatura parte con il tratto. Se lo ometti e ti affidi invece a `in_mutation_pot_add`, compare da solo, da qualche parte, prima o poi, che di solito è la versione più interessante.
 
-> [!TIP] Gli incantesimi trovano qui il loro posto ideale
-> Le discendenze magiche vanilla sono tratti di sottospecie che concedono un incantesimo e null'altro: `trait.addSpell("summon_lightning")`. Una sola riga, ereditata dalla prole, e ottieni una vera e propria stirpe di evocatori di fulmini estesa per un intero continente :PES5_CrazyPog:.
+> [!TIP] Gli incantesimi stanno bene qui
+> Le stirpi magiche vanilla sono tratti di sottospecie che concedono un incantesimo e nient'altro: `trait.addSpell("summon_lightning")`, poi `trait.linkSpells()` perché la libreria ha risolto gli id degli incantesimi all'avvio. Due righe, ereditate dai figli, e si ottiene una stirpe visibile di evocatori di tempeste attraverso un intero continente :PES5_CrazyPog:.

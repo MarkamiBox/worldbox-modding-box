@@ -27,16 +27,16 @@ worldbox/worldbox_Data/Managed/Assembly-CSharp.dll
 
 ### 1. Найти нужный класс
 
-Комбинация `Ctrl+Shift+K` ищет типы. Введи `ActorTrait`, открой класс и увидишь каждое поле, которое можно настроить, вместе с его типом и значением по умолчанию:
+`Ctrl+Shift+K` ищет типы. Введите `ActorTrait`, откройте его, и вы увидите каждое поле, которое можно задать, с его типом и значением по умолчанию:
 
 ```csharp Assembly-CSharp / ActorTrait
 public string path_icon;
 public string group_id;
-public float rate_birth;
+public int rate_birth;
 public bool can_be_cured;
 ```
 
-Этот список и *есть* документация для страницы **[Пользовательские черты](#/nml/custom-traits)**. Тот же прием работает для `ItemAsset`, `BuildingAsset`, `StatusAsset` и всего остального.
+Этот список *и есть* документация к странице **[Свои черты](#/nml/custom-traits)**. Читайте и **типы**: `rate_birth` - это `int`, так что `rate_birth = 0.5f` не скомпилируется. Тот же трюк для `ItemAsset`, `BuildingAsset`, `StatusAsset`, для чего угодно.
 
 ### 2. Проверить реальную сигнатуру метода
 

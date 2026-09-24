@@ -12,23 +12,22 @@ order: 144
 
 ## 游戏是如何思考的
 
-自上而下分为三个层级，外加旁边的那一层。这部分我花的时间比我愿意承认的还多：
+从大到小三层，再加上旁边的那一层。这部分我花的时间比我愿意承认的还多：
 
-| 层级 | 概念定义 | 对应的资源库 |
+| 层 | 是什么 | 资源库 |
 | --- | --- | --- |
-| **职业/身份** (`ActorJob`) | 该生物当下所承担的大体职责：“成为市民”、“担任士兵” | `AssetManager.job_actor` |
-| **具体任务** (`BehaviourTaskActor`) | 职业内部包含的一个具体目标：“去吃东西”、“建造那个建筑” | `AssetManager.tasks_actor` |
-| **动作行为** (`BehaviourActionActor`) | 任务中的单一具体执行步骤，每个 tick 运行，并决定后续流转 | 挂载在特定任务之下 |
+| **职业** (`ActorJob`) | 这个生物大体在干什么：“当市民”“当士兵” | `AssetManager.job_actor` |
+| **任务** (`BehaviourTaskActor`) | 职业里的一个具体目标：“去吃饭”“把那个建起来” | `AssetManager.tasks_actor` |
+| **行为** (`BehaviourActionActor`) | 任务里的一步，每个 tick 运行一次，并返回下一步做什么 | 添加到任务上 |
+| **决策** (`DecisionAsset`) | 什么时候开始一个任务：生物每次闲下来时权衡的选项 | `AssetManager.decisions_library` |
 
-一个职业包含若干任务，一个任务包含若干动作行为，动作按顺序逐一执行，直到其中某一个返回中止指令。
+职业包含任务，任务包含行为，行为按顺序运行，直到其中一个说停。决策和职业并列：闲下来的生物就是靠它们自己挑选下一个任务的，见下文的 **[决策](#决策-让生物自主选择执行你的任务)**。
 
 ## 编写具体动作（Behaviour）
 
 一个动作行为本质上是一个只包含一个核心方法的类。它接收当前生物作为参数，执行一步微小的逻辑，并返回一个 `BehResult` 状态：
 
-```csharp Mods/HelloBox/Code/HelloAI.cs
-using ai.behaviours;   // BehaviourTaskActor, BehaviourActionActor, BehResult, the vanilla behaviours
-
+```csharp
 namespace HelloBox
 {
     public class BehHelloDrive : BehaviourActionActor
@@ -37,55 +36,16 @@ namespace HelloBox
         {
             if (pActor == null || !pActor.isAlive()) return BehResult.Stop;
 
+            // decide something, write it onto the actor
             WorldTile target = HelloAI.PickTile(pActor);
             if (target == null) return BehResult.Stop;
 
             pActor.beh_tile_target = target;
-            return BehResult.Continue;
-        }
-    }
-
-    public static class HelloAI
-    {
-        public const string JOB = "hellobox_job";
-        public const string TASK = "hellobox_drive";
-
-        public static void Initialize()
-        {
-            BehaviourTaskActor drive = new BehaviourTaskActor
-            {
-                id = TASK,
-                ignore_fight_check = true,        // don't let the combat system hijack the task
-                locale_key = "task_unit_" + TASK
-            };
-
-            AssetManager.tasks_actor.add(drive);  // add first
-            drive.setIcon("ui/Icons/iconHelloDrive");    // then decorate
-            drive.addBeh(new BehHelloDrive());    // my decision
-            drive.addBeh(new BehGoToTileTarget()); // the game's own pathing does the walking
-
-            ActorJob job = new ActorJob { id = JOB };
-            job.addTask(TASK);
-            AssetManager.job_actor.add(job);
-        }
-
-        /** Where the creature should walk next. One random neighbour it can actually reach. */
-        public static WorldTile PickTile(Actor pActor)
-        {
-            WorldTile from = pActor.current_tile;
-            if (from == null) return null;
-
-            // the game's own helper: a random neighbour that is not across water
-            return from.getTileAroundThisOnSameIsland(from);
+            return BehResult.Continue;   // let the next behaviour in the task run
         }
     }
 }
 ```
-`PickTile` 才是这整件事的重点：它是游戏唯一没有替你做掉的部分。那个文件里其余的全是接线。
-
-> [!WARNING] `beh_tile_target` 是 internal
-> behaviour 写入的那个字段在游戏程序集里标成了 `internal`，所以这段要对着 **publicized** 过的 `Assembly-CSharp.dll` 才编得过（见 **[状态效果](#/nml/status-effects)** 里的说明）。没有的话编译器会拒掉这一行，你得把目标存在自己的字段里 :PES5_Noted:。
-
 
 | 执行状态码 | 具体含义 |
 | --- | --- |
@@ -154,7 +114,12 @@ namespace HelloBox
 }
 ```
 
-注意观察第二个动作行为：**直接复用原版节点**。游戏本体已经内置了走向指定地块、添加状态、寻找建筑、攻击目标等成熟动作。自己编写核心决策，同时借用原版的执行节点，这就是把一个月的工作量压缩到一个周末的诀窍。
+`PickTile` 才是这个练习的重点：它是游戏唯一还没替你做好的部分。那个文件里的其他东西都只是管线。
+
+> [!WARNING] `beh_tile_target` 是 internal 的
+> 行为写入的这个字段在游戏程序集里被标记为 `internal`，所以这段代码是针对**公开化**的 `Assembly-CSharp.dll` 编译的（见 **[状态效果](#/nml/status-effects)** 里的说明）。没有它，编译器会拒绝这一行，你就只能把目标存在自己的字段里 :PES5_Noted:。
+
+注意第二个行为：**复用原版节点**。游戏已经有走到某个地块、添加状态、寻找建筑、攻击目标这些行为。自己写决策、借用现成的执行，这就是一个周末和一个月的区别。
 
 ## 让生物真正执行你的职业逻辑
 

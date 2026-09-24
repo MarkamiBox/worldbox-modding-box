@@ -169,9 +169,9 @@ O jogo age como se o seu mod não existisse. Não é pessoal, normalmente é um 
 
 ### Sem botão Mods no menu
 
-- **O que você vê**: O jogo abre normalmente, sem erro, sem botão Mods e sem nenhuma linha `[NML]` no log.
-- **Por quê**: Duas pastas se chamam "Mods". A DLL do carregador vai na pasta de dados do jogo; `worldbox\Mods/` é para os *seus* mods.
-- **Solução**: Coloque `NeoModLoader.dll` em `worldbox\worldbox_Data\StreamingAssets\mods/`, reinicie e procure `[NML]: NeoModLoader Version:` no log.
+- **O que você vê**: O jogo abre normal, sem erro, sem botão de Mods e sem nenhuma linha `[NML]` no log.
+- **Por quê**: Duas pastas se chamam "Mods". A DLL do loader vai na pasta de dados do jogo; `worldbox\Mods/` é para os *seus* mods.
+- **Solução**: Coloque `NeoModLoader.dll` em `worldbox\worldbox_Data\StreamingAssets\mods/`, reinicie e procure `[NML]: NeoModLoader Version:` no log. Cada clique, Mac incluído: **[Instalar o NML](#/install-nml)**.
 
 ### Janela de Mods vazia, antes funcionava
 
@@ -181,9 +181,9 @@ O jogo age como se o seu mod não existisse. Não é pessoal, normalmente é um 
 
 ### A pasta do mod existe, mas o mod não está na lista
 
-- **O que você vê**: Nada na lista, nenhuma linha `Compile Mod <seu mod>`.
-- **Por quê**: Em ordem de frequência: o arquivo na verdade é `mod.json.txt`; o JSON é inválido (vírgula depois do último item, ou aspas curvas `"` coladas de um app de chat); a pasta não está dentro de `worldbox\Mods/`.
-- **Solução**: Explorer → **Exibir → Mostrar → Extensões de nomes de arquivos**, e confira o nome real. Abra o `mod.json` no VS Code, que sublinha os erros de JSON para você.
+- **O que você vê**: Nada na lista, nenhuma linha `Compile Mod <yours>`.
+- **Por quê**: Por ordem de frequência: o arquivo na verdade se chama `mod.json.txt`; o JSON é inválido (vírgula depois do último item, ou aspas `"` curvas coladas de um app de chat); a pasta não está dentro de `worldbox\Mods/`.
+- **Solução**: Explorador → **Exibir → Mostrar → Extensões de nomes de arquivos**, depois confira o nome real. Abra o `mod.json` no VS Code, que sublinha os erros de JSON para você.
 
 ### O mod aparece acinzentado
 
@@ -274,17 +274,17 @@ swift.base_stats["speed"] = 20f;     // safe from here
 
 ### Os nomes funcionam para traços, mas não para itens, status, poderes
 
-- **O que você vê**: Você copiou o padrão dos traços e este ainda mostra uma chave crua.
+- **O que você vê**: Você copiou o padrão dos traços e aqui ainda aparece uma chave crua.
 - **Por quê**: Quatro assets **não** montam a chave a partir do id:
 
 | Asset | Chave do nome | Chave da descrição |
 | --- | --- | --- |
-| `GodPower` | o **campo** `name`, snake_case | `<name>_description` |
-| `ItemAsset` | `translation_key`, senão `item_<subtype ou id>` | `<id>_description`, sem `item_` |
+| `GodPower` | o **campo** `name`, em snake_case | `<name>_description` |
+| `ItemAsset` | `translation_key`, senão `item_<subtype or id>` | `<id>_description`, sem `item_` |
 | `StatusAsset` | o **campo** `locale_id` | o **campo** `locale_description` |
 | `WorldLawAsset` | `<id>_title` | `<id>_description` |
 
-- **Solução**: Defina `name` = id nos poderes, `translation_key` nos itens, `locale_id` nos status. Mantenha as chaves em snake_case minúsculo: elas são normalizadas quando salvas mas **não** quando procuradas, então `MyKey` é salva como `my_key` e nunca mais é encontrada :PESgn_SMH:.
+- **Solução**: Defina `name` = id nos poderes, `translation_key` nos itens, `locale_id` nos status. Mantenha as chaves em minúsculas e snake_case: elas são normalizadas quando salvas mas **não** quando buscadas, então `MyKey` é salva como `my_key` e nunca mais é encontrada :PESgn_SMH:.
 
 ### O ícone é um buraco em branco
 
@@ -328,9 +328,9 @@ cursed.need_visual_render = true;
 
 ### `addOpposite` / `addDecision` / `addSpell` não fazem nada
 
-- **O que você vê**: O traço oposto nunca é removido, a decisão nunca dispara. Silêncio.
-- **Por quê**: Essas chamadas só acrescentam um **id**. Transformar ids em objetos vivos acontece uma vez, na inicialização, antes do seu mod carregar.
-- **Solução**: Preencha você mesmo os campos resolvidos depois do `add()`: `linkCombatActions()`, `linkSpells()`, e atribua `opposite_traits` diretamente. Se você define `opposite_trait_mod` e deixa `opposite_traits` null, o jogo quebra mais tarde no código social; um `HashSet` vazio evita isso.
+- **O que você vê**: O traço oposto nunca é removido, a decisão nunca dispara. Em silêncio.
+- **Por quê**: Essas chamadas só adicionam um **id**. Transformar ids em objetos de verdade acontece uma vez na inicialização, antes do seu mod carregar.
+- **Solução**: Preencha você mesmo os campos resolvidos depois de `add()`: `linkCombatActions()`, `linkSpells()`, `decisions_assets` (um array que você monta com `AssetManager.decisions_library.get()`, não existe método de link) e atribua `opposite_traits` diretamente. Se você define `opposite_trait_mod` e deixa `opposite_traits` nulo, o jogo crasha mais tarde dentro do código social - um `HashSet` vazio evita isso.
 
 ---
 
