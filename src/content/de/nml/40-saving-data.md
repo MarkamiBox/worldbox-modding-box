@@ -23,7 +23,7 @@ Das Spiel hat dafür bereits einen festen Platz. Jede Einheit, jede Stadt, jedes
 | `data.hasFlag(key)` / `data.removeFlag(key)` | Prüft oder löscht das Flag |
 | `data.removeInt(key)`, `removeFloat`, `removeString`... | Löscht einen bestimmten Wert |
 
-Jeder Datentyp hat seine eigene Tabelle, daher kollidieren ein `int` und ein `string` unter demselben Schlüssel nicht. Aus Gründen deiner eigenen geistigen Gesundheit sollten sie sich dennoch keinen Schlüssel teilen.
+Jeder Datentyp hat seine eigene Tabelle, daher kollidieren ein `int` und ein `string` unter demselben Schlüssel nicht. Aus Gründen deiner eigenen geistigen Gesundheit sollten sie sich dennoch keinen Schlüssel teilen. Dein zukünftiges Ich wird sich nicht mehr erinnern, welcher welcher war.
 
 
 > [!NOTE] Mehr als fünf primitive Datentypen speichern
@@ -86,7 +86,7 @@ namespace HelloBox
 }
 ```
 
-Speichere die Welt und lade sie neu: Der Zähler ist immer noch da, da er Teil der Speicherdaten der Einheit ist. Das Flag sorgt dafür, dass die Belohnung genau einmal ausgelöst wird und nicht bei jedem weiteren Schlag nach dem fünfzigsten.
+Speichere die Welt und lade sie neu: Der Zähler ist immer noch da, da er Teil der Speicherdaten der Einheit ist. Das Flag sorgt dafür, dass die Belohnung genau einmal ausgelöst wird und nicht bei jedem weiteren Schlag nach dem fünfzigsten. Großzügig, aber trotzdem ein Bug.
 
 Die Lokalisierungstexte, wie bei jedem Merkmal:
 

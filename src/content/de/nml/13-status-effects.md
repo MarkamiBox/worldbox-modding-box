@@ -76,6 +76,8 @@ namespace HelloBox
 
 ### Die wichtigsten Felder
 
+Die kurze Liste. Die echte ist länger und größtenteils langweilig :wbyawn:.
+
 | Feld | Was es bewirkt |
 | --- | --- |
 | `duration` | Lebensdauer in Sekunden. Der Status entfernt sich selbst nach Ablauf |
@@ -98,7 +100,7 @@ namespace HelloBox
 
 ## Dein eigenes Sprite
 
-Hier lauert eine Falle. `texture` ist **kein** vollständiger Pfad: Die Statusbibliothek hängt vor dem Laden automatisch `effects/` davor, du schreibst also nur den reinen Namen.
+Hier lauert eine Falle, und jeder tappt einmal hinein :wbbre:. `texture` ist **kein** vollständiger Pfad: Die Statusbibliothek hängt vor dem Laden automatisch `effects/` davor, du schreibst also nur den reinen Namen.
 
 ```text Mods/HelloBox/
 HelloBox/

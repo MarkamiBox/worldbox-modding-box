@@ -10,7 +10,7 @@ order: 106
 
 Una **cultura** rappresenta le abitudini condivise da un gruppo di città. Decide cosa costruiscono, cosa forgiano, come ereditano, cosa leggono e a cosa danno valore. Un tratto culturale è una di queste abitudini.
 
-Dei sette sistemi di tratti, la cultura è quello con la portata più ampia. Una cultura si diffonde con le città, sopravvive al suo fondatore e fonde le sue statistiche in ogni singola unità che vi appartiene. Se vuoi una mod il cui effetto si propaghi nel mondo durante un'ora di gioco, questa è la libreria ideale.
+Dei sette sistemi di tratti, la cultura è quello con la portata più ampia. Una cultura si diffonde con le città, sopravvive al suo fondatore e fonde le sue statistiche in ogni singola unità che vi appartiene. Se vuoi una mod il cui effetto si propaghi nel mondo durante un'ora di gioco, questa è la libreria ideale. Grande portata, grande responsabilità :PES5_Menace:.
 
 | | |
 | --- | --- |
@@ -56,7 +56,7 @@ namespace HelloBox
 }
 ```
 
-Tutto ciò che trovi su **[Tratti personalizzati](#/nml/custom-traits)** vale anche qui: `add()` prima delle statistiche, `path_icon` non viene generato automaticamente, i prefissi sugli ID sono d'obbligo. Ciò che segue illustra ciò che rende unici i tratti culturali.
+Tutto ciò che trovi su **[Tratti personalizzati](#/nml/custom-traits)** vale anche qui: `add()` prima delle statistiche, `path_icon` non viene generato automaticamente, i prefissi sugli ID sono d'obbligo. Ciò che segue illustra ciò che rende unici i tratti culturali. Ed è la parte divertente.
 
 > [!WARNING] `base_stats` su un tratto culturale raggiunge chiunque
 > `Actor.updateStats()` fonde `culture.base_stats` in ogni unità di quella cultura. Ogni singola unità. Una dottrina da "+5 danni" arma persino i fornai.
@@ -73,7 +73,7 @@ trait.addWeaponSubtype("sword");         // preferisci un'intera classe di armi
 trait.addWeaponSpecial("hello_relic");   // o uno specifico id oggetto
 ```
 
-Entrambi gli helper impostano `is_weapon_trait = true` per te. Il codice di creazione legge le armi preferite della cultura quando una città decide cosa fabbricare; in questo modo si cambia l'arma nella mano del soldato piuttosto che un semplice valore numerico. Nel gioco vanilla, `bow_lovers` e `spear_lovers` sono esattamente questo.
+Entrambi gli helper impostano `is_weapon_trait = true` per te. Il codice di creazione legge le armi preferite della cultura quando una città decide cosa fabbricare; in questo modo si cambia l'arma nella mano del soldato piuttosto che un semplice valore numerico. Nel gioco vanilla, `bow_lovers` e `spear_lovers` sono esattamente questo. Un'intera cultura di appassionati di lance, con due righe :PESgn_Noice:.
 
 | Campo | Cosa fa |
 | --- | --- |

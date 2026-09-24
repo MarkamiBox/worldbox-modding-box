@@ -112,6 +112,8 @@ namespace HelloBox
 
 ### 锻造成本与价值
 
+价格要合理。一把 4300 万金币的铁剑不叫平衡，叫诈骗 :trollface:。
+
 | 字段 | 作用 |
 | --- | --- |
 | `setCost(gold, res1, amount1, res2, amount2)` | 一站式设置所有造价消耗的推荐方法。优先使用此方法，不要手动拆开逐个赋值 |
@@ -130,6 +132,8 @@ namespace HelloBox
 | `name_class`, `name_templates` | 进阶为传奇装备时的神兵专属命名模板 |
 
 ### Behaviour
+
+从这里开始，物品不再只是一堆数字。
 
 | 字段 | 作用 |
 | --- | --- |
@@ -239,7 +243,7 @@ private static void RegisterLine(string pPrefix, string pTemplate)
 
 ## 本地化文本
 
-装备的命名逻辑与本指南中出现的其他所有资源完全不同，这常常把新手搞得一头雾水。一件装备在游戏里最终渲染出的显示名称，解析逻辑如下：
+装备的命名逻辑与本指南中出现的其他所有资源完全不同，这常常把新手搞得一头雾水，我也不例外 :PESgn_Oops:。一件装备在游戏里最终渲染出的显示名称，解析逻辑如下：
 
 ```text
 translation_key   ?? "item_" + (equipment_subtype ?? id)

@@ -50,7 +50,7 @@ namespace HelloBox
 
 ## コード内でスイッチの状態を読み取る
 
-これこそがスイッチを追加した目的です。MOD内のどこからでも判定できます:
+これこそがスイッチを追加した目的です。誰も読まないスイッチはただの飾りです。MOD内のどこからでも判定できます:
 
 ```csharp
 WorldLawAsset law = AssetManager.world_laws_library.get(HelloLaws.CHAOS);

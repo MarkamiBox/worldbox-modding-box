@@ -82,7 +82,7 @@ namespace HelloBox
 
 ## 让词条真正触发战斗特效
 
-单纯堆数值虽然实用，但词条同样支持执行真正的 C# 委托逻辑。`action_attack_target` 会在武器每一次成功命中目标时触发：
+单纯堆数值虽然实用，但词条同样支持执行真正的 C# 委托逻辑，好玩的地方就从这里开始。`action_attack_target` 会在武器每一次成功命中目标时触发：
 
 ```csharp
 ItemAssetCreator.CreateAndAddModifier(
@@ -110,7 +110,7 @@ ItemAssetCreator.CreateAndAddModifier(
 }
 ```
 
-`translation_key` 就是显示在物品浮动提示框上的文本，尽量保持简短，因为它需要和数值挤在同一行展示。
+`translation_key` 就是显示在物品浮动提示框上的文本，尽量保持简短，因为它需要和数值挤在同一行展示。没人会读剑上的一整段话。
 
 > [!TIP] 优先制作附魔词条，其次才是全新武器
 > 一柄新武器需要繁重的素材与数值链条（贴图、动画、各级材质）。而一个新的附魔词条仅需区区二十行代码，就能瞬间无缝赋能给全世界生成的**每一把**武器。如果你想快速收获立竿见影的快乐，请从这里起步 :PES_Stonks:.

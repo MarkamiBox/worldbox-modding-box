@@ -112,7 +112,7 @@ namespace HelloBox
 
 ## Weltzeitalter
 
-Das Zeitalter der Glut lässt alle acht Sekunden Glut regnen, verdunkelt den Bildschirm mit Aschepartikeln, breitet Feuer doppelt so schnell aus und hält Städte etwas loyaler. Eine neue Welt kann es auf Slot 4 ihres Rades platzieren, und der Zufallswürfel des Rades kann es überall hin ausrollen.
+Das Zeitalter der Glut lässt alle acht Sekunden Glut regnen, verdunkelt den Bildschirm mit Aschepartikeln, breitet Feuer doppelt so schnell aus und hält Städte etwas loyaler. Eine neue Welt kann es auf Slot 4 ihres Rades platzieren, und der Zufallswürfel des Rades kann es überall hin ausrollen. Zurückhaltung war nie der Sinn von HelloBox :wbfireskull:.
 
 > [!WARNING] Drei Dinge, die die Library beim Start erledigt hat
 > `post_init()` setzt den Hintergrund jedes Zeitalters anhand seiner ID, und `linkAssets()` baut `list_only_normal` (den Pool für das zufällige "unbekannte" Zeitalter) sowie `pool_by_slots` (die Pools, aus denen eine neue Welt ihr Rad füllt). Ein neues Zeitalter ist in keinem davon enthalten. Lässt du den Hintergrund weg, zeigt das Rad ein leeres Segment; lässt du die Pools weg, existiert das Zeitalter zwar, wird aber von keiner Welt jemals gewürfelt.

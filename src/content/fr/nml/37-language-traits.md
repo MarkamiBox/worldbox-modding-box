@@ -10,7 +10,7 @@ order: 112
 
 Une **langue** appartient à des cités et des royaumes, évolue au fil de sa diffusion et sert de support à la rédaction des **livres**. Un trait de langue caractérise la parole et l'écrit en eux-mêmes.
 
-C'est le plus compact des sept systèmes de traits et celui qui dispose du point d'ancrage le plus singulier : du code déclenché dès lors que quelqu'un **lit un livre** rédigé dans cette langue.
+C'est le plus compact des sept systèmes de traits et celui qui dispose du point d'ancrage le plus singulier : du code déclenché dès lors que quelqu'un **lit un livre** rédigé dans cette langue. Oui, vraiment :wbscroll:.
 
 | | |
 | --- | --- |
@@ -177,7 +177,7 @@ L'objet `Language` propose également `cities`, `kingdoms` et `books`, indispens
 
 ## Nouvelles langues obtenant un trait d'elles-mêmes
 
-En plus de l'attribuer vous-même, un trait de langue peut définir `spawn_random_trait_allowed` pour être tiré au sort lors de la formation d'une nouvelle langue, de la même manière qu'une culture tire ses traits de départ.
+En plus de l'attribuer vous-même, un trait de langue peut définir `spawn_random_trait_allowed` pour être tiré au sort lors de la formation d'une nouvelle langue, de la même manière qu'une culture tire ses traits de départ. Le même piège que sur toutes les autres pages de traits :
 
 > [!WARNING] `spawn_random_trait_allowed` n'est lu qu'une seule fois, au démarrage
 > Les nouvelles langues tirent leurs traits de départ d'un pool que `BaseTraitLibrary.linkAssets()` construit pendant le chargement du jeu, avant que votre mod n'existe. Définir le drapeau sur votre trait ne change rien en soi : votre trait n'est jamais dans ce pool et n'apparaît jamais par hasard sur une nouvelle langue. Ajoutez-le vous-même, pondéré comme le fait le jeu vanilla :

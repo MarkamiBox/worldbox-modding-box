@@ -21,7 +21,7 @@ Se você quer adicionar um novo tipo de *chão*, isso é um `TileType`. Se você
 
 ## Clone, não construa do zero
 
-Um tipo de ladrilho possui cerca de cem campos, a maioria dos quais só importa para um ladrilho vanilla específico. Clone o modelo mais próximo:
+Um tipo de ladrilho possui cerca de cem campos, a maioria dos quais só importa para um ladrilho vanilla específico. Não vou listar os cem. Clone o modelo mais próximo:
 
 ```csharp Mods/HelloBox/Code/HelloTiles.cs
 using UnityEngine;
@@ -88,6 +88,8 @@ namespace HelloBox
 | `biome_tags`, `has_biome_tags` | Quais biomas farão este ladrilho se espalhar |
 
 ### Como ele se comporta
+
+Comece aqui se o seu ladrilho é uma ideia de gameplay e não só uma cor nova.
 
 | Campo | O que faz |
 | --- | --- |
@@ -187,7 +189,7 @@ if (tile.isOnFire()) { }
 if (tile.hasBuilding()) { }
 ```
 
-Tanto `main_type` quanto `top_type` podem ser `null`. Verifique antes de manipulá-los. Essa é a causa número um de crashes em qualquer mod que percorre o mapa.
+Tanto `main_type` quanto `top_type` podem ser `null`. Verifique antes de manipulá-los. Essa é a causa número um de crashes em qualquer mod que percorre o mapa :PES2_F:.
 
 ## Opções de terraformação
 

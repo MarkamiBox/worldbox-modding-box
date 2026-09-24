@@ -82,7 +82,7 @@ Adicione `HelloModifiers.Initialize();` no seu `Main.cs`, e a partir daí o jogo
 
 ## Fazendo o modificador realmente fazer algo
 
-Atributos são ótimos, mas um modificador também pode executar código. `action_attack_target` dispara toda vez que a arma desfere um golpe:
+Atributos são ótimos, mas um modificador também pode executar código, e é aí que fica divertido. `action_attack_target` dispara toda vez que a arma desfere um golpe:
 
 ```csharp
 ItemAssetCreator.CreateAndAddModifier(
@@ -110,7 +110,7 @@ Agora qualquer arma que sortear "hello_burning" incendiará o chão ao atingir o
 }
 ```
 
-A `translation_key` é o que aparece no tooltip do item, portanto mantenha-a curta para caber em uma única linha ao lado dos atributos.
+A `translation_key` é o que aparece no tooltip do item, portanto mantenha-a curta para caber em uma única linha ao lado dos atributos. Ninguém lê um parágrafo numa espada.
 
 > [!TIP] Modificadores antes de armas
 > Uma arma nova dá bastante trabalho (sprites, animações, materiais). Um novo modificador leva vinte linhas e se aplica a **todas** as armas que o mundo gera. Se você quer ver novidades rapidamente, comece por aqui :PES_Stonks:.

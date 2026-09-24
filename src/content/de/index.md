@@ -25,3 +25,5 @@ order: 1
   - **Göttliche Kräfte & Benutzeroberfläche**: Gottkräfte & Pinsel, Kraft-Buttons und eigene Fenster mit Tabs & Tooltips.
   - **Feinschliff**: Eigene Errungenschaften im Spiel und Zusammenbau der fertigen Mod.
 - **Modding-Tools**: Interaktive Werkzeuge direkt im Guide (Harmony Patch Builder, Asset-Felder-Explorer, Methodensucher und Discord-Icon-Finder).
+
+Lies es beim ersten Mal von oben nach unten. Danach springst du herum wie alle anderen auch :PES2_Shrug:.

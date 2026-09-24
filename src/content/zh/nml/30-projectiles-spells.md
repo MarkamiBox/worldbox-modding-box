@@ -56,6 +56,8 @@ namespace HelloBox
 
 ### 字段详解
 
+大多数字段都跟着你克隆的对象一起过来，你再也不会看它们一眼。真正会改的是 `speed` 和 `texture` 这两个。
+
 | 字段 | 作用 |
 | --- | --- |
 | `texture`, `texture_shadow` | 精灵图本体及其阴影 |
@@ -108,7 +110,7 @@ HelloBox/
 bolt.texture = "hello_bolt";   // 切勿写成 "effects/projectiles/hello_bolt"
 ```
 
-投射物同样按精灵列表加载：一个以 `texture` 命名的 **文件夹**，每帧一个 PNG，开启 `animated` 时多帧就成为飞行动画。单独的 `hello_bolt.png` 会返回空列表，绘制投射物时会抛出 `ArgumentOutOfRangeException`。
+投射物同样按精灵列表加载：一个以 `texture` 命名的 **文件夹**，每帧一个 PNG，开启 `animated` 时多帧就成为飞行动画。单独的 `hello_bolt.png` 会返回空列表，绘制投射物时会抛出 `ArgumentOutOfRangeException` :PESgn_Oops:。
 
 `texture_shadow` 则是无前缀的完整路径：原版直接引用公用的 `shadows/projectiles/shadow_ball`，直接沿用它几乎总是最省事的做法。
 

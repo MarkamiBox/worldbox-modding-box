@@ -23,7 +23,7 @@ Il gioco offre già una sede perfetta per questo. Ogni unità, città, regno, ed
 | `data.hasFlag(key)` / `data.removeFlag(key)` | Controlla o cancella il flag |
 | `data.removeInt(key)`, `removeFloat`, `removeString`... | Elimina un valore |
 
-Ogni tipo di dato ha la propria tabella dedicata, quindi un `int` e una `string` sotto la medesima chiave non collidono. Per chiarezza personale è comunque saggio non condividere le stesse chiavi.
+Ogni tipo di dato ha la propria tabella dedicata, quindi un `int` e una `string` sotto la medesima chiave non collidono. Per chiarezza personale è comunque saggio non condividere le stesse chiavi. Il te del futuro non si ricorderà quale era quale.
 
 
 > [!NOTE] Memorizzare qualcosa di più grande di cinque tipi primitivi
@@ -86,7 +86,7 @@ namespace HelloBox
 }
 ```
 
-Salva il mondo e ricaricalo: il conteggio è ancora lì, poiché fa parte integrante dei dati di salvataggio dell'unità. Il flag assicura che la ricompensa scatti una volta sola e non a ogni singolo colpo successivo.
+Salva il mondo e ricaricalo: il conteggio è ancora lì, poiché fa parte integrante dei dati di salvataggio dell'unità. Il flag assicura che la ricompensa scatti una volta sola e non a ogni singolo colpo successivo. Generoso, ma sempre un bug.
 
 I suoi testi, come per qualsiasi tratto:
 

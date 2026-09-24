@@ -10,7 +10,7 @@ order: 100
 
 Un rasgo (trait) es una etiqueta permanente en una unidad: *valiente*, *rápido*, *inmortal*. Aparece en el inspector, puede alterar las estadísticas de la unidad, puede ejecutar código cuando la unidad nace, recibe daño o muere, y los hijos pueden heredarlo.
 
-También es lo más sencillo de añadir en todo el juego, razón por la cual es el primer mod de todo el mundo.
+También es lo más sencillo de añadir en todo el juego, razón por la cual es el primer mod de todo el mundo. El mío no: mi primer mod era un wrapper alrededor del mod de otra persona, que es su propia forma de hacer trampa :trollface:.
 
 ## Pon siempre prefijo a tus ID
 
@@ -96,7 +96,7 @@ protected override void OnModLoad()
 
 ## Los textos de localización
 
-Sin traducciones, tu rasgo se mostrará en el juego con la clave cruda `trait_hello_swift`. Crea `Locales/es.json`:
+Sin traducciones, tu rasgo se mostrará en el juego con la clave cruda `trait_hello_swift`, que se ve exactamente tan profesional como suena :pepeclown:. Crea `Locales/es.json`:
 
 ```json Mods/HelloBox/Locales/en.json
 {

@@ -25,3 +25,5 @@ order: 1
   - **Poderes Divinos e Interface**: Poderes divinos & pincéis, botões de poderes e janelas personalizadas com abas & dicas de ferramentas.
   - **Toques Finais**: Conquistas no jogo e união de tudo no mod HelloBox completo.
 - **Ferramentas de Modding**: Utilitários interativos integrados diretamente ao guia (Gerador de Patches Harmony, Explorador de Campos de Asset, Localizador de Métodos e Localizador de Ícones do Discord).
+
+Na primeira vez, leia de cima a baixo. Depois disso, pule de página em página como todo mundo :PES2_Shrug:.

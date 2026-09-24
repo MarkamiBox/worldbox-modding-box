@@ -164,7 +164,7 @@ Font font = LocalizedTextManager.current_font ?? Resources.GetBuiltinResource<Fo
 
 ## Tooltips
 
-Die Tooltips des Spiels sind ebenfalls Assets in `AssetManager.tooltips`: eine ID und ein Callback, der den Tooltip bei jedem Öffnen mit Daten befüllt. Registriere deinen eigenen und jedes beliebige UI-Element kann ihn mit dynamischen Echtzeit-Zahlen anzeigen.
+Die Tooltips des Spiels sind ebenfalls Assets in `AssetManager.tooltips`: eine ID und ein Callback, der den Tooltip bei jedem Öffnen mit Daten befüllt. Registriere deinen eigenen und jedes beliebige UI-Element kann ihn mit dynamischen Echtzeit-Zahlen anzeigen. Spieler fahren mit der Maus über alles, also sieht deine Mod genau hier leise fertig aus.
 
 ```csharp Mods/HelloBox/Code/HelloTooltips.cs
 using UnityEngine;
@@ -262,7 +262,7 @@ namespace HelloBox
 > [!WARNING] Hotkeys werden beim Spielstart verdrahtet
 > `HotkeyLibrary.linkAssets()` kopiert jedes `default_key_*` in das entsprechende `overridden_key_*` (die Taste, die das Spiel tatsächlich prüft) und erstellt `action_hotkeys`, die einzige Liste, die in jedem Frame abgefragt wird. Beides passiert vor dem Laden deiner Mod. Wenn du eines davon auslässt, bleibt die Taste stumm und wirkungslos :wbfacepalm:.
 
-Die `check_*`-Flags sind der einfachste Weg, Konflikte zu vermeiden: `check_controls_locked` verhindert das Auslösen, während der Spieler eine Einheit steuert, `check_window_not_active`, während ein vanilla Spielfenster geöffnet ist. Wähle eine Taste, die das Hauptspiel nicht nutzt – F6 ist eine solche; andere Mods könnten das anders handhaben.
+Die `check_*`-Flags sind der einfachste Weg, Konflikte zu vermeiden: `check_controls_locked` verhindert das Auslösen, während der Spieler eine Einheit steuert, `check_window_not_active`, während ein vanilla Spielfenster geöffnet ist. Wähle eine Taste, die das Hauptspiel nicht nutzt – F6 ist eine solche; andere Mods könnten das anders handhaben :PES2_Shrug:.
 
 ```json Mods/HelloBox/Locales/en.json
 {

@@ -146,4 +146,4 @@ public ModConfig GetConfig()
 }
 ```
 
-Quel singolo metodo è ciò che fa apparire il pulsante delle impostazioni accanto al tuo mod nella finestra dei mod.
+Quel singolo metodo è ciò che fa apparire il pulsante delle impostazioni accanto al tuo mod nella finestra dei mod. Un solo metodo, e nessuno litiga più con te su Discord. In teoria.

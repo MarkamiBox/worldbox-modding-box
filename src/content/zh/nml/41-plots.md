@@ -71,7 +71,7 @@ namespace HelloBox
 现在，只要一位城市领袖拥有 10 枚金币、管理着一座城市且没有更紧急的事务，就可能会筹备一场余烬节。当筹备进度完成时，全城所有居民都会通过 **[王国与派系](#/nml/kingdoms)** 中介绍的情绪事件提升幸福度，天空中还会向组织者降下一场余烬之雨（这就是 HelloBox 的特色风格）。
 
 > [!WARNING] `check_is_possible` 是必填项
-> 每当领袖评估是否要开展你的阴谋时，`PlotAsset.checkIsPossible()` 都会在没有 null 检查的情况下直接调用该委托。若未设置该字段，第一个尝试扫描该阴谋的领袖就会直接触发 `NullReferenceException` 崩溃。若无特殊前置条件，请务必直接返回 `true`。
+> 每当领袖评估是否要开展你的阴谋时，`PlotAsset.checkIsPossible()` 都会在没有 null 检查的情况下直接调用该委托。若未设置该字段，第一个尝试扫描该阴谋的领袖就会直接触发 `NullReferenceException` 崩溃。若无特殊前置条件，请务必直接返回 `true`。没错，就算那样也要。
 
 > [!WARNING] 基础阴谋池在启动时已构建完成
 > 领袖只会从 `plots_library.basic_plots`（以及其所在宗教的仪式池）中挑选阴谋。`linkAssets()` 在游戏启动、你的模组载入之前，就已经把标记了 `is_basic_plot` 的阴谋收集进了该列表。因此仅设置布尔标志是不够的：你必须在代码里手动将其加入该列表。

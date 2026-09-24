@@ -8,7 +8,7 @@ order: 102
 
 # Gruppi di tratti e schede :wbfamilies:
 
-Ogni tratto appartiene a un **gruppo**, ed è il gruppo che disegna una scheda nel libro dei tratti. Se aggiungi sei tratti e li scarichi tutti in `miscellaneous`, svaniscono in una lista che nessuno scorre mai.
+Ogni tratto appartiene a un **gruppo**, ed è il gruppo che disegna una scheda nel libro dei tratti. Se aggiungi sei tratti e li scarichi tutti in `miscellaneous`, svaniscono in una lista che nessuno scorre mai :PES4_Invisible:.
 
 Avere una tua scheda personale costa quattro righe.
 
@@ -110,7 +110,7 @@ Modificare un gruppo vanilla sul posto mantiene funzionante ogni tratto vanilla 
 
 ## Le altre sei librerie di gruppi
 
-I tratti degli attori sono solo uno di sette sistemi di tratti, e ciascuno possiede la propria libreria di gruppi con la propria classe di gruppo. Il codice in questa pagina è identico per tutti quanti, cambiano solo due nomi:
+I tratti degli attori sono solo uno di sette sistemi di tratti, e ciascuno possiede la propria libreria di gruppi con la propria classe di gruppo. Il codice in questa pagina è identico per tutti quanti, cambiano solo due nomi. Impara una volta, copia sei volte:
 
 | Sistema di tratti | Libreria di gruppi | Classe del gruppo | Pagina |
 | --- | --- | --- | --- |

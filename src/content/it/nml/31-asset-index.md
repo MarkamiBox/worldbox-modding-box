@@ -10,7 +10,7 @@ order: 94
 
 `AssetManager` è l'indice generale del gioco di tutto ciò che può esistere. Contiene ben **129 librerie**, e ciascuna di esse è una `List` combinata con un `Dictionary` che puoi leggere, modificare ed estendere dalla tua mod.
 
-Questa pagina rappresenta l'indice integrale. La maggior parte di queste librerie non la toccherai mai. Il punto è che quando desideri cambiare qualcosa in WorldBox, la prima domanda è sempre "in quale libreria si trova?", e la risposta è qui.
+Questa pagina rappresenta l'indice integrale. La maggior parte di queste librerie non la toccherai mai, e nemmeno io. Mamma mia, che muro di tabelle :wbbre:. Il punto è che quando desideri cambiare qualcosa in WorldBox, la prima domanda è sempre "in quale libreria si trova?", e la risposta è qui.
 
 ## Prima di questa pagina
 
@@ -31,6 +31,8 @@ AssetManager.traits.dict;                          // ogni asset, per id
 
 ## Creature e loro tratti
 
+Quelle che aprirai davvero sono le prime quattro. Le altre sono qui così smetti di tirare a indovinare i nomi :PES2_Shrug:.
+
 | Libreria | Asset | Cosa contiene |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | Ogni tipo di creatura. **[Attori personalizzati](#/nml/custom-actors)** |
@@ -47,6 +49,8 @@ AssetManager.traits.dict;                          // ogni asset, per id
 | `base_stats_library` | `BaseStatAsset` | Tutte le statistiche. **[Riferimento statistiche](#/nml/stats)** |
 
 ## Società
+
+Tutto ciò a cui un gruppo di unità può appartenere. Le prime sei hanno una pagina tutta loro. Le altre le incontri quando una di quelle pagine ti manda qui.
 
 | Libreria | Asset | Cosa contiene |
 | --- | --- | --- |
@@ -69,6 +73,8 @@ AssetManager.traits.dict;                          // ogni asset, per id
 | `knowledge_library` | `KnowledgeAsset` | La finestra della conoscenza |
 
 ## Elementi nel mondo
+
+Se puoi cliccarlo sulla mappa, vive qui.
 
 | Libreria | Asset | Cosa contiene |
 | --- | --- | --- |
@@ -129,6 +135,8 @@ AssetManager.traits.dict;                          // ogni asset, per id
 
 ## Interfaccia
 
+L'interfaccia del gioco, sotto forma di asset. Comoda da leggere, spaventosa da modificare :PES_MonkaSweat:.
+
 | Libreria | Asset | Cosa contiene |
 | --- | --- | --- |
 | `window_library` | `WindowAsset` | Finestre. **[Finestre personalizzate](#/nml/custom-windows)** |
@@ -154,6 +162,8 @@ Una libreria per ciascun ambito, tutte contenenti i medesimi due tipi di asset:
 `kingdom_colors_library` · `culture_colors_library` · `clan_colors_library` · `religion_colors_library` · `languages_colors_library` · `subspecies_colors_library` · `families_colors_library` · `armies_colors_library` → tutti `ColorAsset`
 
 ## Nomi, parole e storia
+
+La parte di WorldBox che scrive le storie. Nessuno la cerca finché non vuole dare nomi decenti alle proprie creature.
 
 | Libreria | Asset | Cosa contiene |
 | --- | --- | --- |

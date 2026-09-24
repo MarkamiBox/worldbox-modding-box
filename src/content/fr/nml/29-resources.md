@@ -8,7 +8,7 @@ order: 182
 
 # Ressources et nourriture :wbtomato:
 
-Une ressource désigne tout ce qu'une cité stocke, échange, mange ou forge : blé, pain, pierre, mithril, os, gemmes. Elles résident dans `AssetManager.resources` et constituent le socle de toute l'économie : ce que cultivent les fermes, ce que préparent les boulangers, ce dont ont besoin les forgerons et ce qu'avale un citoyen affamé.
+Une ressource désigne tout ce qu'une cité stocke, échange, mange ou forge : blé, pain, pierre, mithril, os, gemmes. Elles résident dans `AssetManager.resources` et constituent le socle de toute l'économie : ce que cultivent les fermes, ce que préparent les boulangers, ce dont ont besoin les forgerons et ce qu'avale un citoyen affamé. Dans cette économie, même le pain est une structure de données :PES2_Cash:.
 
 ## Cloner depuis un modèle
 
@@ -100,7 +100,7 @@ namespace HelloBox
 
 ## Vos propres sprites
 
-Une ressource utilise deux visuels, et ils se chargent de manière **totalement différente**. C'est le piège classique :
+Une ressource utilise deux visuels, et ils se chargent de manière **totalement différente**. C'est le piège classique : Et il vous piégera une fois aussi.
 
 ```text Mods/HelloBox/
 HelloBox/

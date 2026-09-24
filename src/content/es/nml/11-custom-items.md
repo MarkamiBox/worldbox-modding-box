@@ -112,6 +112,8 @@ namespace HelloBox
 
 ### Coste y valor
 
+Mantén los precios sensatos. Una espada de hierro por 43 millones de monedas no es equilibrio, es una estafa :trollface:.
+
 | Campo | Lo que hace |
 | --- | --- |
 | `setCost(gold, res1, amount1, res2, amount2)` | La llamada que establece todos los costes juntos. Úsala en lugar de asignarlos por separado |
@@ -130,6 +132,8 @@ namespace HelloBox
 | `name_class`, `name_templates` | Cómo se nombran sus versiones legendarias |
 
 ### Behaviour
+
+Aquí es donde un objeto deja de ser un montón de números.
 
 | Campo | Lo que hace |
 | --- | --- |
@@ -239,7 +243,7 @@ private static void RegisterLine(string pPrefix, string pTemplate)
 
 ## Los textos de localización
 
-Los objetos se nombran de forma diferente a todo lo demás en esta guía, lo que confunde a todo el mundo. El nombre visible de un objeto se resuelve así:
+Los objetos se nombran de forma diferente a todo lo demás en esta guía, lo que confunde a todo el mundo, a mí incluido :PESgn_Oops:. El nombre visible de un objeto se resuelve así:
 
 ```text
 translation_key   ?? "item_" + (equipment_subtype ?? id)

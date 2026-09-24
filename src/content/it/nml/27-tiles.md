@@ -21,7 +21,7 @@ Se vuoi aggiungere un nuovo tipo di *terreno*, parliamo di un `TileType`. Se des
 
 ## Clona, non costruire da zero
 
-Un tipo di casella possiede circa cento campi, la maggior parte dei quali conta solo per una specifica casella vanilla. Clona la variante più affine:
+Un tipo di casella possiede circa cento campi, la maggior parte dei quali conta solo per una specifica casella vanilla. Non ho intenzione di elencarli tutti e cento. Clona la variante più affine:
 
 ```csharp Mods/HelloBox/Code/HelloTiles.cs
 using UnityEngine;
@@ -88,6 +88,8 @@ namespace HelloBox
 | `biome_tags`, `has_biome_tags` | Quali biomi faranno crescere questa casella |
 
 ### Come si comporta
+
+Parti da qui se la tua casella è un'idea di gameplay e non solo un nuovo colore.
 
 | Campo | Cosa fa |
 | --- | --- |
@@ -187,7 +189,7 @@ if (tile.isOnFire()) { }
 if (tile.hasBuilding()) { }
 ```
 
-Sia `main_type` che `top_type` possono essere `null`. Controllali prima di accedervi. Questo è il crash in assoluto più comune in qualunque mod che scandisce la mappa.
+Sia `main_type` che `top_type` possono essere `null`. Controllali prima di accedervi. Questo è il crash in assoluto più comune in qualunque mod che scandisce la mappa :PES2_F:.
 
 ## Opzioni di terraformazione
 

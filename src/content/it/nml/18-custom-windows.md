@@ -164,7 +164,7 @@ Font font = LocalizedTextManager.current_font ?? Resources.GetBuiltinResource<Fo
 
 ## Tooltip
 
-Anche i tooltip del gioco sono asset in `AssetManager.tooltips`: un ID e una callback che compila il tooltip ogni volta che viene aperto. Registrane uno personalizzato e qualsiasi elemento UI potrà visualizzarlo con numeri in tempo reale.
+Anche i tooltip del gioco sono asset in `AssetManager.tooltips`: un ID e una callback che compila il tooltip ogni volta che viene aperto. Registrane uno personalizzato e qualsiasi elemento UI potrà visualizzarlo con numeri in tempo reale. I giocatori passano il mouse su tutto, quindi è qui che la tua mod sembra finita senza fare rumore.
 
 ```csharp Mods/HelloBox/Code/HelloTooltips.cs
 using UnityEngine;
@@ -262,7 +262,7 @@ namespace HelloBox
 > [!WARNING] Le scorciatoie sono collegate all'avvio del gioco
 > `HotkeyLibrary.linkAssets()` copia ogni `default_key_*` nel corrispondente `overridden_key_*` (il tasto che il gioco controlla effettivamente) e crea `action_hotkeys`, l'unico elenco esaminato a ogni frame. Entrambi i passaggi avvengono prima del caricamento del tuo mod. Saltare uno dei due rende il tasto inattivo, senza alcun errore :wbfacepalm:.
 
-I flag `check_*` sono il modo più rapido per evitare interferenze: `check_controls_locked` impedisce l'attivazione mentre il giocatore manovra un'unità, `check_window_not_active` mentre una finestra vanilla è aperta. Scegli un tasto non utilizzato dal gioco base. F6 è uno di questi; altri mod potrebbero utilizzarlo.
+I flag `check_*` sono il modo più rapido per evitare interferenze: `check_controls_locked` impedisce l'attivazione mentre il giocatore manovra un'unità, `check_window_not_active` mentre una finestra vanilla è aperta. Scegli un tasto non utilizzato dal gioco base. F6 è uno di questi; altri mod potrebbero utilizzarlo :PES2_Shrug:.
 
 ```json Mods/HelloBox/Locales/en.json
 {

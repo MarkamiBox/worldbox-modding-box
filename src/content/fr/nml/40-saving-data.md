@@ -23,7 +23,7 @@ Le jeu propose déjà un emplacement dédié. Chaque créature, ville, royaume, 
 | `data.hasFlag(key)` / `data.removeFlag(key)` | Vérifie ou retire le flag |
 | `data.removeInt(key)`, `removeFloat`, `removeString`... | Supprime une valeur |
 
-Chaque type possède sa propre table interne, donc un `int` et une `string` sous la même clé n'entrent pas en collision. Ne partagez toutefois pas les mêmes clés, pour votre propre confort.
+Chaque type possède sa propre table interne, donc un `int` et une `string` sous la même clé n'entrent pas en collision. Ne partagez toutefois pas les mêmes clés, pour votre propre confort. Votre futur vous ne se souviendra plus de qui était qui.
 
 
 > [!NOTE] Stocker quelque chose de plus grand que cinq types primitifs
@@ -86,7 +86,7 @@ namespace HelloBox
 }
 ```
 
-Sauvegardez le monde et rechargez-le : le compteur est toujours là, car il fait partie intégrante des données de sauvegarde de l'unité. Le drapeau garantit que la récompense ne se déclenche qu'une seule fois et non à chaque coup suivant.
+Sauvegardez le monde et rechargez-le : le compteur est toujours là, car il fait partie intégrante des données de sauvegarde de l'unité. Le drapeau garantit que la récompense ne se déclenche qu'une seule fois et non à chaque coup suivant. Généreux, mais toujours un bug.
 
 Ses textes de localisation, comme pour n'importe quel trait :
 

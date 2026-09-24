@@ -62,7 +62,7 @@ namespace HelloBox
 
 ## 突变
 
-这是亚种特质在无需你手动赋予的情况下自然进入世界的机制。特质库维护着两个随机奖池，以下两个字段决定你的特质加入哪些奖池：
+这是亚种特质在无需你手动赋予的情况下自然进入世界的机制，这也是最好玩的方式。特质库维护着两个随机奖池，以下两个字段决定你的特质加入哪些奖池：
 
 | 字段 | 作用 |
 | --- | --- |
@@ -107,7 +107,7 @@ trait.texture_asset.shadow = trait.shadow;
 | `remove_for_zombies` | 当单位变成僵尸时剥除此皮肤 |
 | `priority` | 当一个单位拥有两套皮肤时的胜出优先级 |
 
-原版中的皮肤突变（汉堡、活体巨石、触手恐惧、光球、分形）全部克隆自 `$skin_mutation$`，克隆该模板是制作可用自定义皮肤最省时的捷径。
+原版中的皮肤突变（汉堡、活体巨石、触手恐惧、光球、分形）全部克隆自 `$skin_mutation$`，克隆该模板是制作可用自定义皮肤最省时的捷径。没错，汉堡是真实存在的突变。Maxim 的旨意高深莫测 :wbpray:。
 
 ## 表型、饮食与卵生
 
@@ -122,7 +122,7 @@ trait.texture_asset.shadow = trait.shadow;
 
 ## 基因
 
-基因（Gene）是亚种特质突变为其他特质的核心途径。在生物繁殖时，游戏会遍历 `AssetManager.genes` 以决定遗传和变异的内容：
+基因（Gene）是亚种特质突变为其他特质的核心途径。在生物繁殖时，游戏会遍历 `AssetManager.genes` 以决定遗传和变异的内容：说白了就是生物作业。
 
 ```csharp Mods/HelloBox/Code/HelloGenes.cs
 namespace HelloBox

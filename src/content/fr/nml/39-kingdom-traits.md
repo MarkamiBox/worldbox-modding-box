@@ -10,7 +10,7 @@ order: 114
 
 Un **trait de royaume** relève de la politique. Ni une croyance, ni une lignée : un décret promulgué par la couronne qui s'applique à l'ensemble du royaume.
 
-Le jeu de base n'en use que pour une seule mécanique : les taux d'imposition. C'est donc le plus modeste et le plus désert des sept systèmes de traits, et par conséquent le terrain le plus propice pour implémenter du contenu inédit. Personne ne vous y conteste l'espace.
+Le jeu de base n'en use que pour une seule mécanique : les taux d'imposition. C'est donc le plus modeste et le plus désert des sept systèmes de traits, et par conséquent le terrain le plus propice pour implémenter du contenu inédit. Personne ne vous y conteste l'espace :wbsmirk:.
 
 | | |
 | --- | --- |
@@ -87,7 +87,7 @@ namespace HelloBox
 
 ## Créer une politique qui agit concrètement
 
-Puisque `base_stats` est hors de cause, un trait de royaume fait ses preuves de deux manières.
+Puisque `base_stats` est hors de cause, un trait de royaume fait ses preuves de deux manières. Les deux demandent plus de travail qu'un nombre, et les deux en valent la peine.
 
 **Une décision**, la démarche élégante :
 

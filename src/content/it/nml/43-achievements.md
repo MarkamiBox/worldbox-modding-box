@@ -68,7 +68,7 @@ namespace HelloBox
 }
 ```
 
-Dieci fuochi fatui vivi nello stesso momento, e l'obiettivo si sblocca.
+Dieci fuochi fatui vivi nello stesso momento, e l'obiettivo si sblocca. Top 10 obiettivi di tutti i tempi :trollface:.
 
 ## Cosa il gioco non fa automaticamente per te
 

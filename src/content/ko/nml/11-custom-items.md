@@ -112,6 +112,8 @@ namespace HelloBox
 
 ### 비용과 가치
 
+가격은 상식적으로 정하세요. 4300만 코인짜리 철검은 밸런스가 아니라 사기입니다 :trollface:.
+
 | 필드 | 설명 |
 | --- | --- |
 | `setCost(gold, res1, amount1, res2, amount2)` | 모든 비용을 한 번에 설정하는 권장 메서드. 개별 필드 설정 대신 이것을 사용하세요 |
@@ -130,6 +132,8 @@ namespace HelloBox
 | `name_class`, `name_templates` | 전설 등급이 되었을 때의 작명 규칙 |
 
 ### Behaviour
+
+여기서부터 아이템은 숫자 묶음이 아니게 됩니다.
 
 | 필드 | 설명 |
 | --- | --- |
@@ -238,7 +242,7 @@ private static void RegisterLine(string pPrefix, string pTemplate)
 
 ## 텍스트 및 로컬라이제이션
 
-아이템의 작명 방식은 이 가이드의 다른 모든 에셋과 달라서 많은 사람들을 헷갈리게 합니다. 아이템의 표시 이름은 다음과 같이 결정됩니다:
+아이템의 작명 방식은 이 가이드의 다른 모든 에셋과 달라서 많은 사람들을 헷갈리게 합니다. 저도 포함해서요 :PESgn_Oops:. 아이템의 표시 이름은 다음과 같이 결정됩니다:
 
 ```text
 translation_key   ?? "item_" + (equipment_subtype ?? id)

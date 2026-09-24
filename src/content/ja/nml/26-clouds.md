@@ -72,6 +72,8 @@ namespace HelloBox
 
 ### 各フィールドの解説
 
+バニラの雲をクローンして、`drop_id` と `color_hex` を変えるだけ。それ以上何もいらない雲もたくさんあります。
+
 | フィールド | 役割 |
 | --- | --- |
 | `color_hex` | 色合い。雲の印象の大部分をこれが決定します |
@@ -93,7 +95,7 @@ namespace HelloBox
 public delegate void CloudAction(Cloud pCloud);
 ```
 
-`CloudLibrary.dropAction` はバニラの標準アクションです。雲のスプライト下のランダムなタイルを選び、そこに `drop_id` をスポーンさせます。9割のケースではこれだけで十分であり、`cloud_action_1` に設定して完了です。
+`CloudLibrary.dropAction` はバニラの標準アクションです。雲のスプライト下のランダムなタイルを選び、そこに `drop_id` をスポーンさせます。9割のケースではこれだけで十分であり、`cloud_action_1` に設定して完了です。怠惰で正しい、私の好きな組み合わせです :pepeOK:。
 
 追加の特殊効果を加えたい場合は、独自のアクションを書いて `cloud_action_2` に指定します：
 

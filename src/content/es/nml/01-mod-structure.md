@@ -29,7 +29,7 @@ MyCoolMod/
 └── GameResources/    <- Texturas, iconos, pixel art y sonidos personalizados
 ```
 
-Solo `mod.json` es obligatorio. Crea las demás carpetas cuando realmente las necesites. Un mod que solo contenga `mod.json` y `Code/` ya es un mod real y funcional.
+Solo `mod.json` es obligatorio. Crea las demás carpetas cuando realmente las necesites. Un mod que solo contenga `mod.json` y `Code/` ya es un mod real y funcional. Las carpetas vacías no impresionan a nadie.
 
 #### Qué hace cada carpeta
 
@@ -100,7 +100,7 @@ No es una versión simplificada para la guía: es exactamente con lo que empieza
 - **`LogInfo(...)`**: Imprime una línea en el log con el nombre de tu mod ya incluido. Así descubres si algo de esto ha funcionado. Consulta **[Logs y depuración](#/nml/logs-and-debugging)**.
 
 > [!TIP] El camino largo
-> Verás mods antiguos escritos de esta otra forma:
+> Verás mods antiguos escritos de esta otra forma. Sí, soy lo bastante viejo para recordar cuando esto era lo normal:
 > ```csharp
 > public class MyMod : MonoBehaviour, IMod
 > {

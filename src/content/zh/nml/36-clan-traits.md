@@ -110,7 +110,7 @@ trait.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 trait.setUnlockedWithAchievement("achievementSegregator");
 ```
 
-被锁定的特质依然客观存在且机制完全生效；玩家只是在达成对应成就前无法在编辑器中主动选择它。注意 `BaseTraitLibrary` 还会自动为以此方式锁定的特质赋予 `rarity = R3_Legendary`。
+被锁定的特质依然客观存在且机制完全生效；玩家只是在达成对应成就前无法在编辑器中主动选择它。注意 `BaseTraitLibrary` 还会自动为以此方式锁定的特质赋予 `rarity = R3_Legendary`，让你的奖励看起来名副其实 :gold_star:。
 
 ## 原版分组
 
@@ -150,7 +150,7 @@ foreach (Clan clan in World.world.clans)
 
 ## 允许新创建的家族随机获得该特质
 
-除了通过代码手动授予外，家族特质还可以设置 `spawn_random_trait_allowed` 标志，以便在创建新家族时被自动随机抽取——这与文化的特质抽取机制完全一致。
+除了通过代码手动授予外，家族特质还可以设置 `spawn_random_trait_allowed` 标志，以便在创建新家族时被自动随机抽取——这与文化的特质抽取机制完全一致。和其他所有特质页面一样的坑：
 
 > [!WARNING] `spawn_random_trait_allowed` 仅在启动时读取一次
 > 新创立的家族是从一个候选池中随机抽取初始特质的，而该池是在游戏启动阶段由 `BaseTraitLibrary.linkAssets()` 构建完成的——彼时你的模组尚未加载。仅仅在特质上设置此布尔标志没有任何效果：它永远不会进入该池，新建家族也永远不会随机获得它。你必须手动将其以原版权重添加到池中：

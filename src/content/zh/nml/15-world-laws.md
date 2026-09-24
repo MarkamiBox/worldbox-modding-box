@@ -50,7 +50,7 @@ namespace HelloBox
 
 ## 在代码中读取该开关
 
-这就是添加开关的核心意义所在。在 mod 的任何地方都可以判断：
+这就是添加开关的核心意义所在。一个没人读取的开关只是装饰品。在 mod 的任何地方都可以判断：
 
 ```csharp
 WorldLawAsset law = AssetManager.world_laws_library.get(HelloLaws.CHAOS);

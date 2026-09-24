@@ -50,7 +50,7 @@ Aggiungi `HelloLaws.Initialize();` a `Main.cs` e l'interruttore è nel gioco. È
 
 ## Leggere l'interruttore nel tuo codice
 
-Questo è il punto cruciale. Ovunque nella tua mod:
+Questo è il punto cruciale. Un interruttore che nessuno legge è una decorazione. Ovunque nella tua mod:
 
 ```csharp
 WorldLawAsset law = AssetManager.world_laws_library.get(HelloLaws.CHAOS);

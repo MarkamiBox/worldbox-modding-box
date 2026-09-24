@@ -8,7 +8,7 @@ order: 182
 
 # Ressourcen & Nahrung :wbtomato:
 
-Eine Ressource ist alles, was eine Stadt lagert, handelt, isst oder verarbeitet: Weizen, Brot, Stein, Mithril, Knochen, Edelsteine. Sie leben in `AssetManager.resources` und bilden das Fundament der gesamten Wirtschaft: Was Bauernhöfe anbauen, was Bäcker backen, was Schmiede brauchen und was ein hungriger Bürger isst.
+Eine Ressource ist alles, was eine Stadt lagert, handelt, isst oder verarbeitet: Weizen, Brot, Stein, Mithril, Knochen, Edelsteine. Sie leben in `AssetManager.resources` und bilden das Fundament der gesamten Wirtschaft: Was Bauernhöfe anbauen, was Bäcker backen, was Schmiede brauchen und was ein hungriger Bürger isst. In dieser Wirtschaftslage ist sogar das Brot eine Datenstruktur :PES2_Cash:.
 
 ## Von einer Vorlage klonen
 
@@ -100,7 +100,7 @@ Gut zu wissen, denn eine vorhandene Ressource zu nutzen ist fast immer besser al
 
 ## Eigene Sprites
 
-Eine Ressource besitzt zwei Grafiken, und sie lösen sich **völlig unterschiedlich** auf. Hier stolpern fast alle Modder:
+Eine Ressource besitzt zwei Grafiken, und sie lösen sich **völlig unterschiedlich** auf. Hier stolpern fast alle Modder: Und dich erwischt es auch einmal.
 
 ```text Mods/HelloBox/
 HelloBox/

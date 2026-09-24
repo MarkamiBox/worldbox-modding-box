@@ -62,7 +62,7 @@ namespace HelloBox
 
 ## Mutación
 
-Así es como un rasgo de subespecie aparece en el mundo sin necesidad de asignarlo manualmente. La biblioteca mantiene dos bolsas de probabilidad, y estos dos campos dictan en cuáles participa tu rasgo:
+Así es como un rasgo de subespecie aparece en el mundo sin necesidad de asignarlo manualmente, que es la forma divertida. La biblioteca mantiene dos bolsas de probabilidad, y estos dos campos dictan en cuáles participa tu rasgo:
 
 | Campo | Qué hace |
 | --- | --- |
@@ -107,7 +107,7 @@ trait.texture_asset.shadow = trait.shadow;
 | `remove_for_zombies` | Retira la apariencia si la unidad se convierte en zombi |
 | `priority` | Cuál apariencia prevalece si una unidad reúne dos |
 
-Las mutaciones de apariencia de vanilla (hamburguesa, roca viva, horror con tentáculos, orbe de luz, fractal) son clones de `$skin_mutation$`, y clonar esa plantilla es sin duda el camino más veloz para lograr una apariencia operativa.
+Las mutaciones de apariencia de vanilla (hamburguesa, roca viva, horror con tentáculos, orbe de luz, fractal) son clones de `$skin_mutation$`, y clonar esa plantilla es sin duda el camino más veloz para lograr una apariencia operativa. Sí, burger es una mutación real. Los caminos de Maxim son inescrutables :wbpray:.
 
 ## Fenotipos, dieta y huevos
 
@@ -122,7 +122,7 @@ Tres subsistemas adicionales a los que se integran los rasgos de subespecie:
 
 ## Genes
 
-Un gen es la forma en que un rasgo de subespecie muta en otro rasgo. El juego recorre `AssetManager.genes` durante la reproducción para decidir qué se transmite:
+Un gen es la forma en que un rasgo de subespecie muta en otro rasgo. El juego recorre `AssetManager.genes` durante la reproducción para decidir qué se transmite: Deberes de biología, básicamente.
 
 ```csharp Mods/HelloBox/Code/HelloGenes.cs
 namespace HelloBox

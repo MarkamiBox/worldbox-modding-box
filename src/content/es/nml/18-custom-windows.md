@@ -164,7 +164,7 @@ Font font = LocalizedTextManager.current_font ?? Resources.GetBuiltinResource<Fo
 
 ## Tooltips
 
-Los tooltips del juego también son assets en `AssetManager.tooltips`: un ID y un callback que rellena el tooltip cada vez que se abre. Registra el tuyo y cualquier elemento de la interfaz podrá mostrarlo con números en tiempo real.
+Los tooltips del juego también son assets en `AssetManager.tooltips`: un ID y un callback que rellena el tooltip cada vez que se abre. Registra el tuyo y cualquier elemento de la interfaz podrá mostrarlo con números en tiempo real. Los jugadores pasan el ratón por encima de todo, así que aquí es donde tu mod parece terminado sin hacer ruido.
 
 ```csharp Mods/HelloBox/Code/HelloTooltips.cs
 using UnityEngine;
@@ -262,7 +262,7 @@ namespace HelloBox
 > [!WARNING] Los atajos se configuran en el inicio del juego
 > `HotkeyLibrary.linkAssets()` copia cada `default_key_*` en el correspondiente `overridden_key_*` (la tecla que el juego comprueba realmente) y construye `action_hotkeys`, la única lista que sondea en cada frame. Ambas cosas ocurren antes de que cargue tu mod. Omitir cualquiera de ellas hace que la tecla no haga nada, en silencio :wbfacepalm:.
 
-Los modificadores `check_*` son la forma sencilla de evitar molestias: `check_controls_locked` evita que se active mientras el jugador pilota una unidad, y `check_window_not_active` mientras una ventana del juego esté abierta. Elige una tecla libre en el juego original. F6 es una opción; otros mods podrían diferir.
+Los modificadores `check_*` son la forma sencilla de evitar molestias: `check_controls_locked` evita que se active mientras el jugador pilota una unidad, y `check_window_not_active` mientras una ventana del juego esté abierta. Elige una tecla libre en el juego original. F6 es una opción; otros mods podrían diferir :PES2_Shrug:.
 
 ```json Mods/HelloBox/Locales/en.json
 {

@@ -8,7 +8,7 @@ order: 182
 
 # Recursos y comida :wbtomato:
 
-Un recurso es todo aquello que una ciudad almacena, comercia, come o forja: trigo, pan, piedra, mitril, huesos, gemas. Viven en `AssetManager.resources` y representan la base de toda la economía: lo que cultivan las granjas, lo que hornean los panaderos, lo que necesitan los herreros y lo que come un ciudadano hambriento.
+Un recurso es todo aquello que una ciudad almacena, comercia, come o forja: trigo, pan, piedra, mitril, huesos, gemas. Viven en `AssetManager.resources` y representan la base de toda la economía: lo que cultivan las granjas, lo que hornean los panaderos, lo que necesitan los herreros y lo que come un ciudadano hambriento. Con esta economía, hasta el pan es una estructura de datos :PES2_Cash:.
 
 ## Clonar desde una plantilla
 
@@ -100,7 +100,7 @@ Conviene conocerlos, ya que utilizar uno existente suele ser infinitamente más 
 
 ## Tus propios sprites
 
-Un recurso tiene dos ilustraciones distintas y se resuelven de forma **completamente diferente**. Aquí tropiezan muchísimos creadores:
+Un recurso tiene dos ilustraciones distintas y se resuelven de forma **completamente diferente**. Aquí tropiezan muchísimos creadores: Y a ti también te va a pillar una vez.
 
 ```text Mods/HelloBox/
 HelloBox/

@@ -8,11 +8,11 @@ order: 144
 
 # IA y comportamientos personalizados :wbgoldenbrain:
 
-Aquí entramos en aguas profundas. Todo lo demás en esta guía añade *cosas* al juego. Esto añade **decisiones**: lo que hace una criatura a continuación, por su cuenta, para siempre, en un mundo que comparte con miles de otras entidades.
+Aquí entramos en aguas profundas. Todo lo demás en esta guía añade *cosas* al juego. Esto añade **decisiones**: lo que hace una criatura a continuación, por su cuenta, para siempre, en un mundo que comparte con miles de otras entidades. Sin presión :PES_MonkaSweat:.
 
 ## Cómo piensa el juego
 
-Tres capas, de mayor a menor:
+Tres capas, de mayor a menor, más la que está a su lado. Entender esto me costó más de lo que me gusta admitir:
 
 | Capa | Qué es | Librería |
 | --- | --- | --- |
@@ -245,7 +245,7 @@ trait.decisions_assets = new DecisionAsset[] { AssetManager.decisions_library.ge
 
 ## Empleos urbanos
 
-Los ciudadanos reciben su trabajo de la ciudad, no de su propio cerebro. La ciudad calcula qué hace falta, abre puestos de trabajo (constructores, granjeros, mineros...) y los asigna. Un **empleo ciudadano (Citizen Job)** es uno de esos puestos, y la unidad contratada ejecuta el `ActorJob` con el mismo ID.
+Los ciudadanos reciben su trabajo de la ciudad, no de su propio cerebro. La ciudad calcula qué hace falta, abre puestos de trabajo (constructores, granjeros, mineros...) y los asigna. Un **empleo ciudadano (Citizen Job)** es uno de esos puestos, y la unidad contratada ejecuta el `ActorJob` con el mismo ID. El mismo id en ambos lados: ese es todo el truco.
 
 ```csharp Mods/HelloBox/Code/HelloCityJobs.cs
 using ai.behaviours;   // CityBehCheckCitizenTasks
@@ -315,7 +315,7 @@ Tres elementos clave que solucionan omisiones del inicio del juego:
 
 ## El texto
 
-El nombre de la tarea es lo que la ventana de la unidad muestra como actividad actual, y una decisión toma el nombre de la tarea que inicia:
+El nombre de la tarea es lo que la ventana de la unidad muestra como actividad actual, así que el jugador la leerá más que cualquier otra línea que escribas. Una decisión toma el nombre de la tarea que inicia:
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -325,7 +325,7 @@ El nombre de la tarea es lo que la ventana de la unidad muestra como actividad a
 
 ## Reglas para no hundir los fotogramas por segundo
 
-Puede haber miles de unidades en el mapa. Tu comportamiento se ejecuta en cada una de ellas, en cada tick.
+Puede haber miles de unidades en el mapa. Tu comportamiento se ejecuta en cada una de ellas, en cada tick. "¿Rendimiento? Nunca lo había oído, ¿se come?" es un buen chiste hasta que tu mod es el que se lo come. La mayoría de los mods, los míos incluidos, ejecutan bucles enormes en cada tick y se salen con la suya en un PC decente. Un comportamiento no se sale con la suya.
 
 - **Haz los cálculos pesados en tu propio reloj, no en `execute`.** Ejecuta tu lógica costosa en `Update()` con un temporizador, guarda el resultado y haz que `execute` solo lo lea.
 - **Distribuye la carga.** Si calculas para 40 criaturas, calcula para 10 de ellas por tanda en cuatro tandas, en lugar de para las 40 al mismo tiempo.

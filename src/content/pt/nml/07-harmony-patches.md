@@ -117,7 +117,7 @@ O Harmony preenche os parâmetros **por nome**. Estes são os que importam, e os
 | `__state` | Um valor que o seu Prefix guarda para o seu próprio Postfix usar |
 | qualquer nome de parâmetro real | O argumento que o chamador passou, com a grafia **exata** do jogo |
 
-Essa última linha é onde quase todo mundo tropeça. Se o jogo declara `getHit(float pDamage, ...)`, seu parâmetro precisa se chamar `pDamage`. Não `damage`, nem `pDmg`. Você pode listar apenas os parâmetros que interessam e omitir o resto, mas os que listar precisam ser idênticos - e neste jogo quase todos começam com `p`.
+Essa última linha é onde quase todo mundo tropeça, de novo e de novo. Se o jogo declara `getHit(float pDamage, ...)`, seu parâmetro precisa se chamar `pDamage`. Não `damage`, nem `pDmg`. Você pode listar apenas os parâmetros que interessam e omitir o resto, mas os que listar precisam ser idênticos - e neste jogo quase todos começam com `p`.
 
 ## Alterando um resultado
 
@@ -140,7 +140,7 @@ Ajuste, não atribua cegamente. `__result *= 1.5f` ainda funciona pacificamente 
 
 ## Alterando um número fixo no jogo
 
-Metade dos pedidos do tipo "alguém pode fazer um mod que..." é apenas um número. "Cidades crescem demais" é isso, tirado diretamente da classe `City` do jogo:
+Metade dos pedidos do tipo "alguém pode fazer um mod que..." é apenas um número. Nada é impossível, só que ninguém fez ainda :wbbru:. "Cidades crescem demais" é isso, tirado diretamente da classe `City` do jogo:
 
 ```csharp Assembly-CSharp / City
 public int getZoneRange(bool pAllowCheat = true)
@@ -245,6 +245,8 @@ public static class Patch_Actor_StatDelta
 
 ## Quando não funciona
 
+Antes de culpar o Harmony, leia o log. Raramente é o Harmony :PES5_Noted:.
+
 | O que você vê | O que geralmente é |
 | --- | --- |
 | Nada acontece, nada no log | `Postfix` com erro de digitação, ou você nunca chamou `PatchAll` |
@@ -261,7 +263,7 @@ public static class Patch_Actor_StatDelta
 - **Sempre verifique se é null.** Seu patch rodará durante o carregamento do mundo e durante a morte de uma unidade.
 - **Verificação rápida primeiro.** A primeira linha de um patch frequente deve ser o teste que permite dar `return` logo.
 - **Altere o método mais específico possível.** Modificar `Actor.updateStats` para a velocidade de um traço é perfeito. Modificar o loop de atualização do mundo inteiro para fazer o mesmo é como se faz um mod ser desinstalado.
-- **Mantenha seus patches em um único arquivo.** Quando alguém relatar um conflito, você vai querer ler um arquivo, não doze.
+- **Mantenha seus patches em um único arquivo.** Quando alguém relatar um conflito, você vai querer ler um arquivo, não doze. Seja gentil com o seu eu do futuro. Faça o que eu digo, não o que os meus mods antigos fazem :trollface:.
 
 ## O que não cobriremos aqui
 

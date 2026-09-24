@@ -165,6 +165,8 @@ Este grupo es para personas que juegan con mods, no para quienes los crean. Todo
 
 ## No se carga nada
 
+El juego se comporta como si tu mod no existiera. No es nada personal, normalmente es un interruptor o el nombre de un archivo.
+
 ### Sin botón de Mods en el menú
 
 - **Qué ves**: El juego inicia bien, sin errores, sin botón de Mods y sin ninguna línea `[NML]` en el log.
@@ -229,6 +231,8 @@ Este grupo es para personas que juegan con mods, no para quienes los crean. Todo
 ---
 
 ## Carga, pero no aparece nada
+
+NML encontró tu mod y lo ejecutó. Algo dentro nunca llegó a la pantalla.
 
 ### Bloqueo en la línea donde asignas una estadística
 
@@ -332,7 +336,7 @@ cursed.need_visual_render = true;
 
 ## Registrado, luego roto en el mundo
 
-Todas las entradas de esta sección tienen la misma causa. El juego prepara alguna parte de cada asset **una sola vez, mientras carga**, y tu mod registra sus assets después. Nada te avisa: el asset existe, tiene nombre, y la primera vez que el juego lo usa de verdad, revienta. La solución también tiene siempre la misma forma: haz ese paso tú, justo después de registrar el asset :wbfacepalm:.
+Todas las entradas de esta sección tienen la misma causa. El juego prepara alguna parte de cada asset **una sola vez, mientras carga**, y tu mod registra sus assets después. Nada te avisa: el asset existe, tiene nombre, y la primera vez que el juego lo usa de verdad, revienta. La solución también tiene siempre la misma forma: haz ese paso tú, justo después de registrar el asset :wbfacepalm:. Palabra del día: work around.
 
 ### Tu criatura da un error de sombra
 
@@ -445,6 +449,8 @@ Todas las entradas de esta sección tienen la misma causa. El juego prepara algu
 ---
 ## Compila para ti, pero no para otros
 
+El clásico "en mi PC funciona". La diferencia suele estar en tu configuración, no en tu código :PES5_Hmmmm:.
+
 ### `CS0122: inaccessible due to its protection level`
 
 - **Qué ves**: Código copiado de un mod funcional no compila: `addStatusEffect`, `getHit`, `_localized_text`, `addBuilding`.
@@ -466,6 +472,8 @@ Todas las entradas de esta sección tienen la misma causa. El juego prepara algu
 ---
 
 ## Funciona al principio, se rompe más adelante
+
+Los lentos. Ayer tu mod funcionaba, y no ha cambiado nada :PES2_Shrug:.
 
 ### Otro mod reemplaza silenciosamente tu contenido
 

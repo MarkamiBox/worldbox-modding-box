@@ -16,7 +16,7 @@ Escolha o tipo de asset, filtre e clique para copiar.
 ## Como ler
 
 - **Coluna esquerda**: tipo de dado (`int`, `float`, `string`).
-- **`= valor`**: padrão do jogo.
+- **`= valor`**: padrão do jogo. Se ele serve, não defina. Menos código, menos erros de digitação.
 - **"inherited from"**: herdado da classe base.
 
 > [!WARNING] Campos e comportamento

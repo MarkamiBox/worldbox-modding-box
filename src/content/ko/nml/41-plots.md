@@ -71,7 +71,7 @@ namespace HelloBox
 10골드와 도시를 보유하고 여유가 있는 지도자는 이제 불씨 축제를 기획할 수 있습니다. 축제가 끝나면 **[왕국 및 세력](#/nml/kingdoms)** 페이지의 행복도 이벤트를 통해 도시 내 모든 유닛의 행복도가 상승하고, 주동자의 머리 위로 불씨가 떨어집니다(HelloBox다운 연출입니다).
 
 > [!WARNING] `check_is_possible`은 필수입니다
-> `PlotAsset.checkIsPossible()`은 지도자가 음모를 고려할 때마다 null 확인 없이 이를 호출합니다. 이 설정을 생략하면 지도자가 음모를 검토하는 순간 `NullReferenceException`이 발생합니다. 특별한 조건이 없다면 단순히 `true`를 반환하세요.
+> `PlotAsset.checkIsPossible()`은 지도자가 음모를 고려할 때마다 null 확인 없이 이를 호출합니다. 이 설정을 생략하면 지도자가 음모를 검토하는 순간 `NullReferenceException`이 발생합니다. 특별한 조건이 없다면 단순히 `true`를 반환하세요. 네, 그럴 때도요.
 
 > [!WARNING] 기본 목록은 게임 시작 시 구성됩니다
 > 지도자들은 오직 `plots_library.basic_plots`(및 소속 종교의 의식) 목록에서만 음모를 선택합니다. `linkAssets()`는 모드가 로드되기 전 게임 시작 시점에 `is_basic_plot`이 true인 음모들을 이 목록에 채워 넣습니다. 플래그를 설정하는 것만으로는 부족하므로 모드 코드에서 목록에 직접 추가해 주어야 합니다.

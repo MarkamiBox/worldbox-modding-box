@@ -112,6 +112,8 @@ namespace HelloBox
 
 ### Custo e valor
 
+Mantenha os preços sensatos. Uma espada de ferro por 43 milhões de moedas não é balanceamento, é golpe :trollface:.
+
 | Campo | O que faz |
 | --- | --- |
 | `setCost(gold, res1, amount1, res2, amount2)` | A função recomendada para definir todos os custos juntos |
@@ -130,6 +132,8 @@ namespace HelloBox
 | `name_class`, `name_templates` | Como as versões lendárias são nomeadas |
 
 ### Behaviour
+
+É aqui que um item deixa de ser um monte de números.
 
 | Campo | O que faz |
 | --- | --- |
@@ -239,7 +243,7 @@ private static void RegisterLine(string pPrefix, string pTemplate)
 
 ## Os textos de localização
 
-Itens são nomeados de forma diferente de tudo nesta documentação, pegando muitos de surpresa. O nome visível de um item é resolvido da seguinte forma:
+Itens são nomeados de forma diferente de tudo nesta documentação, pegando muitos de surpresa, eu incluído :PESgn_Oops:. O nome visível de um item é resolvido da seguinte forma:
 
 ```text
 translation_key   ?? "item_" + (equipment_subtype ?? id)

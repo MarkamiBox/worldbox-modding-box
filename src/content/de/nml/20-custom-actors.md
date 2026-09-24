@@ -11,7 +11,7 @@ order: 140
 > [!NOTE] Sie heißen Akteure, nicht Rassen
 > Das Spiel nennt jedes lebende Wesen einen **Akteur** (Actor): einen Menschen, einen Wolf, einen Drachen, einen Zombie, eine Krabbe. Sie alle stammen von derselben Klasse ab, `ActorAsset`, und leben alle in `AssetManager.actor_library`. "Rasse" ist die veraltete Bezeichnung. Der einzige Ort, an dem sie überlebt hat, ist eine `race`-Eigenschaft mit dem Vermerk `[Obsolete("use .original_actor_asset instead")]`, die nur noch existiert, um uralte Spielstände zu laden. Schreibe überall `actor`.
 
-Eine neue Kreatur ist die Mod, die jeder machen will und fast niemand fertigstellt, denn ein `ActorAsset` schleppt Animationen, Texturen, Sounds, Taxonomie, Ernährung, KI-Flags, Genom, Kultur und Statuswerte mit sich herum. Wenn du auch nur eines davon falsch machst, hast du eine unsichtbare Einheit, die regungslos im Ozean steht.
+Eine neue Kreatur ist die Mod, die jeder machen will und fast niemand fertigstellt, denn ein `ActorAsset` schleppt Animationen, Texturen, Sounds, Taxonomie, Ernährung, KI-Flags, Genom, Kultur und Statuswerte mit sich herum. Wenn du auch nur eines davon falsch machst, hast du eine unsichtbare Einheit, die regungslos im Ozean steht :PES4_Invisible:.
 
 Die gute Nachricht: Auch das Spiel baut Kreaturen nicht von Grund auf neu. Das hier ist wortwörtlich, wie Vanilla einen Elfen erschafft:
 
@@ -173,6 +173,8 @@ Eine vierte Kreatur hinzuzufügen ist jetzt nur noch eine einzige Zeile in der T
 
 ## Die Felder, die bestimmen, was deine Kreatur *ist*
 
+Am ersten Tag zählen nur drei davon: `civ`, `actor_size` und `name_locale`. Der Rest kann warten, bis deine Kreatur sichtbar ist und läuft.
+
 | Feld | Was es bewirkt |
 | --- | --- |
 | `civ` | Zivilisationswesen: Städte, Reiche, Berufe, Krieg. `false` = Tier |
@@ -283,7 +285,7 @@ Die **Körpergrafik** der Kreatur ist ein völlig anderes Thema und füllt den R
 
 ## Sprites sind der harte Teil
 
-Alles oben Beschriebene ist nur eine Seite Code. Die eigentliche Arbeit ist die Kunst: Eine Kreatur braucht ein komplettes Animationsset, im richtigen Atlas, in der richtigen Größe und mit den richtigen Drehpunkten. Es gibt zwei ehrliche Wege:
+Alles oben Beschriebene ist nur eine Seite Code. Die eigentliche Arbeit ist die Kunst, und hier sterben die meisten Kreaturen-Mods still und leise: Eine Kreatur braucht ein komplettes Animationsset, im richtigen Atlas, in der richtigen Größe und mit den richtigen Drehpunkten. Es gibt zwei ehrliche Wege:
 
 1. **Behalte die Sprites des Spenders.** Eine Kreatur, die menschliche Animationen mit anderen Stats und einer anderen Färbung wiederverwendet, ist eine vollkommen solide erste Mod, und sie *funktioniert*.
 2. **Exportiere mit AssetRipper**, suche den Atlas der geklonten Kreatur und passe dein Layout exakt daran an, bevor du überhaupt mit dem Zeichnen beginnst. Siehe **[Die Spielgrafiken beschaffen](#/toolbox/getting-the-sprites)**.

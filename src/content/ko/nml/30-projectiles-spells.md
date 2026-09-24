@@ -56,6 +56,8 @@ namespace HelloBox
 
 ### 주요 필드
 
+대부분은 클론한 대상에서 그대로 따라오고, 다시는 들여다볼 일이 없습니다. 실제로 바꾸게 될 건 `speed`와 `texture` 두 개입니다.
+
 | 필드 | 역할 |
 | --- | --- |
 | `texture`, `texture_shadow` | 스프라이트 및 그림자 |
@@ -108,7 +110,7 @@ HelloBox/
 bolt.texture = "hello_bolt";   // "effects/projectiles/hello_bolt" 로 적지 말 것
 ```
 
-투사체도 스프라이트 목록으로 불러옵니다. `texture` 이름의 **폴더** 에 프레임마다 PNG 하나를 넣고, `animated` 가 켜져 있으면 여러 프레임이 비행 애니메이션이 됩니다. 폴더 없는 `hello_bolt.png` 는 빈 목록이 되고, 투사체를 그릴 때 `ArgumentOutOfRangeException` 이 납니다.
+투사체도 스프라이트 목록으로 불러옵니다. `texture` 이름의 **폴더** 에 프레임마다 PNG 하나를 넣고, `animated` 가 켜져 있으면 여러 프레임이 비행 애니메이션이 됩니다. 폴더 없는 `hello_bolt.png` 는 빈 목록이 되고, 투사체를 그릴 때 `ArgumentOutOfRangeException` 이 납니다 :PESgn_Oops:.
 
 `texture_shadow`는 자동 접두사가 없는 전체 경로입니다. 바닐라는 공용 `shadows/projectiles/shadow_ball`을 참조하므로 이를 그대로 재사용하는 것이 가장 좋습니다.
 

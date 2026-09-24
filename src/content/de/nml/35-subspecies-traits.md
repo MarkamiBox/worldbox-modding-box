@@ -62,7 +62,7 @@ namespace HelloBox
 
 ## Mutation
 
-Auf diesem Weg gelangt eine Unterarten-Eigenschaft in eine Welt, ohne dass du sie manuell verteilen musst. Die Bibliothek verwaltet zwei Töpfe, und diese beiden Felder bestimmen, welchen Töpfen deine Eigenschaft beitritt:
+Auf diesem Weg gelangt eine Unterarten-Eigenschaft in eine Welt, ohne dass du sie manuell verteilen musst, und das ist der spaßige Weg. Die Bibliothek verwaltet zwei Töpfe, und diese beiden Felder bestimmen, welchen Töpfen deine Eigenschaft beitritt:
 
 | Feld | Funktion |
 | --- | --- |
@@ -107,7 +107,7 @@ trait.texture_asset.shadow = trait.shadow;
 | `remove_for_zombies` | Den Skin entfernen, sobald die Einheit zum Zombie wird |
 | `priority` | Welcher Skin Vorrang hat, wenn eine Einheit zwei besitzt |
 
-Vanilla-Hautmutationen (Burger, Lebender Fels, Tentakelhorror, Lichtkugel, Fraktal) sind Klone von `$skin_mutation$`, und das Klonen dieser Vorlage ist mit Abstand der kürzeste Weg zu einer funktionierenden Mutation.
+Vanilla-Hautmutationen (Burger, Lebender Fels, Tentakelhorror, Lichtkugel, Fraktal) sind Klone von `$skin_mutation$`, und das Klonen dieser Vorlage ist mit Abstand der kürzeste Weg zu einer funktionierenden Mutation. Ja, Burger ist eine echte Mutation. Maxims Wege sind unergründlich :wbpray:.
 
 ## Phänotypen, Ernährung und Eier
 
@@ -122,7 +122,7 @@ Drei kleinere Systeme, an die Unterarten-Eigenschaften anknüpfen:
 
 ## Gene
 
-Ein Gen ist die Art und Weise, wie eine Unterarten-Eigenschaft zu einer anderen Eigenschaft mutiert. Das Spiel durchläuft bei der Fortpflanzung `AssetManager.genes`, um zu entscheiden, was weitergegeben wird:
+Ein Gen ist die Art und Weise, wie eine Unterarten-Eigenschaft zu einer anderen Eigenschaft mutiert. Das Spiel durchläuft bei der Fortpflanzung `AssetManager.genes`, um zu entscheiden, was weitergegeben wird: Biologie-Hausaufgaben, im Grunde.
 
 ```csharp Mods/HelloBox/Code/HelloGenes.cs
 namespace HelloBox

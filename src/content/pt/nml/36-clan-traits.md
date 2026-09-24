@@ -110,7 +110,7 @@ Vários traços de clã vanilla são recompensas em vez de opções padrão:
 trait.setUnlockedWithAchievement("achievementSegregator");
 ```
 
-Um traço bloqueado ainda existe e funciona perfeitamente; o jogador apenas não pode selecioná-lo no editor até completar a conquista. Note que `BaseTraitLibrary` também define automaticamente `rarity = R3_Legendary` para qualquer traço bloqueado dessa maneira.
+Um traço bloqueado ainda existe e funciona perfeitamente; o jogador apenas não pode selecioná-lo no editor até completar a conquista. Note que `BaseTraitLibrary` também define automaticamente `rarity = R3_Legendary` para qualquer traço bloqueado dessa maneira, para a sua recompensa parecer à altura :gold_star:.
 
 ## Os grupos vanilla
 
@@ -150,7 +150,7 @@ O clã de uma unidade está em `actor.clan`, e `actor.hasClan()` informa se ela 
 
 ## Novos clãs sorteando um traço por conta própria
 
-Além de concedê-lo manualmente, um traço de clã pode definir `spawn_random_trait_allowed` para ser sorteado quando um novo clã se forma, da mesma forma que uma cultura sorteia seus traços iniciais.
+Além de concedê-lo manualmente, um traço de clã pode definir `spawn_random_trait_allowed` para ser sorteado quando um novo clã se forma, da mesma forma que uma cultura sorteia seus traços iniciais. A mesma armadilha de todas as outras páginas de traços:
 
 > [!WARNING] `spawn_random_trait_allowed` é lido apenas uma vez, na inicialização
 > Novos clãs sorteiam seus traços iniciais de um grupo que `BaseTraitLibrary.linkAssets()` constrói durante o carregamento do jogo, antes do seu mod existir. Definir a flag no seu traço não muda nada por si só: seu traço nunca estará nesse grupo e nunca aparecerá por acaso em um novo clã. Adicione-o você mesmo, com o peso que o jogo vanilla usa:

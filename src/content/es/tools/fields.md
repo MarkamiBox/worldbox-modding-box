@@ -16,7 +16,7 @@ Elige el tipo de asset, filtra y haz clic en un nombre para copiarlo.
 ## Cómo interpretarlo
 
 - **Columna izquierda**: es el tipo de dato. `int` significa un número entero, por lo que `rate_birth = 0.5f` no compilará. `float` toma decimales con sufijo `f`, como `0.5f`. `string` toma texto entre comillas.
-- **El `= valor`**: es el valor predeterminado que el juego ya asigna.
+- **El `= valor`**: es el valor predeterminado que el juego ya asigna. Si te sirve, no lo pongas. Menos código, menos erratas.
 - **"inherited from"**: significa que el campo proviene de una clase padre.
 - **La cadena superior**: (p. ej. `ActorTrait -> BaseTrait -> BaseAugmentationAsset -> Asset`) muestra la jerarquía de herencia.
 

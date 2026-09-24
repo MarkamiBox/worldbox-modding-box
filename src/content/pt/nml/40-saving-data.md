@@ -23,7 +23,7 @@ O jogo já possui um lugar projetado para isso. Cada unidade, cidade, reino, con
 | `data.hasFlag(key)` / `data.removeFlag(key)` | Verifica ou remove a flag |
 | `data.removeInt(key)`, `removeFloat`, `removeString`... | Deleta um valor |
 
-Cada tipo possui sua própria tabela interna, portanto um `int` e uma `string` sob a mesma chave não colidem. Ainda assim, para seu próprio controle, não compartilhe chaves entre tipos diferentes.
+Cada tipo possui sua própria tabela interna, portanto um `int` e uma `string` sob a mesma chave não colidem. Ainda assim, para seu próprio controle, não compartilhe chaves entre tipos diferentes. O seu eu do futuro não vai lembrar qual era qual.
 
 
 > [!NOTE] Armazenando algo maior que cinco tipos primitivos
@@ -86,7 +86,7 @@ namespace HelloBox
 }
 ```
 
-Salve o mundo e carregue-o novamente: a contagem continua lá, pois faz parte dos dados de salvamento da própria unidade. A flag é o que faz a recompensa acontecer uma única vez e não a cada golpe após o quinquagésimo.
+Salve o mundo e carregue-o novamente: a contagem continua lá, pois faz parte dos dados de salvamento da própria unidade. A flag é o que faz a recompensa acontecer uma única vez e não a cada golpe após o quinquagésimo. Generoso, mas ainda é um bug.
 
 Seus textos, como em qualquer traço:
 

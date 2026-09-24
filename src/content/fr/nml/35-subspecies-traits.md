@@ -62,7 +62,7 @@ namespace HelloBox
 
 ## Mutation
 
-C'est ainsi qu'un trait de sous-espèce fait son entrée dans le monde sans que vous n'ayez à le distribuer manuellement. La bibliothèque maintient deux réserves, et ces deux champs déterminent les réserves que votre trait intègre :
+C'est ainsi qu'un trait de sous-espèce fait son entrée dans le monde sans que vous n'ayez à le distribuer manuellement, et c'est la manière amusante. La bibliothèque maintient deux réserves, et ces deux champs déterminent les réserves que votre trait intègre :
 
 | Champ | Rôle |
 | --- | --- |
@@ -107,7 +107,7 @@ trait.texture_asset.shadow = trait.shadow;
 | `remove_for_zombies` | Retirer l'apparence lorsque l'unité devient un zombie |
 | `priority` | Quelle apparence l'emporte si une unité en cumule deux |
 
-Les mutations d'apparence vanilla (burger, roche vivante, horreur tentaculaire, orbe de lumière, fractale) sont des clones de `$skin_mutation$`, et cloner ce modèle constitue de loin la méthode la plus rapide pour obtenir une apparence fonctionnelle.
+Les mutations d'apparence vanilla (burger, roche vivante, horreur tentaculaire, orbe de lumière, fractale) sont des clones de `$skin_mutation$`, et cloner ce modèle constitue de loin la méthode la plus rapide pour obtenir une apparence fonctionnelle. Oui, burger est une vraie mutation. Les voies de Maxim sont impénétrables :wbpray:.
 
 ## Phénotypes, régime alimentaire et œufs
 
@@ -122,7 +122,7 @@ Trois systèmes complémentaires auxquels se rattachent les traits de sous-espè
 
 ## Gènes
 
-Un gène est la façon dont un trait de sous-espèce mute en un autre trait. Le jeu parcourt `AssetManager.genes` pendant la reproduction pour décider de ce qui est transmis :
+Un gène est la façon dont un trait de sous-espèce mute en un autre trait. Le jeu parcourt `AssetManager.genes` pendant la reproduction pour décider de ce qui est transmis : Des devoirs de biologie, en gros.
 
 ```csharp Mods/HelloBox/Code/HelloGenes.cs
 namespace HelloBox

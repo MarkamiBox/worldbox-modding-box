@@ -10,7 +10,7 @@ order: 124
 
 Un groupe d'objets est une catégorie de la fenêtre d'équipement : casques, épées, amulettes. Il s'agit du même modeste `BaseCategoryAsset` que celui dessinant les onglets de traits (voir **[Groupes de traits & onglets](#/nml/trait-groups)**), résidant cette fois dans `AssetManager.item_groups`.
 
-La différence tient au fait qu'un groupe d'objets gère un **pool**, et omettre ce pool fera inévitablement planter votre mod.
+La différence tient au fait qu'un groupe d'objets gère un **pool**, et omettre ce pool fera inévitablement planter votre mod :PESgn_Yikes:.
 
 ## Les groupes vanilla
 

@@ -10,7 +10,7 @@ order: 22
 
 Tudo neste guia é construído em torno de **um único mod**. Nós o começamos aqui, e cada página posterior adicionará um novo arquivo a ele.
 
-Ao final, o HelloBox terá cerca de vinte arquivos e você terá escrito cada linha por conta própria: um traço de unidade e um traço cultural com aba própria, uma arma e um encantamento para ela, um efeito de status, drops, uma nuvem, um ladrilho de terreno, uma receita de comida, um projétil, uma lei do mundo, um poder divino com seu próprio botão, uma janela, um painel de opções, uma construção, uma facção, uma criatura, um desastre, uma IA própria e um patch Harmony para dobrar uma regra que o jogo achava que estava consolidada.
+Ao final, o HelloBox terá cerca de quarenta arquivos e você terá escrito cada linha por conta própria: um traço de unidade e um traço cultural com aba própria, uma arma e um encantamento para ela, um efeito de status, drops, uma nuvem, um ladrilho de terreno, uma receita de comida, um projétil, uma lei do mundo, um poder divino com seu próprio botão, uma janela, um painel de opções, uma construção, uma facção, uma criatura, um desastre, uma IA própria e um patch Harmony para dobrar uma regra que o jogo achava que estava consolidada.
 
 Isso é muito mais do que qualquer mod real precisa, e esse é exatamente o objetivo. Você pega as duas ou três partes que realmente quer e descarta o restante :PES4_DeleteThis:.
 
@@ -95,7 +95,7 @@ namespace HelloBox
 
 Inicie o WorldBox e abra a janela **Mods** no menu principal. O **HelloBox** deve aparecer na lista, já ativado. Um mod colocado na pasta `Mods/` manualmente é ativado na primeira vez que o NML o encontra.
 
-Essa janela também é onde você pode **desativar** um mod mais tarde. Clicar no ícone altera o estado, e a maioria dos mods exige reiniciar o jogo para surtir efeito.
+Essa janela também é onde você pode **desativar** um mod mais tarde. Clicar no ícone altera o estado, e a maioria dos mods exige reiniciar o jogo para surtir efeito :PES4_AlrightThen:.
 
 > [!TIP] Não aparece de jeito nenhum na lista?
 > O NML simplesmente não encontrou o mod. Em nove de cada dez vezes, o arquivo foi salvo como `mod.json.txt` em vez de `mod.json`, ou a pasta foi colocada fora de `worldbox\Mods/`.

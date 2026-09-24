@@ -8,11 +8,11 @@ order: 144
 
 # IA e comportamentos personalizados :wbgoldenbrain:
 
-Aqui mergulhamos fundo. Todo o restante deste guia adiciona *coisas e dados* ao jogo. Esta seção adiciona **decisões**: o que uma criatura decide fazer a seguir, por conta própria, para sempre, em um mundo compartilhado com milhares de outras.
+Aqui mergulhamos fundo. Todo o restante deste guia adiciona *coisas e dados* ao jogo. Esta seção adiciona **decisões**: o que uma criatura decide fazer a seguir, por conta própria, para sempre, em um mundo compartilhado com milhares de outras. Sem pressão :PES_MonkaSweat:.
 
 ## Como o jogo pensa
 
-Três camadas, do macro ao micro:
+Três camadas, do macro ao micro, mais a que fica ao lado delas. Entender isso me levou mais tempo do que eu gosto de admitir:
 
 | Camada | O que é | Biblioteca |
 | --- | --- | --- |
@@ -245,7 +245,7 @@ trait.decisions_assets = new DecisionAsset[] { AssetManager.decisions_library.ge
 
 ## Empregos da cidade
 
-Os cidadãos recebem trabalho da cidade, não de seu próprio cérebro. A cidade avalia as necessidades, abre vagas de trabalho (construtores, fazendeiros, mineradores...) e as distribui. Um **emprego de cidadão (Citizen Job)** é uma dessas vagas, e a unidade contratada executa o `ActorJob` de mesmo ID.
+Os cidadãos recebem trabalho da cidade, não de seu próprio cérebro. A cidade avalia as necessidades, abre vagas de trabalho (construtores, fazendeiros, mineradores...) e as distribui. Um **emprego de cidadão (Citizen Job)** é uma dessas vagas, e a unidade contratada executa o `ActorJob` de mesmo ID. O mesmo id dos dois lados: esse é todo o truque.
 
 ```csharp Mods/HelloBox/Code/HelloCityJobs.cs
 using ai.behaviours;   // CityBehCheckCitizenTasks
@@ -315,7 +315,7 @@ Três detalhes cruciais que corrigem omissões da inicialização:
 
 ## O texto
 
-O nome da tarefa é o que a janela da unidade exibe como atividade atual, e uma decisão herda o nome da tarefa que ela inicia:
+O nome da tarefa é o que a janela da unidade exibe como atividade atual, então o jogador vai lê-lo mais do que qualquer outra linha que você escrever. Uma decisão herda o nome da tarefa que ela inicia:
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -325,7 +325,7 @@ O nome da tarefa é o que a janela da unidade exibe como atividade atual, e uma 
 
 ## Regras para não destruir a taxa de quadros
 
-Podem existir milhares de unidades. Seu comportamento roda em cada uma delas, a cada tick.
+Podem existir milhares de unidades. Seu comportamento roda em cada uma delas, a cada tick. "Performance? Nunca ouvi falar, dá pra comer?" é uma boa piada até o seu mod ser o que está comendo. A maioria dos mods, incluindo os meus, roda loops enormes a cada tick e se safa num PC razoável. Um comportamento não se safa.
 
 - **Processe o raciocínio pesado no seu próprio tempo, não no `execute`.** Rode sua lógica pesada no `Update()` com um temporizador, armazene a resposta e faça com que o `execute` apenas leia o resultado.
 - **Distribua a carga.** Se você processa para 40 criaturas, processe 10 por rodada ao longo de quatro rodadas, em vez das 40 de uma só vez.

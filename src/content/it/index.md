@@ -25,3 +25,5 @@ order: 1
   - **Poteri Divini & UI**: Poteri divini & pennelli, pulsanti potere e finestre personalizzate con schede & tooltip.
   - **Rifiniture finali**: Obiettivi di gioco e assemblaggio di tutto in una mod completa.
 - **Strumenti di modding**: Utility interattive integrate direttamente in questa guida (Harmony Patch Builder, Esploratore campi asset, Ricerca metodi e Cercatore icone Discord).
+
+Leggila dall'inizio alla fine la prima volta. Dopo, salta da una pagina all'altra come fanno tutti :PES2_Shrug:.

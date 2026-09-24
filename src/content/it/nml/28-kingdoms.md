@@ -72,7 +72,7 @@ asset.kingdom_id_wild = HelloKingdoms.WILD;
 asset.kingdom_id_civilization = HelloKingdoms.CIV;
 ```
 
-Senza questa riga, la tua creatura nascerà nel regno usato dal modello donatore del suo clone (solitamente gli umani), creando una gran confusione.
+Senza questa riga, la tua creatura nascerà nel regno usato dal modello donatore del suo clone (solitamente gli umani), creando una gran confusione :PES5_Hmmmm:.
 
 ## I campi
 
@@ -122,7 +122,7 @@ Due regni confrontano i loro tag per stabilire la loro relazione iniziale. Una f
 
 ## Il resto dei collegamenti della fazione
 
-Un asset di regno isolato è soltanto un'etichetta. Ecco le altre librerie che una fazione completa coinvolge:
+Un asset di regno isolato è soltanto un'etichetta. Un'etichetta molto ufficiale, ma pur sempre un'etichetta. Ecco le altre librerie che una fazione completa coinvolge:
 
 | Elemento | Libreria | Scopo |
 | --- | --- | --- |
@@ -204,7 +204,7 @@ Il postfix viene eseguito dopo ogni aggiornamento delle statistiche, consolidand
 
 ## Opinione, lealtà e felicità
 
-Tre piccole librerie determinano il tessuto politico del mondo, e tutte e tre sono elenchi di funzioni di calcolo:
+Tre piccole librerie determinano il tessuto politico del mondo, e tutte e tre sono elenchi di funzioni di calcolo. Niente sentimenti, solo numeri:
 
 | Libreria | Chiamata per | Restituisce |
 | --- | --- | --- |
@@ -302,7 +302,7 @@ namespace HelloBox
 }
 ```
 
-I percorsi vengono caricati singolarmente al momento del disegno dello stendardo, quindi non c'è nulla da aggiornare. Un indice oltre la fine della lista ripiega su 0, motivo per cui un salvataggio creato con il tuo mod si apre senza problemi anche senza di esso. Rispetta le dimensioni dei componenti vanilla: controllane uno in **[UnityExplorer](#/toolbox/unity-explorer)** prima di disegnare il tuo.
+I percorsi vengono caricati singolarmente al momento del disegno dello stendardo, quindi non c'è nulla da aggiornare. Un indice oltre la fine della lista ripiega su 0, motivo per cui un salvataggio creato con il tuo mod si apre senza problemi anche senza di esso. Rispetta le dimensioni dei componenti vanilla: controllane uno in **[UnityExplorer](#/toolbox/unity-explorer)** prima di disegnare il tuo. Sbaglia la dimensione e ottieni una bandiera più grande della città che la issa :wbfacepalm:.
 
 ```json Mods/HelloBox/Locales/en.json
 {

@@ -110,7 +110,7 @@ Varios rasgos de clan de vanilla son recompensas en lugar de estar disponibles p
 trait.setUnlockedWithAchievement("achievementSegregator");
 ```
 
-Un rasgo bloqueado sigue existiendo y funcionando con normalidad; el jugador simplemente no puede elegirlo en el editor hasta haber completado el logro correspondiente. Ten en cuenta que `BaseTraitLibrary` también asigna automáticamente `rarity = R3_Legendary` a cualquier elemento bloqueado de este modo.
+Un rasgo bloqueado sigue existiendo y funcionando con normalidad; el jugador simplemente no puede elegirlo en el editor hasta haber completado el logro correspondiente. Ten en cuenta que `BaseTraitLibrary` también asigna automáticamente `rarity = R3_Legendary` a cualquier elemento bloqueado de este modo, para que tu recompensa luzca como tal :gold_star:.
 
 ## Los grupos de vanilla
 
@@ -150,7 +150,7 @@ El clan de una unidad está en `actor.clan`, y `actor.hasClan()` te indica si pe
 
 ## Nuevos clanes que obtienen un rasgo por sí mismos
 
-Además de otorgarlo manualmente, un rasgo de clan puede establecer `spawn_random_trait_allowed` para ser seleccionado cuando se forma un nuevo clan, de la misma manera que una cultura selecciona sus rasgos iniciales.
+Además de otorgarlo manualmente, un rasgo de clan puede establecer `spawn_random_trait_allowed` para ser seleccionado cuando se forma un nuevo clan, de la misma manera que una cultura selecciona sus rasgos iniciales. La misma trampa que en todas las demás páginas de rasgos:
 
 > [!WARNING] `spawn_random_trait_allowed` se lee una sola vez, al inicio
 > Los nuevos clanes eligen sus rasgos iniciales de un grupo que `BaseTraitLibrary.linkAssets()` construye mientras se carga el juego, antes de que tu mod exista. Establecer la bandera en tu rasgo no cambia nada por sí solo: tu rasgo nunca estará en ese grupo y nunca aparecerá por casualidad en un nuevo clan. Agrégalo tú mismo, con el peso que usa el juego vanilla:

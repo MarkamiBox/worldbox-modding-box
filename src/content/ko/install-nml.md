@@ -46,7 +46,7 @@ order: 1
 2. **Assets** 항목까지 내려갑니다. 접혀 있으면 눌러서 펼칩니다.
 3. **NeoModLoader.dll** 을 누릅니다. 다른 파일처럼 받아지고, 보통 **다운로드** 폴더에 저장됩니다.
 
-필요한 건 이 파일 하나뿐입니다. `nml-setup-win.exe`, `.pdb`, `.xml`, "Source code" 파일도 보이지만 전부 무시하세요.
+필요한 건 이 파일 하나뿐입니다. `nml-setup-win.exe`, `.pdb`, `.xml`, "Source code" 파일도 보이지만 전부 무시하세요. 그건 NML 개발자용이지, 여러분을 위한 게 아닙니다.
 
 > [!WARNING] 이 링크에서만
 > `.dll` 은 프로그램입니다. NML은 위의 GitHub 페이지 **에서만** 받으세요. CurseForge나 다른 사이트, 누가 채팅으로 보낸 파일은 절대 쓰지 마세요. 다른 곳의 오래된 사본은 게임을 처음 켤 때 스스로 삭제되면서 `NML` 폴더와 `NeoModLoader.AutoUpdate_memload.dll` 만 남깁니다. 그런 일이 생기면 여기로 돌아와 진짜 파일을 다시 받으세요. GameBanana의 "1-click install" 버튼도 NML을 설치해 주지 않습니다. `.dll` 은 직접 받으세요.
@@ -67,7 +67,7 @@ Steam이 게임을 설치한 폴더입니다. 직접 찾을 필요는 없습니�
 C:\Program Files (x86)\Steam\steamapps\common\worldbox\
 ```
 
-이 창은 열어 두세요. 이제부터 "WorldBox 폴더"라고 하면 여기입니다.
+이 창은 열어 두세요. 이제부터 "WorldBox 폴더"라고 하면 여기입니다. 생각보다 훨씬 자주 이 폴더로 돌아오게 될 겁니다.
 
 > [!TIP] Windows가 확장자를 보여 주게 하기
 > Windows는 기본적으로 파일 이름의 끝부분을 숨겨서, `NeoModLoader.dll` 이 그냥 `NeoModLoader` 로 보입니다. 그러면 어떤 안내서든 따라가기 어려워집니다. 폴더 창 위쪽의 **보기** 를 누르고 **파일 확장명** 에 체크하세요(Windows 11: **보기 → 표시 → 파일 확장명**). 망가지는 건 없고, 이름이 전부 보이게 될 뿐입니다.
@@ -119,7 +119,7 @@ Steam에서 WorldBox를 켜고, 처음에는 평소보다 조금 더 기다려 �
 
 ## Mac
 
-같은 다섯 단계입니다. Mac에서는 게임 전체가 앱 아이콘 하나에 들어 있어서, 폴더가 숨은 위치만 다릅니다.
+같은 다섯 단계입니다. Mac에서는 게임 전체가 앱 아이콘 하나에 들어 있어서, 폴더가 숨은 위치만 다릅니다. 애플다운 방식이죠 :wbbre:.
 
 1. **Experimental Mode**: Windows와 똑같이, **[1단계](#1단계-experimental-mode-켜기)**. 업데이트 관련 경고도 똑같이 해당됩니다.
 2. [같은 릴리스 페이지](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest) 에서 `NeoModLoader.dll` 을 **받습니다**. Windows와 Mac 모두 같은 파일입니다.
@@ -139,7 +139,7 @@ worldbox/
 
 ## Linux 및 Steam Deck
 
-원리는 완전히 동일합니다. Linux의 Steam은 사용자 홈 디렉터리에 게임을 설치하며, Steam Deck에서는 먼저 데스크톱 모드로 전환하기만 하면 됩니다.
+원리는 완전히 동일합니다. Linux의 Steam은 사용자 홈 디렉터리에 게임을 설치하며, Steam Deck에서는 먼저 데스크톱 모드로 전환하기만 하면 됩니다. 펭귄도 환영합니다 :wbpenguin:.
 
 1. **실험 모드(Experimental Mode) 활성화**: Windows와 동일하게 켭니다 (**[1단계](#1단계-experimental-mode-켜기)**).
 2. [공식 릴리즈 페이지](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest)에서 `NeoModLoader.dll`을 **다운로드**합니다(모든 플랫폼 동일 파일).

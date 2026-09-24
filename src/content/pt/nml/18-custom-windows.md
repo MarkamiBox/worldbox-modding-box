@@ -164,7 +164,7 @@ Font font = LocalizedTextManager.current_font ?? Resources.GetBuiltinResource<Fo
 
 ## Dicas de contexto (Tooltips)
 
-As dicas de contexto do jogo também são assets em `AssetManager.tooltips`: um ID e um callback que preenche a dica sempre que ela é aberta. Registre o seu e qualquer elemento de interface poderá exibi-lo com dados em tempo real.
+As dicas de contexto do jogo também são assets em `AssetManager.tooltips`: um ID e um callback que preenche a dica sempre que ela é aberta. Registre o seu e qualquer elemento de interface poderá exibi-lo com dados em tempo real. Os jogadores passam o mouse em cima de tudo, então é aqui que o seu mod parece pronto sem fazer barulho.
 
 ```csharp Mods/HelloBox/Code/HelloTooltips.cs
 using UnityEngine;
@@ -262,7 +262,7 @@ namespace HelloBox
 > [!WARNING] Os atalhos são vinculados na inicialização
 > `HotkeyLibrary.linkAssets()` copia cada `default_key_*` para o respectivo `overridden_key_*` (a tecla que o jogo realmente verifica) e monta `action_hotkeys`, a única lista verificada a cada quadro. Ambos ocorrem antes do seu mod carregar. Pular qualquer um deles faz com que a tecla não faça nada :wbfacepalm:.
 
-As flags `check_*` são o jeito mais simples de evitar conflitos: `check_controls_locked` impede a ativação enquanto o jogador pilota uma unidade, e `check_window_not_active` enquanto uma janela padrão estiver aberta. Escolha uma tecla livre no jogo original (F6 é uma delas).
+As flags `check_*` são o jeito mais simples de evitar conflitos: `check_controls_locked` impede a ativação enquanto o jogador pilota uma unidade, e `check_window_not_active` enquanto uma janela padrão estiver aberta. Escolha uma tecla livre no jogo original (F6 é uma delas) :PES2_Shrug:.
 
 ```json Mods/HelloBox/Locales/en.json
 {

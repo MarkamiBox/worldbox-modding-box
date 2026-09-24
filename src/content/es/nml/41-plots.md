@@ -71,7 +71,7 @@ namespace HelloBox
 Un líder con diez monedas, una ciudad y tiempo libre puede ahora organizar un festival de ascuas. Al terminar, todos los habitantes de la ciudad se alegran con el evento de felicidad de **[Reinos y facciones](#/nml/kingdoms)**, y caen ascuas sobre el organizador, porque esto sigue siendo HelloBox.
 
 > [!WARNING] `check_is_possible` no es opcional
-> `PlotAsset.checkIsPossible()` lo invoca sin comprobación de nulos cada vez que un líder evalúa tu complot. Si lo omites, el primer gobernante que lo mire lanzará una `NullReferenceException`. Si no tienes condiciones, devuelve simplemente `true`.
+> `PlotAsset.checkIsPossible()` lo invoca sin comprobación de nulos cada vez que un líder evalúa tu complot. Si lo omites, el primer gobernante que lo mire lanzará una `NullReferenceException`. Si no tienes condiciones, devuelve simplemente `true`. Sí, incluso entonces.
 
 > [!WARNING] La lista básica se genera al iniciar el juego
 > Los líderes solo eligen complots de `plots_library.basic_plots` (más los ritos de su religión). `linkAssets()` llena esa lista con todos los complots marcados con `is_basic_plot` una sola vez, antes de que tu mod cargue. Marcar el flag no basta: añade el complot tú mismo a la lista.

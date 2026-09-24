@@ -10,7 +10,7 @@ order: 100
 
 Un tratto (trait) è un'etichetta permanente su un'unità: *coraggioso*, *veloce*, *immortale*. Compare nell'inspector, può modificare le statistiche dell'unità, può eseguire codice quando l'unità nasce, viene colpita o muore, e i figli possono ereditarlo.
 
-È anche la cosa più semplice e immediata da aggiungere nell'intero gioco, motivo per cui è il primo mod di chiunque.
+È anche la cosa più semplice e immediata da aggiungere nell'intero gioco, motivo per cui è il primo mod di chiunque. Il mio no: la mia prima mod era un wrapper attorno alla mod di qualcun altro, che è un modo tutto suo di barare :trollface:.
 
 ## Metti sempre un prefisso ai tuoi ID
 
@@ -96,7 +96,7 @@ Vuoi una scheda tutta tua? Vedi **[Gruppi di tratti e schede](#/nml/trait-groups
 
 ## I testi di localizzazione
 
-Senza traduzioni il tuo tratto mostrerà in gioco la chiave grezza `trait_hello_swift`. Crea `Locales/it.json`:
+Senza traduzioni il tuo tratto mostrerà in gioco la chiave grezza `trait_hello_swift`, che ha esattamente l'aria professionale che immagini :pepeclown:. Crea `Locales/it.json`:
 
 ```json Mods/HelloBox/Locales/en.json
 {

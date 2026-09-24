@@ -10,7 +10,7 @@ order: 114
 
 Um **traço de reino** representa uma política de estado. Não é uma crença nem uma linhagem: é uma diretriz promulgada pela coroa que vigora sobre todo o reino.
 
-O jogo base usa este sistema para exatamente uma finalidade: alíquotas de tributação. Isso faz dele o menor e mais deserto dos sete sistemas de traços – e portanto o lugar mais fértil para se introduzir mecânicas novas. Não há disputa por esse espaço.
+O jogo base usa este sistema para exatamente uma finalidade: alíquotas de tributação. Isso faz dele o menor e mais deserto dos sete sistemas de traços – e portanto o lugar mais fértil para se introduzir mecânicas novas. Não há disputa por esse espaço :wbsmirk:.
 
 | | |
 | --- | --- |
@@ -87,7 +87,7 @@ namespace HelloBox
 
 ## Criando uma política que realmente faça algo
 
-Como `base_stats` não tem efeito, um traço de reino comprova sua relevância por dois caminhos:
+Como `base_stats` não tem efeito, um traço de reino comprova sua relevância por dois caminhos: Os dois dão mais trabalho que um número, e os dois valem a pena.
 
 **Uma decisão**, a alternativa limpa e direta:
 

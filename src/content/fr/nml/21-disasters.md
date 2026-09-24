@@ -70,6 +70,8 @@ Enregistrez-le dans `Main.cs` (voir **[Le mod complet](#/nml/all-together)**), c
 
 ### Les champs
 
+`rate` et `chance` sont les deux que vous ajusterez le plus. L'avertissement en bas de page explique pourquoi.
+
 | Champ | Ce qu'il fait |
 | --- | --- |
 | `rate` | Poids : fréquence de tirage par rapport aux autres catastrophes |
@@ -138,7 +140,7 @@ L'exemple des loups nécessite les deux mêmes éléments : son propre asset de 
 }
 ```
 
-Rédigez-le comme un titre de journal, pas comme une description descriptive. C'est la phrase que le joueur lira dans le journal du monde.
+Rédigez-le comme un titre de journal, pas comme une description descriptive. "Des braises tombent du ciel" vaut mieux que "un événement lié aux braises a commencé". C'est la phrase que le joueur lira dans le journal du monde.
 
 > [!WARNING] Testez avec des probabilités boostées
 > `rate = 4, chance = 0.5f` signifie que vous pourriez attendre vingt minutes avant de voir votre catastrophe se déclencher. Pendant le développement, augmentez fortement le `rate` et passez les minimums à zéro, puis remettez les vraies valeurs avant de publier :PES2_EvilPlan:.

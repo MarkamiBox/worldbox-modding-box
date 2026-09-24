@@ -11,7 +11,7 @@ order: 140
 > [!NOTE] Se llaman actores, no razas
 > El juego llama a cada ser vivo un **actor**: un humano, un lobo, un dragón, un zombi, un cangrejo. Todos provienen de la misma clase, `ActorAsset`, y todos viven en `AssetManager.actor_library`. "Raza" es el término antiguo. El único lugar donde sobrevive es en una propiedad `race` marcada con `[Obsolete("use .original_actor_asset instead")]`, que solo existe para cargar partidas guardadas antiquísimas. Escribe `actor` en todas partes.
 
-Una nueva criatura es el mod que todo el mundo quiere hacer y que casi nadie termina, porque un `ActorAsset` arrastra animaciones, texturas, sonidos, taxonomía, dieta, flags de IA, genoma, cultura y estadísticas. Equivocarte en uno solo de ellos te dará una unidad invisible de pie en medio del océano.
+Una nueva criatura es el mod que todo el mundo quiere hacer y que casi nadie termina, porque un `ActorAsset` arrastra animaciones, texturas, sonidos, taxonomía, dieta, flags de IA, genoma, cultura y estadísticas. Equivocarte en uno solo de ellos te dará una unidad invisible de pie en medio del océano :PES4_Invisible:.
 
 Buenas noticias: el juego tampoco construye criaturas desde cero. Esto es literalmente cómo el juego base crea un elfo:
 
@@ -173,6 +173,8 @@ Añadir una cuarta criatura ahora cuesta una sola línea en la tabla. Esta es la
 
 ## Los campos que deciden qué *es* tu criatura
 
+El primer día solo importan tres: `civ`, `actor_size` y `name_locale`. El resto puede esperar hasta que tu criatura sea visible y camine.
+
 | Campo | Qué hace |
 | --- | --- |
 | `civ` | Criatura de civilización: ciudades, reinos, oficios, guerra. `false` = animal |
@@ -283,7 +285,7 @@ El arte del **cuerpo** de la criatura es un desafío completamente diferente, y 
 
 ## Los sprites son la parte difícil
 
-Todo lo anterior es una página de código. El verdadero trabajo es el arte: una criatura necesita un conjunto completo de animaciones, en el atlas adecuado, al tamaño correcto y con los pivotes exactos. Hay dos opciones realistas:
+Todo lo anterior es una página de código. El verdadero trabajo es el arte, y aquí es donde la mayoría de los mods de criaturas mueren en silencio: una criatura necesita un conjunto completo de animaciones, en el atlas adecuado, al tamaño correcto y con los pivotes exactos. Hay dos opciones realistas:
 
 1. **Conservar los sprites del donante.** Una criatura que reutiliza las animaciones humanas con diferentes estadísticas y un tinte de color distinto es un primer mod perfectamente válido, y *funciona*.
 2. **Exportar con AssetRipper**, localizar el atlas de la criatura clonada y calcar su disposición con exactitud milimétrica antes de dibujar nada. Consulta **[Obtener los recursos del juego](#/toolbox/getting-the-sprites)**.

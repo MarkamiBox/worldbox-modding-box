@@ -146,4 +146,4 @@ public ModConfig GetConfig()
 }
 ```
 
-Ese único método es lo que hace que el botón de configuración aparezca junto a tu mod en la ventana de mods.
+Ese único método es lo que hace que el botón de configuración aparezca junto a tu mod en la ventana de mods. Un solo método, y nadie vuelve a discutir contigo en Discord. En teoría.

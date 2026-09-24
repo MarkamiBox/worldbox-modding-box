@@ -123,7 +123,7 @@ MusicBox.playSound("event:/SFX/WEAPONS/WeaponFireballStart", pTile);   // at a p
 MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on the interface
 ```
 
-첫 번째 메서드는 해당 월드 타일 위치에서 소리를 재생합니다. HelloBox는 전투 액션에서 불씨를 던질 때 파이어볼 사운드를 재생합니다. **[투사체, 주문 및 효과](#/nml/projectiles-spells)**를 참조하세요. 경로를 찾으려면 게임 코드에서 `event:/SFX/`를 검색하세요. 소리의 종류별로 분류된 수백 개의 경로가 존재합니다.
+첫 번째 메서드는 해당 월드 타일 위치에서 소리를 재생합니다. HelloBox는 전투 액션에서 불씨를 던질 때 파이어볼 사운드를 재생합니다. **[투사체, 주문 및 효과](#/nml/projectiles-spells)**를 참조하세요. 경로를 찾으려면 게임 코드에서 `event:/SFX/`를 검색하세요. 소리의 종류별로 분류된 수백 개의 경로가 존재합니다. 테스트를 시작하기 전에 볼륨부터 줄이세요.
 
 > [!NOTE] 완전한 커스텀 사운드 추가는 별도의 영역입니다
 > FMOD 이벤트는 게임 사운드 뱅크에 내장되어 있어 모드가 직접 추가할 수 없습니다. 자체 `.wav` 파일을 재생하려면 게임 볼륨 설정과 별개로 Unity `AudioSource`를 직접 로드하여 재생해야 합니다. 저는 이것을 모딩해본 적이 없고 해본 척할 생각도 없으므로 이 가이드에서는 다루지 않습니다.

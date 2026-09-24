@@ -46,7 +46,7 @@ Ohne diesen Schalter sucht das Spiel nicht einmal nach Mods. Kein Fehler, keine 
 2. Scroll runter zum Abschnitt **Assets**. Ist er zugeklappt, klick drauf.
 3. Klick auf **NeoModLoader.dll**. Sie wird wie jede andere Datei heruntergeladen, meist in deinen Ordner **Downloads**.
 
-Du brauchst nur diese eine Datei. Die Seite listet auch Dateien mit `.pdb`, `.xml` und "Source code": ignorier sie.
+Du brauchst nur diese eine Datei. Die Seite listet auch Dateien mit `.pdb`, `.xml` und "Source code": ignorier sie. Die sind für die Entwickler von NML, nicht für dich.
 
 > [!WARNING] Nur von diesem Link
 > Eine `.dll` ist ein Programm. Lade NML **nur** von der GitHub-Seite oben, nie von irgendeiner Website oder als Datei, die dir jemand im Chat geschickt hat. Fragt dein Browser "Datei behalten?", dann fragt er, weil es eine `.dll` ist, und von dieser Seite lautet die Antwort: behalten.
@@ -65,7 +65,7 @@ Ein Fenster mit den Dateien des Spiels geht auf. Du bist richtig, wenn du eine D
 C:\Program Files (x86)\Steam\steamapps\common\worldbox\
 ```
 
-Lass dieses Fenster offen. Ab jetzt meint "der WorldBox-Ordner" genau diesen.
+Lass dieses Fenster offen. Ab jetzt meint "der WorldBox-Ordner" genau diesen. Du wirst öfter hierher zurückkommen, als du denkst.
 
 > [!TIP] Lass Windows die Dateiendungen zeigen
 > Standardmäßig versteckt Windows das Ende der Dateinamen, also erscheint `NeoModLoader.dll` nur als `NeoModLoader`. Das macht jede Anleitung schwerer. Klick im Ordnerfenster oben auf **Ansicht** und setz den Haken bei **Dateinamenerweiterungen** (unter Windows 11: **Anzeigen → Einblenden → Dateinamenerweiterungen**). Nichts geht kaputt, du siehst nur die vollen Namen.
@@ -117,7 +117,7 @@ Ist nichts davon passiert, spring zu **[Es hat nicht geklappt](#es-hat-nicht-gek
 
 ## Mac
 
-Dieselben fünf Schritte. Nur der Ordner ist woanders versteckt, weil auf dem Mac das ganze Spiel in einem einzigen App-Symbol steckt.
+Dieselben fünf Schritte. Nur der Ordner ist woanders versteckt, weil auf dem Mac das ganze Spiel in einem einzigen App-Symbol steckt. Apple-Dinge eben :wbbre:.
 
 1. **Experimental Mode**: genau wie unter Windows, **[Schritt 1](#schritt-1-experimental-mode-einschalten)**. Die Warnung zu Updates gilt auch für dich.
 2. **Lade** `NeoModLoader.dll` von [derselben Release-Seite](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest) herunter. Es ist dieselbe Datei für Windows und Mac.
@@ -137,7 +137,7 @@ worldbox/
 
 ## Linux & Steam Deck
 
-Die Logik ist exakt dieselbe. Steam unter Linux installiert das Spiel im Benutzerverzeichnis, und auf dem Steam Deck wechselst du einfach zuerst in den Desktop-Modus.
+Die Logik ist exakt dieselbe. Steam unter Linux installiert das Spiel im Benutzerverzeichnis, und auf dem Steam Deck wechselst du einfach zuerst in den Desktop-Modus. Pinguine willkommen :wbpenguin:.
 
 1. **Experimenteller Modus**: genau wie unter Windows, **[Schritt 1](#schritt-1-experimental-mode-einschalten)**.
 2. **Lade** `NeoModLoader.dll` von der [offiziellen Release-Seite](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest) herunter. Es ist dieselbe Datei für alle Plattformen.

@@ -144,7 +144,7 @@ if (group != null && index != -1)
 
 ## Cuándo se ejecuta tu código
 
-El juego inicializa las 129 bibliotecas al arrancar, ejecuta `post_init()` en ellas y **después** NML carga tu mod. Dos consecuencias con las que muchos tropiezan:
+El juego inicializa las 129 bibliotecas al arrancar, ejecuta `post_init()` en ellas y **después** NML carga tu mod. Dos consecuencias con las que muchos tropiezan, yo incluido:
 
 - **Todo lo que una biblioteca hace automáticamente en `post_init` ya ocurrió.** Los rasgos de criaturas, por ejemplo, reciben allí un `path_icon` por defecto. El tuyo no lo recibirá porque aún no existía. Asígnalo tú mismo.
 - **Cada asset vanilla ya existe cuando corre tu `OnModLoad`.** Por tanto `get("human")` funciona, `clone(..., "human")` funciona y editar contenido vanilla in situ funciona. Nunca llegas demasiado temprano.

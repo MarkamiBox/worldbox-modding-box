@@ -10,7 +10,7 @@ order: 112
 
 Eine **Sprache** gehört Städten und Königreichen, verändert sich mit ihrer Ausbreitung und bildet das Medium, in dem **Bücher** geschrieben werden. Eine Sprach-Eigenschaft ist ein Wesensmerkmal des geschriebenen und gesprochenen Wortes selbst.
 
-Es ist das kleinste der sieben Eigenschaftssysteme und besitzt den spezifischsten Hook überhaupt: Code, der ausgeführt wird, sobald jemand ein **Buch** in dieser Sprache liest.
+Es ist das kleinste der sieben Eigenschaftssysteme und besitzt den spezifischsten Hook überhaupt: Code, der ausgeführt wird, sobald jemand ein **Buch** in dieser Sprache liest. Ja, wirklich :wbscroll:.
 
 | | |
 | --- | --- |
@@ -177,7 +177,7 @@ Ein `Language`-Objekt legt außerdem `cities`, `kingdoms` und `books` offen – 
 
 ## Neue Sprachen, die selbstständig Traits auswürfeln
 
-Abgesehen von der manuellen Vergabe kann ein Sprach-Trait `spawn_random_trait_allowed` setzen, um bei der Entstehung einer neuen Sprache ausgewürfelt zu werden – genau so, wie eine Kultur ihre Start-Traits wählt.
+Abgesehen von der manuellen Vergabe kann ein Sprach-Trait `spawn_random_trait_allowed` setzen, um bei der Entstehung einer neuen Sprache ausgewürfelt zu werden – genau so, wie eine Kultur ihre Start-Traits wählt. Dieselbe Falle wie auf jeder anderen Merkmalsseite:
 
 > [!WARNING] `spawn_random_trait_allowed` wird nur einmal beim Start gelesen
 > Neue Sprachen ziehen ihre Start-Traits aus einem Pool, den `BaseTraitLibrary.linkAssets()` während des Ladens aufbaut, bevor deine Mod existiert. Das Flag an deinem Trait zu setzen ändert für sich genommen nichts: Dein Trait landet nie in diesem Pool und wird einer neuen Sprache nie zufällig verliehen. Füge ihn selbst hinzu, gewichtet nach Vanilla-Vorbild:

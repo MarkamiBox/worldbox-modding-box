@@ -70,6 +70,8 @@ Binde es in `Main.cs` ein (siehe **[Die fertige Mod](#/nml/all-together)**), lad
 
 ### Die Felder
 
+`rate` und `chance` sind die beiden, an denen du am meisten herumschraubst. Die Warnung unten auf der Seite erklärt, warum.
+
 | Feld | Was es bewirkt |
 | --- | --- |
 | `rate` | Gewichtung: Wie oft es im Vergleich zu anderen Katastrophen gewählt wird |
@@ -138,7 +140,7 @@ Das Wolfs-Beispiel benötigt dieselben zwei Dinge: ein eigenes geklontes Log-Ass
 }
 ```
 
-Schreibe den Text wie eine Schlagzeile, nicht wie eine Beschreibung. Es ist die Zeile, die der Spieler im Weltprotokoll liest.
+Schreibe den Text wie eine Schlagzeile, nicht wie eine Beschreibung. "Glut fällt vom Himmel" schlägt "ein glutbezogenes Ereignis hat begonnen". Es ist die Zeile, die der Spieler im Weltprotokoll liest.
 
 > [!WARNING] Teste mit hochgedrehten Wahrscheinlichkeiten
 > `rate = 4, chance = 0.5f` bedeutet, dass du womöglich zwanzig Minuten warten musst, um deine eigene Katastrophe zu sehen. Drehe während der Entwicklung die `rate` stark nach oben und setze die Mindestanforderungen auf null. Vor der Veröffentlichung setzt du die Werte wieder zurück :PES2_EvilPlan:.

@@ -110,7 +110,7 @@ Mehrere Clan-Eigenschaften von Vanilla sind Belohnungen statt Standard-Optionen:
 trait.setUnlockedWithAchievement("achievementSegregator");
 ```
 
-Eine gesperrte Eigenschaft existiert und funktioniert weiterhin völlig normal; der Spieler kann sie lediglich im Editor erst dann auswählen, wenn der Erfolg abgeschlossen ist. Beachte, dass `BaseTraitLibrary` bei allem, was so gesperrt wird, automatisch auch `rarity = R3_Legendary` setzt.
+Eine gesperrte Eigenschaft existiert und funktioniert weiterhin völlig normal; der Spieler kann sie lediglich im Editor erst dann auswählen, wenn der Erfolg abgeschlossen ist. Beachte, dass `BaseTraitLibrary` bei allem, was so gesperrt wird, automatisch auch `rarity = R3_Legendary` setzt, damit deine Belohnung auch danach aussieht :gold_star:.
 
 ## Die Vanilla-Gruppen
 
@@ -150,7 +150,7 @@ Der Clan einer Einheit liegt auf `actor.clan`, und `actor.hasClan()` verrät dir
 
 ## Neue Clans, die selbstständig Traits auswürfeln
 
-Abgesehen von der manuellen Vergabe kann ein Clan-Trait `spawn_random_trait_allowed` setzen, um bei der Gründung eines neuen Clans ausgewürfelt zu werden – genau so, wie eine Kultur ihre Start-Traits wählt.
+Abgesehen von der manuellen Vergabe kann ein Clan-Trait `spawn_random_trait_allowed` setzen, um bei der Gründung eines neuen Clans ausgewürfelt zu werden – genau so, wie eine Kultur ihre Start-Traits wählt. Dieselbe Falle wie auf jeder anderen Merkmalsseite:
 
 > [!WARNING] `spawn_random_trait_allowed` wird nur einmal beim Start gelesen
 > Neue Clans ziehen ihre Start-Traits aus einem Pool, den `BaseTraitLibrary.linkAssets()` während des Ladens aufbaut, bevor deine Mod existiert. Das Flag an deinem Trait zu setzen ändert für sich genommen nichts: Dein Trait landet nie in diesem Pool und wird einem neuen Clan nie zufällig verliehen. Füge ihn selbst hinzu, gewichtet nach Vanilla-Vorbild:

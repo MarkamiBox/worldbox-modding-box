@@ -152,6 +152,8 @@ Ce groupe s'adresse aux personnes qui jouent avec des mods, pas à celles qui le
 
 ## Rien ne se charge
 
+Le jeu fait comme si votre mod n'existait pas. Ce n'est rien de personnel, c'est généralement un interrupteur ou un nom de fichier.
+
 ### Aucun bouton Mods dans le menu
 
 - **Ce que vous voyez**: Le jeu démarre normalement, aucune erreur, aucun bouton Mods et aucune ligne `[NML]` dans le journal.
@@ -216,6 +218,8 @@ Ce groupe s'adresse aux personnes qui jouent avec des mods, pas à celles qui le
 ---
 
 ## Le jeu se charge, mais rien n'apparaît
+
+NML a trouvé votre mod et l'a exécuté. Quelque chose à l'intérieur n'est jamais arrivé à l'écran.
 
 ### Crash sur la ligne où vous définissez une statistique
 
@@ -314,7 +318,7 @@ cursed.need_visual_render = true;
 
 ## Enregistré, puis cassé dans le monde
 
-Chaque entrée de cette section a la même cause. Le jeu prépare une partie de chaque asset **une seule fois, pendant le chargement**, et votre mod enregistre ses assets après. Rien ne vous prévient : l'asset existe, il a un nom, et la première fois que le jeu s'en sert vraiment, ça plante. La solution a toujours la même forme aussi : faites cette étape vous-même, juste après avoir enregistré l'asset :wbfacepalm:.
+Chaque entrée de cette section a la même cause. Le jeu prépare une partie de chaque asset **une seule fois, pendant le chargement**, et votre mod enregistre ses assets après. Rien ne vous prévient : l'asset existe, il a un nom, et la première fois que le jeu s'en sert vraiment, ça plante. La solution a toujours la même forme aussi : faites cette étape vous-même, juste après avoir enregistré l'asset :wbfacepalm:. Le mot du jour : contournement.
 
 ### Votre créature déclenche une erreur d'ombre
 
@@ -427,6 +431,8 @@ Chaque entrée de cette section a la même cause. Le jeu prépare une partie de 
 ---
 ## Compile chez vous, mais pas chez les autres
 
+Le classique "ça marche chez moi". La différence vient généralement de votre configuration, pas de votre code :PES5_Hmmmm:.
+
 ### `CS0122: inaccessible due to its protection level`
 
 - **Ce que vous voyez**: Le code ne compile pas : `addStatusEffect`, `getHit`, `_localized_text`.
@@ -448,6 +454,8 @@ Chaque entrée de cette section a la même cause. Le jeu prépare une partie de 
 ---
 
 ## Fonctionne au début, puis plante plus tard
+
+Les lents. Votre mod marchait très bien hier, et rien n'a changé :PES2_Shrug:.
 
 ### Un autre mod remplace silencieusement votre contenu
 

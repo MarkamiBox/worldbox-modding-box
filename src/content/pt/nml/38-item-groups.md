@@ -10,7 +10,7 @@ order: 124
 
 Um grupo de itens é uma categoria na janela de equipamentos: elmos, espadas, amuletos. Trata-se do mesmíssimo e diminuto `BaseCategoryAsset` que renderiza as abas de traços (veja **[Grupos de traços e abas](#/nml/trait-groups)**), residindo desta vez em `AssetManager.item_groups`.
 
-A diferença essencial é que um grupo de itens gerencia um **pool**, e esquecer esse pool é o que faz seu mod quebrar.
+A diferença essencial é que um grupo de itens gerencia um **pool**, e esquecer esse pool é o que faz seu mod quebrar :PESgn_Yikes:.
 
 ## Os grupos vanilla
 

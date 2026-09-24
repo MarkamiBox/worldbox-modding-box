@@ -11,7 +11,7 @@ order: 140
 > [!NOTE] Ils s'appellent des acteurs, pas des races
 > Le jeu désigne chaque être vivant sous le terme d'**acteur** (actor) : un humain, un loup, un dragon, un zombie, un crabe. Ils dérivent tous de la même classe, `ActorAsset`, et logent tous dans `AssetManager.actor_library`. "Race" est l'ancien vocable. Le seul endroit où il subsiste est une propriété `race` étiquetée `[Obsolete("use .original_actor_asset instead")]`, présente uniquement pour charger des sauvegardes antédiluviennes. Écrivez `actor` partout.
 
-Créer une nouvelle créature est le mod dont tout le monde rêve et que presque personne ne termine, car un `ActorAsset` transporte avec lui animations, textures, sons, taxonomie, régime alimentaire, drapeaux d'IA, génome, culture et statistiques. En rater un seul vous garantit une unité invisible plantée au milieu de l'océan.
+Créer une nouvelle créature est le mod dont tout le monde rêve et que presque personne ne termine, car un `ActorAsset` transporte avec lui animations, textures, sons, taxonomie, régime alimentaire, drapeaux d'IA, génome, culture et statistiques. En rater un seul vous garantit une unité invisible plantée au milieu de l'océan :PES4_Invisible:.
 
 Bonne nouvelle : le jeu de base ne fabrique pas non plus ses créatures ex nihilo. Voici littéralement la manière dont vanilla conçoit un elfe :
 
@@ -173,6 +173,8 @@ Ajouter une quatrième créature ne demande désormais plus qu'une simple ligne 
 
 ## Les champs qui définissent ce qu'*est* votre créature
 
+Le premier jour, seuls trois comptent : `civ`, `actor_size` et `name_locale`. Le reste peut attendre que votre créature soit visible et marche.
+
 | Champ | Ce qu'il fait |
 | --- | --- |
 | `civ` | Créature de civilisation : cités, royaumes, métiers, guerre. `false` = animal |
@@ -283,7 +285,7 @@ L'aspect visuel du **corps** de la créature représente un défi d'un tout autr
 
 ## Les sprites sont la partie difficile
 
-Tout ce qui précède se résume à une page de code. Le véritable labeur réside dans le dessin : une créature exige un cycle d'animation complet, dans le bon atlas, aux dimensions adéquates et avec les bons pivots. Deux choix honnêtes s'offrent à vous :
+Tout ce qui précède se résume à une page de code. Le véritable labeur réside dans le dessin, et c'est là que la plupart des mods de créatures meurent en silence : une créature exige un cycle d'animation complet, dans le bon atlas, aux dimensions adéquates et avec les bons pivots. Deux choix honnêtes s'offrent à vous :
 
 1. **Garder les sprites du donneur.** Une créature réutilisant les animations humaines avec des statistiques révisées et une teinte différente constitue un excellent premier mod, parfaitement *fonctionnel*.
 2. **Exporter via AssetRipper**, étudier minutieusement l'atlas de la créature clonée et calquer sa disposition au pixel près avant de commencer à dessiner. Voir **[Récupérer les ressources graphiques](#/toolbox/getting-the-sprites)**.

@@ -82,7 +82,7 @@ Aggiungi `HelloModifiers.Initialize();` in `Main.cs`, e da quel momento in poi i
 
 ## Far fare effettivamente qualcosa all'enchant
 
-Le statistiche vanno benissimo, ma un modificatore può anche eseguire codice. `action_attack_target` scatta ogni volta che l'arma mette a segno un colpo:
+Le statistiche vanno benissimo, ma un modificatore può anche eseguire codice, ed è lì che inizia il divertimento. `action_attack_target` scatta ogni volta che l'arma mette a segno un colpo:
 
 ```csharp
 ItemAssetCreator.CreateAndAddModifier(
@@ -110,7 +110,7 @@ Ora qualsiasi arma che riceve "hello_burning" darà fuoco al terreno quando colp
 }
 ```
 
-La `translation_key` è ciò che compare nell'infobolla dell'arma: mantienila breve, si posiziona su una singola riga accanto alle statistiche.
+La `translation_key` è ciò che compare nell'infobolla dell'arma: mantienila breve, si posiziona su una singola riga accanto alle statistiche. Nessuno legge un paragrafo su una spada.
 
 > [!TIP] Modificatori prima delle armi
 > Creare un'arma nuova richiede molto lavoro (sprite, animazioni, serie di materiali). Un nuovo modificatore richiede venti righe e si applica a **tutte** le armi generate nel mondo. Se vuoi novità immediate stasera, comincia da qui :PES_Stonks:.

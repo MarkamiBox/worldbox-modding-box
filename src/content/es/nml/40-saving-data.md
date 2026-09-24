@@ -23,7 +23,7 @@ El juego ya cuenta con un lugar pensado para esto. Cada unidad, ciudad, reino, e
 | `data.hasFlag(key)` / `data.removeFlag(key)` | Comprueba o elimina el flag |
 | `data.removeInt(key)`, `removeFloat`, `removeString`... | Elimina un valor almacenado |
 
-Cada tipo de dato cuenta con su propia tabla interna, de modo que un `int` y un `string` bajo la misma clave no colisionan. Aun así, por tu propia salud mental, no reutilices claves para tipos distintos.
+Cada tipo de dato cuenta con su propia tabla interna, de modo que un `int` y un `string` bajo la misma clave no colisionan. Aun así, por tu propia salud mental, no reutilices claves para tipos distintos. Tu yo del futuro no recordará cuál era cuál.
 
 
 > [!NOTE] Almacenar algo más grande que cinco primitivos
@@ -86,7 +86,7 @@ namespace HelloBox
 }
 ```
 
-Guarda la partida y cárgala de nuevo: el contador sigue intacto, porque forma parte de los datos de guardado propios de la unidad. El flag es lo que garantiza que la recompensa se conceda una sola vez y no en cada golpe posterior al quincuagésimo.
+Guarda la partida y cárgala de nuevo: el contador sigue intacto, porque forma parte de los datos de guardado propios de la unidad. El flag es lo que garantiza que la recompensa se conceda una sola vez y no en cada golpe posterior al quincuagésimo. Generoso, pero sigue siendo un bug.
 
 Sus textos, como los de cualquier rasgo:
 

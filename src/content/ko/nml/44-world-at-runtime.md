@@ -27,7 +27,7 @@ foreach (Building building in World.world.buildings)
 }
 ```
 
-`World.world.kingdoms`도 똑같이 사용합니다, **[왕국 및 세력](#/nml/kingdoms)** 참고. 매번 모든 항목에 `isRekt()`를 거세요. 이 목록들에는 지금 막 소멸 중인 객체도 들어 있습니다.
+`World.world.kingdoms`도 똑같이 사용합니다, **[왕국 및 세력](#/nml/kingdoms)** 참고. 매번 모든 항목에 `isRekt()`를 거세요. 이 목록들에는 지금 막 소멸 중인 객체도 들어 있습니다 :PES2_F:.
 
 ## 도시를 다른 왕국으로 옮기기
 

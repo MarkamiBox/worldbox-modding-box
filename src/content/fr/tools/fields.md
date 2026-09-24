@@ -16,7 +16,7 @@ Choisissez le type d'asset, filtrez et cliquez pour copier.
 ## Guide de lecture
 
 - **Colonne de gauche**: type de données (`int`, `float`, `string`).
-- **`= valeur`**: valeur par défaut.
+- **`= valeur`**: valeur par défaut. Si elle vous convient, ne la définissez pas. Moins de code, moins de fautes de frappe.
 - **"inherited from"**: champ hérité d'une classe parente.
 
 > [!WARNING] Les champs ne font pas tout

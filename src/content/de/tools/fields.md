@@ -16,7 +16,7 @@ Wähle den Asset-Typ, filtere und klicke auf einen Namen zum Kopieren.
 ## Erklärung
 
 - **Linke Spalte**: Datentyp (`int`, `float`, `string`).
-- **`= Wert`**: Standardwert des Spiels.
+- **`= Wert`**: Standardwert des Spiels. Wenn er passt, setz ihn nicht. Weniger Code, weniger Tippfehler.
 - **"inherited from"**: Geerbt von einer Elternklasse.
 - **Kette über der Tabelle**: Vererbungshierarchie.
 

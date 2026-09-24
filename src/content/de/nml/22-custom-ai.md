@@ -8,11 +8,11 @@ order: 144
 
 # Eigene KI & Verhalten :wbgoldenbrain:
 
-Hier geht es ans Eingemachte. Alles andere in diesem Guide fügt dem Spiel *Gegenstände und Daten* hinzu. Das hier fügt **Entscheidungen** hinzu: was eine Kreatur als Nächstes tut, von ganz allein, für immer, in einer Welt, die sie sich mit Tausenden anderen teilt.
+Hier geht es ans Eingemachte. Alles andere in diesem Guide fügt dem Spiel *Gegenstände und Daten* hinzu. Das hier fügt **Entscheidungen** hinzu: was eine Kreatur als Nächstes tut, von ganz allein, für immer, in einer Welt, die sie sich mit Tausenden anderen teilt. Kein Druck :PES_MonkaSweat:.
 
 ## Wie das Spiel denkt
 
-Drei Ebenen, von groß nach klein:
+Drei Ebenen, von groß nach klein, plus die, die daneben liegt. Das zu verstehen hat bei mir länger gedauert, als ich zugeben möchte:
 
 | Ebene | Was es ist | Bibliothek |
 | --- | --- | --- |
@@ -245,7 +245,7 @@ trait.decisions_assets = new DecisionAsset[] { AssetManager.decisions_library.ge
 
 ## Stadt-Berufe
 
-Bürger erhalten ihre Arbeit von der Stadt, nicht aus ihrem eigenen Gehirn. Die Stadt zählt den Bedarf, öffnet Arbeitsplätze (Bauarbeiter, Bauern, Bergleute...) und teilt sie zu. Ein **Bürgerberuf (Citizen Job)** ist einer dieser Plätze, und die Einheit führt den `ActorJob` mit derselben ID aus.
+Bürger erhalten ihre Arbeit von der Stadt, nicht aus ihrem eigenen Gehirn. Die Stadt zählt den Bedarf, öffnet Arbeitsplätze (Bauarbeiter, Bauern, Bergleute...) und teilt sie zu. Ein **Bürgerberuf (Citizen Job)** ist einer dieser Plätze, und die Einheit führt den `ActorJob` mit derselben ID aus. Dieselbe ID auf beiden Seiten: Das ist der ganze Trick.
 
 ```csharp Mods/HelloBox/Code/HelloCityJobs.cs
 using ai.behaviours;   // CityBehCheckCitizenTasks
@@ -315,7 +315,7 @@ Drei Dinge, die jeweils etwas beheben, das das Spiel nur beim Start oder nur fü
 
 ## Die Texte
 
-Der Name der Aufgabe wird im Einheitenfenster als aktuelle Tätigkeit angezeigt, und eine Entscheidung übernimmt den Namen der Aufgabe, die sie startet:
+Der Name der Aufgabe wird im Einheitenfenster als aktuelle Tätigkeit angezeigt, also liest der Spieler ihn öfter als jede andere Zeile, die du schreibst. Eine Entscheidung übernimmt den Namen der Aufgabe, die sie startet:
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -325,7 +325,7 @@ Der Name der Aufgabe wird im Einheitenfenster als aktuelle Tätigkeit angezeigt,
 
 ## Regeln, um die Framerate nicht zu zerstören
 
-Es kann Tausende von Einheiten geben. Dein Verhalten läuft auf jeder einzelnen davon, in jedem einzelnen Tick.
+Es kann Tausende von Einheiten geben. Dein Verhalten läuft auf jeder einzelnen davon, in jedem einzelnen Tick. "Performance? Nie gehört, kann man das essen?" ist ein guter Witz, bis deine Mod diejenige ist, die sie auffrisst. Die meisten Mods, meine eingeschlossen, laufen jeden Tick durch riesige Schleifen und kommen auf einem ordentlichen PC damit durch. Ein Verhalten kommt damit nicht durch.
 
 - **Denke in deinem eigenen Rhythmus, nicht in `execute`.** Führe teure Logik in `Update()` über einen Timer aus, speichere das Ergebnis ab und lass `execute` diesen Wert nur auslesen.
 - **Verteile die Last.** Wenn du für 40 Kreaturen denkst, denke in vier Durchläufen für jeweils 10 von ihnen, anstatt für alle 40 auf einmal.

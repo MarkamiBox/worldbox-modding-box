@@ -8,7 +8,7 @@ order: 92
 
 # 属性数值速查 :wbstonks:
 
-你注册的绝大多数资源都拥有一个 `base_stats` 字典块，而且本页之后的几乎每一页都会往里面塞东西。本页面列出了所有你被允许填入的有效属性键名。
+你注册的绝大多数资源都拥有一个 `base_stats` 字典块，而且本页之后的几乎每一页都会往里面塞东西。本页面列出了所有你被允许填入的有效属性键名。其他任何东西都是一个等待时机的崩溃 :PES5_Hmmmm:。
 
 ## base_stats 的工作原理
 
@@ -23,7 +23,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%，而不是乘 0.25
 
 ## 单位各项数值的计算来源
 
-`Actor.updateStats()` 会清空单位的属性字典块，并严格按照以下先后顺序从头重新累加重构：
+`Actor.updateStats()` 会清空单位的属性字典块，并严格按照以下先后顺序从头重新累加重构。我到现在每次都还要翻这张表：
 
 | # | 来源 | 备注 |
 | --- | --- | --- |
@@ -53,6 +53,8 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%，而不是乘 0.25
 > 对于通过 `new` 手动实例化的资源，属性字典块是在 `add()` 内部才完成初始化的。如果在那行之前读写 `base_stats`，就会触发 WorldBox 模组开发中最臭名昭著的崩溃：`NullReferenceException`。不过 `clone()` 会自动在内部替你调用 `add()`，因此克隆出来的对象可以直接安全赋值。
 
 ## Combat
+
+`damage` 和 `armor` 承担了大部分工作。其余的，是在你想让一个特质感觉不一样、而不只是更强的时候用的。
 
 | 属性 | 作用 |
 | --- | --- |
@@ -106,7 +108,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%，而不是乘 0.25
 
 ## 仅限文明居民属性
 
-以下属性对普通动物完全无效。游戏内部将其打上了 `used_only_for_civs` 标签。
+以下属性对普通动物完全无效。游戏内部将其打上了 `used_only_for_civs` 标签。给一只狼加上 `diplomacy`，你会得到一只能言善辩却没人听的狼 :wbwolf:。
 
 | 属性 | 作用 |
 | --- | --- |
@@ -175,7 +177,7 @@ if (actor.stats.hasTag("immunity_fire")) { }
 | 物种分类 | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | 建筑环境 | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-与属性名不同的是，传入一个未知的标签名是无害的：它只是永远不会匹配上任何系统逻辑。但这同样意味着拼写错误会悄无声息地失效，因此请务必原样准确复制。
+与属性名不同的是，传入一个未知的标签名是无害的：它只是永远不会匹配上任何系统逻辑。但这同样意味着拼写错误会悄无声息地失效，因此请务必原样准确复制。自己挑一种毒药吧 :wbbre:。
 
 ## 实时读取单位的运行时属性
 
@@ -191,4 +193,4 @@ float finalDamage = actor.stats["damage"];
 
 你可以在 `AssetManager.base_stats_library` 中注册全新的 `BaseStatAsset`，它会出现在检查器面板里并像其他属性一样被累加求和。但它**绝不会产生任何预设效果**：原版游戏绝不可能去读取一个它压根不知道的陌生属性。自定义属性唯一的用途，就是作为一个记账数值，供你自己在专属的 Harmony 补丁或 AI 行为树节点中读取处理。
 
-大多数情况下，最优雅的答案是“直接复用已有属性”；其次的选择则是“维护你自己专属的代码字典”。
+大多数情况下，最优雅的答案是“直接复用已有属性”；其次的选择则是“维护你自己专属的代码字典”。第三种答案我还没找到。

@@ -10,7 +10,7 @@ order: 100
 
 Um traço (trait) é um rótulo permanente em uma unidade: *corajoso*, *rápido*, *imortal*. Ele aparece no inspetor, pode alterar os atributos da unidade, pode executar código quando ela nasce, é atingida ou morre, e os filhos podem herdá-lo.
 
-É também a coisa mais simples e leve de adicionar em todo o jogo, e é por isso que costuma ser o primeiro mod de todo mundo.
+É também a coisa mais simples e leve de adicionar em todo o jogo, e é por isso que costuma ser o primeiro mod de todo mundo. O meu não: meu primeiro mod era um wrapper em volta do mod de outra pessoa, o que é um tipo próprio de trapaça :trollface:.
 
 ## Sempre use prefixo nos seus IDs
 
@@ -96,7 +96,7 @@ Quer a sua própria aba? Veja **[Grupos de traços e abas](#/nml/trait-groups)**
 
 ## Os textos de localização
 
-Sem traduções o seu traço aparecerá no jogo como o identificador cru `trait_hello_swift`. Crie `Locales/pt.json`:
+Sem traduções o seu traço aparecerá no jogo como o identificador cru `trait_hello_swift`, o que parece exatamente tão profissional quanto soa :pepeclown:. Crie `Locales/pt.json`:
 
 ```json Mods/HelloBox/Locales/en.json
 {

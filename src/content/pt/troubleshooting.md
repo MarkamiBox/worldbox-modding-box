@@ -165,6 +165,8 @@ Este grupo é para pessoas que jogam com mods, não para quem os cria. Tudo a pa
 
 ## Nada carrega
 
+O jogo age como se o seu mod não existisse. Não é pessoal, normalmente é um interruptor ou o nome de um arquivo.
+
 ### Sem botão Mods no menu
 
 - **O que você vê**: O jogo abre normalmente, sem erro, sem botão Mods e sem nenhuma linha `[NML]` no log.
@@ -229,6 +231,8 @@ Este grupo é para pessoas que jogam com mods, não para quem os cria. Tudo a pa
 ---
 
 ## Carrega, mas nada aparece
+
+O NML encontrou o seu mod e o executou. Algo lá dentro nunca chegou à tela.
 
 ### Crash na linha em que você define um stat
 
@@ -332,7 +336,7 @@ cursed.need_visual_render = true;
 
 ## Registrado, depois quebra no mundo
 
-Toda entrada desta seção tem a mesma causa. O jogo prepara uma parte de cada asset **uma vez, enquanto carrega**, e o seu mod registra os assets depois disso. Nada avisa: o asset existe, tem nome, e na primeira vez que o jogo realmente o usa, ele quebra. A solução também tem sempre a mesma forma: faça esse passo você mesmo, logo depois de registrar o asset :wbfacepalm:.
+Toda entrada desta seção tem a mesma causa. O jogo prepara uma parte de cada asset **uma vez, enquanto carrega**, e o seu mod registra os assets depois disso. Nada avisa: o asset existe, tem nome, e na primeira vez que o jogo realmente o usa, ele quebra. A solução também tem sempre a mesma forma: faça esse passo você mesmo, logo depois de registrar o asset :wbfacepalm:. Palavra do dia: gambiarra.
 
 ### A sua criatura gera um erro de sombra
 
@@ -445,6 +449,8 @@ Toda entrada desta seção tem a mesma causa. O jogo prepara uma parte de cada a
 ---
 ## Compila para você, mas não para os outros
 
+O clássico "no meu PC funciona". A diferença costuma estar na sua configuração, não no seu código :PES5_Hmmmm:.
+
 ### `CS0122: inaccessible due to its protection level`
 
 - **O que você vê**: Código copiado de um mod que funciona não compila: `addStatusEffect`, `getHit`, `_localized_text`, `addBuilding`.
@@ -466,6 +472,8 @@ Toda entrada desta seção tem a mesma causa. O jogo prepara uma parte de cada a
 ---
 
 ## Funciona, depois quebra
+
+Os lentos. Ontem o seu mod funcionava, e nada nele mudou :PES2_Shrug:.
 
 ### Outro mod substitui o seu conteúdo em silêncio
 

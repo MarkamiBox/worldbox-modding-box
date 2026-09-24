@@ -8,7 +8,7 @@ order: 182
 
 # Risorse e cibo :wbtomato:
 
-Una risorsa è qualsiasi cosa una città immagazzini, commerci, mangi o forgi: grano, pane, pietra, mithril, ossa, gemme. Risiedono in `AssetManager.resources` e costituiscono lo strato fondante dell'intera economia: ciò che producono le fattorie, ciò che cuociono i fornai, ciò di cui hanno bisogno i fabbri e ciò che mangia un cittadino affamato.
+Una risorsa è qualsiasi cosa una città immagazzini, commerci, mangi o forgi: grano, pane, pietra, mithril, ossa, gemme. Risiedono in `AssetManager.resources` e costituiscono lo strato fondante dell'intera economia: ciò che producono le fattorie, ciò che cuociono i fornai, ciò di cui hanno bisogno i fabbri e ciò che mangia un cittadino affamato. In questa economia, persino il pane è una struttura dati :PES2_Cash:.
 
 ## Clonare da un modello
 
@@ -100,7 +100,7 @@ Vale la pena conoscerle, perché riutilizzarne una esistente è quasi sempre pre
 
 ## I tuoi sprite personali
 
-Una risorsa ha due illustrazioni differenti, e vengono risolte in modo **completamente diverso**. Questo è l'inghippo classico:
+Una risorsa ha due illustrazioni differenti, e vengono risolte in modo **completamente diverso**. Questo è l'inghippo classico: E prima o poi frega anche te.
 
 ```text Mods/HelloBox/
 HelloBox/

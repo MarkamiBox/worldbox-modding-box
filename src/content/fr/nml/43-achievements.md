@@ -68,7 +68,7 @@ namespace HelloBox
 }
 ```
 
-Dix feux follets vivants en même temps, et le succès se débloque.
+Dix feux follets vivants en même temps, et le succès se débloque. Top 10 des succès de tous les temps :trollface:.
 
 ## Ce que le jeu ne fait pas automatiquement
 

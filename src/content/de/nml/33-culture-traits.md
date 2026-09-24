@@ -10,7 +10,7 @@ order: 106
 
 Eine **Kultur** repräsentiert die gemeinsamen Bräuche und Gewohnheiten einer Gruppe von Städten. Sie bestimmt, was die Bürger bauen, was sie schmieden, wie geerbt wird, was sie lesen und welche Werte sie pflegen. Eine Kultur-Eigenschaft ist eine dieser Gewohnheiten.
 
-Von den sieben Eigenschaftssystemen hat die Kultur die größte Reichweite. Eine Kultur breitet sich mit den Städten aus, überlebt ihren Gründer und überträgt ihre Statuswerte auf ausnahmslos jede einzelne Einheit, die ihr angehört. Wenn du eine Mod suchst, deren Auswirkungen sich über eine Stunde Spielzeit sanft durch die ganze Welt ziehen, ist dies die richtige Bibliothek.
+Von den sieben Eigenschaftssystemen hat die Kultur die größte Reichweite. Eine Kultur breitet sich mit den Städten aus, überlebt ihren Gründer und überträgt ihre Statuswerte auf ausnahmslos jede einzelne Einheit, die ihr angehört. Wenn du eine Mod suchst, deren Auswirkungen sich über eine Stunde Spielzeit sanft durch die ganze Welt ziehen, ist dies die richtige Bibliothek. Große Reichweite, große Verantwortung :PES5_Menace:.
 
 | | |
 | --- | --- |
@@ -56,7 +56,7 @@ namespace HelloBox
 }
 ```
 
-Alles aus **[Eigene Eigenschaften](#/nml/custom-traits)** gilt auch hier: `add()` vor den Stats aufrufen, `path_icon` wird dir nicht automatisch generiert, IDs gehören mit Präfix versehen. Was nun folgt, ist das, was Kultur-Eigenschaften besonders macht.
+Alles aus **[Eigene Eigenschaften](#/nml/custom-traits)** gilt auch hier: `add()` vor den Stats aufrufen, `path_icon` wird dir nicht automatisch generiert, IDs gehören mit Präfix versehen. Was nun folgt, ist das, was Kultur-Eigenschaften besonders macht. Und das ist der spaßige Teil.
 
 > [!WARNING] `base_stats` bei einer Kultur-Eigenschaft erreicht jeden
 > `Actor.updateStats()` verschmilzt `culture.base_stats` in jede Einheit dieser Kultur. Jede einzelne Einheit. Eine "+5 Schaden"-Doktrin bewaffnet auch die Bäcker.
@@ -73,7 +73,7 @@ trait.addWeaponSubtype("sword");         // Bevorzuge eine ganze Waffenklasse
 trait.addWeaponSpecial("hello_relic");   // Oder eine konkrete Item-ID
 ```
 
-Beide Hilfsmethoden setzen automatisch `is_weapon_trait = true`. Der Handwerkscode liest die bevorzugten Waffen der Kultur ab, wenn eine Stadt entscheidet, was geschmiedet werden soll; dadurch ändert sich die Waffe in der Hand des Soldaten, anstatt nur ein Attributwert. `bow_lovers` und `spear_lovers` in Vanilla funktionieren exakt so.
+Beide Hilfsmethoden setzen automatisch `is_weapon_trait = true`. Der Handwerkscode liest die bevorzugten Waffen der Kultur ab, wenn eine Stadt entscheidet, was geschmiedet werden soll; dadurch ändert sich die Waffe in der Hand des Soldaten, anstatt nur ein Attributwert. `bow_lovers` und `spear_lovers` in Vanilla funktionieren exakt so. Eine ganze Kultur von Speer-Fans, aus zwei Zeilen :PESgn_Noice:.
 
 | Feld | Funktion |
 | --- | --- |

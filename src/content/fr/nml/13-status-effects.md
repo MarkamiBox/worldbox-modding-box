@@ -76,6 +76,8 @@ namespace HelloBox
 
 ### Les champs indispensables
 
+La liste courte. La vraie est plus longue et surtout ennuyeuse :wbyawn:.
+
 | Champ | Ce qu'il fait |
 | --- | --- |
 | `duration` | Durée de vie en secondes. Le statut se retire tout seul à la fin |
@@ -98,7 +100,7 @@ namespace HelloBox
 
 ## Ton propre sprite
 
-Attention au piège : `texture` n'est **pas** un chemin complet. La bibliothèque des statuts préfixe automatiquement par `effects/`, il ne faut donc fournir que le nom du fichier.
+Attention au piège, tout le monde tombe dedans une fois :wbbre:. Le voici : `texture` n'est **pas** un chemin complet. La bibliothèque des statuts préfixe automatiquement par `effects/`, il ne faut donc fournir que le nom du fichier.
 
 ```text Mods/HelloBox/
 HelloBox/

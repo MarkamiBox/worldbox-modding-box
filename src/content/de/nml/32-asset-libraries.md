@@ -144,7 +144,7 @@ if (group != null && index != -1)
 
 ## Wann dein Code ausgeführt wird
 
-Das Spiel initialisiert alle 129 Bibliotheken beim Start, führt `post_init()` darauf aus, und **erst danach** lädt NML deine Mod. Zwei Konsequenzen, über die Entwickler ständig stolpern:
+Das Spiel initialisiert alle 129 Bibliotheken beim Start, führt `post_init()` darauf aus, und **erst danach** lädt NML deine Mod. Zwei Konsequenzen, über die Entwickler ständig stolpern, ich eingeschlossen:
 
 - **Alles, was eine Bibliothek automatisch in `post_init` tut, ist bereits gelaufen.** Akteurseigenschaften bekommen dort beispielsweise ein Standard-`path_icon` zugewiesen. Deine Eigenschaft bekommt das nicht, weil sie damals noch nicht existierte. Setze es selbst.
 - **Jedes Vanilla-Asset existiert bereits, wenn dein `OnModLoad` läuft.** Daher funktioniert `get("human")`, `clone(..., "human")` funktioniert, und das direkte Bearbeiten von Vanilla-Inhalten funktioniert. Du bist niemals zu früh dran.

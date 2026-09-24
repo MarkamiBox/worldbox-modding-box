@@ -164,7 +164,7 @@ Font font = LocalizedTextManager.current_font ?? Resources.GetBuiltinResource<Fo
 
 ## ツールチップ
 
-ゲームのツールチップも `AssetManager.tooltips` に登録されているアセットです。ID と、ツールチップが開くたびに中身を埋めるコールバックで構成されます。自作ツールチップを登録すれば、任意の UI オブジェクトでリアルタイムな数値を反映したツールチップを表示できます。
+ゲームのツールチップも `AssetManager.tooltips` に登録されているアセットです。ID と、ツールチップが開くたびに中身を埋めるコールバックで構成されます。自作ツールチップを登録すれば、任意の UI オブジェクトでリアルタイムな数値を反映したツールチップを表示できます。プレイヤーは何にでもマウスを乗せるので、あなたのModがさりげなく完成して見えるのはここです。
 
 ```csharp Mods/HelloBox/Code/HelloTooltips.cs
 using UnityEngine;
@@ -262,7 +262,7 @@ namespace HelloBox
 > [!WARNING] ショートカットキーは起動時に配線されます
 > `HotkeyLibrary.linkAssets()` は各 `default_key_*` をゲームが実際に判定する `overridden_key_*` にコピーし、毎フレーム監視対象となる `action_hotkeys` リストを構築します。これらは Mod がロードされる前に完了してしまいます。どちらかの初期化を怠ると、キーを押しても何も起きません :wbfacepalm:。
 
-`check_*` フラグを使うと操作の衝突を簡単に防げます：`check_controls_locked` はプレイヤーが生物を操作している間の入力を無視し、`check_window_not_active` はバニラのウィンドウが開いている間の入力を無効化します。バニラが使用していないキー（F6 など）を選択してください。
+`check_*` フラグを使うと操作の衝突を簡単に防げます：`check_controls_locked` はプレイヤーが生物を操作している間の入力を無視し、`check_window_not_active` はバニラのウィンドウが開いている間の入力を無効化します。バニラが使用していないキー（F6 など）を選択してください :PES2_Shrug:。
 
 ```json Mods/HelloBox/Locales/en.json
 {

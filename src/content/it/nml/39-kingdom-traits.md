@@ -10,7 +10,7 @@ order: 114
 
 Un **tratto del regno** è una politica statale. Non una credenza, né una stirpe: una decisione sancita dalla corona che si applica all'intero reame.
 
-Il gioco vanilla se ne serve per una sola meccanica: le aliquote fiscali. Questo lo rende il più minuto e spoglio dei sette sistemi di tratti, nonché il punto più invitante per introdurre nuove idee. Non c'è alcuna competizione per questo spazio.
+Il gioco vanilla se ne serve per una sola meccanica: le aliquote fiscali. Questo lo rende il più minuto e spoglio dei sette sistemi di tratti, nonché il punto più invitante per introdurre nuove idee. Non c'è alcuna competizione per questo spazio :wbsmirk:.
 
 | | |
 | --- | --- |
@@ -87,7 +87,7 @@ namespace HelloBox
 
 ## Creare una politica che faccia realmente qualcosa
 
-Poiché `base_stats` non ha effetto, un tratto del regno conquista la sua utilità in due modi alternativi.
+Poiché `base_stats` non ha effetto, un tratto del regno conquista la sua utilità in due modi alternativi. Entrambi richiedono più lavoro di un numero, ed entrambi ne valgono la pena.
 
 **Una decisione**, la scelta più pulita ed elegante:
 

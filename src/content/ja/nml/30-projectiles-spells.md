@@ -56,6 +56,8 @@ namespace HelloBox
 
 ### 各フィールドの解説
 
+ほとんどはクローン元から引き継がれ、二度と見ることはありません。実際に変えるのは `speed` と `texture` の2つです。
+
 | フィールド | 役割 |
 | --- | --- |
 | `texture`, `texture_shadow` | スプライト本体とその影 |
@@ -108,7 +110,7 @@ HelloBox/
 bolt.texture = "hello_bolt";   // "effects/projectiles/hello_bolt" は不可
 ```
 
-飛び道具もスプライトの一覧として読み込まれます。`texture` の名前の **フォルダ** に1フレーム1枚のPNGを入れ、`animated` が有効なら複数フレームが飛行アニメーションになります。フォルダなしの `hello_bolt.png` は空の一覧になり、飛び道具を描くときに `ArgumentOutOfRangeException` が出ます。
+飛び道具もスプライトの一覧として読み込まれます。`texture` の名前の **フォルダ** に1フレーム1枚のPNGを入れ、`animated` が有効なら複数フレームが飛行アニメーションになります。フォルダなしの `hello_bolt.png` は空の一覧になり、飛び道具を描くときに `ArgumentOutOfRangeException` が出ます :PESgn_Oops:。
 
 `texture_shadow` はプレフィックスがつかない完全なパスです。バニラは共有の `shadows/projectiles/shadow_ball` を指定しており、それをそのまま再利用するのが賢明です。
 

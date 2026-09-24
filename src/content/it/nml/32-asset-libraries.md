@@ -144,7 +144,7 @@ if (group != null && index != -1)
 
 ## Quando viene eseguito il tuo codice
 
-Il gioco inizializza tutte le 129 librerie all'avvio, esegue `post_init()` su di esse, e **solo successivamente** NML carica la tua mod. Due conseguenze su cui molti inciampano:
+Il gioco inizializza tutte le 129 librerie all'avvio, esegue `post_init()` su di esse, e **solo successivamente** NML carica la tua mod. Due conseguenze su cui molti inciampano, me compreso:
 
 - **Tutto ciò che una libreria compie automaticamente in `post_init` è già avvenuto.** I tratti delle creature, per esempio, ricevono lì un `path_icon` predefinito. Il tuo tratto non lo riceverà, perché all'epoca non esisteva ancora. Impostalo tu stesso.
 - **Ogni asset vanilla esiste già quando viene eseguito il tuo `OnModLoad`.** Di conseguenza `get("human")` funziona, `clone(..., "human")` funziona, e modificare i contenuti vanilla sul posto funziona regolarmente. Non sarai mai in anticipo.

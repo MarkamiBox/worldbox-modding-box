@@ -144,7 +144,7 @@ if (group != null && index != -1)
 
 ## Quando seu código é executado
 
-O jogo constrói todas as 129 bibliotecas na inicialização, executa `post_init()` nelas e, **somente depois**, o NML carrega o seu mod. Duas consequências com as quais muitos tropeçam:
+O jogo constrói todas as 129 bibliotecas na inicialização, executa `post_init()` nelas e, **somente depois**, o NML carrega o seu mod. Duas consequências com as quais muitos tropeçam, eu incluído:
 
 - **Tudo o que uma biblioteca faz de forma automática no `post_init` já aconteceu.** Traços de atores, por exemplo, recebem um `path_icon` padrão nessa etapa. O seu não receberá, pois ele ainda não existia. Defina-o manualmente.
 - **Todos os assets vanilla já existem quando o seu `OnModLoad` roda.** Por isso `get("human")` funciona, `clone(..., "human")` funciona e editar conteúdo vanilla no local funciona. Você nunca chega cedo demais.

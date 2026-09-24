@@ -62,7 +62,7 @@ namespace HelloBox
 
 ## Mutazione
 
-È così che un tratto di sottospecie fa la sua comparsa nel mondo senza che tu debba assegnarlo manualmente. La libreria gestisce due riserve, e questi due campi stabiliscono a quali riserve il tuo tratto partecipa:
+È così che un tratto di sottospecie fa la sua comparsa nel mondo senza che tu debba assegnarlo manualmente, che è il modo divertente. La libreria gestisce due riserve, e questi due campi stabiliscono a quali riserve il tuo tratto partecipa:
 
 | Campo | Cosa fa |
 | --- | --- |
@@ -107,7 +107,7 @@ trait.texture_asset.shadow = trait.shadow;
 | `remove_for_zombies` | Rimuove la skin se l'unità si trasforma in zombie |
 | `priority` | Quale skin prevale se un'unità ne possiede due |
 
-Le mutazioni d'aspetto vanilla (hamburger, roccia vivente, orrore tentacolare, sfera di luce, frattale) sono tutti cloni di `$skin_mutation$`, e clonare quel template è di gran lunga la via più rapida per ottenere una variante funzionante.
+Le mutazioni d'aspetto vanilla (hamburger, roccia vivente, orrore tentacolare, sfera di luce, frattale) sono tutti cloni di `$skin_mutation$`, e clonare quel template è di gran lunga la via più rapida per ottenere una variante funzionante. Sì, burger è una vera mutazione. Maxim agisce in modi misteriosi :wbpray:.
 
 ## Fenotipi, dieta e uova
 
@@ -122,7 +122,7 @@ Tre sottosistemi a cui si collegano i tratti delle sottospecie:
 
 ## Geni
 
-Un gene è il modo in cui un tratto di sottospecie muta in un altro tratto. Il gioco esamina `AssetManager.genes` durante la riproduzione per decidere cosa tramandare:
+Un gene è il modo in cui un tratto di sottospecie muta in un altro tratto. Il gioco esamina `AssetManager.genes` durante la riproduzione per decidere cosa tramandare: Compiti di biologia, in pratica.
 
 ```csharp Mods/HelloBox/Code/HelloGenes.cs
 namespace HelloBox

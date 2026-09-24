@@ -82,7 +82,7 @@ HelloBox/
 ember.path_texture = "drops/hello_ember";   // a folder
 ```
 
-ドロップは **スプライトの一覧** として読み込まれます。ゲームはそのフォルダの *中の* PNG をすべて読み、これで `animated` が動きます。動かないドロップでもフォルダで、中にフレームが1枚あるだけです。フォルダなしの `drops/hello_ember.png` は空の一覧になり、ドロップは見えないまま落ちます。
+ドロップは **スプライトの一覧** として読み込まれます。ゲームはそのフォルダの *中の* PNG をすべて読み、これで `animated` が動きます。動かないドロップでもフォルダで、中にフレームが1枚あるだけです。フォルダなしの `drops/hello_ember.png` は空の一覧になり、ドロップは見えないまま落ちます :wbwiltedrose:。
 
 ## ドロップを落とす
 
@@ -96,7 +96,7 @@ World.world.drop_manager.spawn(tile, "hello_ember", 15f, -1f, -1L);
 World.world.drop_manager.spawnParabolicDrop(tile, "hello_ember", 0f, 0.1f, 5f, 0.5f, 4f, 0.15f);
 ```
 
-90%の場合は `spawn` で十分です。`15f` は落下する高さであり、数値が大きいほど着地までに時間がかかります。
+90%の場合は `spawn` で十分です。`15f` は落下する高さであり、数値が大きいほど着地までに時間がかかります。落ちてくる間の見た目も、よりドラマチックになります。
 
 ## 実践例: 神の力で燃える火の粉を降らせる
 

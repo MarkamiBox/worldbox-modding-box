@@ -27,7 +27,7 @@ foreach (Building building in World.world.buildings)
 }
 ```
 
-`World.world.kingdoms` fonctionne de la même manière, voir **[Royaumes et factions](#/nml/kingdoms)**. Utilisez `isRekt()` sur chaque élément, systématiquement : ces listes contiennent des objets qui sont en train de mourir au moment même où vous les lisez.
+`World.world.kingdoms` fonctionne de la même manière, voir **[Royaumes et factions](#/nml/kingdoms)**. Utilisez `isRekt()` sur chaque élément, systématiquement : ces listes contiennent des objets qui sont en train de mourir au moment même où vous les lisez :PES2_F:.
 
 ## Déplacer une ville vers un autre royaume
 

@@ -8,7 +8,7 @@ order: 92
 
 # Referência de atributos :wbstonks:
 
-Quase todo asset que você registrar possui um bloco `base_stats`, e quase todas as páginas depois desta configuram algo nele. Esta é a lista de tudo o que você tem permissão para colocar lá dentro.
+Quase todo asset que você registrar possui um bloco `base_stats`, e quase todas as páginas depois desta escrevem nele. Esta é a lista de tudo o que você tem permissão para colocar lá dentro. Todo o resto é um crash esperando a sua hora :PES5_Hmmmm:.
 
 ## Como o base_stats funciona
 
@@ -23,7 +23,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, não x0.25
 
 ## De onde vêm os valores de uma unidade
 
-`Actor.updateStats()` limpa o bloco de atributos da unidade e o reconstrói do zero, exatamente nesta ordem:
+`Actor.updateStats()` limpa o bloco de atributos da unidade e o reconstrói do zero, exatamente nesta ordem. Eu ainda consulto esta tabela toda vez:
 
 | # | Fonte | Nota |
 | --- | --- | --- |
@@ -53,6 +53,8 @@ Mais duas consequências:
 > Em um asset criado manualmente, o bloco de atributos é alocado dentro de `add()`. Mexa em `base_stats` antes dessa linha e você terá uma `NullReferenceException`. O `clone()` chama `add()` para você, então após um clone você já está seguro. Este é o travamento mais comum em todo o modding de WorldBox.
 
 ## Combat
+
+`damage` e `armor` fazem quase todo o trabalho. O resto é para quando você quer que um traço pareça diferente, não só mais forte.
 
 | Atributo | O que faz |
 | --- | --- |
@@ -106,7 +108,7 @@ Mais duas consequências:
 
 ## Apenas civilizações
 
-Estes não fazem absolutamente nada em animais. O jogo os marca como `used_only_for_civs`.
+Estes não fazem absolutamente nada em animais. O jogo os marca como `used_only_for_civs`. Dê `diplomacy` a um lobo e você terá um lobo muito eloquente que ninguém escuta :wbwolf:.
 
 | Atributo | O que faz |
 | --- | --- |
@@ -175,7 +177,7 @@ As tags que o próprio jogo avalia:
 | Natureza | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | Construção | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-Diferente de um nome de atributo, uma tag desconhecida é inofensiva: ela simplesmente nunca corresponderá a nada. Isso também significa que um erro de digitação passará em silêncio, então copie-as fielmente.
+Diferente de um nome de atributo, uma tag desconhecida é inofensiva: ela simplesmente nunca corresponderá a nada. Isso também significa que um erro de digitação passará em silêncio, então copie-as fielmente. Escolha o seu veneno :wbbre:.
 
 ## Lendo os valores em tempo real de uma unidade
 
@@ -191,4 +193,4 @@ Isso é também o que você ajusta a partir de um Postfix do Harmony em `Actor.u
 
 Você pode registrar um novo `BaseStatAsset` em `AssetManager.base_stats_library`, e ele aparecerá no inspetor e será somado como qualquer outro. O que ele **não** fará é ter qualquer efeito automático: nada no jogo lê um atributo que ele não conheça de fábrica. Um atributo personalizado só tem utilidade como um número que você mesmo lê depois, no seu próprio patch do Harmony ou comportamento.
 
-Na maioria das vezes a resposta é "use um atributo existente", e a segunda é "mantenha seu próprio dicionário".
+Na maioria das vezes a resposta é "use um atributo existente", e a segunda é "mantenha seu próprio dicionário". Uma terceira eu ainda não encontrei.

@@ -56,6 +56,8 @@ namespace HelloBox
 
 ### Les champs
 
+La plupart viennent avec ce que vous avez cloné et vous ne les regardez plus jamais. `speed` et `texture` sont les deux que vous changerez vraiment.
+
 | Champ | Ce qu'il fait |
 | --- | --- |
 | `texture`, `texture_shadow` | Sprite et son ombre |
@@ -108,7 +110,7 @@ HelloBox/
 bolt.texture = "hello_bolt";   // PAS "effects/projectiles/hello_bolt"
 ```
 
-Les projectiles se chargent aussi comme une liste de sprites : un **dossier** nommé comme `texture`, un PNG par frame, et plusieurs frames deviennent l'animation de vol quand `animated` est activé. Un `hello_bolt.png` isolé revient comme une liste vide, et dessiner le projectile lance `ArgumentOutOfRangeException`.
+Les projectiles se chargent aussi comme une liste de sprites : un **dossier** nommé comme `texture`, un PNG par frame, et plusieurs frames deviennent l'animation de vol quand `animated` est activé. Un `hello_bolt.png` isolé revient comme une liste vide, et dessiner le projectile lance `ArgumentOutOfRangeException` :PESgn_Oops:.
 
 `texture_shadow` est un chemin complet sans préfixe automatique - le jeu vanilla pointe vers le fichier partagé `shadows/projectiles/shadow_ball`, et le réutiliser est presque toujours le meilleur choix.
 

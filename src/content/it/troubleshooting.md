@@ -165,6 +165,8 @@ Questo gruppo è per chi gioca con le mod, non per chi le crea. Tutto ciò che s
 
 ## Non si carica nulla
 
+Il gioco si comporta come se la tua mod non esistesse. Non è niente di personale, di solito è un interruttore o il nome di un file.
+
 ### Nessun pulsante Mods nel menu
 
 - **Cosa vedi**: Il gioco si avvia normalmente, nessun errore, nessun pulsante Mods e nessuna riga `[NML]` nel log.
@@ -229,6 +231,8 @@ Questo gruppo è per chi gioca con le mod, non per chi le crea. Tutto ciò che s
 ---
 
 ## Si carica, ma non compare nulla
+
+NML ha trovato la tua mod e l'ha eseguita. Qualcosa al suo interno non è mai arrivato sullo schermo.
 
 ### Crash sulla riga in cui assegni una statistica
 
@@ -332,7 +336,7 @@ cursed.need_visual_render = true;
 
 ## Registrato, poi rotto nel mondo
 
-Ogni voce di questa sezione ha la stessa causa. Il gioco prepara una parte di ogni asset **una volta sola, mentre carica**, e la tua mod registra i suoi asset dopo. Niente te lo dice: l'asset esiste, ha un nome, e la prima volta che il gioco lo usa davvero, esplode. Anche la soluzione ha sempre la stessa forma: fai quel passaggio tu, subito dopo aver registrato l'asset :wbfacepalm:.
+Ogni voce di questa sezione ha la stessa causa. Il gioco prepara una parte di ogni asset **una volta sola, mentre carica**, e la tua mod registra i suoi asset dopo. Niente te lo dice: l'asset esiste, ha un nome, e la prima volta che il gioco lo usa davvero, esplode. Anche la soluzione ha sempre la stessa forma: fai quel passaggio tu, subito dopo aver registrato l'asset :wbfacepalm:. Parola del giorno: work around.
 
 ### La tua creatura dà un errore d'ombra
 
@@ -445,6 +449,8 @@ Ogni voce di questa sezione ha la stessa causa. Il gioco prepara una parte di og
 ---
 ## Compila a te, ma non agli altri
 
+Il classico "sul mio PC funziona". Di solito la differenza è la tua configurazione, non il tuo codice :PES5_Hmmmm:.
+
 ### `CS0122: inaccessible due to its protection level`
 
 - **Cosa vedi**: Codice copiato da un mod funzionante non compila: `addStatusEffect`, `getHit`, `_localized_text`, `addBuilding`.
@@ -466,6 +472,8 @@ Ogni voce di questa sezione ha la stessa causa. Il gioco prepara una parte di og
 ---
 
 ## Funziona all'inizio, poi si rompe dopo
+
+Quelli lenti. Ieri la tua mod andava benissimo, e non è cambiato niente :PES2_Shrug:.
 
 ### Un altro mod sovrascrive silenziosamente i tuoi contenuti
 

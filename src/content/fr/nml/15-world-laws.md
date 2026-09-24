@@ -50,7 +50,7 @@ Ajoutez `HelloLaws.Initialize();` dans `Main.cs` et l'interrupteur est dans le j
 
 ## Lire l'interrupteur dans votre code
 
-C'est tout l'intérêt. N'importe où dans votre mod :
+C'est tout l'intérêt. Un interrupteur que personne ne lit, c'est de la décoration. N'importe où dans votre mod :
 
 ```csharp
 WorldLawAsset law = AssetManager.world_laws_library.get(HelloLaws.CHAOS);

@@ -146,4 +146,4 @@ public ModConfig GetConfig()
 }
 ```
 
-Diese einzige Methode sorgt dafür, dass der Einstellungs-Button neben deiner Mod im Mod-Menü erscheint.
+Diese einzige Methode sorgt dafür, dass der Einstellungs-Button neben deiner Mod im Mod-Menü erscheint. Eine Methode, und niemand streitet sich mehr auf Discord mit dir. In der Theorie.

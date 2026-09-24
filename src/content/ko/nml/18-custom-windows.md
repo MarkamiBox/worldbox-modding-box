@@ -164,7 +164,7 @@ Font font = LocalizedTextManager.current_font ?? Resources.GetBuiltinResource<Fo
 
 ## 툴팁
 
-게임의 툴팁 역시 `AssetManager.tooltips`에 속한 에셋입니다: ID와 툴팁이 열릴 때마다 내용을 채우는 콜백으로 이루어져 있습니다. 직접 등록하면 어떤 UI 객체든 실시간 숫자가 반영되는 툴팁을 띄울 수 있습니다.
+게임의 툴팁 역시 `AssetManager.tooltips`에 속한 에셋입니다: ID와 툴팁이 열릴 때마다 내용을 채우는 콜백으로 이루어져 있습니다. 직접 등록하면 어떤 UI 객체든 실시간 숫자가 반영되는 툴팁을 띄울 수 있습니다. 플레이어는 모든 것에 마우스를 올려 보니, 여러분의 모드가 조용히 완성도 있어 보이는 곳이 바로 여기입니다.
 
 ```csharp Mods/HelloBox/Code/HelloTooltips.cs
 using UnityEngine;
@@ -262,7 +262,7 @@ namespace HelloBox
 > [!WARNING] 단축키는 시작 시점에 연결됩니다
 > `HotkeyLibrary.linkAssets()`는 각 `default_key_*`를 게임이 실제로 검사하는 `overridden_key_*`로 복사하고, 매 프레임 폴링하는 유일한 목록인 `action_hotkeys`를 빌드합니다. 둘 다 모드 로드 전에 완료되므로, 직접 연결해 주지 않으면 키를 눌러도 아무런 반응이 없습니다 :wbfacepalm:.
 
-`check_*` 플래그는 조작 충돌을 손쉽게 방지해 줍니다: `check_controls_locked`는 유닛 직접 조종 중일 때 입력을 무시하고, `check_window_not_active`는 바니라 창이 열려 있을 때 비활성화합니다. 바니라에서 사용하지 않는 키(F6 등)를 선택하세요.
+`check_*` 플래그는 조작 충돌을 손쉽게 방지해 줍니다: `check_controls_locked`는 유닛 직접 조종 중일 때 입력을 무시하고, `check_window_not_active`는 바니라 창이 열려 있을 때 비활성화합니다. 바니라에서 사용하지 않는 키(F6 등)를 선택하세요 :PES2_Shrug:.
 
 ```json Mods/HelloBox/Locales/en.json
 {

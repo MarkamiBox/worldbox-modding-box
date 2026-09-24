@@ -46,7 +46,7 @@ order: 1
 2. 往下滚到 **Assets** 这一栏。如果是折叠的，点一下展开。
 3. 点 **NeoModLoader.dll**。它和其他文件一样被下载，一般在 **下载** 文件夹里。
 
-你只需要这一个文件。页面上还有 `.pdb`、`.xml` 和 "Source code" 文件：不用管。
+你只需要这一个文件。页面上还有 `.pdb`、`.xml` 和 "Source code" 文件：不用管。那些是给 NML 开发者用的，不是给你的。
 
 > [!WARNING] 只从这个链接下载
 > `.dll` 是程序。NML **只** 从上面的 GitHub 页面下载，绝不要从随便什么网站、或者别人在聊天里发给你的文件拿。如果浏览器问"要保留这个文件吗？"，那是因为它是 `.dll`，从这个页面下载的话答案就是保留。
@@ -65,7 +65,7 @@ order: 1
 C:\Program Files (x86)\Steam\steamapps\common\worldbox\
 ```
 
-把这个窗口开着。从现在起，"WorldBox 文件夹"就是指它。
+把这个窗口开着。从现在起，"WorldBox 文件夹"就是指它。你回到这里的次数会比你想象的多。
 
 > [!TIP] 让 Windows 显示文件扩展名
 > Windows 默认会隐藏文件名的结尾，所以 `NeoModLoader.dll` 只显示成 `NeoModLoader`。这会让任何教程都更难跟。在文件夹窗口顶部点 **查看**，勾选 **文件扩展名**（Windows 11：**查看 → 显示 → 文件扩展名**）。什么都不会坏，你只是能看到完整的名字了。
@@ -117,7 +117,7 @@ worldbox/
 
 ## Mac
 
-同样的五步。只是文件夹藏的位置不同，因为在 Mac 上整个游戏被打包成了一个应用图标。
+同样的五步。只是文件夹藏的位置不同，因为在 Mac 上整个游戏被打包成了一个应用图标。苹果就是这样 :wbbre:。
 
 1. **Experimental Mode**：和 Windows 完全一样，**[第 1 步](#第-1-步-打开-experimental-mode)**。关于更新的警告对你也一样。
 2. 从 [同一个发布页](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest) **下载** `NeoModLoader.dll`。Windows 和 Mac 用的是同一个文件。
@@ -137,7 +137,7 @@ worldbox/
 
 ## Linux 与 Steam Deck
 
-操作原理完全相同。Linux 版 Steam 将游戏安装在用户目录下，在 Steam Deck 上只需先切换到桌面模式。
+操作原理完全相同。Linux 版 Steam 将游戏安装在用户目录下，在 Steam Deck 上只需先切换到桌面模式。欢迎企鹅 :wbpenguin:。
 
 1. **开启实验模式 (Experimental Mode)**：与 Windows 完全相同，参见 **[步骤 1](#第-1-步-打开-experimental-mode)**。
 2. 从 [官方发布页面](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest) **下载** `NeoModLoader.dll`（所有系统通用）。

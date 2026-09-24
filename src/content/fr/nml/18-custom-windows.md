@@ -164,7 +164,7 @@ Font font = LocalizedTextManager.current_font ?? Resources.GetBuiltinResource<Fo
 
 ## Info-bulles
 
-Les info-bulles du jeu sont également des assets dans `AssetManager.tooltips` : un ID et un callback qui alimente l'info-bulle à chaque ouverture. Enregistrez la vôtre et n'importe quel élément d'interface pourra l'afficher avec des valeurs dynamiques en direct.
+Les info-bulles du jeu sont également des assets dans `AssetManager.tooltips` : un ID et un callback qui alimente l'info-bulle à chaque ouverture. Enregistrez la vôtre et n'importe quel élément d'interface pourra l'afficher avec des valeurs dynamiques en direct. Les joueurs survolent tout avec la souris, c'est donc ici que votre mod a l'air fini sans faire de bruit.
 
 ```csharp Mods/HelloBox/Code/HelloTooltips.cs
 using UnityEngine;
@@ -262,7 +262,7 @@ namespace HelloBox
 > [!WARNING] Les raccourcis clavier sont reliés au démarrage
 > `HotkeyLibrary.linkAssets()` copie chaque `default_key_*` vers le `overridden_key_*` correspondant (la touche réellement vérifiée par le jeu) et assemble `action_hotkeys`, la seule liste scrutée à chaque frame. Ces deux étapes ont lieu avant le chargement de votre mod. En oublier une rend la touche totalement inactive, sans le moindre avertissement :wbfacepalm:.
 
-Les drapeaux `check_*` permettent d'éviter simplement les conflits : `check_controls_locked` bloque l'ouverture lorsque le joueur contrôle une créature, `check_window_not_active` lorsqu'une fenêtre vanilla est déjà ouverte. Choisissez une touche laissée libre par le jeu de base. F6 en est une ; d'autres mods peuvent en décider autrement.
+Les drapeaux `check_*` permettent d'éviter simplement les conflits : `check_controls_locked` bloque l'ouverture lorsque le joueur contrôle une créature, `check_window_not_active` lorsqu'une fenêtre vanilla est déjà ouverte. Choisissez une touche laissée libre par le jeu de base. F6 en est une ; d'autres mods peuvent en décider autrement :PES2_Shrug:.
 
 ```json Mods/HelloBox/Locales/en.json
 {

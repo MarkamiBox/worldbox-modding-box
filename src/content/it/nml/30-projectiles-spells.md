@@ -56,6 +56,8 @@ namespace HelloBox
 
 ### I campi
 
+La maggior parte di questi arriva con ciò che hai clonato e non li guardi mai più. `speed` e `texture` sono i due che cambierai davvero.
+
 | Campo | Cosa fa |
 | --- | --- |
 | `texture`, `texture_shadow` | Sprite e relativa ombra |
@@ -108,7 +110,7 @@ HelloBox/
 bolt.texture = "hello_bolt";   // NON "effects/projectiles/hello_bolt"
 ```
 
-Anche i proiettili si caricano come lista di sprite: una **cartella** col nome di `texture`, un PNG per frame, e più frame diventano l'animazione di volo quando `animated` è attivo. Un `hello_bolt.png` sciolto torna come lista vuota, e disegnare il proiettile lancia `ArgumentOutOfRangeException`.
+Anche i proiettili si caricano come lista di sprite: una **cartella** col nome di `texture`, un PNG per frame, e più frame diventano l'animazione di volo quando `animated` è attivo. Un `hello_bolt.png` sciolto torna come lista vuota, e disegnare il proiettile lancia `ArgumentOutOfRangeException` :PESgn_Oops:.
 
 `texture_shadow` è invece un percorso completo senza prefissi: vanilla punta al condiviso `shadows/projectiles/shadow_ball`, e riutilizzarlo è quasi sempre la scelta ideale.
 

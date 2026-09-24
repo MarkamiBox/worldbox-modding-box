@@ -8,7 +8,7 @@ order: 92
 
 # Riferimento statistiche :wbstonks:
 
-Quasi ogni asset che registrerai possiede un blocco `base_stats`, e quasi ogni pagina successiva a questa vi imposta qualcosa. Questo è l'elenco di tutto ciò che ti è consentito inserire lì dentro.
+Quasi ogni asset che registri possiede un blocco `base_stats`, e quasi ogni pagina successiva a questa ci scrive dentro. Questo è l'elenco di tutto ciò che ti è consentito inserire lì dentro. Tutto il resto è un crash che aspetta il suo momento :PES5_Hmmmm:.
 
 ## Come funziona base_stats
 
@@ -23,7 +23,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, non x0.25
 
 ## Da dove arrivano i numeri di un'unità
 
-`Actor.updateStats()` azzera il blocco statistiche dell'unità e lo ricostruisce da zero, esattamente in questo ordine:
+`Actor.updateStats()` azzera il blocco statistiche dell'unità e lo ricostruisce da zero, esattamente in questo ordine. Io questa tabella la ricontrollo ancora ogni volta:
 
 | # | Fonte | Nota |
 | --- | --- | --- |
@@ -53,6 +53,8 @@ Altre due conseguenze:
 > Su un asset creato manualmente il blocco statistiche viene allocato dentro `add()`. Scrivi su `base_stats` prima di quella riga e otterrai una `NullReferenceException`. `clone()` chiama `add()` per te, quindi dopo un clone sei già al sicuro. È il crash più comune nel modding di WorldBox.
 
 ## Combat
+
+`damage` e `armor` fanno quasi tutto il lavoro. Il resto serve quando vuoi che un tratto sembri diverso, non solo più forte.
 
 | Statistica | Cosa fa |
 | --- | --- |
@@ -106,7 +108,7 @@ Altre due conseguenze:
 
 ## Solo per civiltà
 
-Non hanno alcun effetto sugli animali. Il gioco le contrassegna con `used_only_for_civs`.
+Non hanno alcun effetto sugli animali. Il gioco le contrassegna con `used_only_for_civs`. Dai `diplomacy` a un lupo e ottieni un lupo molto eloquente che nessuno ascolta :wbwolf:.
 
 | Statistica | Cosa fa |
 | --- | --- |
@@ -175,7 +177,7 @@ Quelli che il gioco legge direttamente:
 | Natura | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | Costruzione | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-A differenza di un nome di statistica, un tag sconosciuto è innocuo: semplicemente non corrisponderà a nulla. Ciò significa anche che un refuso fallirà silenziosamente, quindi copiali con esattezza.
+A differenza di un nome di statistica, un tag sconosciuto è innocuo: semplicemente non corrisponderà a nulla. Ciò significa anche che un refuso fallirà silenziosamente, quindi copiali con esattezza. Scegli il tuo veleno :wbbre:.
 
 ## Leggere i valori dal vivo di un'unità
 
@@ -191,4 +193,4 @@ float finalDamage = actor.stats["damage"];
 
 Puoi registrare un nuovo `BaseStatAsset` in `AssetManager.base_stats_library`, e apparirà nell'inspector venendo calcolato come qualsiasi altro. Ciò che **non** farà è avere un qualsiasi effetto pratico: nulla nel gioco legge una statistica di cui non è a conoscenza. Una statistica personalizzata serve solo come numero che tu stesso leggerai dopo, dalla tua patch Harmony o comportamento.
 
-La maggior parte delle volte la risposta è "usa una statistica esistente", e la seconda è "gestisci un dizionario tuo".
+La maggior parte delle volte la risposta è "usa una statistica esistente", e la seconda è "gestisci un dizionario tuo". Una terza non l'ho ancora trovata.

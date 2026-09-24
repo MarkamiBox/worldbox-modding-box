@@ -10,7 +10,7 @@ order: 114
 
 Un **rasgo del reino** es una política de estado. No es una creencia ni un linaje: es una directriz promulgada por la corona que rige sobre todo el reino.
 
-Vanilla solo recurre a este sistema para una sola cosa: los tipos impositivos. Por ello es el más pequeño y desierto de los siete sistemas de rasgos, y en consecuencia, el rincón más propicio para idear contenido nuevo. No hay competencia por este espacio.
+Vanilla solo recurre a este sistema para una sola cosa: los tipos impositivos. Por ello es el más pequeño y desierto de los siete sistemas de rasgos, y en consecuencia, el rincón más propicio para idear contenido nuevo. No hay competencia por este espacio :wbsmirk:.
 
 | | |
 | --- | --- |
@@ -98,7 +98,7 @@ namespace HelloBox
 
 ## Crear una política que realmente haga algo
 
-Dado que `base_stats` queda descartado, un rasgo del reino justifica su presencia de dos formas:
+Dado que `base_stats` queda descartado, un rasgo del reino justifica su presencia de dos formas: Las dos dan más trabajo que un número, y las dos valen la pena.
 
 **Una decisión**, la opción más ordenada:
 

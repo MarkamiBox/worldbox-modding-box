@@ -105,3 +105,5 @@ NML s'occupe de l'ordre de chargement et prévient le joueur, ce qui est infinim
 L'espace commentaires contiendra très exactement trois types de messages : "ça ne marche pas" sans aucun log, une idée réellement formidable à laquelle vous n'aviez pas pensé, et quelqu'un réclamant du multijoueur :PESgn_DidIAsk:.
 
 Répondez à la deuxième. Pour la première, épinglez un message indiquant où trouver `Player.log` (voir **[Logs et débogage](#/nml/logs-and-debugging)**), car un rapport de bug sans log est un rapport sur lequel vous ne pouvez pas intervenir.
+
+Et bienvenue. Chaque nouveau mod rend cette petite communauté un peu moins cimetière, et cinq en une semaine, c'est l'âge d'or du modding :PES5_CrazyPog:.

@@ -8,7 +8,7 @@ order: 92
 
 # 스탯 레퍼런스 :wbstonks:
 
-여러분이 등록할 거의 모든 에셋은 `base_stats` 블록을 가지고 있으며, 이 페이지 이후의 거의 모든 가이드에서 그곳에 무언가를 설정합니다. 이 목록은 그곳에 넣을 수 있는 모든 스탯의 명세서입니다.
+여러분이 등록할 거의 모든 에셋은 `base_stats` 블록을 가지고 있으며, 이 페이지 이후의 거의 모든 가이드에서 그곳에 무언가를 설정합니다. 이 목록은 그곳에 넣을 수 있는 모든 스탯의 명세서입니다. 그 밖의 것은 전부 때를 기다리는 크래시입니다 :PES5_Hmmmm:.
 
 ## base_stats 작동 방식
 
@@ -23,7 +23,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, x0.25가 아님
 
 ## 유닛 능력치가 계산되는 과정
 
-`Actor.updateStats()`는 유닛의 스탯 블록을 깨끗이 비우고 정확히 다음 순서대로 바닥부터 다시 조립합니다:
+`Actor.updateStats()`는 유닛의 스탯 블록을 깨끗이 비우고 정확히 다음 순서대로 바닥부터 다시 조립합니다. 저도 아직 매번 이 표를 다시 찾아봅니다:
 
 | # | 출처 | 비고 |
 | --- | --- | --- |
@@ -53,6 +53,8 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, x0.25가 아님
 > 직접 생성한 에셋의 스탯 블록은 `add()` 내부에서 비로소 할당됩니다. 그 줄 이전에 `base_stats`를 건드리면 `NullReferenceException`이 발생합니다. `clone()`은 내부에서 `add()`를 대신 호출해주므로 복제 직후에는 안전합니다. 이는 월드박스 모딩에서 가장 흔하게 일어나는 튕김 현상입니다.
 
 ## Combat
+
+`damage`와 `armor`가 대부분의 일을 합니다. 나머지는 특성을 그저 더 세게가 아니라 다르게 느껴지게 하고 싶을 때 쓰는 것입니다.
 
 | 스탯 | 설명 |
 | --- | --- |
@@ -106,7 +108,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, x0.25가 아님
 
 ## 문명 전용 능력치
 
-이 스탯들은 동물에게는 아무런 효과가 없습니다. 게임 내에서 `used_only_for_civs`로 분류됩니다.
+이 스탯들은 동물에게는 아무런 효과가 없습니다. 게임 내에서 `used_only_for_civs`로 분류됩니다. 늑대에게 `diplomacy`를 주면 아무도 말을 들어주지 않는, 말솜씨 좋은 늑대가 됩니다 :wbwolf:.
 
 | 스탯 | 설명 |
 | --- | --- |
@@ -175,7 +177,7 @@ if (actor.stats.hasTag("immunity_fire")) { }
 | 생태 속성 | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | 건축 지형 | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-스탯 이름과 달리 알 수 없는 태그는 에러 없이 무해하지만, 그 어떤 시스템과도 매칭되지 않습니다. 즉 오타가 나도 조용히 묻히므로 정확하게 복사해 붙여넣으세요.
+스탯 이름과 달리 알 수 없는 태그는 에러 없이 무해하지만, 그 어떤 시스템과도 매칭되지 않습니다. 즉 오타가 나도 조용히 묻히므로 정확하게 복사해 붙여넣으세요. 독은 취향껏 고르세요 :wbbre:.
 
 ## 유닛의 현재 실시간 수치 읽기
 
@@ -191,4 +193,4 @@ float finalDamage = actor.stats["damage"];
 
 `AssetManager.base_stats_library`에 새로운 `BaseStatAsset`을 등록할 수 있으며, 인스펙터에 표시되고 다른 스탯처럼 자동 합산됩니다. 하지만 **자체적인 효과는 아무것도 없습니다**. 게임 시스템은 자기가 모르는 스탯을 절대 읽지 않기 때문입니다. 커스텀 스탯은 오직 여러분의 자체 Harmony 패치나 AI 행동 로직에서 읽어 쓰기 위한 변수로만 유용합니다.
 
-대부분의 경우 정답은 "기존 스탯을 활용하는 것"이며, 차선책은 "자신만의 딕셔너리를 관리하는 것"입니다.
+대부분의 경우 정답은 "기존 스탯을 활용하는 것"이며, 차선책은 "자신만의 딕셔너리를 관리하는 것"입니다. 세 번째 답은 아직 못 찾았습니다.

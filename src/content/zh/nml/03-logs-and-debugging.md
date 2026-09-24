@@ -148,7 +148,7 @@ public void Update()
 
 ## 无需重启游戏热重载代码
 
-每次只改动了一行代码就得重启一遍 WorldBox 是模组开发中最耗费时间的事情。NML 可以在游戏运行期间重新编译你的模组，并热替换掉你打上标记的方法。
+每次只改动了一行代码就得重启一遍 WorldBox 是模组开发中最耗费时间的事情。不信去问问一晚上重启过四十次的人。NML 可以在游戏运行期间重新编译你的模组，并热替换掉你打上标记的方法。
 
 1. 你的主类需要实现 `IReloadable` 接口，该接口仅包含一个 `Reload()` 方法。HelloBox 的实现在 **[完整模组范例](#/nml/all-together)** 中。
 2. 重载按钮仅在 `Config.isEditor` 为 `true` 时才会显示。HelloBox 通过一个默认为 `false` 的 `DevReload` 配置开关来开启它。

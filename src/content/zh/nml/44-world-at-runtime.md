@@ -27,7 +27,7 @@ foreach (Building building in World.world.buildings)
 }
 ```
 
-`World.world.kingdoms` 的用法完全相同，参见 **[王国与阵营](#/nml/kingdoms)**。遍历这些列表时**务必**对每个元素调用 `isRekt()`：这些列表中可能包含正在被销毁或死亡的对象。
+`World.world.kingdoms` 的用法完全相同，参见 **[王国与阵营](#/nml/kingdoms)**。遍历这些列表时**务必**对每个元素调用 `isRekt()`：这些列表中可能包含正在被销毁或死亡的对象 :PES2_F:。
 
 ## 将城市转让给另一个国家
 

@@ -68,7 +68,7 @@ namespace HelloBox
 
 ## Riten: das Feld `plot_id`
 
-Eine Religions-Eigenschaft mit einer `plot_id` wird zu einem **Ritus**. Die Religion sammelt ihre Riten in `possible_rites`, und Anführer sowie Priester versuchen sie eigenständig auszuführen, sobald die Bedingungen des Komplotts erfüllt sind.
+Eine Religions-Eigenschaft mit einer `plot_id` wird zu einem **Ritus**. Die Religion sammelt ihre Riten in `possible_rites`, und Anführer sowie Priester versuchen sie eigenständig auszuführen, sobald die Bedingungen des Komplotts erfüllt sind. Du schreibst den Glauben, die Priester erledigen den Rest :wbpray:.
 
 ```csharp
 trait.plot_id = "summon_meteor_rain";

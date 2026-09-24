@@ -10,7 +10,7 @@ order: 112
 
 Un **idioma** pertenece a ciudades y reinos, sufre variaciones conforme se expande y es el vehículo en el que se redactan los **libros**. Un rasgo lingüístico es una cualidad inherente a la propia palabra hablada y escrita.
 
-Es el más compacto de los siete sistemas de rasgos y cuenta con el hook más singular de todos: código que se dispara cuando alguien **lee un libro** escrito en dicha lengua.
+Es el más compacto de los siete sistemas de rasgos y cuenta con el hook más singular de todos: código que se dispara cuando alguien **lee un libro** escrito en dicha lengua. Sí, en serio :wbscroll:.
 
 | | |
 | --- | --- |
@@ -177,7 +177,7 @@ Un objeto `Language` expone también `cities`, `kingdoms` y `books`, que es lo q
 
 ## Nuevos idiomas que obtienen un rasgo por sí mismos
 
-Además de otorgarlo manualmente, un rasgo de idioma puede establecer `spawn_random_trait_allowed` para ser seleccionado cuando se forma un nuevo idioma, de la misma manera que una cultura selecciona sus rasgos iniciales.
+Además de otorgarlo manualmente, un rasgo de idioma puede establecer `spawn_random_trait_allowed` para ser seleccionado cuando se forma un nuevo idioma, de la misma manera que una cultura selecciona sus rasgos iniciales. La misma trampa que en todas las demás páginas de rasgos:
 
 > [!WARNING] `spawn_random_trait_allowed` se lee una sola vez, al inicio
 > Los nuevos idiomas eligen sus rasgos iniciales de un grupo que `BaseTraitLibrary.linkAssets()` construye mientras se carga el juego, antes de que tu mod exista. Establecer la bandera en tu rasgo no cambia nada por sí solo: tu rasgo nunca estará en ese grupo y nunca aparecerá por casualidad en un nuevo idioma. Agrégalo tú mismo, con el peso que usa el juego vanilla:

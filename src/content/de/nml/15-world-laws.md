@@ -50,7 +50,7 @@ Füge `HelloLaws.Initialize();` zu `Main.cs` hinzu und der Schalter ist im Spiel
 
 ## Den Schalter in deinem Code abfragen
 
-Darum geht es schließlich. Überall in deiner Mod:
+Darum geht es schließlich. Ein Schalter, den niemand abfragt, ist Deko. Überall in deiner Mod:
 
 ```csharp
 WorldLawAsset law = AssetManager.world_laws_library.get(HelloLaws.CHAOS);

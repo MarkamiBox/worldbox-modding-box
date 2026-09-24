@@ -8,7 +8,7 @@ order: 102
 
 # Groupes de traits et onglets :wbfamilies:
 
-Chaque trait appartient à un **groupe**, et ce groupe détermine quel onglet s'affiche dans le livre des traits. Si vous ajoutez six traits et les jetez tous dans `miscellaneous`, ils disparaissent dans une liste que personne ne fait défiler.
+Chaque trait appartient à un **groupe**, et ce groupe détermine quel onglet s'affiche dans le livre des traits. Si vous ajoutez six traits et les jetez tous dans `miscellaneous`, ils disparaissent dans une liste que personne ne fait défiler :PES4_Invisible:.
 
 Créer votre propre onglet coûte quatre lignes.
 
@@ -110,7 +110,7 @@ Modifier un groupe vanilla sur place préserve le fonctionnement de chaque trait
 
 ## Les six autres bibliothèques de groupes
 
-Les traits d'acteurs ne sont que l'un des sept systèmes de traits du jeu, et chacun possède sa propre bibliothèque de groupes contenant sa propre classe de groupe. Le code de cette page est identique pour tous, seuls deux noms changent :
+Les traits d'acteurs ne sont que l'un des sept systèmes de traits du jeu, et chacun possède sa propre bibliothèque de groupes contenant sa propre classe de groupe. Le code de cette page est identique pour tous, seuls deux noms changent. Apprenez-le une fois, copiez-le six fois :
 
 | Système de traits | Bibliothèque de groupes | Classe de groupe | Page |
 | --- | --- | --- | --- |

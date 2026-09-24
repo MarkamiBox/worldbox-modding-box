@@ -27,7 +27,7 @@ foreach (Building building in World.world.buildings)
 }
 ```
 
-`World.world.kingdoms` も同じように使えます。**[王国と勢力](#/nml/kingdoms)** を参照。毎回すべての要素に `isRekt()` をかけること。これらのリストには今まさに消えつつあるオブジェクトも入っています。
+`World.world.kingdoms` も同じように使えます。**[王国と勢力](#/nml/kingdoms)** を参照。毎回すべての要素に `isRekt()` をかけること。これらのリストには今まさに消えつつあるオブジェクトも入っています :PES2_F:。
 
 ## 都市を別の王国に移す
 

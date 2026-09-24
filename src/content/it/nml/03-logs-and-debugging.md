@@ -148,7 +148,7 @@ public void Update()
 
 ## Ricaricare il codice senza riavviare
 
-Riavviare WorldBox per testare una sola riga modificata è la parte più lenta del modding. NML può ricompilare il tuo mod a gioco aperto e sostituire a caldo i metodi contrassegnati.
+Riavviare WorldBox per testare una sola riga modificata è la parte più lenta del modding. Chiedilo a chiunque l'abbia fatto quaranta volte in una sera. NML può ricompilare il tuo mod a gioco aperto e sostituire a caldo i metodi contrassegnati.
 
 1. La tua classe principale implementa `IReloadable`, che consiste in un unico metodo, `Reload()`. Quella di HelloBox lo fa in **[Il mod completo](#/nml/all-together)**.
 2. Il pulsante di ricarica compare solo quando `Config.isEditor` è `true`. HelloBox lo abilita tramite un interruttore `DevReload` impostato di default su `false`.

@@ -21,7 +21,7 @@ Si vous souhaitez ajouter un nouveau type de *sol*, il s'agit d'un `TileType`. S
 
 ## Cloner au lieu de tout reconstruire
 
-Un type de tuile possède près d'une centaine de champs, dont la majorité ne concerne qu'une seule tuile vanilla spécifique. Clonez la tuile la plus proche :
+Un type de tuile possède près d'une centaine de champs, dont la majorité ne concerne qu'une seule tuile vanilla spécifique. Je ne vais pas lister les cent. Clonez la tuile la plus proche :
 
 ```csharp Mods/HelloBox/Code/HelloTiles.cs
 using UnityEngine;
@@ -88,6 +88,8 @@ namespace HelloBox
 | `biome_tags`, `has_biome_tags` | Quels biomes feront proliférer cette tuile |
 
 ### Comment elle se comporte
+
+Commencez ici si votre tuile est une idée de gameplay et pas seulement une nouvelle couleur.
 
 | Champ | Ce qu'il fait |
 | --- | --- |
@@ -187,7 +189,7 @@ if (tile.isOnFire()) { }
 if (tile.hasBuilding()) { }
 ```
 
-`main_type` et `top_type` peuvent tous deux être `null`. Vérifiez-les avant de les manipuler. C'est le plantage numéro un de tous les mods qui parcourent la carte.
+`main_type` et `top_type` peuvent tous deux être `null`. Vérifiez-les avant de les manipuler. C'est le plantage numéro un de tous les mods qui parcourent la carte :PES2_F:.
 
 ## Options de terraformation
 

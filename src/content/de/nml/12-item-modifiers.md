@@ -82,7 +82,7 @@ Füge `HelloModifiers.Initialize();` zu deiner `Main.cs` hinzu, und ab diesem Mo
 
 ## Dem Modifier echte Effekte verleihen
 
-Werte sind schön, aber ein Modifikator kann auch echten Code ausführen. `action_attack_target` feuert jedes Mal, wenn die Waffe einen Treffer landet:
+Werte sind schön, aber ein Modifikator kann auch echten Code ausführen, und da wird es spaßig. `action_attack_target` feuert jedes Mal, wenn die Waffe einen Treffer landet:
 
 ```csharp
 ItemAssetCreator.CreateAndAddModifier(
@@ -110,7 +110,7 @@ Jetzt setzt jede Waffe, die "hello_burning" auswürfelt, den Boden bei einem Tre
 }
 ```
 
-Der `translation_key` ist das, was im Gegenstands-Tooltip angezeigt wird. Halte ihn kurz, er steht in einer Zeile neben den Werten.
+Der `translation_key` ist das, was im Gegenstands-Tooltip angezeigt wird. Halte ihn kurz, er steht in einer Zeile neben den Werten. Niemand liest einen Absatz auf einem Schwert.
 
 > [!TIP] Erst Modifikatoren, dann Waffen
 > Eine neue Waffe ist viel Arbeit (Sprite, Animationen, Materialien). Ein neuer Modifikator braucht zwanzig Zeilen und gilt für **jede** Waffe, die die Welt erzeugt. Wenn du schnelle Ergebnisse willst, fange hier an :PES_Stonks:.

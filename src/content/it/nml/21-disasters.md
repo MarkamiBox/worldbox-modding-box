@@ -70,6 +70,8 @@ Registralo in `Main.cs` (vedi **[Il mod completo](#/nml/all-together)**), carica
 
 ### I campi
 
+`rate` e `chance` sono i due che ritoccherai di più. L'avviso in fondo alla pagina spiega perché.
+
 | Campo | Cosa fa |
 | --- | --- |
 | `rate` | Peso: quanto spesso viene sorteggiato rispetto agli altri |
@@ -138,7 +140,7 @@ L'esempio dei lupi necessita delle stesse due cose: il proprio asset di log clon
 }
 ```
 
-Scrivilo come un titolo di giornale, non come una descrizione tecnica. È la frase che il giocatore leggerà nel log del mondo.
+Scrivilo come un titolo di giornale, non come una descrizione tecnica. "Tizzoni cadono dal cielo" batte "è iniziato un evento legato ai tizzoni". È la frase che il giocatore leggerà nel log del mondo.
 
 > [!WARNING] Fai i test con numeri molto alti
 > `rate = 4, chance = 0.5f` significa che potresti aspettare venti minuti prima di vedere il tuo disastro. Durante lo sviluppo aumenta molto il `rate` e azzera i requisiti minimi, poi ripristinali prima di pubblicare :PES2_EvilPlan:.

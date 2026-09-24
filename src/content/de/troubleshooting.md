@@ -165,6 +165,8 @@ Diese Gruppe ist für Leute, die mit Mods spielen, nicht für Modder. Alles dana
 
 ## Nichts lädt
 
+Das Spiel tut so, als gäbe es deine Mod nicht. Nimm es nicht persönlich, meistens ist es ein Schalter oder ein Dateiname.
+
 ### Kein Mods-Button im Menü
 
 - **Was du siehst**: Das Spiel startet normal, kein Fehler, kein Mods-Button und keine `[NML]`-Zeile im Log.
@@ -229,6 +231,8 @@ Diese Gruppe ist für Leute, die mit Mods spielen, nicht für Modder. Alles dana
 ---
 
 ## Lädt, aber nichts erscheint
+
+NML hat deine Mod gefunden und ausgeführt. Irgendetwas darin hat es nie bis auf den Bildschirm geschafft.
 
 ### Absturz in der Zeile, in der ein Stat gesetzt wird
 
@@ -327,7 +331,7 @@ cursed.need_visual_render = true;
 
 ## Registriert, dann kaputt in der Welt
 
-Jeder Eintrag in diesem Abschnitt hat dieselbe Ursache. Das Spiel bereitet einen Teil jedes Assets **einmal beim Laden** vor, und deine Mod registriert ihre Assets danach. Nichts sagt es dir: das Asset existiert, hat einen Namen, und beim ersten echten Gebrauch wirft das Spiel. Die Lösung hat auch immer dieselbe Form: mach diesen einen Schritt selbst, direkt nachdem du das Asset registriert hast :wbfacepalm:.
+Jeder Eintrag in diesem Abschnitt hat dieselbe Ursache. Das Spiel bereitet einen Teil jedes Assets **einmal beim Laden** vor, und deine Mod registriert ihre Assets danach. Nichts sagt es dir: das Asset existiert, hat einen Namen, und beim ersten echten Gebrauch wirft das Spiel. Die Lösung hat auch immer dieselbe Form: mach diesen einen Schritt selbst, direkt nachdem du das Asset registriert hast :wbfacepalm:. Wort des Tages: Workaround.
 
 ### Deine Kreatur wirft einen Schattenfehler
 
@@ -440,6 +444,8 @@ Jeder Eintrag in diesem Abschnitt hat dieselbe Ursache. Das Spiel bereitet einen
 ---
 ## Kompiliert bei dir, aber nicht bei anderen
 
+Der Klassiker "bei mir läuft's". Der Unterschied liegt meistens an deinem Setup, nicht an deinem Code :PES5_Hmmmm:.
+
 ### `CS0122: inaccessible due to its protection level`
 
 - **Was du siehst**: Code kompiliert nicht: `addStatusEffect`, `getHit`, `_localized_text`.
@@ -461,6 +467,8 @@ Jeder Eintrag in diesem Abschnitt hat dieselbe Ursache. Das Spiel bereitet einen
 ---
 
 ## Funktioniert zuerst, bricht später ab
+
+Die langsamen. Gestern lief deine Mod noch, und an ihr hat sich nichts geändert :PES2_Shrug:.
 
 ### Eine andere Mod überschreibt still deine Inhalte
 

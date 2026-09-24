@@ -148,7 +148,7 @@ public void Update()
 
 ## Code neu laden ohne Neustart
 
-WorldBox jedes Mal neu zu starten, nur um eine geänderte Zeile zu testen, macht den Großteil des Zeitaufwands beim Modding aus. NML kann deine Mod während des laufenden Spiels neu kompilieren und die markierten Methoden austauschen.
+WorldBox jedes Mal neu zu starten, nur um eine geänderte Zeile zu testen, macht den Großteil des Zeitaufwands beim Modding aus. Frag jemanden, der das an einem Abend vierzigmal gemacht hat. NML kann deine Mod während des laufenden Spiels neu kompilieren und die markierten Methoden austauschen.
 
 1. Deine Hauptklasse implementiert `IReloadable`, was eine einzige Methode `Reload()` erfordert. Die von HelloBox tut das in **[Die fertige Mod](#/nml/all-together)**.
 2. Der Reload-Button wird nur angezeigt, wenn `Config.isEditor` den Wert `true` hat. HelloBox schaltet dies über einen `DevReload`-Schalter um, der standardmäßig auf `false` steht.

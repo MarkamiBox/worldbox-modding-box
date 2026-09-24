@@ -82,7 +82,7 @@ HelloBox/
 ember.path_texture = "drops/hello_ember";   // a folder
 ```
 
-Los drops se cargan como **lista de sprites**: el juego lee cada PNG *dentro* de esa carpeta, y por eso funciona `animated`. Un drop quieto sigue siendo una carpeta, con un frame dentro. Un `drops/hello_ember.png` suelto vuelve como lista vacía, y el drop cae invisible.
+Los drops se cargan como **lista de sprites**: el juego lee cada PNG *dentro* de esa carpeta, y por eso funciona `animated`. Un drop quieto sigue siendo una carpeta, con un frame dentro. Un `drops/hello_ember.png` suelto vuelve como lista vacía, y el drop cae invisible :wbwiltedrose:.
 
 ## Hacer caer gotas
 
@@ -96,7 +96,7 @@ World.world.drop_manager.spawn(tile, "hello_ember", 15f, -1f, -1L);
 World.world.drop_manager.spawnParabolicDrop(tile, "hello_ember", 0f, 0.1f, 5f, 0.5f, 4f, 0.15f);
 ```
 
-`spawn` es lo que buscas el 90 % de las veces. El `15f` es la altura desde la que cae: mayor número significa que tarda más en aterrizar.
+`spawn` es lo que buscas el 90 % de las veces. El `15f` es la altura desde la que cae: mayor número significa que tarda más en aterrizar. Y queda más dramático mientras cae.
 
 ## Un uso real: haz que tu poder divino llueva brasas
 

@@ -112,6 +112,8 @@ namespace HelloBox
 
 ### Coût et valeur
 
+Gardez des prix raisonnables. Une épée en fer à 43 millions de pièces, ce n'est pas de l'équilibrage, c'est une arnaque :trollface:.
+
 | Champ | Ce qu'il fait |
 | --- | --- |
 | `setCost(gold, res1, amount1, res2, amount2)` | L'unique méthode qui configure tous les coûts ensemble. À préférer aux champs séparés |
@@ -130,6 +132,8 @@ namespace HelloBox
 | `name_class`, `name_templates` | Règles de nommage des versions légendaires |
 
 ### Behaviour
+
+C'est ici qu'un objet cesse d'être un tas de nombres.
 
 | Champ | Ce qu'il fait |
 | --- | --- |
@@ -239,7 +243,7 @@ private static void RegisterLine(string pPrefix, string pTemplate)
 
 ## Les textes et la localisation
 
-Les objets se nomment différemment de tout le reste dans ce guide, ce qui surprend tout le monde. Le nom affiché d'un objet se déduit ainsi :
+Les objets se nomment différemment de tout le reste dans ce guide, ce qui surprend tout le monde, moi compris :PESgn_Oops:. Le nom affiché d'un objet se déduit ainsi :
 
 ```text
 translation_key   ?? "item_" + (equipment_subtype ?? id)

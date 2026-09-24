@@ -71,7 +71,7 @@ namespace HelloBox
 Ein Anführer mit zehn Goldmünzen, einer Stadt und etwas Freizeit kann nun ein Glut-Festival veranstalten. Nach Abschluss heitert sich die Stimmung aller Bürger mit dem Zufriedenheits-Event aus **[Königreiche & Fraktionen](#/nml/kingdoms)** auf, und auf den Organisator regnet es Glut – denn das hier ist immer noch HelloBox.
 
 > [!WARNING] `check_is_possible` ist nicht optional
-> `PlotAsset.checkIsPossible()` ruft dieses Delegat ohne Null-Prüfung auf, jedes Mal wenn ein Herrscher deinen Plan in Erwägung zieht. Lässt du es weg, wirft der erste Herrscher, der ihn prüft, eine `NullReferenceException`. Wenn du keine Bedingung hast, gib einfach `true` zurück.
+> `PlotAsset.checkIsPossible()` ruft dieses Delegat ohne Null-Prüfung auf, jedes Mal wenn ein Herrscher deinen Plan in Erwägung zieht. Lässt du es weg, wirft der erste Herrscher, der ihn prüft, eine `NullReferenceException`. Wenn du keine Bedingung hast, gib einfach `true` zurück. Ja, sogar dann.
 
 > [!WARNING] Die Standardliste wird beim Start erstellt
 > Herrscher wählen ausschließlich aus `plots_library.basic_plots` (plus den Riten ihrer Religion). `linkAssets()` füllt diese Liste beim Spielstart mit allen Plänen, die als `is_basic_plot` markiert sind – noch bevor deine Mod lädt. Das Flag allein reicht daher nicht: Füge den Plan selbst zur Liste hinzu.

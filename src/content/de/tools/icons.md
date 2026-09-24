@@ -7,4 +7,6 @@ order: 410
 
 # Sprite-Pfad-Finder :wbfavoritestar:
 
+Jeder Sprite-Pfad im Spiel, durchsuchbar, damit dein Button kein unsichtbares Loch mehr ist.
+
 ::tool:icons::

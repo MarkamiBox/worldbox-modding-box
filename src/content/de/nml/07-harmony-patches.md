@@ -117,7 +117,7 @@ Harmony befüllt deine Methodenparameter **nach Namen**. Das sind die wichtigste
 | `__state` | Ein Wert, den dein Prefix für dein eigenes Postfix zwischenspeichert |
 | beliebiger echter Parametername | Das vom Aufrufer übergebene Argument, **exakt** wie im Spielcode geschrieben |
 
-Über die letzte Zeile stolpert fast jeder. Wenn das Spiel `getHit(float pDamage, ...)` deklariert, muss dein Parameter `pDamage` heißen. Nicht `damage`, nicht `pDmg`. Du darfst Parameter weglassen, die du nicht brauchst, aber die deklarierten müssen übereinstimmen - und in diesem Spiel beginnen sie fast alle mit `p`.
+Über die letzte Zeile stolpert fast jeder, immer und immer wieder. Wenn das Spiel `getHit(float pDamage, ...)` deklariert, muss dein Parameter `pDamage` heißen. Nicht `damage`, nicht `pDmg`. Du darfst Parameter weglassen, die du nicht brauchst, aber die deklarierten müssen übereinstimmen - und in diesem Spiel beginnen sie fast alle mit `p`.
 
 ## Ein Ergebnis verändern
 
@@ -140,7 +140,7 @@ Anpassen, nicht blind zuweisen. `__result *= 1.5f` funktioniert auch dann noch f
 
 ## Einen fest im Spiel kodierten Wert ändern
 
-Die Hälfte aller Anfragen nach dem Motto "Kann jemand eine Mod machen, die..." dreht sich nur um eine einzige Zahl. "Städte wachsen zu groß" ist genau das, direkt aus der `City`-Klasse des Spiels:
+Die Hälfte aller Anfragen nach dem Motto "Kann jemand eine Mod machen, die..." dreht sich nur um eine einzige Zahl. Nichts ist unmöglich, es hat nur noch niemand gemacht :wbbru:. "Städte wachsen zu groß" ist genau das, direkt aus der `City`-Klasse des Spiels:
 
 ```csharp Assembly-CSharp / City
 public int getZoneRange(bool pAllowCheat = true)
@@ -245,6 +245,8 @@ public static class Patch_Actor_StatDelta
 
 ## Wenn es nicht funktioniert
 
+Bevor du Harmony die Schuld gibst, lies das Log. Es ist selten Harmony :PES5_Noted:.
+
 | Was du siehst | Was meist die Ursache ist |
 | --- | --- |
 | Nichts passiert, nichts im Log | `Postfix` falsch geschrieben oder `PatchAll` nie aufgerufen |
@@ -261,7 +263,7 @@ public static class Patch_Actor_StatDelta
 - **Immer auf null prüfen.** Dein Patch läuft auch während des Weltladens und während des Todes einer Einheit.
 - **Günstige Prüfung zuerst.** Die allererste Zeile eines heißen Patches sollte die Bedingung sein, die dir den schnellen `return` erlaubt.
 - **Patche die engste Methode, die den Job erledigt.** `Actor.updateStats` für das Tempo eines Traits zu patchen ist völlig in Ordnung. Den gesamten Welt-Update-Loop dafür zu patchen, sorgt dafür, dass deine Mod deinstalliert wird.
-- **Behalte deine Patches in einer Datei.** Wenn ein Konflikt gemeldet wird, willst du eine Datei lesen, nicht zwölf.
+- **Behalte deine Patches in einer Datei.** Wenn ein Konflikt gemeldet wird, willst du eine Datei lesen, nicht zwölf. Sei nett zu deinem zukünftigen Ich. Mach es, wie ich es sage, nicht wie meine alten Mods es machen :trollface:.
 
 ## Was wir hier nicht behandeln
 

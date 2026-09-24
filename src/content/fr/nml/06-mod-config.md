@@ -146,4 +146,4 @@ public ModConfig GetConfig()
 }
 ```
 
-C'est cette méthode unique qui fait apparaître le bouton d'engrenage à côté de votre mod dans la liste des mods.
+C'est cette méthode unique qui fait apparaître le bouton d'engrenage à côté de votre mod dans la liste des mods. Une seule méthode, et plus personne ne se dispute avec vous sur Discord. En théorie.

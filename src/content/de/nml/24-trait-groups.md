@@ -8,7 +8,7 @@ order: 102
 
 # Eigenschaftsgruppen & Tabs :wbfamilies:
 
-Jede Eigenschaft gehört zu einer **Gruppe**, und diese Gruppe zeichnet einen Tab im Eigenschaften-Buch. Wenn du sechs Eigenschaften hinzufügst und alle in `miscellaneous` wirfst, verschwinden sie in einer Liste, die niemand durchscrollt.
+Jede Eigenschaft gehört zu einer **Gruppe**, und diese Gruppe zeichnet einen Tab im Eigenschaften-Buch. Wenn du sechs Eigenschaften hinzufügst und alle in `miscellaneous` wirfst, verschwinden sie in einer Liste, die niemand durchscrollt :PES4_Invisible:.
 
 Ein eigener Tab kostet dich vier Zeilen.
 
@@ -110,7 +110,7 @@ Das direkte Bearbeiten einer Vanilla-Gruppe sorgt dafür, dass jede darauf verwe
 
 ## Die anderen sechs Gruppen-Bibliotheken
 
-Akteurseigenschaften sind nur eines von sieben Eigenschaftssystemen, und jedes besitzt seine eigene Gruppenbibliothek mit seiner eigenen Gruppenklasse. Der Code auf dieser Seite ist für alle identisch, nur die zwei Namen ändern sich:
+Akteurseigenschaften sind nur eines von sieben Eigenschaftssystemen, und jedes besitzt seine eigene Gruppenbibliothek mit seiner eigenen Gruppenklasse. Der Code auf dieser Seite ist für alle identisch, nur die zwei Namen ändern sich. Einmal lernen, sechsmal kopieren:
 
 | Eigenschaftssystem | Gruppen-Bibliothek | Gruppen-Klasse | Seite |
 | --- | --- | --- | --- |

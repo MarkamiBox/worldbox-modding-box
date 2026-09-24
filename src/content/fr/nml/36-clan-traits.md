@@ -110,7 +110,7 @@ Plusieurs traits de clan de vanilla constituent des récompenses plutôt que des
 trait.setUnlockedWithAchievement("achievementSegregator");
 ```
 
-Un trait verrouillé existe et fonctionne normalement ; le joueur ne peut simplement pas le sélectionner dans l'éditeur avant d'avoir validé le succès. Notez que `BaseTraitLibrary` applique également automatiquement `rarity = R3_Legendary` à tout élément verrouillé de la sorte.
+Un trait verrouillé existe et fonctionne normalement ; le joueur ne peut simplement pas le sélectionner dans l'éditeur avant d'avoir validé le succès. Notez que `BaseTraitLibrary` applique également automatiquement `rarity = R3_Legendary` à tout élément verrouillé de la sorte, pour que votre récompense ait fière allure :gold_star:.
 
 ## Les groupes vanilla
 
@@ -150,7 +150,7 @@ Le clan d'une unité se trouve dans `actor.clan`, et `actor.hasClan()` indique s
 
 ## Nouveaux clans obtenant un trait d'eux-mêmes
 
-En plus de l'attribuer vous-même, un trait de clan peut définir `spawn_random_trait_allowed` pour être tiré au sort lors de la formation d'un nouveau clan, de la même manière qu'une culture tire ses traits de départ.
+En plus de l'attribuer vous-même, un trait de clan peut définir `spawn_random_trait_allowed` pour être tiré au sort lors de la formation d'un nouveau clan, de la même manière qu'une culture tire ses traits de départ. Le même piège que sur toutes les autres pages de traits :
 
 > [!WARNING] `spawn_random_trait_allowed` n'est lu qu'une seule fois, au démarrage
 > Les nouveaux clans tirent leurs traits de départ d'un pool que `BaseTraitLibrary.linkAssets()` construit pendant le chargement du jeu, avant que votre mod n'existe. Définir le drapeau sur votre trait ne change rien en soi : votre trait n'est jamais dans ce pool et n'apparaît jamais par hasard sur un nouveau clan. Ajoutez-le vous-même, pondéré comme le fait le jeu vanilla :

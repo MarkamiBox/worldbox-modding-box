@@ -57,7 +57,7 @@ namespace HelloBox
 
 ## 仪式：`plot_id` 字段
 
-带有 `plot_id` 的宗教特质会成为一项**仪式**。宗教将其仪式收集到 `possible_rites` 中，当阴谋的触发条件达成时，领袖与祭司们便会自发尝试举行该仪式。
+带有 `plot_id` 的宗教特质会成为一项**仪式**。宗教将其仪式收集到 `possible_rites` 中，当阴谋的触发条件达成时，领袖与祭司们便会自发尝试举行该仪式。你来写信仰，剩下的交给祭司 :wbpray:。
 
 ```csharp
 trait.plot_id = "summon_meteor_rain";

@@ -148,7 +148,7 @@ public void Update()
 
 ## Recharger le code sans redémarrer
 
-Redémarrer WorldBox pour tester une seule ligne modifiée représente l'essentiel du temps passé à modder. NML peut recompiler votre mod pendant que le jeu tourne et remplacer à chaud les méthodes que vous avez marquées.
+Redémarrer WorldBox pour tester une seule ligne modifiée représente l'essentiel du temps passé à modder. Demandez à quiconque l'a fait quarante fois dans la même soirée. NML peut recompiler votre mod pendant que le jeu tourne et remplacer à chaud les méthodes que vous avez marquées.
 
 1. Votre classe principale implémente `IReloadable`, ce qui correspond à une méthode unique : `Reload()`. Celle de HelloBox le fait dans **[Le mod complet](#/nml/all-together)**.
 2. Le bouton de rechargement ne s'affiche que si `Config.isEditor` est à `true`. HelloBox l'active via une option `DevReload` configurée par défaut sur `false`.

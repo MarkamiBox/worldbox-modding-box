@@ -8,11 +8,11 @@ order: 144
 
 # IA e comportamenti personalizzati :wbgoldenbrain:
 
-Qui si scende in profondità. Tutto il resto in questa guida aggiunge *oggetti e dati* al gioco. Questa parte aggiunge **decisioni**: cosa farà una creatura subito dopo, di sua spontanea volontà, per sempre, in un mondo condiviso con migliaia di altre.
+Qui si scende in profondità. Tutto il resto in questa guida aggiunge *oggetti e dati* al gioco. Questa parte aggiunge **decisioni**: cosa farà una creatura subito dopo, di sua spontanea volontà, per sempre, in un mondo condiviso con migliaia di altre. Nessuna pressione :PES_MonkaSweat:.
 
 ## Come ragiona il gioco
 
-Tre livelli, dal generale al particolare:
+Tre livelli, dal generale al particolare, più quello che sta al loro fianco. Mi ci è voluto più tempo di quanto mi piaccia ammettere:
 
 | Livello | Cos'è | Libreria |
 | --- | --- | --- |
@@ -245,7 +245,7 @@ trait.decisions_assets = new DecisionAsset[] { AssetManager.decisions_library.ge
 
 ## Lavori cittadini
 
-I cittadini ricevono il proprio lavoro dalla città, non dalla loro mente. La città valuta le necessità, apre gli slot di lavoro (costruttori, contadini, minatori...) e li assegna. Un **lavoro cittadino (Citizen Job)** è uno di questi slot, e l'unità che lo accetta esegue l'`ActorJob` con lo stesso ID.
+I cittadini ricevono il proprio lavoro dalla città, non dalla loro mente. La città valuta le necessità, apre gli slot di lavoro (costruttori, contadini, minatori...) e li assegna. Un **lavoro cittadino (Citizen Job)** è uno di questi slot, e l'unità che lo accetta esegue l'`ActorJob` con lo stesso ID. Stesso ID da entrambe le parti: tutto il trucco è qui.
 
 ```csharp Mods/HelloBox/Code/HelloCityJobs.cs
 using ai.behaviours;   // CityBehCheckCitizenTasks
@@ -315,7 +315,7 @@ Tre passaggi fondamentali che risolvono ciò che il gioco fa solo all'avvio:
 
 ## Il testo
 
-Il nome dell'attività corrisponde a quanto mostrato nella finestra dell'unità come azione corrente, e una decisione adotta il nome dell'attività che avvia:
+Il nome dell'attività corrisponde a quanto mostrato nella finestra dell'unità come azione corrente, quindi il giocatore la leggerà più di qualsiasi altra riga che scrivi. Una decisione adotta il nome dell'attività che avvia:
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -325,7 +325,7 @@ Il nome dell'attività corrisponde a quanto mostrato nella finestra dell'unità 
 
 ## Regole d'oro per non distruggere il framerate
 
-Possono esserci migliaia di unità. Il tuo comportamento gira su ciascuna di esse, a ogni singolo tick.
+Possono esserci migliaia di unità. Il tuo comportamento gira su ciascuna di esse, a ogni singolo tick. "Performance? Mai sentita, si mangia?" è una bella battuta finché non è la tua mod a mangiarsela. La maggior parte delle mod, comprese le mie, esegue loop enormi a ogni tick e se la cava su un PC decente. Un comportamento non se la cava.
 
 - **Esegui i calcoli complessi sul tuo timer, non in `execute`.** Esegui la logica pesante in `Update()` a intervalli regolari, memorizza la risposta e lascia che `execute` si limiti a leggerla.
 - **Distribuisci il carico.** Se calcoli per 40 creature, calcola per 10 alla volta distribuite su quattro passaggi, invece di tutte e 40 simultaneamente.

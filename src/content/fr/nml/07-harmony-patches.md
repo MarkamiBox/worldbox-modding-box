@@ -117,7 +117,7 @@ Harmony injecte vos paramètres **par leur nom**. Voici ceux qui comptent, et le
 | `__state` | Une valeur que votre Prefix transmet à votre propre Postfix |
 | n'importe quel paramètre réel | L'argument transmis par l'appelant, nommé **exactement** comme dans le jeu |
 
-C'est sur cette dernière ligne que tout le monde trébuche. Si le jeu déclare `getHit(float pDamage, ...)`, votre paramètre doit s'appeler `pDamage`. Pas `damage`, pas `pDmg`. Vous pouvez omettre les paramètres inutiles, mais ceux que vous déclarez doivent correspondre mot pour mot, et dans ce jeu ils commencent presque tous par `p`.
+C'est sur cette dernière ligne que tout le monde trébuche, encore et encore. Si le jeu déclare `getHit(float pDamage, ...)`, votre paramètre doit s'appeler `pDamage`. Pas `damage`, pas `pDmg`. Vous pouvez omettre les paramètres inutiles, mais ceux que vous déclarez doivent correspondre mot pour mot, et dans ce jeu ils commencent presque tous par `p`.
 
 ## Modifier un résultat
 
@@ -140,7 +140,7 @@ Ajustez, n'écrasez pas aveuglément. `__result *= 1.5f` fonctionne harmonieusem
 
 ## Modifier un nombre codé en dur dans le jeu
 
-La moitié des demandes du type "quelqu'un peut-il faire un mod qui..." ne concerne qu'un seul nombre. "Les villes deviennent trop grandes" n'est rien d'autre que cela, tiré directement de la classe `City` du jeu :
+La moitié des demandes du type "quelqu'un peut-il faire un mod qui..." ne concerne qu'un seul nombre. Rien n'est impossible, c'est juste que personne ne l'a encore fait :wbbru:. "Les villes deviennent trop grandes" n'est rien d'autre que cela, tiré directement de la classe `City` du jeu :
 
 ```csharp Assembly-CSharp / City
 public int getZoneRange(bool pAllowCheat = true)
@@ -245,6 +245,8 @@ public static class Patch_Actor_StatDelta
 
 ## Quand ça ne fonctionne pas
 
+Avant d'accuser Harmony, lisez le log. C'est rarement Harmony :PES5_Noted:.
+
 | Ce que vous voyez | La cause la plus probable |
 | --- | --- |
 | Rien ne se passe, rien dans les logs | `Postfix` mal orthographié, ou `PatchAll` jamais appelé |
@@ -261,7 +263,7 @@ public static class Patch_Actor_StatDelta
 - **Vérifiez toujours les null.** Votre patch s'exécutera pendant le chargement du monde et pendant la mort d'une unité.
 - **Le test rapide en premier.** La première ligne d'un patch fréquent doit être la condition qui permet un `return` immédiat.
 - **Patchez la méthode la plus ciblée possible.** Patcher `Actor.updateStats` pour la vitesse d'un trait est parfait. Patcher la boucle générale de mise à jour du monde pour faire la même chose est le meilleur moyen de faire désinstaller votre mod.
-- **Gardez vos patchs dans un seul fichier.** Quand un utilisateur signale un conflit, vous voudrez examiner un fichier, pas douze.
+- **Gardez vos patchs dans un seul fichier.** Quand un utilisateur signale un conflit, vous voudrez examiner un fichier, pas douze. Soyez gentil avec votre futur vous. Faites ce que je dis, pas ce que font mes vieux mods :trollface:.
 
 ## Ce que nous n'aborderons pas ici
 

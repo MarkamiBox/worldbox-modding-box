@@ -82,7 +82,7 @@ Ajoutez `HelloModifiers.Initialize();` dans votre `Main.cs`, et le jeu pourra d�
 
 ## Lui faire faire quelque chose pour de vrai
 
-Les statistiques sont utiles, mais un modificateur peut aussi exécuter du code. `action_attack_target` s'exécute à chaque fois que l'arme touche une cible :
+Les statistiques sont utiles, mais un modificateur peut aussi exécuter du code, et c'est là que ça devient amusant. `action_attack_target` s'exécute à chaque fois que l'arme touche une cible :
 
 ```csharp
 ItemAssetCreator.CreateAndAddModifier(
@@ -110,7 +110,7 @@ Désormais, toute arme tirant au sort "hello_burning" enflammera le sol lorsqu'e
 }
 ```
 
-La `translation_key` correspond au texte affiché dans l'infobulle de l'arme : restez concis, elle s'affiche sur une seule ligne à côté des statistiques.
+La `translation_key` correspond au texte affiché dans l'infobulle de l'arme : restez concis, elle s'affiche sur une seule ligne à côté des statistiques. Personne ne lit un paragraphe sur une épée.
 
 > [!TIP] Modificateurs avant les armes
 > Créer une arme complète représente un travail considérable (sprites, animations, matériaux). Un nouveau modificateur tient en vingt lignes et bénéficie à **toutes** les armes que le jeu génère. Si vous voulez des nouveautés immédiates, commencez par ici :PES_Stonks:.

@@ -71,7 +71,7 @@ namespace HelloBox
 Um líder com dez moedas, uma cidade e tempo livre agora pode organizar um festival de brasas. Quando ele termina, todos na cidade ficam mais felizes com o evento de felicidade de **[Reinos e facções](#/nml/kingdoms)**, e brasas caem sobre o organizador, porque este ainda é o HelloBox.
 
 > [!WARNING] `check_is_possible` não é opcional
-> `PlotAsset.checkIsPossible()` o chama sem nenhuma verificação de nulos toda vez que um líder avalia seu complô. Se você omitir isso, o primeiro líder que o examinar causará um `NullReferenceException`. Se não tiver condições especiais, retorne simplesmente `true`.
+> `PlotAsset.checkIsPossible()` o chama sem nenhuma verificação de nulos toda vez que um líder avalia seu complô. Se você omitir isso, o primeiro líder que o examinar causará um `NullReferenceException`. Se não tiver condições especiais, retorne simplesmente `true`. Sim, mesmo assim.
 
 > [!WARNING] A lista básica é construída na inicialização
 > Líderes escolhem apenas a partir de `plots_library.basic_plots` (além dos ritos de sua religião). `linkAssets()` preenche essa lista com todos os complôs marcados como `is_basic_plot` uma única vez, antes do carregamento do seu mod. Apenas definir a flag não basta: adicione o complô manualmente à lista.

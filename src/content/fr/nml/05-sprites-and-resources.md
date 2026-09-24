@@ -123,7 +123,7 @@ MusicBox.playSound("event:/SFX/WEAPONS/WeaponFireballStart", pTile);   // at a p
 MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on the interface
 ```
 
-Le premier joue le son à l'emplacement de cette case du monde. HelloBox joue le son de boule de feu lorsque son action de combat projette une braise, voir **[Projectiles, sorts et effets](#/nml/projectiles-spells)**. Pour trouver des chemins, cherchez `event:/SFX/` dans le code du jeu : il en existe des centaines, classés dans des dossiers selon leur nature.
+Le premier joue le son à l'emplacement de cette case du monde. HelloBox joue le son de boule de feu lorsque son action de combat projette une braise, voir **[Projectiles, sorts et effets](#/nml/projectiles-spells)**. Pour trouver des chemins, cherchez `event:/SFX/` dans le code du jeu : il en existe des centaines, classés dans des dossiers selon leur nature. Baissez le volume avant de commencer à les tester.
 
 > [!NOTE] Ajouter de nouveaux sons est un autre projet
 > Les événements FMOD résident dans les banques de sons du jeu et un mod ne peut pas les enrichir directement. Jouer vos propres fichiers `.wav` implique de les charger vous-même dans une `AudioSource` Unity, en dehors des réglages de volume du jeu. Ce guide ne le traite pas, car je ne l'ai jamais moddé et je ne vais pas faire semblant du contraire.

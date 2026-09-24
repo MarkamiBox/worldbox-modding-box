@@ -8,11 +8,11 @@ order: 144
 
 # IA et comportements personnalisés :wbgoldenbrain:
 
-Nous plongeons ici dans le grand bain. Tout le reste dans ce guide ajoute des *éléments et des données* au jeu. Cette section ajoute des **décisions** : ce qu'une créature choisit de faire ensuite, de sa propre initiative, indéfiniment, au sein d'un monde partagé avec des milliers d'autres.
+Nous plongeons ici dans le grand bain. Tout le reste dans ce guide ajoute des *éléments et des données* au jeu. Cette section ajoute des **décisions** : ce qu'une créature choisit de faire ensuite, de sa propre initiative, indéfiniment, au sein d'un monde partagé avec des milliers d'autres. Aucune pression :PES_MonkaSweat:.
 
 ## Comment le jeu réfléchit
 
-Trois strates, du plus général au plus précis :
+Trois strates, du plus général au plus précis, plus celui qui se tient à côté. Ça m'a pris plus de temps que je ne veux l'admettre :
 
 | Strate | Ce que c'est | Bibliothèque |
 | --- | --- | --- |
@@ -245,7 +245,7 @@ trait.decisions_assets = new DecisionAsset[] { AssetManager.decisions_library.ge
 
 ## Métiers municipaux
 
-Les citoyens reçoivent leur travail de la ville, pas de leur propre cerveau. La ville évalue les besoins, ouvre des créneaux de travail (bâtisseurs, fermiers, mineurs...) et les distribue. Un **métier de citoyen (Citizen Job)** représente un de ces postes, et l'unité recrutée exécute l'`ActorJob` du même ID.
+Les citoyens reçoivent leur travail de la ville, pas de leur propre cerveau. La ville évalue les besoins, ouvre des créneaux de travail (bâtisseurs, fermiers, mineurs...) et les distribue. Un **métier de citoyen (Citizen Job)** représente un de ces postes, et l'unité recrutée exécute l'`ActorJob` du même ID. Le même id des deux côtés : c'est tout le truc.
 
 ```csharp Mods/HelloBox/Code/HelloCityJobs.cs
 using ai.behaviours;   // CityBehCheckCitizenTasks
@@ -315,7 +315,7 @@ Trois éléments indispensables pour combler les étapes du démarrage du jeu :
 
 ## Le texte
 
-Le nom de la tâche correspond à l'action affichée dans la fenêtre de l'unité, et une décision emprunte le nom de la tâche qu'elle déclenche :
+Le nom de la tâche correspond à l'action affichée dans la fenêtre de l'unité, donc le joueur le lira plus que n'importe quelle autre ligne que vous écrivez. Une décision emprunte le nom de la tâche qu'elle déclenche :
 
 ```json Mods/HelloBox/Locales/en.json
 {
@@ -325,7 +325,7 @@ Le nom de la tâche correspond à l'action affichée dans la fenêtre de l'unit�
 
 ## Les règles pour ne pas anéantir le framerate
 
-Il peut y avoir des milliers d'unités. Votre comportement tourne sur chacune d'elles, à chaque tick.
+Il peut y avoir des milliers d'unités. Votre comportement tourne sur chacune d'elles, à chaque tick. "Les performances ? Jamais entendu parler, ça se mange ?" est une bonne blague jusqu'à ce que votre mod soit celui qui les mange. La plupart des mods, les miens compris, font tourner d'énormes boucles à chaque tick et s'en tirent sur un PC correct. Un comportement ne s'en tire pas.
 
 - **Effectuez vos calculs lourds sur votre propre cadence, pas dans `execute`.** Faites tourner vos logiques coûteuses dans `Update()` sur un timer, stockez le résultat et laissez `execute` simplement lire la valeur.
 - **Répartissez la charge.** Si vous calculez pour 40 créatures, traitez-en 10 par passe sur quatre passes, plutôt que les 40 d'un seul bloc.

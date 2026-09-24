@@ -50,7 +50,7 @@ namespace HelloBox
 
 ## 코드에서 스위치 상태 확인하기
 
-이것이 스위치를 만든 본래 목적입니다. 모드의 어느 곳에서든 다음과 같이 확인합니다:
+이것이 스위치를 만든 본래 목적입니다. 아무도 읽지 않는 스위치는 장식일 뿐입니다. 모드의 어느 곳에서든 다음과 같이 확인합니다:
 
 ```csharp
 WorldLawAsset law = AssetManager.world_laws_library.get(HelloLaws.CHAOS);

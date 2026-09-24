@@ -164,7 +164,7 @@ Font font = LocalizedTextManager.current_font ?? Resources.GetBuiltinResource<Fo
 
 ## 悬停提示框（Tooltips）
 
-游戏的悬停提示框同样作为资产统一由 `AssetManager.tooltips` 管理：包含资产 ID 以及每次提示框唤起时执行的数据填充回调。注册自定义提示框后，界面上的任何 UI 对象均可在鼠标悬停时展示带有动态实时数据的说明框。
+游戏的悬停提示框同样作为资产统一由 `AssetManager.tooltips` 管理：包含资产 ID 以及每次提示框唤起时执行的数据填充回调。注册自定义提示框后，界面上的任何 UI 对象均可在鼠标悬停时展示带有动态实时数据的说明框。玩家会把鼠标悬停在所有东西上，所以你的模组正是在这里悄悄显得完成度很高。
 
 ```csharp Mods/HelloBox/Code/HelloTooltips.cs
 using UnityEngine;
@@ -262,7 +262,7 @@ namespace HelloBox
 > [!WARNING] 快捷键映射在游戏启动阶段完成静态注册
 > `HotkeyLibrary.linkAssets()` 会将所有 `default_key_*` 映射复制到游戏运行时实际检测的 `overridden_key_*` 字段中，并构建出每帧轮询的 `action_hotkeys` 数组。这两步均发生在模组载入之前。若漏掉了注册后的映射同步，按键将完全无法触发任何响应 :wbfacepalm:。
 
-`check_*` 检测标志是防止按键冲突的省心手段：`check_controls_locked` 会在玩家直接操控生物时忽略按键，`check_window_not_active` 则会在原版窗口处于激活状态时阻止呼出。请挑选原版未占用的按键，例如 F6（其他模组可能也会使用）。
+`check_*` 检测标志是防止按键冲突的省心手段：`check_controls_locked` 会在玩家直接操控生物时忽略按键，`check_window_not_active` 则会在原版窗口处于激活状态时阻止呼出。请挑选原版未占用的按键，例如 F6（其他模组可能也会使用） :PES2_Shrug:。
 
 ```json Mods/HelloBox/Locales/en.json
 {

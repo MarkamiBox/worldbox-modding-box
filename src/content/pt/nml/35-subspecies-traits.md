@@ -62,7 +62,7 @@ namespace HelloBox
 
 ## Mutação
 
-É assim que um traço de subespécie surge no mundo sem que você precise distribuí-lo manualmente. A biblioteca mantém duas urnas de sorteio, e estes dois campos decidem em quais urnas seu traço entra:
+É assim que um traço de subespécie surge no mundo sem que você precise distribuí-lo manualmente, que é o jeito divertido. A biblioteca mantém duas urnas de sorteio, e estes dois campos decidem em quais urnas seu traço entra:
 
 | Campo | O que faz |
 | --- | --- |
@@ -107,7 +107,7 @@ trait.texture_asset.shadow = trait.shadow;
 | `remove_for_zombies` | Remove o visual quando a unidade vira zumbi |
 | `priority` | Qual visual prevalece quando a unidade possui dois |
 
-As mutações de aparência vanilla (hambúrguer, rocha viva, horror tentacular, orbe de luz, fractal) são clones de `$skin_mutation$`, e clonar esse modelo é de longe o caminho mais rápido para uma aparência funcional.
+As mutações de aparência vanilla (hambúrguer, rocha viva, horror tentacular, orbe de luz, fractal) são clones de `$skin_mutation$`, e clonar esse modelo é de longe o caminho mais rápido para uma aparência funcional. Sim, burger é uma mutação de verdade. Os caminhos de Maxim são misteriosos :wbpray:.
 
 ## Fenótipos, dieta e ovos
 
@@ -122,7 +122,7 @@ Três subsistemas aos quais os traços de subespécie se integram:
 
 ## Genes
 
-Um gene é a forma como um traço de subespécie sofre mutação para outro traço. O jogo percorre `AssetManager.genes` durante a reprodução para decidir o que será transmitido:
+Um gene é a forma como um traço de subespécie sofre mutação para outro traço. O jogo percorre `AssetManager.genes` durante a reprodução para decidir o que será transmitido: Dever de casa de biologia, basicamente.
 
 ```csharp Mods/HelloBox/Code/HelloGenes.cs
 namespace HelloBox

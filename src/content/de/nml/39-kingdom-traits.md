@@ -10,7 +10,7 @@ order: 114
 
 Eine **Königreichs-Eigenschaft** ist Politik. Kein Glaube, keine Blutlinie: eine Entscheidung, die die Krone getroffen hat und die für das gesamte Reich gilt.
 
-Vanilla nutzt dieses System für genau eine einzige Sache: Steuersätze. Das macht es zum kleinsten und leersten der sieben Eigenschaftssysteme – und damit zum spannendsten Ort für eigene Ideen. Niemand macht dir hier den Platz streitig.
+Vanilla nutzt dieses System für genau eine einzige Sache: Steuersätze. Das macht es zum kleinsten und leersten der sieben Eigenschaftssysteme – und damit zum spannendsten Ort für eigene Ideen. Niemand macht dir hier den Platz streitig :wbsmirk:.
 
 | | |
 | --- | --- |
@@ -87,7 +87,7 @@ namespace HelloBox
 
 ## Eine Politik erstellen, die tatsächlich etwas bewirkt
 
-Da `base_stats` ausscheidet, rechtfertigt eine Königreichs-Eigenschaft ihre Existenz auf zwei Wegen.
+Da `base_stats` ausscheidet, rechtfertigt eine Königreichs-Eigenschaft ihre Existenz auf zwei Wegen. Beides ist mehr Arbeit als eine Zahl, und beides lohnt sich.
 
 **Eine Entscheidung**, die saubere und unkomplizierte Variante:
 

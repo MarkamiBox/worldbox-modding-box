@@ -72,6 +72,8 @@ namespace HelloBox
 
 ### Os campos
 
+Clone uma nuvem vanilla e depois troque `drop_id` e `color_hex`. Muitas nuvens não precisam de mais nada.
+
 | Campo | O que faz |
 | --- | --- |
 | `color_hex` | A tonalidade. Isso define a maior parte da personalidade da nuvem |
@@ -93,7 +95,7 @@ Uma `CloudAction` recebe a nuvem em execução e não retorna nada:
 public delegate void CloudAction(Cloud pCloud);
 ```
 
-`CloudLibrary.dropAction` é a ação padrão de vanilla: ela escolhe um ladrilho aleatório sob o sprite da nuvem e gera um `drop_id` lá. Em 90% das vezes essa é a única ação que você vai querer: configure-a em `cloud_action_1` e pronto.
+`CloudLibrary.dropAction` é a ação padrão de vanilla: ela escolhe um ladrilho aleatório sob o sprite da nuvem e gera um `drop_id` lá. Em 90% das vezes essa é a única ação que você vai querer: configure-a em `cloud_action_1` e pronto. Preguiçoso e correto, a minha combinação favorita :pepeOK:.
 
 Para algo a mais, escreva seu próprio método e coloque-o em `cloud_action_2`:
 

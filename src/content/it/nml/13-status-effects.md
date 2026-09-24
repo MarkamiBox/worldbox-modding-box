@@ -76,6 +76,8 @@ namespace HelloBox
 
 ### I campi che vale la pena conoscere
 
+La lista breve. Quella vera è più lunga e per lo più noiosa :wbyawn:.
+
 | Campo | Cosa fa |
 | --- | --- |
 | `duration` | Durata in secondi. Lo status si rimuove da solo alla scadenza |
@@ -98,7 +100,7 @@ namespace HelloBox
 
 ## Il tuo sprite personalizzato
 
-C'è una trappola qui. `texture` **non** è un percorso completo: la libreria degli status prepende automaticamente `effects/` prima del caricamento, quindi inserisci solo il nome grezzo.
+C'è una trappola qui, e tutti ci cadono almeno una volta :wbbre:. `texture` **non** è un percorso completo: la libreria degli status prepende automaticamente `effects/` prima del caricamento, quindi inserisci solo il nome grezzo.
 
 ```text Mods/HelloBox/
 HelloBox/

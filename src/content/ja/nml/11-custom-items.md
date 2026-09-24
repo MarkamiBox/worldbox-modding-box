@@ -112,6 +112,8 @@ namespace HelloBox
 
 ### コストと価値
 
+価格は常識的に。4300万コインの鉄の剣はバランス調整ではなく、ただの詐欺です :trollface:。
+
 | フィールド | 役割 |
 | --- | --- |
 | `setCost(gold, res1, amount1, res2, amount2)` | コストを一括設定する推奨メソッド。個別設定よりこちらを使う |
@@ -130,6 +132,8 @@ namespace HelloBox
 | `name_class`, `name_templates` | 伝説級になった際の命名ルール |
 
 ### Behaviour
+
+ここで、アイテムは単なる数字の塊ではなくなります。
 
 | フィールド | 役割 |
 | --- | --- |
@@ -238,7 +242,7 @@ private static void RegisterLine(string pPrefix, string pTemplate)
 
 ## ローカライズテキスト
 
-アイテムの命名規則は他のアセットと大きく異なっており、多くの人が混乱します。アイテムの表示名は次のように決定されます：
+アイテムの命名規則は他のアセットと大きく異なっており、多くの人が混乱します。私も含めて :PESgn_Oops:。アイテムの表示名は次のように決定されます：
 
 ```text
 translation_key   ?? "item_" + (equipment_subtype ?? id)

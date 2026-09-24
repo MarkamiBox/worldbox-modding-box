@@ -70,6 +70,8 @@ Registre-o no `Main.cs` (veja **[O mod completo](#/nml/all-together)**), carregu
 
 ### Os campos
 
+`rate` e `chance` são os dois que você mais vai ajustar. O aviso no fim da página explica o porquê.
+
 | Campo | O que faz |
 | --- | --- |
 | `rate` | Peso: frequência com que é escolhido em relação a outros desastres |
@@ -138,7 +140,7 @@ O exemplo dos lobos precisa das mesmas duas coisas: seu próprio asset de log cl
 }
 ```
 
-Escreva como uma manchete de jornal, não como uma descrição técnica. É a frase que o jogador lerá no registro do mundo.
+Escreva como uma manchete de jornal, não como uma descrição técnica. "Brasas caem do céu" ganha de "um evento relacionado a brasas começou". É a frase que o jogador lerá no registro do mundo.
 
 > [!WARNING] Teste com os números elevados
 > `rate = 4, chance = 0.5f` significa que você pode esperar vinte minutos para ver seu próprio desastre. Durante o desenvolvimento, aumente bastante o `rate` e zere os requisitos mínimos; depois restaure antes de publicar :PES2_EvilPlan:.

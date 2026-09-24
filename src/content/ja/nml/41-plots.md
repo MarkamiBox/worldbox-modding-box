@@ -71,7 +71,7 @@ namespace HelloBox
 10コインと都市を持ち、特にやることがない指導者は「燃え殻の祝祭（Ember Festival）」を企画できるようになります。計画が完遂すると、**[王国と派閥](#/nml/kingdoms)** で作成した幸福度イベントによって都市全体の幸福度が上昇し、主催者の頭上には燃え殻が降り注ぎます（HelloBox らしさの演出です）。
 
 > [!WARNING] `check_is_possible` の設定は必須です
-> `PlotAsset.checkIsPossible()` は指導者が陰謀を検討するたびに null チェックなしで呼び出されます。設定を省略すると、指導者がこの陰謀を評価した瞬間に `NullReferenceException` でクラッシュします。特別な発生条件がない場合は単に `true` を返してください。
+> `PlotAsset.checkIsPossible()` は指導者が陰謀を検討するたびに null チェックなしで呼び出されます。設定を省略すると、指導者がこの陰謀を評価した瞬間に `NullReferenceException` でクラッシュします。特別な発生条件がない場合は単に `true` を返してください。ええ、その場合でもです。
 
 > [!WARNING] 基本リストは起動時に構築されます
 > 指導者は `plots_library.basic_plots`（および自身の宗教の儀式）の中からのみ陰謀を選択します。`linkAssets()` は起動時に `is_basic_plot` が true の陰謀をこのリストに一度だけ追加しますが、これは Mod が読み込まれる前に行われます。フラグを立てるだけでは不十分なため、リストへの追加処理を Mod 側で明示的に実行してください。

@@ -112,6 +112,8 @@ namespace HelloBox
 
 ### Costo e valore
 
+Tieni i prezzi sensati. Una spada di ferro da 43 milioni di monete non è bilanciamento, è una truffa :trollface:.
+
 | Campo | Cosa fa |
 | --- | --- |
 | `setCost(gold, res1, amount1, res2, amount2)` | La chiamata unica che configura tutti i costi. Usala invece di impostarli singolarmente |
@@ -130,6 +132,8 @@ namespace HelloBox
 | `name_class`, `name_templates` | Come vengono denominate le versioni leggendarie |
 
 ### Behaviour
+
+Qui un oggetto smette di essere un mucchio di numeri.
 
 | Campo | Cosa fa |
 | --- | --- |
@@ -239,7 +243,7 @@ private static void RegisterLine(string pPrefix, string pTemplate)
 
 ## I testi di localizzazione
 
-Gli oggetti vengono nominati in modo diverso da qualunque altra cosa in questa guida, traendo tutti in inganno. Il nome visualizzato di un oggetto si calcola così:
+Gli oggetti vengono nominati in modo diverso da qualunque altra cosa in questa guida, traendo tutti in inganno, me compreso :PESgn_Oops:. Il nome visualizzato di un oggetto si calcola così:
 
 ```text
 translation_key   ?? "item_" + (equipment_subtype ?? id)

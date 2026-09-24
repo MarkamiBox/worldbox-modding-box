@@ -46,7 +46,7 @@ order: 1
 2. **Assets** という項目までスクロールします。閉じていたらクリックして開きます。
 3. **NeoModLoader.dll** をクリックします。普通のファイルと同じように、たいてい **ダウンロード** フォルダに保存されます。
 
-必要なのはこのファイルだけです。`nml-setup-win.exe` や、`.pdb`、`.xml`、「Source code」のファイルも並んでいますが、すべて無視してください。
+必要なのはこのファイルだけです。`nml-setup-win.exe` や、`.pdb`、`.xml`、「Source code」のファイルも並んでいますが、すべて無視してください。それらはNMLの開発者向けで、あなた向けではありません。
 
 > [!WARNING] このリンクからだけ
 > `.dll` はプログラムです。NMLは上のGitHubページ **からだけ** ダウンロードしてください。CurseForgeや他のサイト、チャットで誰かに送られたファイルは絶対に使わないこと。他所の古いコピーは、ゲーム初回起動時に自分自身を削除し、`NML` フォルダと `NeoModLoader.AutoUpdate_memload.dll` だけを残します。もしそうなったら、ここに戻って本物のファイルをダウンロードしてください。GameBanana の「1-click install」ボタンもNMLをインストールしません。`.dll` は手動でダウンロードしてください。
@@ -67,7 +67,7 @@ Steamがゲームをインストールしたフォルダです。探す必要は
 C:\Program Files (x86)\Steam\steamapps\common\worldbox\
 ```
 
-このウィンドウは開いたままにしておきます。以後「WorldBoxフォルダ」と言ったらここのことです。
+このウィンドウは開いたままにしておきます。以後「WorldBoxフォルダ」と言ったらここのことです。思っているより何度もここに戻ってくることになります。
 
 > [!TIP] Windowsに拡張子を表示させる
 > Windowsは初期設定でファイル名の末尾を隠すので、`NeoModLoader.dll` がただの `NeoModLoader` に見えます。これだとどんな手順書も分かりにくくなります。フォルダのウィンドウ上部の **表示** をクリックし、**ファイル名拡張子** にチェックを入れてください（Windows 11では **表示 → 表示 → ファイル名拡張子**）。何も壊れません。ファイル名が全部見えるようになるだけです。
@@ -119,7 +119,7 @@ SteamからWorldBoxを起動します。初回はいつもより少し長めに�
 
 ## Mac
 
-同じ5つの手順です。Macではゲーム全体がひとつのアプリアイコンにまとまっているので、フォルダの隠れ場所だけが違います。
+同じ5つの手順です。Macではゲーム全体がひとつのアプリアイコンにまとまっているので、フォルダの隠れ場所だけが違います。Appleらしいですね :wbbre:。
 
 1. **Experimental Mode**：Windowsとまったく同じ、**[手順1](#手順1-experimental-modeをオンにする)**。アップデートの注意もあなたに当てはまります。
 2. [同じリリースページ](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest) から `NeoModLoader.dll` を **ダウンロード**。WindowsとMacで同じファイルです。
@@ -139,7 +139,7 @@ worldbox/
 
 ## Linux & Steam Deck
 
-ロジックはまったく同じです。Linux版Steamはゲームをユーザーディレクトリにインストールし、Steam Deckでは最初にデスクトップモードに切り替えるだけです。
+ロジックはまったく同じです。Linux版Steamはゲームをユーザーディレクトリにインストールし、Steam Deckでは最初にデスクトップモードに切り替えるだけです。ペンギンも歓迎です :wbpenguin:。
 
 1. **Experimental Mode**: Windowsと同様、**[手順1](#手順1-experimental-modeをオンにする)** を行います。
 2. **ダウンロード**: [公式リリースページ](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest) から `NeoModLoader.dll` をダウンロードします。全プラットフォーム共通の同一ファイルです。

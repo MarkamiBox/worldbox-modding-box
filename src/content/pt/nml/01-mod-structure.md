@@ -29,7 +29,7 @@ MyCoolMod/
 └── GameResources/    <- Texturas personalizadas, ícones, pixel art e sons
 ```
 
-Apenas o `mod.json` é estritamente obrigatório. Crie as outras pastas somente quando realmente precisar delas. Um mod composto apenas por `mod.json` e `Code/` já é um mod real e perfeitamente funcional.
+Apenas o `mod.json` é estritamente obrigatório. Crie as outras pastas somente quando realmente precisar delas. Um mod composto apenas por `mod.json` e `Code/` já é um mod real e perfeitamente funcional. Pastas vazias não impressionam ninguém.
 
 #### O que cada pasta faz
 
@@ -100,7 +100,7 @@ Isso não é uma versão simplificada para o guia: é a base real de onde parte 
 - **`LogInfo(...)`**: Imprime uma linha no log com o nome do seu mod já anexado. É assim que você descobre se o código foi executado. Veja **[Logs e depuração](#/nml/logs-and-debugging)**.
 
 > [!TIP] O jeito longo
-> Você verá mods mais antigos estruturados assim:
+> Você verá mods mais antigos estruturados assim. Sim, sou velho o bastante para lembrar quando isso era o normal:
 > ```csharp
 > public class MyMod : MonoBehaviour, IMod
 > {

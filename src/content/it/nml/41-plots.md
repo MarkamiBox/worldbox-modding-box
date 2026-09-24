@@ -71,7 +71,7 @@ namespace HelloBox
 Un leader con dieci monete, una città e nulla di meglio da fare può ora organizzare un festival delle braci. Quando si conclude, tutti i cittadini migliorano il proprio umore grazie all'evento di felicità di **[Regni e fazioni](#/nml/kingdoms)**, e piovono braci sull'organizzatore, perché siamo pur sempre in HelloBox.
 
 > [!WARNING] `check_is_possible` non è facoltativo
-> `PlotAsset.checkIsPossible()` lo invoca senza alcun controllo sui nulli ogni volta che un leader valuta il tuo complotto. Se lo ometti, il primo governante che lo controlla lancerà una `NullReferenceException`. Se non hai condizioni particolari, restituisci semplicemente `true`.
+> `PlotAsset.checkIsPossible()` lo invoca senza alcun controllo sui nulli ogni volta che un leader valuta il tuo complotto. Se lo ometti, il primo governante che lo controlla lancerà una `NullReferenceException`. Se non hai condizioni particolari, restituisci semplicemente `true`. Sì, anche in quel caso.
 
 > [!WARNING] L'elenco di base viene generato all'avvio
 > I leader scelgono unicamente da `plots_library.basic_plots` (oltre ai riti della propria religione). `linkAssets()` riempie questa lista all'avvio con ogni complotto contrassegnato da `is_basic_plot`, prima del caricamento del tuo mod. Impostare il flag non basta: aggiungilo tu stesso alla lista.

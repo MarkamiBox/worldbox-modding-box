@@ -82,7 +82,7 @@ HelloBox/
 ember.path_texture = "drops/hello_ember";   // a folder
 ```
 
-掉落物按 **精灵列表** 加载：游戏会读取该文件夹 *里面* 的每个 PNG，`animated` 就是靠这个工作的。静止的掉落物也是一个文件夹，里面只有一帧。单独的 `drops/hello_ember.png` 会返回空列表，掉落物就会隐形落下。
+掉落物按 **精灵列表** 加载：游戏会读取该文件夹 *里面* 的每个 PNG，`animated` 就是靠这个工作的。静止的掉落物也是一个文件夹，里面只有一帧。单独的 `drops/hello_ember.png` 会返回空列表，掉落物就会隐形落下 :wbwiltedrose:。
 
 ## 让坠落物下落
 
@@ -96,7 +96,7 @@ World.world.drop_manager.spawn(tile, "hello_ember", 15f, -1f, -1L);
 World.world.drop_manager.spawnParabolicDrop(tile, "hello_ember", 0f, 0.1f, 5f, 0.5f, 4f, 0.15f);
 ```
 
-90% 的情况下你需要的都是 `spawn`。`15f` 是它下落的高度：数值越大，落地所需的时间就越长。
+90% 的情况下你需要的都是 `spawn`。`15f` 是它下落的高度：数值越大，落地所需的时间就越长。而且下落的过程也更有戏剧感。
 
 ## 实战运用：让神力降下余烬雨
 

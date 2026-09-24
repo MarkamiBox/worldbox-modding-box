@@ -25,3 +25,5 @@ order: 1
   - **Pouvoirs Divins & Interface** : Pouvoirs divins & pinceaux, boutons de pouvoirs et fenêtres personnalisées avec onglets & infobulles.
   - **Finitions** : Succès en jeu et assemblage final d'un mod complet.
 - **Outils de Modding** : Utilitaires interactifs intégrés directement au site (Générateur de patchs Harmony, Explorateur de champs d'assets, Recherche de méthodes et Sélecteur d'icônes Discord).
+
+La première fois, lisez-le de haut en bas. Ensuite, sautez d'une page à l'autre comme tout le monde :PES2_Shrug:.

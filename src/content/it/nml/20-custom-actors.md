@@ -11,7 +11,7 @@ order: 140
 > [!NOTE] Si chiamano attori, non razze
 > Il gioco definisce ogni creatura vivente come un **attore** (actor): un umano, un lupo, un drago, uno zombie, un granchio. Provengono tutti dalla stessa classe, `ActorAsset`, e risiedono in `AssetManager.actor_library`. "Razza" è il vecchio termine. L'unico posto in cui sopravvive è una proprietà `race` marcata con `[Obsolete("use .original_actor_asset instead")]`, che esiste solo per consentire il caricamento di salvataggi preistorici. Scrivi `actor` ovunque.
 
-Una nuova creatura è la mod che tutti vogliono creare e che quasi nessuno porta a termine, poiché un `ActorAsset` porta con sé animazioni, texture, effetti sonori, tassonomia, dieta, flag di IA, genoma, cultura e statistiche. Sbagliare anche solo uno di questi aspetti ti consegnerà un'unità invisibile immobile in mezzo all'oceano.
+Una nuova creatura è la mod che tutti vogliono creare e che quasi nessuno porta a termine, poiché un `ActorAsset` porta con sé animazioni, texture, effetti sonori, tassonomia, dieta, flag di IA, genoma, cultura e statistiche. Sbagliare anche solo uno di questi aspetti ti consegnerà un'unità invisibile immobile in mezzo all'oceano :PES4_Invisible:.
 
 La buona notizia: nemmeno il gioco originale crea le creature da zero. Ecco letteralmente come vanilla dà vita a un elfo:
 
@@ -173,6 +173,8 @@ Aggiungere una quarta creatura richiede ora una singola riga nella tabella. Ques
 
 ## I campi che definiscono cosa *è* la tua creatura
 
+Il primo giorno ne contano solo tre: `civ`, `actor_size` e `name_locale`. Il resto può aspettare finché la tua creatura non è visibile e cammina.
+
 | Campo | Cosa fa |
 | --- | --- |
 | `civ` | Creatura con civiltà: città, regni, mansioni, guerra. `false` = animale |
@@ -283,7 +285,7 @@ La resa grafica del **corpo** della creatura è un'altra questione e costituisce
 
 ## Gli sprite sono la parte difficile
 
-Tutto quanto visto sopra si riduce a una pagina di codice. Il vero lavoro sta nell'arte grafica: una creatura necessita di un ciclo completo di animazioni, nell'atlas corretto, alle dimensioni giuste e con i pivot appropriati. Ci sono due strade sincere:
+Tutto quanto visto sopra si riduce a una pagina di codice. Il vero lavoro sta nell'arte grafica, ed è qui che la maggior parte delle mod di creature muore in silenzio: una creatura necessita di un ciclo completo di animazioni, nell'atlas corretto, alle dimensioni giuste e con i pivot appropriati. Ci sono due strade sincere:
 
 1. **Mantieni gli sprite dell'attore originale.** Una creatura che riutilizza le animazioni umane con parametri modificati e una tinta diversa è un'ottima prima mod, e *funziona perfettamente*.
 2. **Esporta tramite AssetRipper**, individua l'atlas della creatura clonata e riproducine esattamente l'impaginazione prima ancora di iniziare a disegnare. Vedi **[Ottenere la grafica del gioco](#/toolbox/getting-the-sprites)**.

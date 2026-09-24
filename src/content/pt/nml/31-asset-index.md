@@ -10,7 +10,7 @@ order: 94
 
 O `AssetManager` é o catálogo geral de tudo o que pode existir no jogo. Ele abriga **129 bibliotecas**, e cada uma delas é uma `List` combinada com um `Dictionary` que você pode ler, editar e expandir a partir do seu mod.
 
-Esta página é o índice completo. Você nunca encostará na maior parte delas. A razão de ser desta página é que, quando você quiser mudar algo no WorldBox, a primeira pergunta será sempre "em qual biblioteca isso fica?", e a resposta está aqui.
+Esta página é o índice completo. Você nunca encostará na maior parte delas, e eu também não. Que muralha de tabelas :wbbre:. A razão de ser desta página é que, quando você quiser mudar algo no WorldBox, a primeira pergunta será sempre "em qual biblioteca isso fica?", e a resposta está aqui.
 
 ## Antes desta página
 
@@ -31,6 +31,8 @@ AssetManager.traits.dict;                          // cada asset, por id
 
 ## Criaturas e seus traços
 
+As que você vai abrir de verdade são as quatro primeiras. O resto está aqui para você parar de chutar nomes :PES2_Shrug:.
+
 | Biblioteca | Asset | O que contém |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | Cada tipo de criatura. **[Atores personalizados](#/nml/custom-actors)** |
@@ -47,6 +49,8 @@ AssetManager.traits.dict;                          // cada asset, por id
 | `base_stats_library` | `BaseStatAsset` | Todos os atributos. **[Referência de atributos](#/nml/stats)** |
 
 ## Sociedades
+
+Tudo a que um grupo de unidades pode pertencer. As seis primeiras têm página própria. O resto você encontra quando uma dessas páginas manda você para cá.
 
 | Biblioteca | Asset | O que contém |
 | --- | --- | --- |
@@ -69,6 +73,8 @@ AssetManager.traits.dict;                          // cada asset, por id
 | `knowledge_library` | `KnowledgeAsset` | A janela de conhecimento |
 
 ## Elementos no mundo
+
+Se dá para clicar no mapa, mora aqui.
 
 | Biblioteca | Asset | O que contém |
 | --- | --- | --- |
@@ -129,6 +135,8 @@ AssetManager.traits.dict;                          // cada asset, por id
 
 ## Interface
 
+A interface do próprio jogo, como assets. Útil de ler, assustadora de editar :PES_MonkaSweat:.
+
 | Biblioteca | Asset | O que contém |
 | --- | --- | --- |
 | `window_library` | `WindowAsset` | Janelas. **[Janelas personalizadas](#/nml/custom-windows)** |
@@ -154,6 +162,8 @@ Uma biblioteca para cada finalidade, todas utilizando os dois mesmos tipos de as
 `kingdom_colors_library` · `culture_colors_library` · `clan_colors_library` · `religion_colors_library` · `languages_colors_library` · `subspecies_colors_library` · `families_colors_library` · `armies_colors_library` → todos `ColorAsset`
 
 ## Nomes, palavras e história
+
+A parte do WorldBox que escreve as histórias. Ninguém liga para ela até querer que suas criaturas tenham nomes decentes.
 
 | Biblioteca | Asset | O que contém |
 | --- | --- | --- |

@@ -112,6 +112,8 @@ namespace HelloBox
 
 ### Kosten und Wert
 
+Halte die Preise vernünftig. Ein Eisenschwert für 43 Millionen Münzen ist kein Balancing, das ist Abzocke :trollface:.
+
 | Feld | Was es bewirkt |
 | --- | --- |
 | `setCost(gold, res1, amount1, res2, amount2)` | Setzt alle Kostenfelder auf einmal. Nutze dies statt einzelner Zuweisungen |
@@ -130,6 +132,8 @@ namespace HelloBox
 | `name_class`, `name_templates` | Wie legendäre Versionen benannt werden |
 
 ### Behaviour
+
+Hier hört ein Gegenstand auf, nur ein Haufen Zahlen zu sein.
 
 | Feld | Was es bewirkt |
 | --- | --- |
@@ -239,7 +243,7 @@ private static void RegisterLine(string pPrefix, string pTemplate)
 
 ## Die Texte (Lokalisierung)
 
-Gegenstände benennen sich anders als alles andere in diesem Leitfaden, was regelmäßig für Verwirrung sorgt. Der Anzeigename eines Gegenstands lautet:
+Gegenstände benennen sich anders als alles andere in diesem Leitfaden, was regelmäßig für Verwirrung sorgt, auch bei mir :PESgn_Oops:. Der Anzeigename eines Gegenstands lautet:
 
 ```text
 translation_key   ?? "item_" + (equipment_subtype ?? id)

@@ -29,7 +29,7 @@ MyCoolMod/
 └── GameResources/    <- Eigene Texturen, Icons, Pixel-Art und Sounds
 ```
 
-Nur die `mod.json` ist zwingend erforderlich. Die anderen Ordner erstellst du erst, wenn du sie wirklich brauchst. Eine Mod, die nur aus `mod.json` und `Code/` besteht, ist bereits eine voll funktionsfähige Mod.
+Nur die `mod.json` ist zwingend erforderlich. Die anderen Ordner erstellst du erst, wenn du sie wirklich brauchst. Eine Mod, die nur aus `mod.json` und `Code/` besteht, ist bereits eine voll funktionsfähige Mod. Leere Ordner beeindrucken niemanden.
 
 #### Was die einzelnen Ordner machen
 
@@ -100,7 +100,7 @@ Das ist keine vereinfachte Version für den Guide. Das ist der reale Startpunkt 
 - **`LogInfo(...)`**: Schreibt eine Zeile ins Log, an der bereits automatisch dein Mod-Name angehängt ist. So erfährst du, ob dein Code überhaupt ausgeführt wurde. Siehe **[Logs & Debugging](#/nml/logs-and-debugging)**.
 
 > [!TIP] Der umständliche Weg
-> In älteren Mods wirst du oft diesen Aufbau sehen:
+> In älteren Mods wirst du oft diesen Aufbau sehen. Ja, ich bin alt genug, um mich zu erinnern, als das normal war:
 > ```csharp
 > public class MyMod : MonoBehaviour, IMod
 > {

@@ -76,6 +76,8 @@ namespace HelloBox
 
 ### Los campos que conviene conocer
 
+La lista corta. La real es más larga y casi toda aburrida :wbyawn:.
+
 | Campo | Lo que hace |
 | --- | --- |
 | `duration` | Duración en segundos. El estado se elimina solo al agotarse |
@@ -98,7 +100,7 @@ namespace HelloBox
 
 ## Tu propio sprite personalizado
 
-Hay una trampa aquí. `texture` **no** es una ruta completa: la biblioteca de estados antepone automáticamente `effects/` antes de cargar, así que solo escribes el nombre simple.
+Hay una trampa aquí, y todo el mundo cae en ella una vez :wbbre:. `texture` **no** es una ruta completa: la biblioteca de estados antepone automáticamente `effects/` antes de cargar, así que solo escribes el nombre simple.
 
 ```text Mods/HelloBox/
 HelloBox/

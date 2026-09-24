@@ -117,7 +117,7 @@ Harmony enlaza tus parámetros **por nombre**. Estos son los que importan, y los
 | `__state` | Un valor que tu Prefix pasa a tu propio Postfix |
 | cualquier parámetro real | El argumento que pasó el llamador, escrito **exactamente** igual que en el juego |
 
-Esa última fila es donde casi todos tropiezan. Si el juego declara `getHit(float pDamage, ...)`, tu parámetro debe llamarse `pDamage`. Ni `damage` ni `pDmg`. Puedes omitir los parámetros que no te interesen, pero los que declares deben coincidir, y en este juego casi todos empiezan por `p`.
+Esa última fila es donde casi todos tropiezan, una y otra vez. Si el juego declara `getHit(float pDamage, ...)`, tu parámetro debe llamarse `pDamage`. Ni `damage` ni `pDmg`. Puedes omitir los parámetros que no te interesen, pero los que declares deben coincidir, y en este juego casi todos empiezan por `p`.
 
 ## Modificar un resultado
 
@@ -140,7 +140,7 @@ Ajusta, no asignes a ciegas. `__result *= 1.5f` funciona bien si otro mod parche
 
 ## Modificar un número hardcodeado en el juego
 
-La mitad de las peticiones tipo "¿alguien puede hacer un mod que...?" son solo un número. "Las ciudades crecen demasiado" es esto, sacado directamente de la clase `City` del juego:
+La mitad de las peticiones tipo "¿alguien puede hacer un mod que...?" son solo un número. Nada es imposible, simplemente nadie lo ha hecho todavía :wbbru:. "Las ciudades crecen demasiado" es esto, sacado directamente de la clase `City` del juego:
 
 ```csharp Assembly-CSharp / City
 public int getZoneRange(bool pAllowCheat = true)
@@ -245,6 +245,8 @@ public static class Patch_Actor_StatDelta
 
 ## Cuando no funciona
 
+Antes de culpar a Harmony, lee el log. Casi nunca es Harmony :PES5_Noted:.
+
 | Lo que ves | Lo que suele ser |
 | --- | --- |
 | No pasa nada, nada en el log | `Postfix` mal escrito, o nunca llamaste a `PatchAll` |
@@ -261,7 +263,7 @@ public static class Patch_Actor_StatDelta
 - **Comprueba siempre si es null.** Tu parche se ejecutará durante la carga del mundo y durante la muerte de una unidad.
 - **La comprobación barata primero.** La primera línea de un parche frecuente debe ser la condición que te permita hacer `return`.
 - **Parchea el método más específico posible.** Parchear `Actor.updateStats` para la velocidad de un rasgo está perfecto. Parchear el bucle principal del mundo para hacer lo mismo es la razón por la que desinstalan un mod.
-- **Mantén tus parches en un solo archivo.** Cuando alguien reporte un conflicto, querrás revisar un archivo, no doce.
+- **Mantén tus parches en un solo archivo.** Cuando alguien reporte un conflicto, querrás revisar un archivo, no doce. Sé amable con tu yo del futuro. Haz lo que digo, no lo que hacen mis viejos mods :trollface:.
 
 ## Lo que no cubriremos aquí
 

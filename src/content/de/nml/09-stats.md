@@ -8,7 +8,7 @@ order: 92
 
 # Werte-Referenz :wbstonks:
 
-Fast jedes Asset, das du registrierst, besitzt einen `base_stats`-Block, und fast jede Seite nach dieser hier setzt irgendetwas darin fest. Dies ist die Liste all dessen, was du dort eintragen darfst.
+Fast jedes Asset, das du registrierst, besitzt einen `base_stats`-Block, und fast jede Seite nach dieser hier schreibt etwas hinein. Dies ist die Liste all dessen, was du dort eintragen darfst. Alles andere ist ein Absturz, der auf seinen Moment wartet :PES5_Hmmmm:.
 
 ## Wie base_stats funktioniert
 
@@ -23,7 +23,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, nicht x0.25
 
 ## Woher die Werte einer Einheit stammen
 
-`Actor.updateStats()` leert den Werteblock der Einheit und baut ihn von Grund auf neu auf, in exakt dieser Reihenfolge:
+`Actor.updateStats()` leert den Werteblock der Einheit und baut ihn von Grund auf neu auf, in exakt dieser Reihenfolge. Ich schaue diese Tabelle immer noch jedes Mal nach:
 
 | # | Quelle | Hinweis |
 | --- | --- | --- |
@@ -53,6 +53,8 @@ Zwei weitere Konsequenzen:
 > Bei einem von Hand gebauten Asset wird der Werteblock innerhalb von `add()` alloziert. Greifst du davor auf `base_stats` zu, erhältst du eine `NullReferenceException`. `clone()` ruft `add()` für dich auf, nach einem Klon bist du also bereits sicher. Das ist der häufigste Absturz im gesamten WorldBox-Modding überhaupt.
 
 ## Combat
+
+`damage` und `armor` erledigen den Großteil der Arbeit. Der Rest ist für den Fall, dass sich ein Merkmal anders anfühlen soll, nicht nur stärker.
 
 | Wert | Was er bewirkt |
 | --- | --- |
@@ -106,7 +108,7 @@ Zwei weitere Konsequenzen:
 
 ## Nur Zivilisationen
 
-Diese bewirken bei Tieren überhaupt nichts. Das Spiel markiert sie mit `used_only_for_civs`.
+Diese bewirken bei Tieren überhaupt nichts. Das Spiel markiert sie mit `used_only_for_civs`. Gib einem Wolf `diplomacy` und du bekommst einen sehr redegewandten Wolf, dem niemand zuhört :wbwolf:.
 
 | Wert | Was er bewirkt |
 | --- | --- |
@@ -175,7 +177,7 @@ Die Tags, die das Spiel selbst auswertet:
 | Natur | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | Bauen | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-Anders als bei einem Wertenamen ist ein unbekanntes Tag harmlos - es passt einfach auf nichts. Das bedeutet aber auch, dass ein Tippfehler stillschweigend ignoriert wird, also kopiere sie exakt.
+Anders als bei einem Wertenamen ist ein unbekanntes Tag harmlos - es passt einfach auf nichts. Das bedeutet aber auch, dass ein Tippfehler stillschweigend ignoriert wird, also kopiere sie exakt. Such dir dein Gift aus :wbbre:.
 
 ## Die Live-Werte einer Einheit auslesen
 
@@ -191,4 +193,4 @@ Das ist auch das, was du in einem Harmony-Postfix auf `Actor.updateStats` verän
 
 Du kannst ein neues `BaseStatAsset` in `AssetManager.base_stats_library` registrieren; es wird im Inspektor angezeigt und aufsummiert wie jedes andere. Was es **nicht** tun wird: irgendeinen Effekt haben. Nichts im Spiel liest einen Wert, den es nicht kennt. Ein eigener Wert ist nur nützlich als Zahl, die du anschließend selbst in deinem eigenen Harmony-Patch oder deiner eigenen Logik auswertest.
 
-Meistens lautet die Antwort "nutze einen bestehenden Wert", und die zweite Antwort lautet "führe dein eigenes Dictionary".
+Meistens lautet die Antwort "nutze einen bestehenden Wert", und die zweite Antwort lautet "führe dein eigenes Dictionary". Eine dritte habe ich noch nicht gefunden.
