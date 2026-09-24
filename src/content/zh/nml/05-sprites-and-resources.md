@@ -125,24 +125,40 @@ MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on th
 
 第一个调用会在世界对应的地块位置播放音效。HelloBox 在战斗动作中投掷余烬时会播放火球音效，参见 **[投射物、法术与特效](#/nml/projectiles-spells)**。要查找音效路径，可以在游戏反编译代码中搜索 `event:/SFX/`：有数百个按发声类别分类好的音效路径可供使用。开始测试之前，先把音量调低。
 
-> [!NOTE] 导入全新自定义音效属于另一套工程
-> 原版 FMOD 事件内嵌在游戏的音效库（Sound Bank）中，常规模组无法直接向其追加事件。若要播放自己的 `.wav` 资源，需要绕开游戏内置的音量控制系统，自行使用 Unity 的 `AudioSource` 进行加载播放。本指南不涉及此内容，因为我从未对其制作过 Mod，也不打算假装我做过。
-
-
 ### 添加自定义音效
 
-与早期的普遍认知不同，NeoModLoader 已通过 `CustomAudioManager` 原生支持直接加载 `.wav` 格式音频文件 :PESgn_Noice:。
+NML 其实在底层给 FMOD 打了补丁，所以自定义的 `.wav` 文件可以直接使用，不用你在车库里再造一个音频引擎 :PESgn_Noice:。
 
-只需将音频文件放入模组根目录下的 `Audio/`、`Audios/` 或 `GameResources/` 文件夹中：
+把你的 `.wav` 文件直接放进 `GameResources/`，比如：
 
 ```text
-MyMod/
-└── Audio/
-    ├── custom_explosion.wav
-    └── custom_explosion.json   <- 可选的音效参数配置文件
+GameResources/sounds/hello_boom.wav
 ```
 
-NML 会自动 Hook 原版的 `MusicBox.playSound` 并实时解码播放自定义音频 。
+NML 挂钩了 `MusicBox.playSound` 和 `playDrawingSound`，所以你用和原版音效完全相同的方法来播放它（去掉文件扩展名）：
+
+```csharp
+MusicBox.playSound("sounds/hello_boom", pTile);
+```
+
+在文件旁边放一个可选的 `hello_boom.json`，就能配置它的行为：
+
+```json GameResources/sounds/hello_boom.json
+{
+  "Volume": 60,
+  "Mode": "Stereo3D",
+  "Type": "Sound"
+}
+```
+
+| 字段 | 取值 |
+| --- | --- |
+| `Mode` | `Basic`（平面 2D，音量不变）、`Stereo3D`（原版的距离衰减）、`Mono3D`（有方向性） |
+| `Type` | `Sound`（音效滑块）、`Music`（音乐滑块）、`UI`（界面滑块） |
+| `Volume` | 默认音量，0 到 100 |
+| `LoopCount` | 重复次数（0 = 播放一次） |
+
+最棒的是：因为 NML 把它们接入了游戏的声道组，你的音效会真正遵守玩家的音量设置，而不是在半夜把人震聋。
 
 ## 绝不要向游戏传递 null 的空精灵
 

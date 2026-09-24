@@ -125,24 +125,40 @@ MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on th
 
 Der erste Befehl spielt den Sound an den angegebenen Weltkoordinaten ab. HelloBox spielt den Feuerball-Sound ab, wenn seine Kampfaktion einen Funken wirft, siehe **[Projektile, Zauber & Effekte](#/nml/projectiles-spells)**. Um Soundpfade zu finden, durchsuche den Spielcode nach `event:/SFX/`: Es gibt Hunderte, geordnet nach Geräuschkategorien. Dreh die Lautstärke runter, bevor du sie ausprobierst.
 
-> [!NOTE] Eigene neue Sounds sind ein separates Projekt
-> FMOD-Events liegen in den vorkompilierten Sound-Banks des Spiels; Mods können diese nicht direkt erweitern. Eigene `.wav`-Dateien müssen selbst über eine Unity-`AudioSource` geladen und abgespielt werden, außerhalb der Lautstärkeregler des Spiels. Diese Anleitung behandelt dies nicht, weil ich es nie gemoddet habe und nicht so tun werde, als hätte ich es getan.
-
-
 ### Eigene Sounds hinzufügen
 
-NeoModLoader unterstützt native `.wav`-Audiodateien über `CustomAudioManager` :PESgn_Noice:.
+NML patcht FMOD tatsächlich unter der Haube, also funktionieren eigene `.wav`-Dateien, ohne dass du in einer Garage eine zweite Sound-Engine bauen musst :PESgn_Noice:.
 
-Platziere deine Sounddateien in `Audio/`, `Audios/` oder `GameResources/`:
+Leg deine `.wav`-Datei einfach in `GameResources/`, zum Beispiel:
 
 ```text
-MyMod/
-└── Audio/
-    ├── custom_explosion.wav
-    └── custom_explosion.json
+GameResources/sounds/hello_boom.wav
 ```
 
-NML patcht `MusicBox.playSound` und spielt deine Sounds direkt ab .
+NML hängt sich in `MusicBox.playSound` und `playDrawingSound`, also spielst du sie mit genau derselben Methode wie einen Vanilla-Sound ab (ohne Dateiendung):
+
+```csharp
+MusicBox.playSound("sounds/hello_boom", pTile);
+```
+
+Neben deiner Datei kannst du mit einer optionalen `hello_boom.json` einstellen, wie sie sich verhält:
+
+```json GameResources/sounds/hello_boom.json
+{
+  "Volume": 60,
+  "Mode": "Stereo3D",
+  "Type": "Sound"
+}
+```
+
+| Feld | Werte |
+| --- | --- |
+| `Mode` | `Basic` (flaches 2D, Lautstärke bleibt gleich), `Stereo3D` (Vanilla-Abnahme mit der Entfernung), `Mono3D` (gerichtet) |
+| `Type` | `Sound` (SFX-Regler), `Music` (Musik-Regler), `UI` (UI-Regler) |
+| `Volume` | Standardlautstärke von 0 bis 100 |
+| `LoopCount` | Anzahl der Wiederholungen (0 = einmal) |
+
+Das Beste daran: Weil NML sie in die Kanalgruppen des Spiels einhängt, halten sich deine Sounds wirklich an die Lautstärke-Einstellungen des Spielers, statt ihn um Mitternacht taub zu machen.
 
 ## Übergib dem Spiel niemals ein Null-Sprite
 

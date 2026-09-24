@@ -125,21 +125,40 @@ MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on th
 
 Le premier joue le son à l'emplacement de cette case du monde. HelloBox joue le son de boule de feu lorsque son action de combat projette une braise, voir **[Projectiles, sorts et effets](#/nml/projectiles-spells)**. Pour trouver des chemins, cherchez `event:/SFX/` dans le code du jeu : il en existe des centaines, classés dans des dossiers selon leur nature. Baissez le volume avant de commencer à les tester.
 
-> [!NOTE] Ajouter de nouveaux sons est un autre projet
-> Les événements FMOD résident dans les banques de sons du jeu et un mod ne peut pas les enrichir directement. Jouer vos propres fichiers `.wav` implique de les charger vous-même dans une `AudioSource` Unity, en dehors des réglages de volume du jeu. Ce guide ne le traite pas, car je ne l'ai jamais moddé et je ne vais pas faire semblant du contraire.
-
 ### Ajouter vos propres sons
 
-NeoModLoader soporta archivos de sonido nativos `.wav` a través de `CustomAudioManager` :PESgn_Noice:.
+NML patche en fait FMOD en coulisses, donc vos propres fichiers `.wav` fonctionnent sans que vous ayez à bricoler un second moteur audio dans un garage :PESgn_Noice:.
+
+Déposez simplement votre fichier `.wav` dans `GameResources/`, par exemple :
 
 ```text
-MyMod/
-└── Audio/
-    ├── custom_explosion.wav
-    └── custom_explosion.json
+GameResources/sounds/hello_boom.wav
 ```
 
-NML parchea `MusicBox.playSound` y reproduce tus archivos .
+NML intercepte `MusicBox.playSound` et `playDrawingSound`, vous le jouez donc avec exactement la même méthode qu'un son vanilla (sans l'extension du fichier) :
+
+```csharp
+MusicBox.playSound("sounds/hello_boom", pTile);
+```
+
+À côté de votre fichier, un `hello_boom.json` optionnel vous permet de régler son comportement :
+
+```json GameResources/sounds/hello_boom.json
+{
+  "Volume": 60,
+  "Mode": "Stereo3D",
+  "Type": "Sound"
+}
+```
+
+| Champ | Valeurs |
+| --- | --- |
+| `Mode` | `Basic` (2D plat, le volume reste constant), `Stereo3D` (atténuation vanilla avec la distance), `Mono3D` (directionnel) |
+| `Type` | `Sound` (curseur des effets), `Music` (curseur de la musique), `UI` (curseur de l'interface) |
+| `Volume` | Volume par défaut de 0 à 100 |
+| `LoopCount` | Nombre de répétitions (0 = une fois) |
+
+Le meilleur : comme NML les branche sur les groupes de canaux du jeu, vos sons respectent vraiment les réglages de volume du joueur au lieu de le rendre sourd à minuit.
 
 ## Ne transmettez jamais de sprite nul au jeu
 

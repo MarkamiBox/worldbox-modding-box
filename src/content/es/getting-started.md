@@ -55,6 +55,8 @@ Inicia el juego. Si ha funcionado, verás un nuevo botón con el logo de NML ent
 
 ## 4. Un editor de texto
 
+Cualquier cosa que guarde texto plano sirve. Más o menos en orden de "estaría bien tenerlo":
+
 | | |
 | --- | --- |
 | **Bloc de notas** | Ya está en tu PC. Realmente suficiente para tu primer mod |
@@ -77,6 +79,7 @@ Pasa a **[Estructura de un mod](#/nml/mod-structure)** en la sección NML Moddin
 - **[UnityExplorer](#/toolbox/unity-explorer)**: haz clic en cualquier cosa del juego y examina de qué está hecha por dentro.
 - **[dnSpy o ILSpy](#/toolbox/reading-the-game-code)**: abre el propio código del juego para leer cómo los desarrolladores hicieron algo.
 - **[AssetRipper](#/toolbox/getting-the-sprites)**: extrae los sprites y sonidos del juego para que puedas igualar su estilo gráfico.
+- **[Modding con BepInEx](#/toolbox/bepinex-modding)**: compilar plugins `.dll` si quieres hooks de bajo nivel en el motor de Unity en lugar de contenido de NML.
 
 > [!WARNING] NCMS está obsoleto :sadcat:
 > NCMS ya no recibe actualizaciones. Todas las guías de este sitio están dirigidas a NML. Técnicamente aún puedes escribir un mod para NCMS, pero ya nadie hace eso :PES2_Shrug:.

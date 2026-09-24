@@ -48,11 +48,13 @@ Lege eine `default_config.json` im Hauptverzeichnis deiner Mod ab, direkt neben 
 | Schlüssel | Bedeutung |
 | --- | --- |
 | `Id` | Eindeutig innerhalb der Gruppe. So liest du den Wert im Code aus |
-| `Type` | `SWITCH` (An/Aus), `SLIDER` (Float), `INT_SLIDER` (Int), `TEXT` (Textfeld) |
+| `Type` | `SWITCH` (An/Aus), `SLIDER` (Float), `INT_SLIDER` (Int), `TEXT` (Textfeld), `SELECT` (Optionsraster) |
 | `BoolVal` / `FloatVal` / `IntVal` / `TextVal` | Der Standardwert, passend zum Typ |
-| `MinFloatVal` / `MaxFloatVal`, `MinIntVal` / `MaxIntVal` | Schieberegler-Grenzen |
+| `MinFloatVal` / `MaxFloatVal`, `MinIntVal` / `MaxIntVal` | Schieberegler-Grenzen. Bei `SELECT` ist `MaxIntVal` die Anzahl der Optionen und `IntVal` der gewählte Index |
 | `IconPath` | Optionales Icon für die Zeile |
 | `Callback` | Optionales `Namespace.Type:MethodName`, aufgerufen bei Wertänderung |
+
+Bei `SELECT` legt NML für jede Option einen Button an. Die Beschriftungen kommen direkt aus deiner Lokalisierung als `<id>_0`, `<id>_1` und so weiter.
 
 ## Die Werte auslesen
 
@@ -74,7 +76,7 @@ private void LoadSettings()
 }
 ```
 
-Ja, das `try/catch` um jede Zeile sieht paranoid aus. Ist es nicht: Wenn ein Spieler von einer älteren Version deiner Mod aktualisiert, hat seine gespeicherte Konfiguration den neuen Schlüssel schlicht nicht, und ein einziger fehlender Schlüssel würde sonst deinen ganzen Ladevorgang lahmlegen.
+NML ruft beim Start `persistent_config.MergeWith(default_config)` auf. Wenn du also einen neuen Schlüssel in `default_config.json` hinzufügst, übernimmt NML ihn automatisch mit seinem Standardwert in die gespeicherte Konfiguration des Spielers. Das `try/catch` ist trotzdem gute Hygiene, falls jemand seine `.config` im Texteditor geöffnet und das JSON kaputt gemacht hat, aber bei normalen Updates hält NML dir den Rücken frei.
 
 ## Callbacks
 
@@ -98,7 +100,7 @@ namespace HelloBox
 ```
 
 > [!WARNING] Änderungen greifen erst beim Schließen des Fensters
-> Nicht während des Ziehens. Wenn dein Callback etwas Rechenintensives tut, ist das eine gute Nachricht. Wenn du eine Live-Vorschau erwartet hast, ist das der Grund, warum es "nicht funktioniert" :huh:.
+> Nicht während des Ziehens. Wenn dein Callback etwas Rechenintensives tut, ist das eine gute Nachricht. Wenn du eine Live-Vorschau erwartet hast, ist das der Grund, warum es "nicht funktioniert" :huh:. `BasicMod` löst außerdem jeden Callback beim Start einmal aus, damit dein Code übernimmt, was der Spieler gespeichert hat.
 
 ## Wo es gespeichert wird
 
@@ -111,8 +113,6 @@ Deine `default_config.json` ist nur die **Vorlage**. Die tatsächlichen Einstell
 Das ist auch die erste Datei, die du löschen solltest, wenn du an Standardwerten herumprobierst und dich wunderst, warum dein neuer Wert nie auftaucht :PESgn_OOF:.
 
 ## Don't forget the text (again)
-
-Gruppen-IDs und Einstellungs-IDs sind Lokalisierungsschlüssel. Trage sie in `Locales/de.json` ein, sonst erscheinen die Rohbezeichner:
 
 Gruppen-Ids und Item-Ids sind auch Locale-Keys, also pack sie in `Locales/en.json`, sonst stehen sie roh da. Jede Zeile will außerdem einen zweiten Key, **`"<id> Description"`**, mit Leerzeichen und großem D, für den Tooltip:
 

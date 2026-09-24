@@ -12,7 +12,7 @@ order: 1
 
 ## Como o guia está organizado
 
-- **Visão geral**: Esta introdução, o que você precisa para começar, solução de problemas, ferramentas externas (BepInEx, UnityExplorer, dnSpy, AssetRipper), créditos e feedback.
+- **Visão geral**: Esta introdução, o que você precisa para começar, solução de problemas, ferramentas externas (BepInEx, UnityExplorer, dnSpy, AssetRipper), modding com BepInEx, créditos e feedback.
 - **Modding com NML**: Tudo sobre o carregador e o fluxo de desenvolvimento - começando por **[Como instalar o NML](#/install-nml)** (comece por aqui se quiser apenas *jogar* com mods):
   - **Fluxo de trabalho básico**: Estrutura de mod, seu primeiro mod, logs e depuração, localização e sprites.
   - **Avançado e Publicação**: Menus de configuração no jogo, patches Harmony, salvamento de dados nos saves e publicação no Steam Workshop.

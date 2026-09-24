@@ -151,7 +151,7 @@ public void Update()
 每次只改动了一行代码就得重启一遍 WorldBox 是模组开发中最耗费时间的事情。不信去问问一晚上重启过四十次的人。NML 可以在游戏运行期间重新编译你的模组，并热替换掉你打上标记的方法。
 
 1. 你的主类需要实现 `IReloadable` 接口，该接口仅包含一个 `Reload()` 方法。HelloBox 的实现在 **[完整模组范例](#/nml/all-together)** 中。
-2. 重载按钮仅在 `Config.isEditor` 为 `true` 时才会显示。HelloBox 通过一个默认为 `false` 的 `DevReload` 配置开关来开启它。
+2. 在 NML 的活动模组菜单中，任何实现了 `IReloadable` 的模组都会自动出现重载按钮。（旧版模组列表需要 `Config.isEditor = true` 才会显示按钮，但主菜单不需要你绕这个弯。）
 3. 使用来自 `NeoModLoader.api.attributes` 的 `[Hotfixable]` 属性标记希望热替换的方法：
 
 ```csharp
@@ -166,8 +166,8 @@ public static WorldTile PickTile(Actor pActor)
 
 随后修改方法代码并保存，在 NML 的模组列表中点击该模组的重载按钮。NML 将重新编译、修补已标记的方法，并调用 `Reload()`。未标记的方法将继续保持旧代码运行。
 
-> [!WARNING] `Config.isEditor` 是游戏原版的开发模式开关
-> 该开关会让 WorldBox 误以为自己正在 Unity Editor 内运行，部分系统会产生连锁反应：某些 UI 会切换到手机版布局，某些游戏对象在生成时会自动自毁。仅在自己本地调试时开启，发布模组时务必保持关闭。
+> [!NOTE] 如果你真的要打开 `Config.isEditor`
+> `Config.isEditor` 是游戏内部的 Unity 开关。手动打开它，WorldBox 会以为自己在 Unity 编辑器里运行，部分界面会切换成移动端布局。在新版 NML 中使用 `IReloadable` 就用不到它，所以别去碰它。
 
 不支持的范围：`Awake`、`Update` 等 Unity 原生生命周期回调、构造函数，以及游戏已经根据旧代码实例化的持久化数据。启动时注册的资产仍会保留当时赋予的委托回调，因此应在 `Reload()` 方法中手动重新赋值更新。
 

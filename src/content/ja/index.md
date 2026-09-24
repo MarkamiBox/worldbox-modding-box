@@ -12,7 +12,7 @@ order: 1
 
 ## ガイドの構成
 
-- **概要**: このはじめに、開発環境の準備、トラブルシューティング、外部ツール（BepInEx、UnityExplorer、dnSpy、AssetRipper）、謝辞・クレジット、フィードバック。
+- **概要**: このはじめに、開発環境の準備、トラブルシューティング、外部ツール（BepInEx、UnityExplorer、dnSpy、AssetRipper）、BepInEx Mod開発、謝辞・クレジット、フィードバック。
 - **NML Modding**: Mod ローダーと開発フローの全体像 - まずは **[NMLのインストール](#/install-nml)** から（Mod で*遊ぶだけ*の場合もここから）：
   - **基本ワークフロー**: Mod のフォルダ構造、最初の Mod 作成、ログとデバッグ、多言語化、スプライト画像。
   - **高度な技術と公開**: ゲーム内設定メニュー、Harmony パッチ、セーブデータへのデータ保存、Steam Workshop への公開。

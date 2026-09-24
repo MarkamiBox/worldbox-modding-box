@@ -12,7 +12,7 @@ order: 1
 
 ## Aufbau des Guides
 
-- **Übersicht**: Diese Einführung, Vorbereitung, Fehlerbehebung, externe Tools (BepInEx, UnityExplorer, dnSpy, AssetRipper), Danksagungen und Feedback.
+- **Übersicht**: Diese Einführung, Vorbereitung, Fehlerbehebung, externe Tools (BepInEx, UnityExplorer, dnSpy, AssetRipper), Modding mit BepInEx, Danksagungen und Feedback.
 - **NML Modding**: Alles über den Loader und den Modding-Workflow - beginnend mit **[NML installieren](#/install-nml)** (starte hier, wenn du nur mit Mods *spielen* möchtest):
   - **Basis-Workflow**: Mod-Struktur, deine erste Mod, Logs & Debugging, Lokalisierung und eigene Sprites.
   - **Fortgeschritten & Veröffentlichung**: In-Game-Einstellungsmenüs, Harmony-Patches, Daten in Spielständen speichern und Veröffentlichung im Steam Workshop.

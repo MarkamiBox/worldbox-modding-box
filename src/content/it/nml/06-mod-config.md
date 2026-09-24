@@ -48,11 +48,13 @@ Metti un file `default_config.json` nella radice del tuo mod, accanto a `mod.jso
 | Chiave | Significato |
 | --- | --- |
 | `Id` | Univoco nel gruppo. È così che leggi il valore nel codice |
-| `Type` | `SWITCH` (on/off), `SLIDER` (decimale), `INT_SLIDER` (intero), `TEXT` (campo di testo) |
+| `Type` | `SWITCH` (on/off), `SLIDER` (decimale), `INT_SLIDER` (intero), `TEXT` (campo di testo), `SELECT` (griglia di opzioni) |
 | `BoolVal` / `FloatVal` / `IntVal` / `TextVal` | Il valore predefinito, corrispondente al tipo |
-| `MinFloatVal` / `MaxFloatVal`, `MinIntVal` / `MaxIntVal` | Limiti dello slider |
+| `MinFloatVal` / `MaxFloatVal`, `MinIntVal` / `MaxIntVal` | Limiti dello slider. Per `SELECT`, `MaxIntVal` è il numero di opzioni e `IntVal` l'indice scelto |
 | `IconPath` | Icona opzionale per la riga |
 | `Callback` | `Namespace.Type:MethodName` opzionale chiamato quando il valore cambia |
+
+Per `SELECT`, NML crea un pulsante per ogni opzione. Le etichette arrivano direttamente dalla tua localizzazione come `<id>_0`, `<id>_1` e così via.
 
 ## Leggere i valori
 
@@ -74,7 +76,7 @@ private void LoadSettings()
 }
 ```
 
-Sì, il `try/catch` attorno a ciascuno sembra paranoico. Non lo è: se un giocatore aggiorna da una versione precedente del tuo mod, la sua configurazione salvata semplicemente non ha la chiave che hai appena aggiunto, e una singola chiave mancante altrimenti farebbe crashare l'intero caricamento.
+All'avvio NML chiama `persistent_config.MergeWith(default_config)`, quindi quando aggiungi una nuova chiave a `default_config.json`, NML la unisce automaticamente alla configurazione salvata del giocatore con il suo valore predefinito. Il `try/catch` resta comunque una buona abitudine nel caso qualcuno abbia aperto il suo `.config` con un editor di testo e rotto il JSON, ma per i normali aggiornamenti NML ti copre le spalle.
 
 ## Callbacks
 
@@ -98,7 +100,7 @@ namespace HelloBox
 ```
 
 > [!WARNING] Le modifiche hanno effetto quando la finestra si chiude
-> Non durante il trascinamento. Se il tuo callback fa qualcosa di costoso, questa è una buona notizia. Se ti aspettavi un'anteprima in tempo reale, ecco perché "non funziona" :huh:.
+> Non durante il trascinamento. Se il tuo callback fa qualcosa di costoso, questa è una buona notizia. Se ti aspettavi un'anteprima in tempo reale, ecco perché "non funziona" :huh:. `BasicMod` inoltre esegue ogni callback una volta all'avvio, così il tuo codice riprende quello che il giocatore ha salvato.
 
 ## Dove viene salvato
 
@@ -111,8 +113,6 @@ Il tuo `default_config.json` è solo il **modello**. Le scelte effettive del gio
 Che è anche la prima cosa da cancellare quando stai testando i valori predefiniti e ti chiedi perché il tuo nuovo valore non compare mai :PESgn_OOF:.
 
 ## Don't forget the text (again)
-
-I group id e gli item id sono anche chiavi di localizzazione, quindi aggiungili ai tuoi file di lingua altrimenti appariranno grezzi:
 
 Gli id dei gruppi e degli item sono anche chiavi di locale, quindi mettili in `Locales/en.json` o escono grezzi. Ogni riga vuole anche una seconda chiave, **`"<id> Description"`**, con lo spazio e la D maiuscola, per il tooltip:
 

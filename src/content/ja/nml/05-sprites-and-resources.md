@@ -125,24 +125,40 @@ MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on th
 
 1つ目はワールド内の該当タイルから音を鳴らします。HelloBox では戦闘アクションで火の粉を投げる際に火の玉の音を鳴らしています。詳細は **[弾、呪文、エフェクト](#/nml/projectiles-spells)** を参照してください。パスを探すには、ゲームコード内で `event:/SFX/` を検索してください。発音元ごとにフォルダ分けされた数百種類が見つかります。テストを始める前に音量を下げておきましょう。
 
-> [!NOTE] 完全な新規サウンドの追加は別の作業になります
-> FMOD イベントはゲームのサウンドバンク内に格納されており、Mod から直接拡張することはできません。独自の `.wav` ファイルを再生するには、ゲームの音量設定とは別に Unity の `AudioSource` を自前でロードして再生する必要があります。私自身それをMod化したことがなく、知ったかぶりをするつもりもないため、このガイドでは扱いません。
-
-
 ### 独自のサウンドを追加する
 
-以前の認識とは異なり、NeoModLoader は `CustomAudioManager` を通じてネイティブな `.wav` サウンドファイルをサポートしています :PESgn_Noice:。
+NMLは実は内部でFMODにパッチを当てているので、ガレージで2つ目のサウンドエンジンを組み立てなくても自作の `.wav` ファイルが使えます :PESgn_Noice:。
 
-Modフォルダ内の `Audio/`、`Audios/`、または `GameResources/` に配置します：
+`.wav` ファイルを `GameResources/` にそのまま置きます。例えば：
 
 ```text
-MyMod/
-└── Audio/
-    ├── custom_explosion.wav
-    └── custom_explosion.json
+GameResources/sounds/hello_boom.wav
 ```
 
-NML が `MusicBox.playSound` を自動でフックし再生します 。
+NMLは `MusicBox.playSound` と `playDrawingSound` をフックしているので、バニラのサウンドとまったく同じメソッドで再生できます（拡張子は付けません）：
+
+```csharp
+MusicBox.playSound("sounds/hello_boom", pTile);
+```
+
+ファイルの隣にオプションの `hello_boom.json` を置くと、再生のされ方を設定できます：
+
+```json GameResources/sounds/hello_boom.json
+{
+  "Volume": 60,
+  "Mode": "Stereo3D",
+  "Type": "Sound"
+}
+```
+
+| フィールド | 値 |
+| --- | --- |
+| `Mode` | `Basic`（平面の2D、音量は一定）、`Stereo3D`（距離によるバニラの減衰）、`Mono3D`（指向性） |
+| `Type` | `Sound`（効果音スライダー）、`Music`（音楽スライダー）、`UI`（UIスライダー） |
+| `Volume` | デフォルト音量（0〜100） |
+| `LoopCount` | 繰り返す回数（0 = 1回） |
+
+何より嬉しいのは、NMLがゲームのチャンネルグループに接続してくれるので、あなたのサウンドが真夜中にプレイヤーの耳をつんざくことなく、ちゃんと音量設定に従うことです。
 
 ## ゲームに null のスプライトを絶対に渡さない
 

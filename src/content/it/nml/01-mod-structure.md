@@ -35,7 +35,7 @@ Solo `mod.json` è obbligatorio. Crea le altre cartelle soltanto quando ne avrai
 
 - **`mod.json`**: La carta d'identità. Senza questo file, NML farà finta che la tua mod non esista nemmeno.
 - **`icon.png`**: L'immagine di anteprima mostrata nel menu delle mod all'interno del gioco.
-- **`Code/`**: La cartella dove metti tutti i tuoi file sorgente `.cs` (come `Main.cs`). **NML li compila per te a ogni avvio del gioco**, quindi non dovrai mai compilare una `.dll` a mano e non hai bisogno di Visual Studio.
+- **`Code/`**: La cartella dove metti tutti i tuoi file sorgente `.cs` (come `Main.cs`). In realtà NML compila qualsiasi `.cs` che trova nella tua mod (saltando `bin/`, `obj/` e compagnia), ma metterli in `Code/` evita che il progetto diventi una discarica. **NML li compila a ogni avvio del gioco**, quindi non dovrai mai compilare una `.dll` a mano e non ti servirà mai Visual Studio.
 - **`Locales/`**: Dove risiedono i tuoi file di traduzione (come `en.json`). Senza questi, tutti i tuoi oggetti e tratti appariranno in gioco come chiavi di testo grezze.
 - **`GameResources/`**: Tutte le tue texture personalizzate, pixel art, icone di tratti, sprite di armi ed effetti sonori. Il nome deve essere esattamente questo, poiché è quello cercato da NML. Consulta **[Sprite e risorse](#/nml/sprites-and-resources)**.
 
@@ -51,6 +51,7 @@ Il file `mod.json` è richiesto da NeoModLoader per identificare la tua mod :pep
   "description": "My mod is the best frfr",
   "iconPath": "icon.png",
   "GUID": "com.yourName.my-first-mod",
+  "RepoUrl": "https://github.com/yourName/my-first-mod",
   "Dependencies": [],
   "OptionalDependencies": [],
   "IncompatibleWith": []
@@ -64,12 +65,13 @@ Il file `mod.json` è richiesto da NeoModLoader per identificare la tua mod :pep
 - **`version`**: Il numero di versione della tua mod (es. `"0.1.0"`). Incrementalo a ogni aggiornamento rilasciato.
 - **`description`**: Un breve riassunto di cosa fa la mod. Compare nella finestra dei dettagli.
 - **`iconPath`**: Il percorso relativo all'icona di anteprima (di solito `"icon.png"` nella radice della mod).
-- **`GUID`**: Un ID univoco per la tua mod, per convenzione `com.tuonome.nomemod`, tutto in minuscolo. È come il codice fiscale della tua mod: impedisce collisioni con mod di altri sviluppatori. **Sceglilo una volta e non cambiarlo mai**: il file di configurazione dei giocatori prende il nome da questo ID.
+- **`GUID`**: Un ID univoco per la tua mod, per convenzione `com.tuonome.nomemod`. NML lo ripulisce internamente in maiuscolo con underscore (`COM_YOURNAME_MY_FIRST_MOD`), e quella diventa la sua vera identità. Se lo ometti, NML incolla comunque insieme autore e nome. **Sceglilo una volta e non cambiarlo mai**: il file delle impostazioni del giocatore porta il suo nome.
+- **`RepoUrl`**: Link opzionale al tuo repository GitHub, al Discord o al sito. NML mette un pulsante direttamente sulla scheda della tua mod, così i giocatori ci arrivano con un clic.
 - **`Dependencies`**: GUID di altre mod che DEVONO essere installate obbligatoriamente per far funzionare la tua mod. Se la mod è autonoma, lascialo vuoto: `[]`.
-- **`OptionalDependencies`**: Mod con cui offri compatibilità se presenti, ma non strettamente richieste.
-- **`IncompatibleWith`**: Un elenco di GUID di mod che vanno in conflitto con la tua. NML avviserà il giocatore se entrambe sono attive contemporaneamente.
+- **`OptionalDependencies`**: Mod che supporti se presenti, ma di cui non hai strettamente bisogno. Quando una è attiva, NML dà persino al tuo codice una costante di compilazione `#if OTHER_MOD_GUID` in cui racchiudere il codice di integrazione.
+- **`IncompatibleWith`**: Un elenco di GUID di mod che rompono la tua se attive insieme. NML lo controlla e impedisce che le mod in conflitto vengano caricate contemporaneamente.
 
-You can also set `"ModType": "RESOURCE_PACK"` :PES5_Hmmmm:.
+Puoi anche impostare `"ModType": "RESOURCE_PACK"` se la tua mod non ha codice e vuole solo sostituire texture, oppure `"UsePublicizedAssembly": false` se ti piace soffrire contro i campi privati per sport :PES5_Hmmmm:.
 
 
 ## Un po' di cose tecniche :elpepehacker:
@@ -98,7 +100,7 @@ Non è una versione semplificata per la guida: è esattamente la base da cui par
 - **`using NeoModLoader.api;`**: Pensa a questa istruzione come all'aprire la tua cassetta degli attrezzi prima di iniziare a lavorare. Invece di scrivere `NeoModLoader.api.BasicMod` ogni volta, `using` dice al computer: *"tieni pronti sul banco gli strumenti di NML"*.
 - **`namespace MyCoolMod`**: Un cognome per il tuo codice. La mod di qualcun altro può benissimo avere una classe chiamata `Main`, e il namespace evita che le due entrino in conflitto.
 - **`public class Main`**: In C#, tutto il codice risiede all'interno di "classi". Una classe è semplicemente un progetto o uno schema con un nome.
-- **`: BasicMod<Main>`**: Il distintivo ufficiale della tua mod. Dice a NML: *"Sono una mod legittima"*, e in cambio NML ti fornisce logging, impostazioni e localizzazioni gratis. La parte `<Main>` ripete semplicemente il nome della tua classe. Sembra strano a vedersi, ma si scrive sempre così.
+- **`: BasicMod<Main>`**: il distintivo ufficiale della tua mod. Dice a NML *"sono una mod legittima"*, e in cambio NML ti dà gratis logging, impostazioni, caricamento a fasi e traduzioni. La parte `<Main>` ripete solo il nome della tua classe. Sì, sembra strano, e sì, si scrive sempre così.
 - **`protected override void OnModLoad()`**: Il momento cruciale. All'avvio di WorldBox, NML bussa a questa porta una volta sola. Tutto ciò che la mod registra (tratti, oggetti, poteri) va inserito dentro queste parentesi graffe `{ }`.
 - **`LogInfo(...)`**: Stampa una riga nel log con il nome della tua mod già prefissato. È il modo più rapido per scoprire se il codice è stato eseguito. Vedi **[Log e debugging](#/nml/logs-and-debugging)**.
 
@@ -115,6 +117,8 @@ Non è una versione semplificata per la guida: è esattamente la base da cui par
 >     }
 >
 >     public ModDeclare GetDeclaration() => _declare;
+>     public GameObject GetGameObject() => gameObject;
+>     public string GetUrl() => _declare.RepoUrl;
 > }
 > ```
 > `IMod` è l'interfaccia pura, mentre `BasicMod<T>` è una classe pronta all'uso che la implementa e aggiunge comodità utilissime. Entrambe funzionano. Usa `BasicMod` a meno di motivi particolari :PES5_Noted:.

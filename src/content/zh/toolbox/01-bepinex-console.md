@@ -14,7 +14,7 @@ order: 5
 
 ## 什么是 BepInEx
 
-它是一个在 Unity 游戏启动前介入挂载的底层 Mod 加载器。WorldBox 开发者主要用它来实现两件事：实时控制台和 **UnityExplorer**（后面有专门的一页介绍）。我们这里都是用 NML 的文明人，但这个控制台好用到不能不装 :trollface:。虽然有些 Mod 在需要时会让 NML 自动帮你装上，但自己手动配置能让你彻底掌控各项参数。
+它是一个在 Unity 游戏启动前介入挂载的底层 Mod 加载器。WorldBox 开发者用它来做三件事：实时控制台、**[UnityExplorer](#/toolbox/unity-explorer)**，以及独立的 **[BepInEx 模组开发](#/toolbox/bepinex-modding)**。我们这里都是用 NML 的文明人，但这个控制台好用到不能不装 :trollface:。虽然有些 Mod 在需要时会让 NML 自动帮你装上，但自己手动配置能让你彻底掌控各项参数。
 
 ## 安装步骤
 

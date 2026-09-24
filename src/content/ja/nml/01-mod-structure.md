@@ -35,7 +35,7 @@ MyCoolMod/
 
 - **`mod.json`**: 身分証明書です。これがないと、NMLはModが存在しないものとして扱います。
 - **`icon.png`**: ゲーム内のModメニューで表示されるプレビュー画像です。
-- **`Code/`**: すべての `.cs` ソースコード（`Main.cs` など）を格納する場所です。**ゲーム起動時にNMLが自動でコンパイルしてくれる**ため、自分で `.dll` をビルドしたりVisual Studioを用意したりする必要はありません。
+- **`Code/`**: すべての `.cs` ソースファイル（`Main.cs` など）を置くフォルダーです。実はNMLはMod内で見つけた `.cs` ファイルなら何でもコンパイルします（`bin/` や `obj/` などは除外）が、`Code/` にまとめておけばプロジェクトがゴミ捨て場になるのを防げます。**NMLはゲーム起動のたびにそれらをコンパイルする**ので、自分で `.dll` をビルドする必要も、Visual Studio も一切不要です。
 - **`Locales/`**: 翻訳ファイル（`en.json` など）を配置します。これがないと、追加したアイテムや特徴がゲーム内でプレースホルダーキーのまま生表示されてしまいます。
 - **`GameResources/`**: カスタムテクスチャ、ドット絵、特徴アイコン、武器スプライト、効果音などを入れます。NMLがこの名前で探すため、フォルダ名は正確に指定してください。詳しくは **[スプライト＆リソース](#/nml/sprites-and-resources)** を参照してください。
 
@@ -51,6 +51,7 @@ MyCoolMod/
   "description": "My mod is the best frfr",
   "iconPath": "icon.png",
   "GUID": "com.yourName.my-first-mod",
+  "RepoUrl": "https://github.com/yourName/my-first-mod",
   "Dependencies": [],
   "OptionalDependencies": [],
   "IncompatibleWith": []
@@ -64,12 +65,13 @@ MyCoolMod/
 - **`version`**: Modのバージョン番号（例：`"0.1.0"`）。アップデートを公開するたびに増やします。
 - **`description`**: Modの概要説明。詳細画面に表示されます。
 - **`iconPath`**: プレビューアイコンへの相対パス（通常はMod直下の `"icon.png"`）。
-- **`GUID`**: Modの一意な識別子。慣例として `com.yourname.modname` のようにすべて小文字で記述します。Modの社会保障番号のようなもので、他人のModとの衝突を防ぎます。**一度決めたら絶対に変更しないでください**：プレイヤーの設定ファイル名にこのGUIDが使われるためです。
+- **`GUID`**: Modの一意なIDで、慣例では `com.yourname.modname` です。NMLは内部でこれを大文字とアンダースコアの形式（`COM_YOURNAME_MY_FIRST_MOD`）に整え、それが本当の識別子になります。省略しても、NMLが作者名とMod名をつなげて作ります。**一度決めたら絶対に変えないでください**：プレイヤーの設定ファイルはこの名前で保存されます。
+- **`RepoUrl`**: GitHubリポジトリ、Discord、Webサイトへの任意のリンクです。NMLがModカードにボタンを付けてくれるので、プレイヤーはワンクリックでそこへ飛べます。
 - **`Dependencies`**: あなたのModを動かすために必須となる他のModのGUID。単体で動く場合は `[]` のままで構いません。
-- **`OptionalDependencies`**: 存在すれば連携するが、必須ではない任意のMod。
-- **`IncompatibleWith`**: 同時に有効化するとクラッシュや不具合の原因となるModのGUID一覧。両方が有効な場合、NMLがプレイヤーに警告を発します。
+- **`OptionalDependencies`**: 存在すれば対応するが、必須ではないModです。どれかが有効な場合、NMLは連携コードを囲むためのコンパイラ定数 `#if OTHER_MOD_GUID` まで用意してくれます。
+- **`IncompatibleWith`**: 同時に有効にするとあなたのModを壊すModのGUIDのリストです。NMLはこれをチェックし、競合するModが同時に読み込まれないようにします。
 
-`"ModType": "RESOURCE_PACK"` や `"UsePublicizedAssembly": false` も設定可能です :PES5_Hmmmm:。
+コードを持たずテクスチャを差し替えるだけのModなら `"ModType": "RESOURCE_PACK"` を、趣味でprivateフィールド相手に苦しみたいなら `"UsePublicizedAssembly": false` を設定することもできます :PES5_Hmmmm:。
 
 
 ## 少し専門的なコードの話 :elpepehacker:
@@ -98,7 +100,7 @@ namespace MyCoolMod
 - **`using NeoModLoader.api;`**: 作業前にツールボックスを開くようなものです。毎回 `NeoModLoader.api.BasicMod` とフルネームで書く代わりに、`using` で「NMLのツールを手元に用意しておく」とコンピュータに伝えます。
 - **`namespace MyCoolMod`**: コードの名字のようなものです。他の誰かのModにも `Main` クラスが存在する可能性があり、名前空間によって衝突を防ぎます。
 - **`public class Main`**: C#においてすべてのコードは「クラス」の中に記述されます。クラスとは名前の付いた設計図やレシピのことです。
-- **`: BasicMod<Main>`**: あなたのModの公式バッジです。NMLに「私は正規のModです」と伝え、その見返りとしてNMLからログ出力、設定管理、多言語対応の仕組みが無償で提供されます。`<Main>` 部分は自身のクラス名を繰り返しているだけです。少し奇妙に見えますが、常にこのように書きます。
+- **`: BasicMod<Main>`**: あなたのModの公式バッジです。NMLに *「私は正規のModです」* と伝え、その見返りにNMLはログ、設定、段階的な読み込み、翻訳を無料で提供してくれます。`<Main>` の部分は自分のクラス名を繰り返しているだけです。ええ、変な見た目ですが、いつもこう書きます。
 - **`protected override void OnModLoad()`**: 最も重要なメソッドです。WorldBoxの起動時、NMLはこの扉を一度だけ叩きます。Modが登録するすべての要素（特徴、アイテム、神の力）はこの `{ }` の中に記述します。
 - **`LogInfo(...)`**: Mod名があらかじめ付加されたログ行を出力します。コードが正常に動いているかを確認する基本的な手段です。詳しくは **[ログとデバッグ](#/nml/logs-and-debugging)** を参照してください。
 
@@ -115,6 +117,8 @@ namespace MyCoolMod
 >     }
 >
 >     public ModDeclare GetDeclaration() => _declare;
+>     public GameObject GetGameObject() => gameObject;
+>     public string GetUrl() => _declare.RepoUrl;
 > }
 > ```
 > `IMod` は生インターフェースであり、`BasicMod<T>` はそれを実装して便利な機能を追加した既製クラスです。どちらも動作しますが、特別な理由がない限り `BasicMod` を使用することをおすすめします :PES5_Noted:。

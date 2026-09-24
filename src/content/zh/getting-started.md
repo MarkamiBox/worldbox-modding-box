@@ -55,6 +55,8 @@ worldbox/
 
 ## 4. 选择文本编辑器
 
+任何能保存纯文本的编辑器都行。大致按“好用程度”排序：
+
 | 编辑器 | 特性简析 |
 | --- | --- |
 | **系统记事本 (Notepad)** | Windows 开箱即用。写第一个最简单的模组绰绰有余 |
@@ -77,6 +79,7 @@ worldbox/
 - **[UnityExplorer 游戏内对象浏览器](#/toolbox/unity-explorer)**：直接在游戏里点击任意物体，实时洞察其底层数据与内部组件。
 - **[dnSpy 或 ILSpy 反编译器](#/toolbox/reading-the-game-code)**：直接反编译游戏本体程序集，查看官方开发者是如何编写底层代码的。
 - **[AssetRipper 资源提取器](#/toolbox/getting-the-sprites)**：解包提取游戏原版的贴图与音效，方便你对齐官方像素画风。
+- **[BepInEx 模组开发](#/toolbox/bepinex-modding)**：如果你想要对 Unity 引擎进行底层挂钩，而不是制作 NML 内容，就可以编写预编译的 `.dll` 插件。
 
 > [!WARNING] NCMS 已被彻底废弃 :sadcat:
 > NCMS 已不再维护。本站的所有教程与代码均专门面向 NML。虽然理论上你依然可以为 NCMS 编写模组，但现在已经没有任何人使用它了 :PES2_Shrug:.

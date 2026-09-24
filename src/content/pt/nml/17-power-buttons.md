@@ -378,19 +378,26 @@ Os botões são organizados na ordem em que são criados. Portanto, ler `Buttons
 
 ## Agrupando botões com PowersTabExtension
 
-O NeoModLoader traz `PowersTabExtension` em `NeoModLoader.General.UI.Tab` para organizar os botões em grupos:
+Jogar dez botões numa única fileira funciona, mas quando o mod cresce vira uma gaveta de bagunça. O NeoModLoader traz `PowersTabExtension` em `NeoModLoader.General.UI.Tab` para você organizar os botões em grupos separados, como as abas divinas vanilla:
 
 ```csharp
 using NeoModLoader.General.UI.Tab;
+
+// 1. Define the groups your tab will contain
 tab.SetLayout(new List<string> { "spells", "creatures" });
+
+// 2. Assign each button to a group
+PowerButton strikeBtn = PowerButtonCreator.CreateGodPowerButton(STRIKE, Icon("iconHelloStrike"), tab.transform);
 tab.AddPowerButton("spells", strikeBtn);
+
+PowerButton spawnBtn = PowerButtonCreator.CreateGodPowerButton(SPAWN_POWER, Icon("iconHelloSpawn"), tab.transform);
+tab.AddPowerButton("creatures", spawnBtn);
+
+// 3. Recalculate the positions
 tab.UpdateLayout();
 ```
 
-SetLayout() trava a definição de grupos e organiza os botões :PES5_Hmmmm:.
-
-
-
+`SetLayout()` trava a definição dos grupos assim que é chamado. Adicione seus botões aos grupos declarados e termine com `tab.UpdateLayout()`. Se você tentar colocar um botão num grupo que esqueceu de registrar em `SetLayout()`, o NML registra um aviso no log e deixa o botão perdido fora do layout :PES5_Hmmmm:.
 
 ## Ícones, novamente
 

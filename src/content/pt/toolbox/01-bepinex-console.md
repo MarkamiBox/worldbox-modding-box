@@ -14,7 +14,7 @@ Essa é uma configuração de dez minutos que você faz uma única vez e aprovei
 
 ## O que é o BepInEx
 
-Um mod loader que se conecta aos jogos de Unity antes mesmo da inicialização. Os modders de WorldBox usam ele basicamente para duas coisas: o console ao vivo e o **UnityExplorer** (que tem uma página dedicada só para ele). Aqui somos gente civilizada do NML, mas esse console é bom demais para ficar de fora :trollface:. O NML até pode instalá-lo para você caso um mod exija, mas fazer isso manualmente garante que você tenha total controle das configurações.
+Um mod loader que se conecta aos jogos de Unity antes mesmo da inicialização. Os modders de WorldBox usam ele para três coisas: o console ao vivo, o **[UnityExplorer](#/toolbox/unity-explorer)** e o **[modding com BepInEx](#/toolbox/bepinex-modding)** independente. Aqui somos gente civilizada do NML, mas esse console é bom demais para ficar de fora :trollface:. O NML até pode instalá-lo para você caso um mod exija, mas fazer isso manualmente garante que você tenha total controle das configurações.
 
 ## Como instalar
 

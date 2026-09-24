@@ -151,7 +151,7 @@ public void Update()
 WorldBox jedes Mal neu zu starten, nur um eine geänderte Zeile zu testen, macht den Großteil des Zeitaufwands beim Modding aus. Frag jemanden, der das an einem Abend vierzigmal gemacht hat. NML kann deine Mod während des laufenden Spiels neu kompilieren und die markierten Methoden austauschen.
 
 1. Deine Hauptklasse implementiert `IReloadable`, was eine einzige Methode `Reload()` erfordert. Die von HelloBox tut das in **[Die fertige Mod](#/nml/all-together)**.
-2. Der Reload-Button wird nur angezeigt, wenn `Config.isEditor` den Wert `true` hat. HelloBox schaltet dies über einen `DevReload`-Schalter um, der standardmäßig auf `false` steht.
+2. Im aktiven Mod-Menü von NML erscheint der Reload-Button automatisch für jede Mod, die `IReloadable` implementiert. (Die ältere Mod-Liste brauchte `Config.isEditor = true`, um ihren Button einzublenden, aber im Hauptmenü musst du diesen Umweg nicht mehr gehen.)
 3. Markiere die Methoden, die ausgetauscht werden sollen, mit `[Hotfixable]` aus `NeoModLoader.api.attributes`:
 
 ```csharp
@@ -166,8 +166,8 @@ public static WorldTile PickTile(Actor pActor)
 
 Ändere dann die Methode, speichere und drücke in NMLs Mod-Liste auf den Reload-Button deiner Mod. NML kompiliert neu, patcht die markierten Methoden und ruft `Reload()` auf. Alles, was nicht markiert ist, führt weiterhin den alten Code aus.
 
-> [!WARNING] `Config.isEditor` ist der interne Schalter des Spiels
-> Er signalisiert WorldBox, dass es im Unity-Editor läuft. Einige Systeme reagieren darauf: Teile der Benutzeroberfläche wechseln ins Handy-Layout, manche Objekte zerstören sich beim Start selbst. Aktiviere dies nur für deine eigenen Tests und niemals in einer veröffentlichten Mod.
+> [!NOTE] Falls du jemals `Config.isEditor` umschaltest
+> `Config.isEditor` ist der interne Unity-Schalter des Spiels. Schaltest du ihn manuell ein, glaubt WorldBox, es laufe im Unity-Editor, und manche UI wechselt ins Mobil-Layout. Mit `IReloadable` im modernen NML brauchst du ihn nicht, also lass ihn in Ruhe.
 
 Was es nicht kann: `Awake`, `Update` und andere Unity-Callbacks, Konstruktoren und alles, was das Spiel bereits aus deinem alten Code aufgebaut hat. Ein beim Laden registriertes Asset behält die ihm damals übergebenen Delegates – `Reload()` ist der Ort, an dem du diese bei Bedarf manuell neu setzt.
 

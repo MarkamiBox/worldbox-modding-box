@@ -48,11 +48,13 @@ Modのルート（`mod.json`の隣）に `default_config.json` を配置しま�
 | キー | 意味 |
 | --- | --- |
 | `Id` | グループ内で一意。コードで値を読み取る識別子 |
-| `Type` | `SWITCH`（オン/オフ）、`SLIDER`（浮動小数点）、`INT_SLIDER`（整数）、`TEXT`（テキスト入力） |
+| `Type` | `SWITCH`（オン/オフ）、`SLIDER`（浮動小数点）、`INT_SLIDER`（整数）、`TEXT`（テキスト入力）、`SELECT`（選択肢グリッド） |
 | `BoolVal` / `FloatVal` / `IntVal` / `TextVal` | 型に応じたデフォルト値 |
-| `MinFloatVal` / `MaxFloatVal`, `MinIntVal` / `MaxIntVal` | スライダーの最小値・最大値 |
+| `MinFloatVal` / `MaxFloatVal`, `MinIntVal` / `MaxIntVal` | スライダーの最小値・最大値。`SELECT` では `MaxIntVal` が選択肢の数、`IntVal` が選ばれたインデックスです |
 | `IconPath` | 行に表示する任意のアイコン |
 | `Callback` | 値が変更されたときに呼ばれる任意の `Namespace.Type:MethodName` |
+
+`SELECT` の場合、NMLは選択肢ごとにボタンを並べます。ラベルはローカライズから `<id>_0`、`<id>_1` のように直接読み込まれます。
 
 ## 値の読み取り
 
@@ -74,7 +76,7 @@ private void LoadSettings()
 }
 ```
 
-はい、各項目を `try/catch` で囲むのは過剰防衛に見えるかもしれません。しかし違います。プレイヤーが古いバージョンからアップデートした場合、保存された設定ファイルには今追加したキーが存在せず、キー欠落が1つあるだけでロード処理全体がクラッシュしてしまいます。
+NMLは起動時に `persistent_config.MergeWith(default_config)` を呼び出します。そのため `default_config.json` に新しいキーを追加すると、NMLがデフォルト値付きでプレイヤーの保存済み設定に自動でマージしてくれます。誰かが `.config` をテキストエディターで開いてJSONを壊した場合に備えて `try/catch` は今でも良い習慣ですが、通常のアップデートならNMLが面倒を見てくれます。
 
 ## Callbacks
 
@@ -98,7 +100,7 @@ namespace HelloBox
 ```
 
 > [!WARNING] 変更はウィンドウが閉じたときに適用されます
-> スライダーをドラッグしている最中ではありません。コールバックで重い処理を行うなら好都合です。もしリアルタイムプレビューを期待していたなら、それが「動かない」原因です :huh:。
+> スライダーをドラッグしている最中ではありません。コールバックで重い処理を行うなら好都合です。もしリアルタイムプレビューを期待していたなら、それが「動かない」原因です :huh:。さらに `BasicMod` は起動時にすべてのコールバックを1回呼び出すので、プレイヤーが保存した値がコードに反映されます。
 
 ## 保存先
 
@@ -111,8 +113,6 @@ namespace HelloBox
 デフォルト値のテスト中に「なぜ新しい設定値が反映されないんだ」と頭を抱えたときに真っ先に削除すべきファイルでもあります :PESgn_OOF:。
 
 ## Don't forget the text (again)
-
-グループIDや設定項目IDもローカライズキーです。`Locales/` に追加しておかないと生のIDが表示されてしまいます：
 
 グループidとitem idもロケールキーです。`Locales/en.json` に入れないと生のまま出ます。各行にはツールチップ用の2つ目のキー **`"<id> Description"`**（スペースと大文字のD）も必要です。
 

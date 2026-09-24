@@ -125,24 +125,40 @@ MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on th
 
 첫 번째 메서드는 해당 월드 타일 위치에서 소리를 재생합니다. HelloBox는 전투 액션에서 불씨를 던질 때 파이어볼 사운드를 재생합니다. **[투사체, 주문 및 효과](#/nml/projectiles-spells)**를 참조하세요. 경로를 찾으려면 게임 코드에서 `event:/SFX/`를 검색하세요. 소리의 종류별로 분류된 수백 개의 경로가 존재합니다. 테스트를 시작하기 전에 볼륨부터 줄이세요.
 
-> [!NOTE] 완전한 커스텀 사운드 추가는 별도의 영역입니다
-> FMOD 이벤트는 게임 사운드 뱅크에 내장되어 있어 모드가 직접 추가할 수 없습니다. 자체 `.wav` 파일을 재생하려면 게임 볼륨 설정과 별개로 Unity `AudioSource`를 직접 로드하여 재생해야 합니다. 저는 이것을 모딩해본 적이 없고 해본 척할 생각도 없으므로 이 가이드에서는 다루지 않습니다.
-
-
 ### 나만의 사운드 추가하기
 
-이전의 알려진 정보와 달리, NeoModLoader는 `CustomAudioManager`를 통해 네이티브 `.wav` 사ウンド 파일 로드를 지원합니다 :PESgn_Noice:。
+NML은 사실 내부적으로 FMOD를 패치하기 때문에, 차고에서 두 번째 사운드 엔진을 만들 필요 없이 직접 만든 `.wav` 파일이 작동합니다 :PESgn_Noice:.
 
-모드 폴더의 `Audio/`, `Audios/` 또는 `GameResources/` 안에 오디오 파일을 넣으세요:
+`.wav` 파일을 `GameResources/`에 그대로 넣으세요. 예를 들면:
 
 ```text
-MyMod/
-└── Audio/
-    ├── custom_explosion.wav
-    └── custom_explosion.json
+GameResources/sounds/hello_boom.wav
 ```
 
-NML이 `MusicBox.playSound`를 후킹하여 사운드를 직접 재생합니다 。
+NML이 `MusicBox.playSound`와 `playDrawingSound`를 후킹하므로, 바닐라 사운드와 똑같은 메서드로 재생하면 됩니다(파일 확장자는 빼고):
+
+```csharp
+MusicBox.playSound("sounds/hello_boom", pTile);
+```
+
+파일 옆에 선택 사항인 `hello_boom.json`을 두면 동작 방식을 설정할 수 있습니다:
+
+```json GameResources/sounds/hello_boom.json
+{
+  "Volume": 60,
+  "Mode": "Stereo3D",
+  "Type": "Sound"
+}
+```
+
+| 필드 | 값 |
+| --- | --- |
+| `Mode` | `Basic` (평면 2D, 볼륨 일정), `Stereo3D` (거리에 따른 바닐라 감쇠), `Mono3D` (방향성) |
+| `Type` | `Sound` (효과음 슬라이더), `Music` (음악 슬라이더), `UI` (UI 슬라이더) |
+| `Volume` | 기본 볼륨 0~100 |
+| `LoopCount` | 반복 횟수 (0 = 한 번) |
+
+무엇보다 좋은 점: NML이 게임의 채널 그룹에 연결해 주기 때문에, 여러분의 사운드는 한밤중에 플레이어의 귀를 멀게 하는 대신 플레이어의 볼륨 설정을 제대로 따릅니다.
 
 ## 게임에 절대 null 스프라이트를 넘기지 마세요
 

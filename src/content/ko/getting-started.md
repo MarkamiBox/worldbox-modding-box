@@ -55,6 +55,8 @@ worldbox/
 
 ## 4. 텍스트 에디터 준비
 
+일반 텍스트로 저장할 수 있다면 무엇이든 됩니다. 대략 "있으면 좋은" 순서로:
+
 | | |
 | --- | --- |
 | **메모장** | 이미 PC에 설치되어 있습니다. 첫 모드를 만들기에는 충분합니다 |
@@ -77,6 +79,7 @@ NML 모딩 섹션의 **[모드 기본 구조](#/nml/mod-structure)**로 이동�
 - **[UnityExplorer](#/toolbox/unity-explorer)**: 인게임에서 모든 오브젝트를 클릭하여 내부 상태를 확인합니다.
 - **[dnSpy 또는 ILSpy](#/toolbox/reading-the-game-code)**: 게임의 원본 코드를 열어 개발자들이 기능을 어떻게 구현했는지 확인합니다.
 - **[AssetRipper](#/toolbox/getting-the-sprites)**: 게임의 스프라이트와 사운드를 추출하여 아트 스타일을 맞출 수 있습니다.
+- **[BepInEx 모드 개발](#/toolbox/bepinex-modding)**: NML 콘텐츠 대신 Unity 엔진에 대한 저수준 후킹이 필요할 때 미리 컴파일된 `.dll` 플러그인을 만듭니다.
 
 > [!WARNING] NCMS는 사용이 중단되었습니다 :sadcat:
 > NCMS는 더 이상 업데이트되지 않습니다. 이 사이트의 모든 가이드는 NML을 기준으로 작성되었습니다. NCMS용 모드를 작성할 수는 있지만 이제는 아무도 사용하지 않습니다 :PES2_Shrug:.

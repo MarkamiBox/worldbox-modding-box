@@ -151,7 +151,7 @@ public void Update()
 Redémarrer WorldBox pour tester une seule ligne modifiée représente l'essentiel du temps passé à modder. Demandez à quiconque l'a fait quarante fois dans la même soirée. NML peut recompiler votre mod pendant que le jeu tourne et remplacer à chaud les méthodes que vous avez marquées.
 
 1. Votre classe principale implémente `IReloadable`, ce qui correspond à une méthode unique : `Reload()`. Celle de HelloBox le fait dans **[Le mod complet](#/nml/all-together)**.
-2. Le bouton de rechargement ne s'affiche que si `Config.isEditor` est à `true`. HelloBox l'active via une option `DevReload` configurée par défaut sur `false`.
+2. Dans le menu des mods actifs de NML, le bouton de rechargement apparaît automatiquement pour tout mod qui implémente `IReloadable`. (L'ancienne liste de mods exigeait `Config.isEditor = true` pour afficher son bouton, mais le menu principal ne vous impose plus ce détour.)
 3. Marquez les méthodes à remplacer avec l'attribut `[Hotfixable]`, issu de `NeoModLoader.api.attributes` :
 
 ```csharp
@@ -166,8 +166,8 @@ public static WorldTile PickTile(Actor pActor)
 
 Modifiez ensuite la méthode, enregistrez et appuyez sur le bouton de rechargement de votre mod dans la liste NML. NML recompile, patche les méthodes marquées et appelle `Reload()`. Tout ce qui n'est pas marqué continue d'exécuter l'ancien code.
 
-> [!WARNING] `Config.isEditor` est le switch interne du jeu
-> Il indique à WorldBox qu'il s'exécute dans l'éditeur Unity, et certains systèmes le prennent au mot : certaines interfaces passent en affichage mobile, certains objets s'autodétruisent au démarrage. Activez-le uniquement pour vos tests et jamais dans un mod distribué.
+> [!NOTE] Si jamais vous activez `Config.isEditor`
+> `Config.isEditor` est l'interrupteur Unity interne du jeu. Si vous l'activez à la main, WorldBox se croit dans l'éditeur Unity et une partie de l'interface passe en disposition mobile. Avec `IReloadable` sur un NML récent, vous n'en avez pas besoin, alors laissez-le tranquille.
 
 Ce qu'il ne peut pas faire : les callbacks Unity comme `Awake` ou `Update`, les constructeurs, et tout ce que le jeu a déjà construit à partir de votre ancien code. Un asset enregistré au chargement conserve les délégués qui lui ont été fournis à ce moment-là : `Reload()` est l'endroit où les réassigner manuellement.
 

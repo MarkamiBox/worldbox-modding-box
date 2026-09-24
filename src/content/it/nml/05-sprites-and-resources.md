@@ -125,24 +125,40 @@ MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on th
 
 Il primo viene riprodotto a partire da quella casella del mondo. HelloBox riproduce il suono della palla di fuoco quando la sua azione di combattimento lancia un tizzone, vedi **[Proiettili, incantesimi ed effetti](#/nml/projectiles-spells)**. Per trovare i percorsi, cerca `event:/SFX/` nel codice del gioco: ce ne sono a centinaia, suddivisi in cartelle tematiche. Abbassa il volume prima di iniziare a provarli.
 
-> [!NOTE] Aggiungere nuovi suoni è un progetto separato
-> Gli eventi FMOD risiedono nei sound bank del gioco e una mod non può aggiungerne di nuovi direttamente. Riprodurre i propri file `.wav` richiede di caricarli manualmente in un `AudioSource` di Unity, al di fuori dei cursori del volume di gioco. Questa guida non lo tratta, perché non l'ho mai moddato e non ho intenzione di fingere il contrario.
-
-
 ### Aggiungere i propri suoni
 
-A differenza di quanto si pensava in passato, NeoModLoader supporta file sonori nativi `.wav` tramite il suo componente `CustomAudioManager` :PESgn_Noice:.
+NML in realtà patcha FMOD dietro le quinte, quindi i tuoi file `.wav` funzionano senza che tu debba costruire un secondo motore audio in garage :PESgn_Noice:.
 
-Metti i tuoi file audio in una cartella `Audio/`, `Audios/` o `GameResources/` dentro la tua mod:
+Metti il tuo file `.wav` direttamente in `GameResources/`, ad esempio:
 
 ```text
-MyMod/
-└── Audio/
-    ├── custom_explosion.wav
-    └── custom_explosion.json   <- parametri opzionali
+GameResources/sounds/hello_boom.wav
 ```
 
-NML intercetta `MusicBox.playSound` e riproduce direttamente i tuoi file .
+NML intercetta `MusicBox.playSound` e `playDrawingSound`, quindi lo riproduci con esattamente lo stesso metodo di un suono vanilla (senza l'estensione del file):
+
+```csharp
+MusicBox.playSound("sounds/hello_boom", pTile);
+```
+
+Accanto al file, un `hello_boom.json` opzionale ti permette di configurarne il comportamento:
+
+```json GameResources/sounds/hello_boom.json
+{
+  "Volume": 60,
+  "Mode": "Stereo3D",
+  "Type": "Sound"
+}
+```
+
+| Campo | Valori |
+| --- | --- |
+| `Mode` | `Basic` (2D piatto, il volume resta costante), `Stereo3D` (attenuazione vanilla con la distanza), `Mono3D` (direzionale) |
+| `Type` | `Sound` (cursore effetti), `Music` (cursore musica), `UI` (cursore interfaccia) |
+| `Volume` | Volume predefinito da 0 a 100 |
+| `LoopCount` | Numero di ripetizioni (0 = una volta) |
+
+La parte migliore: siccome NML li collega ai gruppi di canali del gioco, i tuoi suoni rispettano davvero le impostazioni del volume del giocatore invece di assordarlo a mezzanotte.
 
 ## Non passare mai uno sprite nullo al gioco
 

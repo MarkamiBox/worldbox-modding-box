@@ -30,7 +30,9 @@ ScrollWindow.isWindowActive();               // 当前是否“有任何”窗�
 
 ## 原生 ScrollWindow 方案
 
-Se vuoi che la tua finestra sembri fatta direttamente da WorldBox, non creare un Canvas da zero :PES2_Shrug:. NeoModLoader include `WindowCreator` e `AbstractWindow<T>`.
+如果你想让面板看起来像是 WorldBox 自己做的，就别像我第一次那样从零搭一个 canvas :PES2_Shrug:。NeoModLoader 自带 `WindowCreator` 和 `AbstractWindow<T>`，就是为了让你不必用 Unity 的原始组件去拼滚动条、标题栏和关闭按钮。
+
+继承 `AbstractWindow<T>`，把底层的活交给 NML：
 
 ```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
 using NeoModLoader.api;
@@ -43,6 +45,8 @@ namespace HelloBox
     {
         protected override void Init()
         {
+            // ContentTransform is already pointing to Background/Scroll View/Viewport/Content.
+            // Put your buttons, text, and rows here:
             GameObject labelObj = new GameObject("Text", typeof(Text));
             labelObj.transform.SetParent(ContentTransform, false);
 
@@ -52,19 +56,39 @@ namespace HelloBox
             label.text = "Hello from a native window!";
         }
 
-        public override void OnFirstEnable() {}
-        public override void OnNormalEnable() {}
-        public override void OnNormalDisable() {}
+        public override void OnFirstEnable()
+        {
+            // Runs once, the very first time the player opens the window
+        }
+
+        public override void OnNormalEnable()
+        {
+            // Runs every time the window opens - refresh dynamic stats here
+        }
+
+        public override void OnNormalDisable()
+        {
+            // Runs every time the window closes
+        }
     }
 }
 ```
 
+在模组初始化时创建一次：
+
 ```csharp
 HelloNativeWindow.CreateAndInit("hello_native_window");
+```
+
+`CreateAndInit()` 会克隆游戏的 `"windows/empty"` 预制体，把它挂到 `CanvasMain.instance.transformWindows` 下，把标题键设为 `"<windowId> Title"`，挂上你的组件，并把窗口同时注册到 `ScrollWindow._all_windows` 和 `AssetManager.window_library`。打开它只需要和原版窗口一样的一行代码：
+
+```csharp
 ScrollWindow.showWindow(HelloNativeWindow.WindowId);
 ```
 
-Per i layout ampi estendi `AbstractWideWindow<T>`, oppure chiama `WindowCreator.CreateEmptyWindow(id, titleKey, icon)`. Dimentica la registrazione e il gioco non saprà che esiste :wbfacepalm:.
+如果你需要更大的屏幕空间来放一张巨大的表格或多列管理器，就改为继承 `AbstractWideWindow<T>`。它的行为完全一样，但默认尺寸是 `600x280`，会自动套用宽版边框，并提供 `SetSize(new Vector2(width, height))`，方便你的布局要更多空间时使用。
+
+如果你根本不想用 `AbstractWindow<T>` 这个基类，就直接调用 `WindowCreator.CreateEmptyWindow(id, titleKey, icon)`，然后自己配置返回的 `ScrollWindow`。自己动手时如果忘了注册这一步，按下 ESC 时游戏甚至不知道你的窗口存在 :wbfacepalm:。
 
 ## 自定义悬浮窗口
 
