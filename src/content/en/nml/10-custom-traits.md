@@ -10,7 +10,7 @@ order: 100
 
 A trait is a permanent label on a unit: *brave*, *fast*, *immortal*. It shows in the inspector, it can change the unit's stats, it can run code when the unit is born, hit, or dies, and children can inherit it.
 
-It is also the cheapest thing in the game to add, which is why it is everybody's first mod. It was mine too [MARKAMI: confirm].
+It is also the cheapest thing in the game to add, which is why it is everybody's first mod. Mine was not: my first mod was a wrapper around somebody else's mod, which is its own kind of cheating :trollface:.
 
 ## Prefix your ids, always
 

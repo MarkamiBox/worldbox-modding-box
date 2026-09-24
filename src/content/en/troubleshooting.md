@@ -338,7 +338,7 @@ cursed.need_visual_render = true;
 
 ## Registered, then broken in the world
 
-Every entry in this section has the same cause. The game prepares some part of every asset **once, while it loads**, and your mod registers its assets after that. Nothing tells you: the asset exists, it has a name, and the first time the game actually uses it, it throws. The fix is always the same shape, too: do that one step yourself, right after you register the asset :wbfacepalm:.
+Every entry in this section has the same cause. The game prepares some part of every asset **once, while it loads**, and your mod registers its assets after that. Nothing tells you: the asset exists, it has a name, and the first time the game actually uses it, it throws. The fix is always the same shape, too: do that one step yourself, right after you register the asset :wbfacepalm:. Word of the day: work around.
 
 ### Your creature raises a shadow error
 

@@ -82,7 +82,7 @@ HelloBox/
 ember.path_texture = "drops/hello_ember";   // a folder
 ```
 
-Drops are loaded as a **sprite list**: the game reads every PNG *inside* that folder, which is what lets `animated` work. A still drop is still a folder, with one frame in it. A loose `drops/hello_ember.png` comes back as an empty list, and the drop falls invisible :PES4_Invisible:.
+Drops are loaded as a **sprite list**: the game reads every PNG *inside* that folder, which is what lets `animated` work. A still drop is still a folder, with one frame in it. A loose `drops/hello_ember.png` comes back as an empty list, and the drop falls invisible :wbwiltedrose:.
 
 ## Making drops fall
 

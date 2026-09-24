@@ -10,7 +10,7 @@ order: 94
 
 `AssetManager` is the game's index of everything that can exist. It holds **129 libraries**, and every one of them is a `List` plus a `Dictionary` you can read, edit and add to from your mod.
 
-This page is the whole list. Most of it you will never touch, and neither will I. The point is that when you want to change something in WorldBox, the first question is always "which library is it in?", and the answer is on this page.
+This page is the whole list. Most of it you will never touch, and neither will I. Holy wall of tables :wbbre:. The point is that when you want to change something in WorldBox, the first question is always "which library is it in?", and the answer is on this page.
 
 ## Before this page
 

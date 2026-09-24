@@ -119,7 +119,7 @@ If none of that happened, jump to **[It did not work](#it-did-not-work)**.
 
 ## Mac
 
-The same five steps. Only the folder is hidden in a different place, because on a Mac the whole game is packed into one app icon. Classic Apple :PES3_Shhh:.
+The same five steps. Only the folder is hidden in a different place, because on a Mac the whole game is packed into one app icon. Apple things :wbbre:.
 
 1. **Experimental Mode**: exactly like Windows, **[Step 1](#step-1-turn-on-experimental-mode)**. The warning about updates applies to you too.
 2. **Download** `NeoModLoader.dll` from the [same release page](https://github.com/WorldBoxOpenMods/ModLoader/releases/tag/latest). It is the same file for Windows and Mac.

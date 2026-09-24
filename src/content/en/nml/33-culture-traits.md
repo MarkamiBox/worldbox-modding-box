@@ -10,7 +10,7 @@ order: 106
 
 A **culture** is the shared habits of a group of cities. It decides what they build, what they forge, how they inherit, what they read and what they value. A culture trait is one of those habits.
 
-Of the seven trait systems, culture is the one with the widest reach. A culture spreads with cities, survives its founder, and merges its stats into every single unit that belongs to it. If you want a mod whose effect ripples through a world over an hour of play, this is the library. It is also my favourite of the seven [MARKAMI: confirm] :PES2_EvilPlan:.
+Of the seven trait systems, culture is the one with the widest reach. A culture spreads with cities, survives its founder, and merges its stats into every single unit that belongs to it. If you want a mod whose effect ripples through a world over an hour of play, this is the library. Big reach, big responsibility :PES5_Menace:.
 
 | | |
 | --- | --- |

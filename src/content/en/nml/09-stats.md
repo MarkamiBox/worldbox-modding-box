@@ -177,7 +177,7 @@ The ones the game itself reads:
 | Nature | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | Building | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-Unlike a stat name, an unknown tag is harmless, it just never matches anything. That also means a typo here fails silently, so copy them exactly. Pick your poison :PES2_Shrug:.
+Unlike a stat name, an unknown tag is harmless, it just never matches anything. That also means a typo here fails silently, so copy them exactly. Pick your poison :wbbre:.
 
 ## Reading a unit's live values
 

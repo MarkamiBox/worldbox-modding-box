@@ -204,7 +204,7 @@ The postfix runs after every stats update, so the swap sticks. It takes the vani
 
 ## Opinion, loyalty and happiness
 
-Three small libraries decide how the politics feel. WorldBox politics is maths in a trench coat: all three are lists of little calculators:
+Three small libraries decide how the politics feel, and all three are lists of little calculators. No feelings involved, only numbers:
 
 | Library | Called for | Returns |
 | --- | --- | --- |

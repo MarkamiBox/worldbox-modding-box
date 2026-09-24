@@ -290,7 +290,7 @@ The task's name is what the unit window shows as "doing right now", so the playe
 
 ## The rules of not tanking the framerate
 
-There can be thousands of units. Your behaviour runs on every one of them, every tick.
+There can be thousands of units. Your behaviour runs on every one of them, every tick. "Performance? Never heard of it, is it something you can eat?" is a fine joke until your mod is the one eating it. Most mods, mine included, run huge loops every tick and get away with it on a decent PC. A behaviour does not get away with it.
 
 - **Do the thinking on your own clock, not in `execute`.** Run your expensive logic in `Update()` on a timer, store the answer, and let `execute` just read it.
 - **Spread the load.** If you think for 40 creatures, think for 10 of them per pass over four passes, rather than all 40 at once.

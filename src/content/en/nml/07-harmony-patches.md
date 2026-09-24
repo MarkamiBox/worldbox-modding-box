@@ -154,7 +154,7 @@ Adjust, do not assign. `__result *= 1.5f` still behaves if another mod patched t
 
 ## Changing a number the game hard-codes
 
-Half the "can somebody make a mod that..." requests are one number. "Cities grow too big" is this, straight from the game's own `City`:
+Half the "can somebody make a mod that..." requests are one number. Nothing is impossible, somebody just has not made it yet :wbbru:. "Cities grow too big" is this, straight from the game's own `City`:
 
 ```csharp Assembly-CSharp / City
 public int getZoneRange(bool pAllowCheat = true)
@@ -277,7 +277,7 @@ Before you blame Harmony, read the log. It is rarely Harmony :PES5_Noted:.
 - **Guard for null, always.** Your patch will run during world load and during a unit's death.
 - **Cheap check first.** The first line of a hot patch should be the test that lets you `return`.
 - **Patch the narrowest method that does the job.** Patching `Actor.updateStats` for one trait's speed is fine. Patching the world update to do the same thing is how a mod gets uninstalled.
-- **Keep your patches in one file.** When somebody reports a conflict you want to read one file, not twelve. Be nice to future you.
+- **Keep your patches in one file.** When somebody reports a conflict you want to read one file, not twelve. Be nice to future you. Do as I say, not as my old mods do :trollface:.
 
 > [!NOTE] Patching a library's `has`, `get`, `add`, `clone` or `post_init` is pointless
 > It only affects calls made after your mod loads, never the vanilla registration that already happened by then. See **[Asset libraries](#/nml/asset-libraries)**.

@@ -68,7 +68,7 @@ namespace HelloBox
 }
 ```
 
-Ten wisps alive at once, and the achievement unlocks. Top 10 wisp moments :poggers:.
+Ten wisps alive at once, and the achievement unlocks. Top 10 achievements of all time :trollface:.
 
 ## What the game does not do for you
 

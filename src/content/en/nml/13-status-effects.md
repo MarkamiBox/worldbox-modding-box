@@ -100,7 +100,7 @@ The short list. The real one is longer and mostly boring :wbyawn:.
 
 ## Your own sprite
 
-This one has a trap in it, and yes, I walked into it [MARKAMI: confirm]. `texture` is **not** a full path: the status library prepends `effects/` before loading, so you write the bare name.
+This one has a trap in it, and everybody walks into it once :wbbre:. `texture` is **not** a full path: the status library prepends `effects/` before loading, so you write the bare name.
 
 ```text Mods/HelloBox/
 HelloBox/
