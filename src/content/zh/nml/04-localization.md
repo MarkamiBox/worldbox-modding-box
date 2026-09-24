@@ -37,6 +37,8 @@ public string GetLocaleFilesDirectory(ModDeclare pModDeclare)
 
 ## 一个文件搞定所有语言：CSV
 
+
+如果你的表格软件导出时默认使用分号或制表符而非英文逗号，可以在主类上实现 `ICsvSepCustomized` 并在 `GetCsvSeparator()` 中返回 `';'`，以免 NML 把你的文本解析成一锅乱粥 :PES2_Shrug:。
 在同一个文件夹里放置一个 `.csv` 表格文件可以一次性囊括所有语言，这比起维护十五个独立的 JSON 文件要省心得多。此时文件名叫什么都无所谓：
 
 ```text Locales/lang.csv
@@ -54,7 +56,7 @@ using NeoModLoader.General;
 LM.Get("trait_hello_swift");                            // 读取当前游戏语言对应的文本
 LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // 添加到当前已加载的语言中
 LM.Add("en", "trait_hello_swift", "Swift");          // 添加到特定语言中
-LM.LoadLocale("path/to/Locales/en.json");            // 手动加载一个 json
+LM.LoadLocale("en", path);            // 手动加载一个 json
 LM.LoadLocales("path/to/Locales/lang.csv");          // 手动加载一个 csv
 LM.ApplyLocale(false);                               // 应用生效。false = 不强制重绘屏幕上的所有文字
 ```

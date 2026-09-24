@@ -8,7 +8,7 @@ order: 92
 
 # Referencia de estadísticas :wbstonks:
 
-Casi todos los assets que registras tienen un bloque `base_stats`, y casi todas las páginas después de esta escriben en él. Esta es la lista de todo lo que puedes colocar allí. Todo lo demás es un crash esperando su momento :PES5_Hmmmm:.
+Casi todos los assets que registrarás tienen un bloque `base_stats`, y casi todas las páginas después de esta configuran algo en él. Esta es la lista de todo lo que puedes colocar allí. Todo lo demás es un cuelgue esperando su momento :PES5_Hmmmm:.
 
 ## Cómo funciona base_stats
 
@@ -23,7 +23,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, no x0.25
 
 ## De dónde proceden los números de una unidad
 
-`Actor.updateStats()` limpia el bloque de estadísticas de la unidad y lo reconstruye desde cero en este orden exacto. Yo sigo consultando esta tabla cada vez:
+`Actor.updateStats()` limpia el bloque de estadísticas de la unidad y lo reconstruye desde cero en este orden exacto:
 
 | # | Fuente | Nota |
 | --- | --- | --- |
@@ -54,7 +54,8 @@ Dos consecuencias más:
 
 ## Combat
 
-`damage` y `armor` hacen casi todo el trabajo. El resto es para cuando quieres que un rasgo se sienta distinto, no solo más fuerte.
+Dale diplomacia a un lobo y no negociará :PES2_Shrug:.
+
 
 | Estadística | Lo que hace |
 | --- | --- |
@@ -108,7 +109,7 @@ Dos consecuencias más:
 
 ## Solo para civilizaciones
 
-Estas estadísticas no hacen absolutamente nada en un animal. El juego las marca con `used_only_for_civs`. Dale `diplomacy` a un lobo y tendrás un lobo muy elocuente al que nadie escucha :wbwolf:.
+Estas estadísticas no hacen absolutamente nada en un animal. El juego las marca con `used_only_for_civs`.
 
 | Estadística | Lo que hace |
 | --- | --- |
@@ -177,7 +178,7 @@ Los tags que el propio juego lee:
 | Naturaleza | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | Construcción | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-A diferencia del nombre de una estadística, un tag desconocido es inofensivo: simplemente nunca coincidirá con nada. Eso también significa que un error de escritura pasará desapercibido, así que cópialos con exactitud. Elige tu veneno :wbbre:.
+A diferencia del nombre de una estadística, un tag desconocido es inofensivo: simplemente nunca coincidirá con nada. Eso también significa que un error de escritura pasará desapercibido, así que cópialos con exactitud.
 
 ## Leer los valores en tiempo real de una unidad
 
@@ -189,8 +190,11 @@ float finalDamage = actor.stats["damage"];
 
 Eso es también lo que ajustas desde un Postfix de Harmony en `Actor.updateStats` - ver **[Parches de Harmony](#/nml/harmony-patches)**.
 
+:PESgn_SMH:.
+
+
 ## Añadir tu propia estadística
 
 Puedes registrar un nuevo `BaseStatAsset` en `AssetManager.base_stats_library`, y aparecerá en el inspector y se sumará como cualquier otro. Lo que **no** hará es surtir efecto por sí solo: nada en el juego lee una estadística que no conoce de antemano. Una estadística personalizada solo es útil como un número que tú mismo lees después, desde tu propio parche de Harmony o comportamiento.
 
-Casi siempre la respuesta es "usa una estadística existente", y la segunda es "mantén tu propio diccionario". Una tercera todavía no la he encontrado.
+Casi siempre la respuesta es "usa una estadística existente", y la segunda es "mantén tu propio diccionario".

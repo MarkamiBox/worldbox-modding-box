@@ -12,7 +12,7 @@ order: 1
 
 ## How it is organized
 
-- **Overview**: This introduction, what you need to get started, troubleshooting, external tools (BepInEx, UnityExplorer, dnSpy, AssetRipper), and community credits & feedback.
+- **Overview**: This introduction, what you need to get started, troubleshooting, external tools (BepInEx, UnityExplorer, dnSpy, AssetRipper), BepInEx modding, and community credits & feedback.
 - **NML Modding**: Everything about the loader and the mod pipeline - starting with **[Installing NML](#/install-nml)** (start there if you only want to *play* with mods):
   - **Core Workflow**: Mod structure, your first mod, logs & debugging, localization, and custom sprites.
   - **Advanced & Publishing**: In-game settings menus, Harmony patches, saving data in saves, and publishing to Steam Workshop.

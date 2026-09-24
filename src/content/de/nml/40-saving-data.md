@@ -26,8 +26,33 @@ Das Spiel hat dafür bereits einen festen Platz. Jede Einheit, jede Stadt, jedes
 Jeder Datentyp hat seine eigene Tabelle, daher kollidieren ein `int` und ein `string` unter demselben Schlüssel nicht. Aus Gründen deiner eigenen geistigen Gesundheit sollten sie sich dennoch keinen Schlüssel teilen. Dein zukünftiges Ich wird sich nicht mehr erinnern, welcher welcher war.
 
 
-> [!NOTE] Mehr als fünf primitive Datentypen speichern
-> NML bietet ein eigenes Hilfsmittel, um ein komplettes Objekt in den Daten einer Einheit zu speichern, nicht nur `int`/`long`/`float`/`string`/`bool`. Mehr als einen Zähler oder ein Flag habe ich nie gebraucht, daher kann ich dich hier nicht durchführen. Es existiert jedoch, falls du eine vollständige Struktur oder Liste sichern musst.
+
+
+## Speichern komplexer Objekte mit NML
+
+Wenn dir fünf primitive Typen nicht reichen und du eine ganze Klasse speichern möchtest, bietet NML `DataExtension` in `NeoModLoader.General.Game.extensions`:
+
+```csharp
+using NeoModLoader.General.Game.extensions;
+
+public class QuestProgress
+{
+    public string quest_id;
+    public int step;
+    public List<string> completed_objectives = new List<string>();
+}
+
+// Speichern:
+actor.data.Set("hello_quest", new BasicCustomData<QuestProgress>(quest));
+
+// Auslesen:
+if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
+{
+    QuestProgress quest = saved.Data;
+}
+```
+
+NML serialisiert das Objekt als JSON in `custom_data_string`. Für Versionskontrolle bei Formatänderungen implementiere `ICustomData` :PES5_Hmmmm:.
 
 ## In HelloBox
 

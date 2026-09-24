@@ -8,7 +8,7 @@ order: 92
 
 # Referência de atributos :wbstonks:
 
-Quase todo asset que você registrar possui um bloco `base_stats`, e quase todas as páginas depois desta escrevem nele. Esta é a lista de tudo o que você tem permissão para colocar lá dentro. Todo o resto é um crash esperando a sua hora :PES5_Hmmmm:.
+Quase todo asset que você registrar possui um bloco `base_stats`, e quase todas as páginas depois desta configuram algo nele. Esta é a lista de tudo o que você tem permissão para colocar lá dentro. Todo o resto é um crash esperando a hora certa :PES5_Hmmmm:.
 
 ## Como o base_stats funciona
 
@@ -23,7 +23,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, não x0.25
 
 ## De onde vêm os valores de uma unidade
 
-`Actor.updateStats()` limpa o bloco de atributos da unidade e o reconstrói do zero, exatamente nesta ordem. Eu ainda consulto esta tabela toda vez:
+`Actor.updateStats()` limpa o bloco de atributos da unidade e o reconstrói do zero, exatamente nesta ordem:
 
 | # | Fonte | Nota |
 | --- | --- | --- |
@@ -54,7 +54,8 @@ Mais duas consequências:
 
 ## Combat
 
-`damage` e `armor` fazem quase todo o trabalho. O resto é para quando você quer que um traço pareça diferente, não só mais forte.
+Dê diplomacia a um lobo e ele não negociará :PES2_Shrug:.
+
 
 | Atributo | O que faz |
 | --- | --- |
@@ -108,7 +109,7 @@ Mais duas consequências:
 
 ## Apenas civilizações
 
-Estes não fazem absolutamente nada em animais. O jogo os marca como `used_only_for_civs`. Dê `diplomacy` a um lobo e você terá um lobo muito eloquente que ninguém escuta :wbwolf:.
+Estes não fazem absolutamente nada em animais. O jogo os marca como `used_only_for_civs`.
 
 | Atributo | O que faz |
 | --- | --- |
@@ -152,7 +153,6 @@ trait.base_stats_meta["construction_speed"] = 10;   // o grupo constrói mais r�
 ```
 
 Se um bônus deve ser aplicado apenas a certos membros (apenas guerreiros, apenas adultos), nenhum dos dois blocos pode expressar isso. Use um Postfix do Harmony em `Actor.updateStats` e faça o filtro você mesmo. Veja **[Patches com Harmony](#/nml/harmony-patches)**.
-
 ## Tags: as estatísticas que não são números
 
 Um bloco `base_stats` também contém um conjunto de **tags**, que são sinalizadores booleanos em vez de números. Eles se fundem da mesma maneira que os atributos, permitindo que um traço dê imunidade ao fogo a uma criatura exatamente como daria dano:
@@ -177,7 +177,7 @@ As tags que o próprio jogo avalia:
 | Natureza | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | Construção | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-Diferente de um nome de atributo, uma tag desconhecida é inofensiva: ela simplesmente nunca corresponderá a nada. Isso também significa que um erro de digitação passará em silêncio, então copie-as fielmente. Escolha o seu veneno :wbbre:.
+Diferente de um nome de atributo, uma tag desconhecida é inofensiva: ela simplesmente nunca corresponderá a nada. Isso também significa que um erro de digitação passará em silêncio, então copie-as fielmente. Um `imunity_fire` escrito errado pode ficar no seu mod por meses sem ninguém avisar :PESgn_SMH:.
 
 ## Lendo os valores em tempo real de uma unidade
 
@@ -193,4 +193,4 @@ Isso é também o que você ajusta a partir de um Postfix do Harmony em `Actor.u
 
 Você pode registrar um novo `BaseStatAsset` em `AssetManager.base_stats_library`, e ele aparecerá no inspetor e será somado como qualquer outro. O que ele **não** fará é ter qualquer efeito automático: nada no jogo lê um atributo que ele não conheça de fábrica. Um atributo personalizado só tem utilidade como um número que você mesmo lê depois, no seu próprio patch do Harmony ou comportamento.
 
-Na maioria das vezes a resposta é "use um atributo existente", e a segunda é "mantenha seu próprio dicionário". Uma terceira eu ainda não encontrei.
+Na maioria das vezes a resposta é "use um atributo existente", e a segunda é "mantenha seu próprio dicionário".

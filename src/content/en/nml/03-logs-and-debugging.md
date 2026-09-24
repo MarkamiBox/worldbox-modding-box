@@ -151,7 +151,7 @@ public void Update()
 Restarting WorldBox to test one changed line is most of what modding costs. Ask anybody who has done it forty times in one evening. NML can recompile your mod while the game runs, and swap in the methods you marked.
 
 1. Your main class implements `IReloadable`, which is one method, `Reload()`. HelloBox's does, in **[The finished mod](#/nml/all-together)**.
-2. The reload button only shows while `Config.isEditor` is `true`. HelloBox flips it from a `DevReload` switch that ships as `false`.
+2. In NML's active mod menu, the reload button appears automatically for any mod implementing `IReloadable`. (The older legacy mod list wanted `Config.isEditor = true` to unhide its button, but the main menu doesn't make you jump through that hoop).
 3. Mark the methods you want swapped with `[Hotfixable]`, from `NeoModLoader.api.attributes`:
 
 ```csharp
@@ -166,8 +166,8 @@ public static WorldTile PickTile(Actor pActor)
 
 Then change the method, save, and press your mod's reload button in NML's mod list. NML recompiles, patches the marked methods, and calls `Reload()`. Anything that is not marked keeps running the old code.
 
-> [!WARNING] `Config.isEditor` is the game's own switch
-> It tells WorldBox it is running inside the Unity editor, and a few systems believe it: some UI takes its phone layout, some objects destroy themselves on start. Turn it on for your own testing and never in a mod you publish.
+> [!NOTE] If you ever flip `Config.isEditor`
+> `Config.isEditor` is the game's internal Unity switch. If you turn it on manually, WorldBox thinks it is inside the Unity editor and some UI switches to a mobile layout. With `IReloadable` on modern NML you do not need it, so leave it alone.
 
 What it cannot do: `Awake`, `Update` and other Unity callbacks, constructors, and anything the game already built from your old code. An asset registered at load time keeps the delegates it was given then, so `Reload()` is where you put them back yourself.
 

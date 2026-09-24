@@ -376,6 +376,30 @@ private static void Buttons()
 
 Кнопки располагаются в том порядке, в котором создаются. Поэтому чтение вызовов в `Buttons()` сверху вниз в точности соответствует тому, что игрок видит слева направо. Если хотите изменить порядок, поменяйте местами сами вызовы, а не id.
 
+
+## Группировка кнопок через PowersTabExtension
+
+Десять кнопок в один ряд работают, но мод быстро превращается в свалку. NeoModLoader предоставляет `PowersTabExtension` в пространстве `NeoModLoader.General.UI.Tab` для группировки кнопок:
+
+```csharp
+using NeoModLoader.General.UI.Tab;
+
+// 1. Объявляем группы
+tab.SetLayout(new List<string> { "spells", "creatures" });
+
+// 2. Добавляем кнопки в группы
+PowerButton strikeBtn = PowerButtonCreator.CreateGodPowerButton(STRIKE, Icon("iconHelloStrike"), tab.transform);
+tab.AddPowerButton("spells", strikeBtn);
+
+PowerButton spawnBtn = PowerButtonCreator.CreateGodPowerButton(SPAWN_POWER, Icon("iconHelloSpawn"), tab.transform);
+tab.AddPowerButton("creatures", spawnBtn);
+
+// 3. Обновляем расположение
+tab.UpdateLayout();
+```
+
+`SetLayout()` фиксирует структуру. Добавьте кнопки и вызовите `tab.UpdateLayout()`. Попытка добавить кнопку в необъявленную группу приведет к предупреждению в логе и потере кнопки :PES5_Hmmmm:.
+
 ## И снова об иконках
 
 ```csharp

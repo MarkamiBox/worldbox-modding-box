@@ -8,7 +8,7 @@ order: 92
 
 # Référence des statistiques :wbstonks:
 
-Presque tous les assets que vous enregistrez possèdent un bloc `base_stats`, et presque chaque page après celle-ci écrit dedans. Voici la liste de tout ce que vous avez le droit d'y mettre. Tout le reste est un crash qui attend son heure :PES5_Hmmmm:.
+Presque tous les assets que vous enregistrerez possèdent un bloc `base_stats`, et presque chaque page après celle-ci y configure quelque chose. Voici la liste de tout ce que vous avez le droit d'y mettre. Tout le reste n'est qu'un crash qui attend son heure :PES5_Hmmmm:.
 
 ## Comment fonctionne base_stats
 
@@ -23,7 +23,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, pas x0.25
 
 ## D'où viennent les chiffres d'une unité
 
-`Actor.updateStats()` réinitialise le bloc de stats de l'unité et le reconstruit intégralement, dans cet ordre précis. Je consulte encore ce tableau à chaque fois :
+`Actor.updateStats()` réinitialise le bloc de stats de l'unité et le reconstruit intégralement, dans cet ordre précis :
 
 | # | Source | Note |
 | --- | --- | --- |
@@ -54,7 +54,8 @@ Deux conséquences supplémentaires :
 
 ## Combat
 
-`damage` et `armor` font l'essentiel du travail. Le reste sert quand vous voulez qu'un trait donne une impression différente, pas seulement plus forte.
+Donnez de la diplomatie à un loup et il ne négociera pas :PES2_Shrug:.
+
 
 | Statistique | Ce qu'elle fait |
 | --- | --- |
@@ -108,7 +109,7 @@ Deux conséquences supplémentaires :
 
 ## Civilisation uniquement
 
-Celles-ci n'ont aucun effet sur un animal. Le jeu les marque `used_only_for_civs`. Donnez `diplomacy` à un loup et vous obtenez un loup très éloquent que personne n'écoute :wbwolf:.
+Celles-ci n'ont aucun effet sur un animal. Le jeu les marque `used_only_for_civs`.
 
 | Statistique | Ce qu'elle fait |
 | --- | --- |
@@ -152,7 +153,6 @@ trait.base_stats_meta["construction_speed"] = 10;   // le groupe bâtit plus vit
 ```
 
 Si un bonus ne doit toucher que certains individus (les soldats, les adultes), aucun des deux blocs ne permet de l'exprimer. Utilisez un Postfix Harmony sur `Actor.updateStats` pour filtrer vous-même. Voir **[Patchs Harmony](#/nml/harmony-patches)**.
-
 ## Tags : les stats qui ne sont pas des nombres
 
 Un bloc `base_stats` gère également un ensemble de **tags**, qui sont des drapeaux booléens plutôt que des nombres. Ils se fusionnent de la même façon, de sorte qu'un trait peut accorder une immunité au feu tout comme il accorde des dégâts :
@@ -177,7 +177,7 @@ Ceux reconnus par le jeu de base :
 | Nature | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | Bâtiment | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-Contrairement aux statistiques, un tag inconnu est inoffensif : il ne correspondra simplement à rien. Cela signifie aussi qu'une faute de frappe passera totalement inaperçue, alors copiez-les scrupuleusement. Choisissez votre poison :wbbre:.
+Contrairement aux statistiques, un tag inconnu est inoffensif : il ne correspondra simplement à rien. Cela signifie aussi qu'une faute de frappe passera totalement inaperçue, alors copiez-les scrupuleusement. Une faute comme `imunity_fire` peut rester des mois dans votre mod sans que personne ne vous prévienne :PESgn_SMH:.
 
 ## Lire les valeurs en direct d'une unité
 
@@ -193,4 +193,4 @@ C'est aussi cette valeur que vous modifiez depuis un Postfix Harmony sur `Actor.
 
 Vous pouvez déclarer un nouveau `BaseStatAsset` dans `AssetManager.base_stats_library`. Il apparaîtra dans l'inspecteur et sera calculé comme les autres. Ce qu'il **ne fera pas**, en revanche, c'est avoir le moindre effet automatique : le jeu ne lit aucune stat qu'il ne connaît pas. Une statistique personnalisée n'est utile que si vous la lisez vous-même dans vos propres patchs ou comportements.
 
-La plupart du temps, la réponse est "utilisez une stat existante", et la seconde est "gérez votre propre dictionnaire". Je n'en ai pas encore trouvé une troisième.
+La plupart du temps, la réponse est "utilisez une stat existante", et la seconde est "gérez votre propre dictionnaire".

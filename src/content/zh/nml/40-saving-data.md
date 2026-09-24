@@ -26,8 +26,33 @@ order: 44
 每种数据类型在底层都有独立的存储字典，因此同名的 `int` 和 `string` 不会发生冲突。但为了你的代码可读性与心智负担，仍强烈建议使用互不相同的键名。未来的你不会记得哪个是哪个。
 
 
-> [!NOTE] 保存比五种基础类型更复杂的自定义对象
-> NML 提供了一个内置工具，支持将完整的自定义对象直接持久化到生物数据中，而不仅限于 `int`/`long`/`float`/`string`/`bool`。在绝大多数情况下简单的计数器或标志位已经完全够用，因此这里不再赘述完整实现。但如果你确实需要保存完整的结构体或列表，该功能随时可用。
+
+
+## 使用 NML 存储复杂对象
+
+如果五个基础类型无法满足你的需求，你需要在生物数据上存入一整个自定义类或列表，NML 在 `NeoModLoader.General.Game.extensions` 中提供了 `DataExtension` 扩展方法：
+
+```csharp
+using NeoModLoader.General.Game.extensions;
+
+public class QuestProgress
+{
+    public string quest_id;
+    public int step;
+    public List<string> completed_objectives = new List<string>();
+}
+
+// 写入实体数据：
+actor.data.Set("hello_quest", new BasicCustomData<QuestProgress>(quest));
+
+// 读取实体数据：
+if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
+{
+    QuestProgress quest = saved.Data;
+}
+```
+
+在底层，NML 会把对象序列化为 JSON 字符串并存入原版的 `custom_data_string` 数据表中。若数据结构未来会发生变动，建议直接让类实现 `ICustomData` 接口以获得明确的版本校验控制 :PES5_Hmmmm:。
 
 ## 在 HelloBox 中的实践
 

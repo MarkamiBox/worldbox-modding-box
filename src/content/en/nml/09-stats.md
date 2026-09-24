@@ -54,7 +54,7 @@ Two more consequences:
 
 ## Combat
 
-`damage` and `armor` do most of the work. The rest is for when you want a trait to feel different, not just bigger.
+On day one you only need `damage`, `armor` and `attack_speed`. The rest you will meet the first time your balance goes sideways.
 
 | Stat | What it does |
 | --- | --- |
@@ -108,7 +108,7 @@ Two more consequences:
 
 ## Civilisation only
 
-These do nothing on an animal. The game marks them `used_only_for_civs`. Give a wolf `diplomacy` and you get a very well-spoken wolf that nobody listens to :wbwolf:.
+These do nothing on an animal. The game marks them `used_only_for_civs`. Give a wolf `diplomacy` and it will not start negotiating :PES2_Shrug:.
 
 | Stat | What it does |
 | --- | --- |
@@ -177,7 +177,7 @@ The ones the game itself reads:
 | Nature | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | Building | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-Unlike a stat name, an unknown tag is harmless, it just never matches anything. That also means a typo here fails silently, so copy them exactly. Pick your poison :wbbre:.
+Unlike a stat name, an unknown tag is harmless, it just never matches anything. That also means a typo here fails silently, so copy them exactly. An `imunity_fire` can sit in your mod for months and nobody will ever tell you :PESgn_SMH:.
 
 ## Reading a unit's live values
 
@@ -193,4 +193,4 @@ That is also what you adjust from a Harmony Postfix on `Actor.updateStats` (see 
 
 You can register a new `BaseStatAsset` in `AssetManager.base_stats_library`, and it will show up in the inspector and be summed like any other. What it will **not** do is have any effect: nothing in the game reads a stat it does not know about. A custom stat is only useful as a number you then read yourself, from your own Harmony patch or your own behaviour.
 
-Most of the time the answer is "use an existing stat", and the second answer is "keep your own dictionary". I have not found a third one yet.
+Most of the time the answer is "use an existing stat", and the second answer is "keep your own dictionary". In this economy, a stat nobody reads is just a very expensive comment.

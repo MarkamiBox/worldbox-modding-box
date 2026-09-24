@@ -28,6 +28,54 @@ ScrollWindow.isWindowActive();               // 현재 열려 있는 창이 *하
 
 마지막 메서드는 겉보기보다 훨씬 중요합니다. 여러분의 신의 권능이 클릭 시 무언가를 발동한다면, 창이 맵을 가리고 있는 동안에는 아무 일도 일어나지 않아야 안전합니다. `GodPower` 에 `unselect_when_window = true` 를 설정해 두면 게임 엔진이 알아서 처리해 줍니다.
 
+
+## 네이티브 ScrollWindow 방식
+
+패널이 WorldBox 공식 UI처럼 자연스럽게 어우러지길 원한다면 Canvas를 처음부터 맨땅에 만들지 마세요 :PES2_Shrug:。NeoModLoader는 `WindowCreator`와 `AbstractWindow<T>`를 제공합니다.
+
+`AbstractWindow<T>`를 상속합니다:
+
+```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
+using NeoModLoader.api;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace HelloBox
+{
+    public class HelloNativeWindow : AbstractWindow<HelloNativeWindow>
+    {
+        protected override void Init()
+        {
+            GameObject labelObj = new GameObject("Text", typeof(Text));
+            labelObj.transform.SetParent(ContentTransform, false);
+
+            Text label = labelObj.GetComponent<Text>();
+            label.font = LocalizedTextManager.current_font;
+            label.fontSize = 12;
+            label.text = "Hello from a native window!";
+        }
+
+        public override void OnFirstEnable() {}
+        public override void OnNormalEnable() {}
+        public override void OnNormalDisable() {}
+    }
+}
+```
+
+모드 로드 시점에 초기화합니다:
+
+```csharp
+HelloNativeWindow.CreateAndInit("hello_native_window");
+```
+
+창을 열 때는 다음 한 줄이면 됩니다:
+
+```csharp
+ScrollWindow.showWindow(HelloNativeWindow.WindowId);
+```
+
+넓은 레이아웃이 필요하면 `AbstractWideWindow<T>`를 상속하거나 `WindowCreator.CreateEmptyWindow(id, titleKey, icon)`을 직접 호출하세요. 등록 과정을 건너뛰면 ESC 키를 눌러도 게임이 창의 존재를 인식하지 못합니다 :wbfacepalm:。
+
 ## 나만의 플로팅 창 만들기
 
 창은 게임 UI 캔버스를 부모로 두는 `GameObject` 입니다. 다음이 가장 기초적인 전체 골격입니다:

@@ -37,6 +37,8 @@ public string GetLocaleFilesDirectory(ModDeclare pModDeclare)
 
 ## Eine Datei für alle Sprachen: CSV
 
+
+Wenn dein Tabellenprogramm Semikolons oder Tabs statt Kommas exportiert, implementiere `ICsvSepCustomized` in deiner Hauptklasse und gib `';'` aus `GetCsvSeparator()` zurück, damit NML deine Texte nicht in Brei verwandelt :PES2_Shrug:.
 Eine `.csv`-Datei im selben Ordner deckt alle Sprachen gleichzeitig ab, was bei der Pflege wesentlich angenehmer ist als fünfzehn einzelne JSON-Dateien. Hier spielt der Dateiname keine Rolle:
 
 ```text Locales/lang.csv
@@ -54,7 +56,7 @@ using NeoModLoader.General;
 LM.Get("trait_hello_swift");                            // in der aktuellen Spielsprache auslesen
 LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // zur aktuell geladenen Sprache hinzufügen
 LM.Add("en", "trait_hello_swift", "Swift");          // zu einer bestimmten Sprache hinzufügen
-LM.LoadLocale("path/to/Locales/en.json");            // eine JSON-Datei manuell laden
+LM.LoadLocale("en", path);            // eine JSON-Datei manuell laden
 LM.LoadLocales("path/to/Locales/lang.csv");          // eine CSV-Datei manuell laden
 LM.ApplyLocale(false);                               // anwenden. false = Bildschirmnachrichten nicht alle neu zeichnen
 ```

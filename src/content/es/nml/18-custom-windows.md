@@ -28,6 +28,54 @@ ScrollWindow.isWindowActive();               // si hay *alguna* ventana abierta 
 
 Esta última importa más de lo que parece: si tu poder divino hace algo al hacer clic, normalmente quieres que no haga nada mientras una ventana esté cubriendo el mapa. Poner `unselect_when_window = true` en tu `GodPower` le pasa ese problema al juego.
 
+
+## La ruta nativa con ScrollWindow
+
+Si quieres que tu panel se sienta como si WorldBox lo hubiera construido, no crees un Canvas desde cero como hice yo :PES2_Shrug:. NeoModLoader incluye `WindowCreator` y `AbstractWindow<T>` para no tener que reconstruir barras de desplazamiento y títulos a mano.
+
+Hereda de `AbstractWindow<T>`:
+
+```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
+using NeoModLoader.api;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace HelloBox
+{
+    public class HelloNativeWindow : AbstractWindow<HelloNativeWindow>
+    {
+        protected override void Init()
+        {
+            GameObject labelObj = new GameObject("Text", typeof(Text));
+            labelObj.transform.SetParent(ContentTransform, false);
+
+            Text label = labelObj.GetComponent<Text>();
+            label.font = LocalizedTextManager.current_font;
+            label.fontSize = 12;
+            label.text = "Hello from a native window!";
+        }
+
+        public override void OnFirstEnable() {}
+        public override void OnNormalEnable() {}
+        public override void OnNormalDisable() {}
+    }
+}
+```
+
+Inicialízala al cargar el mod:
+
+```csharp
+HelloNativeWindow.CreateAndInit("hello_native_window");
+```
+
+Y ábrela con:
+
+```csharp
+ScrollWindow.showWindow(HelloNativeWindow.WindowId);
+```
+
+Si necesitas más espacio, hereda de `AbstractWideWindow<T>`. También puedes llamar a `WindowCreator.CreateEmptyWindow(id, titleKey, icon)` directamente. Olvida el registro y el juego no sabrá que tu ventana existe al presionar ESC :wbfacepalm:.
+
 ## Tu propia ventana flotante
 
 Una ventana es un `GameObject` cuyo padre es el canvas de la interfaz del juego. Este es el esqueleto completo:

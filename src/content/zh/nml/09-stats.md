@@ -8,7 +8,7 @@ order: 92
 
 # 属性数值速查 :wbstonks:
 
-你注册的绝大多数资源都拥有一个 `base_stats` 字典块，而且本页之后的几乎每一页都会往里面塞东西。本页面列出了所有你被允许填入的有效属性键名。其他任何东西都是一个等待时机的崩溃 :PES5_Hmmmm:。
+你注册的绝大多数资源都拥有一个 `base_stats` 字典块，而且本页之后的几乎每一页都会往里面塞东西。本页面列出了所有你被允许填入的有效属性键名。 除此以外的任何属性都极易引发游戏崩溃 :PES5_Hmmmm:。
 
 ## base_stats 的工作原理
 
@@ -23,7 +23,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%，而不是乘 0.25
 
 ## 单位各项数值的计算来源
 
-`Actor.updateStats()` 会清空单位的属性字典块，并严格按照以下先后顺序从头重新累加重构。我到现在每次都还要翻这张表：
+`Actor.updateStats()` 会清空单位的属性字典块，并严格按照以下先后顺序从头重新累加重构：
 
 | # | 来源 | 备注 |
 | --- | --- | --- |
@@ -54,7 +54,8 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%，而不是乘 0.25
 
 ## Combat
 
-`damage` 和 `armor` 承担了大部分工作。其余的，是在你想让一个特质感觉不一样、而不只是更强的时候用的。
+哪怕给狼加上外交属性，它也绝不会坐下来谈判 :PES2_Shrug:。
+
 
 | 属性 | 作用 |
 | --- | --- |
@@ -108,7 +109,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%，而不是乘 0.25
 
 ## 仅限文明居民属性
 
-以下属性对普通动物完全无效。游戏内部将其打上了 `used_only_for_civs` 标签。给一只狼加上 `diplomacy`，你会得到一只能言善辩却没人听的狼 :wbwolf:。
+以下属性对普通动物完全无效。游戏内部将其打上了 `used_only_for_civs` 标签。
 
 | 属性 | 作用 |
 | --- | --- |
@@ -152,7 +153,6 @@ trait.base_stats_meta["construction_speed"] = 10;   // 整个文化群体的建�
 ```
 
 如果你希望某种加成只对群体中的特定个体生效（比如仅限战士、仅限成年人），这两个属性块都无法直接实现。此时请在 `Actor.updateStats` 上挂载一个 Harmony Postfix 后置补丁自行添加守卫过滤。详见 **[Harmony 补丁](#/nml/harmony-patches)**。
-
 ## 标签：非数值型的特殊属性
 
 `base_stats` 字典块同时还挂载了一组**标签 (Tags)**，它们是布尔标记而非数字。它们的继承合并逻辑与数值完全一致，因此特质给生物赋予火焰免疫的方式和赋予额外伤害的方式毫无二致：
@@ -177,7 +177,7 @@ if (actor.stats.hasTag("immunity_fire")) { }
 | 物种分类 | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | 建筑环境 | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-与属性名不同的是，传入一个未知的标签名是无害的：它只是永远不会匹配上任何系统逻辑。但这同样意味着拼写错误会悄无声息地失效，因此请务必原样准确复制。自己挑一种毒药吧 :wbbre:。
+与属性名不同的是，传入一个未知的标签名是无害的：它只是永远不会匹配上任何系统逻辑。但这同样意味着拼写错误会悄无声息地失效，因此请务必原样准确复制。 像拼错成 `imunity_fire` 这样的标签能在你的模组里静悄悄躺上好几个月而无人察觉 :PESgn_SMH:。
 
 ## 实时读取单位的运行时属性
 
@@ -193,4 +193,4 @@ float finalDamage = actor.stats["damage"];
 
 你可以在 `AssetManager.base_stats_library` 中注册全新的 `BaseStatAsset`，它会出现在检查器面板里并像其他属性一样被累加求和。但它**绝不会产生任何预设效果**：原版游戏绝不可能去读取一个它压根不知道的陌生属性。自定义属性唯一的用途，就是作为一个记账数值，供你自己在专属的 Harmony 补丁或 AI 行为树节点中读取处理。
 
-大多数情况下，最优雅的答案是“直接复用已有属性”；其次的选择则是“维护你自己专属的代码字典”。第三种答案我还没找到。
+大多数情况下，最优雅的答案是“直接复用已有属性”；其次的选择则是“维护你自己专属的代码字典”。

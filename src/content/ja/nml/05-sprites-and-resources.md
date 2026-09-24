@@ -128,6 +128,22 @@ MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on th
 > [!NOTE] 完全な新規サウンドの追加は別の作業になります
 > FMOD イベントはゲームのサウンドバンク内に格納されており、Mod から直接拡張することはできません。独自の `.wav` ファイルを再生するには、ゲームの音量設定とは別に Unity の `AudioSource` を自前でロードして再生する必要があります。私自身それをMod化したことがなく、知ったかぶりをするつもりもないため、このガイドでは扱いません。
 
+
+### 独自のサウンドを追加する
+
+以前の認識とは異なり、NeoModLoader は `CustomAudioManager` を通じてネイティブな `.wav` サウンドファイルをサポートしています :PESgn_Noice:。
+
+Modフォルダ内の `Audio/`、`Audios/`、または `GameResources/` に配置します：
+
+```text
+MyMod/
+└── Audio/
+    ├── custom_explosion.wav
+    └── custom_explosion.json
+```
+
+NML が `MusicBox.playSound` を自動でフックし再生します 。
+
 ## ゲームに null のスプライトを絶対に渡さない
 
 スプライトが見つからないボタンは、「アイコンが欠けたボタン」ではなく、UI上の**透明で見えない穴**となり、プレイヤーが押すことすらできなくなります。必ずフォールバックを用意してください：

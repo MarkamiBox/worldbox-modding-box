@@ -69,6 +69,9 @@ Il file `mod.json` è richiesto da NeoModLoader per identificare la tua mod :pep
 - **`OptionalDependencies`**: Mod con cui offri compatibilità se presenti, ma non strettamente richieste.
 - **`IncompatibleWith`**: Un elenco di GUID di mod che vanno in conflitto con la tua. NML avviserà il giocatore se entrambe sono attive contemporaneamente.
 
+You can also set `"ModType": "RESOURCE_PACK"` :PES5_Hmmmm:.
+
+
 ## Un po' di cose tecniche :elpepehacker:
 
 Ogni mod necessita di un file C# che dica "ciao, sono una mod". Questo è tutto il codice necessario:

@@ -61,6 +61,8 @@ Mettre en ligne sur le Workshop se fait **dans le jeu**, et la façon d'ouvrir c
 
 S'il ne se passe rien, vous avez cliqué trop lentement ou vous avez cliqué sur la rangée au lieu de l'icône.
 
+La nouvelle fenêtre de liste de mods NML propose également des boutons rapides sur les mods sélectionnés (ouvrir le dossier, l'activer/désactiver, recharger le code), mais le rite des huit clics sur l'icône reste le moyen d'invoquer l'uploader Steam :PES2_Shrug:.
+
 | Champ | Ce qu'il faut renseigner |
 | --- | --- |
 | Champ du haut (`fileID`) | **Laissez vide** la première fois. Pour les mises à jour, collez l'id présent dans l'URL de votre article de workshop |

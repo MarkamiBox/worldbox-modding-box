@@ -28,6 +28,54 @@ ScrollWindow.isWindowActive();               // vérifier si *une* fenêtre quel
 
 Cette dernière fonction est plus cruciale qu'il n'y paraît : si votre pouvoir divin effectue une action au clic, vous souhaitez généralement qu'il ne fasse rien lorsqu'une fenêtre recouvre la carte. Définir `unselect_when_window = true` sur votre `GodPower` délègue ce souci au moteur du jeu.
 
+
+## La voie native avec ScrollWindow
+
+Si vous voulez que votre panneau ressemble à WorldBox, ne créez pas un Canvas de zéro :PES2_Shrug:. NeoModLoader fournit `WindowCreator` et `AbstractWindow<T>`.
+
+Héritez de `AbstractWindow<T>` :
+
+```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
+using NeoModLoader.api;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace HelloBox
+{
+    public class HelloNativeWindow : AbstractWindow<HelloNativeWindow>
+    {
+        protected override void Init()
+        {
+            GameObject labelObj = new GameObject("Text", typeof(Text));
+            labelObj.transform.SetParent(ContentTransform, false);
+
+            Text label = labelObj.GetComponent<Text>();
+            label.font = LocalizedTextManager.current_font;
+            label.fontSize = 12;
+            label.text = "Hello from a native window!";
+        }
+
+        public override void OnFirstEnable() {}
+        public override void OnNormalEnable() {}
+        public override void OnNormalDisable() {}
+    }
+}
+```
+
+Initialisez-la au chargement du mod :
+
+```csharp
+HelloNativeWindow.CreateAndInit("hello_native_window");
+```
+
+Ouvrez-la avec :
+
+```csharp
+ScrollWindow.showWindow(HelloNativeWindow.WindowId);
+```
+
+Pour les grands tableaux, héritez de `AbstractWideWindow<T>`. Vous pouvez aussi appeler `WindowCreator.CreateEmptyWindow(id, titleKey, icon)`. Oubliez l'enregistrement et le jeu ignorera votre fenêtre lors de l'appui sur Échap :wbfacepalm:.
+
 ## Votre propre fenêtre flottante
 
 Une fenêtre est un `GameObject` rattaché au canvas de l'interface du jeu. En voici le squelette complet :

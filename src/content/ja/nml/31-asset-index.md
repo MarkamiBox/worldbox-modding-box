@@ -10,7 +10,7 @@ order: 94
 
 `AssetManager` は、ゲーム内に存在し得るあらゆる要素の総合カタログです。**129個のライブラリ**を管理しており、そのすべてがModから読み取り、編集、追加が可能な `List` と `Dictionary` で構成されています。
 
-このページはその完全な一覧です。大半は一度も触れることがないでしょう。私もです。表の壁、すごい :wbbre:。重要なのは、WorldBoxで何かを変更したいと思った時、最初の疑問は常に「それはどのライブラリにあるのか？」であり、その答えがこのページにあるということです。
+このページはその完全な一覧です。大半は一度も触れることがないでしょう。重要なのは、WorldBoxで何かを変更したいと思った時、最初の疑問は常に「それはどのライブラリにあるのか？」であり、その答えがこのページにあるということです。
 
 ## このページを読む前に
 
@@ -31,7 +31,8 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 
 ## クリーチャーとその特性
 
-実際に開くのは最初の4つです。残りは、名前を当てずっぽうにするのをやめるためにここにあります :PES2_Shrug:。
+実際に触る機会が多いのは最初の4つです :PES2_Shrug:。
+
 
 | ライブラリ | アセット | 保持内容 |
 | --- | --- | --- |
@@ -49,8 +50,6 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 | `base_stats_library` | `BaseStatAsset` | 全ステータス定義。**[ステータス一覧](#/nml/stats)** |
 
 ## 社会システム
-
-ユニットのグループが所属できるものすべて。上の6つには専用ページがあります。残りは、それらのページからここに案内されたときに出会います。
 
 | ライブラリ | アセット | 保持内容 |
 | --- | --- | --- |
@@ -73,8 +72,6 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 | `knowledge_library` | `KnowledgeAsset` | 知識ウィンドウの項目 |
 
 ## ワールド内のオブジェクト
-
-マップ上でクリックできるなら、ここに住んでいます。
 
 | ライブラリ | アセット | 保持内容 |
 | --- | --- | --- |
@@ -135,7 +132,8 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 
 ## ユーザーインターフェース
 
-ゲーム自身のUIを、アセットとして。読むには便利、編集するには怖い :PES_MonkaSweat:。
+専用ページがあるのは window_library だけです :PES5_Hmmmm:。
+
 
 | ライブラリ | アセット | 保持内容 |
 | --- | --- | --- |
@@ -162,8 +160,6 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 `kingdom_colors_library` · `culture_colors_library` · `clan_colors_library` · `religion_colors_library` · `languages_colors_library` · `subspecies_colors_library` · `families_colors_library` · `armies_colors_library` → すべて `ColorAsset`
 
 ## 名前、言葉、歴史
-
-物語を書くWorldBoxの一部です。クリーチャーにちゃんとした名前を付けたくなるまで、誰も気にしません。
 
 | ライブラリ | アセット | 保持内容 |
 | --- | --- | --- |

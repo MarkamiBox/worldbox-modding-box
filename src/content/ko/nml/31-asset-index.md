@@ -10,7 +10,7 @@ order: 94
 
 `AssetManager`는 게임 내에 존재할 수 있는 모든 객체를 총망라하는 대백과사전입니다. 무려 **129개의 라이브러리**를 보유하고 있으며, 각각의 라이브러리는 모드에서 읽고, 수정하고, 추가할 수 있는 하나의 `List`와 `Dictionary`로 구성되어 있습니다.
 
-이 페이지는 그 전체 목록입니다. 대부분은 평생 건드릴 일이 없을 것입니다. 저도요. 세상에, 표로 된 벽이네요 :wbbre:. 하지만 WorldBox에서 무언가를 수정하고자 할 때 첫 번째 질문은 항상 "그게 어느 라이브러리에 들어있는가?"이며, 그에 대한 해답이 바로 여기에 정리되어 있습니다.
+이 페이지는 그 전체 목록입니다. 대부분은 평생 건드릴 일이 없을 것입니다. 하지만 WorldBox에서 무언가를 수정하고자 할 때 첫 번째 질문은 항상 "그게 어느 라이브러리에 들어있는가?"이며, 그에 대한 해답이 바로 여기에 정리되어 있습니다.
 
 ## 이 페이지를 읽기 전에
 
@@ -31,7 +31,8 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 
 ## 크리처 및 특성
 
-실제로 열어 보게 될 건 처음 네 개입니다. 나머지는 이름을 찍어 맞히지 않도록 여기 있는 겁니다 :PES2_Shrug:.
+실제로 가장 자주 열어보게 될 것은 처음 4개입니다 :PES2_Shrug:。
+
 
 | 라이브러리 | 에셋 | 담고 있는 내용 |
 | --- | --- | --- |
@@ -49,8 +50,6 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 | `base_stats_library` | `BaseStatAsset` | 모든 능력치 정의. **[스탯 레퍼런스](#/nml/stats)** |
 
 ## 사회 시스템
-
-유닛 무리가 소속될 수 있는 모든 것. 위의 여섯 개는 전용 페이지가 있습니다. 나머지는 그 페이지들이 여기로 보낼 때 만나게 됩니다.
 
 | 라이브러리 | 에셋 | 담고 있는 내용 |
 | --- | --- | --- |
@@ -73,8 +72,6 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 | `knowledge_library` | `KnowledgeAsset` | 지식 창 항목 |
 
 ## 월드 내 오브젝트
-
-지도에서 클릭할 수 있다면, 여기 삽니다.
 
 | 라이브러리 | 에셋 | 담고 있는 내용 |
 | --- | --- | --- |
@@ -135,7 +132,8 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 
 ## 유저 인터페이스
 
-게임 자체의 UI를 에셋으로. 읽기엔 편하고, 고치기엔 무섭습니다 :PES_MonkaSweat:.
+여기서는 window_library만 별도 페이지로 설명합니다 :PES5_Hmmmm:。
+
 
 | 라이브러리 | 에셋 | 담고 있는 내용 |
 | --- | --- | --- |
@@ -162,8 +160,6 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 `kingdom_colors_library` · `culture_colors_library` · `clan_colors_library` · `religion_colors_library` · `languages_colors_library` · `subspecies_colors_library` · `families_colors_library` · `armies_colors_library` → 모두 `ColorAsset`
 
 ## 작명, 언어 및 역사
-
-이야기를 쓰는 WorldBox의 부분입니다. 자기 생명체에게 제대로 된 이름을 붙이고 싶어지기 전까지는 아무도 찾지 않습니다.
 
 | 라이브러리 | 에셋 | 담고 있는 내용 |
 | --- | --- | --- |

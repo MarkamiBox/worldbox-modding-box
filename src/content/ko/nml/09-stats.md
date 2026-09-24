@@ -8,7 +8,7 @@ order: 92
 
 # 스탯 레퍼런스 :wbstonks:
 
-여러분이 등록할 거의 모든 에셋은 `base_stats` 블록을 가지고 있으며, 이 페이지 이후의 거의 모든 가이드에서 그곳에 무언가를 설정합니다. 이 목록은 그곳에 넣을 수 있는 모든 스탯의 명세서입니다. 그 밖의 것은 전부 때를 기다리는 크래시입니다 :PES5_Hmmmm:.
+여러분이 등록할 거의 모든 에셋은 `base_stats` 블록을 가지고 있으며, 이 페이지 이후의 거의 모든 가이드에서 그곳에 무언가를 설정합니다. 이 목록은 그곳에 넣을 수 있는 모든 스탯의 명세서입니다. 이 목록 외의 다른 값을 넣으면 높은 확률로 게임이 튕기게 됩니다 :PES5_Hmmmm:。
 
 ## base_stats 작동 방식
 
@@ -23,7 +23,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, x0.25가 아님
 
 ## 유닛 능력치가 계산되는 과정
 
-`Actor.updateStats()`는 유닛의 스탯 블록을 깨끗이 비우고 정확히 다음 순서대로 바닥부터 다시 조립합니다. 저도 아직 매번 이 표를 다시 찾아봅니다:
+`Actor.updateStats()`는 유닛의 스탯 블록을 깨끗이 비우고 정확히 다음 순서대로 바닥부터 다시 조립합니다:
 
 | # | 출처 | 비고 |
 | --- | --- | --- |
@@ -54,7 +54,8 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, x0.25가 아님
 
 ## Combat
 
-`damage`와 `armor`가 대부분의 일을 합니다. 나머지는 특성을 그저 더 세게가 아니라 다르게 느껴지게 하고 싶을 때 쓰는 것입니다.
+늑대에게 외교 스탯을 준다고 해서 대화를 시도하지는 않습니다 :PES2_Shrug:。
+
 
 | 스탯 | 설명 |
 | --- | --- |
@@ -108,7 +109,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, x0.25가 아님
 
 ## 문명 전용 능력치
 
-이 스탯들은 동물에게는 아무런 효과가 없습니다. 게임 내에서 `used_only_for_civs`로 분류됩니다. 늑대에게 `diplomacy`를 주면 아무도 말을 들어주지 않는, 말솜씨 좋은 늑대가 됩니다 :wbwolf:.
+이 스탯들은 동물에게는 아무런 효과가 없습니다. 게임 내에서 `used_only_for_civs`로 분류됩니다.
 
 | 스탯 | 설명 |
 | --- | --- |
@@ -152,7 +153,6 @@ trait.base_stats_meta["construction_speed"] = 10;   // 집단 전체의 건축�
 ```
 
 특정 부류(전사만, 성인만)에게만 보너스를 적용해야 한다면 두 블록 모두 그것을 처리할 수 없습니다. `Actor.updateStats`에 Harmony Postfix를 걸어 직접 필터링하세요. **[Harmony 패치](#/nml/harmony-patches)**를 참고하세요.
-
 ## 태그: 숫자가 아닌 특수 스탯
 
 `base_stats` 블록은 수치가 아닌 불리언 플래그 모음인 **태그 (Tags)**도 함께 보관합니다. 스탯과 동일한 방식으로 병합되므로, 피해량을 부여하듯 유닛에게 화염 면역을 손쉽게 쥐여줄 수 있습니다:
@@ -177,7 +177,7 @@ if (actor.stats.hasTag("immunity_fire")) { }
 | 생태 속성 | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | 건축 지형 | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-스탯 이름과 달리 알 수 없는 태그는 에러 없이 무해하지만, 그 어떤 시스템과도 매칭되지 않습니다. 즉 오타가 나도 조용히 묻히므로 정확하게 복사해 붙여넣으세요. 독은 취향껏 고르세요 :wbbre:.
+스탯 이름과 달리 알 수 없는 태그는 에러 없이 무해하지만, 그 어떤 시스템과도 매칭되지 않습니다. 즉 오타가 나도 조용히 묻히므로 정확하게 복사해 붙여넣으세요. `imunity_fire` 같은 오타는 몇 달 동안 아무도 모른 채 방치될 수 있습니다 :PESgn_SMH:。
 
 ## 유닛의 현재 실시간 수치 읽기
 
@@ -193,4 +193,4 @@ float finalDamage = actor.stats["damage"];
 
 `AssetManager.base_stats_library`에 새로운 `BaseStatAsset`을 등록할 수 있으며, 인스펙터에 표시되고 다른 스탯처럼 자동 합산됩니다. 하지만 **자체적인 효과는 아무것도 없습니다**. 게임 시스템은 자기가 모르는 스탯을 절대 읽지 않기 때문입니다. 커스텀 스탯은 오직 여러분의 자체 Harmony 패치나 AI 행동 로직에서 읽어 쓰기 위한 변수로만 유용합니다.
 
-대부분의 경우 정답은 "기존 스탯을 활용하는 것"이며, 차선책은 "자신만의 딕셔너리를 관리하는 것"입니다. 세 번째 답은 아직 못 찾았습니다.
+대부분의 경우 정답은 "기존 스탯을 활용하는 것"이며, 차선책은 "자신만의 딕셔너리를 관리하는 것"입니다.

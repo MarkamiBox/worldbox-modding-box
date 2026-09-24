@@ -25,8 +25,33 @@ The game already has a place for it. Every unit, city, kingdom, building, item a
 
 Each type has its own table, so an `int` and a `string` under the same key do not collide. They still should not share a key, for your own sake. Future you will not remember which one was which.
 
-> [!NOTE] Storing something bigger than five primitives
-> NML has its own utility for stuffing an entire object into a unit's data, not just `int`/`long`/`float`/`string`/`bool`. I have never needed more than a counter or a flag, so I cannot walk you through it here. It exists, if a whole struct or list is what you need to remember.
+## Storing complex objects with NML
+
+If five primitives feel like 1995 and you actually need to save an entire class or list onto an actor, NML provides `DataExtension` in `NeoModLoader.General.Game.extensions`.
+
+Wrap your data class in `BasicCustomData<T>`:
+
+```csharp
+using NeoModLoader.General.Game.extensions;
+
+public class QuestProgress
+{
+    public string quest_id;
+    public int step;
+    public List<string> completed_objectives = new List<string>();
+}
+
+// Saving it to the actor:
+actor.data.Set("hello_quest", new BasicCustomData<QuestProgress>(quest));
+
+// Reading it back:
+if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
+{
+    QuestProgress quest = saved.Data;
+}
+```
+
+Under the hood, NML serializes your object to JSON and packs it into the vanilla `custom_data_string` table under your key. If you expect your data format to change across mod updates, implement `ICustomData` directly on your class instead of using `BasicCustomData<T>` - it gives you explicit `ModId` and `DataVersion` checks so an outdated save payload doesn't silently poison your new state :PES5_Hmmmm:.
 
 ## In HelloBox
 

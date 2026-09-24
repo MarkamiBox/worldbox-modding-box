@@ -44,6 +44,8 @@ key,en,cz,ru
 trait_hello_swift,Swift,迅捷,Быстрый
 ```
 
+If your spreadsheet program exports with semicolons or tabs instead of commas, implement `ICsvSepCustomized` on your main class and return `';'` from `GetCsvSeparator()` so NML doesn't turn your translations into soup :PES2_Shrug:.
+
 ## Doing it from code
 
 `NeoModLoader.General.LM` is the localization helper. Handy when your text is generated, or when you simply want everything in one `.cs` file instead of a pile of JSON.
@@ -54,7 +56,7 @@ using NeoModLoader.General;
 LM.Get("trait_hello_swift");                            // read in the current language
 LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // add to whatever language is loaded now
 LM.Add("en", "trait_hello_swift", "Swift");          // add to a specific language
-LM.LoadLocale("path/to/Locales/en.json");            // load a json manually
+LM.LoadLocale("en", "path/to/Locales/en.json");       // load a json manually (language + path)
 LM.LoadLocales("path/to/Locales/lang.csv");          // load a csv manually
 LM.ApplyLocale(false);                               // apply. false = don't refresh every text on screen
 ```

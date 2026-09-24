@@ -376,6 +376,30 @@ Usa `CreateGodPowerButton` per qualsiasi cosa il giocatore debba mirare sulla ma
 
 I pulsanti vengono disposti nell'ordine in cui sono stati creati, quindi leggere `Buttons()` dall'alto verso il basso corrisponde esattamente a ciò che il giocatore vede da sinistra a destra. Se desideri un ordine diverso, riordina le chiamate, non gli id.
 
+
+## Raggruppare i pulsanti con PowersTabExtension
+
+Mettere dieci pulsanti in un'unica riga funziona, ma non appena la mod cresce sembra un cassetto disordinato. NeoModLoader fornisce `PowersTabExtension` in `NeoModLoader.General.UI.Tab` per organizzare i pulsanti in gruppi distinti come nelle schede di gioco vanilla:
+
+```csharp
+using NeoModLoader.General.UI.Tab;
+
+// 1. Definisci i gruppi contenuti nella scheda
+tab.SetLayout(new List<string> { "spells", "creatures" });
+
+// 2. Assegna ciascun pulsante al rispettivo gruppo
+PowerButton strikeBtn = PowerButtonCreator.CreateGodPowerButton(STRIKE, Icon("iconHelloStrike"), tab.transform);
+tab.AddPowerButton("spells", strikeBtn);
+
+PowerButton spawnBtn = PowerButtonCreator.CreateGodPowerButton(SPAWN_POWER, Icon("iconHelloSpawn"), tab.transform);
+tab.AddPowerButton("creatures", spawnBtn);
+
+// 3. Ricalcola le posizioni
+tab.UpdateLayout();
+```
+
+`SetLayout()` blocca la struttura della scheda una volta chiamato. Aggiungi i pulsanti ai gruppi dichiarati e chiama `tab.UpdateLayout()`. Se provi ad aggiungere un pulsante a un gruppo non dichiarato in `SetLayout()`, NML registrerà un avviso e lascerà il tuo pulsante fuori dal layout :PES5_Hmmmm:.
+
 ## Icone, ancora una volta
 
 ```csharp

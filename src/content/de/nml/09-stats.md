@@ -8,7 +8,7 @@ order: 92
 
 # Werte-Referenz :wbstonks:
 
-Fast jedes Asset, das du registrierst, besitzt einen `base_stats`-Block, und fast jede Seite nach dieser hier schreibt etwas hinein. Dies ist die Liste all dessen, was du dort eintragen darfst. Alles andere ist ein Absturz, der auf seinen Moment wartet :PES5_Hmmmm:.
+Fast jedes Asset, das du registrierst, besitzt einen `base_stats`-Block, und fast jede Seite nach dieser hier setzt irgendetwas darin fest. Dies ist die Liste all dessen, was du dort eintragen darfst. Alles andere ist ein Absturz, der nur auf seinen Moment wartet :PES5_Hmmmm:.
 
 ## Wie base_stats funktioniert
 
@@ -23,7 +23,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, nicht x0.25
 
 ## Woher die Werte einer Einheit stammen
 
-`Actor.updateStats()` leert den Werteblock der Einheit und baut ihn von Grund auf neu auf, in exakt dieser Reihenfolge. Ich schaue diese Tabelle immer noch jedes Mal nach:
+`Actor.updateStats()` leert den Werteblock der Einheit und baut ihn von Grund auf neu auf, in exakt dieser Reihenfolge:
 
 | # | Quelle | Hinweis |
 | --- | --- | --- |
@@ -54,7 +54,8 @@ Zwei weitere Konsequenzen:
 
 ## Combat
 
-`damage` und `armor` erledigen den Großteil der Arbeit. Der Rest ist für den Fall, dass sich ein Merkmal anders anfühlen soll, nicht nur stärker.
+Gib einem Wolf Diplomatie und er wird trotzdem nicht verhandeln :PES2_Shrug:.
+
 
 | Wert | Was er bewirkt |
 | --- | --- |
@@ -108,7 +109,7 @@ Zwei weitere Konsequenzen:
 
 ## Nur Zivilisationen
 
-Diese bewirken bei Tieren überhaupt nichts. Das Spiel markiert sie mit `used_only_for_civs`. Gib einem Wolf `diplomacy` und du bekommst einen sehr redegewandten Wolf, dem niemand zuhört :wbwolf:.
+Diese bewirken bei Tieren überhaupt nichts. Das Spiel markiert sie mit `used_only_for_civs`.
 
 | Wert | Was er bewirkt |
 | --- | --- |
@@ -152,7 +153,6 @@ trait.base_stats_meta["construction_speed"] = 10;   // die Gruppe baut schneller
 ```
 
 Soll ein Bonus nur für manche Mitglieder gelten (nur Krieger, nur Erwachsene), kann keiner der beiden Blöcke das ausdrücken. Verwende einen Harmony-Postfix auf `Actor.updateStats` und grenze es selbst ein. Siehe **[Harmony-Patches](#/nml/harmony-patches)**.
-
 ## Tags: Die Werte, die keine Zahlen sind
 
 Ein `base_stats`-Block trägt auch ein Set von **Tags**, die Schalter statt Zahlenwerte darstellen. Sie vererben sich wie Werte, sodass ein Merkmal einer Einheit Feuerimmunität auf dieselbe Weise verleiht wie Extraschaden:
@@ -177,7 +177,7 @@ Die Tags, die das Spiel selbst auswertet:
 | Natur | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | Bauen | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-Anders als bei einem Wertenamen ist ein unbekanntes Tag harmlos - es passt einfach auf nichts. Das bedeutet aber auch, dass ein Tippfehler stillschweigend ignoriert wird, also kopiere sie exakt. Such dir dein Gift aus :wbbre:.
+Anders als bei einem Wertenamen ist ein unbekanntes Tag harmlos - es passt einfach auf nichts. Das bedeutet aber auch, dass ein Tippfehler stillschweigend ignoriert wird, also kopiere sie exakt. Ein Tippfehler wie `imunity_fire` kann monatelang in deiner Mod bleiben, ohne dass es jemand merkt :PESgn_SMH:.
 
 ## Die Live-Werte einer Einheit auslesen
 
@@ -193,4 +193,4 @@ Das ist auch das, was du in einem Harmony-Postfix auf `Actor.updateStats` verän
 
 Du kannst ein neues `BaseStatAsset` in `AssetManager.base_stats_library` registrieren; es wird im Inspektor angezeigt und aufsummiert wie jedes andere. Was es **nicht** tun wird: irgendeinen Effekt haben. Nichts im Spiel liest einen Wert, den es nicht kennt. Ein eigener Wert ist nur nützlich als Zahl, die du anschließend selbst in deinem eigenen Harmony-Patch oder deiner eigenen Logik auswertest.
 
-Meistens lautet die Antwort "nutze einen bestehenden Wert", und die zweite Antwort lautet "führe dein eigenes Dictionary". Eine dritte habe ich noch nicht gefunden.
+Meistens lautet die Antwort "nutze einen bestehenden Wert", und die zweite Antwort lautet "führe dein eigenes Dictionary".

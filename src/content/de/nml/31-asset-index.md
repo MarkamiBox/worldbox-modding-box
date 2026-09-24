@@ -10,7 +10,7 @@ order: 94
 
 `AssetManager` ist das Verzeichnis des Spiels für alles, was existieren kann. Er enthält **129 Bibliotheken**, und jede davon ist eine `List` plus ein `Dictionary`, die du von deiner Mod aus lesen, bearbeiten und erweitern kannst.
 
-Diese Seite ist der vollständige Index. Den Großteil davon wirst du nie anrühren, und ich auch nicht. Heilige Tabellenwand :wbbre:. Der Zweck ist: Wenn du etwas in WorldBox ändern willst, lautet die erste Frage immer "in welcher Bibliothek liegt es?" - und die Antwort steht auf dieser Seite.
+Diese Seite ist der vollständige Index. Den Großteil davon wirst du nie anrühren. Der Zweck ist: Wenn du etwas in WorldBox ändern willst, lautet die erste Frage immer "in welcher Bibliothek liegt es?" - und die Antwort steht auf dieser Seite.
 
 ## Vor dieser Seite
 
@@ -31,7 +31,8 @@ AssetManager.traits.dict;                          // jedes Asset, nach ID
 
 ## Kreaturen und ihre Eigenschaften
 
-Die, die du wirklich öffnen wirst, sind die ersten vier. Der Rest steht hier, damit du aufhörst, Namen zu raten :PES2_Shrug:.
+Die ersten vier wirst du tatsächlich öffnen. Der Rest steht hier, damit du keine Namen raten musst :PES2_Shrug:.
+
 
 | Bibliothek | Asset | Was sie enthält |
 | --- | --- | --- |
@@ -49,8 +50,6 @@ Die, die du wirklich öffnen wirst, sind die ersten vier. Der Rest steht hier, d
 | `base_stats_library` | `BaseStatAsset` | Alle Werte. **[Statistiken-Referenz](#/nml/stats)** |
 
 ## Gesellschaften
-
-Alles, wozu eine Gruppe von Einheiten gehören kann. Die ersten sechs haben eigene Seiten. Den Rest triffst du, wenn dich eine dieser Seiten hierher schickt.
 
 | Bibliothek | Asset | Was sie enthält |
 | --- | --- | --- |
@@ -73,8 +72,6 @@ Alles, wozu eine Gruppe von Einheiten gehören kann. Die ersten sechs haben eige
 | `knowledge_library` | `KnowledgeAsset` | Das Wissensfenster |
 
 ## Dinge in der Welt
-
-Wenn du es auf der Karte anklicken kannst, wohnt es hier.
 
 | Bibliothek | Asset | Was sie enthält |
 | --- | --- | --- |
@@ -135,7 +132,8 @@ Wenn du es auf der Karte anklicken kannst, wohnt es hier.
 
 ## Benutzeroberfläche
 
-Die UI des Spiels, als Assets. Praktisch zum Lesen, gruselig zum Bearbeiten :PES_MonkaSweat:.
+Nur `window_library` hat hier eine eigene Seite. Der Rest funktioniert, aber fasse ihn nur mit Bedacht an :PES5_Hmmmm:.
+
 
 | Bibliothek | Asset | Was sie enthält |
 | --- | --- | --- |
@@ -162,8 +160,6 @@ Jeweils eine Bibliothek, die alle dieselben zwei Asset-Typen enthalten:
 `kingdom_colors_library` · `culture_colors_library` · `clan_colors_library` · `religion_colors_library` · `languages_colors_library` · `subspecies_colors_library` · `families_colors_library` · `armies_colors_library` → alle `ColorAsset`
 
 ## Namen, Worte und Geschichte
-
-Der Teil von WorldBox, der die Geschichten schreibt. Niemand fragt danach, bis seine Kreaturen richtige Namen haben sollen.
 
 | Bibliothek | Asset | Was sie enthält |
 | --- | --- | --- |

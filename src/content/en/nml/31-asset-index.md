@@ -10,7 +10,7 @@ order: 94
 
 `AssetManager` is the game's index of everything that can exist. It holds **129 libraries**, and every one of them is a `List` plus a `Dictionary` you can read, edit and add to from your mod.
 
-This page is the whole list. Most of it you will never touch, and neither will I. Holy wall of tables :wbbre:. The point is that when you want to change something in WorldBox, the first question is always "which library is it in?", and the answer is on this page.
+This page is the whole list. Most of it you will never touch. The point is that when you want to change something in WorldBox, the first question is always "which library is it in?", and the answer is on this page.
 
 ## Before this page
 
@@ -50,7 +50,7 @@ The ones you will actually open are the first four. The rest are here so you sto
 
 ## Societies
 
-Everything a group of units can belong to. The top six have their own pages. The rest you meet when one of those pages sends you here.
+The five trait libraries are the friendly ones, each with its own page. Everything below `language_traits` is the deep end.
 
 | Library | Asset | What it holds |
 | --- | --- | --- |
@@ -74,7 +74,7 @@ Everything a group of units can belong to. The top six have their own pages. The
 
 ## Things in the world
 
-If you can click it on the map, it lives here.
+Everything that sits on the map, falls on it, or flies over it. `buildings` and `tiles` are the two you will hit first.
 
 | Library | Asset | What it holds |
 | --- | --- | --- |
@@ -135,7 +135,7 @@ If you can click it on the map, it lives here.
 
 ## Interface
 
-The game's own UI, as assets. Handy to read, scary to edit :PES_MonkaSweat:.
+Only `window_library` has a page here. The rest works, but touch it only when you really mean it :PES5_Hmmmm:.
 
 | Library | Asset | What it holds |
 | --- | --- | --- |
@@ -163,7 +163,7 @@ One library each, all holding the same two asset types:
 
 ## Names, words and history
 
-The part of WorldBox that writes the stories. Nobody asks for it until they want their creatures to have proper names.
+The part of the game that writes the history books. Holy amount of libraries for a game about throwing meteors at people.
 
 | Library | Asset | What it holds |
 | --- | --- | --- |

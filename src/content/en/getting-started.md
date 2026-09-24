@@ -79,6 +79,7 @@ You do **not** need these to write a mod. Come back when a page tells you to.
 - **[UnityExplorer](#/toolbox/unity-explorer)**: click on anything in the game and read what it is made of.
 - **[dnSpy or ILSpy](#/toolbox/reading-the-game-code)**: opens the game's own code so you can read how the developers did something.
 - **[AssetRipper](#/toolbox/getting-the-sprites)**: pulls the game's sprites and sounds out so you can match their style.
+- **[BepInEx modding](#/toolbox/bepinex-modding)**: building precompiled `.dll` plugins if you want low-level Unity engine hooks instead of NML content.
 
 > [!WARNING] NCMS is deprecated :sadcat:
 > NCMS is no longer updated. Every guide here targets NML. You can still technically write a mod for NCMS, but nobody does that anymore :PES2_Shrug:.

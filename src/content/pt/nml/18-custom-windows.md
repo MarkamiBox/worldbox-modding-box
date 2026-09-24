@@ -28,6 +28,54 @@ ScrollWindow.isWindowActive();               // verificar se *alguma* janela est
 
 Essa última verificação importa mais do que parece: se o seu poder divino faz algo ao clicar, normalmente você quer que ele não faça nada enquanto uma janela estiver cobrindo o mapa. Definir `unselect_when_window = true` no seu `GodPower` passa essa dor de cabeça para o jogo.
 
+
+## A rota nativa com ScrollWindow
+
+Se você quer que seu painel pareça parte nativa do WorldBox, não monte um Canvas do zero :PES2_Shrug:. O NeoModLoader inclui `WindowCreator` e `AbstractWindow<T>`.
+
+Herde de `AbstractWindow<T>`:
+
+```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
+using NeoModLoader.api;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace HelloBox
+{
+    public class HelloNativeWindow : AbstractWindow<HelloNativeWindow>
+    {
+        protected override void Init()
+        {
+            GameObject labelObj = new GameObject("Text", typeof(Text));
+            labelObj.transform.SetParent(ContentTransform, false);
+
+            Text label = labelObj.GetComponent<Text>();
+            label.font = LocalizedTextManager.current_font;
+            label.fontSize = 12;
+            label.text = "Hello from a native window!";
+        }
+
+        public override void OnFirstEnable() {}
+        public override void OnNormalEnable() {}
+        public override void OnNormalDisable() {}
+    }
+}
+```
+
+Inicialize no carregamento do mod:
+
+```csharp
+HelloNativeWindow.CreateAndInit("hello_native_window");
+```
+
+Abra com:
+
+```csharp
+ScrollWindow.showWindow(HelloNativeWindow.WindowId);
+```
+
+Para tabelas largas, use `AbstractWideWindow<T>`. Também é possível chamar `WindowCreator.CreateEmptyWindow(id, titleKey, icon)`. Se esquecer o registro, o jogo nem saberá que a janela existe ao apertar ESC :wbfacepalm:.
+
 ## Sua própria janela flutuante
 
 Uma janela é um `GameObject` cujo pai é o canvas de interface do jogo. Este é o esqueleto completo:

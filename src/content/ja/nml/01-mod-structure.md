@@ -69,6 +69,9 @@ MyCoolMod/
 - **`OptionalDependencies`**: 存在すれば連携するが、必須ではない任意のMod。
 - **`IncompatibleWith`**: 同時に有効化するとクラッシュや不具合の原因となるModのGUID一覧。両方が有効な場合、NMLがプレイヤーに警告を発します。
 
+`"ModType": "RESOURCE_PACK"` や `"UsePublicizedAssembly": false` も設定可能です :PES5_Hmmmm:。
+
+
 ## 少し専門的なコードの話 :elpepehacker:
 
 すべてのModには、「こんにちは、私はModです」と宣言するC#ファイルが1つ必要です。最小構成の全体像がこちらです：

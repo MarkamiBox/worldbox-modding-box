@@ -61,6 +61,8 @@ Enviar para a Workshop acontece **dentro do jogo**, e o jeito de abrir a janela 
 
 Se nada acontecer, você clicou devagar demais ou clicou na linha em vez do ícone.
 
+A nova janela de mods do NML também oferece botões de ação rápida para abrir a pasta no disco, ativar/desativar ou recarregar código, mas os oito cliques no ícone continuam sendo a única forma de abrir o uploader da Steam :PES2_Shrug:.
+
 | Campo | O que preencher |
 | --- | --- |
 | Campo superior (`fileID`) | **Deixe vazio** na primeira vez. Para atualizações, cole o id do link do seu item da workshop |

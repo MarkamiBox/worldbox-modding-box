@@ -28,6 +28,44 @@ ScrollWindow.isWindowActive();               // 当前是否“有任何”窗�
 
 最后这个方法远比表面看起来重要：如果你的神力在点击时会触发动作，你通常希望当窗口遮挡住地图时什么都不要发生。在 `GodPower` 上设置 `unselect_when_window = true` 即可把这个问题完全交给游戏处理。
 
+## 原生 ScrollWindow 方案
+
+Se vuoi che la tua finestra sembri fatta direttamente da WorldBox, non creare un Canvas da zero :PES2_Shrug:. NeoModLoader include `WindowCreator` e `AbstractWindow<T>`.
+
+```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
+using NeoModLoader.api;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace HelloBox
+{
+    public class HelloNativeWindow : AbstractWindow<HelloNativeWindow>
+    {
+        protected override void Init()
+        {
+            GameObject labelObj = new GameObject("Text", typeof(Text));
+            labelObj.transform.SetParent(ContentTransform, false);
+
+            Text label = labelObj.GetComponent<Text>();
+            label.font = LocalizedTextManager.current_font;
+            label.fontSize = 12;
+            label.text = "Hello from a native window!";
+        }
+
+        public override void OnFirstEnable() {}
+        public override void OnNormalEnable() {}
+        public override void OnNormalDisable() {}
+    }
+}
+```
+
+```csharp
+HelloNativeWindow.CreateAndInit("hello_native_window");
+ScrollWindow.showWindow(HelloNativeWindow.WindowId);
+```
+
+Per i layout ampi estendi `AbstractWideWindow<T>`, oppure chiama `WindowCreator.CreateEmptyWindow(id, titleKey, icon)`. Dimentica la registrazione e il gioco non saprà che esiste :wbfacepalm:.
+
 ## 自定义悬浮窗口
 
 窗口本质上是一个挂载在游戏 UI 画布上的 `GameObject`。以下是完整的骨架代码：

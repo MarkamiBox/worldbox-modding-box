@@ -37,6 +37,8 @@ public string GetLocaleFilesDirectory(ModDeclare pModDeclare)
 
 ## 全言語を1つのファイルで管理する：CSV
 
+
+表計算ソフトがカンマではなくセミコロンやタブ区切りで出力する場合は、メインクラスに `ICsvSepCustomized` を実装して `GetCsvSeparator()` から `';'` を返してください :PES2_Shrug:。
 同じフォルダ内に `.csv` ファイルを1つ置くだけで、すべての言語を一度に定義できます。15個ものJSONファイルを個別に管理するよりもはるかにメンテナンスが楽になります。この場合、ファイル名は何でも構いません：
 
 ```text Locales/lang.csv
@@ -54,7 +56,7 @@ using NeoModLoader.General;
 LM.Get("trait_hello_swift");                            // 現在のゲーム言語から取得
 LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // 現在読み込まれている言語に追加
 LM.Add("en", "trait_hello_swift", "Swift");          // 特定の言語に追加
-LM.LoadLocale("path/to/Locales/en.json");            // JSONファイルを手動で読み込む
+LM.LoadLocale("en", path);            // JSONファイルを手動で読み込む
 LM.LoadLocales("path/to/Locales/lang.csv");          // CSVファイルを手動で読み込む
 LM.ApplyLocale(false);                               // 適用。false = 画面上の全テキストの再描画を抑制
 ```

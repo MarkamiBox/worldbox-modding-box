@@ -37,6 +37,8 @@ public string GetLocaleFilesDirectory(ModDeclare pModDeclare)
 
 ## Um arquivo para todos os idiomas: o CSV
 
+
+Se o seu programa de planilhas exportar com ponto e vírgula ou tabulações em vez de vírgulas, implemente `ICsvSepCustomized` na sua classe principal e retorne `';'` de `GetCsvSeparator()` para que o NML não transforme seus textos em sopa :PES2_Shrug:.
 Um arquivo `.csv` na mesma pasta atende a todos os idiomas simultaneamente, o que é muito mais fácil de manter do que quinze arquivos JSON espalhados. Aqui, o nome do arquivo não importa:
 
 ```text Locales/lang.csv
@@ -54,7 +56,7 @@ using NeoModLoader.General;
 LM.Get("trait_hello_swift");                            // lê no idioma ativo no jogo
 LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // adiciona ao idioma atualmente carregado
 LM.Add("en", "trait_hello_swift", "Swift");          // adiciona a um idioma específico
-LM.LoadLocale("path/to/Locales/en.json");            // carrega um json manualmente
+LM.LoadLocale("en", path);            // carrega um json manualmente
 LM.LoadLocales("path/to/Locales/lang.csv");          // carrega um csv manualmente
 LM.ApplyLocale(false);                               // aplica. false = não redesenha todos os textos na tela
 ```

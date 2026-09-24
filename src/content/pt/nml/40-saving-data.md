@@ -26,8 +26,33 @@ O jogo já possui um lugar projetado para isso. Cada unidade, cidade, reino, con
 Cada tipo possui sua própria tabela interna, portanto um `int` e uma `string` sob a mesma chave não colidem. Ainda assim, para seu próprio controle, não compartilhe chaves entre tipos diferentes. O seu eu do futuro não vai lembrar qual era qual.
 
 
-> [!NOTE] Armazenando algo maior que cinco tipos primitivos
-> O NML tem seu próprio utilitário para guardar um objeto inteiro nos dados de uma unidade, não apenas `int`/`long`/`float`/`string`/`bool`. Eu nunca precisei de mais do que um contador ou uma flag, então não posso guiá-lo por isso aqui. Existe, se você precisar memorizar uma struct ou lista inteira.
+
+
+## Salvando objetos complexos com NML
+
+Se cinco tipos primitivos não forem suficientes e você precisar salvar uma classe inteira, o NML oferece `DataExtension` em `NeoModLoader.General.Game.extensions`:
+
+```csharp
+using NeoModLoader.General.Game.extensions;
+
+public class QuestProgress
+{
+    public string quest_id;
+    public int step;
+    public List<string> completed_objectives = new List<string>();
+}
+
+// Salvando no actor:
+actor.data.Set("hello_quest", new BasicCustomData<QuestProgress>(quest));
+
+// Lendo de volta:
+if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
+{
+    QuestProgress quest = saved.Data;
+}
+```
+
+Por baixo dos panos, o NML serializa seu objeto em JSON na tabela `custom_data_string`. Se os dados forem evoluir, implemente `ICustomData` diretamente :PES5_Hmmmm:.
 
 ## No HelloBox
 

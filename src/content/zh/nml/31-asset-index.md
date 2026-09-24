@@ -10,7 +10,7 @@ order: 94
 
 `AssetManager` 是整款游戏中所有可存在实体的核心总索引。它掌管着 **129 个独立的资源库**，且每一个库都是一个由 `List` 与 `Dictionary` 组成的数据结构，你可以直接从模组中读取、修改或向其追加内容。
 
-本页面是所有资源库的完整全景索引。大部分库你可能永远都不会用到，我也一样。好家伙，一整面表格墙 :wbbre:。它的意义在于：每当你想修改 WorldBox 中的某些机制时，首要问题永远是“它归哪个库管？”，而答案就在这一页中。
+本页面是所有资源库的完整全景索引。大部分库你可能永远都不会用到。它的意义在于：每当你想修改 WorldBox 中的某些机制时，首要问题永远是“它归哪个库管？”，而答案就在这一页中。
 
 ## 阅读本页之前
 
@@ -31,7 +31,8 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 
 ## 生物与特质
 
-你真正会打开的是前四个。其余的放在这里，是为了让你别再瞎猜名字 :PES2_Shrug:。
+你实际最常打交道的是前四个库，其余的列在这里是为了免去盲猜命名的痛苦 :PES2_Shrug:。
+
 
 | 资源库 | 承载资源类型 | 存储内容说明 |
 | --- | --- | --- |
@@ -49,8 +50,6 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 | `base_stats_library` | `BaseStatAsset` | 所有底层战斗属性。**[属性与数值参考](#/nml/stats)** |
 
 ## 社会与文明
-
-一群单位可以归属的一切。前六个有自己的专页。其余的，等某个专页把你送到这里时你自然会遇到。
 
 | 资源库 | 承载资源类型 | 存储内容说明 |
 | --- | --- | --- |
@@ -73,8 +72,6 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 | `knowledge_library` | `KnowledgeAsset` | 知识界面的解锁项 |
 
 ## 自然与世界万物
-
-只要能在地图上点到，它就住在这里。
 
 | 资源库 | 承载资源类型 | 存储内容说明 |
 | --- | --- | --- |
@@ -135,7 +132,8 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 
 ## 用户界面
 
-游戏自己的界面，以资源的形式存在。拿来读很方便，拿来改很吓人 :PES_MonkaSweat:。
+这里只有 `window_library` 拥有专属教程页面，其余的虽然能用，但非必要请勿随意改动 :PES5_Hmmmm:。
+
 
 | 资源库 | 承载资源类型 | 存储内容说明 |
 | --- | --- | --- |
@@ -162,8 +160,6 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 `kingdom_colors_library` · `culture_colors_library` · `clan_colors_library` · `religion_colors_library` · `languages_colors_library` · `subspecies_colors_library` · `families_colors_library` · `armies_colors_library` → 均为 `ColorAsset`
 
 ## 名字、语言与纪事
-
-WorldBox 里负责写故事的那部分。在你想给自己的生物起个像样的名字之前，没人会在意它。
 
 | 资源库 | 承载资源类型 | 存储内容说明 |
 | --- | --- | --- |

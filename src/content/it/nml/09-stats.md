@@ -8,7 +8,7 @@ order: 92
 
 # Riferimento statistiche :wbstonks:
 
-Quasi ogni asset che registri possiede un blocco `base_stats`, e quasi ogni pagina successiva a questa ci scrive dentro. Questo è l'elenco di tutto ciò che ti è consentito inserire lì dentro. Tutto il resto è un crash che aspetta il suo momento :PES5_Hmmmm:.
+Quasi ogni asset che registrerai possiede un blocco `base_stats`, e quasi ogni pagina successiva a questa vi imposta qualcosa. Questo è l'elenco di tutto ciò che ti è consentito inserire lì dentro. Tutto il resto è solo un crash in attesa del momento opportuno :PES5_Hmmmm:.
 
 ## Come funziona base_stats
 
@@ -23,7 +23,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, non x0.25
 
 ## Da dove arrivano i numeri di un'unità
 
-`Actor.updateStats()` azzera il blocco statistiche dell'unità e lo ricostruisce da zero, esattamente in questo ordine. Io questa tabella la ricontrollo ancora ogni volta:
+`Actor.updateStats()` azzera il blocco statistiche dell'unità e lo ricostruisce da zero, esattamente in questo ordine:
 
 | # | Fonte | Nota |
 | --- | --- | --- |
@@ -54,7 +54,8 @@ Altre due conseguenze:
 
 ## Combat
 
-`damage` e `armor` fanno quasi tutto il lavoro. Il resto serve quando vuoi che un tratto sembri diverso, non solo più forte.
+Dai a un lupo della diplomazia e non si metterà a negoziare :PES2_Shrug:.
+
 
 | Statistica | Cosa fa |
 | --- | --- |
@@ -108,7 +109,7 @@ Altre due conseguenze:
 
 ## Solo per civiltà
 
-Non hanno alcun effetto sugli animali. Il gioco le contrassegna con `used_only_for_civs`. Dai `diplomacy` a un lupo e ottieni un lupo molto eloquente che nessuno ascolta :wbwolf:.
+Non hanno alcun effetto sugli animali. Il gioco le contrassegna con `used_only_for_civs`.
 
 | Statistica | Cosa fa |
 | --- | --- |
@@ -152,7 +153,6 @@ trait.base_stats_meta["construction_speed"] = 10;   // il gruppo costruisce più
 ```
 
 Se un bonus deve applicarsi solo ad alcuni membri (solo guerrieri, solo adulti), nessuno dei due blocchi può esprimerlo. Usa un Postfix di Harmony su `Actor.updateStats` e filtralo tu stesso. Vedi **[Patch Harmony](#/nml/harmony-patches)**.
-
 ## Tag: le statistiche che non sono numeri
 
 Un blocco `base_stats` trasporta anche un set di **tag**, che sono flag booleani piuttosto che valori. Si fondono come le statistiche, permettendo a un tratto di conferire immunità al fuoco nello stesso identico modo in cui assegna danno:
@@ -177,7 +177,7 @@ Quelli che il gioco legge direttamente:
 | Natura | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | Costruzione | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-A differenza di un nome di statistica, un tag sconosciuto è innocuo: semplicemente non corrisponderà a nulla. Ciò significa anche che un refuso fallirà silenziosamente, quindi copiali con esattezza. Scegli il tuo veleno :wbbre:.
+A differenza di un nome di statistica, un tag sconosciuto è innocuo: semplicemente non corrisponderà a nulla. Ciò significa anche che un refuso fallirà silenziosamente, quindi copiali con esattezza. Un `imunity_fire` scritto male può restare nella tua mod per mesi senza che nessuno ti avvisi :PESgn_SMH:.
 
 ## Leggere i valori dal vivo di un'unità
 
@@ -193,4 +193,4 @@ float finalDamage = actor.stats["damage"];
 
 Puoi registrare un nuovo `BaseStatAsset` in `AssetManager.base_stats_library`, e apparirà nell'inspector venendo calcolato come qualsiasi altro. Ciò che **non** farà è avere un qualsiasi effetto pratico: nulla nel gioco legge una statistica di cui non è a conoscenza. Una statistica personalizzata serve solo come numero che tu stesso leggerai dopo, dalla tua patch Harmony o comportamento.
 
-La maggior parte delle volte la risposta è "usa una statistica esistente", e la seconda è "gestisci un dizionario tuo". Una terza non l'ho ancora trovata.
+La maggior parte delle volte la risposta è "usa una statistica esistente", e la seconda è "gestisci un dizionario tuo".

@@ -37,6 +37,8 @@ public string GetLocaleFilesDirectory(ModDeclare pModDeclare)
 
 ## Un solo archivo para todos los idiomas: CSV
 
+
+Si tu programa de hojas de cálculo exporta con punto y coma o tabulaciones en vez de comas, implementa `ICsvSepCustomized` en tu clase principal y devuelve `';'` en `GetCsvSeparator()` para que NML no haga sopa con tus textos :PES2_Shrug:.
 Un archivo `.csv` en la misma carpeta cubre todos los idiomas a la vez, lo cual resulta mucho más cómodo de mantener que quince archivos JSON individuales. En este caso el nombre del archivo no importa:
 
 ```text Locales/lang.csv
@@ -54,7 +56,7 @@ using NeoModLoader.General;
 LM.Get("trait_hello_swift");                            // leer en el idioma actual
 LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // añadir al idioma cargado ahora
 LM.Add("en", "trait_hello_swift", "Swift");          // añadir a un idioma específico
-LM.LoadLocale("path/to/Locales/en.json");            // cargar un json manualmente
+LM.LoadLocale("en", path);            // cargar un json manualmente
 LM.LoadLocales("path/to/Locales/lang.csv");          // cargar un csv manualmente
 LM.ApplyLocale(false);                               // aplicar. false = no redibujar todos los textos en pantalla
 ```

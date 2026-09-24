@@ -28,6 +28,54 @@ ScrollWindow.isWindowActive();               // открыто ли *хоть к
 
 Последний метод важнее, чем кажется: если ваша божественная сила срабатывает по клику, обычно вы хотите, чтобы она ничего не делала, пока окно закрывает карту. Установка `unselect_when_window = true` на вашей `GodPower` перекладывает эту задачу на плечи самой игры.
 
+
+## Нативный путь через ScrollWindow
+
+Если хотите, чтобы окно выглядело как родное для WorldBox, не создавайте Canvas с нуля :PES2_Shrug:. NeoModLoader предоставляет `WindowCreator` и `AbstractWindow<T>`.
+
+Наследуйтесь от `AbstractWindow<T>`:
+
+```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
+using NeoModLoader.api;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace HelloBox
+{
+    public class HelloNativeWindow : AbstractWindow<HelloNativeWindow>
+    {
+        protected override void Init()
+        {
+            GameObject labelObj = new GameObject("Text", typeof(Text));
+            labelObj.transform.SetParent(ContentTransform, false);
+
+            Text label = labelObj.GetComponent<Text>();
+            label.font = LocalizedTextManager.current_font;
+            label.fontSize = 12;
+            label.text = "Hello from a native window!";
+        }
+
+        public override void OnFirstEnable() {}
+        public override void OnNormalEnable() {}
+        public override void OnNormalDisable() {}
+    }
+}
+```
+
+Инициализируйте при старте мода:
+
+```csharp
+HelloNativeWindow.CreateAndInit("hello_native_window");
+```
+
+Открывайте через:
+
+```csharp
+ScrollWindow.showWindow(HelloNativeWindow.WindowId);
+```
+
+Для широких панелей используйте `AbstractWideWindow<T>` или вызывайте `WindowCreator.CreateEmptyWindow(id, titleKey, icon)`. Забудьте о регистрации — и игра даже не заметит ваше окно при нажатии ESC :wbfacepalm:.
+
 ## Ваше собственное плавающее окно
 
 Окно представляет собой `GameObject`, дочерний по отношению к UI-холсту игры. Вот его полный базовый скелет:
