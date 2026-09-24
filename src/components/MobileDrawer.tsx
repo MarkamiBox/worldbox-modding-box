@@ -8,10 +8,9 @@ interface MobileDrawerProps {
   open: boolean;
   onClose: () => void;
   slug: string;
-  onNewPage?: () => void;
 }
 
-export function MobileDrawer({ open, onClose, slug, onNewPage }: MobileDrawerProps) {
+export function MobileDrawer({ open, onClose, slug }: MobileDrawerProps) {
   const t = useT();
 
   useEffect(() => {
@@ -62,14 +61,7 @@ export function MobileDrawer({ open, onClose, slug, onNewPage }: MobileDrawerPro
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-4">
-          <SidebarContent
-            slug={slug}
-            onNavigate={onClose}
-            onNewPage={() => {
-              onClose();
-              onNewPage?.();
-            }}
-          />
+          <SidebarContent slug={slug} onNavigate={onClose} />
         </div>
       </div>
     </div>

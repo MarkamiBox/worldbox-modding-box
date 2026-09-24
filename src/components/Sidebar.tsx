@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ChevronDown, Plus } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { getNav, type NavItem } from '../lib/content';
 import { href } from '../lib/router';
 import { useLang, useT } from '../lib/i18n';
@@ -8,7 +8,6 @@ import { PageIcon } from '../lib/markdown';
 interface SidebarContentProps {
   slug: string;
   onNavigate?: () => void;
-  onNewPage?: () => void;
 }
 
 const safeGetJson = <T,>(key: string, fallback: T): T => {
@@ -28,7 +27,7 @@ const safeSetJson = (key: string, value: unknown) => {
   }
 };
 
-export function SidebarContent({ slug, onNavigate, onNewPage }: SidebarContentProps) {
+export function SidebarContent({ slug, onNavigate }: SidebarContentProps) {
   const lang = useLang();
   const t = useT();
   const [filter, setFilter] = useState('');
@@ -134,17 +133,6 @@ export function SidebarContent({ slug, onNavigate, onNewPage }: SidebarContentPr
           className="w-full h-8 px-3 rounded-md border border-line bg-surface text-sm text-fg placeholder:text-faint outline-none focus:border-brand focus-visible:ring-2 focus-visible:ring-brand/20 transition-all"
         />
       </div>
-
-      {onNewPage && (
-        <button
-          type="button"
-          onClick={onNewPage}
-          className="w-full flex items-center justify-center gap-1.5 h-7.5 mb-3 px-2 rounded-md border border-dashed border-line hover:border-brand bg-surface/40 hover:bg-brand-soft text-xs font-medium text-muted hover:text-brand transition-all cursor-pointer shadow-xs"
-        >
-          <Plus className="w-3.5 h-3.5" />
-          <span>{t('newPage')}</span>
-        </button>
-      )}
 
       {q && groups.length === 0 && (
         <p className="px-3 py-6 text-center text-xs text-faint">
@@ -284,7 +272,6 @@ export function SidebarContent({ slug, onNavigate, onNewPage }: SidebarContentPr
 
 interface SidebarProps {
   slug: string;
-  onNewPage?: () => void;
   width?: number;
   isCollapsed?: boolean;
   onStartResize?: (e: React.MouseEvent) => void;
@@ -293,7 +280,6 @@ interface SidebarProps {
 
 export function Sidebar({
   slug,
-  onNewPage,
   width = 260,
   isCollapsed = false,
   onStartResize,
@@ -307,10 +293,7 @@ export function Sidebar({
       className="hidden lg:block shrink-0 relative border-r border-line group/sidebar"
     >
       <div className="sticky top-14 max-h-[calc(100vh-3.5rem)] overflow-y-auto overscroll-contain py-6 pr-4 pl-1">
-        <SidebarContent
-          slug={slug}
-          onNewPage={onNewPage}
-        />
+        <SidebarContent slug={slug} />
       </div>
 
       {/* Resize drag handle: sits strictly in the outer gap with 0px overlap on the sidebar scrollbar */}

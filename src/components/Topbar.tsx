@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { ChevronDown, Edit3, Menu, Moon, PanelLeft, PanelRight, PlusCircle, RotateCcw, Search, Sun } from 'lucide-react';
+import { ChevronDown, Edit3, Menu, Moon, PanelLeft, PanelRight, RotateCcw, Search, Sun } from 'lucide-react';
 import { getNav } from '../lib/content';
 import { href } from '../lib/router';
 import { LANGUAGES, useLang, useT, type Lang } from '../lib/i18n';
@@ -12,7 +12,6 @@ interface Props {
   onSearch: () => void;
   onOpenNav?: () => void;
   onEditPage?: () => void;
-  onNewPage?: () => void;
   onResetAll?: () => void;
   slug: string;
   sidebarCollapsed?: boolean;
@@ -29,7 +28,6 @@ export function Topbar({
   onSearch,
   onOpenNav,
   onEditPage,
-  onNewPage,
   onResetAll,
   slug,
   sidebarCollapsed,
@@ -75,9 +73,9 @@ export function Topbar({
           <Menu className="w-4 h-4" />
         </button>
 
-        <a href={href('index')} className="flex items-center gap-2.5 font-semibold text-fg shrink-0 mr-4 hover:opacity-90 transition-opacity">
+        <a href={href('index')} className="flex items-center gap-2.5 font-semibold text-fg shrink-0 sm:mr-4 hover:opacity-90 transition-opacity">
           <img src="./logo.png" alt="Worldbox Modding-Box" className="w-6 h-6 rounded-md object-contain shadow-xs" />
-          <span>Worldbox Modding-Box</span>
+          <span className="hidden sm:inline">Worldbox Modding-Box</span>
         </a>
 
         {tabs.length > 0 && (
@@ -95,19 +93,7 @@ export function Topbar({
           </nav>
         )}
 
-        <div className="flex items-center gap-2 ml-auto">
-          {/* New Page button */}
-          {onNewPage && (
-            <button
-              onClick={onNewPage}
-              title={t('newPage')}
-              className="flex items-center gap-1.5 h-8 px-2.5 rounded-md border border-line bg-surface text-fg text-xs font-medium hover:border-brand hover:text-brand transition-colors cursor-pointer"
-            >
-              <PlusCircle className="w-3.5 h-3.5 text-brand" />
-              <span className="hidden sm:inline">{t('newPage')}</span>
-            </button>
-          )}
-
+        <div className="flex items-center gap-1.5 sm:gap-2 ml-auto shrink-0">
           {/* Edit Page button */}
           {onEditPage && (
             <button
@@ -160,7 +146,7 @@ export function Topbar({
 
           {/* 1. Version Status Badge */}
           <div
-            className="flex items-center h-8 px-2.5 rounded-md border border-line bg-surface text-xs font-mono text-muted select-none shadow-2xs"
+            className="hidden sm:flex items-center h-8 px-2.5 rounded-md border border-line bg-surface text-xs font-mono text-muted select-none shadow-2xs"
             title={`Guide v0.${buildInfo.commitCount} (${buildInfo.commitHash}) | WorldBox ${buildInfo.gameVersion} | ${buildInfo.commitDate}`}
           >
             <span className="font-semibold text-fg">v0.{buildInfo.commitCount}</span>
