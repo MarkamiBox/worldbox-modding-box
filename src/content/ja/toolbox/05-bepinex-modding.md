@@ -1,12 +1,11 @@
 ---
 title: BepInEx Mod開発
-group: 概要
-subgroup: 外部ツールとセットアップ
-icon: :csharp:
-order: 9
+group: BepInEx Modding
+icon: :PES5_BigBrain:
+order: 1
 ---
 
-# BepInEx Mod開発 :csharp:
+# BepInEx Mod開発 :PES5_BigBrain:
 
 本ガイドの大半では **NeoModLoader** 向けModの作成方法を解説しています。NMLを使用すればメモ帳で `.cs` ファイルを直接編集し、ゲーム起動時に自動コンパイルさせることができます。
 
@@ -95,7 +94,7 @@ namespace HelloBepInEx
     [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
     public class HelloPlugin : BaseUnityPlugin
     {
-        public const string PLUGIN_GUID = "com.markami.hellobepinex";
+        public const string PLUGIN_GUID = "com.example.hellobepinex";
         public const string PLUGIN_NAME = "HelloBepInEx";
         public const string PLUGIN_VERSION = "1.0.0";
 
@@ -143,7 +142,7 @@ namespace HelloBepInEx
 - **`BaseUnityPlugin`**: Unityの `MonoBehaviour` を直接継承します。シーン遷移時にも破棄されない常駐型 `GameObject` 上で動作します。
 - **`[BepInPlugin(guid, name, version)]`**: Modの名前と一意のGUIDを登録します（例: `com.author.modname`）。
 - **`Logger.LogInfo()`**: BepInExコンソール画面および `BepInEx/LogOutput.log` にログを出力します。
-- **`Config.Bind()`**: 型付き設定項目をバインドします。初回起動時に `BepInEx/config/com.markami.hellobepinex.cfg` 設定ファイルが自動生成されます。
+- **`Config.Bind()`**: 型付き設定項目をバインドします。初回起動時に `BepInEx/config/com.example.hellobepinex.cfg` 設定ファイルが自動生成されます。
 
 ## 4. Harmonyによるゲーム処理のフック
 

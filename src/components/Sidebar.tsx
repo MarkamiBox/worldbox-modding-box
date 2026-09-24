@@ -163,7 +163,7 @@ export function SidebarContent({ slug, onNavigate, onNewPage }: SidebarContentPr
               <div className="w-full flex items-center justify-between px-2.5 py-1 mb-1 text-[11px] font-semibold uppercase tracking-wider text-faint rounded select-none cursor-default">
                 <span className="truncate">{g.name}</span>
                 <span className="text-[9px] font-medium tracking-wide px-1.5 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/25 shrink-0 select-none normal-case">
-                  {t('comingSoon')}
+                  {g.tag || t('comingSoon')}
                 </span>
               </div>
             ) : g.name ? (
@@ -173,9 +173,16 @@ export function SidebarContent({ slug, onNavigate, onNewPage }: SidebarContentPr
                 aria-expanded={!isCollapsed}
                 className="w-full flex items-center justify-between px-2.5 py-1 mb-1 text-[11px] font-semibold uppercase tracking-wider text-faint hover:text-fg hover:bg-surface/60 rounded transition-colors text-left select-none group cursor-pointer"
               >
-                <span>{g.name}</span>
+                <div className="flex items-center gap-1.5 min-w-0 pr-2">
+                  <span className="truncate">{g.name}</span>
+                  {g.tag && (
+                    <span className="text-[9px] font-medium tracking-wide px-1.5 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/25 shrink-0 select-none normal-case">
+                      {g.tag}
+                    </span>
+                  )}
+                </div>
                 <ChevronDown
-                  className={`w-3.5 h-3.5 text-faint transition-transform duration-200 ${
+                  className={`w-3.5 h-3.5 text-faint transition-transform duration-200 shrink-0 ${
                     isCollapsed ? '-rotate-90' : 'rotate-0'
                   }`}
                 />

@@ -1,12 +1,11 @@
 ---
 title: BepInEx 模组开发
-group: 概览
-subgroup: 外部工具与环境配置
-icon: :csharp:
-order: 9
+group: BepInEx Modding
+icon: :PES5_BigBrain:
+order: 1
 ---
 
-# BepInEx 模组开发 :csharp:
+# BepInEx 模组开发 :PES5_BigBrain:
 
 本指南的大多数章节都在教你如何为 **NeoModLoader** 开发模组。NML 允许你在记事本里直接编写 `.cs` 源码文件，启动游戏即可实时自动编译。
 
@@ -95,7 +94,7 @@ namespace HelloBepInEx
     [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
     public class HelloPlugin : BaseUnityPlugin
     {
-        public const string PLUGIN_GUID = "com.markami.hellobepinex";
+        public const string PLUGIN_GUID = "com.example.hellobepinex";
         public const string PLUGIN_NAME = "HelloBepInEx";
         public const string PLUGIN_VERSION = "1.0.0";
 
@@ -143,7 +142,7 @@ namespace HelloBepInEx
 - **`BaseUnityPlugin`**：直接继承自 Unity 的 `MonoBehaviour`。你的模组类本质上是一个常驻后台且在场景切换时不被销毁的活体 `GameObject` 组件。
 - **`[BepInPlugin(guid, name, version)]`**：声明模组名称与全局唯一的 GUID。通常推荐使用反向域名格式（如 `com.author.modname`）。
 - **`Logger.LogInfo()`**：日志输出会实时同步刷新至黑色的 BepInEx 控制台窗口，并记录到 `BepInEx/LogOutput.log` 文件中。
-- **`Config.Bind()`**：创建强类型配置项。首次运行插件时，BepInEx 会自动在 `BepInEx/config/com.markami.hellobepinex.cfg` 生成人类可读的配置文件供玩家修改。
+- **`Config.Bind()`**：创建强类型配置项。首次运行插件时，BepInEx 会自动在 `BepInEx/config/com.example.hellobepinex.cfg` 生成人类可读的配置文件供玩家修改。
 
 ## 4. 使用 Harmony 补丁修改游戏
 
