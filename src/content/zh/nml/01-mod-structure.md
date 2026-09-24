@@ -69,6 +69,9 @@ NeoModLoader 需要 `mod.json` 来识别你的 Mod :pepeOK:。它直接位于你
 - **`OptionalDependencies`**：可选依赖；如果玩家安装了这些 Mod 则提供兼容，但未安装也不影响基本运行。
 - **`IncompatibleWith`**：与你的 Mod 冲突互斥的 Mod GUID 列表。若二者同时启用，NML 会主动警告玩家。
 
+你也可以设置 `"ModType": "RESOURCE_PACK"` 或 `"UsePublicizedAssembly": false` :PES5_Hmmmm:。
+
+
 ## 来点硬核技术细节 :elpepehacker:
 
 每个 Mod 都需要一个 C# 文件来宣布“嗨，我是一个 Mod”。最小的代码实现就长这样：

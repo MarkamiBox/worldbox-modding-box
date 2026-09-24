@@ -37,6 +37,8 @@ public string GetLocaleFilesDirectory(ModDeclare pModDeclare)
 
 ## Один файл для всех языков: CSV
 
+
+Если ваша табличная программа экспортирует данные с точкой с запятой или табуляцией вместо запятых, реализуйте `ICsvSepCustomized` в главном классе и верните `';'` из `GetCsvSeparator()`, чтобы NML не превратил тексты в кашу :PES2_Shrug:.
 Файл `.csv` в той же папке охватывает все языки сразу, что гораздо проще поддерживать, чем пятнадцать отдельных JSON-файлов. В этом случае имя файла не имеет значения:
 
 ```text Locales/lang.csv
@@ -54,7 +56,7 @@ using NeoModLoader.General;
 LM.Get("trait_hello_swift");                            // прочитать на текущем языке игры
 LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // добавить в текущий активный язык
 LM.Add("en", "trait_hello_swift", "Swift");          // добавить для конкретного языка
-LM.LoadLocale("path/to/Locales/en.json");            // загрузить json вручную
+LM.LoadLocale("en", path);            // загрузить json вручную
 LM.LoadLocales("path/to/Locales/lang.csv");          // загрузить csv вручную
 LM.ApplyLocale(false);                               // применить. false = не перерисовывать весь экран сразу
 ```

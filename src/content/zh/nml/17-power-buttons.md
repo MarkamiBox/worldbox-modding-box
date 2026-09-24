@@ -373,6 +373,30 @@ private static void Buttons()
 
 按钮按照创建的先后顺序进行排列，因此在 `Buttons()` 中从上到下的书写顺序，就是玩家在屏幕上从左到右看到的顺序。如果你想调整排列次序，请调整方法的调用顺序，而不是去修改 id。
 
+
+## 使用 PowersTabExtension 进行按钮分组
+
+把十几个按钮塞进一整排虽然能用，但模组内容一多就会乱得像垃圾桶。NeoModLoader 在 `NeoModLoader.General.UI.Tab` 中提供了 `PowersTabExtension`，方便你像原版神力标签页一样按组排列按钮：
+
+```csharp
+using NeoModLoader.General.UI.Tab;
+
+// 1. 声明包含的分组
+tab.SetLayout(new List<string> { "spells", "creatures" });
+
+// 2. 将按钮分配至指定分组
+PowerButton strikeBtn = PowerButtonCreator.CreateGodPowerButton(STRIKE, Icon("iconHelloStrike"), tab.transform);
+tab.AddPowerButton("spells", strikeBtn);
+
+PowerButton spawnBtn = PowerButtonCreator.CreateGodPowerButton(SPAWN_POWER, Icon("iconHelloSpawn"), tab.transform);
+tab.AddPowerButton("creatures", spawnBtn);
+
+// 3. 更新界面布局
+tab.UpdateLayout();
+```
+
+调用 `SetLayout()` 后分组结构即被锁定。把按钮加进对应分组后调用 `tab.UpdateLayout()` 即可。若尝试将按钮放进未声明的分组，NML 会输出警告且不会将其渲染到布局中 :PES5_Hmmmm:。
+
 ## 再次强调图标
 
 ```csharp

@@ -14,6 +14,9 @@ Cette page en dresse l'inventaire intégral. Vous n'en toucherez jamais la major
 
 ## Prérequis
 
+Seule `window_library` a une page ici. Le reste fonctionne, mais ne le modifiez que si vous savez ce que vous faites :PES2_Shrug:.
+
+
 **[Bibliothèques d'assets](#/nml/asset-libraries)** détaille leur fonctionnement commun : `has`, `get`, `add`, `clone`, modèles, réordonnancement et les quatre règles universelles. Consultez cette page d'abord. La présente page n'est qu'un répertoire.
 
 Le résumé :
@@ -30,6 +33,9 @@ AssetManager.traits.dict;                          // chaque asset, par id
 ---
 
 ## Créatures et traits
+
+Ceux que vous ouvrirez vraiment sont les quatre premiers. Le reste est là pour vous éviter de deviner les noms :PES5_Hmmmm:.
+
 
 | Bibliothèque | Asset | Contenu |
 | --- | --- | --- |

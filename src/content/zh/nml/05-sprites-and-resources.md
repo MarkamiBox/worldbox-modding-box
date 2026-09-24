@@ -128,6 +128,22 @@ MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on th
 > [!NOTE] 导入全新自定义音效属于另一套工程
 > 原版 FMOD 事件内嵌在游戏的音效库（Sound Bank）中，常规模组无法直接向其追加事件。若要播放自己的 `.wav` 资源，需要绕开游戏内置的音量控制系统，自行使用 Unity 的 `AudioSource` 进行加载播放。本指南不涉及此内容，因为我从未对其制作过 Mod，也不打算假装我做过。
 
+
+### 添加自定义音效
+
+与早期的普遍认知不同，NeoModLoader 已通过 `CustomAudioManager` 原生支持直接加载 `.wav` 格式音频文件 :PESgn_Noice:。
+
+只需将音频文件放入模组根目录下的 `Audio/`、`Audios/` 或 `GameResources/` 文件夹中：
+
+```text
+MyMod/
+└── Audio/
+    ├── custom_explosion.wav
+    └── custom_explosion.json   <- 可选的音效参数配置文件
+```
+
+NML 会自动 Hook 原版的 `MusicBox.playSound` 并实时解码播放自定义音频 。
+
 ## 绝不要向游戏传递 null 的空精灵
 
 一个缺少贴图的按钮并不会变成带有问号的按钮：它会沦为界面上一个**完全隐形且不可见的黑洞**，玩家根本无法发现并点击它。永远做好后备回退保护：

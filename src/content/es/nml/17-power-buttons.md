@@ -374,6 +374,30 @@ Usa `CreateGodPowerButton` para cualquier cosa que el jugador apunte en el mapa 
 
 Los botones se disponen en el orden en que se crean, por lo que leer `Buttons()` de arriba a abajo es exactamente lo que el jugador ve de izquierda a derecha. Si quieres un orden diferente, reorganiza las llamadas, no los ids.
 
+
+## Agrupar botones con PowersTabExtension
+
+Colocar diez botones en una sola fila funciona, pero a medida que tu mod crece parece un cajón desastre. NeoModLoader proporciona `PowersTabExtension` en `NeoModLoader.General.UI.Tab` para organizar botones en grupos como en las pestañas vanilla:
+
+```csharp
+using NeoModLoader.General.UI.Tab;
+
+// 1. Define los grupos que contendrá la pestaña
+tab.SetLayout(new List<string> { "spells", "creatures" });
+
+// 2. Asigna cada botón a un grupo
+PowerButton strikeBtn = PowerButtonCreator.CreateGodPowerButton(STRIKE, Icon("iconHelloStrike"), tab.transform);
+tab.AddPowerButton("spells", strikeBtn);
+
+PowerButton spawnBtn = PowerButtonCreator.CreateGodPowerButton(SPAWN_POWER, Icon("iconHelloSpawn"), tab.transform);
+tab.AddPowerButton("creatures", spawnBtn);
+
+// 3. Recalcula las posiciones
+tab.UpdateLayout();
+```
+
+`SetLayout()` bloquea la definición de grupos. Añade los botones a sus grupos y finaliza con `tab.UpdateLayout()`. Si intentas meter un botón en un grupo no declarado, NML registrará una advertencia y dejará tu botón fuera del layout :PES5_Hmmmm:.
+
 ## Iconos, otra vez
 
 ```csharp

@@ -128,6 +128,22 @@ MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on th
 > [!NOTE] 완전한 커스텀 사운드 추가는 별도의 영역입니다
 > FMOD 이벤트는 게임 사운드 뱅크에 내장되어 있어 모드가 직접 추가할 수 없습니다. 자체 `.wav` 파일을 재생하려면 게임 볼륨 설정과 별개로 Unity `AudioSource`를 직접 로드하여 재생해야 합니다. 저는 이것을 모딩해본 적이 없고 해본 척할 생각도 없으므로 이 가이드에서는 다루지 않습니다.
 
+
+### 나만의 사운드 추가하기
+
+이전의 알려진 정보와 달리, NeoModLoader는 `CustomAudioManager`를 통해 네이티브 `.wav` 사ウンド 파일 로드를 지원합니다 :PESgn_Noice:。
+
+모드 폴더의 `Audio/`, `Audios/` 또는 `GameResources/` 안에 오디오 파일을 넣으세요:
+
+```text
+MyMod/
+└── Audio/
+    ├── custom_explosion.wav
+    └── custom_explosion.json
+```
+
+NML이 `MusicBox.playSound`를 후킹하여 사운드를 직접 재생합니다 。
+
 ## 게임에 절대 null 스프라이트를 넘기지 마세요
 
 스프라이트가 누락된 버튼은 "아이콘만 없는 버튼"이 아니라, UI 상에서 **보이지 않는 투명한 구멍**이 되어 플레이어가 누를 수조차 없게 됩니다. 항상 대체 스프라이트를 지정하세요:

@@ -374,6 +374,30 @@ private static void Buttons()
 
 ボタンは作成された順序で並べられます。そのため、`Buttons()` を上から下へ記述した順番が、プレイヤーから見て左から右への並び順になります。並び順を変更したい場合は、IDではなく呼び出し順序を入れ替えてください。
 
+
+## PowersTabExtension によるボタンのグループ化
+
+10個のボタンを一列に並べることも可能ですが、ボタンが増えると散らかって見えます。NeoModLoader は `NeoModLoader.General.UI.Tab` にて `PowersTabExtension` を提供しており、バニラのようにボタンをグループ化できます：
+
+```csharp
+using NeoModLoader.General.UI.Tab;
+
+// 1. タブ内のグループを定義
+tab.SetLayout(new List<string> { "spells", "creatures" });
+
+// 2. 各ボタンをグループに割り当て
+PowerButton strikeBtn = PowerButtonCreator.CreateGodPowerButton(STRIKE, Icon("iconHelloStrike"), tab.transform);
+tab.AddPowerButton("spells", strikeBtn);
+
+PowerButton spawnBtn = PowerButtonCreator.CreateGodPowerButton(SPAWN_POWER, Icon("iconHelloSpawn"), tab.transform);
+tab.AddPowerButton("creatures", spawnBtn);
+
+// 3. 配置を更新
+tab.UpdateLayout();
+```
+
+`SetLayout()` を呼び出すとグループ定義が確定します。ボタンを割り当てた後に `tab.UpdateLayout()` を呼んでください。未登録のグループ名を指定するとNMLが警告を出力しボタンが配置されません :PES5_Hmmmm:。
+
 ## アイコンについての再確認
 
 ```csharp

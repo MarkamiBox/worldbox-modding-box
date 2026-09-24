@@ -69,6 +69,9 @@ MyCoolMod/
 - **`OptionalDependencies`**: 존재하면 연동되지만 필수는 아닌 선택적 의존 모드 목록입니다.
 - **`IncompatibleWith`**: 함께 활성화하면 모드가 고장 나는 모드 GUID 목록입니다. 둘 다 켜져 있을 경우 NML이 경고를 띄웁니다.
 
+`"ModType": "RESOURCE_PACK"` 또는 `"UsePublicizedAssembly": false`를 지정할 수도 있습니다 :PES5_Hmmmm:。
+
+
 ## 약간의 기술적인 세부 사항 :elpepehacker:
 
 모든 모드는 "안녕하세요, 저는 모드입니다"라고 선언하는 C# 파일 하나가 필요합니다. 최소 코드는 이것이 전부입니다:

@@ -31,6 +31,9 @@ AssetManager.traits.dict;                          // jedes Asset, nach ID
 
 ## Kreaturen und ihre Eigenschaften
 
+Die ersten vier wirst du tatsächlich öffnen. Der Rest steht hier, damit du keine Namen raten musst :PES2_Shrug:.
+
+
 | Bibliothek | Asset | Was sie enthält |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | Jeder Kreaturentyp. **[Eigene Akteure](#/nml/custom-actors)** |
@@ -128,6 +131,9 @@ AssetManager.traits.dict;                          // jedes Asset, nach ID
 | `tester_jobs` / `tester_tasks` | `JobTesterAsset` | Eigene KI-Testumgebung des Spiels |
 
 ## Benutzeroberfläche
+
+Nur `window_library` hat hier eine eigene Seite. Der Rest funktioniert, aber fasse ihn nur mit Bedacht an :PES5_Hmmmm:.
+
 
 | Bibliothek | Asset | Was sie enthält |
 | --- | --- | --- |

@@ -8,7 +8,7 @@ order: 92
 
 # Referencia de estadísticas :wbstonks:
 
-Casi todos los assets que registrarás tienen un bloque `base_stats`, y casi todas las páginas después de esta configuran algo en él. Esta es la lista de todo lo que puedes colocar allí.
+Casi todos los assets que registrarás tienen un bloque `base_stats`, y casi todas las páginas después de esta configuran algo en él. Esta es la lista de todo lo que puedes colocar allí. Todo lo demás es un cuelgue esperando su momento :PES5_Hmmmm:.
 
 ## Cómo funciona base_stats
 
@@ -53,6 +53,9 @@ Dos consecuencias más:
 > En un asset creado a mano, el bloque de estadísticas se asigna dentro de `add()`. Si tocas `base_stats` antes de esa línea, obtendrás una `NullReferenceException`. `clone()` llama a `add()` por ti, así que tras clonar ya estás a salvo. Es el cuelgue más habitual de todo el modding de WorldBox.
 
 ## Combat
+
+Dale diplomacia a un lobo y no negociará :PES2_Shrug:.
+
 
 | Estadística | Lo que hace |
 | --- | --- |
@@ -186,6 +189,9 @@ float finalDamage = actor.stats["damage"];
 ```
 
 Eso es también lo que ajustas desde un Postfix de Harmony en `Actor.updateStats` - ver **[Parches de Harmony](#/nml/harmony-patches)**.
+
+:PESgn_SMH:.
+
 
 ## Añadir tu propia estadística
 

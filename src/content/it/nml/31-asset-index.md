@@ -31,6 +31,9 @@ AssetManager.traits.dict;                          // ogni asset, per id
 
 ## Creature e loro tratti
 
+Quelli che aprirai davvero sono i primi quattro. Gli altri sono qui per non farti tirare a indovinare i nomi :PES2_Shrug:.
+
+
 | Libreria | Asset | Cosa contiene |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | Ogni tipo di creatura. **[Attori personalizzati](#/nml/custom-actors)** |
@@ -93,6 +96,9 @@ AssetManager.traits.dict;                          // ogni asset, per id
 | `sim_globals_library` | `SimGlobalAsset` | Costanti globali di simulazione |
 
 ## Oggetti ed equipaggiamento
+
+Solo `window_library` ha una pagina dedicata qui. Il resto funziona, ma toccalo solo se sai esattamente cosa fai :PES5_Hmmmm:.
+
 
 | Libreria | Asset | Cosa contiene |
 | --- | --- | --- |

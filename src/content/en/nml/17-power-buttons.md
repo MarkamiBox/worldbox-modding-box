@@ -355,6 +355,9 @@ That is the whole file: nine god powers, the tab, ten buttons and the icon helpe
 > }
 > ```
 
+> [!TIP] Skipping the Update() dance with IStagedLoad
+> If polling inside `Update()` feels clumsy, implement `IStagedLoad` on your mod class. Its `Init()` method fires on frame 2 after mod construction, right when the base game and its UI controllers are fully awake.
+
 ## Two kinds of button
 
 ```csharp
@@ -377,6 +380,29 @@ Use `CreateGodPowerButton` for anything the player aims at something (spawn, smi
 ## The order of the buttons
 
 Buttons are laid out in the order they are created, so `Buttons()` reading top to bottom is exactly what the player sees left to right. If you want a different order, reorder the calls, not the ids.
+
+## Grouping buttons with PowersTabExtension
+
+Dumping ten buttons into a single unbroken row works, but once your mod grows it looks like a junk drawer. NeoModLoader provides `PowersTabExtension` in `NeoModLoader.General.UI.Tab` so you can arrange buttons into distinct groups like the vanilla god tabs:
+
+```csharp
+using NeoModLoader.General.UI.Tab;
+
+// 1. Define the groups your tab will contain
+tab.SetLayout(new List<string> { "spells", "creatures" });
+
+// 2. Assign each button to a group
+PowerButton strikeBtn = PowerButtonCreator.CreateGodPowerButton(STRIKE, Icon("iconHelloStrike"), tab.transform);
+tab.AddPowerButton("spells", strikeBtn);
+
+PowerButton spawnBtn = PowerButtonCreator.CreateGodPowerButton(SPAWN_POWER, Icon("iconHelloSpawn"), tab.transform);
+tab.AddPowerButton("creatures", spawnBtn);
+
+// 3. Recalculate the positions
+tab.UpdateLayout();
+```
+
+`SetLayout()` locks the group definition once called. Add your buttons to their declared groups and finish with `tab.UpdateLayout()`. If you try to push a button into a group name you forgot to register in `SetLayout()`, NML logs a warning and leaves your button stranded outside the layout :PES5_Hmmmm:.
 
 ## Icons, again
 

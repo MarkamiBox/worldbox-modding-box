@@ -26,8 +26,33 @@ order: 44
 Для каждого типа данных выделена отдельная внутренняя таблица, поэтому `int` и `string` под одним и тем же ключом не конфликтуют. Тем не менее, ради собственного спокойствия лучше использовать уникальные имена ключей.
 
 
-> [!NOTE] Сохранение чего-то сложнее пяти простых типов
-> В NML есть встроенная утилита для сохранения целого объекта в данные юнита, а не только `int`/`long`/`float`/`string`/`bool`. Мне никогда не требовалось больше простого счётчика или флага, поэтому подробной инструкции здесь нет. Но такая возможность существует, если вам нужно сохранить целую структуру или список.
+
+
+## Сохранение сложных объектов в NML
+
+Если пяти примитивных типов мало и требуется сохранить целый класс, NML предоставляет `DataExtension` в `NeoModLoader.General.Game.extensions`:
+
+```csharp
+using NeoModLoader.General.Game.extensions;
+
+public class QuestProgress
+{
+    public string quest_id;
+    public int step;
+    public List<string> completed_objectives = new List<string>();
+}
+
+// Сохранение:
+actor.data.Set("hello_quest", new BasicCustomData<QuestProgress>(quest));
+
+// Чтение:
+if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
+{
+    QuestProgress quest = saved.Data;
+}
+```
+
+NML сериализует объект в JSON и пишет его в `custom_data_string`. Для версионирования реализуйте интерфейс `ICustomData` :PES5_Hmmmm:.
 
 ## В HelloBox
 

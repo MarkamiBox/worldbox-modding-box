@@ -8,7 +8,7 @@ order: 92
 
 # ステータス一覧 :wbstonks:
 
-あなたが登録するほぼすべてのアセットは `base_stats` ブロックを持っており、このページ以降のほぼすべての解説でそこに値を設定します。このページは、そこに設定できるステータスの一覧です。
+あなたが登録するほぼすべてのアセットは `base_stats` ブロックを持っており、このページ以降のほぼすべての解説でそこに値を設定します。このページは、そこに設定できるステータスの一覧です。 これ以外の値を指定するとゲームがクラッシュする原因になります :PES5_Hmmmm:。
 
 ## base_stats の仕組み
 
@@ -53,6 +53,9 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%、x0.25ではない
 > 手動で新規構築したアセットでは、ステータスブロックは `add()` の内部で初めて割り当てられます。その行の前に `base_stats` を触ると `NullReferenceException` が発生します。`clone()` は内部で `add()` を呼んでくれるため、クローン直後は安全です。これはWorldBox Mod開発で最も多いクラッシュ原因です。
 
 ## Combat
+
+オオカミに外交値を与えても交渉を始めるわけではありません :PES2_Shrug:。
+
 
 | ステータス | 効果 |
 | --- | --- |
@@ -150,7 +153,6 @@ trait.base_stats_meta["construction_speed"] = 10;   // 文化圏全体で建築�
 ```
 
 特定の構成員にのみボーナスを付けたい場合（戦士のみ、大人限定など）、どちらのブロックでも表現できません。`Actor.updateStats` に対するHarmony Postfixを使って自前で判定してください。**[Harmonyパッチ](#/nml/harmony-patches)** を参照してください。
-
 ## タグ：数値ではないステータス
 
 `base_stats` ブロックは、数値ではなくブール値フラグである **タグ (Tags)** の集合も保持しています。これらはステータスと同じルールでマージされるため、攻撃力を付与するのと同じ感覚でユニットに炎無効を付与できます：
@@ -175,7 +177,7 @@ if (actor.stats.hasTag("immunity_fire")) { }
 | 種別属性 | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | 建築制限 | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-ステータス名とは異なり、未知のタグを渡してもクラッシュせず、単に何にもマッチしなくなるだけです。ただしこれはスペルミスが完全に無言で無視されることも意味するため、正確に書き写してください。
+ステータス名とは異なり、未知のタグを渡してもクラッシュせず、単に何にもマッチしなくなるだけです。ただしこれはスペルミスが完全に無言で無視されることも意味するため、正確に書き写してください。 `imunity_fire` のようなタイポは何ヶ月も放置されて誰にも気づかれないことがあります :PESgn_SMH:。
 
 ## ユニットの現在値のリアルタイム取得
 

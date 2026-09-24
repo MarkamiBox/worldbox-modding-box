@@ -8,7 +8,7 @@ order: 92
 
 # Referência de atributos :wbstonks:
 
-Quase todo asset que você registrar possui um bloco `base_stats`, e quase todas as páginas depois desta configuram algo nele. Esta é a lista de tudo o que você tem permissão para colocar lá dentro.
+Quase todo asset que você registrar possui um bloco `base_stats`, e quase todas as páginas depois desta configuram algo nele. Esta é a lista de tudo o que você tem permissão para colocar lá dentro. Todo o resto é um crash esperando a hora certa :PES5_Hmmmm:.
 
 ## Como o base_stats funciona
 
@@ -53,6 +53,9 @@ Mais duas consequências:
 > Em um asset criado manualmente, o bloco de atributos é alocado dentro de `add()`. Mexa em `base_stats` antes dessa linha e você terá uma `NullReferenceException`. O `clone()` chama `add()` para você, então após um clone você já está seguro. Este é o travamento mais comum em todo o modding de WorldBox.
 
 ## Combat
+
+Dê diplomacia a um lobo e ele não negociará :PES2_Shrug:.
+
 
 | Atributo | O que faz |
 | --- | --- |
@@ -150,7 +153,6 @@ trait.base_stats_meta["construction_speed"] = 10;   // o grupo constrói mais r�
 ```
 
 Se um bônus deve ser aplicado apenas a certos membros (apenas guerreiros, apenas adultos), nenhum dos dois blocos pode expressar isso. Use um Postfix do Harmony em `Actor.updateStats` e faça o filtro você mesmo. Veja **[Patches com Harmony](#/nml/harmony-patches)**.
-
 ## Tags: as estatísticas que não são números
 
 Um bloco `base_stats` também contém um conjunto de **tags**, que são sinalizadores booleanos em vez de números. Eles se fundem da mesma maneira que os atributos, permitindo que um traço dê imunidade ao fogo a uma criatura exatamente como daria dano:
@@ -175,7 +177,7 @@ As tags que o próprio jogo avalia:
 | Natureza | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | Construção | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-Diferente de um nome de atributo, uma tag desconhecida é inofensiva: ela simplesmente nunca corresponderá a nada. Isso também significa que um erro de digitação passará em silêncio, então copie-as fielmente.
+Diferente de um nome de atributo, uma tag desconhecida é inofensiva: ela simplesmente nunca corresponderá a nada. Isso também significa que um erro de digitação passará em silêncio, então copie-as fielmente. Um `imunity_fire` escrito errado pode ficar no seu mod por meses sem ninguém avisar :PESgn_SMH:.
 
 ## Lendo os valores em tempo real de uma unidade
 

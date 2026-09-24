@@ -31,6 +31,9 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 
 ## 生物与特质
 
+你实际最常打交道的是前四个库，其余的列在这里是为了免去盲猜命名的痛苦 :PES2_Shrug:。
+
+
 | 资源库 | 承载资源类型 | 存储内容说明 |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | 全游戏所有生物种族。**[自定义生物角色](#/nml/custom-actors)** |
@@ -128,6 +131,9 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 | `tester_jobs` / `tester_tasks` | `JobTesterAsset` | 游戏内置的AI自动化测试脚手架 |
 
 ## 用户界面
+
+这里只有 `window_library` 拥有专属教程页面，其余的虽然能用，但非必要请勿随意改动 :PES5_Hmmmm:。
+
 
 | 资源库 | 承载资源类型 | 存储内容说明 |
 | --- | --- | --- |

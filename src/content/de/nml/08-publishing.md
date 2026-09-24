@@ -61,6 +61,8 @@ Das Hochladen in den Workshop geschieht **im Spiel**, und die Art und Weise, wie
 
 Wenn nichts passiert, hast du zu langsam geklickt oder die Zeile statt des Icons getroffen.
 
+Das neuere NML-Mod-Listenfenster bietet für ausgewählte Mods Schnelltasten zum Öffnen des Ordners, Umschalten oder Hot-Reloading, aber das Ritual mit den acht Klicks auf das Symbol bleibt der Weg zum Steam-Uploader :PES2_Shrug:.
+
 | Feld | Was hineingehört |
 | --- | --- |
 | Oberes Feld (`fileID`) | **Beim ersten Mal leer lassen**. Bei Updates fügst du die ID aus deiner Workshop-URL ein |

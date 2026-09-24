@@ -31,6 +31,9 @@ AssetManager.traits.dict;                          // cada asset, por id
 
 ## Criaturas e seus traços
 
+Os que você realmente vai usar são os quatro primeiros. O resto está aqui para você não precisar adivinhar nomes :PES2_Shrug:.
+
+
 | Biblioteca | Asset | O que contém |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | Cada tipo de criatura. **[Atores personalizados](#/nml/custom-actors)** |
@@ -128,6 +131,9 @@ AssetManager.traits.dict;                          // cada asset, por id
 | `tester_jobs` / `tester_tasks` | `JobTesterAsset` | Ambiente interno de testes de IA |
 
 ## Interface
+
+Apenas `window_library` tem uma página aqui. O restante funciona, mas mexa apenas se souber o que está fazendo :PES5_Hmmmm:.
+
 
 | Biblioteca | Asset | O que contém |
 | --- | --- | --- |

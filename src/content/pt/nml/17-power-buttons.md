@@ -374,6 +374,22 @@ Use `CreateGodPowerButton` para qualquer coisa que o jogador mire no mapa (gerar
 
 Os botões são organizados na ordem em que são criados. Portanto, ler `Buttons()` de cima para baixo é exatamente o que o jogador vê da esquerda para a direita. Se quiser uma ordem diferente, reorganize as chamadas, não os ids.
 
+## Agrupando botões com PowersTabExtension
+
+O NeoModLoader traz `PowersTabExtension` em `NeoModLoader.General.UI.Tab` para organizar os botões em grupos:
+
+```csharp
+using NeoModLoader.General.UI.Tab;
+tab.SetLayout(new List<string> { "spells", "creatures" });
+tab.AddPowerButton("spells", strikeBtn);
+tab.UpdateLayout();
+```
+
+SetLayout() trava a definição de grupos e organiza os botões :PES5_Hmmmm:.
+
+
+
+
 ## Ícones, novamente
 
 ```csharp

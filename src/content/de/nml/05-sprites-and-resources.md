@@ -128,6 +128,22 @@ Der erste Befehl spielt den Sound an den angegebenen Weltkoordinaten ab. HelloBo
 > [!NOTE] Eigene neue Sounds sind ein separates Projekt
 > FMOD-Events liegen in den vorkompilierten Sound-Banks des Spiels; Mods können diese nicht direkt erweitern. Eigene `.wav`-Dateien müssen selbst über eine Unity-`AudioSource` geladen und abgespielt werden, außerhalb der Lautstärkeregler des Spiels. Diese Anleitung behandelt dies nicht, weil ich es nie gemoddet habe und nicht so tun werde, als hätte ich es getan.
 
+
+### Eigene Sounds hinzufügen
+
+NeoModLoader unterstützt native `.wav`-Audiodateien über `CustomAudioManager` :PESgn_Noice:.
+
+Platziere deine Sounddateien in `Audio/`, `Audios/` oder `GameResources/`:
+
+```text
+MyMod/
+└── Audio/
+    ├── custom_explosion.wav
+    └── custom_explosion.json
+```
+
+NML patcht `MusicBox.playSound` und spielt deine Sounds direkt ab .
+
 ## Übergib dem Spiel niemals ein Null-Sprite
 
 Ein Button mit fehlendem Sprite ist kein Button mit einem Fragezeichen - es ist ein **unsichtbares Loch** in der Benutzeroberfläche, das der Spieler niemals finden wird. Baue immer einen Fallback ein:

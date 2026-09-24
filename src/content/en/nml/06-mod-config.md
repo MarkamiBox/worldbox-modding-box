@@ -48,11 +48,13 @@ Drop a `default_config.json` in the root of your mod, next to `mod.json`:
 | Key | Meaning |
 | --- | --- |
 | `Id` | Unique inside the group. This is how you read the value in code |
-| `Type` | `SWITCH` (on/off), `SLIDER` (float), `INT_SLIDER` (int), `TEXT` (text field) |
+| `Type` | `SWITCH` (on/off), `SLIDER` (float), `INT_SLIDER` (int), `TEXT` (text field), `SELECT` (options grid) |
 | `BoolVal` / `FloatVal` / `IntVal` / `TextVal` | The default value, matching the type |
-| `MinFloatVal` / `MaxFloatVal`, `MinIntVal` / `MaxIntVal` | Slider bounds |
+| `MinFloatVal` / `MaxFloatVal`, `MinIntVal` / `MaxIntVal` | Slider bounds. For `SELECT`, `MaxIntVal` is the option count and `IntVal` is the chosen index |
 | `IconPath` | Optional icon for the row |
 | `Callback` | Optional `Namespace.Type:MethodName` called when the value changes |
+
+For `SELECT`, NML lays out buttons for each option. The labels come straight from your locale as `<id>_0`, `<id>_1`, and so on.
 
 ## Reading the values
 
@@ -74,7 +76,7 @@ private void LoadSettings()
 }
 ```
 
-Yes, the `try/catch` around each one looks paranoid. It is not: if a player is upgrading from an older version of your mod, their saved config simply does not have the key you just added, and one missing key would otherwise take down your whole load.
+NML actually calls `persistent_config.MergeWith(default_config)` on startup, so when you add a new key to `default_config.json`, NML automatically merges it into the player's saved config with its default value. The `try/catch` is still decent hygiene in case somebody opened their `.config` with a text editor and broke the JSON, but NML has your back on normal updates.
 
 ## Callbacks
 
@@ -98,7 +100,7 @@ namespace HelloBox
 ```
 
 > [!WARNING] Changes land when the window closes
-> Not while dragging. If your callback does something expensive, this is good news. If you were expecting live preview, this is why it "doesn't work" :huh:.
+> Not while dragging. If your callback does something expensive, this is good news. If you were expecting live preview, this is why it "doesn't work" :huh:. `BasicMod` also fires every callback once at startup so your code picks up whatever the player saved.
 
 ## Where it is saved
 

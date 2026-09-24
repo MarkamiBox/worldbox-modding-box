@@ -31,6 +31,9 @@ AssetManager.traits.dict;                          // cada asset, por su id
 
 ## Criaturas y sus rasgos
 
+Los que realmente vas a abrir son los primeros cuatro. Los demás están aquí para que no tengas que adivinar nombres :PES2_Shrug:.
+
+
 | Biblioteca | Asset | Qué contiene |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | Cada tipo de criatura. **[Actores personalizados](#/nml/custom-actors)** |
@@ -128,6 +131,9 @@ AssetManager.traits.dict;                          // cada asset, por su id
 | `tester_jobs` / `tester_tasks` | `JobTesterAsset` | Banco de pruebas de IA interno del juego |
 
 ## Interfaz de usuario
+
+Solo `window_library` tiene una página aquí. Lo demás funciona, pero tócalo solo si sabes lo que haces :PES5_Hmmmm:.
+
 
 | Biblioteca | Asset | Qué contiene |
 | --- | --- | --- |

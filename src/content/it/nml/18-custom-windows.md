@@ -28,6 +28,44 @@ ScrollWindow.isWindowActive();               // verificare se c'è *una* finestr
 
 Quest'ultimo controllo è più importante di quanto sembri: se il tuo potere divino compie un'azione al clic, di solito preferisci che non faccia nulla mentre una finestra sta coprendo la mappa. Impostare `unselect_when_window = true` nel tuo `GodPower` affida questo problema direttamente al gioco.
 
+## La via nativa con ScrollWindow
+
+Se vuoi che la tua finestra sembri fatta direttamente da WorldBox, non creare un Canvas da zero :PES2_Shrug:. NeoModLoader include `WindowCreator` e `AbstractWindow<T>`.
+
+```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
+using NeoModLoader.api;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace HelloBox
+{
+    public class HelloNativeWindow : AbstractWindow<HelloNativeWindow>
+    {
+        protected override void Init()
+        {
+            GameObject labelObj = new GameObject("Text", typeof(Text));
+            labelObj.transform.SetParent(ContentTransform, false);
+
+            Text label = labelObj.GetComponent<Text>();
+            label.font = LocalizedTextManager.current_font;
+            label.fontSize = 12;
+            label.text = "Hello from a native window!";
+        }
+
+        public override void OnFirstEnable() {}
+        public override void OnNormalEnable() {}
+        public override void OnNormalDisable() {}
+    }
+}
+```
+
+```csharp
+HelloNativeWindow.CreateAndInit("hello_native_window");
+ScrollWindow.showWindow(HelloNativeWindow.WindowId);
+```
+
+Per i layout ampi estendi `AbstractWideWindow<T>`, oppure chiama `WindowCreator.CreateEmptyWindow(id, titleKey, icon)`. Dimentica la registrazione e il gioco non saprà che esiste :wbfacepalm:.
+
 ## La tua finestra mobile personale
 
 Una finestra è un `GameObject` associato come figlio al canvas dell'interfaccia di gioco. Questo è lo scheletro essenziale:

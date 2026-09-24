@@ -374,6 +374,30 @@ private static void Buttons()
 
 버튼은 생성된 순서대로 정렬되므로, `Buttons()` 메서드에서 위에서 아래로 읽히는 순서가 플레이어의 화면에서 왼쪽에서 오른쪽으로 나타나는 순서와 정확히 일치합니다. 순서를 바꾸고 싶다면 id가 아니라 호출 순서를 바꾸세요.
 
+
+## PowersTabExtension을 사용한 버튼 그룹화
+
+10개의 버튼을 한 줄로 나열하는 것도 가능하지만, 모드가 커지면 지저분해 보입니다. NeoModLoader는 바닐라처럼 버튼을 깔끔하게 그룹별로 정리할 수 있도록 `NeoModLoader.General.UI.Tab`에 `PowersTabExtension`을 제공합니다:
+
+```csharp
+using NeoModLoader.General.UI.Tab;
+
+// 1. 탭에 포함될 그룹 정의
+tab.SetLayout(new List<string> { "spells", "creatures" });
+
+// 2. 각 버튼을 그룹에 배치
+PowerButton strikeBtn = PowerButtonCreator.CreateGodPowerButton(STRIKE, Icon("iconHelloStrike"), tab.transform);
+tab.AddPowerButton("spells", strikeBtn);
+
+PowerButton spawnBtn = PowerButtonCreator.CreateGodPowerButton(SPAWN_POWER, Icon("iconHelloSpawn"), tab.transform);
+tab.AddPowerButton("creatures", spawnBtn);
+
+// 3. 레이아웃 갱신
+tab.UpdateLayout();
+```
+
+`SetLayout()`을 호출하면 그룹 구조가 고정됩니다. 버튼을 지정된 그룹에 추가하고 `tab.UpdateLayout()`을 호출하세요. 등록되지 않은 그룹에 버튼을 넣으려고 하면 NML이 경고를 출력하고 배치를 건너뜁니다 :PES5_Hmmmm:。
+
 ## 다시 한 번 강조하는 아이콘
 
 ```csharp

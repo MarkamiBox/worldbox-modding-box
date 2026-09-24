@@ -28,6 +28,54 @@ ScrollWindow.isWindowActive();               // 現在「何らかの」ウィ�
 
 最後のメソッドは見た目以上に重要です。神の力でクリック時に何らかの効果を発動させる場合、ウィンドウがマップを覆っている間は暴発を防ぎたいのが普通です。`GodPower` に `unselect_when_window = true` を指定しておけば、この問題はゲーム側が自動的に処理してくれます。
 
+
+## ネイティブな ScrollWindow ルート
+
+WorldBox公式のようなウィンドウを作成したい場合は、Canvasを一から自作しないでください :PES2_Shrug:。NeoModLoader は `WindowCreator` と `AbstractWindow<T>` を提供しています。
+
+`AbstractWindow<T>` を継承します：
+
+```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
+using NeoModLoader.api;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace HelloBox
+{
+    public class HelloNativeWindow : AbstractWindow<HelloNativeWindow>
+    {
+        protected override void Init()
+        {
+            GameObject labelObj = new GameObject("Text", typeof(Text));
+            labelObj.transform.SetParent(ContentTransform, false);
+
+            Text label = labelObj.GetComponent<Text>();
+            label.font = LocalizedTextManager.current_font;
+            label.fontSize = 12;
+            label.text = "Hello from a native window!";
+        }
+
+        public override void OnFirstEnable() {}
+        public override void OnNormalEnable() {}
+        public override void OnNormalDisable() {}
+    }
+}
+```
+
+Mod読み込み時に初期化します：
+
+```csharp
+HelloNativeWindow.CreateAndInit("hello_native_window");
+```
+
+表示は1行で行えます：
+
+```csharp
+ScrollWindow.showWindow(HelloNativeWindow.WindowId);
+```
+
+広いウィンドウが必要な場合は `AbstractWideWindow<T>` を継承するか、`WindowCreator.CreateEmptyWindow(id, titleKey, icon)` を直接呼び出してください。登録を忘れるとESCキーを押したときにゲームがウィンドウを認識しません :wbfacepalm:。
+
 ## 独自のフローティングウィンドウ
 
 ウィンドウとは、ゲームのUIキャンバスを親とする `GameObject` です。以下がその最小限の骨組みです:

@@ -128,6 +128,19 @@ El primero se reproduce desde esa casilla del mundo. HelloBox reproduce el sonid
 > [!NOTE] Añadir nuevos sonidos es un proyecto aparte
 > Los eventos de FMOD residen en los bancos de sonido del juego y un mod no puede añadir contenido directamente a ellos. Reproducir tus propios archivos `.wav` requiere cargarlos en un `AudioSource` de Unity por tu cuenta, fuera de los controles de volumen del juego. Esta guía no lo cubre, porque nunca lo he modificado y no voy a fingir que lo he hecho.
 
+### Añadir tus propios sonidos
+
+NeoModLoader soporta archivos de sonido nativos `.wav` a través de `CustomAudioManager` :PESgn_Noice:.
+
+```text
+MyMod/
+└── Audio/
+    ├── custom_explosion.wav
+    └── custom_explosion.json
+```
+
+NML parchea `MusicBox.playSound` y reproduce tus archivos .
+
 ## Nunca le entregues al juego un sprite nulo
 
 Un botón sin sprite no se convierte en un botón con icono faltante: se transforma en un **agujero invisible** en la interfaz que el jugador jamás podrá encontrar. Ten siempre un icono de respaldo:

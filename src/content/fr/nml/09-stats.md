@@ -8,7 +8,7 @@ order: 92
 
 # Référence des statistiques :wbstonks:
 
-Presque tous les assets que vous enregistrerez possèdent un bloc `base_stats`, et presque chaque page après celle-ci y configure quelque chose. Voici la liste de tout ce que vous avez le droit d'y mettre.
+Presque tous les assets que vous enregistrerez possèdent un bloc `base_stats`, et presque chaque page après celle-ci y configure quelque chose. Voici la liste de tout ce que vous avez le droit d'y mettre. Tout le reste n'est qu'un crash qui attend son heure :PES5_Hmmmm:.
 
 ## Comment fonctionne base_stats
 
@@ -53,6 +53,9 @@ Deux conséquences supplémentaires :
 > Sur un asset construit manuellement, le bloc de stats est alloué au sein de `add()`. Modifiez `base_stats` avant cette ligne et vous obtiendrez le plantage le plus récurrent du modding WorldBox : une `NullReferenceException`. `clone()` appelle `add()` pour vous, donc après un clone vous êtes déjà en sécurité.
 
 ## Combat
+
+Donnez de la diplomatie à un loup et il ne négociera pas :PES2_Shrug:.
+
 
 | Statistique | Ce qu'elle fait |
 | --- | --- |
@@ -150,7 +153,6 @@ trait.base_stats_meta["construction_speed"] = 10;   // le groupe bâtit plus vit
 ```
 
 Si un bonus ne doit toucher que certains individus (les soldats, les adultes), aucun des deux blocs ne permet de l'exprimer. Utilisez un Postfix Harmony sur `Actor.updateStats` pour filtrer vous-même. Voir **[Patchs Harmony](#/nml/harmony-patches)**.
-
 ## Tags : les stats qui ne sont pas des nombres
 
 Un bloc `base_stats` gère également un ensemble de **tags**, qui sont des drapeaux booléens plutôt que des nombres. Ils se fusionnent de la même façon, de sorte qu'un trait peut accorder une immunité au feu tout comme il accorde des dégâts :
@@ -175,7 +177,7 @@ Ceux reconnus par le jeu de base :
 | Nature | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | Bâtiment | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-Contrairement aux statistiques, un tag inconnu est inoffensif : il ne correspondra simplement à rien. Cela signifie aussi qu'une faute de frappe passera totalement inaperçue, alors copiez-les scrupuleusement.
+Contrairement aux statistiques, un tag inconnu est inoffensif : il ne correspondra simplement à rien. Cela signifie aussi qu'une faute de frappe passera totalement inaperçue, alors copiez-les scrupuleusement. Une faute comme `imunity_fire` peut rester des mois dans votre mod sans que personne ne vous prévienne :PESgn_SMH:.
 
 ## Lire les valeurs en direct d'une unité
 

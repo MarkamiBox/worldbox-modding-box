@@ -28,6 +28,68 @@ ScrollWindow.isWindowActive();               // is *any* window open right now
 
 That last one matters more than it looks: if your god power does something on click, you usually want it to do nothing while a window is covering the map. Setting `unselect_when_window = true` on your `GodPower` hands that problem to the game.
 
+## The native ScrollWindow route
+
+If you want your panel to feel like WorldBox built it, do not build a canvas from scratch like I did on my first try :PES2_Shrug:. NeoModLoader ships with `WindowCreator` and `AbstractWindow<T>` specifically so you don't have to assemble scroll bars, title bars, and close buttons out of raw Unity primitives.
+
+Subclass `AbstractWindow<T>` and let NML handle the plumbing:
+
+```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
+using NeoModLoader.api;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace HelloBox
+{
+    public class HelloNativeWindow : AbstractWindow<HelloNativeWindow>
+    {
+        protected override void Init()
+        {
+            // ContentTransform is already pointing to Background/Scroll View/Viewport/Content.
+            // Put your buttons, text, and rows here:
+            GameObject labelObj = new GameObject("Text", typeof(Text));
+            labelObj.transform.SetParent(ContentTransform, false);
+
+            Text label = labelObj.GetComponent<Text>();
+            label.font = LocalizedTextManager.current_font;
+            label.fontSize = 12;
+            label.text = "Hello from a native window!";
+        }
+
+        public override void OnFirstEnable()
+        {
+            // Runs once, the very first time the player opens the window
+        }
+
+        public override void OnNormalEnable()
+        {
+            // Runs every time the window opens - refresh dynamic stats here
+        }
+
+        public override void OnNormalDisable()
+        {
+            // Runs every time the window closes
+        }
+    }
+}
+```
+
+Create it once during mod initialization:
+
+```csharp
+HelloNativeWindow.CreateAndInit("hello_native_window");
+```
+
+`CreateAndInit()` clones the game's `"windows/empty"` prefab, parents it to `CanvasMain.instance.transformWindows`, sets the title key to `"<windowId> Title"`, attaches your component, and registers the window in both `ScrollWindow._all_windows` and `AssetManager.window_library`. Opening it is the same single line you use for vanilla windows:
+
+```csharp
+ScrollWindow.showWindow(HelloNativeWindow.WindowId);
+```
+
+If you need more screen estate for a huge table or multi-column manager, inherit from `AbstractWideWindow<T>` instead. It behaves identically but defaults to `600x280`, applies the wide sliced frame automatically, and exposes `SetSize(new Vector2(width, height))` if your layout needs even more room.
+
+If you don't want the `AbstractWindow<T>` base class at all, call `WindowCreator.CreateEmptyWindow(id, titleKey, icon)` directly and configure the returned `ScrollWindow` yourself. Forget the registration step on your own and the game won't even know your window exists when ESC is pressed :wbfacepalm:.
+
 ## Your own floating window
 
 A window is a `GameObject` parented to the game's UI canvas. This is the whole skeleton:

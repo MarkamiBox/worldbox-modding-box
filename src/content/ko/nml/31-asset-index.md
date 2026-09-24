@@ -31,6 +31,9 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 
 ## 크리처 및 특성
 
+실제로 가장 자주 열어보게 될 것은 처음 4개입니다 :PES2_Shrug:。
+
+
 | 라이브러리 | 에셋 | 담고 있는 내용 |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | 모든 크리처 유형. **[커스텀 액터](#/nml/custom-actors)** |
@@ -128,6 +131,9 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 | `tester_jobs` / `tester_tasks` | `JobTesterAsset` | 게임 내장 AI 테스트 프레임워크 |
 
 ## 유저 인터페이스
+
+여기서는 window_library만 별도 페이지로 설명합니다 :PES5_Hmmmm:。
+
 
 | 라이브러리 | 에셋 | 담고 있는 내용 |
 | --- | --- | --- |

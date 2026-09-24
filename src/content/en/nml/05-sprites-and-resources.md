@@ -116,17 +116,49 @@ texture.LoadImage(System.IO.File.ReadAllBytes(path));
 
 ## Sounds
 
-Every sound in WorldBox is an FMOD event, played by path, and any of them is yours to play:
+Every sound in WorldBox is an FMOD event, played by path, and any vanilla one is yours to trigger:
 
 ```csharp
 MusicBox.playSound("event:/SFX/WEAPONS/WeaponFireballStart", pTile);   // at a place in the world
 MusicBox.playSoundUI("event:/SFX/UI/WindowWhoosh");                     // on the interface
 ```
 
-The first one plays from that tile of the world. HelloBox plays the fireball sound when its combat action throws an ember, see **[Projectiles, spells & effects](#/nml/projectiles-spells)**. To find paths, search the game's code for `event:/SFX/`: there are hundreds, sorted into folders by what makes the noise.
+The first one plays from that tile of the world. HelloBox plays the fireball sound when its combat action throws an ember, see **[Projectiles, spells & effects](#/nml/projectiles-spells)**. To find vanilla paths, search the game's code for `event:/SFX/`: there are hundreds, sorted into folders by what makes the noise.
 
-> [!NOTE] New sounds are a different project
-> FMOD events live in the game's sound banks, and a mod cannot add to them. Playing your own `.wav` means loading it into a Unity `AudioSource` yourself, outside the game's volume settings. This guide does not cover it, because I have never modded it and I am not going to pretend I have.
+### Adding your own sounds
+
+NML actually patches FMOD under the hood, so custom `.wav` files work without you having to build a secondary sound engine in a garage :PESgn_Noice:.
+
+Drop your `.wav` file right into `GameResources/`, say:
+
+```text
+GameResources/sounds/hello_boom.wav
+```
+
+NML hooks `MusicBox.playSound` and `playDrawingSound`, so you play it with the exact same method as a vanilla sound (minus the file extension):
+
+```csharp
+MusicBox.playSound("sounds/hello_boom", pTile);
+```
+
+Next to your file, an optional `hello_boom.json` lets you configure how it behaves:
+
+```json GameResources/sounds/hello_boom.json
+{
+  "Volume": 60,
+  "Mode": "Stereo3D",
+  "Type": "Sound"
+}
+```
+
+| Field | Values |
+| --- | --- |
+| `Mode` | `Basic` (flat 2D, volume stays constant), `Stereo3D` (vanilla falloff with distance), `Mono3D` (directional) |
+| `Type` | `Sound` (SFX slider), `Music` (music slider), `UI` (UI slider) |
+| `Volume` | Default volume 0 to 100 |
+| `LoopCount` | Times to repeat (0 = once) |
+
+Best of all: because NML connects them into the game's channel groups, your sounds actually obey the player's volume settings instead of deafening them at midnight.
 
 ## Never hand the game a null sprite
 

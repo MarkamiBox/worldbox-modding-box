@@ -8,7 +8,7 @@ order: 92
 
 # Stats reference :wbstonks:
 
-Almost every asset you will register has a `base_stats` block, and almost every page after this one sets something in it. This is the list of what you are allowed to put in there.
+Almost every asset you register has a `base_stats` block, and almost every page after this one writes into it. This is the list of what you are allowed to put in there. Everything else is a crash waiting for its moment :PES5_Hmmmm:.
 
 ## How base_stats works
 
@@ -23,7 +23,7 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, not x0.25
 
 ## Where a unit's numbers come from
 
-`Actor.updateStats()` clears the unit's stat block and rebuilds it from scratch, in this exact order:
+`Actor.updateStats()` clears the unit's stat block and rebuilds it from scratch, in this exact order. I still look this table up every time:
 
 | # | Source | Note |
 | --- | --- | --- |
@@ -53,6 +53,8 @@ Two more consequences:
 > On a hand-built asset the stat block is allocated inside `add()`. Write to `base_stats` before that and you get a `NullReferenceException`. `clone()` calls `add()` for you, so after a clone you are already safe. This is the single most common crash in WorldBox modding.
 
 ## Combat
+
+On day one you only need `damage`, `armor` and `attack_speed`. The rest you will meet the first time your balance goes sideways.
 
 | Stat | What it does |
 | --- | --- |
@@ -106,7 +108,7 @@ Two more consequences:
 
 ## Civilisation only
 
-These do nothing on an animal. The game marks them `used_only_for_civs`.
+These do nothing on an animal. The game marks them `used_only_for_civs`. Give a wolf `diplomacy` and it will not start negotiating :PES2_Shrug:.
 
 | Stat | What it does |
 | --- | --- |
@@ -175,7 +177,7 @@ The ones the game itself reads:
 | Nature | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | Building | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-Unlike a stat name, an unknown tag is harmless, it just never matches anything. That also means a typo here fails silently, so copy them exactly.
+Unlike a stat name, an unknown tag is harmless, it just never matches anything. That also means a typo here fails silently, so copy them exactly. An `imunity_fire` can sit in your mod for months and nobody will ever tell you :PESgn_SMH:.
 
 ## Reading a unit's live values
 
@@ -191,4 +193,4 @@ That is also what you adjust from a Harmony Postfix on `Actor.updateStats` (see 
 
 You can register a new `BaseStatAsset` in `AssetManager.base_stats_library`, and it will show up in the inspector and be summed like any other. What it will **not** do is have any effect: nothing in the game reads a stat it does not know about. A custom stat is only useful as a number you then read yourself, from your own Harmony patch or your own behaviour.
 
-Most of the time the answer is "use an existing stat", and the second answer is "keep your own dictionary".
+Most of the time the answer is "use an existing stat", and the second answer is "keep your own dictionary". In this economy, a stat nobody reads is just a very expensive comment.

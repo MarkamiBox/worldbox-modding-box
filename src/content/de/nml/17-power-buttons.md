@@ -374,6 +374,30 @@ Verwende `CreateGodPowerButton` für alles, was der Spieler auf der Karte anvisi
 
 Buttons werden in der Reihenfolge angeordnet, in der sie erstellt werden. Wenn du `Buttons()` von oben nach unten liest, entspricht das genau dem, was der Spieler von links nach rechts sieht. Wenn du eine andere Reihenfolge willst, ordne die Aufrufe um, nicht die IDs.
 
+
+## Schaltflächen gruppieren mit PowersTabExtension
+
+Zehn Schaltflächen in einer einzigen Reihe funktionieren zwar, wirken aber schnell chaotisch. NeoModLoader bietet `PowersTabExtension` in `NeoModLoader.General.UI.Tab`, um Schaltflächen wie im Originalspiel in Gruppen zu strukturieren:
+
+```csharp
+using NeoModLoader.General.UI.Tab;
+
+// 1. Gruppen definieren
+tab.SetLayout(new List<string> { "spells", "creatures" });
+
+// 2. Schaltflächen zuweisen
+PowerButton strikeBtn = PowerButtonCreator.CreateGodPowerButton(STRIKE, Icon("iconHelloStrike"), tab.transform);
+tab.AddPowerButton("spells", strikeBtn);
+
+PowerButton spawnBtn = PowerButtonCreator.CreateGodPowerButton(SPAWN_POWER, Icon("iconHelloSpawn"), tab.transform);
+tab.AddPowerButton("creatures", spawnBtn);
+
+// 3. Layout aktualisieren
+tab.UpdateLayout();
+```
+
+`SetLayout()` fixiert die Struktur. Weise deine Schaltflächen zu und schließe mit `tab.UpdateLayout()` ab. Fügst du eine Schaltfläche einer nicht registrierten Gruppe hinzu, gibt NML eine Warnung aus und lässt die Schaltfläche unplatziert :PES5_Hmmmm:.
+
 ## Noch einmal: Icons
 
 ```csharp

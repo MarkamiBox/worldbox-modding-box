@@ -25,8 +25,33 @@ order: 44
 
 각 타입마다 별도의 내부 테이블을 사용하므로 동일한 키에 `int`와 `string`을 저장해도 충돌하지 않습니다. 다만 유지보수를 위해 키를 공유하지 않는 것이 좋습니다.
 
-> [!NOTE] 다섯 가지 기본 타입보다 더 큰 데이터 저장
-> NML에는 `int`/`long`/`float`/`string`/`bool`뿐만 아니라 객체 전체를 유닛 데이터에 담을 수 있는 자체 유틸리티가 있습니다. 저는 카운터나 플래그 이상을 필요로 해본 적이 없어서 여기서 직접 설명해드릴 수는 없지만, 구조체나 리스트 전체를 기억해야 할 때를 위해 존재합니다.
+
+
+## NML을 사용한 복잡한 객체 저장
+
+5가지 기본 타입만으로는 부족하고 클래스나 리스트 전체를 저장해야 하는 경우, NML은 `NeoModLoader.General.Game.extensions`에서 `DataExtension`을 제공합니다:
+
+```csharp
+using NeoModLoader.General.Game.extensions;
+
+public class QuestProgress
+{
+    public string quest_id;
+    public int step;
+    public List<string> completed_objectives = new List<string>();
+}
+
+// 저장:
+actor.data.Set("hello_quest", new BasicCustomData<QuestProgress>(quest));
+
+// 로드:
+if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
+{
+    QuestProgress quest = saved.Data;
+}
+```
+
+내부적으로 NML은 객체를 JSON으로 직렬화하여 `custom_data_string`에 보관합니다. 데이터 구조 변경에 대비하려면 `ICustomData`를 직접 구현하여 버전 관리를 적용하세요 :PES5_Hmmmm:。
 
 ## HelloBox 구현
 

@@ -25,8 +25,33 @@ WorldBox にはそのための仕組みがあらかじめ用意されていま�
 
 型ごとに独立した内部テーブルを持つため、同じキー名で `int` と `string` を保存しても競合しません。ただし、混乱を防ぐためにも同じキー名を使い回すのは避けましょう。
 
-> [!NOTE] 5つのプリミティブ型を超えるデータの保存
-> NML には、`int`/`long`/`float`/`string`/`bool` だけでなく、オブジェクト全体をユニットのデータに格納するための独自ユーティリティがあります。カウンターやフラグ以上のものを必要としたことがないため、ここでは解説できませんが、構造体やリストをまるごと記憶させたい場合のために存在しています。
+
+
+## NMLによる複雑なオブジェクトの保存
+
+5つの基本型では足りずクラスやリスト全体を保存したい場合、NML は `NeoModLoader.General.Game.extensions` にて `DataExtension` を提供しています：
+
+```csharp
+using NeoModLoader.General.Game.extensions;
+
+public class QuestProgress
+{
+    public string quest_id;
+    public int step;
+    public List<string> completed_objectives = new List<string>();
+}
+
+// 保存：
+actor.data.Set("hello_quest", new BasicCustomData<QuestProgress>(quest));
+
+// 読込：
+if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
+{
+    QuestProgress quest = saved.Data;
+}
+```
+
+NML はオブジェクトを JSON にシリアライズして `custom_data_string` に書き込みます。データ構造の更新に対応するには `ICustomData` を直接実装してください :PES5_Hmmmm:。
 
 ## HelloBoxでの実装例
 

@@ -28,6 +28,54 @@ ScrollWindow.isWindowActive();               // prüfen, ob *irgendein* Fenster 
 
 Der letzte Punkt ist wichtiger, als es scheint: Wenn deine Gotteskraft beim Klick etwas tut, willst du meistens, dass sie nichts tut, solange ein Fenster die Karte verdeckt. Das Setzen von `unselect_when_window = true` an deiner `GodPower` überträgt dieses Problem direkt an das Spiel.
 
+
+## Der native ScrollWindow-Weg
+
+Wenn dein Fenster wie ein offizielles WorldBox-Fenster aussehen soll, erstelle kein Canvas von Grund auf neu :PES2_Shrug:. NeoModLoader stellt `WindowCreator` und `AbstractWindow<T>` bereit.
+
+Erbe von `AbstractWindow<T>`:
+
+```csharp Mods/HelloBox/Code/HelloNativeWindow.cs
+using NeoModLoader.api;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace HelloBox
+{
+    public class HelloNativeWindow : AbstractWindow<HelloNativeWindow>
+    {
+        protected override void Init()
+        {
+            GameObject labelObj = new GameObject("Text", typeof(Text));
+            labelObj.transform.SetParent(ContentTransform, false);
+
+            Text label = labelObj.GetComponent<Text>();
+            label.font = LocalizedTextManager.current_font;
+            label.fontSize = 12;
+            label.text = "Hello from a native window!";
+        }
+
+        public override void OnFirstEnable() {}
+        public override void OnNormalEnable() {}
+        public override void OnNormalDisable() {}
+    }
+}
+```
+
+Initialisiere es beim Mod-Start:
+
+```csharp
+HelloNativeWindow.CreateAndInit("hello_native_window");
+```
+
+Öffnen ist ein Einzeiler:
+
+```csharp
+ScrollWindow.showWindow(HelloNativeWindow.WindowId);
+```
+
+Für größere Tabellen nutze `AbstractWideWindow<T>`. Alternativ kannst du `WindowCreator.CreateEmptyWindow(id, titleKey, icon)` nutzen. Vergisst du die Registrierung, ignoriert das Spiel dein Fenster beim Drücken von ESC :wbfacepalm:.
+
 ## Dein eigenes schwebendes Fenster
 
 Ein Fenster ist ein `GameObject`, dessen übergeordnetes Element (Parent) der UI-Canvas des Spiels ist. Hier ist das komplette Gerüst:

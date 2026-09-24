@@ -8,7 +8,7 @@ order: 92
 
 # 属性数值速查 :wbstonks:
 
-你注册的绝大多数资源都拥有一个 `base_stats` 字典块，而且本页之后的几乎每一页都会往里面塞东西。本页面列出了所有你被允许填入的有效属性键名。
+你注册的绝大多数资源都拥有一个 `base_stats` 字典块，而且本页之后的几乎每一页都会往里面塞东西。本页面列出了所有你被允许填入的有效属性键名。 除此以外的任何属性都极易引发游戏崩溃 :PES5_Hmmmm:。
 
 ## base_stats 的工作原理
 
@@ -53,6 +53,9 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%，而不是乘 0.25
 > 对于通过 `new` 手动实例化的资源，属性字典块是在 `add()` 内部才完成初始化的。如果在那行之前读写 `base_stats`，就会触发 WorldBox 模组开发中最臭名昭著的崩溃：`NullReferenceException`。不过 `clone()` 会自动在内部替你调用 `add()`，因此克隆出来的对象可以直接安全赋值。
 
 ## Combat
+
+哪怕给狼加上外交属性，它也绝不会坐下来谈判 :PES2_Shrug:。
+
 
 | 属性 | 作用 |
 | --- | --- |
@@ -150,7 +153,6 @@ trait.base_stats_meta["construction_speed"] = 10;   // 整个文化群体的建�
 ```
 
 如果你希望某种加成只对群体中的特定个体生效（比如仅限战士、仅限成年人），这两个属性块都无法直接实现。此时请在 `Actor.updateStats` 上挂载一个 Harmony Postfix 后置补丁自行添加守卫过滤。详见 **[Harmony 补丁](#/nml/harmony-patches)**。
-
 ## 标签：非数值型的特殊属性
 
 `base_stats` 字典块同时还挂载了一组**标签 (Tags)**，它们是布尔标记而非数字。它们的继承合并逻辑与数值完全一致，因此特质给生物赋予火焰免疫的方式和赋予额外伤害的方式毫无二致：
@@ -175,7 +177,7 @@ if (actor.stats.hasTag("immunity_fire")) { }
 | 物种分类 | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | 建筑环境 | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-与属性名不同的是，传入一个未知的标签名是无害的：它只是永远不会匹配上任何系统逻辑。但这同样意味着拼写错误会悄无声息地失效，因此请务必原样准确复制。
+与属性名不同的是，传入一个未知的标签名是无害的：它只是永远不会匹配上任何系统逻辑。但这同样意味着拼写错误会悄无声息地失效，因此请务必原样准确复制。 像拼错成 `imunity_fire` 这样的标签能在你的模组里静悄悄躺上好几个月而无人察觉 :PESgn_SMH:。
 
 ## 实时读取单位的运行时属性
 

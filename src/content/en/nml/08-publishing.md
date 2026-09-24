@@ -61,6 +61,8 @@ Uploading to the Workshop happens **inside the game**, and the way you open the 
 
 If nothing happens you clicked too slowly, or you clicked the row instead of the icon.
 
+The newer NML mod list window also puts quick-action buttons on selected mods - jumping straight into the mod's folder on disk, toggling it, or hot-reloading code - but the secret eight-click rite on the icon remains how you summon the Steam uploader :PES2_Shrug:.
+
 | Field | What goes in it |
 | --- | --- |
 | Top field (`fileID`) | **Leave empty** the first time. For updates, paste the id from your workshop item URL |

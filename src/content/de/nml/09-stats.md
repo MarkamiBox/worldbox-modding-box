@@ -8,7 +8,7 @@ order: 92
 
 # Werte-Referenz :wbstonks:
 
-Fast jedes Asset, das du registrierst, besitzt einen `base_stats`-Block, und fast jede Seite nach dieser hier setzt irgendetwas darin fest. Dies ist die Liste all dessen, was du dort eintragen darfst.
+Fast jedes Asset, das du registrierst, besitzt einen `base_stats`-Block, und fast jede Seite nach dieser hier setzt irgendetwas darin fest. Dies ist die Liste all dessen, was du dort eintragen darfst. Alles andere ist ein Absturz, der nur auf seinen Moment wartet :PES5_Hmmmm:.
 
 ## Wie base_stats funktioniert
 
@@ -53,6 +53,9 @@ Zwei weitere Konsequenzen:
 > Bei einem von Hand gebauten Asset wird der Werteblock innerhalb von `add()` alloziert. Greifst du davor auf `base_stats` zu, erhältst du eine `NullReferenceException`. `clone()` ruft `add()` für dich auf, nach einem Klon bist du also bereits sicher. Das ist der häufigste Absturz im gesamten WorldBox-Modding überhaupt.
 
 ## Combat
+
+Gib einem Wolf Diplomatie und er wird trotzdem nicht verhandeln :PES2_Shrug:.
+
 
 | Wert | Was er bewirkt |
 | --- | --- |
@@ -150,7 +153,6 @@ trait.base_stats_meta["construction_speed"] = 10;   // die Gruppe baut schneller
 ```
 
 Soll ein Bonus nur für manche Mitglieder gelten (nur Krieger, nur Erwachsene), kann keiner der beiden Blöcke das ausdrücken. Verwende einen Harmony-Postfix auf `Actor.updateStats` und grenze es selbst ein. Siehe **[Harmony-Patches](#/nml/harmony-patches)**.
-
 ## Tags: Die Werte, die keine Zahlen sind
 
 Ein `base_stats`-Block trägt auch ein Set von **Tags**, die Schalter statt Zahlenwerte darstellen. Sie vererben sich wie Werte, sodass ein Merkmal einer Einheit Feuerimmunität auf dieselbe Weise verleiht wie Extraschaden:
@@ -175,7 +177,7 @@ Die Tags, die das Spiel selbst auswertet:
 | Natur | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | Bauen | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-Anders als bei einem Wertenamen ist ein unbekanntes Tag harmlos - es passt einfach auf nichts. Das bedeutet aber auch, dass ein Tippfehler stillschweigend ignoriert wird, also kopiere sie exakt.
+Anders als bei einem Wertenamen ist ein unbekanntes Tag harmlos - es passt einfach auf nichts. Das bedeutet aber auch, dass ein Tippfehler stillschweigend ignoriert wird, also kopiere sie exakt. Ein Tippfehler wie `imunity_fire` kann monatelang in deiner Mod bleiben, ohne dass es jemand merkt :PESgn_SMH:.
 
 ## Die Live-Werte einer Einheit auslesen
 

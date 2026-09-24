@@ -69,6 +69,9 @@ Die Datei `mod.json` wird von NeoModLoader benötigt, um deine Mod zu identifizi
 - **`OptionalDependencies`**: Mods, die du unterstützt, falls vorhanden, die aber nicht zwingend nötig sind.
 - **`IncompatibleWith`**: Eine Liste von Mod-GUIDs, die deine Mod zum Absturz bringen, wenn sie gleichzeitig aktiv sind. NML warnt den Spieler in diesem Fall.
 
+Du kannst auch `"ModType": "RESOURCE_PACK"` setzen, wenn deine Mod keinen Code hat und nur Texturen ersetzt, oder `"UsePublicizedAssembly": false` :PES5_Hmmmm:.
+
+
 ## Ein bisschen Nerd-Kram :elpepehacker:
 
 Jede Mod braucht eine C#-Datei, die sagt: "Hallo, ich bin eine Mod". Das hier ist schon der gesamte Code:

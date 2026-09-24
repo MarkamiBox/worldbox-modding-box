@@ -8,7 +8,7 @@ order: 92
 
 # 스탯 레퍼런스 :wbstonks:
 
-여러분이 등록할 거의 모든 에셋은 `base_stats` 블록을 가지고 있으며, 이 페이지 이후의 거의 모든 가이드에서 그곳에 무언가를 설정합니다. 이 목록은 그곳에 넣을 수 있는 모든 스탯의 명세서입니다.
+여러분이 등록할 거의 모든 에셋은 `base_stats` 블록을 가지고 있으며, 이 페이지 이후의 거의 모든 가이드에서 그곳에 무언가를 설정합니다. 이 목록은 그곳에 넣을 수 있는 모든 스탯의 명세서입니다. 이 목록 외의 다른 값을 넣으면 높은 확률로 게임이 튕기게 됩니다 :PES5_Hmmmm:。
 
 ## base_stats 작동 방식
 
@@ -53,6 +53,9 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, x0.25가 아님
 > 직접 생성한 에셋의 스탯 블록은 `add()` 내부에서 비로소 할당됩니다. 그 줄 이전에 `base_stats`를 건드리면 `NullReferenceException`이 발생합니다. `clone()`은 내부에서 `add()`를 대신 호출해주므로 복제 직후에는 안전합니다. 이는 월드박스 모딩에서 가장 흔하게 일어나는 튕김 현상입니다.
 
 ## Combat
+
+늑대에게 외교 스탯을 준다고 해서 대화를 시도하지는 않습니다 :PES2_Shrug:。
+
 
 | 스탯 | 설명 |
 | --- | --- |
@@ -150,7 +153,6 @@ trait.base_stats_meta["construction_speed"] = 10;   // 집단 전체의 건축�
 ```
 
 특정 부류(전사만, 성인만)에게만 보너스를 적용해야 한다면 두 블록 모두 그것을 처리할 수 없습니다. `Actor.updateStats`에 Harmony Postfix를 걸어 직접 필터링하세요. **[Harmony 패치](#/nml/harmony-patches)**를 참고하세요.
-
 ## 태그: 숫자가 아닌 특수 스탯
 
 `base_stats` 블록은 수치가 아닌 불리언 플래그 모음인 **태그 (Tags)**도 함께 보관합니다. 스탯과 동일한 방식으로 병합되므로, 피해량을 부여하듯 유닛에게 화염 면역을 손쉽게 쥐여줄 수 있습니다:
@@ -175,7 +177,7 @@ if (actor.stats.hasTag("immunity_fire")) { }
 | 생태 속성 | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
 | 건축 지형 | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
-스탯 이름과 달리 알 수 없는 태그는 에러 없이 무해하지만, 그 어떤 시스템과도 매칭되지 않습니다. 즉 오타가 나도 조용히 묻히므로 정확하게 복사해 붙여넣으세요.
+스탯 이름과 달리 알 수 없는 태그는 에러 없이 무해하지만, 그 어떤 시스템과도 매칭되지 않습니다. 즉 오타가 나도 조용히 묻히므로 정확하게 복사해 붙여넣으세요. `imunity_fire` 같은 오타는 몇 달 동안 아무도 모른 채 방치될 수 있습니다 :PESgn_SMH:。
 
 ## 유닛의 현재 실시간 수치 읽기
 

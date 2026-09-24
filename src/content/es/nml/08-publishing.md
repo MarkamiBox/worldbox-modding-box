@@ -61,6 +61,8 @@ Subir a la Workshop se hace **dentro del juego**, y la forma de abrir la ventana
 
 Si no pasa nada, hiciste clic demasiado despacio o hiciste clic en la fila en lugar del icono.
 
+La nueva ventana de lista de mods de NML también incluye botones rápidos en los mods seleccionados para abrir su carpeta en disco, activarlos o recargar código, pero el rito de los ocho clics en el icono sigue siendo la forma de invocar el cargador de Steam :PES2_Shrug:.
+
 | Campo | Qué poner |
 | --- | --- |
 | Campo superior (`fileID`) | **Déjalo vacío** la primera vez. Para actualizaciones, pega el id de la URL de tu elemento de workshop |

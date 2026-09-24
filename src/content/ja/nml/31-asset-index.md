@@ -31,6 +31,9 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 
 ## クリーチャーとその特性
 
+実際に触る機会が多いのは最初の4つです :PES2_Shrug:。
+
+
 | ライブラリ | アセット | 保持内容 |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | 全クリーチャー種族。**[カスタムアクター](#/nml/custom-actors)** |
@@ -128,6 +131,9 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 | `tester_jobs` / `tester_tasks` | `JobTesterAsset` | ゲーム内蔵のAIテストハーネス |
 
 ## ユーザーインターフェース
+
+専用ページがあるのは window_library だけです :PES5_Hmmmm:。
+
 
 | ライブラリ | アセット | 保持内容 |
 | --- | --- | --- |

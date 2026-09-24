@@ -37,6 +37,8 @@ public string GetLocaleFilesDirectory(ModDeclare pModDeclare)
 
 ## 모든 언어를 단 하나의 파일로: CSV
 
+
+스프레드시트 프로그램이 쉼표 대신 세미콜론이나 탭으로 내보내는 경우, 메인 클래스에 `ICsvSepCustomized`를 구현하고 `GetCsvSeparator()`에서 `';'`를 반환하도록 하세요 :PES2_Shrug:。
 같은 폴더에 `.csv` 파일 하나만 두면 모든 언어를 한 번에 처리할 수 있어, 15개의 JSON 파일을 개별 관리하는 것보다 훨씬 편리합니다. 이 경우 파일 이름은 아무래도 상관없습니다:
 
 ```text Locales/lang.csv
@@ -54,7 +56,7 @@ using NeoModLoader.General;
 LM.Get("trait_hello_swift");                            // 현재 게임 언어로 텍스트 읽기
 LM.AddToCurrentLocale("trait_hello_swift", "Swift"); // 현재 활성화된 언어에 추가
 LM.Add("en", "trait_hello_swift", "Swift");          // 특정 언어에 추가
-LM.LoadLocale("path/to/Locales/en.json");            // JSON 파일을 수동 로드
+LM.LoadLocale("en", path);            // JSON 파일을 수동 로드
 LM.LoadLocales("path/to/Locales/lang.csv");          // CSV 파일을 수동 로드
 LM.ApplyLocale(false);                               // 적용. false = 화면 전체 텍스트 재로드 방지
 ```

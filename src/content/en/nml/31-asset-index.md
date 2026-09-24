@@ -31,6 +31,8 @@ AssetManager.traits.dict;                          // every asset, by id
 
 ## Creatures and their traits
 
+The ones you will actually open are the first four. The rest are here so you stop guessing names :PES2_Shrug:.
+
 | Library | Asset | What it holds |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | Every creature type. **[Custom actors](#/nml/custom-actors)** |
@@ -47,6 +49,8 @@ AssetManager.traits.dict;                          // every asset, by id
 | `base_stats_library` | `BaseStatAsset` | Every stat. **[Stats reference](#/nml/stats)** |
 
 ## Societies
+
+The five trait libraries are the friendly ones, each with its own page. Everything below `language_traits` is the deep end.
 
 | Library | Asset | What it holds |
 | --- | --- | --- |
@@ -69,6 +73,8 @@ AssetManager.traits.dict;                          // every asset, by id
 | `knowledge_library` | `KnowledgeAsset` | The knowledge window |
 
 ## Things in the world
+
+Everything that sits on the map, falls on it, or flies over it. `buildings` and `tiles` are the two you will hit first.
 
 | Library | Asset | What it holds |
 | --- | --- | --- |
@@ -129,6 +135,8 @@ AssetManager.traits.dict;                          // every asset, by id
 
 ## Interface
 
+Only `window_library` has a page here. The rest works, but touch it only when you really mean it :PES5_Hmmmm:.
+
 | Library | Asset | What it holds |
 | --- | --- | --- |
 | `window_library` | `WindowAsset` | Windows. **[Custom windows](#/nml/custom-windows)** |
@@ -154,6 +162,8 @@ One library each, all holding the same two asset types:
 `kingdom_colors_library` · `culture_colors_library` · `clan_colors_library` · `religion_colors_library` · `languages_colors_library` · `subspecies_colors_library` · `families_colors_library` · `armies_colors_library` → all `ColorAsset`
 
 ## Names, words and history
+
+The part of the game that writes the history books. Holy amount of libraries for a game about throwing meteors at people.
 
 | Library | Asset | What it holds |
 | --- | --- | --- |

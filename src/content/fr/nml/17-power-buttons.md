@@ -374,6 +374,30 @@ Utilisez `CreateGodPowerButton` pour tout ce que le joueur vise sur la carte (en
 
 Les boutons sont disposés dans l'ordre de leur création. La lecture de `Buttons()` de haut en bas correspond donc exactement à ce que le joueur découvrira de gauche à droite. Pour changer l'ordre, réorganisez les appels, pas les identifiants.
 
+
+## Regrouper les boutons avec PowersTabExtension
+
+Mettre dix boutons sur une seule ligne fonctionne, mais devient vite désordonné. NeoModLoader propose `PowersTabExtension` dans `NeoModLoader.General.UI.Tab` pour organiser vos boutons en groupes :
+
+```csharp
+using NeoModLoader.General.UI.Tab;
+
+// 1. Déclarez les groupes
+tab.SetLayout(new List<string> { "spells", "creatures" });
+
+// 2. Assignez chaque bouton
+PowerButton strikeBtn = PowerButtonCreator.CreateGodPowerButton(STRIKE, Icon("iconHelloStrike"), tab.transform);
+tab.AddPowerButton("spells", strikeBtn);
+
+PowerButton spawnBtn = PowerButtonCreator.CreateGodPowerButton(SPAWN_POWER, Icon("iconHelloSpawn"), tab.transform);
+tab.AddPowerButton("creatures", spawnBtn);
+
+// 3. Mettez à jour
+tab.UpdateLayout();
+```
+
+`SetLayout()` fige la structure. Ajoutez vos boutons puis terminez par `tab.UpdateLayout()`. Si vous ciblez un groupe non déclaré, NML émettra un avertissement et laissera le bouton orphelin :PES5_Hmmmm:.
+
 ## Les icônes, encore une fois
 
 ```csharp

@@ -61,6 +61,8 @@ Il caricamento sul Workshop avviene **all'interno del gioco**, e il modo in cui 
 
 Se non succede nulla hai cliccato troppo lentamente, o hai cliccato sulla riga invece che sull'icona.
 
+La nuova finestra dell'elenco mod di NML mette anche pulsanti rapidi sulle mod selezionate (per aprire la cartella su disco, attivarla/disattivarla o ricaricare il codice), ma il rito segreto degli otto clic sull'icona resta il modo per invocare l'uploader di Steam :PES2_Shrug:.
+
 | Campo | Cosa inserire |
 | --- | --- |
 | Campo superiore (`fileID`) | **Lascia vuoto** la prima volta. Per gli aggiornamenti, incolla l'id dall'URL del tuo oggetto del workshop |
