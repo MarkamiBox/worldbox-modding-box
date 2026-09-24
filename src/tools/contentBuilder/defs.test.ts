@@ -3,6 +3,7 @@
 import { DEFS, type Values } from './defs.ts';
 import { checkCode } from '../../utils/csharpCheck.ts';
 import { TEMPLATES } from './templates.ts';
+import { hasTranslation } from './i18n.ts';
 import { stripCSharpComments } from './stripComments.ts';
 // @ts-expect-error plain JS script
 import { buildTemplates } from '../../../scripts/build-builder-templates.mjs';
@@ -44,6 +45,32 @@ for (const def of DEFS) {
     }
   }
 }
+// every sentence the builder shows needs a translation; bare code names (rarity, path_icon) do not
+const code = (s: string) => /^[\w.$]+$/.test(s);
+const visible = new Set<string>();
+for (const def of DEFS) {
+  visible.add(def.label);
+  visible.add(def.cat);
+  for (const fl of def.fields) {
+    visible.add(fl.label);
+    if (fl.kind === 'select' && !fl.free) for (const o of fl.options ?? []) visible.add(o);
+  }
+  const base: Values = { name: 'N', desc: 'D' };
+  for (const fl of def.fields) base[fl.key] = fl.def;
+  const runs: Values[] = [base, { ...base, material: 'ember', group: 'my_group', action: 'give a status to the nearest unit' }];
+  for (const v of runs) {
+    const out = def.gen(v, 'MyMod');
+    out.notes.forEach((n) => visible.add(n));
+    out.art.forEach((a) => visible.add(a.what));
+  }
+}
+for (const s of visible) {
+  if (!code(s) && !hasTranslation(s)) {
+    failed++;
+    console.error(`contentBuilder: no translation for "${s}"`);
+  }
+}
+
 if (failed) {
   console.error(`contentBuilder: ${failed} failures`);
   process.exit(1);

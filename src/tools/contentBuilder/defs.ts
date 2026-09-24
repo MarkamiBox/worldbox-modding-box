@@ -1322,7 +1322,7 @@ const templateDef = (k: TemplateKind): Def => ({
       notes: [
         'This is the full working file from the guide page, renamed. The page explains every part and lists its text keys and art.',
         ...(k.needs.length
-          ? [`It uses ${k.needs.map((n) => rename(n, ns, prefix)).join(' and ')} from other pages of the guide. Make those too, or swap in your own ids.`]
+          ? [`It uses ${k.needs.map((n) => rename(n, ns, prefix)).join(', ')} from other pages of the guide. Make those too, or swap in your own ids.`]
           : []),
       ],
     };

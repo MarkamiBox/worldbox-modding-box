@@ -3,6 +3,7 @@ import { ExternalLink, FileImage, Folder, MessageSquare, MessageSquareOff, Plus,
 import { CodeBlock } from '../components/CodeBlock';
 import { LANGS, type Lang } from '../lib/i18n';
 import { Dropdown } from './contentBuilder/Dropdown';
+import { tr } from './contentBuilder/i18n';
 import { DEFS, STATS, type Def, type Field, type StatRow, type Values } from './contentBuilder/defs';
 import { stripCSharpComments } from './contentBuilder/stripComments';
 
@@ -125,8 +126,9 @@ const defaults = (def: Def): Values => {
   return v;
 };
 
-function FieldInput({ field, value, onChange, t }: {
+function FieldInput({ field, value, onChange, t, lang }: {
   field: Field;
+  lang: Lang;
   value: Values[string];
   onChange: (x: Values[string]) => void;
   t: Strings;
@@ -136,20 +138,20 @@ function FieldInput({ field, value, onChange, t }: {
       return (
         <label className="flex items-center gap-2 text-sm cursor-pointer sm:col-span-2">
           <input type="checkbox" checked={Boolean(value)} onChange={(e) => onChange(e.target.checked)} />
-          <span className="font-mono text-xs">{field.label}</span>
+          <span className="font-mono text-xs">{tr(lang, field.label)}</span>
         </label>
       );
     case 'num':
       return (
         <label>
-          <span className={fieldCls}>{field.label}</span>
+          <span className={fieldCls}>{tr(lang, field.label)}</span>
           <input type="number" step="any" value={Number(value)} onChange={(e) => onChange(Number(e.target.value))} className={input} />
         </label>
       );
     case 'color':
       return (
         <label>
-          <span className={fieldCls}>{field.label}</span>
+          <span className={fieldCls}>{tr(lang, field.label)}</span>
           <div className="flex gap-2">
             <input type="color" value={String(value)} onChange={(e) => onChange(e.target.value.toUpperCase())} className="h-9 w-12 cursor-pointer rounded border border-line bg-surface" />
             <input value={String(value)} onChange={(e) => onChange(e.target.value)} className={input} />
@@ -159,10 +161,10 @@ function FieldInput({ field, value, onChange, t }: {
     case 'select':
       return (
         <div>
-          <span className={fieldCls}>{field.label}</span>
+          <span className={fieldCls}>{tr(lang, field.label)}</span>
           <Dropdown
             value={String(value)}
-            options={(field.options ?? []).map((o) => ({ value: o }))}
+            options={(field.options ?? []).map((o) => ({ value: o, label: tr(lang, o) }))}
             onChange={(x) => onChange(x)}
             free={field.free}
             placeholder={t.search}
@@ -174,7 +176,7 @@ function FieldInput({ field, value, onChange, t }: {
       const set = (next: StatRow[]) => onChange(next);
       return (
         <div className="sm:col-span-2">
-          <span className={fieldCls}>{field.label}</span>
+          <span className={fieldCls}>{tr(lang, field.label)}</span>
           <div className="flex flex-col gap-2">
             {rows.map((r, idx) => (
               <div key={idx} className="flex gap-2">
@@ -207,7 +209,7 @@ function FieldInput({ field, value, onChange, t }: {
     default:
       return (
         <label>
-          <span className={fieldCls}>{field.label}</span>
+          <span className={fieldCls}>{tr(lang, field.label)}</span>
           <input value={String(value)} onChange={(e) => onChange(e.target.value)} className={input} />
         </label>
       );
@@ -259,7 +261,7 @@ export function ContentBuilder({ language }: { language: Lang }) {
           <span className={labelCls}>{t.type}</span>
           <Dropdown
             value={def.key}
-            options={DEFS.map((d) => ({ value: d.key, label: d.label, group: d.cat }))}
+            options={DEFS.map((d) => ({ value: d.key, label: tr(language, d.label), group: tr(language, d.cat) }))}
             onChange={setKey}
             placeholder={t.search}
           />
@@ -313,7 +315,7 @@ export function ContentBuilder({ language }: { language: Lang }) {
           </>
         )}
         {def.fields.map((fl) => (
-          <FieldInput key={fl.key} field={fl} value={v[fl.key]} onChange={(x) => set(fl.key, x)} t={t} />
+          <FieldInput key={fl.key} field={fl} value={v[fl.key]} onChange={(x) => set(fl.key, x)} t={t} lang={language} />
         ))}
       </div>
 
@@ -350,7 +352,7 @@ export function ContentBuilder({ language }: { language: Lang }) {
               {a.folder ? <Folder className="mt-0.5 h-4 w-4 shrink-0 text-brand" /> : <FileImage className="mt-0.5 h-4 w-4 shrink-0 text-brand" />}
               <span>
                 <code className="break-all">Mods/{namespace}/{a.path}</code>
-                <span className="text-faint"> ({a.folder ? t.folder : t.file}: {a.what})</span>
+                <span className="text-faint"> ({a.folder ? t.folder : t.file}: {tr(language, a.what)})</span>
               </span>
             </li>
           ))}
@@ -371,7 +373,7 @@ export function ContentBuilder({ language }: { language: Lang }) {
         <>
           <h4 className="mt-6 mb-1 text-sm font-semibold">{t.notes}</h4>
           <ul className="list-disc pl-5 text-sm text-muted">
-            {out.notes.map((n) => <li key={n}>{n}</li>)}
+            {out.notes.map((n) => <li key={n}>{tr(language, n)}</li>)}
           </ul>
         </>
       )}
