@@ -1,12 +1,11 @@
 ---
 title: Modding avec BepInEx
-group: Vue d'ensemble
-subgroup: Outils externes et configuration
-icon: :csharp:
-order: 9
+group: BepInEx Modding
+icon: :PES5_BigBrain:
+order: 1
 ---
 
-# Modding avec BepInEx :csharp:
+# Modding avec BepInEx :PES5_BigBrain:
 
 La majeure partie de ce guide vous apprend à créer des mods pour **NeoModLoader**. NML vous permet d'écrire des fichiers `.cs` dans le Bloc-notes, de lancer le jeu et de voir votre code se compiler automatiquement.
 
@@ -95,7 +94,7 @@ namespace HelloBepInEx
     [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
     public class HelloPlugin : BaseUnityPlugin
     {
-        public const string PLUGIN_GUID = "com.markami.hellobepinex";
+        public const string PLUGIN_GUID = "com.example.hellobepinex";
         public const string PLUGIN_NAME = "HelloBepInEx";
         public const string PLUGIN_VERSION = "1.0.0";
 
@@ -143,7 +142,7 @@ namespace HelloBepInEx
 - **`BaseUnityPlugin`**: hérite directement de `MonoBehaviour`. Votre plugin devient un composant persistant attaché à un `GameObject` qui survit aux changements de scène.
 - **`[BepInPlugin(guid, name, version)]`**: indique à BepInEx le nom et l'identifiant unique de votre mod en notation de domaine inversé (`com.auteur.nomdumod`).
 - **`Logger.LogInfo()`**: envoie les messages directement dans la console en direct de BepInEx et dans `BepInEx/LogOutput.log`.
-- **`Config.Bind()`**: enregistre un paramètre typé. Au premier lancement, BepInEx génère automatiquement un fichier `BepInEx/config/com.markami.hellobepinex.cfg`.
+- **`Config.Bind()`**: enregistre un paramètre typé. Au premier lancement, BepInEx génère automatiquement un fichier `BepInEx/config/com.example.hellobepinex.cfg`.
 
 ## 4. Patcher le jeu avec Harmony
 

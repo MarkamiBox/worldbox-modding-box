@@ -213,36 +213,39 @@ export function getNav(lang: Lang): NavGroup[] {
 
       const mapped: NavGroup = {
         name: g.name,
-        order: g.order,
+        order: g.name === 'BepInEx Modding' ? 20 : g.order,
         items,
         pages: sortedDirectPages,
         subgroups: sortedSubgroups.length > 0 ? sortedSubgroups : undefined,
         allPages,
+        tag: g.name === 'BepInEx Modding' ? 'Working on...' : undefined,
       };
       return mapped;
     });
 
-  // Inject BepInEx Modding & VibeCoding Modding directly below NML Modding (order 20 & 25)
-  res.push(
-    {
+  // Inject placeholder groups if not already present
+  const hasBepInEx = res.some((g) => g.name === 'BepInEx Modding');
+  if (!hasBepInEx) {
+    res.push({
       name: 'BepInEx Modding',
       order: 20,
       items: [],
       pages: [],
       allPages: [],
-      tag: 'Coming soon',
-      isComingSoon: true,
-    },
-    {
-      name: 'VibeCoding Modding',
-      order: 25,
-      items: [],
-      pages: [],
-      allPages: [],
-      tag: 'Coming soon',
-      isComingSoon: true,
-    },
-  );
+      tag: 'Working on...',
+      isComingSoon: false,
+    });
+  }
+
+  res.push({
+    name: 'VibeCoding Modding',
+    order: 25,
+    items: [],
+    pages: [],
+    allPages: [],
+    tag: 'Coming soon',
+    isComingSoon: true,
+  });
 
   return res.sort((a, b) => a.order - b.order);
 }

@@ -1,12 +1,11 @@
 ---
 title: BepInEx 모드 개발
-group: 개요
-subgroup: 외부 도구 및 설정
-icon: :csharp:
-order: 9
+group: BepInEx Modding
+icon: :PES5_BigBrain:
+order: 1
 ---
 
-# BepInEx 모드 개발 :csharp:
+# BepInEx 모드 개발 :PES5_BigBrain:
 
 이 가이드의 대부분은 **NeoModLoader**용 모드를 개발하는 방법을 다룹니다. NML을 사용하면 메모장에서 `.cs` 소스 파일을 직접 편집하고 게임 실행 시 자동으로 컴파일할 수 있습니다.
 
@@ -95,7 +94,7 @@ namespace HelloBepInEx
     [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
     public class HelloPlugin : BaseUnityPlugin
     {
-        public const string PLUGIN_GUID = "com.markami.hellobepinex";
+        public const string PLUGIN_GUID = "com.example.hellobepinex";
         public const string PLUGIN_NAME = "HelloBepInEx";
         public const string PLUGIN_VERSION = "1.0.0";
 
@@ -143,7 +142,7 @@ namespace HelloBepInEx
 - **`BaseUnityPlugin`**: 유니티의 `MonoBehaviour`를 상속합니다. 씬 전환 시에도 파괴되지 않는 영구적인 `GameObject` 컴포넌트로 동작합니다.
 - **`[BepInPlugin(guid, name, version)]`**: 모드 이름과 고유 GUID를 선언합니다(예: `com.author.modname`).
 - **`Logger.LogInfo()`**: BepInEx 콘솔 창과 `BepInEx/LogOutput.log` 파일에 로그를 실시간 출력합니다.
-- **`Config.Bind()`**: 타입 안정성을 갖춘 설정 항목을 바인딩합니다. 첫 실행 시 `BepInEx/config/com.markami.hellobepinex.cfg` 설정 파일이 자동 생성됩니다.
+- **`Config.Bind()`**: 타입 안정성을 갖춘 설정 항목을 바인딩합니다. 첫 실행 시 `BepInEx/config/com.example.hellobepinex.cfg` 설정 파일이 자동 생성됩니다.
 
 ## 4. Harmony를 활용한 게임 후킹
 
