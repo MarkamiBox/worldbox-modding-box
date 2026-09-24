@@ -52,15 +52,18 @@ export function Dropdown({ value, options, onChange, free, placeholder = 'Search
   }, [open]);
 
   useEffect(() => {
-    if (!open) return;
-    setQuery('');
-    const idx = options.findIndex((o) => o.value === value);
-    setActive(idx < 0 ? 0 : idx);
-  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
     list.current?.querySelector<HTMLElement>(`[data-i="${active}"]`)?.scrollIntoView({ block: 'nearest' });
   }, [active, open]);
+
+  /** Opening starts a fresh search, with the current value highlighted. */
+  const toggle = (next: boolean) => {
+    if (next) {
+      setQuery('');
+      const idx = options.findIndex((o) => o.value === value);
+      setActive(idx < 0 ? 0 : idx);
+    }
+    setOpen(next);
+  };
 
   const pick = (v: string) => {
     onChange(v);
@@ -71,7 +74,7 @@ export function Dropdown({ value, options, onChange, free, placeholder = 'Search
     if (e.key === 'Escape') setOpen(false);
     else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      if (!open) setOpen(true);
+      if (!open) toggle(true);
       else setActive((a) => Math.min(a + 1, shown.length - 1));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
@@ -82,13 +85,11 @@ export function Dropdown({ value, options, onChange, free, placeholder = 'Search
     }
   };
 
-  let lastGroup: string | undefined;
-
   return (
     <div ref={root} className={`not-prose relative min-w-0 ${className}`} onKeyDown={onKey}>
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => toggle(!open)}
         className={`flex w-full items-center gap-2 rounded-md border bg-surface px-3 py-2 text-left text-sm outline-none cursor-pointer ${
           open ? 'border-brand' : 'border-line hover:border-brand focus:border-brand'
         }`}
@@ -116,8 +117,7 @@ export function Dropdown({ value, options, onChange, free, placeholder = 'Search
           )}
           <ul ref={list} className="m-0 max-h-64 list-none overflow-y-auto p-0 py-1" role="listbox">
             {shown.map((o, i) => {
-              const header = o.group && o.group !== lastGroup ? o.group : null;
-              lastGroup = o.group;
+              const header = o.group && o.group !== shown[i - 1]?.group ? o.group : null;
               return (
                 <li key={`${o.group ?? ''}-${o.value}-${i}`} className="m-0 p-0">
                   {header && (
