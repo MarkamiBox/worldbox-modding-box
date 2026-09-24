@@ -8,7 +8,7 @@ order: 142
 
 # Edificios personalizados :wbcities:
 
-Los edificios son el punto donde moddear WorldBox deja de ser "cambiar un número" y pasa a ser "este asset tiene ciento cuarenta campos y la mayoría no hacen nada en mi caso" :PES2_Weary:.
+Los edificios (building) son el punto donde moddear WorldBox deja de ser "cambiar un número" y pasa a ser "este asset tiene ciento cuarenta campos y la mayoría no hacen nada en mi caso" :PES2_Weary:.
 
 Así que no creamos uno desde cero. Clonamos uno que ya funcione.
 
@@ -63,9 +63,9 @@ La librería cuenta tanto con plantillas `$…$` como con edificios terminados:
 | --- | --- |
 | `$building$` | La base más básica |
 | `$city_building$` | Cualquier cosa que construya una ciudad. `well` y `mine` lo usan |
-| `$city_colored_building$` | Lo mismo, pero tintado por el color del reino |
-| `$building_civ_human$` / `_elf$` / `_orc$` / `_dwarf$` | Edificios civiles por cultura |
-| `$building_creep$` | Estructuras de biomas invasores (creep) |
+| `$city_colored_building$` | Lo mismo, pero tintado por el color del reino (kingdom) |
+| `$building_civ_human$` / `_elf$` / `_orc$` / `_dwarf$` | Edificios civiles por cultura (culture) |
+| `$building_creep$` | Estructuras de biomas (biome) invasores (creep) |
 | `$mineral$` | Rocas y minerales explotables |
 | `$resource$`, `$flora_small$` | Naturaleza recolectable |
 | `tree_green_1` | Todos los árboles vainilla se clonan a partir de este |
@@ -81,7 +81,7 @@ Clonar el pariente más cercano son diez minutos de lectura que te ahorran una n
 | Campo | Qué hace |
 | --- | --- |
 | `building_type` | `Building_Civ`, `Building_Nature`, `Building_Tree`, `Building_Mineral`, `Building_Mob`, `Building_Creep`, `Building_Plant`, `Building_Fruits`, `Building_Hives`, `Building_Wheat` |
-| `city_building` | Pertenece a una ciudad, por lo que recibe colores de reino, zonas y trabajos |
+| `city_building` | Pertenece a una ciudad, por lo que recibe colores de reino, zonas y trabajos (job) |
 | `type` | Una etiqueta de texto libre por la que se agrupan las listas del juego |
 | `kingdom`, `civ_kingdom` | Restringirlo a una facción específica |
 | `ignored_by_cities` | Las ciudades nunca lo construyen ni lo contabilizan |
@@ -92,7 +92,7 @@ Clonar el pariente más cercano son diez minutos de lectura que te ahorran una n
 | --- | --- |
 | `max_houses`, `housing_slots`, `can_units_live_here` | Si pueden vivir ciudadanos en él y cuántos |
 | `housing_happiness` | Bonificación de felicidad por residir allí |
-| `storage`, `storage_only_food`, `is_stockpile` | Si almacena recursos |
+| `storage`, `storage_only_food`, `is_stockpile` | Si almacena recursos (resource) |
 | `book_slots` | Capacidad de libros en bibliotecas |
 | `docks`, `boat_types`, `boat_type_fishing`, `boat_type_trading`, `boat_type_transport` | Producción de barcos |
 | `spawn_units`, `spawn_units_asset` | Genera criaturas |
@@ -119,7 +119,7 @@ Clonar el pariente más cercano son diez minutos de lectura que te ahorran una n
 | `biome_tags_growth`, `has_biome_tags` | Qué biomas permiten su crecimiento |
 | `resources_given`, `addResource(id, amount, pNewList)` | Qué otorga al cosecharlo |
 | `can_be_chopped_down`, `gatherable` | Si las unidades pueden talarlo o cosecharlo |
-| `grow_creep` y sus variantes `grow_creep_*` | Comportamiento de propagación invasora |
+| `grow_creep` y sus variantes `grow_creep_*` | Comportamiento (behaviour) de propagación invasora |
 
 ### Daño y destrucción
 
@@ -147,7 +147,7 @@ Clonar el pariente más cercano son diez minutos de lectura que te ahorran una n
 | Campo | Qué hace |
 | --- | --- |
 | `step_action`, `has_step_action` | Código personalizado ejecutado en cada tick del edificio |
-| `base_stats` | Estadísticas que aporta el edificio |
+| `base_stats` | Estadísticas (stats) que aporta el edificio |
 | `priority` | Prioridad en la cola de construcción urbana |
 
 ## Sprites
@@ -170,7 +170,7 @@ HelloBox/
             └── sprites.json         bottom-centre pivot
 ```
 
-Los **nombres de archivo son el formato**. El cargador parte cada nombre por el `_`: lo de antes es el tipo (`main`, `construction`, `ruin`, `disabled`, `spawn`, `special`, y `mini` para el minimapa), el número de después es el fotograma de la animación. `mini_0` tiene que tener exactamente tantos píxeles como casillas ocupa el edificio, 5x4 para cualquier cosa clonada de `temple_human`; si lo omites, el minimapa lanza `NullReferenceException` en `Building.getColorForMinimap()` cada vez que se redibuja. `main_0`, `main_1`, `main_2` es una animación de tres fotogramas. Un archivo con cualquier otro nombre no es un fotograma, y una carpeta sin `main_0` no le da al edificio nada que dibujar.
+Los **nombres de archivo son el formato**. El cargador parte cada nombre por el `_`: lo de antes es el tipo (`main`, `construction`, `ruin`, `disabled`, `spawn`, `special`, y `mini` para el minimapa), el número de después es el fotograma de la animación. `mini_0` tiene que tener exactamente tantos píxeles como casillas (tile) ocupa el edificio, 5x4 para cualquier cosa clonada de `temple_human`; si lo omites, el minimapa lanza `NullReferenceException` en `Building.getColorForMinimap()` cada vez que se redibuja. `main_0`, `main_1`, `main_2` es una animación de tres fotogramas. Un archivo con cualquier otro nombre no es un fotograma, y una carpeta sin `main_0` no le da al edificio nada que dibujar.
 
 ```csharp
 // A: full path in sprite_path. main_path is then ignored.
@@ -209,7 +209,7 @@ Pregunta siempre a `canBuildFrom` primero. Colocar un edificio sobre agua, sobre
 
 ## Hacer que las ciudades lo construyan
 
-Un poder divino que coloca tu santuario es divertido para una tarde. Un santuario que las ciudades construyen por sí solas, cuando son lo suficientemente grandes, es un mod. Las ciudades eligen qué construir a partir de dos cosas, y tu edificio aún no está en ninguna de ellas:
+Un poder divino (GodPower) que coloca tu santuario es divertido para una tarde. Un santuario que las ciudades construyen por sí solas, cuando son lo suficientemente grandes, es un mod. Las ciudades eligen qué construir a partir de dos cosas, y tu edificio aún no está en ninguna de ellas:
 
 | | Qué contiene |
 | --- | --- |

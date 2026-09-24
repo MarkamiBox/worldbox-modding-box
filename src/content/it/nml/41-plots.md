@@ -8,7 +8,7 @@ order: 180
 
 # Complotti :wbrebellion:
 
-Un **complotto** (plot) è un piano che un regnante avvia, finanzia e porta avanti nel tempo: una ribellione, una nuova guerra, un'alleanza. Quando la barra di avanzamento si riempie, il tuo codice viene eseguito. Tutto ciò che accade tra "qualcuno potrebbe" e "qualcuno l'ha fatto" è gestito dal motore interno del gioco, ed è questo il motivo per cui conviene usarlo: il giocatore vede il tuo piano nell'elenco dei complotti, con il suo autore, il progresso e il suo stendardo, in modo del tutto gratuito.
+Un **complotto** (plot) è un piano che un regnante avvia, finanzia e porta avanti nel tempo: una ribellione, una nuova guerra (war), un'alleanza. Quando la barra di avanzamento si riempie, il tuo codice viene eseguito. Tutto ciò che accade tra "qualcuno potrebbe" e "qualcuno l'ha fatto" è gestito dal motore interno del gioco, ed è questo il motivo per cui conviene usarlo: il giocatore vede il tuo piano nell'elenco dei complotti, con il suo autore, il progresso e il suo stendardo, in modo del tutto gratuito.
 
 ## Aggiungerne uno
 
@@ -74,7 +74,7 @@ Un leader con dieci monete, una città e nulla di meglio da fare può ora organi
 > `PlotAsset.checkIsPossible()` lo invoca senza alcun controllo sui nulli ogni volta che un leader valuta il tuo complotto. Se lo ometti, il primo governante che lo controlla lancerà una `NullReferenceException`. Se non hai condizioni particolari, restituisci semplicemente `true`. Sì, anche in quel caso.
 
 > [!WARNING] L'elenco di base viene generato all'avvio
-> I leader scelgono unicamente da `plots_library.basic_plots` (oltre ai riti della propria religione). `linkAssets()` riempie questa lista all'avvio con ogni complotto contrassegnato da `is_basic_plot`, prima del caricamento del tuo mod. Impostare il flag non basta: aggiungilo tu stesso alla lista.
+> I leader scelgono unicamente da `plots_library.basic_plots` (oltre ai riti della propria religione (religion)). `linkAssets()` riempie questa lista all'avvio con ogni complotto contrassegnato da `is_basic_plot`, prima del caricamento del tuo mod. Impostare il flag non basta: aggiungilo tu stesso alla lista.
 
 ## I campi
 
@@ -84,7 +84,7 @@ Un leader con dieci monete, una città e nulla di meglio da fare può ora organi
 | --- | --- |
 | `can_be_done_by_king` / `can_be_done_by_leader` / `can_be_done_by_clan_member` | I ruoli consentiti. Se nessuno è impostato, nessuno potrà avviarlo |
 | `min_level`, `min_renown_actor`, `min_renown_kingdom` | Soglie minime richieste all'autore |
-| `min_intelligence`, `min_diplomacy`, `min_warfare`, `min_stewardship` | Soglie statistiche. Valore predefinito: 2 |
+| `min_intelligence`, `min_diplomacy`, `min_warfare`, `min_stewardship` | Soglie statistiche (stats). Valore predefinito: 2 |
 | `money_cost` | Costo all'avvio, a meno che il complotto non sia forzato dal giocatore |
 | `requires_diplomacy` / `requires_rebellion` | Attivo solo finché quella legge mondiale è abilitata |
 | `check_is_possible` | La tua condizione di avvio. Obbligatoria |

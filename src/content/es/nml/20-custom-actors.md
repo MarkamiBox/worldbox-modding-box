@@ -11,7 +11,7 @@ order: 140
 > [!NOTE] Se llaman actores, no razas
 > El juego llama a cada ser vivo un **actor**: un humano, un lobo, un dragón, un zombi, un cangrejo. Todos provienen de la misma clase, `ActorAsset`, y todos viven en `AssetManager.actor_library`. "Raza" es el término antiguo. El único lugar donde sobrevive es en una propiedad `race` marcada con `[Obsolete("use .original_actor_asset instead")]`, que solo existe para cargar partidas guardadas antiquísimas. Escribe `actor` en todas partes.
 
-Una nueva criatura es el mod que todo el mundo quiere hacer y que casi nadie termina, porque un `ActorAsset` arrastra animaciones, texturas, sonidos, taxonomía, dieta, flags de IA, genoma, cultura y estadísticas. Equivocarte en uno solo de ellos te dará una unidad invisible de pie en medio del océano :PES4_Invisible:.
+Una nueva criatura es el mod que todo el mundo quiere hacer y que casi nadie termina, porque un `ActorAsset` arrastra animaciones, texturas, sonidos, taxonomía, dieta, flags de IA, genoma, cultura (culture) y estadísticas (stats). Equivocarte en uno solo de ellos te dará una unidad invisible de pie en medio del océano :PES4_Invisible:.
 
 Buenas noticias: el juego tampoco construye criaturas desde cero. Esto es literalmente cómo el juego base crea un elfo:
 
@@ -31,7 +31,7 @@ Los ids rodeados por `$` son **plantillas** (templates): actores a medio termina
 | `$animal$` | Un animal salvaje |
 | `$mob$` | Un monstruo hostil |
 | `$civ_unit$` | Una criatura civilizada básica |
-| `$civ_advanced_unit$` | Una criatura de civilización completa: ciudades, reinos, cultura, religión. Lo que usan humanos, elfos, orcos y enanos |
+| `$civ_advanced_unit$` | Una criatura de civilización completa: ciudades, reinos (kingdom), cultura, religión (religion). Lo que usan humanos, elfos, orcos y enanos |
 
 También puedes clonar un actor terminado - `human`, `wolf`, `zombie` - y ese es el camino más fácil para tu primera criatura, porque los sprites del donante vienen incluidos y tu criatura será visible de inmediato.
 
@@ -176,7 +176,7 @@ El primer día solo importan tres: `civ`, `actor_size` y `name_locale`. El resto
 
 | Campo | Qué hace |
 | --- | --- |
-| `civ` | Criatura de civilización: ciudades, reinos, oficios, guerra. `false` = animal |
+| `civ` | Criatura de civilización: ciudades, reinos, oficios, guerra (war). `false` = animal |
 | `auto_civ` | Si el juego empieza a civilizarlos por su cuenta |
 | `default_animal` | Lo marca como fauna silvestre para las comprobaciones internas del juego |
 | `unit_other` | Ni civilización ni animal: un monstruo, un constructo o algo especial |
@@ -184,19 +184,19 @@ El primer día solo importan tres: `civ`, `actor_size` y `name_locale`. El resto
 | `name_locale` | Clave del nombre para mostrar |
 | `icon` | El icono usado en listas y botones de generación |
 | `color_hex` | El tinte aplicado a unidades coloreables |
-| `can_have_subspecies` | Si mutan en subespecies a lo largo de las generaciones |
-| `has_ai_system` | Si ejecutan el sistema de comportamiento |
+| `can_have_subspecies` | Si mutan en subespecies (subspecies) a lo largo de las generaciones |
+| `has_ai_system` | Si ejecutan el sistema de comportamiento (behaviour) |
 | `flying` / `hovering` | Si despegan del suelo y a qué altura |
 | `force_ocean_creature` / `force_land_creature` | Bloquea estrictamente el terreno en el que viven |
-| `can_attack_buildings` | Si atacan y destruyen edificios |
-| `has_soul`, `can_receive_traits`, `can_be_cloned` | Qué pueden hacerles los poderes divinos |
+| `can_attack_buildings` | Si atacan y destruyen edificios (building) |
+| `has_soul`, `can_receive_traits`, `can_be_cloned` | Qué pueden hacerles los poderes divinos (GodPower) |
 | `kingdom_id_wild` / `kingdom_id_civilization` | En qué reino aparecen (salvajes o asentados) |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … de qué atlas provienen los sprites |
 | `animation_walk` / `animation_idle` / `animation_swim` | Secuencias de fotogramas, cada una con su campo `_speed` |
 | `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | Rutas de eventos de sonido FMOD |
 | `name_taxonomic_*` | Reino, filo, clase, orden, familia, género y especie para la ventana de conocimiento |
 | `collective_term` | Término colectivo ("una **manada** de lobos") |
-| `allowed_status_tiers` | Qué niveles de efectos de estado pueden aplicárseles |
+| `allowed_status_tiers` | Qué niveles de efectos de estado (status) pueden aplicárseles |
 | `production` | Qué fabrican sus ciudades |
 | `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | En qué se transforman al morir |
 
@@ -247,7 +247,7 @@ Crea un botón de poder divino para invocarla y ya tendrás un generador funcion
 
 ## Subespecies
 
-Las subespecies son las variantes en las que un actor deriva a lo largo de las generaciones. Tienen su propia librería de rasgos, separada de los rasgos de actor, y su propia lista de grupos:
+Las subespecies son las variantes en las que un actor deriva a lo largo de las generaciones. Tienen su propia librería de rasgos (trait), separada de los rasgos de actor, y su propia lista de grupos:
 
 ```csharp
 SubspeciesTrait scales = new SubspeciesTrait
@@ -267,7 +267,7 @@ Los rasgos de subespecie también pueden portar **arte visual**: `sprite_path`, 
 
 ## Tu propio icono
 
-Antes del trabajo de animación que explicamos abajo, la parte sencilla: el icono en las listas y en los botones de invocación.
+Antes del trabajo (job) de animación que explicamos abajo, la parte sencilla: el icono en las listas y en los botones de invocación.
 
 ```text Mods/HelloBox/
 HelloBox/

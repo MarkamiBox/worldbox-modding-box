@@ -31,17 +31,17 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, nicht x0.25
 | 1b | **Actor-Asset** | Nur wenn es **keine** Subspezies gibt. Die Subspezies *ersetzt* es, sie stapelt sich nicht darauf |
 | 2 | **Clan**, plus sein männlicher oder weiblicher Block | |
 | 3 | **Sprache** | |
-| 4 | **Kultur** | |
+| 4 | **Kultur** (culture) | |
 | 5 | Anführer-Attribute aus den eigenen Daten der Einheit | `diplomacy`, `stewardship`, `intelligence`, `warfare` |
 | 6 | Jeder **Statuseffekt** auf ihr | |
 | 7 | Der **Standardangriffs-Gegenstand** | Nur unbewaffnet |
-| 8 | Jedes **Actor-Merkmal** | Zeitalter-abhängige Merkmale werden übersprungen, wenn ihr Zeitalter nicht aktiv ist |
+| 8 | Jedes **Actor-Merkmal** | Zeitalter-abhängige Merkmale (trait) werden übersprungen, wenn ihr Zeitalter (world age) nicht aktiv ist |
 | 9 | Ihre **Persönlichkeit** | |
-| 10 | Jeder **ausgerüstete Gegenstand**, samt seinen Modifikatoren | |
+| 10 | Jeder **ausgerüstete Gegenstand (item)**, samt seinen Modifikatoren | |
 
 Zwei Dinge, die hier oft falsch verstanden werden:
 
-- **Eine Subspezies ersetzt die Werte des Actor-Assets.** Wenn du `human` einen Wert gibst, wird eine Einheit mit Subspezies diesen niemals sehen.
+- **Eine Subspezies ersetzt die Werte (stats) des Actor-Assets.** Wenn du `human` einen Wert gibst, wird eine Einheit mit Subspezies diesen niemals sehen.
 - **Religion steht nicht auf dieser Liste.** Der `base_stats`-Block eines Religionsmerkmals erreicht eine Einheit nie direkt. Siehe **[Religionsmerkmale](#/nml/religion-traits)**.
 
 Zwei weitere Konsequenzen:
@@ -69,7 +69,7 @@ Gib einem Wolf Diplomatie und er wird trotzdem nicht verhandeln :PES2_Shrug:.
 | `range` | Angriffsreichweite |
 | `throwing_range` | Reichweite für Wurfwaffen |
 | `targets` | Wie viele Ziele ein Angriff treffen kann |
-| `projectiles` | Wie viele Projektile gleichzeitig abgefeuert werden |
+| `projectiles` | Wie viele Projektile (projectile) gleichzeitig abgefeuert werden |
 | `knockback` | Wie weit ein Treffer das Ziel zurückwirft |
 | `recoil` | Wie weit ein Treffer *dich* zurückwirft |
 | `skill_combat` | Kampfgeschick-Stufe |
@@ -118,7 +118,7 @@ Diese bewirken bei Tieren überhaupt nichts. Das Spiel markiert sie mit `used_on
 | `stewardship` | Anführer-Attribut: Verwaltung |
 | `intelligence` | Anführer-Attribut: Gelehrsamkeit |
 | `army` | Beitrag zur Armeegröße |
-| `cities` | Zielanzahl an Städten für das Königreich |
+| `cities` | Zielanzahl an Städten für das Königreich (kingdom) |
 | `bonus_towers` | Zusätzliche Wachtürme, die eine Stadt bauen darf |
 | `limit_population` | Bevölkerungsobergrenze |
 | `limit_clan_members` | Clanmitglieder-Obergrenze |
@@ -171,7 +171,7 @@ Die Tags, die das Spiel selbst auswertet:
 | Immunität | `immunity_fire` · `immunity_cold` · `building_immunity_fire` · `damaged_by_water` |
 | Bewegung | `fast_swimming` · `water_creature` · `immovable` · `walk_adaptation_sand` · `walk_adaptation_snow` · `walk_adaptation_swamp` |
 | Geist | `strong_mind` · `has_sapience` · `has_emotions` · `has_advanced_memory` · `has_advanced_communication` · `can_read_any_book` · `mad` · `moody` · `unconscious` · `frozen_ai` |
-| Verhalten | `ignore_fights` · `love_peace` · `steal_items` · `needs_food` · `needs_mate` · `always_idle_animation` · `stop_idle_animation` · `generate_light` |
+| Verhalten (behaviour) | `ignore_fights` · `love_peace` · `steal_items` · `needs_food` · `needs_mate` · `always_idle_animation` · `stop_idle_animation` · `generate_light` |
 | Ernährung | `diet_meat` · `diet_meat_insect` · `diet_fish` · `diet_blood` · `diet_grass` · `diet_crops` · `diet_fruits` · `diet_flowers` · `diet_nectar` · `diet_algae` · `diet_vegetation` · `diet_wood` · `diet_minerals` · `diet_tiles` · `diet_same_species` |
 | Fortpflanzung | `reproduction_sexual` · `reproduction_asexual` · `oviparity` · `viviparity` |
 | Natur | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |

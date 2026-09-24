@@ -8,7 +8,7 @@ order: 178
 
 # Regni e fazioni :wbkingdoms:
 
-Ogni unità in WorldBox appartiene a un regno. Non solo quelle civilizzate: i lupi appartengono a un regno di lupi, i banditi a una fazione di banditi, e un pacifico pollo appartiene a un regno neutrale. Un `KingdomAsset` è il **tipo** di fazione, non un singolo regno posizionato sulla mappa.
+Ogni unità in WorldBox appartiene a un regno (kingdom). Non solo quelle civilizzate: i lupi appartengono a un regno di lupi, i banditi a una fazione di banditi, e un pacifico pollo appartiene a un regno neutrale. Un `KingdomAsset` è il **tipo** di fazione, non un singolo regno posizionato sulla mappa.
 
 Questa è la distinzione essenziale:
 
@@ -80,7 +80,7 @@ Senza questa riga, la tua creatura nascerà nel regno usato dal modello donatore
 
 | Campo | Cosa fa |
 | --- | --- |
-| `civ` | Fonda città, combatte guerre, ha un sovrano |
+| `civ` | Fonda città, combatte guerre (war), ha un sovrano |
 | `nomads` | Fase errante prima della fondazione di città |
 | `nature` | Fauna selvatica |
 | `mobs` | Mostri ostili |
@@ -98,7 +98,7 @@ Senza questa riga, la tua creatura nascerà nel regno usato dal modello donatore
 | `count_as_danger` | Se le altre fazioni la considerano una minaccia. `true` per impostazione predefinita |
 | `friendship_for_everyone` | Amichevole con chiunque |
 | `force_look_all_chunks` | Le unità scansionano l'intera mappa e non solo i dintorni. Molto pesante |
-| `building_attractor_id` | Un tipo di edificio che le attira |
+| `building_attractor_id` | Un tipo di edificio (building) che le attira |
 
 ### Tag: chi combatte contro chi
 
@@ -122,15 +122,15 @@ Due regni confrontano i loro tag per stabilire la loro relazione iniziale. Una f
 
 ## Il resto dei collegamenti della fazione
 
-Un asset di regno isolato è soltanto un'etichetta. Un'etichetta molto ufficiale, ma pur sempre un'etichetta. Ecco le altre librerie che una fazione completa coinvolge:
+Un asset di regno isolato è soltanto un'etichetta. Un'etichetta molto ufficiale, ma pur sempre un'etichetta. Ecco le altre librerie (library) che una fazione completa coinvolge:
 
 | Elemento | Libreria | Scopo |
 | --- | --- | --- |
 | Stendardi | `AssetManager.kingdom_banners_library` | La bandiera generata |
 | Colori | `AssetManager.kingdom_colors_library` | La tavolozza di colori assegnata ai regni |
-| Tratti del regno | `AssetManager.kingdoms_traits` | Politiche, per lo più tasse. Vedi **[Tratti del regno](#/nml/kingdom-traits)** |
-| Lavori del regno | `AssetManager.job_kingdom` | L'obiettivo strategico dell'IA della fazione |
-| Compiti del regno | `AssetManager.tasks_kingdom` | L'albero di comportamento dietro tali lavori |
+| Tratti (trait) del regno | `AssetManager.kingdoms_traits` | Politiche, per lo più tasse. Vedi **[Tratti del regno](#/nml/kingdom-traits)** |
+| Lavori (job) del regno | `AssetManager.job_kingdom` | L'obiettivo strategico dell'IA della fazione |
+| Compiti del regno | `AssetManager.tasks_kingdom` | L'albero di comportamento (behaviour) dietro tali lavori |
 | Tipi di guerra | `AssetManager.war_types_library` | I tipi di guerra dichiarabili |
 | Architettura | `AssetManager.architecture_library` | L'aspetto estetico degli edifici |
 | Ordini di costruzione | `AssetManager.city_build_orders` | Cosa edifica una nuova città e con quale priorità |
@@ -154,7 +154,7 @@ foreach (Kingdom kingdom in World.world.kingdoms)
 
 ## Personalità
 
-Un re e il leader di una città ricevono una **personalità**: un'etichetta e una manciata di statistiche `personality_*` che influenzano quanto aggressivamente o diplomaticamente agirà il regno. Registrarne una richiede tre righe. Far sì che qualcuno la *abbia* davvero è il problema: `Actor.updateStats()` sceglie una delle quattro opzioni vanilla per nome a ogni ricalcolo delle statistiche.
+Un re e il leader di una città ricevono una **personalità**: un'etichetta e una manciata di statistiche (stats) `personality_*` che influenzano quanto aggressivamente o diplomaticamente agirà il regno. Registrarne una richiede tre righe. Far sì che qualcuno la *abbia* davvero è il problema: `Actor.updateStats()` sceglie una delle quattro opzioni vanilla per nome a ogni ricalcolo delle statistiche.
 
 ```csharp Mods/HelloBox/Code/HelloPersonality.cs
 using HarmonyLib;
@@ -280,7 +280,7 @@ Opinione e lealtà vengono sommate dall'intero elenco a ogni valutazione, quindi
 
 ## Stendardi per gli altri sistemi
 
-I regni non sono gli unici ad avere uno stendardo: culture, religioni, clan, lingue, sottospecie e famiglie hanno ciascuno la propria libreria di componenti (`AssetManager.culture_banners_library` e simili). Ciascuna possiede un asset `main` con elenchi di percorsi grafici, e una nuova cultura ne sorteggia un indice.
+I regni non sono gli unici ad avere uno stendardo: culture (culture), religioni (religion), clan, lingue, sottospecie (subspecies) e famiglie hanno ciascuno la propria libreria di componenti (`AssetManager.culture_banners_library` e simili). Ciascuna possiede un asset `main` con elenchi di percorsi grafici, e una nuova cultura ne sorteggia un indice.
 
 ```csharp Mods/HelloBox/Code/HelloBanners.cs
 namespace HelloBox

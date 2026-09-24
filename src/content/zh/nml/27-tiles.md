@@ -8,7 +8,7 @@ order: 170
 
 # 地块与地形 :wbrockies:
 
-整个游戏地图是由 `WorldTile` 组成的网格，每个地块格子在垂直方向上都叠加着**两层**类型：
+整个游戏地图是由 `WorldTile` 组成的网格，每个地块（tile）格子在垂直方向上都叠加着**两层**类型：
 
 | 层级 | 地块上的字段 | 对应资源库 | 类型 | 示例 |
 | --- | --- | --- | --- | --- |
@@ -52,6 +52,11 @@ namespace HelloBox
             // biome_id to its BiomeAsset during startup, before your mod existed: link yours.
             moss.biome_asset = AssetManager.biome_library.get(moss.biome_id);
 
+            // color and has_biome_tags are [NonSerialized], so clone() skips them, and linkAssets()
+            // worked them out at startup. Without this the minimap draws your tile see-through.
+            moss.color = Toolbox.makeColor(moss.color_hex);
+            moss.has_biome_tags = moss.biome_tags != null && moss.biome_tags.Count > 0;
+
             // The variations in GameResources/tiles/hello_moss/ are loaded at startup too.
             Sprite[] variations = SpriteTextureLoader.getSpriteList("tiles/" + moss.id);
             if (variations.Length > 0)
@@ -67,7 +72,7 @@ namespace HelloBox
 }
 ```
 
-> [!WARNING] 生物群系地块需要链接到它的群系
+> [!WARNING] 生物群系（biome）地块需要链接到它的群系
 > 克隆草地块会复制 `is_biome = true` 和 `biome_id`，但 `BiomeAsset` 本身只会在游戏加载时于 `TopTileLibrary.linkAssets()` 里查一次。漏掉这一行，一切都正常，直到有动物生成在你的地块上：物种名要加群系后缀，群系却是 `null`，生成直接死在 `Subspecies.generateName()` 的 `NullReferenceException` 上 :wbfacepalm:。
 >
 > 图片也有同样的问题。`TopTileLibrary` 在启动时把 `tiles/<id>/` 里的 PNG 变成 `sprites`，所以少了最后那一段，地块能画上去，接着地图渲染器会为屏幕上它的每个地块在 `WorldTilemap.getVariation()` 里抛异常。
@@ -111,7 +116,7 @@ namespace HelloBox
 | --- | --- |
 | `can_be_removed_with_spade` / `_bucket` / `_demolish` / `_pickaxe` / `_axe` / `_sickle` | 哪种上帝工具可以清理它 |
 | `allowed_to_be_finger_copied` | 是否允许被“手指”复制工具抓取 |
-| `can_build_on`, `can_be_farm` | 城镇是否可以在其上建造建筑或开垦农田 |
+| `can_build_on`, `can_be_farm` | 城镇是否可以在其上建造建筑（building）或开垦农田 |
 | `only_allowed_to_build_with_tag` | 仅允许带特定标签的建筑在此建造 |
 
 ### 状态演变与过渡
@@ -145,7 +150,7 @@ moss.step_action = (WorldTile pTile, Actor pActor) =>
 };
 ```
 
-与本指南中的其他所有动作完全遵循相同的原则：务必先做空值防护，没有执行操作时返回 `false`，并时刻牢记只要有单位在这种地块上走动，这段逻辑就会高频执行。
+与本指南中的其他所有动作（behaviour）完全遵循相同的原则：务必先做空值防护，没有执行操作时返回 `false`，并时刻牢记只要有单位在这种地块上走动，这段逻辑就会高频执行。
 
 ## 导入自定义贴图
 
@@ -193,7 +198,7 @@ if (tile.hasBuilding()) { }
 
 ## 地形改造配置（TerraformOptions）
 
-`AssetManager.terraform` 中的 `TerraformOptions` 是一组命名的“地块整备与清理规则”，供上帝能力和投射物调用：
+`AssetManager.terraform` 中的 `TerraformOptions` 是一组命名的“地块整备与清理规则”，供上帝能力和投射物（projectile）调用：
 
 | 字段 | 作用 |
 | --- | --- |

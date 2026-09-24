@@ -124,7 +124,7 @@ namespace HelloBox
 | --- | --- |
 | `rate` | 랜덤 선택 시의 추첨 가중치 |
 | `default_slots` | 새 월드 생성 시 배치가 허용되는 바퀴 슬롯 번호 (1~8) |
-| `clouds` + `cloud_interval` | 생성되는 구름 종류 및 생성 주기 |
+| `clouds` + `cloud_interval` | 생성되는 구름 (cloud) 종류 및 생성 주기 |
 | `special_effect_action` + `special_effect_interval` | 시대 지속 중 주기적으로 실행할 커스텀 코드 |
 | `overlay_*`, `particles_*`, `era_effect_overlay_alpha` | 시각 효과: 어둠, 비, 눈, 재, 햇빛 등 |
 | `title_color`, `light_color` | 시대 이름 색상 및 환경광 색상 |

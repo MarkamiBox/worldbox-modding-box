@@ -8,7 +8,7 @@ order: 96
 
 # Die Welt zur Laufzeit :wbworld:
 
-Alle anderen Seiten registrieren Dinge während des Spielstarts. Diese Seite widmet sich der anderen Hälfte: Bestehendes in einer laufenden Welt zu manipulieren. Eine Stadt zerstören, sie einem anderen Königreich übergeben, einen Krieg entfachen, eine Stadt mit ihren eigenen Bewohnern bevölkern.
+Alle anderen Seiten registrieren Dinge während des Spielstarts. Diese Seite widmet sich der anderen Hälfte: Bestehendes in einer laufenden Welt zu manipulieren. Eine Stadt zerstören, sie einem anderen Königreich (kingdom) übergeben, einen Krieg (war) entfachen, eine Stadt mit ihren eigenen Bewohnern bevölkern.
 
 All das wird aus der `click_action` einer Gotteskraft, aus `Update()` oder aus einem World Behaviour ausgeführt – und **niemals** aus `OnModLoad`, wo noch gar keine Welt existiert. Siehe **[Logs & Debugging](#/nml/logs-and-debugging)** für die Sicherheitsabfrage.
 
@@ -65,7 +65,7 @@ Actor actor = World.world.units.createNewUnit(city.getActorAsset().id, tile, pSu
 actor?.joinCity(city);
 ```
 
-`spawnNewUnit` aus **[Eigene Kreaturen](#/nml/custom-actors)** wählt die Unterart für dich aus. `createNewUnit` lässt dich selbst wählen – der Unterschied zwischen "einem Menschen" und "einem von *diesen* Menschen".
+`spawnNewUnit` aus **[Eigene Kreaturen](#/nml/custom-actors)** wählt die Unterart (subspecies) für dich aus. `createNewUnit` lässt dich selbst wählen – der Unterschied zwischen "einem Menschen" und "einem von *diesen* Menschen".
 
 ## Eltern
 

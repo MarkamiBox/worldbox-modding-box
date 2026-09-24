@@ -17,7 +17,7 @@ Antes de gastar uma tarde inteira configurando uma pipeline de compilação, esc
 
 | Você quer... | Escolha | Por quê |
 | --- | --- | --- |
-| Adicionar traços, itens, poderes, criaturas ou biomas | **NML** | O NML traz `AssetManager`, textos autolocalizados, sprites e salvamento de dados inclusos |
+| Adicionar traços (trait), itens (item), poderes, criaturas ou biomas (biome) | **NML** | O NML traz `AssetManager`, textos autolocalizados, sprites e salvamento de dados inclusos |
 | Criar ferramentas de desenvolvimento, overlays ou hooks de baixo nível | **BepInEx** | O BepInEx carrega no nível do Mono antes da inicialização do WorldBox |
 | Escrever código apenas com o Bloco de Notas e salvar | **NML** | O NML compila os arquivos-fonte C# em tempo de execução |
 | Distribuir um plugin binário pré-compilado com componentes puros da Unity | **BepInEx** | Você gerencia o compilador, as dependências e o destino da compilação |
@@ -27,11 +27,11 @@ Se o seu objetivo é adicionar conteúdo ao jogo, crie um mod para o NML. Se est
 ## 1. Pré-requisitos
 
 1. Instale o **BepInEx 5 (Mono x64)** e ative o console conforme explicado em **[O console ao vivo (BepInEx)](#/toolbox/bepinex-console)**.
-2. Instale o **[.NET SDK](https://dotnet.microsoft.com/)** (ou o Visual Studio com carga de trabalho .NET). Você precisa de um compilador C# real.
+2. Instale o **[.NET SDK](https://dotnet.microsoft.com/)** (ou o Visual Studio com carga de trabalho (job) .NET). Você precisa de um compilador C# real.
 
 ## 2. Configurando o projeto
 
-Abra um terminal na pasta de projetos e gere uma nova biblioteca de classes:
+Abra um terminal na pasta de projetos e gere uma nova biblioteca (library) de classes:
 
 ```bash
 dotnet new classlib -n HelloBepInEx -f net472

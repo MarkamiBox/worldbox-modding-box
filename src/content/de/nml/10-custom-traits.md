@@ -8,7 +8,7 @@ order: 100
 
 # Eigene Merkmale :wbstrongminded:
 
-Ein Merkmal (Trait) ist eine dauerhafte Eigenschaft einer Einheit: *mutig*, *schnell*, *unsterblich*. Es erscheint im Inspektor, kann die Werte der Einheit verändern, Code ausführen wenn die Einheit geboren wird, Schaden nimmt oder stirbt, und Kinder können es erben.
+Ein Merkmal (Trait) ist eine dauerhafte Eigenschaft einer Einheit: *mutig*, *schnell*, *unsterblich*. Es erscheint im Inspektor, kann die Werte (stats) der Einheit verändern, Code ausführen wenn die Einheit geboren wird, Schaden nimmt oder stirbt, und Kinder können es erben.
 
 Es ist außerdem das am leichtesten hinzuzufügende Ding im ganzen Spiel, weshalb es jedermanns erste Mod ist. Meine nicht: Meine erste Mod war ein Wrapper um die Mod von jemand anderem, was auf seine eigene Art geschummelt ist :trollface:.
 
@@ -16,7 +16,7 @@ Es ist außerdem das am leichtesten hinzuzufügende Ding im ganzen Spiel, weshal
 
 Jedes Asset in WorldBox lebt in einer einzigen flachen Liste mit der `id` als Schlüssel. Wenn du `fast` registrierst und eine andere Mod ebenfalls `fast` registriert, **überschreibt** die zweite Mod die erste und das Log erhält eine Zeile darüber, die niemand liest.
 
-Also: `hello_swift`, nicht `swift`. Kurzer Modname, Unterstrich, dein Name für die Sache. Mache das für Merkmale, Gegenstände, Gebäude, Kräfte, Statusse, einfach alles :aPES4_Noted:.
+Also: `hello_swift`, nicht `swift`. Kurzer Modname, Unterstrich, dein Name für die Sache. Mache das für Merkmale, Gegenstände (item), Gebäude (building), Kräfte, Statusse, einfach alles :aPES4_Noted:.
 
 ## Das Trait
 
@@ -69,7 +69,7 @@ protected override void OnModLoad()
 
 ### Was jeder Teil bewirkt
 
-- **`AssetManager.traits`**: Die Bibliothek, die jedes Einheiten-Merkmal im Spiel enthält, Vanilla wie Modded. `has`, `get`, `add` und `clone` sind die vier Methoden, die du in jeder Bibliothek auf jeder Seite nach dieser hier nutzen wirst.
+- **`AssetManager.traits`**: Die Bibliothek (library), die jedes Einheiten-Merkmal im Spiel enthält, Vanilla wie Modded. `has`, `get`, `add` und `clone` sind die vier Methoden, die du in jeder Bibliothek auf jeder Seite nach dieser hier nutzen wirst.
 - **`path_icon`**: Das kleine Bildchen im Inspektor. Ein *Pfad*, keine Datei. Siehe **[Sprites & Ressourcen](#/nml/sprites-and-resources)**. Das Spiel füllt dies nur automatisch aus, während seine eigenen Bibliotheken gebaut werden (was vor jedem Mod-Laden geschieht), daher bleibt es für dein Merkmal leer, wenn du es nicht setzt.
 - **`needs_to_be_explored`**: standardmäßig `true`, das Merkmal bleibt also im Wissensbuch gesperrt, bis der Spieler es in einer Welt findet. `false` macht es ab der ersten Sekunde verfügbar. HelloBox setzt es überall, damit du siehst, was du gebaut hast, ohne danach zu suchen.
 - **`group_id`**: Unter welchem Reiter des Merkmalsbuchs es auftaucht. Die vollständige Liste steht unten.
@@ -84,7 +84,7 @@ protected override void OnModLoad()
 > Dieselbe Regel gilt für Statusse, Items, Gebäude und Kreaturen. Die Ausnahme ist `clone()`, welches `add()` bereits für dich aufruft, sodass die Werte nach einem Klon bereits da sind.
 
 > [!TIP] Denselben Schalter gibt es bei fast allem, was du baust
-> `needs_to_be_explored` sitzt in der Basisklasse, die alle freischaltbaren Assets teilen, also funktioniert er bei Actors, allen sieben Merkmalsarten, Items, Item-Modifiern und Weltgesetzen. Gottkräfte, Status, Gebäude, Drops, Wolken, Tiles und Projektile haben gar keinen Entdeckungsschritt :wbsmirk:.
+> `needs_to_be_explored` sitzt in der Basisklasse, die alle freischaltbaren Assets teilen, also funktioniert er bei Actors, allen sieben Merkmalsarten, Items, Item-Modifiern und Weltgesetzen (world law). Gottkräfte, Status, Gebäude, Drops, Wolken (cloud), Tiles und Projektile (projectile) haben gar keinen Entdeckungsschritt :wbsmirk:.
 
 ### Die Vanilla-Trait-Gruppen
 
@@ -205,7 +205,7 @@ Actor-Merkmale sind nur eines von **sieben** Merkmalssystemen. Jedes hat seine e
 | System | Gehört zu | Seite |
 | --- | --- | --- |
 | Actor | einer Kreatur | diese Seite |
-| Culture | einer Kultur, geteilt von ihren Städten | **[Kulturmerkmale](#/nml/culture-traits)** |
+| Culture | einer Kultur (culture), geteilt von ihren Städten | **[Kulturmerkmale](#/nml/culture-traits)** |
 | Religion | einer Religion und ihren Gläubigen | **[Religionsmerkmale](#/nml/religion-traits)** |
 | Subspecies | einem Zweig einer Spezies | **[Subspezies-Merkmale](#/nml/subspecies-traits)** |
 | Clan | einer Blutlinie | **[Clanmerkmale](#/nml/clan-traits)** |

@@ -8,7 +8,7 @@ order: 174
 
 # 世界の時代とワールド挙動 :wbsunblessed:
 
-世界の構成要素の中には、個々の生物ではなくワールドそのものに属するものが2つ存在します。**世界の時代（World Age）**は時代ホイール上に配置される時代（希望の時代、灰の時代など）であり、天候、光彩、世界法則を司ります。**ワールド挙動（World Behaviour）**はワールドがタイマー駆動で常時実行し続けるコードであり、災害のスケジューリング、移民の発生、道路の劣化などはすべてこの仕組みで動作しています。
+世界の構成要素の中には、個々の生物ではなくワールドそのものに属するものが2つ存在します。**世界の時代（World Age）**は時代ホイール上に配置される時代（希望の時代、灰の時代など）であり、天候、光彩、世界法則（world law）を司ります。**ワールド挙動（World Behaviour）**はワールドがタイマー駆動で常時実行し続けるコードであり、災害（disaster）のスケジューリング、移民の発生、道路の劣化などはすべてこの仕組みで動作しています。
 
 ```csharp Mods/HelloBox/Code/HelloAges.cs
 using System.Collections.Generic;
@@ -124,7 +124,7 @@ namespace HelloBox
 | --- | --- |
 | `rate` | ランダム抽選時の出現ウェイト |
 | `default_slots` | 新規ワールド生成時に配置を許可するホイールスロット番号（1〜8） |
-| `clouds` + `cloud_interval` | 発生する雲の種類とスポーン間隔 |
+| `clouds` + `cloud_interval` | 発生する雲（cloud）の種類とスポーン間隔 |
 | `special_effect_action` + `special_effect_interval` | 時代継続中にタイマー駆動で実行する独自アクション |
 | `overlay_*`, `particles_*`, `era_effect_overlay_alpha` | 視覚表現（暗闇、雨、雪、灰、陽光など） |
 | `title_color`, `light_color` | 時代名の表示色および環境光の色 |

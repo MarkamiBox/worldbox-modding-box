@@ -8,7 +8,7 @@ order: 142
 
 # Edifici personalizzati :wbcities:
 
-Gli edifici sono il punto in cui il modding di WorldBox smette di essere "cambia un numero" e diventa "questo asset ha centoquaranta campi e la maggior parte non fa nulla nel mio caso" :PES2_Weary:.
+Gli edifici (building) sono il punto in cui il modding di WorldBox smette di essere "cambia un numero" e diventa "questo asset ha centoquaranta campi e la maggior parte non fa nulla nel mio caso" :PES2_Weary:.
 
 Quindi non ne creiamo uno da zero. Cloniamo un edificio già funzionante.
 
@@ -53,7 +53,7 @@ namespace HelloBox
 Tutto quello che non imposti resta esattamente com'era su `temple_human`, che è un edificio cittadino funzionante. Tutto il trucco è qui.
 
 > [!WARNING] Non chiamare `add()` dopo `clone()`
-> `clone()` ha già registrato la copia. Chiamare `AssetManager.buildings.add(shrine)` dopo la registra una seconda volta, e la libreria scarta la prima copia scrivendo `duplicate asset - overwriting...` nel log. Funziona lo stesso, ma è rumore nel log ed è la prima cosa che farà notare chiunque riveda il tuo codice.
+> `clone()` ha già registrato la copia. Chiamare `AssetManager.buildings.add(shrine)` dopo la registra una seconda volta, e la libreria (library) scarta la prima copia scrivendo `duplicate asset - overwriting...` nel log. Funziona lo stesso, ma è rumore nel log ed è la prima cosa che farà notare chiunque riveda il tuo codice.
 
 ## Da cosa clonare
 
@@ -63,9 +63,9 @@ La libreria include sia template con prefisso `$…$` sia edifici completi:
 | --- | --- |
 | `$building$` | La base essenziale |
 | `$city_building$` | Qualsiasi cosa costruita da una città. Usato da `well` e `mine` |
-| `$city_colored_building$` | Identico, ma tinto con il colore del regno |
-| `$building_civ_human$` / `_elf$` / `_orc$` / `_dwarf$` | Edifici civili specifici per cultura |
-| `$building_creep$` | Strutture di biomi infestanti (creep) |
+| `$city_colored_building$` | Identico, ma tinto con il colore del regno (kingdom) |
+| `$building_civ_human$` / `_elf$` / `_orc$` / `_dwarf$` | Edifici civili specifici per cultura (culture) |
+| `$building_creep$` | Strutture di biomi (biome) infestanti (creep) |
 | `$mineral$` | Rocce e minerali estraibili |
 | `$resource$`, `$flora_small$` | Natura raccoglibile |
 | `tree_green_1` | Ogni albero vanilla viene clonato da questo |
@@ -81,7 +81,7 @@ Clonare il parente più prossimo richiede dieci minuti di lettura e risparmia un
 | Campo | Cosa fa |
 | --- | --- |
 | `building_type` | `Building_Civ`, `Building_Nature`, `Building_Tree`, `Building_Mineral`, `Building_Mob`, `Building_Creep`, `Building_Plant`, `Building_Fruits`, `Building_Hives`, `Building_Wheat` |
-| `city_building` | Appartiene a una città, quindi riceve colori del regno, zone e posti di lavoro |
+| `city_building` | Appartiene a una città, quindi riceve colori del regno, zone e posti di lavoro (job) |
 | `type` | Un tag testuale libero usato per raggruppare gli elenchi interni del gioco |
 | `kingdom`, `civ_kingdom` | Limita l'edificio a una fazione specifica |
 | `ignored_by_cities` | Le città non lo costruiscono né lo conteggiano mai |
@@ -92,7 +92,7 @@ Clonare il parente più prossimo richiede dieci minuti di lettura e risparmia un
 | --- | --- |
 | `max_houses`, `housing_slots`, `can_units_live_here` | Se e quanti cittadini possono viverci |
 | `housing_happiness` | Bonus di felicità derivante dall'abitarvi |
-| `storage`, `storage_only_food`, `is_stockpile` | Se funge da deposito risorse |
+| `storage`, `storage_only_food`, `is_stockpile` | Se funge da deposito risorse (resource) |
 | `book_slots` | Capacità di libri nelle biblioteche |
 | `docks`, `boat_types`, `boat_type_fishing`, `boat_type_trading`, `boat_type_transport` | Produzione navale |
 | `spawn_units`, `spawn_units_asset` | Genera creature |
@@ -147,7 +147,7 @@ Clonare il parente più prossimo richiede dieci minuti di lettura e risparmia un
 | Campo | Cosa fa |
 | --- | --- |
 | `step_action`, `has_step_action` | Codice personalizzato eseguito a ogni tick dell'edificio |
-| `base_stats` | Statistiche conferite dall'edificio |
+| `base_stats` | Statistiche (stats) conferite dall'edificio |
 | `priority` | Priorità nella coda di costruzione cittadina |
 
 ## Sprite
@@ -170,7 +170,7 @@ HelloBox/
             └── sprites.json         bottom-centre pivot
 ```
 
-I **nomi dei file sono il formato**. Il loader divide ogni nome sul `_`: la parte prima è il tipo (`main`, `construction`, `ruin`, `disabled`, `spawn`, `special`, e `mini` per la minimappa), il numero dopo è il frame dell'animazione. `mini_0` deve avere esattamente tanti pixel quante sono le caselle occupate dall'edificio, 5x4 per qualsiasi cosa clonata da `temple_human`; se lo ometti, la minimappa lancia `NullReferenceException` in `Building.getColorForMinimap()` a ogni ridisegno. `main_0`, `main_1`, `main_2` è un'animazione di tre frame. Un file con qualsiasi altro nome non è un frame, e una cartella senza `main_0` non dà all'edificio niente da disegnare.
+I **nomi dei file sono il formato**. Il loader divide ogni nome sul `_`: la parte prima è il tipo (`main`, `construction`, `ruin`, `disabled`, `spawn`, `special`, e `mini` per la minimappa), il numero dopo è il frame dell'animazione. `mini_0` deve avere esattamente tanti pixel quante sono le caselle (tile) occupate dall'edificio, 5x4 per qualsiasi cosa clonata da `temple_human`; se lo ometti, la minimappa lancia `NullReferenceException` in `Building.getColorForMinimap()` a ogni ridisegno. `main_0`, `main_1`, `main_2` è un'animazione di tre frame. Un file con qualsiasi altro nome non è un frame, e una cartella senza `main_0` non dà all'edificio niente da disegnare.
 
 ```csharp
 // A: full path in sprite_path. main_path is then ignored.
@@ -209,7 +209,7 @@ Verifica sempre con `canBuildFrom` prima di procedere. Posizionare un edificio s
 
 ## Far costruire l'edificio alle città
 
-Un potere divino che fa comparire il tuo santuario è divertente per un'ora. Un santuario che le città costruiscono da sole, quando sono abbastanza grandi, è una mod. Le città scelgono cosa costruire da due elementi, e il tuo edificio non è ancora in nessuno dei due:
+Un potere divino (GodPower) che fa comparire il tuo santuario è divertente per un'ora. Un santuario che le città costruiscono da sole, quando sono abbastanza grandi, è una mod. Le città scelgono cosa costruire da due elementi, e il tuo edificio non è ancora in nessuno dei due:
 
 | | Cosa contiene |
 | --- | --- |

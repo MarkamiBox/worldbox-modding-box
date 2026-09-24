@@ -8,7 +8,7 @@ order: 94
 
 # Alle Asset-Bibliotheken :wbworld:
 
-`AssetManager` ist das Verzeichnis des Spiels für alles, was existieren kann. Er enthält **129 Bibliotheken**, und jede davon ist eine `List` plus ein `Dictionary`, die du von deiner Mod aus lesen, bearbeiten und erweitern kannst.
+`AssetManager` ist das Verzeichnis des Spiels für alles, was existieren kann. Er enthält **129 Bibliotheken (library)**, und jede davon ist eine `List` plus ein `Dictionary`, die du von deiner Mod aus lesen, bearbeiten und erweitern kannst.
 
 Diese Seite ist der vollständige Index. Den Großteil davon wirst du nie anrühren. Der Zweck ist: Wenn du etwas in WorldBox ändern willst, lautet die erste Frage immer "in welcher Bibliothek liegt es?" - und die Antwort steht auf dieser Seite.
 
@@ -47,7 +47,7 @@ Die ersten vier wirst du tatsächlich öffnen. Der Rest steht hier, damit du kei
 | `trait_rains` | `TraitRainAsset` | Ereignisse für "Eigenschaften-Regen" |
 | `personalities` | `PersonalityAsset` | Persönlichkeiten von Einheiten |
 | `professions` | `ProfessionAsset` | Berufe von Bürgern |
-| `base_stats_library` | `BaseStatAsset` | Alle Werte. **[Statistiken-Referenz](#/nml/stats)** |
+| `base_stats_library` | `BaseStatAsset` | Alle Werte (stats). **[Statistiken-Referenz](#/nml/stats)** |
 
 ## Gesellschaften
 
@@ -55,40 +55,40 @@ Die ersten vier wirst du tatsächlich öffnen. Der Rest steht hier, damit du kei
 | --- | --- | --- |
 | `kingdoms` | `KingdomAsset` | Fraktionstypen. **[Königreiche & Fraktionen](#/nml/kingdoms)** |
 | `kingdoms_traits` / `kingdoms_traits_groups` | `KingdomTrait` | Königreichspolitik. **[Königreicheigenschaften](#/nml/kingdom-traits)** |
-| `culture_traits` / `culture_trait_groups` | `CultureTrait` | Kulturen. **[Kultureigenschaften](#/nml/culture-traits)** |
+| `culture_traits` / `culture_trait_groups` | `CultureTrait` | Kulturen (culture). **[Kultureigenschaften](#/nml/culture-traits)** |
 | `religion_traits` / `religion_trait_groups` | `ReligionTrait` | Religionen. **[Religionseigenschaften](#/nml/religion-traits)** |
 | `clan_traits` / `clan_trait_groups` | `ClanTrait` | Clans. **[Claneigenschaften](#/nml/clan-traits)** |
 | `language_traits` / `language_trait_groups` | `LanguageTrait` | Sprachen. **[Spracheigenschaften](#/nml/language-traits)** |
 | `architecture_library` | `ArchitectureAsset` | Aussehen der Kulturgebäude |
 | `city_build_orders` | `CityBuildOrderAsset` | Was eine neue Stadt baut, der Reihe nach |
-| `war_types_library` | `WarTypeAsset` | Kriegsarten |
+| `war_types_library` | `WarTypeAsset` | Kriegsarten. **[Kriegsarten](#/nml/war-types)** |
 | `loyalty_library` | `LoyaltyAsset` | Loyalitätsquellen |
 | `opinion_library` | `OpinionAsset` | Meinungsquellen |
 | `happiness_library` | `HappinessAsset` | Zufriedenheitsquellen |
 | `plots_library` / `plot_category_library` | `PlotAsset` | Verschwörungen von Einheiten und Systemen |
 | `decisions_library` | `DecisionAsset` | KI-Entscheidungen |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | Worüber Einheiten sprechen |
-| `book_types` | `BookTypeAsset` | Bucharten |
+| `book_types` | `BookTypeAsset` | Bucharten. **[Bücher](#/nml/books)** |
 | `knowledge_library` | `KnowledgeAsset` | Das Wissensfenster |
 
 ## Dinge in der Welt
 
 | Bibliothek | Asset | Was sie enthält |
 | --- | --- | --- |
-| `buildings` | `BuildingAsset` | Jedes Gebäude. **[Eigene Gebäude](#/nml/custom-buildings)** |
+| `buildings` | `BuildingAsset` | Jedes Gebäude (building). **[Eigene Gebäude](#/nml/custom-buildings)** |
 | `tiles` | `TileType` | Bodenschicht. **[Kacheln & Terrain](#/nml/tiles)** |
 | `top_tiles` | `TopTileType` | Oberflächenschicht |
-| `tile_tile_effects` | `TileEffectAsset` | Effekte pro Kachel |
+| `tile_tile_effects` | `TileEffectAsset` | Effekte pro Kachel (tile) |
 | `terraform` | `TerraformOptions` | Benannte Terrainbereinigungen |
-| `biome_library` | `BiomeAsset` | Biome |
+| `biome_library` | `BiomeAsset` | Biome. **[Biome](#/nml/biomes)** |
 | `resources` | `ResourceAsset` | Nahrung, Materialien, Währung. **[Ressourcen & Nahrung](#/nml/resources)** |
 | `clouds` | `CloudAsset` | Wetter. **[Wolken & Wetter](#/nml/clouds)** |
 | `drops` | `DropAsset` | Fallende Objekte. **[Drops & fallende Objekte](#/nml/drops-and-loot)** |
-| `disasters` | `DisasterAsset` | Katastrophen. **[Katastrophen](#/nml/disasters)** |
+| `disasters` | `DisasterAsset` | Katastrophen (disaster). **[Katastrophen](#/nml/disasters)** |
 | `projectiles` | `ProjectileAsset` | Fliegende Objekte. **[Projektile, Zauber & Effekte](#/nml/projectiles-spells)** |
 | `effects_library` | `EffectAsset` | Visuelle Effekte |
 | `months` | `MonthAsset` | Der Kalender |
-| `era_library` | `WorldAgeAsset` | Zeitalter der Welt |
+| `era_library` | `WorldAgeAsset` | Zeitalter (world age) der Welt |
 | `time_scales` | `WorldTimeScaleAsset` | Spielgeschwindigkeiten |
 | `map_sizes` | `MapSizeAsset` | Kartengrößen |
 | `map_gen_settings` / `map_gen_templates` | `MapGenSettingsAsset` | Weltgenerierung |
@@ -100,11 +100,11 @@ Die ersten vier wirst du tatsächlich öffnen. Der Rest steht hier, damit du kei
 | Bibliothek | Asset | Was sie enthält |
 | --- | --- | --- |
 | `items` | `EquipmentAsset` | Waffen, Rüstung, Materialien. **[Eigene Gegenstände](#/nml/custom-items)** |
-| `items_modifiers` | `ItemModAsset` | Verzauberungen. **[Waffen-Verzauberungen](#/nml/item-modifiers)** |
+| `items_modifiers` | `ItemModAsset` | Verzauberungen (modifier). **[Waffen-Verzauberungen](#/nml/item-modifiers)** |
 | `item_groups` | `ItemGroupAsset` | Ausrüstungskategorien. **[Gegenstandsgruppen & Tabs](#/nml/item-groups)** |
 | `unit_hand_tools` | `UnitHandToolAsset` | Werkzeuge, die Einheiten bei der Arbeit halten |
 | `status` | `StatusAsset` | Status-Effekte. **[Status-Effekte](#/nml/status-effects)** |
-| `spells` | `SpellAsset` | Zauber, die Einheiten wirken |
+| `spells` | `SpellAsset` | Zauber (spell), die Einheiten wirken |
 | `combat_action_library` | `CombatActionAsset` | Kampfaktionen |
 | `rarity_library` | `RarityAsset` | Seltenheitsstufen |
 
@@ -114,7 +114,7 @@ Die ersten vier wirst du tatsächlich öffnen. Der Rest steht hier, damit du kei
 | --- | --- | --- |
 | `powers` | `GodPower` | Gotteskräfte. **[Gotteskräfte](#/nml/god-powers)** |
 | `power_tab_library` | `PowerTabAsset` | Leisten-Tabs unten. **[Kräfte-Tabs & Buttons](#/nml/power-buttons)** |
-| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | Weltgesetze. **[Weltgesetze](#/nml/world-laws)** |
+| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | Weltgesetze (world law). **[Weltgesetze](#/nml/world-laws)** |
 | `brush_library` | `BrushData` | Pinselgrößen |
 | `hotkey_library` | `HotkeyAsset` | Tastaturkürzel |
 | `debug_tool_library` | `DebugToolAsset` | Debug-Werkzeuge |
@@ -138,7 +138,7 @@ Nur `window_library` hat hier eine eigene Seite. Der Rest funktioniert, aber fas
 | Bibliothek | Asset | Was sie enthält |
 | --- | --- | --- |
 | `window_library` | `WindowAsset` | Fenster. **[Eigene Fenster](#/nml/custom-windows)** |
-| `list_window_library` | `ListWindowAsset` | Die Listenfenster (Königreiche, Städte, …) |
+| `list_window_library` | `ListWindowAsset` | Die Listenfenster (Königreiche (kingdom), Städte, …) |
 | `tooltips` | `TooltipAsset` | Tooltip-Layouts |
 | `nameplates_library` | `NameplateAsset` | Namensschilder über Einheiten |
 | `options_library` | `OptionAsset` | Spieleinstellungen |
@@ -163,7 +163,7 @@ Jeweils eine Bibliothek, die alle dieselben zwei Asset-Typen enthalten:
 
 | Bibliothek | Asset | Was sie enthält |
 | --- | --- | --- |
-| `name_generator` | `NameGeneratorAsset` | Namensgeneratoren |
+| `name_generator` | `NameGeneratorAsset` | Namensgeneratoren. **[Namensgeneratoren](#/nml/name-generators)** |
 | `name_sets` | `NameSetAsset` | Namenspools, aus denen sie schöpfen |
 | `onomastics_library` / `onomastics_evolution_library` | `OnomasticsAsset` | Wie Namen entstehen und sich verändern |
 | `linguistics_library` | `LinguisticsAsset` | Sprachaufbau |

@@ -12,7 +12,7 @@ Casi todos los assets que registrarás tienen un bloque `base_stats`, y casi tod
 
 ## Cómo funciona base_stats
 
-`base_stats` es un diccionario de `string` a `float`. La clave debe ser uno de los ids de estadísticas que se muestran abajo. Escribir una clave desconocida **no** es inofensivo: el método setter busca el id en `base_stats_library`, recibe `null` y lanza una `NullReferenceException` en tu propio `Initialize()`.
+`base_stats` es un diccionario de `string` a `float`. La clave debe ser uno de los ids de estadísticas (stats) que se muestran abajo. Escribir una clave desconocida **no** es inofensivo: el método setter busca el id en `base_stats_library`, recibe `null` y lanza una `NullReferenceException` en tu propio `Initialize()`.
 
 Un error tipográfico en una estadística no falla en silencio: tumba toda tu fase de registro y nada de lo que esté debajo se ejecuta jamás. Mantén tus nombres de estadísticas en campos `const string` si los usas en más de un lugar.
 
@@ -27,22 +27,22 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, no x0.25
 
 | # | Fuente | Nota |
 | --- | --- | --- |
-| 1 | **Subespecie**, más su bloque masculino o femenino | Si la unidad tiene una |
+| 1 | **Subespecie** (subspecies), más su bloque masculino o femenino | Si la unidad tiene una |
 | 1b | **Actor asset** | Solo cuando **no** hay subespecie. La subespecie lo *reemplaza*, no se acumula encima |
 | 2 | **Clan**, más su bloque masculino o femenino | |
 | 3 | **Idioma** | |
-| 4 | **Cultura** | |
+| 4 | **Cultura** (culture) | |
 | 5 | Atributos de líder de los propios datos de la unidad | `diplomacy`, `stewardship`, `intelligence`, `warfare` |
-| 6 | Cada **efecto de estado** activo | |
+| 6 | Cada **efecto de estado** (status) activo | |
 | 7 | El objeto de **ataque por defecto** | Solo cuando está desarmada |
-| 8 | Cada **rasgo de actor** | Los rasgos ligados a una era se omiten si dicha era no está activa |
+| 8 | Cada **rasgo (trait) de actor** | Los rasgos ligados a una era se omiten si dicha era no está activa |
 | 9 | Su **personalidad** | |
-| 10 | Cada **objeto equipado**, con sus modificadores | |
+| 10 | Cada **objeto equipado**, con sus modificadores (modifier) | |
 
 Dos errores comunes aquí:
 
 - **Una subespecie reemplaza las estadísticas del actor asset.** Pon un número en `human` y una unidad con subespecie jamás lo verá.
-- **La religión no está en esta lista.** El `base_stats` de un rasgo religioso jamás llega a la unidad. Consulta **[Rasgos de religión](#/nml/religion-traits)**.
+- **La religión (religion) no está en esta lista.** El `base_stats` de un rasgo religioso jamás llega a la unidad. Consulta **[Rasgos de religión](#/nml/religion-traits)**.
 
 Dos consecuencias más:
 
@@ -69,7 +69,7 @@ Dale diplomacia a un lobo y no negociará :PES2_Shrug:.
 | `range` | Alcance del ataque |
 | `throwing_range` | Alcance para armas arrojadizas |
 | `targets` | Cuántos objetivos puede golpear un solo ataque |
-| `projectiles` | Cuántos proyectiles dispara a la vez |
+| `projectiles` | Cuántos proyectiles (projectile) dispara a la vez |
 | `knockback` | Cuánto empuja el golpe al objetivo |
 | `recoil` | Cuánto te empuja el retroceso a *ti* |
 | `skill_combat` | Nivel de habilidad en combate |
@@ -114,11 +114,11 @@ Estas estadísticas no hacen absolutamente nada en un animal. El juego las marca
 | Estadística | Lo que hace |
 | --- | --- |
 | `diplomacy` | Atributo de líder: negociación |
-| `warfare` | Atributo de líder: guerra |
+| `warfare` | Atributo de líder: guerra (war) |
 | `stewardship` | Atributo de líder: administración |
 | `intelligence` | Atributo de líder: aprendizaje |
 | `army` | Contribución al tamaño del ejército |
-| `cities` | Cantidad de ciudades a la que aspira el reino |
+| `cities` | Cantidad de ciudades a la que aspira el reino (kingdom) |
 | `bonus_towers` | Torres adicionales que la ciudad puede construir |
 | `limit_population` | Techo de población |
 | `limit_clan_members` | Límite de miembros del clan |
@@ -172,7 +172,7 @@ Los tags que el propio juego lee:
 | Inmunidad | `immunity_fire` · `immunity_cold` · `building_immunity_fire` · `damaged_by_water` |
 | Movimiento | `fast_swimming` · `water_creature` · `immovable` · `walk_adaptation_sand` · `walk_adaptation_snow` · `walk_adaptation_swamp` |
 | Mente | `strong_mind` · `has_sapience` · `has_emotions` · `has_advanced_memory` · `has_advanced_communication` · `can_read_any_book` · `mad` · `moody` · `unconscious` · `frozen_ai` |
-| Comportamiento | `ignore_fights` · `love_peace` · `steal_items` · `needs_food` · `needs_mate` · `always_idle_animation` · `stop_idle_animation` · `generate_light` |
+| Comportamiento (behaviour) | `ignore_fights` · `love_peace` · `steal_items` · `needs_food` · `needs_mate` · `always_idle_animation` · `stop_idle_animation` · `generate_light` |
 | Dieta | `diet_meat` · `diet_meat_insect` · `diet_fish` · `diet_blood` · `diet_grass` · `diet_crops` · `diet_fruits` · `diet_flowers` · `diet_nectar` · `diet_algae` · `diet_vegetation` · `diet_wood` · `diet_minerals` · `diet_tiles` · `diet_same_species` |
 | Reproducción | `reproduction_sexual` · `reproduction_asexual` · `oviparity` · `viviparity` |
 | Naturaleza | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |

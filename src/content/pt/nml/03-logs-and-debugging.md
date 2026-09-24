@@ -49,7 +49,7 @@ Inicie o jogo com o mod acima e procure por `HelloBox` no arquivo `Player.log`. 
 008: Init Mod HelloBox                   = 0,0014
 ```
 
-Linha por linha: o NML compilou os arquivos em `Code/`, carregou seus recursos e chamou o `OnModLoad`, que imprimiu sua mensagem. As linhas numeradas mostram a contagem de tempo do NML para cada etapa: o número após o `=` são segundos, e algumas linhas saem em vermelho no log. **O vermelho aqui não indica falha**, significa apenas que aquele passo foi o mais demorado :hmm:.
+Linha por linha: o NML compilou os arquivos em `Code/`, carregou seus recursos (resource) e chamou o `OnModLoad`, que imprimiu sua mensagem. As linhas numeradas mostram a contagem de tempo do NML para cada etapa: o número após o `=` são segundos, e algumas linhas saem em vermelho no log. **O vermelho aqui não indica falha**, significa apenas que aquele passo foi o mais demorado :hmm:.
 
 A linha que realmente interessa é a sua. Se `[HelloBox]: HelloBox is alive!` estiver ausente, continue lendo.
 
@@ -84,7 +84,7 @@ Parece assustador, mas é uma frase muito direta:
 - **`in HelloTraits.cs:24`**: **linha 24 do seu próprio arquivo**. Examine essa linha: algo nela vale `null`.
 - As linhas abaixo representam a pilha de chamadas, da mais recente para a mais antiga. Dê atenção especial aos arquivos criados por você.
 
-O motivo clássico desse erro exato: tentar alterar `base_stats` em um asset antes de adicioná-lo à sua biblioteca. Mais detalhes na página **[Traços customizados](#/nml/custom-traits)**.
+O motivo clássico desse erro exato: tentar alterar `base_stats` em um asset antes de adicioná-lo à sua biblioteca (library). Mais detalhes na página **[Traços customizados](#/nml/custom-traits)**.
 
 ## Onde os logs ficam salvos
 
@@ -124,7 +124,7 @@ private static void Stage(string pName, System.Action pAction)
 }
 ```
 
-Agora, um traço com defeito custará apenas aquele traço, não o mod inteiro, e o log identificará exatamente a etapa culpada:
+Agora, um traço (trait) com defeito custará apenas aquele traço, não o mod inteiro, e o log identificará exatamente a etapa culpada:
 
 ```text Player.log
 [NML]: [HelloBox]: stage 'items' failed: NullReferenceException ...

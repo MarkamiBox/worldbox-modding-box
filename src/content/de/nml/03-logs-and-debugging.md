@@ -49,7 +49,7 @@ Starte das Spiel mit der obigen Mod und suche in `Player.log` nach `HelloBox`. D
 008: Init Mod HelloBox                   = 0,0014
 ```
 
-Zeile für Zeile: NML hat die Dateien in `Code/` kompiliert, deine Ressourcen geladen und dann an `OnModLoad` angeklopft, was deine Zeile ausgegeben hat. Die nummerierten Zeilen sind NMLs Zeitmessung für jeden Schritt: Die Zahl nach `=` sind Sekunden, und manche davon erscheinen rot im Log. **Rot bedeutet hier nicht kaputt**, sondern lediglich, dass dieser Schritt der langsamste war :hmm:.
+Zeile für Zeile: NML hat die Dateien in `Code/` kompiliert, deine Ressourcen (resource) geladen und dann an `OnModLoad` angeklopft, was deine Zeile ausgegeben hat. Die nummerierten Zeilen sind NMLs Zeitmessung für jeden Schritt: Die Zahl nach `=` sind Sekunden, und manche davon erscheinen rot im Log. **Rot bedeutet hier nicht kaputt**, sondern lediglich, dass dieser Schritt der langsamste war :hmm:.
 
 Die Zeile, die wirklich zählt, ist deine eigene. Wenn `[HelloBox]: HelloBox is alive!` fehlt, lies weiter.
 
@@ -84,7 +84,7 @@ Sieht beängstigend aus, ist aber ein einfacher Satz:
 - **`in HelloTraits.cs:24`**: **Zeile 24 in deiner eigenen Datei**. Schau dir diese Zeile an. Irgendetwas darauf ist `null`.
 - Die Zeilen darunter zeigen den Aufrufstapel (Callstack), die neuesten Aufrufe zuerst. Konzentriere dich auf die Dateinamen deiner eigenen Mod.
 
-Der Klassiker für genau diesen Fehler: Der Zugriff auf `base_stats` eines Assets, bevor es der entsprechenden Bibliothek hinzugefügt wurde. Details dazu auf der Seite **[Eigene Traits](#/nml/custom-traits)**.
+Der Klassiker für genau diesen Fehler: Der Zugriff auf `base_stats` eines Assets, bevor es der entsprechenden Bibliothek (library) hinzugefügt wurde. Details dazu auf der Seite **[Eigene Traits](#/nml/custom-traits)**.
 
 ## Wo die Logs liegen
 
@@ -124,7 +124,7 @@ private static void Stage(string pName, System.Action pAction)
 }
 ```
 
-Nun kostet dich eine fehlerhafte Eigenschaft nur genau diese Eigenschaft, nicht die gesamte Mod, und das Log nennt dir den schuldigen Schritt beim Namen:
+Nun kostet dich eine fehlerhafte Eigenschaft (trait) nur genau diese Eigenschaft, nicht die gesamte Mod, und das Log nennt dir den schuldigen Schritt beim Namen:
 
 ```text Player.log
 [NML]: [HelloBox]: stage 'items' failed: NullReferenceException ...

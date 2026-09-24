@@ -100,7 +100,7 @@ namespace HelloBox
 
 ## 나만의 스프라이트 적용하기
 
-여기에는 함정이 있고, 누구나 한 번은 빠집니다 :wbbre:. `texture`는 전체 경로가 **아닙니다**: 상태 효과 라이브러리가 불러오기 전에 앞에 `effects/`를 붙이므로, 이름만 적으면 됩니다.
+여기에는 함정이 있고, 누구나 한 번은 빠집니다 :wbbre:. `texture`는 전체 경로가 **아닙니다**: 상태 효과 (status) 라이브러리가 불러오기 전에 앞에 `effects/`를 붙이므로, 이름만 적으면 됩니다.
 
 ```text Mods/HelloBox/
 HelloBox/
@@ -145,7 +145,7 @@ StatusAsset asset = AssetManager.status.get(HelloStatus.CURSED);
 World.world.statuses.newStatus(actor, asset, 20f);   // 20초 (0을 주면 에셋 기본 지속시간)
 ```
 
-AI 행동 트리 내부에서는 사전 제작된 노드를 사용할 수 있습니다: `new BehActorAddStatus("hello_cursed", 20f)` 및 `new BehActorRemoveStatus("hello_cursed")`.
+AI 행동 (behaviour) 트리 내부에서는 사전 제작된 노드를 사용할 수 있습니다: `new BehActorAddStatus("hello_cursed", 20f)` 및 `new BehActorRemoveStatus("hello_cursed")`.
 
 ## 텍스트 등록을 잊지 마세요
 

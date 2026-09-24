@@ -8,7 +8,7 @@ order: 220
 
 # Logros :gold_star:
 
-Sí, un mod puede añadir logros. Aparecen en la ventana de logros del juego, se desbloquean con su animación emergente como los oficiales y se guardan junto con el progreso del jugador. Lee la advertencia del final antes de publicar uno.
+Sí, un mod puede añadir logros (achievement). Aparecen en la ventana de logros del juego, se desbloquean con su animación emergente como los oficiales y se guardan junto con el progreso del jugador. Lee la advertencia del final antes de publicar uno.
 
 ```csharp Mods/HelloBox/Code/HelloAchievements.cs
 using System.Collections.Generic;

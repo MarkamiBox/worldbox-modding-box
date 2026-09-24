@@ -17,26 +17,26 @@ Une vingtaine de fichiers, et voilà ce que ça donne en jeu. Chaque ligne est u
 | Quoi | Où tu le vois |
 | --- | --- |
 | Un trait d'acteur, et un onglet à toi pour le ranger | L'inspecteur d'unité, liste des traits |
-| Traits de culture, religion, sous-espèce, clan, langue et royaume | Leurs propres fenêtres, une par système |
-| Une arme, son enchantement et une catégorie pour les deux | Les mains d'une unité, les onglets d'équipement |
-| Un effet de statut | Au-dessus de la tête de la créature, avec son icône |
-| Des drops, un nuage qui les fait pleuvoir et un projectile | La carte, en plein vol, en pleine bagarre |
+| Traits de culture, religion, sous-espèce (subspecies), clan, langue et royaume (kingdom) | Leurs propres fenêtres, une par système |
+| Une arme, son enchantement (modifier) et une catégorie pour les deux | Les mains d'une unité, les onglets d'équipement |
+| Un effet de statut (status) | Au-dessus de la tête de la créature, avec son icône |
+| Des drops, un nuage (cloud) qui les fait pleuvoir et un projectile | La carte, en plein vol, en pleine bagarre |
 | Un tile | Le terrain, sous tout le reste |
 | Une recette de nourriture | Les réserves d'une ville |
-| Une loi du monde | La fenêtre Lois du Monde |
-| Un pouvoir divin, son onglet et son bouton | La barre de pouvoirs en bas |
+| Une loi du monde (world law) | La fenêtre Lois du Monde |
+| Un pouvoir divin (GodPower), son onglet et son bouton | La barre de pouvoirs en bas |
 | Une fenêtre | Où tu décides de la mettre |
-| Un bâtiment | Une ville, dès que quelqu'un le construit |
+| Un bâtiment (building) | Une ville, dès que quelqu'un le construit |
 | Un royaume et une créature qui lui appartient | La carte, en apparaissant et en se battant |
 | Une catastrophe | Le menu des catastrophes |
 | Son propre job IA | La créature, qui marche quelque part exprès |
-| Une décision, un métier municipal et un outil en main | Feux follets errant avec une torche, un gardien par ville |
+| Une décision (decision), un métier (job) municipal et un outil en main | Feux follets errant avec une torche, un gardien par ville |
 | Une action de combat | Les unités véloces projetant des braises avant d'attaquer |
-| Un gène, une personnalité, un type de livre, une pièce de bannière | Le génome, souverains, bibliothèques, drapeaux |
+| Un gène, une personnalité, un type de livre (book), une pièce de bannière | Le génome, souverains, bibliothèques (library), drapeaux |
 | Opinion, loyauté et un événement de bonheur | Les bilans diplomatiques et municipaux |
 | Un complot | La liste des complots, lorsqu'un chef planifie un festival de braises |
-| Un âge du monde et un comportement du monde | La roue des âges et le minuteur mondial |
-| Un succès | La fenêtre des succès, à dix feux follets |
+| Un âge du monde et un comportement (behaviour) du monde | La roue des âges et le minuteur mondial |
+| Un succès (achievement) | La fenêtre des succès, à dix feux follets |
 | Un pinceau, une info-bulle et un raccourci clavier | Rotation des pinceaux, info-bulle au survol, F6 |
 | Un patch Harmony | Nulle part, et c'est le but : il change une règle en silence |
 
@@ -170,6 +170,7 @@ namespace HelloBox
             Stage("drops", HelloDrops.Initialize);          // clouds rain drops, so drops go first
             Stage("clouds", HelloClouds.Initialize);
             Stage("tiles", HelloTiles.Initialize);
+            Stage("biomes", HelloBiomes.Initialize);       // after the tiles, before anything spawns in it
             Stage("resources", HelloResources.Initialize);  // items and buildings cost resources
             Stage("projectiles", HelloProjectiles.Initialize);
             Stage("modifiers", HelloModifiers.Initialize);
@@ -177,6 +178,7 @@ namespace HelloBox
             Stage("buildings", HelloBuildings.Initialize);
             Stage("kingdoms", HelloKingdoms.Initialize);    // actors point at kingdoms
             Stage("kingdom_traits", HelloKingdomTraits.Initialize);
+            Stage("names", HelloNames.Initialize);         // before the actors, so they can use its name set
             Stage("actors", HelloActors.Initialize);
             Stage("laws", HelloLaws.Initialize);
             Stage("ai", HelloAI.Initialize);
@@ -185,6 +187,7 @@ namespace HelloBox
             Stage("tools", HelloTools.Initialize);
             Stage("combat", HelloCombat.Initialize);        // after the trait that carries it
             Stage("politics", HelloPolitics.Initialize);
+            Stage("wars", HelloWars.Initialize);
             Stage("plots", HelloPlots.Initialize);
             Stage("ages", HelloAges.Initialize);            // after the cloud, the law and the status it uses
             Stage("achievements", HelloAchievements.Initialize);
@@ -239,11 +242,11 @@ Vos textes n'ont pas besoin d'étape non plus : NML charge `Locales/en.json` ava
 
 1. **Les groupes avant leur contenu**, car un asset dont le `group_id` pointe vers le vide n'a aucun onglet où s'afficher.
 2. **Les gouttes avant les nuages**, car un nuage référence la goutte qu'il fait pleuvoir.
-3. **Les ressources avant les objets et les bâtiments**, car tous deux coûtent des ressources.
+3. **Les ressources (resource) avant les objets et les bâtiments**, car tous deux coûtent des ressources.
 4. **Les modificateurs avant les objets**, car une arme énumère les modificateurs qu'elle peut obtenir.
 5. **Les royaumes avant les acteurs**, car un acteur mentionne ses royaumes sauvage et civilisé.
 6. **Les pouvoirs avant leurs boutons** : `PowerButtonCreator` recherche le pouvoir par son identifiant, et un bouton rattaché à un pouvoir manquant est un bouton inerte.
-7. **Tout ce qu'utilise l'IA avant l'IA elle-même**, puisqu'une tâche cite des traits et des statuts par identifiant.
+7. **Tout ce qu'utilise l'IA avant l'IA elle-même**, puisqu'une tâche (task) cite des traits et des statuts par identifiant.
 8. **Les acteurs et l'IA avant les décisions, métiers municipaux et outils**, car ceux-ci pointent vers une créature et une tâche qui doivent déjà exister.
 9. **L'âge du monde après le nuage, la loi et le statut** que ses effets utilisent. Les complots, la politique et les succès ne font des recherches que pendant l'exécution du jeu et peuvent donc se placer n'importe où après leurs propres dépendances.
 

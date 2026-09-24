@@ -96,7 +96,7 @@ namespace HelloBox
 
 ## Die Pools
 
-Das Spiel verwaltet einen Ausrüstungs-Behälter pro Gruppe und befüllt diese Behälter, während seine eigenen Bibliotheken laden – also **bevor deine Mod überhaupt existiert**. Eine brandneue Gruppe hat keinen Behälter, und das erste System, das danach fragt, wirft sofort eine Ausnahme:
+Das Spiel verwaltet einen Ausrüstungs-Behälter pro Gruppe und befüllt diese Behälter, während seine eigenen Bibliotheken (library) laden – also **bevor deine Mod überhaupt existiert**. Eine brandneue Gruppe hat keinen Behälter, und das erste System, das danach fragt, wirft sofort eine Ausnahme:
 
 ```text
 KeyNotFoundException: The given key was not present in the dictionary.

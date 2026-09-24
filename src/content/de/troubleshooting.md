@@ -47,7 +47,7 @@ Finde dein Symptom in der Tabelle, klicke darauf, lies drei Zeilen. Das ist die 
 | --- | --- |
 | Absturz in der Zeile, in der ein Stat gesetzt wird | [springen](#absturz-in-der-zeile-in-der-ein-stat-gesetzt-wird) |
 | Gleicher Absturz, obwohl die Reihenfolge stimmt | [springen](#gleicher-absturz-obwohl-die-reihenfolge-stimmt) |
-| Gebäude stirbt sofort oder hat keine Größe | [springen](#gebäude-stirbt-sofort-oder-hat-keine-größe) |
+| Gebäude (building) stirbt sofort oder hat keine Größe | [springen](#gebäude-stirbt-sofort-oder-hat-keine-größe) |
 | Registriert, aber in keinem Tab sichtbar | [springen](#registriert-aber-in-keinem-tab-sichtbar) |
 | Zeigt `trait_hello_swift` statt eines Namens | [springen](#zeigt-trait-hello-swift-statt-eines-namens) |
 | Namen klappen bei Traits, aber nicht bei Items, Status, Kräften | [springen](#namen-klappen-bei-traits-aber-nicht-bei-items-status-kräften) |
@@ -63,23 +63,23 @@ Finde dein Symptom in der Tabelle, klicke darauf, lies drei Zeilen. Das ist die 
 | Symptom | |
 | --- | --- |
 | Deine Kreatur wirft einen Schattenfehler | [springen](#deine-kreatur-wirft-einen-schattenfehler) |
-| Dein Merkmal, Item oder deine Kreatur bleibt gesperrt | [springen](#dein-merkmal-item-oder-deine-kreatur-bleibt-gesperrt) |
+| Dein Merkmal (trait), Item oder deine Kreatur bleibt gesperrt | [springen](#dein-merkmal-item-oder-deine-kreatur-bleibt-gesperrt) |
 | Das Spiel stürzt beim Laden deiner Waffe oder deines Essens ab | [springen](#das-spiel-stürzt-beim-laden-deiner-waffe-oder-deines-essens-ab) |
-| Eine Wolke stürzt ab, sobald sie erscheint | [springen](#eine-wolke-stürzt-ab-sobald-sie-erscheint) |
+| Eine Wolke (cloud) stürzt ab, sobald sie erscheint | [springen](#eine-wolke-stürzt-ab-sobald-sie-erscheint) |
 | Dein Gebäude zu platzieren wirft Index was out of range | [springen](#dein-gebäude-zu-platzieren-wirft-index-was-out-of-range) |
 | Dein Gebäude wirft in jedem Frame, in dem es zu sehen ist | [springen](#dein-gebäude-wirft-in-jedem-frame-in-dem-es-zu-sehen-ist) |
 | Die Minimap wirft, sobald dein Gebäude existiert | [springen](#die-minimap-wirft-sobald-dein-gebäude-existiert) |
 | Dein Tile malt, dann wirft der Karten-Renderer | [springen](#dein-tile-malt-dann-wirft-der-karten-renderer) |
 | Ein Tier auf deinem Tile spawnen stürzt ab | [springen](#ein-tier-auf-deinem-tile-spawnen-stürzt-ab) |
-| Drops fallen unsichtbar, oder ein Projektil wirft | [springen](#drops-fallen-unsichtbar-oder-ein-projektil-wirft) |
+| Drops fallen unsichtbar, oder ein Projektil (projectile) wirft | [springen](#drops-fallen-unsichtbar-oder-ein-projektil-wirft) |
 | Das Log füllt sich mit ArgumentNullException von Projektilen | [springen](#das-log-füllt-sich-mit-argumentnullexception-von-projektilen) |
 | Dein Kräfte-Tab erscheint nie | [springen](#dein-kräfte-tab-erscheint-nie) |
 | Das Einstellungsfenster zeigt rohe Ids | [springen](#das-einstellungsfenster-zeigt-rohe-ids) |
 | Die Welt wirft in jedem Frame Fehler, nachdem du ein Weltverhalten hinzugefügt hast | [Sprung](#die-welt-wirft-in-jedem-frame-fehler-nachdem-du-ein-weltverhalten-hinzugefügt-hast) |
-| Eine Katastrophe stürzt ab, wenn sie in das Weltprotokoll schreibt | [Sprung](#eine-katastrophe-stürzt-ab-wenn-sie-in-das-weltprotokoll-schreibt) |
+| Eine Katastrophe (disaster) stürzt ab, wenn sie in das Weltprotokoll schreibt | [Sprung](#eine-katastrophe-stürzt-ab-wenn-sie-in-das-weltprotokoll-schreibt) |
 | Eine Katastrophe ohne Action stürzt ab, sobald sie ausgewählt wird | [Sprung](#eine-katastrophe-ohne-action-stürzt-ab-sobald-sie-ausgewählt-wird) |
-| Der erste Herrscher, der deinen Plan prüft, stürzt ab | [Sprung](#der-erste-herrscher-der-deinen-plan-prüft-stürzt-ab) |
-| Deine Entscheidung, dein Plan, dein Gen oder deine Waffe existiert, wird aber nie genutzt | [Sprung](#deine-entscheidung-dein-plan-dein-gen-oder-deine-waffe-existiert-wird-aber-nie-genutzt) |
+| Der erste Herrscher, der deinen Plan (plot) prüft, stürzt ab | [Sprung](#der-erste-herrscher-der-deinen-plan-prüft-stürzt-ab) |
+| Deine Entscheidung (decision), dein Plan, dein Gen oder deine Waffe existiert, wird aber nie genutzt | [Sprung](#deine-entscheidung-dein-plan-dein-gen-oder-deine-waffe-existiert-wird-aber-nie-genutzt) |
 
 **Kompiliert bei dir, aber nicht bei anderen**
 
@@ -212,7 +212,7 @@ Das Spiel tut so, als gäbe es deine Mod nicht. Nimm es nicht persönlich, meist
 
 ### Code bearbeitet, aber im Spiel ändert sich nichts
 
-- **Was du siehst**: Altes Verhalten, keine Fehler.
+- **Was du siehst**: Altes Verhalten (behaviour), keine Fehler.
 - **Warum**: NML kompiliert `Code\*.cs` **einmalig beim Spielstart**. Ein laufendes Spiel liest Dateien nicht neu ein.
 - **Lösung**: Speichern, Spiel beenden und neu starten.
 
@@ -237,7 +237,7 @@ NML hat deine Mod gefunden und ausgeführt. Irgendetwas darin hat es nie bis auf
 ### Absturz in der Zeile, in der ein Stat gesetzt wird
 
 - **Was du siehst**: `NullReferenceException` in deinem `Initialize()`.
-- **Warum**: Ein neues Asset hat **keinen Stat-Block**. Die Bibliothek erstellt ihn erst in `add()`.
+- **Warum**: Ein neues Asset hat **keinen Stat-Block**. Die Bibliothek (library) erstellt ihn erst in `add()`.
 - **Lösung**: Erst `add()`, dann die Stats setzen. Gilt für Traits, Status, Items, Gebäude und Kreaturen.
 
 ```csharp
@@ -252,7 +252,7 @@ swift.base_stats["speed"] = 20f;     // ab hier sicher
 
 - **Was du siehst**: Dieselbe `NullReferenceException`, in einer Wertezeile, die nach `add()` läuft.
 - **Warum**: Du hast einen Wertenamen erfunden. Eine unbekannte Werte-ID ist ein Absturz, keine leere Aktion.
-- **Lösung**: Nutz echte IDs: `damage`, `health`, `speed`, `armor`, `attack_speed`, `stamina`, `mana`, `range`, `critical_chance`, `lifespan`, `warfare`. Multiplikatoren sind eigene Werte: `multiplier_damage`, `multiplier_health`, `multiplier_speed`. Die vollständige Liste steht in der **[Werte-Referenz](#/nml/stats)**.
+- **Lösung**: Nutz echte IDs: `damage`, `health`, `speed`, `armor`, `attack_speed`, `stamina`, `mana`, `range`, `critical_chance`, `lifespan`, `warfare`. Multiplikatoren sind eigene Werte (stats): `multiplier_damage`, `multiplier_health`, `multiplier_speed`. Die vollständige Liste steht in der **[Werte-Referenz](#/nml/stats)**.
 
 ### Gebäude stirbt sofort oder hat keine Größe
 
@@ -284,7 +284,7 @@ swift.base_stats["speed"] = 20f;     // ab hier sicher
 | `StatusAsset` | das **Feld** `locale_id` | das **Feld** `locale_description` |
 | `WorldLawAsset` | `<id>_title` | `<id>_description` |
 
-- **Lösung**: Setz bei Mächten `name` = ID, bei Gegenständen `translation_key`, bei Status `locale_id`. Halte Schlüssel klein in snake_case: Sie werden beim Speichern normalisiert, aber **nicht** beim Nachschlagen, also wird `MyKey` als `my_key` gespeichert und nie wieder gefunden :PESgn_SMH:.
+- **Lösung**: Setz bei Mächten (GodPower) `name` = ID, bei Gegenständen (item) `translation_key`, bei Status `locale_id`. Halte Schlüssel klein in snake_case: Sie werden beim Speichern normalisiert, aber **nicht** beim Nachschlagen, also wird `MyKey` als `my_key` gespeichert und nie wieder gefunden :PESgn_SMH:.
 
 ### Das Icon ist ein leeres Loch
 
@@ -342,13 +342,13 @@ Jeder Eintrag in diesem Abschnitt hat dieselbe Ursache. Das Spiel bereitet einen
 ### Dein Merkmal, Item oder deine Kreatur bleibt gesperrt
 
 - **Was du siehst**: Es existiert, aber das Wissensbuch zeigt es grau, und der Spieler kann es erst nutzen, wenn es in einer Welt auftaucht.
-- **Warum**: `needs_to_be_explored` ist standardmäßig `true` bei allem, was sich freischalten lässt: Actors, alle sieben Merkmalsarten, Items, Item-Modifier und Weltgesetze.
+- **Warum**: `needs_to_be_explored` ist standardmäßig `true` bei allem, was sich freischalten lässt: Actors, alle sieben Merkmalsarten, Items, Item-Modifier und Weltgesetze (world law).
 - **Lösung**: `needs_to_be_explored = false` beim Erstellen. Siehe **[Eigene Merkmale](#/nml/custom-traits)**.
 
 ### Das Spiel stürzt beim Laden deiner Waffe oder deines Essens ab
 
 - **Was du siehst**: `ArgumentNullException: Value cannot be null. Parameter name: key` in `ItemLibrary.loadSprites()` oder `ResourceLibrary.loadSprites()`.
-- **Warum**: Waffen bekommen `path_gameplay_sprite` und Ressourcen `full_sprite_path` in `post_init()` beim Laden des Spiels abgeleitet. Deine bleiben `null`.
+- **Warum**: Waffen bekommen `path_gameplay_sprite` und Ressourcen (resource) `full_sprite_path` in `post_init()` beim Laden des Spiels abgeleitet. Deine bleiben `null`.
 - **Lösung**: Setz sie selbst. Siehe **[Eigene Items](#/nml/custom-items)** und **[Ressourcen & Nahrung](#/nml/resources)**.
 
 ### Eine Wolke stürzt ab, sobald sie erscheint
@@ -396,7 +396,7 @@ Jeder Eintrag in diesem Abschnitt hat dieselbe Ursache. Das Spiel bereitet einen
 ### Das Log füllt sich mit ArgumentNullException von Projektilen
 
 - **Was du siehst**: Tausende `ArgumentNullException: Value cannot be null` in `ProjectileManager.updateProjectiles()`, solange ein Projektil in der Luft ist.
-- **Warum**: Ein Projektil ohne Schützen hat kein Königreich, und der Manager nutzt das Königreich in jedem Frame als Dictionary-Schlüssel.
+- **Warum**: Ein Projektil ohne Schützen hat kein Königreich (kingdom), und der Manager nutzt das Königreich in jedem Frame als Dictionary-Schlüssel.
 - **Lösung**: Gib ihm eins: `pForcedKingdom: World.world.kingdoms_wild.get("nature")`, der neutrale Besitzer des Spiels selbst.
 
 ### Dein Kräfte-Tab erscheint nie
@@ -438,7 +438,7 @@ Jeder Eintrag in diesem Abschnitt hat dieselbe Ursache. Das Spiel bereitet einen
 ### Deine Entscheidung, dein Plan, dein Gen oder deine Waffe existiert, wird aber nie genutzt
 
 - **Symptom**: Kein Fehler. Das Asset befindet sich in seiner Library, das Spiel wählt es jedoch nie aus.
-- **Ursache**: Das Spiel wählt aus Listen aus, die beim Spielstart erstellt wurden: `basic_plots`, die Entscheidungslisten, der Gen-Mutationspool, die Waffenpools, die Slot-Pools der Zeitalter. Deines wurde erst danach hinzugefügt.
+- **Ursache**: Das Spiel wählt aus Listen aus, die beim Spielstart erstellt wurden: `basic_plots`, die Entscheidungslisten, der Gen-Mutationspool, die Waffenpools, die Slot-Pools der Zeitalter (world age). Deines wurde erst danach hinzugefügt.
 - **Lösung**: Füge es der Liste hinzu, aus der das Spiel tatsächlich liest. Jede Seite nennt die passende Liste: **[Eigene KI & Verhalten](#/nml/custom-ai)**, **[Pläne & Intrigen](#/nml/plots)**, **[Unterarten-Merkmale](#/nml/subspecies-traits)**, **[Eigene Gegenstände](#/nml/custom-items)**, **[Weltzeitalter & Weltverhalten](#/nml/world-ages)**.
 
 ---
@@ -534,7 +534,7 @@ _lastWorldTime = now;
 ### Einheit steht für immer still oder stürzt jeden Frame ab
 
 - **Was du siehst**: Eine Einheit ist ohne Aufgabennamen eingefroren, oder es gibt jeden Tick einen Stacktrace.
-- **Warum**: Eine unbekannte **Aufgaben**-ID ist eine stille, dauerhafte leere Aktion; eine unbekannte **Job**-ID ist ein Absturz in jedem Tick.
+- **Warum**: Eine unbekannte **Aufgaben** (task)-ID ist eine stille, dauerhafte leere Aktion; eine unbekannte **Job**-ID ist ein Absturz in jedem Tick.
 - **Lösung**: Prüf deine IDs einmal beim Laden, registriere Aufgaben vor dem Job, der sie auflistet, und gib `next_job_delegate` nie eine ID, die du nicht geprüft hast.
 
 ### Deine benutzerdefinierte KI wird heimlich zurückgesetzt

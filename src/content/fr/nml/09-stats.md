@@ -14,7 +14,7 @@ Presque tous les assets que vous enregistrerez possèdent un bloc `base_stats`, 
 
 `base_stats` est un dictionnaire associant des clés `string` à des valeurs `float`. La clé doit obligatoirement être l'un des identifiants listés ci-dessous. Écrire une clé inconnue n'est **pas** anodin : le setter cherche l'identifiant dans la `base_stats_library`, récupère `null` et lève immédiatement une `NullReferenceException` en plein milieu de votre `Initialize()`.
 
-Une faute de frappe sur une stat ne se contente donc pas d'être ignorée en silence. Elle fait planter toute votre phase d'initialisation, et rien de ce qui suit cette ligne ne s'exécutera. Stockez vos noms de statistiques dans des champs `const string` si vous les utilisez à plusieurs endroits.
+Une faute de frappe sur une stat ne se contente donc pas d'être ignorée en silence. Elle fait planter toute votre phase d'initialisation, et rien de ce qui suit cette ligne ne s'exécutera. Stockez vos noms de statistiques (stats) dans des champs `const string` si vous les utilisez à plusieurs endroits.
 
 ```csharp
 trait.base_stats["damage"] = 15;
@@ -27,17 +27,17 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%, pas x0.25
 
 | # | Source | Note |
 | --- | --- | --- |
-| 1 | **Sous-espèce**, plus son bloc masculin ou féminin | Si l'unité en possède une |
+| 1 | **Sous-espèce** (subspecies), plus son bloc masculin ou féminin | Si l'unité en possède une |
 | 1b | **Actor asset** | Uniquement s'il n'y a **pas** de sous-espèce. La sous-espèce la *remplace*, elle ne s'ajoute pas par-dessus |
 | 2 | **Clan**, plus son bloc masculin ou féminin | |
 | 3 | **Langue** | |
 | 4 | **Culture** | |
 | 5 | Attributs de dirigeant issus des données propres de l'unité | `diplomacy`, `stewardship`, `intelligence`, `warfare` |
-| 6 | Chaque **effet de statut** actif | |
+| 6 | Chaque **effet de statut (status)** actif | |
 | 7 | L'objet d'**attaque par défaut** | Uniquement si l'unité est désarmée |
-| 8 | Chaque **trait d'acteur** | Les traits liés à une ère sont ignorés si cette ère n'est pas active |
+| 8 | Chaque **trait d'acteur** | Les traits liés à une ère (world age) sont ignorés si cette ère n'est pas active |
 | 9 | Sa **personnalité** | |
-| 10 | Chaque **objet équipé**, avec ses modificateurs | |
+| 10 | Chaque **objet équipé**, avec ses modificateurs (modifier) | |
 
 Deux erreurs classiques ici :
 
@@ -114,11 +114,11 @@ Celles-ci n'ont aucun effet sur un animal. Le jeu les marque `used_only_for_civs
 | Statistique | Ce qu'elle fait |
 | --- | --- |
 | `diplomacy` | Attribut de chef : négociation |
-| `warfare` | Attribut de chef : guerre |
+| `warfare` | Attribut de chef : guerre (war) |
 | `stewardship` | Attribut de chef : gestion |
 | `intelligence` | Attribut de chef : savoir |
 | `army` | Contribution à la taille de l'armée |
-| `cities` | Nombre de villes visé par le royaume |
+| `cities` | Nombre de villes visé par le royaume (kingdom) |
 | `bonus_towers` | Tours supplémentaires constructibles par la ville |
 | `limit_population` | Plafond démographique |
 | `limit_clan_members` | Taille maximale du clan |
@@ -171,11 +171,11 @@ Ceux reconnus par le jeu de base :
 | Immunité | `immunity_fire` · `immunity_cold` · `building_immunity_fire` · `damaged_by_water` |
 | Déplacement | `fast_swimming` · `water_creature` · `immovable` · `walk_adaptation_sand` · `walk_adaptation_snow` · `walk_adaptation_swamp` |
 | Esprit | `strong_mind` · `has_sapience` · `has_emotions` · `has_advanced_memory` · `has_advanced_communication` · `can_read_any_book` · `mad` · `moody` · `unconscious` · `frozen_ai` |
-| Comportement | `ignore_fights` · `love_peace` · `steal_items` · `needs_food` · `needs_mate` · `always_idle_animation` · `stop_idle_animation` · `generate_light` |
+| Comportement (behaviour) | `ignore_fights` · `love_peace` · `steal_items` · `needs_food` · `needs_mate` · `always_idle_animation` · `stop_idle_animation` · `generate_light` |
 | Régime | `diet_meat` · `diet_meat_insect` · `diet_fish` · `diet_blood` · `diet_grass` · `diet_crops` · `diet_fruits` · `diet_flowers` · `diet_nectar` · `diet_algae` · `diet_vegetation` · `diet_wood` · `diet_minerals` · `diet_tiles` · `diet_same_species` |
 | Reproduction | `reproduction_sexual` · `reproduction_asexual` · `oviparity` · `viviparity` |
 | Nature | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
-| Bâtiment | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
+| Bâtiment (building) | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
 Contrairement aux statistiques, un tag inconnu est inoffensif : il ne correspondra simplement à rien. Cela signifie aussi qu'une faute de frappe passera totalement inaperçue, alors copiez-les scrupuleusement. Une faute comme `imunity_fire` peut rester des mois dans votre mod sans que personne ne vous prévienne :PESgn_SMH:.
 

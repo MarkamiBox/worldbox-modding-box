@@ -52,7 +52,7 @@ Agora você tem certeza de que ele recebe uma string, devolve um bool e tem um s
 
 ### 3. Ver como o jogo faz
 
-Essa é a grande sacada. Quer criar uma lei do mundo funcional? Encontre `WorldLawLibrary`, abra o `init()` e leia o que os desenvolvedores escreveram:
+Essa é a grande sacada. Quer criar uma lei do mundo (world law) funcional? Encontre `WorldLawLibrary`, abra o `init()` e leia o que os desenvolvedores escreveram:
 
 ```csharp Assembly-CSharp / WorldLawLibrary.init()
 world_law_mutant_box = add(new WorldLawAsset

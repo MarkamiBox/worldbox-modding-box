@@ -11,7 +11,7 @@ order: 140
 > [!NOTE] Si chiamano attori, non razze
 > Il gioco definisce ogni creatura vivente come un **attore** (actor): un umano, un lupo, un drago, uno zombie, un granchio. Provengono tutti dalla stessa classe, `ActorAsset`, e risiedono in `AssetManager.actor_library`. "Razza" è il vecchio termine. L'unico posto in cui sopravvive è una proprietà `race` marcata con `[Obsolete("use .original_actor_asset instead")]`, che esiste solo per consentire il caricamento di salvataggi preistorici. Scrivi `actor` ovunque.
 
-Una nuova creatura è la mod che tutti vogliono creare e che quasi nessuno porta a termine, poiché un `ActorAsset` porta con sé animazioni, texture, effetti sonori, tassonomia, dieta, flag di IA, genoma, cultura e statistiche. Sbagliare anche solo uno di questi aspetti ti consegnerà un'unità invisibile immobile in mezzo all'oceano :PES4_Invisible:.
+Una nuova creatura è la mod che tutti vogliono creare e che quasi nessuno porta a termine, poiché un `ActorAsset` porta con sé animazioni, texture, effetti sonori, tassonomia, dieta, flag di IA, genoma, cultura (culture) e statistiche (stats). Sbagliare anche solo uno di questi aspetti ti consegnerà un'unità invisibile immobile in mezzo all'oceano :PES4_Invisible:.
 
 La buona notizia: nemmeno il gioco originale crea le creature da zero. Ecco letteralmente come vanilla dà vita a un elfo:
 
@@ -31,7 +31,7 @@ Gli identificatori racchiusi tra `$` sono **template**: attori parzialmente defi
 | `$animal$` | Un animale selvatico |
 | `$mob$` | Un mostro ostile |
 | `$civ_unit$` | Una creatura civilizzata di base |
-| `$civ_advanced_unit$` | Una creatura con civiltà completa: città, regni, cultura, religione. Ciò che usano umani, elfi, orchi e nani |
+| `$civ_advanced_unit$` | Una creatura con civiltà completa: città, regni (kingdom), cultura, religione (religion). Ciò che usano umani, elfi, orchi e nani |
 
 Puoi anche clonare un attore già finito - `human`, `wolf`, `zombie` - e questo è il percorso più semplice per la tua prima creatura, perché gli sprite dell'attore donatore sono inclusi e la tua creatura sarà visibile all'istante.
 
@@ -84,7 +84,7 @@ namespace HelloBox
 > `loadShadow()` è `internal`, quindi serve un `Assembly-CSharp.dll` **pubblicizzato** come nel resto della guida. Se non ce l'hai, imposta invece `asset.shadow = false;`: niente ombra, ma nemmeno errori.
 
 > [!WARNING] `clone()` registra già
-> `AssetManager.<library>.clone(newId, sourceId)` chiama `add()` al suo interno. Tutte le librerie funzionano così. Chiamare tu `add()` dopo è una registrazione doppia: la libreria rimuove la prima copia, scrive un errore e la riaggiunge. Innocuo, ma è rumore nel log che rende più difficile trovare gli errori veri, ed è la prima cosa che noterà chi rivede il codice.
+> `AssetManager.<library>.clone(newId, sourceId)` chiama `add()` al suo interno. Tutte le librerie (library) funzionano così. Chiamare tu `add()` dopo è una registrazione doppia: la libreria rimuove la prima copia, scrive un errore e la riaggiunge. Innocuo, ma è rumore nel log che rende più difficile trovare gli errori veri, ed è la prima cosa che noterà chi rivede il codice.
 >
 > Il rovescio della medaglia è la buona notizia: **dopo un clone, `base_stats` esiste già**, quindi la regola "statistiche dopo add" di **[Tratti personalizzati](#/nml/custom-traits)** è già rispettata.
 
@@ -176,7 +176,7 @@ Il primo giorno ne contano solo tre: `civ`, `actor_size` e `name_locale`. Il res
 
 | Campo | Cosa fa |
 | --- | --- |
-| `civ` | Creatura con civiltà: città, regni, mansioni, guerra. `false` = animale |
+| `civ` | Creatura con civiltà: città, regni, mansioni, guerra (war). `false` = animale |
 | `auto_civ` | Se il gioco avvia la loro civilizzazione autonomamente |
 | `default_animal` | Lo contrassegna come fauna selvatica per i controlli interni del gioco |
 | `unit_other` | Né civiltà né animale: mostro ostile, costrutto, entità speciale |
@@ -184,19 +184,19 @@ Il primo giorno ne contano solo tre: `civ`, `actor_size` e `name_locale`. Il res
 | `name_locale` | Chiave per il nome a schermo |
 | `icon` | Icona usata negli elenchi e nei pulsanti di generazione |
 | `color_hex` | Tinta applicata alle unità colorabili |
-| `can_have_subspecies` | Se mutano in sottospecie nel corso delle generazioni |
-| `has_ai_system` | Se eseguono il sistema di comportamento generale |
+| `can_have_subspecies` | Se mutano in sottospecie (subspecies) nel corso delle generazioni |
+| `has_ai_system` | Se eseguono il sistema di comportamento (behaviour) generale |
 | `flying` / `hovering` | Se si sollevano dal suolo e a quale altezza |
 | `force_ocean_creature` / `force_land_creature` | Vincola rigidamente il tipo di terreno abitabile |
 | `can_attack_buildings` | Se possono colpire e demolire strutture |
-| `has_soul`, `can_receive_traits`, `can_be_cloned` | Azioni consentite ai poteri divini su di esse |
+| `has_soul`, `can_receive_traits`, `can_be_cloned` | Azioni consentite ai poteri divini (GodPower) su di esse |
 | `kingdom_id_wild` / `kingdom_id_civilization` | Regno di appartenenza (nomadi o insediati) |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … foglio da cui derivano gli sprite |
 | `animation_walk` / `animation_idle` / `animation_swim` | Sequenze di fotogrammi con relativo campo `_speed` |
 | `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | Percorsi di eventi sonori FMOD |
 | `name_taxonomic_*` | Regno, phylum, classe, ordine, famiglia, genere, specie per l'enciclopedia |
 | `collective_term` | Nome collettivo ("un **branco** di lupi") |
-| `allowed_status_tiers` | Quali livelli di effetti di stato possono essere applicati |
+| `allowed_status_tiers` | Quali livelli di effetti di stato (status) possono essere applicati |
 | `production` | Cosa producono i loro insediamenti |
 | `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | In cosa si trasformano alla morte |
 
@@ -247,7 +247,7 @@ Assegna al giocatore un pulsante di potere divino e otterrai un generatore a tut
 
 ## Sottospecie
 
-Le sottospecie sono le varianti in cui un attore evolve e si differenzia nel corso delle generazioni. Hanno una propria libreria di tratti, distinta dai tratti degli attori, e una propria gestione di categorie:
+Le sottospecie sono le varianti in cui un attore evolve e si differenzia nel corso delle generazioni. Hanno una propria libreria di tratti (trait), distinta dai tratti degli attori, e una propria gestione di categorie:
 
 ```csharp
 SubspeciesTrait scales = new SubspeciesTrait
@@ -267,7 +267,7 @@ I tratti di sottospecie possono anche veicolare **grafica**: `sprite_path`, `ani
 
 ## La tua icona personale
 
-Prima di affrontare l'impegnativo lavoro di animazione sottostante, la parte semplice: l'icona negli elenchi e nei pulsanti di generazione.
+Prima di affrontare l'impegnativo lavoro (job) di animazione sottostante, la parte semplice: l'icona negli elenchi e nei pulsanti di generazione.
 
 ```text Mods/HelloBox/
 HelloBox/

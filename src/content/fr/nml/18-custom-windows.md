@@ -26,7 +26,7 @@ ScrollWindow.checkWindowExist("worldlaws");  // vérifier si elle existe
 ScrollWindow.isWindowActive();               // vérifier si *une* fenêtre quelconque est ouverte
 ```
 
-Cette dernière fonction est plus cruciale qu'il n'y paraît : si votre pouvoir divin effectue une action au clic, vous souhaitez généralement qu'il ne fasse rien lorsqu'une fenêtre recouvre la carte. Définir `unselect_when_window = true` sur votre `GodPower` délègue ce souci au moteur du jeu.
+Cette dernière fonction est plus cruciale qu'il n'y paraît : si votre pouvoir divin (GodPower) effectue une action au clic, vous souhaitez généralement qu'il ne fasse rien lorsqu'une fenêtre recouvre la carte. Définir `unselect_when_window = true` sur votre `GodPower` délègue ce souci au moteur du jeu.
 
 
 ## La voie native avec ScrollWindow

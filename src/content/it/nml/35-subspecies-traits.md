@@ -8,18 +8,18 @@ order: 104
 
 # Tratti delle sottospecie :wbelf:
 
-Una **sottospecie** è un ramo di una specie che si è differenziato: più longevo, provvisto di squame, oviparo o bioluminescente. Si diffonde tramite la **riproduzione**, non per insegnamento, ed è l'unico sistema di tratti dotato di sprite propri; ecco perché una sottospecie può apparire totalmente diversa dalla specie madre senza dover essere un actor separato.
+Una **sottospecie** (subspecies) è un ramo di una specie che si è differenziato: più longevo, provvisto di squame, oviparo o bioluminescente. Si diffonde tramite la **riproduzione**, non per insegnamento, ed è l'unico sistema di tratti (trait) dotato di sprite propri; ecco perché una sottospecie può apparire totalmente diversa dalla specie madre senza dover essere un actor separato.
 
 | | |
 | --- | --- |
-| Libreria | `AssetManager.subspecies_traits` |
+| Libreria (library) | `AssetManager.subspecies_traits` |
 | Classe | `SubspeciesTrait` |
 | Gruppi | `AssetManager.subspecies_trait_groups`, classe `SubspeciesTraitGroupAsset` |
 | Proprietario a runtime | `Subspecies`, in `World.world.subspecies` |
 | Prefisso di localizzazione | `subspecies_trait_` |
 | Cartella icone predefinita | `ui/Icons/subspecies_traits/` |
 
-> [!WARNING] Una sottospecie **sostituisce** le statistiche dell'asset dell'actor
+> [!WARNING] Una sottospecie **sostituisce** le statistiche (stats) dell'asset dell'actor
 > In `Actor.updateStats()`, un'unità dotata di sottospecie unisce `subspecies.base_stats` e *salta* interamente `asset.base_stats`. È un'alternativa secca, non una somma cumulata.
 >
 > Di conseguenza, qualsiasi valore impostato su `human` risulterà invisibile a qualunque umano appartenente a una sottospecie, il che in un mondo attivo da un po' corrisponde alla stragrande maggioranza :PES4_IDunnoMan:.
@@ -216,5 +216,5 @@ if (asset != null) asset.addSubspeciesTrait(HelloSubspecies.SCALES);
 
 Così ogni nuova sottospecie di quella creatura parte con il tratto. Se lo ometti e ti affidi invece a `in_mutation_pot_add`, compare da solo, da qualche parte, prima o poi, che di solito è la versione più interessante.
 
-> [!TIP] Gli incantesimi stanno bene qui
+> [!TIP] Gli incantesimi (spell) stanno bene qui
 > Le stirpi magiche vanilla sono tratti di sottospecie che concedono un incantesimo e nient'altro: `trait.addSpell("summon_lightning")`, poi `trait.linkSpells()` perché la libreria ha risolto gli id degli incantesimi all'avvio. Due righe, ereditate dai figli, e si ottiene una stirpe visibile di evocatori di tempeste attraverso un intero continente :PES5_CrazyPog:.

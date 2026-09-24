@@ -57,7 +57,7 @@ Ti serve solo quel file. La pagina elenca anche `nml-setup-win.exe` e file che f
 
 È la cartella dove Steam ha installato il gioco. Non devi mai cercarla:
 
-1. Apri **Steam** e vai nella **Libreria**.
+1. Apri **Steam** e vai nella **Libreria** (library).
 2. **Clic destro** su WorldBox nella lista a sinistra.
 3. Clicca **Gestisci**, poi **Sfoglia file locali**.
 
@@ -246,7 +246,7 @@ Le mod dello Workshop si aggiornano da sole. Per tutto il resto: chiudi il gioco
 Proveniva dallo Steam Workshop. Togliere la spunta nella lista delle mod non è sufficiente: disiscriviti dalla sua pagina dello Workshop.
 
 **Posso modificare una mod per conto mio?**
-Se contiene una cartella `Code` piena di file `.cs`, sì: sono testo semplice, NML li compila ogni volta che il gioco si avvia, e le risorse grafiche risiedono in `GameResources`. Salva prima una copia dell'originale. Condividere la tua versione modificata è un'altra questione, chiedi all'autore. Una mod che include solo un `.dll` non può essere modificata direttamente, solo ricompilata dai suoi sorgenti.
+Se contiene una cartella `Code` piena di file `.cs`, sì: sono testo semplice, NML li compila ogni volta che il gioco si avvia, e le risorse (resource) grafiche risiedono in `GameResources`. Salva prima una copia dell'originale. Condividere la tua versione modificata è un'altra questione, chiedi all'autore. Una mod che include solo un `.dll` non può essere modificata direttamente, solo ricompilata dai suoi sorgenti.
 
 **Qualcuno che mi sta aiutando mi ha chiesto il log.**
 Incolla `%USERPROFILE%\AppData\LocalLow\mkarpenko\WorldBox` nella barra degli indirizzi di Esplora file e inviagli `Player.log`, il file vero e proprio, non uno screenshot. Se il gioco è appena crashato, invia invece `Player-prev.log`: riavviare il gioco sovrascrive `Player.log`.

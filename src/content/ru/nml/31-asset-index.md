@@ -8,13 +8,13 @@ order: 94
 
 # Все библиотеки ассетов :wbworld:
 
-Класс `AssetManager` — это главный каталог всего, что вообще может существовать в игре. Он содержит **129 библиотек**, и каждая из них представляет собой `List` вместе с `Dictionary`, которые вы можете читать, модифицировать и дополнять из своего мода.
+Класс `AssetManager` — это главный каталог всего, что вообще может существовать в игре. Он содержит **129 библиотек (library)**, и каждая из них представляет собой `List` вместе с `Dictionary`, которые вы можете читать, модифицировать и дополнять из своего мода.
 
 Эта страница — их полный реестр. К большинству из них вы никогда даже не прикоснетесь. Смысл в том, что когда вам нужно что-то изменить в WorldBox, первый вопрос всегда звучит так: «в какой библиотеке это лежит?», и ответ находится на этой странице.
 
 ## Перед этой страницей
 
-Руководство **[Библиотеки ассетов](#/nml/asset-libraries)** объясняет общие принципы работы с любой из них: `has`, `get`, `add`, `clone`, шаблоны, изменение порядка и четыре правила, действующие для всех 129 хранилищ. Обязательно прочтите его сначала. Данная страница — лишь справочный указатель.
+Руководство **[Библиотеки ассетов](#/nml/asset-libraries)** объясняет общие принципы работы (job) с любой из них: `has`, `get`, `add`, `clone`, шаблоны, изменение порядка и четыре правила, действующие для всех 129 хранилищ. Обязательно прочтите его сначала. Данная страница — лишь справочный указатель.
 
 Краткая выжимка:
 
@@ -37,9 +37,9 @@ AssetManager.traits.dict;                          // каждый ассет п
 | Библиотека | Ассет | Что содержит |
 | --- | --- | --- |
 | `actor_library` | `ActorAsset` | Все виды существ. **[Кастомные существа](#/nml/custom-actors)** |
-| `traits` | `ActorTrait` | Черты существ. **[Кастомные черты](#/nml/custom-traits)** |
+| `traits` | `ActorTrait` | Черты (trait) существ. **[Кастомные черты](#/nml/custom-traits)** |
 | `trait_groups` | `ActorTraitGroupAsset` | Их вкладки. **[Группы черт и вкладки](#/nml/trait-groups)** |
-| `subspecies_traits` | `SubspeciesTrait` | Черты подвидов и их спрайты. **[Черты подвидов](#/nml/subspecies-traits)** |
+| `subspecies_traits` | `SubspeciesTrait` | Черты подвидов (subspecies) и их спрайты. **[Черты подвидов](#/nml/subspecies-traits)** |
 | `subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | Их вкладки |
 | `phenotype_library` | `PhenotypeAsset` | Цветовые варианты кожи и шерсти |
 | `gene_library` | `GeneAsset` | Гены |
@@ -55,20 +55,20 @@ AssetManager.traits.dict;                          // каждый ассет п
 | --- | --- | --- |
 | `kingdoms` | `KingdomAsset` | Типы фракций. **[Королевства и фракции](#/nml/kingdoms)** |
 | `kingdoms_traits` / `kingdoms_traits_groups` | `KingdomTrait` | Политики государств. **[Черты королевства](#/nml/kingdom-traits)** |
-| `culture_traits` / `culture_trait_groups` | `CultureTrait` | Культуры. **[Черты культуры](#/nml/culture-traits)** |
-| `religion_traits` / `religion_trait_groups` | `ReligionTrait` | Религии. **[Черты религии](#/nml/religion-traits)** |
-| `clan_traits` / `clan_trait_groups` | `ClanTrait` | Кланы. **[Черты клана](#/nml/clan-traits)** |
+| `culture_traits` / `culture_trait_groups` | `CultureTrait` | Культуры (culture). **[Черты культуры](#/nml/culture-traits)** |
+| `religion_traits` / `religion_trait_groups` | `ReligionTrait` | Религии (religion). **[Черты религии](#/nml/religion-traits)** |
+| `clan_traits` / `clan_trait_groups` | `ClanTrait` | Кланы (clan). **[Черты клана](#/nml/clan-traits)** |
 | `language_traits` / `language_trait_groups` | `LanguageTrait` | Языки. **[Черты языка](#/nml/language-traits)** |
-| `architecture_library` | `ArchitectureAsset` | Внешний вид зданий культур |
+| `architecture_library` | `ArchitectureAsset` | Внешний вид зданий (building) культур |
 | `city_build_orders` | `CityBuildOrderAsset` | Очередь построек нового города |
-| `war_types_library` | `WarTypeAsset` | Разновидности войн |
+| `war_types_library` | `WarTypeAsset` | Разновидности войн. **[Типы войн](#/nml/war-types)** |
 | `loyalty_library` | `LoyaltyAsset` | Источники лояльности |
 | `opinion_library` | `OpinionAsset` | Источники дипломатического мнения |
 | `happiness_library` | `HappinessAsset` | Источники счастья |
 | `plots_library` / `plot_category_library` | `PlotAsset` | Заговоры существ и мета-систем |
-| `decisions_library` | `DecisionAsset` | Решения ИИ |
+| `decisions_library` | `DecisionAsset` | Решения (decision) ИИ |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | Темы разговоров между существами |
-| `book_types` | `BookTypeAsset` | Разновидности книг |
+| `book_types` | `BookTypeAsset` | Разновидности книг. **[Книги](#/nml/books)** |
 | `knowledge_library` | `KnowledgeAsset` | Окно знаний |
 
 ## Объекты мира
@@ -80,7 +80,7 @@ AssetManager.traits.dict;                          // каждый ассет п
 | `top_tiles` | `TopTileType` | Поверхностный слой |
 | `tile_tile_effects` | `TileEffectAsset` | Эффекты отдельных плиток |
 | `terraform` | `TerraformOptions` | Наборы правил очистки ландшафта |
-| `biome_library` | `BiomeAsset` | Биомы |
+| `biome_library` | `BiomeAsset` | Биомы. **[Биомы](#/nml/biomes)** |
 | `resources` | `ResourceAsset` | Пища, материалы, валюта. **[Ресурсы и еда](#/nml/resources)** |
 | `clouds` | `CloudAsset` | Погода. **[Облака и погода](#/nml/clouds)** |
 | `drops` | `DropAsset` | Падающие объекты. **[Капли и падающие объекты](#/nml/drops-and-loot)** |
@@ -88,7 +88,7 @@ AssetManager.traits.dict;                          // каждый ассет п
 | `projectiles` | `ProjectileAsset` | Летящие объекты. **[Снаряды, заклинания и эффекты](#/nml/projectiles-spells)** |
 | `effects_library` | `EffectAsset` | Визуальные эффекты |
 | `months` | `MonthAsset` | Календарь |
-| `era_library` | `WorldAgeAsset` | Эпохи мира |
+| `era_library` | `WorldAgeAsset` | Эпохи (world age) мира |
 | `time_scales` | `WorldTimeScaleAsset` | Скорости течения времени |
 | `map_sizes` | `MapSizeAsset` | Размеры карт |
 | `map_gen_settings` / `map_gen_templates` | `MapGenSettingsAsset` | Генерация мира |
@@ -103,8 +103,8 @@ AssetManager.traits.dict;                          // каждый ассет п
 | `items_modifiers` | `ItemModAsset` | Чары. **[Чары для оружия](#/nml/item-modifiers)** |
 | `item_groups` | `ItemGroupAsset` | Категории снаряжения. **[Группы предметов и вкладки](#/nml/item-groups)** |
 | `unit_hand_tools` | `UnitHandToolAsset` | Рабочие инструменты в руках существ |
-| `status` | `StatusAsset` | Статусные эффекты. **[Статусные эффекты](#/nml/status-effects)** |
-| `spells` | `SpellAsset` | Заклинания, творимые существами |
+| `status` | `StatusAsset` | Статусные (status) эффекты. **[Статусные эффекты](#/nml/status-effects)** |
+| `spells` | `SpellAsset` | Заклинания (spell), творимые существами |
 | `combat_action_library` | `CombatActionAsset` | Боевые приемы |
 | `rarity_library` | `RarityAsset` | Степени редкости |
 
@@ -112,9 +112,9 @@ AssetManager.traits.dict;                          // каждый ассет п
 
 | Библиотека | Ассет | Что содержит |
 | --- | --- | --- |
-| `powers` | `GodPower` | Божественные силы. **[Божественные силы](#/nml/god-powers)** |
+| `powers` | `GodPower` | Божественные силы (GodPower). **[Божественные силы](#/nml/god-powers)** |
 | `power_tab_library` | `PowerTabAsset` | Вкладки нижней панели. **[Вкладки и кнопки сил](#/nml/power-buttons)** |
-| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | Законы мира. **[Законы мира](#/nml/world-laws)** |
+| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | Законы мира (world law). **[Законы мира](#/nml/world-laws)** |
 | `brush_library` | `BrushData` | Размеры кистей |
 | `hotkey_library` | `HotkeyAsset` | Горячие клавиши |
 | `debug_tool_library` | `DebugToolAsset` | Инструменты отладки |
@@ -163,7 +163,7 @@ AssetManager.traits.dict;                          // каждый ассет п
 
 | Библиотека | Ассет | Что содержит |
 | --- | --- | --- |
-| `name_generator` | `NameGeneratorAsset` | Генераторы имен |
+| `name_generator` | `NameGeneratorAsset` | Генераторы имен. **[Генераторы имён](#/nml/name-generators)** |
 | `name_sets` | `NameSetAsset` | Наборы имен, из которых они черпают слова |
 | `onomastics_library` / `onomastics_evolution_library` | `OnomasticsAsset` | Формирование и эволюция имен |
 | `linguistics_library` | `LinguisticsAsset` | Языковые структуры |
@@ -183,7 +183,7 @@ AssetManager.traits.dict;                          // каждый ассет п
 | `music_box` | `MusicAsset` | Музыкальные треки |
 | `game_language_library` | `GameLanguageAsset` | Языки интерфейса игры |
 | `locale_groups_library` | `LocaleGroupAsset` | Группы локалей |
-| `achievements` / `achievement_groups` | `Achievement` | Достижения |
+| `achievements` / `achievement_groups` | `Achievement` | Достижения (achievement) |
 | `signals` | `SignalAsset` | Внутренняя система сигналов |
 
 ---

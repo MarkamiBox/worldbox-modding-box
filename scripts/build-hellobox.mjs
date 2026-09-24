@@ -30,6 +30,7 @@ const c = {
 const NOT_PART_OF_THE_MOD = new Set([
   'Code/HelloSomething.cs', // the shape every page's file follows
   'Code/HelloLocale.cs', // the code alternative to Locales/en.json, never staged
+  'Code/HelloNativeWindow.cs', // the NML AbstractWindow route; HelloBox itself uses HelloWindow
 ]);
 
 const walk = (dir) =>
@@ -249,8 +250,13 @@ function writeTree(dir, files) {
  */
 function zip(sourceDir, outFile) {
   fs.rmSync(outFile, { force: true });
-  const tar = path.join(process.env.SystemRoot || 'C:\\Windows', 'System32', 'tar.exe');
-  execFileSync(tar, ['-a', '-c', '-f', outFile, '-C', sourceDir, ...fs.readdirSync(sourceDir)], { stdio: 'pipe' });
+  if (process.platform === 'win32') {
+    const tar = path.join(process.env.SystemRoot || 'C:\\Windows', 'System32', 'tar.exe');
+    execFileSync(tar, ['-a', '-c', '-f', outFile, '-C', sourceDir, ...fs.readdirSync(sourceDir)], { stdio: 'pipe' });
+  } else {
+    // Linux and macOS: the zip tool, from inside the folder so the paths start at its contents
+    execFileSync('zip', ['-r', '-X', '-q', outFile, ...fs.readdirSync(sourceDir)], { cwd: sourceDir, stdio: 'pipe' });
+  }
 }
 
 /** One specific block from one specific page, for the scaffold. */

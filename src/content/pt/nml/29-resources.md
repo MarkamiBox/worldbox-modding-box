@@ -8,12 +8,12 @@ order: 182
 
 # Recursos e comida :wbtomato:
 
-Um recurso é tudo aquilo que uma cidade armazena, comercializa, come ou forja: trigo, pão, pedra, mithril, ossos, gemas. Eles residem em `AssetManager.resources` e são a camada fundamental de toda a economia: o que as fazendas plantam, o que os padeiros assam, o que os ferreiros usam e o que um cidadão faminto come. Nesta economia, até o pão é uma estrutura de dados :PES2_Cash:.
+Um recurso (resource) é tudo aquilo que uma cidade armazena, comercializa, come ou forja: trigo, pão, pedra, mithril, ossos, gemas. Eles residem em `AssetManager.resources` e são a camada fundamental de toda a economia: o que as fazendas plantam, o que os padeiros assam, o que os ferreiros usam e o que um cidadão faminto come. Nesta economia, até o pão é uma estrutura de dados :PES2_Cash:.
 
 ## Clonando a partir de um modelo
 
 > [!WARNING] Defina `full_sprite_path` ou o carregador quebra
-> `path_gameplay_sprite` é só metade. A biblioteca monta `full_sprite_path` a partir dele em `post_init()`, uma vez, durante o carregamento do jogo, então um recurso registrado por um mod fica com `null` ali. O preloader de sprites chama `getSpriteList(null)` e o carregamento inteiro morre com `ArgumentNullException: Value cannot be null. Parameter name: key` :wbfacepalm:.
+> `path_gameplay_sprite` é só metade. A biblioteca (library) monta `full_sprite_path` a partir dele em `post_init()`, uma vez, durante o carregamento do jogo, então um recurso registrado por um mod fica com `null` ali. O preloader de sprites chama `getSpriteList(null)` e o carregamento inteiro morre com `ArgumentNullException: Value cannot be null. Parameter name: key` :wbfacepalm:.
 
 ```csharp Mods/HelloBox/Code/HelloResources.cs
 namespace HelloBox
@@ -75,7 +75,7 @@ namespace HelloBox
 | `tastiness`, `favorite_food_chance` | Chance de uma unidade elegê-lo como comida favorita |
 | `diet` | Quais dietas biológicas podem consumi-lo |
 | `eat_action` | Seu código executado quando alguém o come |
-| `give_trait_id`, `give_status_id`, `give_chance` | Traços ou efeitos de status concedidos ao ingerir |
+| `give_trait_id`, `give_status_id`, `give_chance` | Traços (trait) ou efeitos de status concedidos ao ingerir |
 
 ### Produção e logística
 
@@ -86,7 +86,7 @@ namespace HelloBox
 | `mine_rate` | Velocidade com que é minerado ou colhido |
 | `drop_max`, `drop_per_mass` | Quanto solta quando a fonte é destruída |
 | `stack_size`, `storage_max`, `maximum` | Limites de transporte e armazenamento |
-| `supply_give`, `supply_bound_give`, `supply_bound_take` | Comportamento no suprimento militar |
+| `supply_give`, `supply_bound_give`, `supply_bound_take` | Comportamento (behaviour) no suprimento militar |
 | `trade_cost`, `trade_give`, `trade_bound` | Comportamento nas rotas comerciais |
 | `money_cost`, `loot_value` | Valor monetário e valor de pilhagem |
 
@@ -144,4 +144,4 @@ O **material** de um equipamento (ferro, aço, mithril) é um `ItemAsset` em uma
 O elo entre eles é `cost_resources` no material, que lista os ids de recursos e as quantidades necessárias.
 
 > [!TIP] Adicione a receita, não o ingrediente
-> Um novo *ingrediente* precisa de uma fonte: algo para cultivá-lo, um bioma para produzi-lo, um emprego para colhê-lo. Uma nova *receita* só precisa de ingredientes que já existem, integrando-se de imediato às padarias e rotas de comércio ativas. Um leva uma semana, o outro leva uma tarde :PES_ChillPill:.
+> Um novo *ingrediente* precisa de uma fonte: algo para cultivá-lo, um bioma (biome) para produzi-lo, um emprego para colhê-lo. Uma nova *receita* só precisa de ingredientes que já existem, integrando-se de imediato às padarias e rotas de comércio ativas. Um leva uma semana, o outro leva uma tarde :PES_ChillPill:.

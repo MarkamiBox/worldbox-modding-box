@@ -10,7 +10,7 @@ order: 120
 
 武器、防具盔甲、戒指与护身符在 `AssetManager.items` 中均以 `EquipmentAsset` 的形式存在。
 
-首先必须明确的一点是：**原版游戏中压根不存在一个可以在运行时随意指定材料材质的通用“剑”物品**。代码里实实在在地存在着 `sword_wood`、`sword_stone`、`sword_copper`、`sword_bronze`、`sword_silver`、`sword_iron`、`sword_steel`、`sword_mythril` 和 `sword_adamantine`。这是九个截然独立的资源，各自拥有专属的制造成本、属性数值以及 `material` 材质标识。每一件盔甲护具、每一把弓箭、每一个护身符无不如此。
+首先必须明确的一点是：**原版游戏中压根不存在一个可以在运行时随意指定材料材质的通用“剑”物品（item）**。代码里实实在在地存在着 `sword_wood`、`sword_stone`、`sword_copper`、`sword_bronze`、`sword_silver`、`sword_iron`、`sword_steel`、`sword_mythril` 和 `sword_adamantine`。这是九个截然独立的资源（resource），各自拥有专属的制造成本、属性（stats）数值以及 `material` 材质标识。每一件盔甲护具、每一把弓箭、每一个护身符无不如此。
 
 正因如此，克隆 (clone) 在这里绝不仅仅是偷懒的捷径，而是唯一的理智做法。
 
@@ -103,9 +103,9 @@ namespace HelloBox
 | --- | --- |
 | `material` | 材质名称。作为显示名称的一部分，且在单位升级装备时作为对照依据 |
 | `equipment_type` | `Weapon`, `Helmet`, `Armor`, `Boots`, `Ring`, `Amulet`。占据哪个装备槽位 |
-| `equipment_subtype` | `sword`, `axe`, `bow`, … 武器细分子类。不同种族文化各有偏好的武器细分类型 |
+| `equipment_subtype` | `sword`, `axe`, `bow`, … 武器细分子类。不同种族文化（culture）各有偏好的武器细分类型 |
 | `group_id` | 装备分类图鉴标签页。详见 **[特质分组与标签页](#/nml/trait-groups)** |
-| `attack_type` | 近战或远程攻击行为模式 |
+| `attack_type` | 近战或远程攻击行为（behaviour）模式 |
 | `quality` | 生成掉落时的最低保底品质等级 |
 | `rarity`, `pool_rate` | 随机生成时被系统选中的概率权重 |
 | `is_pool_weapon` | 是否进入通用的世界随机武器掉落池 |
@@ -139,15 +139,15 @@ namespace HelloBox
 | --- | --- |
 | `action_attack_target` | 每次命中时运行 |
 | `action_special_effect` + `special_effect_interval` | 装备期间按计时器运行 |
-| `item_modifier_ids` | 它可能随机到的附魔。见 **[武器附魔](#/nml/item-modifiers)** |
-| `addSpell(id)` + `linkSpells()` | 装备者可以施放的法术。链接需要你自己调用，见下文 |
-| `addCombatAction(id)` | 能编译，但放在物品上什么都不做：单位只从自己的特质（以及亚种、氏族、宗教）收集战斗动作，从不从装备收集。把它放到特质上，见 **[投射物、法术与特效](#/nml/projectiles-spells)** |
+| `item_modifier_ids` | 它可能随机到的附魔（modifier）。见 **[武器附魔](#/nml/item-modifiers)** |
+| `addSpell(id)` + `linkSpells()` | 装备者可以施放的法术（spell）。链接需要你自己调用，见下文 |
+| `addCombatAction(id)` | 能编译，但放在物品上什么都不做：单位只从自己的特质（trait）（以及亚种（subspecies）、氏族（clan）、宗教（religion））收集战斗动作，从不从装备收集。把它放到特质上，见 **[投射物、法术与特效](#/nml/projectiles-spells)** |
 
 游戏只会在启动时、你的模组加载之前把这些 id 转换成对象一次。对于你自己注册的物品，最后要调用 `linkSpells()`，并手动设置 `decisions_assets`（它没有对应的链接方法），否则赋予不会生效。见 **[自定义 AI](#/nml/custom-ai)**。
 
 ## 手持时触发的被动效果
 
-“手持余烬之刃时获得迅捷”听起来像是写在物品上的特质。但物品本身并不支持特质，不过它们可以在装备期间按计时器触发执行代码（即上表中的 `action_special_effect`），而**状态效果**自身是带有持续时间的。因此，物品只需不断刷新一个短暂的状态效果，一旦物品被卸下或丢弃，状态自然就会结束：
+“手持余烬之刃时获得迅捷”听起来像是写在物品上的特质。但物品本身并不支持特质，不过它们可以在装备期间按计时器触发执行代码（即上表中的 `action_special_effect`），而**状态效果**（status）自身是带有持续时间的。因此，物品只需不断刷新一个短暂的状态效果，一旦物品被卸下或丢弃，状态自然就会结束：
 
 ```csharp Mods/HelloBox/Code/HelloItems.cs
 blade.special_effect_interval = 1f;
@@ -294,7 +294,7 @@ actor.equipment.setItem(item, actor);
 
 ## 手持工具
 
-建筑工挥舞的铁锤和采集者手提的竹篮并不是常规装备物品。它们属于**手持工具（Hand Tool）**：纯粹的美术贴图层，由特定 AI 任务强制调用显示，任务结束即行隐藏。
+建筑工挥舞的铁锤和采集者手提的竹篮并不是常规装备物品。它们属于**手持工具（Hand Tool）**：纯粹的美术贴图层，由特定 AI 任务（task）强制调用显示，任务结束即行隐藏。
 
 ```csharp Mods/HelloBox/Code/HelloTools.cs
 using ai.behaviours;   // BehaviourTaskActor
@@ -337,7 +337,7 @@ AI 任务通过 `force_hand_tool` 属性绑定并强制显示手持工具，因�
 | --- | --- |
 | `path_gameplay_sprite` | 序列帧所在文件夹路径。原版默认由 ID 推导：`items/tools/tool_<id>` |
 | `animated` | 是否像咖啡杯那样循环播放序列帧动画 |
-| `colored` | 是否像王国旗帜那样根据所属王国的颜色进行染色叠加 |
+| `colored` | 是否像王国（kingdom）旗帜那样根据所属王国的颜色进行染色叠加 |
 
 > [!TIP] 优先制作装备词条，其次再考虑新武器
 > 制作一把全新的武器需要绘制序列帧、配置材质品阶、计算锻造消耗与数值平衡。而制作一个全新的**装备词条（Modifier）**只需区区二十行代码，且能立即应用到游戏里的所有武器上（包括其他模组添加的武器）。若想今晚就体验到立竿见影的模组改动，建议先阅读 **[武器附魔词条](#/nml/item-modifiers)** :PESgn_DoIt:.

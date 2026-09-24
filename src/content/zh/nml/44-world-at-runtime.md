@@ -8,9 +8,9 @@ order: 96
 
 # 运行时的游戏世界 :wbworld:
 
-指南前面的所有页面都在讲解如何在游戏启动加载期注册新的游戏内容。而本页则聚焦于下半部分：如何在正在运行的游戏世界中与已有对象进行交互并修改它们。摧毁一座城市、将其转让给另一个国家、发动战争，或者用城市自身的居民重新填充它。
+指南前面的所有页面都在讲解如何在游戏启动加载期注册新的游戏内容。而本页则聚焦于下半部分：如何在正在运行的游戏世界中与已有对象进行交互并修改它们。摧毁一座城市、将其转让给另一个国家、发动战争（war），或者用城市自身的居民重新填充它。
 
-所有这些操作都应该在神力的 `click_action`、`Update()` 循环或世界行为 (world behaviour) 中执行，**绝不能**在 `OnModLoad` 中调用——因为此时游戏世界甚至还不存在。关于安全的调用时机检查，参见 **[日志与调试](#/nml/logs-and-debugging)**。
+所有这些操作都应该在神力（GodPower）的 `click_action`、`Update()` 循环或世界行为 (world behaviour) 中执行，**绝不能**在 `OnModLoad` 中调用——因为此时游戏世界甚至还不存在。关于安全的调用时机检查，参见 **[日志与调试](#/nml/logs-and-debugging)**。
 
 ## 遍历世界中现有的对象
 
@@ -65,7 +65,7 @@ Actor actor = World.world.units.createNewUnit(city.getActorAsset().id, tile, pSu
 actor?.joinCity(city);
 ```
 
-**[自定义角色](#/nml/custom-actors)** 中的 `spawnNewUnit` 会自动为你挑选亚种。而 `createNewUnit` 允许你自行指定亚种，这就是“生成一个人类”和“生成一个*属于这个亚种*的人类”之间的区别。
+**[自定义角色](#/nml/custom-actors)** 中的 `spawnNewUnit` 会自动为你挑选亚种（subspecies）。而 `createNewUnit` 允许你自行指定亚种，这就是“生成一个人类”和“生成一个*属于这个亚种*的人类”之间的区别。
 
 ## 父母亲属
 

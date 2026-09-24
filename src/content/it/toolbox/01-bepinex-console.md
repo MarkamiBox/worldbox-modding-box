@@ -68,7 +68,7 @@ Più avanti, quando scriverai la tua prima mod nella guida **[La tua prima mod](
 Tre buone abitudini che rendono la console davvero indispensabile:
 
 - **Metti un prefisso a ogni log** con il nome della tua mod, tipo `[MiaMod]`, così ritrovi subito le tue righe.
-- **Logga all'inizio e alla fine** di ogni passaggio di setup. Se vedi "registrazione tratti..." ma mai "tratti registrati", sai al millimetro dove si è piantato tutto.
+- **Logga all'inizio e alla fine** di ogni passaggio di setup. Se vedi "registrazione tratti (trait)..." ma mai "tratti registrati", sai al millimetro dove si è piantato tutto.
 - **Tieni la console su un secondo monitor** (o su metà schermo). Vedere comparire una riga nello stesso microsecondo in cui premi un pulsante è il debugging più veloce che esista :memes:.
 
 ## Come la userai (Piccola anteprima)

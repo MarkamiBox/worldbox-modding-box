@@ -15,7 +15,7 @@ WorldBox의 모든 유닛은 왕국에 속합니다. 문명 종족뿐만이 아�
 | | |
 | --- | --- |
 | `AssetManager.kingdoms`의 `KingdomAsset` | 템플릿. "오크 왕국이란 무엇인가" |
-| `World.world.kingdoms`의 `Kingdom` | 실행 중인 월드에 존재하는 이름, 색상, 도시를 가진 실제 왕국 |
+| `World.world.kingdoms`의 `Kingdom` | 실행 중인 월드에 존재하는 이름, 색상, 도시를 가진 실제 왕국 (kingdom) |
 
 당신은 전자를 등록하고, 게임이 후자를 생성합니다.
 
@@ -98,7 +98,7 @@ asset.kingdom_id_civilization = HelloKingdoms.CIV;
 | `count_as_danger` | 타 세력이 이를 위협으로 인식할지 여부. 기본값 `true` |
 | `friendship_for_everyone` | 세상의 모든 존재에게 우호적 |
 | `force_look_all_chunks` | 주변뿐 아니라 맵 전체 청크를 탐색함(연산 비용 큼) |
-| `building_attractor_id` | 이들을 끌어들이는 특정 건물 유형 |
+| `building_attractor_id` | 이들을 끌어들이는 특정 건물 (building) 유형 |
 
 ### 태그: 누가 누구와 싸우는가
 
@@ -128,8 +128,8 @@ kingdom.addEnemyTag("orc");        // 내가 증오하는 대상
 | --- | --- | --- |
 | 깃발 | `AssetManager.kingdom_banners_library` | 절차적으로 생성되는 국기 |
 | 색상 | `AssetManager.kingdom_colors_library` | 왕국에 부여되는 색상 팔레트 |
-| 왕국 특성 | `AssetManager.kingdoms_traits` | 국가 정책(주로 세금). **[왕국 특성](#/nml/kingdom-traits)** 참고 |
-| 왕국 직무 | `AssetManager.job_kingdom` | 세력 AI가 추진하는 거시적 작업 |
+| 왕국 특성 (trait) | `AssetManager.kingdoms_traits` | 국가 정책(주로 세금). **[왕국 특성](#/nml/kingdom-traits)** 참고 |
+| 왕국 직무 | `AssetManager.job_kingdom` | 세력 AI가 추진하는 거시적 작업 (task) |
 | 왕국 태스크 | `AssetManager.tasks_kingdom` | 해당 직무를 수행하는 비헤이비어 트리 |
 | 전쟁 유형 | `AssetManager.war_types_library` | 선포할 수 있는 전쟁의 종류 |
 | 건축 양식 | `AssetManager.architecture_library` | 건물들의 그래픽 외형 |
@@ -280,7 +280,7 @@ namespace HelloBox
 
 ## 다른 시스템의 깃발 파츠
 
-왕국만 깃발을 가지는 것이 아닙니다: 문화, 종교, 가문, 언어, 아종, 가족도 각자의 파츠 라이브러리(`AssetManager.culture_banners_library` 등)를 가지고 있습니다. 각 라이브러리는 경로 목록을 담은 `main` 에셋을 하나씩 가지며 새 문화는 그중 하나의 인덱스를 추첨합니다.
+왕국만 깃발을 가지는 것이 아닙니다: 문화 (culture), 종교 (religion), 가문, 언어, 아종 (subspecies), 가족도 각자의 파츠 라이브러리(`AssetManager.culture_banners_library` 등)를 가지고 있습니다. 각 라이브러리는 경로 목록을 담은 `main` 에셋을 하나씩 가지며 새 문화는 그중 하나의 인덱스를 추첨합니다.
 
 ```csharp Mods/HelloBox/Code/HelloBanners.cs
 namespace HelloBox
@@ -316,4 +316,4 @@ namespace HelloBox
 ```
 
 > [!TIP] 새로운 왕국 에셋은 대개 필요하지 않습니다
-> 새로운 생명체 종족에는 필요하지만 새로운 *행동 양식*에는 필요하지 않습니다. 대부분의 "진영" 모드는 왕국 특성, 문화, 또는 외교 판정 Harmony 패치로 구현하는 것이 훨씬 깔끔합니다. 기존 왕국들의 행동을 바꾸고 싶을 때는 왕국 에셋을 추가하지 마세요.
+> 새로운 생명체 종족에는 필요하지만 새로운 *행동 (behaviour) 양식*에는 필요하지 않습니다. 대부분의 "진영" 모드는 왕국 특성, 문화, 또는 외교 판정 Harmony 패치로 구현하는 것이 훨씬 깔끔합니다. 기존 왕국들의 행동을 바꾸고 싶을 때는 왕국 에셋을 추가하지 마세요.

@@ -8,13 +8,13 @@ order: 110
 
 # Tratti dei clan :wbclanroses:
 
-Un **clan** è una discendenza: una famiglia cresciuta al punto da costituire un'entità propria, con un proprio stendardo, un colore identificativo e una reputazione. Un tratto di clan è ciò che quel sangue porta con sé.
+Un **clan** è una discendenza: una famiglia cresciuta al punto da costituire un'entità propria, con un proprio stendardo, un colore identificativo e una reputazione. Un tratto (trait) di clan è ciò che quel sangue porta con sé.
 
 I tratti di clan sono l'elemento che più si avvicina a un superpotere ereditario nel gioco, e costituiscono l'unico sistema di tratti con una **divisione maschio / femmina** nativa.
 
 | | |
 | --- | --- |
-| Libreria | `AssetManager.clan_traits` |
+| Libreria (library) | `AssetManager.clan_traits` |
 | Classe | `ClanTrait` |
 | Gruppi | `AssetManager.clan_trait_groups`, classe `ClanTraitGroupAsset` |
 | Proprietario a runtime | `Clan`, in `World.world.clans` |
@@ -53,7 +53,7 @@ namespace HelloBox
 }
 ```
 
-I `base_stats` del clan confluiscono in ogni membro del clan, perciò questo rappresenta un vero e proprio sistema di statistiche a differenza della religione. Consulta l'ordine di unione nel **[Riferimento statistiche](#/nml/stats)**.
+I `base_stats` del clan confluiscono in ogni membro del clan, perciò questo rappresenta un vero e proprio sistema di statistiche (stats) a differenza della religione (religion). Consulta l'ordine di unione nel **[Riferimento statistiche](#/nml/stats)**.
 
 ## La divisione maschio / femmina
 
@@ -69,7 +69,7 @@ trait.base_stats_female["intelligence"] = 4;   // solo femmine
 
 ## Decisioni: cosa un clan *fa*
 
-I tratti di clan vanilla si basano su decisioni piuttosto che su azioni dirette, poiché un clan è prima di tutto un fenomeno sociale:
+I tratti di clan vanilla si basano su decisioni (decision) piuttosto che su azioni dirette, poiché un clan è prima di tutto un fenomeno sociale:
 
 ```csharp
 trait.addDecision("banish_unruly_clan_members");
@@ -110,7 +110,7 @@ Diversi tratti di clan vanilla sono ricompense anziché scelte predefinite:
 trait.setUnlockedWithAchievement("achievementSegregator");
 ```
 
-Un tratto bloccato continua a esistere e a funzionare; il giocatore semplicemente non può sceglierlo nell'editor finché non ha sbloccato l'obiettivo relativo. Nota che `BaseTraitLibrary` imposta automaticamente anche `rarity = R3_Legendary` su qualsiasi tratto vincolato in questo modo, così la tua ricompensa sembra all'altezza :gold_star:.
+Un tratto bloccato continua a esistere e a funzionare; il giocatore semplicemente non può sceglierlo nell'editor finché non ha sbloccato l'obiettivo (achievement) relativo. Nota che `BaseTraitLibrary` imposta automaticamente anche `rarity = R3_Legendary` su qualsiasi tratto vincolato in questo modo, così la tua ricompensa sembra all'altezza :gold_star:.
 
 ## I gruppi vanilla
 
@@ -146,7 +146,7 @@ foreach (Clan clan in World.world.clans)
 Il clan di un'unità si trova su `actor.clan`, e `actor.hasClan()` ti dice se l'unità ne ha uno; moltissime unità non si uniscono mai ad alcun clan.
 
 > [!TIP] I clan sono ristretti, quindi puoi essere generoso
-> Una cultura copre un continente; un clan copre una famiglia, e `limit_clan_members` ne limita le dimensioni complessive. Un tratto di clan può essere molto più incisivo di un tratto culturale senza compromettere la stabilità del mondo, il che rende i clan la sede perfetta per le idee più spettacolari :PES5_Menace:.
+> Una cultura (culture) copre un continente; un clan copre una famiglia, e `limit_clan_members` ne limita le dimensioni complessive. Un tratto di clan può essere molto più incisivo di un tratto culturale senza compromettere la stabilità del mondo, il che rende i clan la sede perfetta per le idee più spettacolari :PES5_Menace:.
 
 ## Nuovi clan che estraggono un tratto da soli
 

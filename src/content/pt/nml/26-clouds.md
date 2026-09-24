@@ -8,9 +8,9 @@ order: 172
 
 # Nuvens e clima :wbtornado:
 
-Uma nuvem é um sprite que flutua pelo mapa soltando objetos sobre o que estiver embaixo. Chuva, ácido, lava, neve, fogo: todos são o mesmo asset com uma cor diferente e um `drop_id` distinto.
+Uma nuvem (cloud) é um sprite que flutua pelo mapa soltando objetos sobre o que estiver embaixo. Chuva, ácido, lava, neve, fogo: todos são o mesmo asset com uma cor diferente e um `drop_id` distinto.
 
-As nuvens têm o melhor custo-benefício de todo o jogo para um modder. Um único asset, sem precisar desenhar nada, e ele se desloca, solta gotas, ilumina o chão e aparece sozinho na lista de desastres.
+As nuvens têm o melhor custo-benefício de todo o jogo para um modder. Um único asset, sem precisar desenhar nada, e ele se desloca, solta gotas, ilumina o chão e aparece sozinho na lista de desastres (disaster).
 
 ## Registrar uma nuvem
 
@@ -150,7 +150,7 @@ Nuvens são geradas através do sistema de efeitos, não através de um gerencia
 EffectsLibrary.spawn("fx_cloud", tile, HelloClouds.EMBER);
 ```
 
-Isso é exatamente o que todo poder divino de nuvem vanilla faz. Envolva isso num poder divino e o jogador terá uma ferramenta para invocá-la:
+Isso é exatamente o que todo poder divino (GodPower) de nuvem vanilla faz. Envolva isso num poder divino e o jogador terá uma ferramenta para invocá-la:
 
 ```csharp
 GodPower power = new GodPower
@@ -190,7 +190,7 @@ Lembre-se de que `clone()` já registra o asset para você: nunca chame `add()` 
 
 ## Sprites por conta própria
 
-`path_sprites` é uma lista de caminhos sob sua pasta `GameResources/`, com as mesmas regras de qualquer outro recurso. Veja **[Sprites e recursos](#/nml/sprites-and-resources)**. O sprite de uma nuvem é apenas uma massa suave; `color_hex` faz toda a magia, então uma forma em tons de cinza é tudo de que você precisa.
+`path_sprites` é uma lista de caminhos sob sua pasta `GameResources/`, com as mesmas regras de qualquer outro recurso (resource). Veja **[Sprites e recursos](#/nml/sprites-and-resources)**. O sprite de uma nuvem é apenas uma massa suave; `color_hex` faz toda a magia, então uma forma em tons de cinza é tudo de que você precisa.
 
 > [!TIP] Nuvens antes de desastres complexos
 > Um "desastre" nas listas internas do jogo frequentemente nada mais é do que uma nuvem com `considered_disaster = true`. Antes de escrever um desastre completo com condições de surgimento e contadores de tempo, verifique se uma nuvem chovendo o seu drop já não resolve perfeitamente o seu problema :PES2_HmmmmThumbsUp:.

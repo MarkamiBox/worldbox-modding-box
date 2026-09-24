@@ -8,7 +8,7 @@ order: 114
 
 # Rasgos del reino :wbcrown:
 
-Un **rasgo del reino** es una política de estado. No es una creencia ni un linaje: es una directriz promulgada por la corona que rige sobre todo el reino.
+Un **rasgo (trait) del reino (kingdom)** es una política de estado. No es una creencia ni un linaje: es una directriz promulgada por la corona que rige sobre todo el reino.
 
 Vanilla solo recurre a este sistema para una sola cosa: los tipos impositivos. Por ello es el más pequeño y desierto de los siete sistemas de rasgos, y en consecuencia, el rincón más propicio para idear contenido nuevo. No hay competencia por este espacio :wbsmirk:.
 
@@ -21,8 +21,8 @@ Vanilla solo recurre a este sistema para una sola cosa: los tipos impositivos. P
 | Prefijo de traducción | `kingdom_trait_` |
 | Carpeta de iconos por defecto | `ui/Icons/kingdom_traits/` |
 
-> [!WARNING] Las estadísticas del reino no llegan a las unidades
-> Al igual que con la religión, `kingdom.base_stats` nunca se fusiona en un `Actor`. Los números a nivel de reino visibles en partida provienen de las **estadísticas personales del monarca** (`king.stats["cities"]` y análogas), no del bloque de rasgos del reino.
+> [!WARNING] Las estadísticas (stats) del reino no llegan a las unidades
+> Al igual que con la religión (religion), `kingdom.base_stats` nunca se fusiona en un `Actor`. Los números a nivel de reino visibles en partida provienen de las **estadísticas personales del monarca** (`king.stats["cities"]` y análogas), no del bloque de rasgos del reino.
 >
 > De este modo, un rasgo del reino moldea la nación mediante sus campos propios y a través de código, no vía `base_stats`.
 
@@ -100,7 +100,7 @@ namespace HelloBox
 
 Dado que `base_stats` queda descartado, un rasgo del reino justifica su presencia de dos formas: Las dos dan más trabajo que un número, y las dos valen la pena.
 
-**Una decisión**, la opción más ordenada:
+**Una decisión (decision)**, la opción más ordenada:
 
 ```csharp
 trait.addDecision("some_decision_id");
@@ -108,7 +108,7 @@ trait.addDecision("some_decision_id");
 trait.decisions_assets = new DecisionAsset[] { AssetManager.decisions_library.get("some_decision_id") };
 ```
 
-**Un parche de Harmony que lea el rasgo**, que es el camino para erigir un auténtico sistema de decretos reales. Parchea el método de consulta del comportamiento monárquico y comprueba allí los rasgos del reino:
+**Un parche de Harmony que lea el rasgo**, que es el camino para erigir un auténtico sistema de decretos reales. Parchea el método de consulta del comportamiento (behaviour) monárquico y comprueba allí los rasgos del reino:
 
 ```csharp
 [HarmonyPatch(typeof(City), nameof(City.getArmyMaxMultiplier))]

@@ -370,7 +370,7 @@ private static void Buttons()
 }
 ```
 
-对于需要玩家瞄准地块进行操作的内容（生成生物、降雷、查看单位），使用 `CreateGodPowerButton`；对于全局操作（打开窗口面板、切换某种模式），使用 `CreateSimpleButton`。
+对于需要玩家瞄准地块（tile）进行操作的内容（生成生物、降雷、查看单位），使用 `CreateGodPowerButton`；对于全局操作（打开窗口面板、切换某种模式），使用 `CreateSimpleButton`。
 
 > [!WARNING] 神力必须先于按钮存在
 > `CreateGodPowerButton` 通过 id 查找神力。如果 `AssetManager.powers` 中还没有它，你就会得到一个悬空无效的按钮。务必先注册神力，**然后再** 创建按钮。

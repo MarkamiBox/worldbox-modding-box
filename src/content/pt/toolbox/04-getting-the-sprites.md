@@ -10,7 +10,7 @@ order: 8
 
 O código te ensina *o que* escrever. O **AssetRipper** te mostra qual é a cara dos gráficos e, mais importante ainda, **qual é o caminho exato deles**.
 
-Cada ícone, unidade, construção e efeito no WorldBox é carregado a partir de uma string de caminho como `ui/Icons/iconFly`. Se você errar esse caminho, o seu botão vira um buraco invisível na interface. Com o AssetRipper você para de chutar no escuro.
+Cada ícone, unidade, construção (building) e efeito no WorldBox é carregado a partir de uma string de caminho como `ui/Icons/iconFly`. Se você errar esse caminho, o seu botão vira um buraco invisível na interface. Com o AssetRipper você para de chutar no escuro.
 
 > [!TIP] Se você só precisa do caminho, não precisa de nada disso
 > A **[Pesquisa de ícones](#/tools/icons)** deste site foi criada exatamente a partir desta exportação: todos os caminhos do jogo pesquisáveis. Extraia o jogo você mesmo quando quiser *ver* a arte, escolher o tamanho certo ou combinar a paleta. É para isso que serve o restante desta página :PES4_HappyAwesome:.
@@ -39,10 +39,10 @@ Estas são as pastas que você mais vai usar:
 | Pasta | O que tem nela |
 | --- | --- |
 | `ui/Icons/` | Todos os ícones pequenos da interface: traits, poderes, botões |
-| `ui/Icons/worldrules/` | Ícones das leis do mundo |
+| `ui/Icons/worldrules/` | Ícones das leis do mundo (world law) |
 | `actors/` | Unidades e seus quadros de animação |
 | `buildings/` | Casas, árvores, minérios |
-| `effects/` | Explosões, projéteis, sprites de efeitos de status |
+| `effects/` | Explosões, projéteis (projectile), sprites de efeitos de status |
 
 ## Usando no seu mod
 

@@ -8,9 +8,9 @@ order: 106
 
 # Traços culturais :wbtiphat:
 
-Uma **cultura** representa os hábitos compartilhados por um conjunto de cidades. Ela decide o que constroem, o que forjam, como herdam bens, o que leem e quais valores prezam. Um traço cultural é um desses hábitos.
+Uma **cultura** (culture) representa os hábitos compartilhados por um conjunto de cidades. Ela decide o que constroem, o que forjam, como herdam bens, o que leem e quais valores prezam. Um traço (trait) cultural é um desses hábitos.
 
-Dos sete sistemas de traços, a cultura é o que tem o alcance mais amplo. Uma cultura se espalha com as cidades, sobrevive ao seu fundador e mescla seus atributos em cada unidade que pertença a ela. Se você quer um mod cujo efeito se espalhe pelo mundo ao longo de uma hora de jogo, esta é a biblioteca ideal. Grande alcance, grande responsabilidade :PES5_Menace:.
+Dos sete sistemas de traços, a cultura é o que tem o alcance mais amplo. Uma cultura se espalha com as cidades, sobrevive ao seu fundador e mescla seus atributos (stats) em cada unidade que pertença a ela. Se você quer um mod cujo efeito se espalhe pelo mundo ao longo de uma hora de jogo, esta é a biblioteca (library) ideal. Grande alcance, grande responsabilidade :PES5_Menace:.
 
 | | |
 | --- | --- |
@@ -89,7 +89,7 @@ Ambos os métodos auxiliares configuram `is_weapon_trait = true` para você. O c
 | --- | --- |
 | `is_weapon_trait` | Marca o traço como uma preferência de arma |
 | `related_weapon_subtype_ids` | Classes de armas preferidas. `addWeaponSubtype` adiciona aqui |
-| `related_weapons_ids` | IDs de itens específicos preferidos. `addWeaponSpecial` adiciona aqui |
+| `related_weapons_ids` | IDs de itens (item) específicos preferidos. `addWeaponSpecial` adiciona aqui |
 | `value` | O peso da preferência na escolha |
 
 ## Direcionando como uma cultura constrói
@@ -146,5 +146,5 @@ foreach (Culture culture in World.world.cultures)
 if (actor.hasCultureTrait("hello_duellists")) { }
 ```
 
-> [!TIP] Cultura ou subespécie?
+> [!TIP] Cultura ou subespécie (subspecies)?
 > Ambas se espalham, mas não da mesma maneira. Um traço **cultural** se dissemina com as cidades e pode ser adotado por qualquer um que se junte a elas. Um traço de **subespécie** é transmitido pela reprodução biológica e não pode ser adquirido de outra forma. "Os elfos atiram melhor porque foram criados assim" é cultura; "os elfos atiram melhor por causa dos olhos" é subespécie. Veja **[Traços de subespécies](#/nml/subspecies-traits)** :catnoted:.

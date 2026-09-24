@@ -8,9 +8,9 @@ order: 172
 
 # Nuvole e meteo :wbtornado:
 
-Una nuvola è uno sprite che si sposta sulla mappa facendo cadere oggetti su qualsiasi cosa si trovi al di sotto. Pioggia, acido, lava, neve, fuoco: sono tutti lo stesso identico asset con un colore diverso e un `drop_id` differente.
+Una nuvola (cloud) è uno sprite che si sposta sulla mappa facendo cadere oggetti su qualsiasi cosa si trovi al di sotto. Pioggia, acido, lava, neve, fuoco: sono tutti lo stesso identico asset con un colore diverso e un `drop_id` differente.
 
-Le nuvole offrono il miglior rapporto risultato/sforzo di tutto il gioco per un modder. Un unico asset, nessun disegno necessario, e si muove, rilascia gocce, illumina il terreno e compare da sola nell'elenco dei disastri.
+Le nuvole offrono il miglior rapporto risultato/sforzo di tutto il gioco per un modder. Un unico asset, nessun disegno necessario, e si muove, rilascia gocce, illumina il terreno e compare da sola nell'elenco dei disastri (disaster).
 
 ## Registrarne una
 
@@ -95,7 +95,7 @@ Una `CloudAction` riceve l'istanza della nuvola e non restituisce nulla:
 public delegate void CloudAction(Cloud pCloud);
 ```
 
-`CloudLibrary.dropAction` è l'azione vanilla standard: sceglie una casella casuale sotto lo sprite della nuvola e vi genera un `drop_id`. Nel 90% dei casi è l'unica azione che desideri: la assegni a `cloud_action_1` e hai finito. Pigro e corretto, la mia combinazione preferita :pepeOK:.
+`CloudLibrary.dropAction` è l'azione vanilla standard: sceglie una casella (tile) casuale sotto lo sprite della nuvola e vi genera un `drop_id`. Nel 90% dei casi è l'unica azione che desideri: la assegni a `cloud_action_1` e hai finito. Pigro e corretto, la mia combinazione preferita :pepeOK:.
 
 Per qualcosa in più, scrivi un tuo metodo e assegnalo a `cloud_action_2`:
 
@@ -150,7 +150,7 @@ Le nuvole vengono generate attraverso il sistema degli effetti, non tramite un i
 EffectsLibrary.spawn("fx_cloud", tile, HelloClouds.EMBER);
 ```
 
-Questo è esattamente ciò che fa ogni potere vanilla legato alle nuvole. Racchiudilo in un potere divino e il giocatore otterrà uno strumento di invocazione:
+Questo è esattamente ciò che fa ogni potere vanilla legato alle nuvole. Racchiudilo in un potere divino (GodPower) e il giocatore otterrà uno strumento di invocazione:
 
 ```csharp
 GodPower power = new GodPower

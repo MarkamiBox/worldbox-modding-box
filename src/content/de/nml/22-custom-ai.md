@@ -8,13 +8,13 @@ order: 144
 
 # Eigene KI & Verhalten :wbgoldenbrain:
 
-Hier geht es ans Eingemachte. Alles andere in diesem Guide fügt dem Spiel *Gegenstände und Daten* hinzu. Das hier fügt **Entscheidungen** hinzu: was eine Kreatur als Nächstes tut, von ganz allein, für immer, in einer Welt, die sie sich mit Tausenden anderen teilt. Kein Druck :PES_MonkaSweat:.
+Hier geht es ans Eingemachte. Alles andere in diesem Guide fügt dem Spiel *Gegenstände und Daten* hinzu. Das hier fügt **Entscheidungen** (decision) hinzu: was eine Kreatur als Nächstes tut, von ganz allein, für immer, in einer Welt, die sie sich mit Tausenden anderen teilt. Kein Druck :PES_MonkaSweat:.
 
 ## Wie das Spiel denkt
 
 Drei Ebenen, von groß nach klein, plus die, die daneben liegt. Das zu verstehen hat bei mir länger gedauert, als ich zugeben möchte:
 
-| Ebene | Was sie ist | Bibliothek |
+| Ebene | Was sie ist | Bibliothek (library) |
 | --- | --- | --- |
 | **Job** (`ActorJob`) | Womit diese Kreatur im Großen und Ganzen beschäftigt ist: "Bürger sein", "Soldat sein" | `AssetManager.job_actor` |
 | **Aufgabe** (`BehaviourTaskActor`) | Ein konkretes Ziel innerhalb eines Jobs: "essen gehen", "das da bauen" | `AssetManager.tasks_actor` |
@@ -198,7 +198,7 @@ namespace HelloBox
 > `DecisionsLibrary.linkAssets()` nummeriert alle Entscheidungen, kopiert `priority` nach `priority_int_cached` und setzt `has_weight_custom` beim Spielstart vor deiner Mod. Lässt du die drei Zeilen nach `add()` weg, teilt sich deine Entscheidung die Abklingzeit mit der ersten vanilla Entscheidung, landet unabhängig von `priority` auf der niedrigsten Ebene und ignoriert ihr individuelles Gewicht :wbfacepalm:.
 
 > [!WARNING] Bereits existierende Einheiten haben genau einen freien Slot
-> Jede Einheit verwaltet ihre Entscheidungs-Abklingzeiten in einem Array, das bei der Erstellung der Einheit auf die nächste Zweierpotenz aufgerundet wird. Vanilla hat 127 Entscheidungen, das Array fasst 128: Platz für genau **eine** weitere. Eine Einheit, die vor deiner Mod existierte und eine zweite Mod-Entscheidung erhält, wirft eine `IndexOutOfRangeException`. Neue Einheiten werden passend dimensioniert – weshalb HelloBox seine Entscheidung einer eigenen Kreatur zuweist, nicht einem Merkmal für vanilla Einheiten.
+> Jede Einheit verwaltet ihre Entscheidungs-Abklingzeiten in einem Array, das bei der Erstellung der Einheit auf die nächste Zweierpotenz aufgerundet wird. Vanilla hat 127 Entscheidungen, das Array fasst 128: Platz für genau **eine** weitere. Eine Einheit, die vor deiner Mod existierte und eine zweite Mod-Entscheidung erhält, wirft eine `IndexOutOfRangeException`. Neue Einheiten werden passend dimensioniert – weshalb HelloBox seine Entscheidung einer eigenen Kreatur zuweist, nicht einem Merkmal (trait) für vanilla Einheiten.
 
 Eine Entscheidung erreicht eine Kreatur über das Objekt, das sie verleiht. Ein `ActorAsset` nimmt sie mit `addDecision()` auf. **Merkmale funktionieren anders**: Sie lösen ihre IDs beim Start auf, weshalb du das Array bei einem Merkmal manuell setzt:
 

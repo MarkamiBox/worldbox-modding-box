@@ -8,13 +8,13 @@ order: 112
 
 # Traços linguísticos :wbconfused:
 
-Um **idioma** pertence a cidades e reinos, sofre variações ao se propagar e serve de veículo no qual os **livros** são escritos. Um traço linguístico é uma propriedade intrínseca da palavra falada e escrita.
+Um **idioma** pertence a cidades e reinos (kingdom), sofre variações ao se propagar e serve de veículo no qual os **livros** (book) são escritos. Um traço (trait) linguístico é uma propriedade intrínseca da palavra falada e escrita.
 
 É o menor dos sete sistemas de traços e o que possui o hook mais específico do jogo: código executado quando alguém **lê um livro** escrito naquele idioma. Sim, sério :wbscroll:.
 
 | | |
 | --- | --- |
-| Biblioteca | `AssetManager.language_traits` |
+| Biblioteca (library) | `AssetManager.language_traits` |
 | Classe | `LanguageTrait` |
 | Grupos | `AssetManager.language_trait_groups`, classe `LanguageTraitGroupAsset` |
 | Dono em tempo de execução | `Language`, em `World.world.languages` |
@@ -186,7 +186,7 @@ Um objeto `Language` também disponibiliza `cities`, `kingdoms` e `books`, que �
 
 ## Novas línguas sorteando um traço por conta própria
 
-Além de concedê-lo manualmente, um traço de língua pode definir `spawn_random_trait_allowed` para ser sorteado quando uma nova língua se forma, da mesma forma que uma cultura sorteia seus traços iniciais. A mesma armadilha de todas as outras páginas de traços:
+Além de concedê-lo manualmente, um traço de língua pode definir `spawn_random_trait_allowed` para ser sorteado quando uma nova língua se forma, da mesma forma que uma cultura (culture) sorteia seus traços iniciais. A mesma armadilha de todas as outras páginas de traços:
 
 > [!WARNING] `spawn_random_trait_allowed` é lido apenas uma vez, na inicialização
 > Novas línguas sorteiam seus traços iniciais de um grupo que `BaseTraitLibrary.linkAssets()` constrói durante o carregamento do jogo, antes do seu mod existir. Definir a flag no seu traço não muda nada por si só: seu traço nunca estará nesse grupo e nunca aparecerá por acaso em uma nova língua. Adicione-o você mesmo, com o peso que o jogo vanilla usa:

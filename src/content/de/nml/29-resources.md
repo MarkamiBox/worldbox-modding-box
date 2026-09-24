@@ -8,7 +8,7 @@ order: 182
 
 # Ressourcen & Nahrung :wbtomato:
 
-Eine Ressource ist alles, was eine Stadt lagert, handelt, isst oder verarbeitet: Weizen, Brot, Stein, Mithril, Knochen, Edelsteine. Sie leben in `AssetManager.resources` und bilden das Fundament der gesamten Wirtschaft: Was Bauernhöfe anbauen, was Bäcker backen, was Schmiede brauchen und was ein hungriger Bürger isst. In dieser Wirtschaftslage ist sogar das Brot eine Datenstruktur :PES2_Cash:.
+Eine Ressource (resource) ist alles, was eine Stadt lagert, handelt, isst oder verarbeitet: Weizen, Brot, Stein, Mithril, Knochen, Edelsteine. Sie leben in `AssetManager.resources` und bilden das Fundament der gesamten Wirtschaft: Was Bauernhöfe anbauen, was Bäcker backen, was Schmiede brauchen und was ein hungriger Bürger isst. In dieser Wirtschaftslage ist sogar das Brot eine Datenstruktur :PES2_Cash:.
 
 ## Von einer Vorlage klonen
 
@@ -75,7 +75,7 @@ namespace HelloBox
 | `tastiness`, `favorite_food_chance` | Wie wahrscheinlich Einheiten es als Lieblingsessen wählen |
 | `diet` | Welche Ernährungsformen es essen können |
 | `eat_action` | Eigener Code, wenn eine Einheit es isst |
-| `give_trait_id`, `give_status_id`, `give_chance` | Eigenschaften oder Status-Effekte, die beim Essen verliehen werden |
+| `give_trait_id`, `give_status_id`, `give_chance` | Eigenschaften (trait) oder Status-Effekte, die beim Essen verliehen werden |
 
 ### Herstellung und Transport
 
@@ -86,7 +86,7 @@ namespace HelloBox
 | `mine_rate` | Wie schnell es abgebaut wird |
 | `drop_max`, `drop_per_mass` | Wie viel Beute beim Zerstören der Quelle abfällt |
 | `stack_size`, `storage_max`, `maximum` | Trage- und Lagerkapazitäten |
-| `supply_give`, `supply_bound_give`, `supply_bound_take` | Verhalten bei der Heeresversorgung |
+| `supply_give`, `supply_bound_give`, `supply_bound_take` | Verhalten (behaviour) bei der Heeresversorgung |
 | `trade_cost`, `trade_give`, `trade_bound` | Handelsverhalten zwischen Städten |
 | `money_cost`, `loot_value` | Geldwert und Beutewert |
 

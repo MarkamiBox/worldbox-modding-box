@@ -8,7 +8,7 @@ order: 110
 
 # Rasgos de clan :wbclanroses:
 
-Un **clan** es un linaje sanguíneo: una familia que creció lo suficiente como para formar una entidad propia, con su propio estandarte, su color característico y su propia reputación. Un rasgo de clan es lo que ese linaje porta en sus venas.
+Un **clan** es un linaje sanguíneo: una familia que creció lo suficiente como para formar una entidad propia, con su propio estandarte, su color característico y su propia reputación. Un rasgo (trait) de clan es lo que ese linaje porta en sus venas.
 
 Los rasgos de clan son lo más cercano en el juego a un superpoder hereditario, y representan el único sistema de rasgos con una **división macho / hembra** integrada.
 
@@ -53,7 +53,7 @@ namespace HelloBox
 }
 ```
 
-Las `base_stats` del clan se fusionan en cada miembro del clan, así que, a diferencia de la religión, este sí es un sistema de atributos real. Consulta el orden de fusión en **[Referencia de estadísticas](#/nml/stats)**.
+Las `base_stats` del clan se fusionan en cada miembro del clan, así que, a diferencia de la religión (religion), este sí es un sistema de atributos real. Consulta el orden de fusión en **[Referencia de estadísticas](#/nml/stats)**.
 
 ## La división macho / hembra
 
@@ -69,7 +69,7 @@ trait.base_stats_female["intelligence"] = 4;   // solo hembras
 
 ## Decisiones: lo que un clan *hace*
 
-Los rasgos de clan de vanilla se apoyan en decisiones más que en acciones, porque un clan es ante todo una entidad social:
+Los rasgos de clan de vanilla se apoyan en decisiones (decision) más que en acciones, porque un clan es ante todo una entidad social:
 
 ```csharp
 trait.addDecision("banish_unruly_clan_members");
@@ -110,7 +110,7 @@ Varios rasgos de clan de vanilla son recompensas en lugar de estar disponibles p
 trait.setUnlockedWithAchievement("achievementSegregator");
 ```
 
-Un rasgo bloqueado sigue existiendo y funcionando con normalidad; el jugador simplemente no puede elegirlo en el editor hasta haber completado el logro correspondiente. Ten en cuenta que `BaseTraitLibrary` también asigna automáticamente `rarity = R3_Legendary` a cualquier elemento bloqueado de este modo, para que tu recompensa luzca como tal :gold_star:.
+Un rasgo bloqueado sigue existiendo y funcionando con normalidad; el jugador simplemente no puede elegirlo en el editor hasta haber completado el logro (achievement) correspondiente. Ten en cuenta que `BaseTraitLibrary` también asigna automáticamente `rarity = R3_Legendary` a cualquier elemento bloqueado de este modo, para que tu recompensa luzca como tal :gold_star:.
 
 ## Los grupos de vanilla
 
@@ -146,7 +146,7 @@ foreach (Clan clan in World.world.clans)
 El clan de una unidad está en `actor.clan`, y `actor.hasClan()` te indica si pertenece a uno; muchas unidades jamás se unen a ninguno.
 
 > [!TIP] Los clanes son pequeños, puedes ser generoso
-> Una cultura abarca un continente; un clan abarca una familia, y `limit_clan_members` limita su tamaño máximo. Un rasgo de clan puede ser mucho más poderoso que un rasgo cultural con el mismo nivel de impacto en el equilibrio del mundo, lo que convierte a los clanes en el hogar perfecto para ideas espectaculares :PES5_Menace:.
+> Una cultura (culture) abarca un continente; un clan abarca una familia, y `limit_clan_members` limita su tamaño máximo. Un rasgo de clan puede ser mucho más poderoso que un rasgo cultural con el mismo nivel de impacto en el equilibrio del mundo, lo que convierte a los clanes en el hogar perfecto para ideas espectaculares :PES5_Menace:.
 
 ## Nuevos clanes que obtienen un rasgo por sí mismos
 

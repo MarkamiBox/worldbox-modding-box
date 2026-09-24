@@ -14,16 +14,16 @@ order: 1
 
 - **Visão geral**: Esta introdução, o que você precisa para começar, solução de problemas, ferramentas externas (BepInEx, UnityExplorer, dnSpy, AssetRipper), modding com BepInEx, créditos e feedback.
 - **Modding com NML**: Tudo sobre o carregador e o fluxo de desenvolvimento - começando por **[Como instalar o NML](#/install-nml)** (comece por aqui se quiser apenas *jogar* com mods):
-  - **Fluxo de trabalho básico**: Estrutura de mod, seu primeiro mod, logs e depuração, localização e sprites.
+  - **Fluxo de trabalho (job) básico**: Estrutura de mod, seu primeiro mod, logs e depuração, localização e sprites.
   - **Avançado e Publicação**: Menus de configuração no jogo, patches Harmony, salvamento de dados nos saves e publicação no Steam Workshop.
 - **Conteúdo do Jogo**: O conteúdo real que você adiciona ao mundo, organizado em 7 categorias claras:
-  - **Arquitetura e Atributos**: Como funcionam as bibliotecas de assets, referência de atributos e índice de assets.
-  - **Traços e Genética**: Traços de unidades, grupos de traços, traços de subespécies & genes, cultura, religião, clãs, idiomas e traços de reino.
-  - **Itens e Equipamentos**: Armas & armaduras personalizadas, modificadores & materiais de itens, grupos de itens e drops & saques.
-  - **Criaturas, Construções e IA**: Criaturas personalizadas, construções, comportamentos de IA & empregos na cidade, efeitos de status e projéteis & feitiços.
-  - **Mundo e Civilizações**: Tiles personalizados, nuvens de bioma, eras do mundo, leis mundiais, reinos & diplomacia, tramas & rebeliões, recursos e desastres.
-  - **Poderes Divinos e Interface**: Poderes divinos & pincéis, botões de poderes e janelas personalizadas com abas & dicas de ferramentas.
-  - **Toques Finais**: Conquistas no jogo e união de tudo no mod HelloBox completo.
+  - **Arquitetura e Atributos (stats)**: Como funcionam as bibliotecas (library) de assets, referência de atributos e índice de assets.
+  - **Traços (trait) e Genética**: Traços de unidades, grupos de traços, traços de subespécies (subspecies) & genes, cultura (culture), religião (religion), clãs, idiomas e traços de reino (kingdom).
+  - **Itens (item) e Equipamentos**: Armas & armaduras personalizadas, modificadores (modifier) & materiais de itens, grupos de itens e drops & saques.
+  - **Criaturas, Construções (building) e IA**: Criaturas personalizadas, construções, comportamentos (behaviour) de IA & empregos na cidade, efeitos de status e projéteis (projectile) & feitiços (spell).
+  - **Mundo e Civilizações**: Tiles personalizados, nuvens (cloud) de bioma (biome), eras do mundo, leis mundiais, reinos & diplomacia, tramas (plot) & rebeliões, recursos (resource) e desastres (disaster).
+  - **Poderes Divinos (GodPower) e Interface**: Poderes divinos & pincéis, botões de poderes e janelas personalizadas com abas & dicas de ferramentas.
+  - **Toques Finais**: Conquistas (achievement) no jogo e união de tudo no mod HelloBox completo.
 - **Ferramentas de Modding**: Utilitários interativos integrados diretamente ao guia (Gerador de Patches Harmony, Explorador de Campos de Asset, Localizador de Métodos e Localizador de Ícones do Discord).
 
 Na primeira vez, leia de cima a baixo. Depois disso, pule de página em página como todo mundo :PES2_Shrug:.

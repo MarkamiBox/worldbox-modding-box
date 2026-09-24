@@ -8,7 +8,7 @@ order: 200
 
 # Poderes divinos :wbgodfinger:
 
-Um poder divino é o que acontece quando o jogador escolhe sua ferramenta e clica no mundo. Gerar algo, abençoar algo, explodir algo.
+Um poder divino (GodPower) é o que acontece quando o jogador escolhe sua ferramenta e clica no mundo. Gerar algo, abençoar algo, explodir algo.
 
 Duas coisas separadas estão envolvidas, e confundi-las é o clássico erro de principiante:
 

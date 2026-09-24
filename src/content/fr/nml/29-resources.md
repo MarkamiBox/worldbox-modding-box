@@ -8,12 +8,12 @@ order: 182
 
 # Ressources et nourriture :wbtomato:
 
-Une ressource désigne tout ce qu'une cité stocke, échange, mange ou forge : blé, pain, pierre, mithril, os, gemmes. Elles résident dans `AssetManager.resources` et constituent le socle de toute l'économie : ce que cultivent les fermes, ce que préparent les boulangers, ce dont ont besoin les forgerons et ce qu'avale un citoyen affamé. Dans cette économie, même le pain est une structure de données :PES2_Cash:.
+Une ressource (resource) désigne tout ce qu'une cité stocke, échange, mange ou forge : blé, pain, pierre, mithril, os, gemmes. Elles résident dans `AssetManager.resources` et constituent le socle de toute l'économie : ce que cultivent les fermes, ce que préparent les boulangers, ce dont ont besoin les forgerons et ce qu'avale un citoyen affamé. Dans cette économie, même le pain est une structure de données :PES2_Cash:.
 
 ## Cloner depuis un modèle
 
 > [!WARNING] Mets `full_sprite_path` ou le chargeur plante
-> `path_gameplay_sprite` n'est que la moitié. La bibliothèque en construit `full_sprite_path` dans `post_init()`, une seule fois, pendant le chargement du jeu, donc une ressource enregistrée par un mod y garde `null`. Le préchargeur de sprites appelle alors `getSpriteList(null)` et tout le chargement meurt sur `ArgumentNullException: Value cannot be null. Parameter name: key` :wbfacepalm:.
+> `path_gameplay_sprite` n'est que la moitié. La bibliothèque (library) en construit `full_sprite_path` dans `post_init()`, une seule fois, pendant le chargement du jeu, donc une ressource enregistrée par un mod y garde `null`. Le préchargeur de sprites appelle alors `getSpriteList(null)` et tout le chargement meurt sur `ArgumentNullException: Value cannot be null. Parameter name: key` :wbfacepalm:.
 
 ```csharp Mods/HelloBox/Code/HelloResources.cs
 namespace HelloBox
@@ -60,7 +60,7 @@ namespace HelloBox
 | --- | --- |
 | `type` | `ResType.Food`, `Ingredient_Food`, `Ingredient`, `Strategic`, `Currency` |
 | `food` | Indique si une unité peut le manger comme repas |
-| `wood`, `mineral` | Outils de récolte et métiers associés |
+| `wood`, `mineral` | Outils de récolte et métiers (job) associés |
 | `path_icon` | Icône dans les inventaires et listes |
 | `path_gameplay_sprite` | Le sprite qu'une unité porte entre ses mains en le transportant |
 
@@ -75,7 +75,7 @@ namespace HelloBox
 | `tastiness`, `favorite_food_chance` | Probabilité qu'une unité le choisisse comme plat favori |
 | `diet` | Régimes biologiques autorisés à le consommer |
 | `eat_action` | Votre code exécuté lorsque quelqu'un le mange |
-| `give_trait_id`, `give_status_id`, `give_chance` | Traits ou statuts conférés lors de l'ingestion |
+| `give_trait_id`, `give_status_id`, `give_chance` | Traits ou statuts (status) conférés lors de l'ingestion |
 
 ### Fabrication et logistique
 
@@ -87,7 +87,7 @@ namespace HelloBox
 | `drop_max`, `drop_per_mass` | Quantité relâchée à la destruction de la source |
 | `stack_size`, `storage_max`, `maximum` | Limites de transport et de stockage |
 | `supply_give`, `supply_bound_give`, `supply_bound_take` | Gestion du ravitaillement militaire |
-| `trade_cost`, `trade_give`, `trade_bound` | Comportement commercial entre cités |
+| `trade_cost`, `trade_give`, `trade_bound` | Comportement (behaviour) commercial entre cités |
 | `money_cost`, `loot_value` | Valeur marchande et valeur de butin |
 
 ## Les ressources vanilla

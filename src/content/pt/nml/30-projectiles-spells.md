@@ -8,13 +8,13 @@ order: 148
 
 # Projéteis, feitiços e efeitos :wblightning:
 
-Três bibliotecas compactas que surgem o tempo todo assim que você começa a fazer coisas acontecerem no mapa:
+Três bibliotecas (library) compactas que surgem o tempo todo assim que você começa a fazer coisas acontecerem no mapa:
 
 | | |
 | --- | --- |
 | `AssetManager.projectiles` | Algo voando de A para B: uma flecha, uma bomba incendiária, uma tocha arremessada |
 | `AssetManager.spells` | Algo que uma unidade conjura por conta própria, com custo de mana e chance de IA |
-| `AssetManager.effects_library` | Pura apresentação visual: uma explosão, uma nuvem, um clarão, uma fumaça |
+| `AssetManager.effects_library` | Pura apresentação visual: uma explosão, uma nuvem (cloud), um clarão, uma fumaça |
 
 ## Projéteis
 
@@ -61,7 +61,7 @@ A maioria vem com o que você clonou e você nunca mais olha para eles. `speed` 
 | Campo | O que faz |
 | --- | --- |
 | `texture`, `texture_shadow` | Sprite e sua sombra |
-| `animated`, `animation_speed`, `frames` | Se o projétil se anima durante o voo |
+| `animated`, `animation_speed`, `frames` | Se o projétil (projectile) se anima durante o voo |
 | `speed`, `speed_random` | Velocidade de voo e variação aleatória por disparo |
 | `look_at_target` | Se o sprite gira para encarar a trajetória |
 | `scale_start`, `scale_target` | Tamanho no lançamento e no impacto |
@@ -116,7 +116,7 @@ Projéteis também carregam como lista de sprites: uma **pasta** com o nome de `
 
 ## Feitiços
 
-Um feitiço é o que uma unidade conjura por conta própria, sem a intervenção do jogador. A IA decide quando disparar com base em `chance`, `cost_mana` e `min_distance`.
+Um feitiço (spell) é o que uma unidade conjura por conta própria, sem a intervenção do jogador. A IA decide quando disparar com base em `chance`, `cost_mana` e `min_distance`.
 
 ```csharp
 SpellAsset bolt = new SpellAsset
@@ -142,7 +142,7 @@ bolt.action = (BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile) =>
 AssetManager.spells.add(bolt);
 ```
 
-`action` é um `AttackAction`, a mesma assinatura de delegate usada pelos modificadores de armas: o código de um feitiço e o de um encantamento são, portanto, intercambiáveis.
+`action` é um `AttackAction`, a mesma assinatura de delegate usada pelos modificadores (modifier) de armas: o código de um feitiço e o de um encantamento são, portanto, intercambiáveis.
 
 ### Concedendo um feitiço a uma entidade
 
@@ -156,7 +156,7 @@ item.linkSpells();
 actorAsset.spell_ids = new List<string> { "hello_bolt" };
 ```
 
-`addSpell()` só adiciona um id. A biblioteca transforma ids em feitiços em `linkAssets()`, na inicialização, antes do seu mod: pule `linkSpells()` num traço ou item que você mesmo registrou e ele não concede nada, em silêncio.
+`addSpell()` só adiciona um id. A biblioteca transforma ids em feitiços em `linkAssets()`, na inicialização, antes do seu mod: pule `linkSpells()` num traço (trait) ou item que você mesmo registrou e ele não concede nada, em silêncio.
 
 Ids de feitiços vanilla que valem a leitura: `teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`.
 
@@ -234,7 +234,7 @@ namespace HelloBox
 | `can_do_action` | Sua condição, dado o alvo |
 
 > [!WARNING] Só traços distribuem essas ações
-> Uma unidade reúne ações de combate dos seus traços e da sua subespécie, clã e religião, nunca do equipamento. O traço guarda ids, e o jogo transformou ids em objetos na inicialização: chame `linkCombatActions()` depois de `addCombatAction()`, senão o traço carrega um golpe que ninguém nunca faz :PES2_Shrug:.
+> Uma unidade reúne ações de combate dos seus traços e da sua subespécie (subspecies), clã e religião (religion), nunca do equipamento. O traço guarda ids, e o jogo transformou ids em objetos na inicialização: chame `linkCombatActions()` depois de `addCombatAction()`, senão o traço carrega um golpe que ninguém nunca faz :PES2_Shrug:.
 
 ## Efeitos
 

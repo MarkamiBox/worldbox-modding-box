@@ -17,7 +17,7 @@ order: 1
 
 | 开发目标 | 推荐选择 | 核心理由 |
 | --- | --- | --- |
-| 添加特质、装备、神力、生物或地形群落 | **NML** | NML 开箱即用提供 `AssetManager`、多语言支持、贴图加载与存档扩展存储 |
+| 添加特质（trait）、装备、神力（GodPower）、生物或地形群落 | **NML** | NML 开箱即用提供 `AssetManager`、多语言支持、贴图加载与存档扩展存储 |
 | 制作开发者工具、UI 悬浮窗或引擎级底层 Hook | **BepInEx** | BepInEx 在 Mono 运行时级别加载，早于 WorldBox 的主逻辑初始化 |
 | 只用记事本写代码，保存即生效 | **NML** | NML 在运行时自动调用 Roslyn 编译源码 |
 | 分发包含原生 Unity 组件的预编译二进制插件 | **BepInEx** | 你可以完全自主控制编译器标志、项目依赖项与构建目标 |
@@ -202,4 +202,4 @@ worldbox/
 - **无热重载支持**：每次修改代码都必须完全退出游戏、重新运行 `dotnet build` 编译、然后再重新开游戏。
 - **`HideManagerGameObject`**：在 `BepInEx/config/BepInEx.cfg` 中，务必将 `HideManagerGameObject = true` 打开，否则 Unity 的清理机制可能会静默销毁 BepInEx 管理器导致插件停止运作 :PES5_Hmmmm:。
 - **与 NML 完美共存**：NML 与 BepInEx 可以在同一游戏目录下和平相处，完全不会相互冲突。
-- **访问游戏数据资产**：BepInEx 运行在纯 Unity 层。如果要操作 WorldBox 内部的单位或装备，必须等待游戏的 `AssetManager` 完成初始化，或者直接引用 `NeoModLoader.dll`。
+- **访问游戏数据资产（asset）**：BepInEx 运行在纯 Unity 层。如果要操作 WorldBox 内部的单位或装备，必须等待游戏的 `AssetManager` 完成初始化，或者直接引用 `NeoModLoader.dll`。

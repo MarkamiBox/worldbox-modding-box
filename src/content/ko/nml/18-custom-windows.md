@@ -260,7 +260,7 @@ namespace HelloBox
 }
 ```
 
-`HelloWindow`는 배경에 `HelloTooltipTarget`을 붙여 패널에 마우스를 올렸을 때 툴팁이 뜨도록 만듭니다. `Tooltip.show()`는 대상 GameObject, 툴팁 ID, 그리고 콜백에 전달될 `TooltipData`를 인자로 받습니다. 바니라는 여기에 관련 유닛, 도시, 특성 등의 객체를 넘깁니다. 기본 `"normal"` 툴팁의 경우 별도 에셋 등록 없이 `tip_name`과 `tip_description` 텍스트 키만으로도 바로 사용할 수 있습니다.
+`HelloWindow`는 배경에 `HelloTooltipTarget`을 붙여 패널에 마우스를 올렸을 때 툴팁이 뜨도록 만듭니다. `Tooltip.show()`는 대상 GameObject, 툴팁 ID, 그리고 콜백에 전달될 `TooltipData`를 인자로 받습니다. 바니라는 여기에 관련 유닛, 도시, 특성 (trait) 등의 객체를 넘깁니다. 기본 `"normal"` 툴팁의 경우 별도 에셋 등록 없이 `tip_name`과 `tip_description` 텍스트 키만으로도 바로 사용할 수 있습니다.
 
 | `TooltipAsset` 필드 | 역할 |
 | --- | --- |

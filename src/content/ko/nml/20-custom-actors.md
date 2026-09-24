@@ -11,7 +11,7 @@ order: 140
 > [!NOTE] 종족이 아니라 '액터'라고 부릅니다
 > 게임 엔진은 인간, 늑대, 드래곤, 좀비, 게 등 살아있는 모든 존재를 **액터**(actor)라고 부릅니다. 이들은 모두 동일한 `ActorAsset` 클래스에서 파생되며 `AssetManager.actor_library` 에 등록됩니다. '종족(Race)'은 구시대의 단어입니다. 코드상에 유일하게 남아있는 `race` 속성에는 `[Obsolete("use .original_actor_asset instead")]` 경고가 붙어 있으며, 오직 고대 세이브파일을 불러오기 위해서만 존재합니다. 모든 코드에서 `actor` 로 작성하세요.
 
-새로운 생명체를 만드는 것은 모든 모더가 꿈꾸지만 거의 아무도 완성하지 못하는 모드입니다. `ActorAsset` 은 애니메이션, 텍스처, 사운드, 분류학, 식성, AI 플래그, 게놈, 문화, 스탯 등 방대한 데이터를 한 몸에 짊어지고 있기 때문입니다. 이 중 단 하나라도 삐끗하면 바다 한가운데에 투명인간 유닛이 우두커니 서 있는 대참사가 일어납니다 :PES4_Invisible:.
+새로운 생명체를 만드는 것은 모든 모더가 꿈꾸지만 거의 아무도 완성하지 못하는 모드입니다. `ActorAsset` 은 애니메이션, 텍스처, 사운드, 분류학, 식성, AI 플래그, 게놈, 문화 (culture), 스탯 등 방대한 데이터를 한 몸에 짊어지고 있기 때문입니다. 이 중 단 하나라도 삐끗하면 바다 한가운데에 투명인간 유닛이 우두커니 서 있는 대참사가 일어납니다 :PES4_Invisible:.
 
 희소식이 있습니다. 게임 본편도 생명체를 무에서 유로 조립하지 않습니다. 바닐라 코드가 엘프를 만드는 방법은 문자 그대로 이것뿐입니다:
 
@@ -31,7 +31,7 @@ clone("elf", "$civ_advanced_unit$");
 | `$animal$` | 야생 동물 |
 | `$mob$` | 적대적인 몬스터 |
 | `$civ_unit$` | 문명을 이루는 기본 생명체 |
-| `$civ_advanced_unit$` | 도시, 왕국, 문화, 종교를 가진 완전한 문명 생명체. 인간, 엘프, 오크, 드워프의 모태 |
+| `$civ_advanced_unit$` | 도시, 왕국 (kingdom), 문화, 종교를 가진 완전한 문명 생명체. 인간, 엘프, 오크, 드워프의 모태 |
 
 물론 `human`, `wolf`, `zombie` 처럼 완성된 액터를 직접 복제할 수도 있습니다. 기증자의 스프라이트가 기본으로 따라와 게임에서 즉시 눈으로 확인할 수 있으므로 첫 모드를 만들 때는 이 방법이 가장 쉽습니다.
 
@@ -176,7 +176,7 @@ namespace HelloBox
 
 | 필드 | 설명 |
 | --- | --- |
-| `civ` | 문명 생명체 여부: 도시, 왕국, 일자리, 전쟁. `false` = 동물 |
+| `civ` | 문명 생명체 여부: 도시, 왕국, 일자리, 전쟁 (war). `false` = 동물 |
 | `auto_civ` | 게임이 스스로 문명화를 진행시키는지 여부 |
 | `default_animal` | 게임 내부 판정에서 야생 동물로 분류 |
 | `unit_other` | 문명도 동물도 아님: 몬스터, 골렘, 특수 유닛 |
@@ -185,7 +185,7 @@ namespace HelloBox
 | `icon` | 목록 및 소환 버튼에 사용될 아이콘 |
 | `color_hex` | 색상 변경이 가능한 유닛에 덧입혀지는 색상 코드 |
 | `can_have_subspecies` | 세대를 거치며 아종으로 변이할 수 있는지 여부 |
-| `has_ai_system` | 일반적인 행동 AI 시스템을 실행할지 여부 |
+| `has_ai_system` | 일반적인 행동 (behaviour) AI 시스템을 실행할지 여부 |
 | `flying` / `hovering` | 지면에서 떠오르는지 여부와 비행 고도 |
 | `force_ocean_creature` / `force_land_creature` | 서식 가능한 지형을 바다 또는 육지로 강제 고정 |
 | `can_attack_buildings` | 건물을 공격하고 파괴할 수 있는지 |
@@ -196,7 +196,7 @@ namespace HelloBox
 | `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | FMOD 사운드 이벤트 경로 |
 | `name_taxonomic_*` | 지식 창에 노출될 계, 문, 강, 목, 과, 속, 종 |
 | `collective_term` | 무리를 부르는 표현 ("늑대 **한 무리**") |
-| `allowed_status_tiers` | 부여받을 수 있는 상태 효과 등급 |
+| `allowed_status_tiers` | 부여받을 수 있는 상태 효과 (status) 등급 |
 | `production` | 이들의 도시가 생산하는 품목 |
 | `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | 사망 또는 감염 시 변신할 대상 |
 
@@ -241,9 +241,9 @@ asset.addKingdomTrait("tax_rate_local_low");
 Actor actor = World.world.units.spawnNewUnit("hello_sprite", tile, pSpawnSound: true, pAdultAge: true);
 ```
 
-`spawnNewUnit` 은 public 메서드이며 소환 사운드, 기적 연출, 소환 높이, 특정 아종 지정, 시작 장비 지급 여부 등을 옵션 인자로 받습니다.
+`spawnNewUnit` 은 public 메서드이며 소환 사운드, 기적 연출, 소환 높이, 특정 아종 (subspecies) 지정, 시작 장비 지급 여부 등을 옵션 인자로 받습니다.
 
-플레이어에게 이를 소환할 신의 권능 버튼을 제공하면 완성입니다. **[권능 탭 & 버튼](#/nml/power-buttons)** 을 참고하세요.
+플레이어에게 이를 소환할 신의 권능 (GodPower) 버튼을 제공하면 완성입니다. **[권능 탭 & 버튼](#/nml/power-buttons)** 을 참고하세요.
 
 ## 아종 (Subspecies)
 

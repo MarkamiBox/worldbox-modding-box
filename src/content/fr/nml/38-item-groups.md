@@ -96,7 +96,7 @@ namespace HelloBox
 
 ## Les pools
 
-Le jeu entretient une réserve d'équipement par groupe et alimente ces réserves durant le chargement de ses propres bibliothèques, ce qui survient **avant même l'existence de votre mod**. Un groupe tout neuf ne possède aucun réservoir, et le premier composant qui en réclame un lève une erreur :
+Le jeu entretient une réserve d'équipement par groupe et alimente ces réserves durant le chargement de ses propres bibliothèques (library), ce qui survient **avant même l'existence de votre mod**. Un groupe tout neuf ne possède aucun réservoir, et le premier composant qui en réclame un lève une erreur :
 
 ```text
 KeyNotFoundException: The given key was not present in the dictionary.

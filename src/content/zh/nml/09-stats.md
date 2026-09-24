@@ -8,7 +8,7 @@ order: 92
 
 # 属性数值速查 :wbstonks:
 
-你注册的绝大多数资源都拥有一个 `base_stats` 字典块，而且本页之后的几乎每一页都会往里面塞东西。本页面列出了所有你被允许填入的有效属性键名。 除此以外的任何属性都极易引发游戏崩溃 :PES5_Hmmmm:。
+你注册的绝大多数资源都拥有一个 `base_stats` 字典块，而且本页之后的几乎每一页都会往里面塞东西。本页面列出了所有你被允许填入的有效属性（stats）键名。 除此以外的任何属性都极易引发游戏崩溃 :PES5_Hmmmm:。
 
 ## base_stats 的工作原理
 
@@ -33,16 +33,16 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%，而不是乘 0.25
 | 3 | **语言 (Language)** | |
 | 4 | **文化 (Culture)** | |
 | 5 | 单位自身基础数据中的统治者属性 | `diplomacy`, `stewardship`, `intelligence`, `warfare` |
-| 6 | 单位身上挂载的每一个**状态效果** | |
-| 7 | **默认普通攻击** 物品 | 仅在空手无武器时生效 |
-| 8 | 单位拥有的每一个**生物特质** | 时代专属特质在非对应时代下会被跳过 |
+| 6 | 单位身上挂载的每一个**状态效果**（status） | |
+| 7 | **默认普通攻击** 物品（item） | 仅在空手无武器时生效 |
+| 8 | 单位拥有的每一个**生物特质（trait）** | 时代（world age）专属特质在非对应时代下会被跳过 |
 | 9 | 单位的**性格** | |
-| 10 | 单位**穿戴的每一件装备**及其附魔词条 | |
+| 10 | 单位**穿戴的每一件装备**及其附魔（modifier）词条 | |
 
 这里最容易被人搞混的两点：
 
 - **亚种会直接顶替 Actor 基础生物资源的属性。** 如果你在 `human` 资源上加了属性，具有亚种的人类单位根本享受不到。
-- **宗教不在这个列表里。** 宗教特质的 `base_stats` 永远不会下发到生物单位身上。详见 **[宗教特质](#/nml/religion-traits)**。
+- **宗教（religion）不在这个列表里。** 宗教特质的 `base_stats` 永远不会下发到生物单位身上。详见 **[宗教特质](#/nml/religion-traits)**。
 
 另外两个至关重要的计算规则：
 
@@ -114,10 +114,10 @@ trait.base_stats["multiplier_health"] = 0.25f;   // +25%，而不是乘 0.25
 | 属性 | 作用 |
 | --- | --- |
 | `diplomacy` | 领袖属性：外交能力 |
-| `warfare` | 领袖属性：军事战争 |
+| `warfare` | 领袖属性：军事战争（war） |
 | `stewardship` | 领袖属性：内政管理 |
 | `intelligence` | 领袖属性：智力学识 |
-| `army` | 对王国军队规模上限的贡献值 |
+| `army` | 对王国（kingdom）军队规模上限的贡献值 |
 | `cities` | 该王国预期扩张拥有的城市数量 |
 | `bonus_towers` | 城市被允许额外多造的防御瞭望塔数量 |
 | `limit_population` | 人口数量上限 |
@@ -171,11 +171,11 @@ if (actor.stats.hasTag("immunity_fire")) { }
 | 免疫耐性 | `immunity_fire` · `immunity_cold` · `building_immunity_fire` · `damaged_by_water` |
 | 移动机能 | `fast_swimming` · `water_creature` · `immovable` · `walk_adaptation_sand` · `walk_adaptation_snow` · `walk_adaptation_swamp` |
 | 心智智能 | `strong_mind` · `has_sapience` · `has_emotions` · `has_advanced_memory` · `has_advanced_communication` · `can_read_any_book` · `mad` · `moody` · `unconscious` · `frozen_ai` |
-| 生态行为 | `ignore_fights` · `love_peace` · `steal_items` · `needs_food` · `needs_mate` · `always_idle_animation` · `stop_idle_animation` · `generate_light` |
+| 生态行为（behaviour） | `ignore_fights` · `love_peace` · `steal_items` · `needs_food` · `needs_mate` · `always_idle_animation` · `stop_idle_animation` · `generate_light` |
 | 饮食食性 | `diet_meat` · `diet_meat_insect` · `diet_fish` · `diet_blood` · `diet_grass` · `diet_crops` · `diet_fruits` · `diet_flowers` · `diet_nectar` · `diet_algae` · `diet_vegetation` · `diet_wood` · `diet_minerals` · `diet_tiles` · `diet_same_species` |
 | 生殖繁衍 | `reproduction_sexual` · `reproduction_asexual` · `oviparity` · `viviparity` |
 | 物种分类 | `civ` · `human` · `elf` · `orc` · `dwarf` · `demon` · `undead` · `magic` · `good` · `evil` · `neutral` · `nature_creature` · `neutral_animals` · `everyone` · `small` · `sliceable` |
-| 建筑环境 | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
+| 建筑（building）环境 | `can_build_in_biome_corruption` · `can_build_in_biome_desert` · `can_build_in_biome_infernal` · `can_build_in_biome_permafrost` · `can_build_in_biome_swamp` · `can_build_in_biome_wasteland` |
 
 与属性名不同的是，传入一个未知的标签名是无害的：它只是永远不会匹配上任何系统逻辑。但这同样意味着拼写错误会悄无声息地失效，因此请务必原样准确复制。 像拼错成 `imunity_fire` 这样的标签能在你的模组里静悄悄躺上好几个月而无人察觉 :PESgn_SMH:。
 

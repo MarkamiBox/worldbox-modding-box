@@ -8,7 +8,7 @@ order: 26
 
 # Localização :wbscroll:
 
-Cada elemento que você adiciona ao jogo (traços, itens, poderes, abas, tarefas) é exibido como uma chave bruta do tipo `trait_hello_swift` até que você defina um texto para ele. É o capítulo mais sem graça do modding, e deixá-lo de lado é o motivo número um para um mod parecer inacabado. (Cof.. meus mods.. Cof Cof :pensiveanimated: )
+Cada elemento que você adiciona ao jogo (traços (trait), itens (item), poderes, abas, tarefas (task)) é exibido como uma chave bruta do tipo `trait_hello_swift` até que você defina um texto para ele. É o capítulo mais sem graça do modding, e deixá-lo de lado é o motivo número um para um mod parecer inacabado. (Cof.. meus mods.. Cof Cof :pensiveanimated: )
 
 ## O jeito preguiçoso: a pasta Locales
 
@@ -105,11 +105,11 @@ O próprio jogo monta essas chaves, então elas precisam bater exatamente ou nad
 | --- | --- | --- |
 | Traço | `trait_<id>` | `trait_<id>_info` |
 | Item | `translation_key` se você definir uma, senão `item_<equipment_subtype or id>` | `<id>_description` (sem o prefixo `item_`) |
-| Poder divino | `<power_id>` | `<power_id>_description` |
+| Poder divino (GodPower) | `<power_id>` | `<power_id>_description` |
 | Aba de poderes | o `locale_key` que você passou | a chave de descrição que você passou |
 | Tarefa de ator | `task_unit_<task_id>` | - |
 | Efeito de status | o **campo** `locale_id` que você definir | o **campo** `locale_description` que você definir |
-| Lei do mundo | `<law_id>_title` (repare no sufixo) | `<law_id>_description` |
+| Lei do mundo (world law) | `<law_id>_title` (repare no sufixo) | `<law_id>_description` |
 
 > [!WARNING] Ids não são nomes
 > Seu id é `hello_swift` para sempre, em todos os idiomas, e é a ele que o resto do seu código (e os mods dos outros) se referem. O **texto de localização** é a parte que muda. Nunca renomeie um id só para corrigir um erro de digitação no nome exibido :PESgn_Stop:.

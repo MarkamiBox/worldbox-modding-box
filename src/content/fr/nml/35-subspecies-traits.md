@@ -8,11 +8,11 @@ order: 104
 
 # Traits de sous-espèce :wbelf:
 
-Une **sous-espèce** est une branche d'une espèce qui a divergé génétiquement : espérance de vie accrue, écailles, ponte d'œufs ou bioluminescence. Elle se propage par la **reproduction** et non par l'apprentissage, et constitue l'unique système de traits transportant ses propres sprites. C'est pourquoi une sous-espèce peut arborer une apparence radicalement différente de son espèce d'origine sans constituer un actor distinct.
+Une **sous-espèce** (subspecies) est une branche d'une espèce qui a divergé génétiquement : espérance de vie accrue, écailles, ponte d'œufs ou bioluminescence. Elle se propage par la **reproduction** et non par l'apprentissage, et constitue l'unique système de traits transportant ses propres sprites. C'est pourquoi une sous-espèce peut arborer une apparence radicalement différente de son espèce d'origine sans constituer un actor distinct.
 
 | | |
 | --- | --- |
-| Bibliothèque | `AssetManager.subspecies_traits` |
+| Bibliothèque (library) | `AssetManager.subspecies_traits` |
 | Classe | `SubspeciesTrait` |
 | Groupes | `AssetManager.subspecies_trait_groups`, classe `SubspeciesTraitGroupAsset` |
 | Propriétaire à l'exécution | `Subspecies`, dans `World.world.subspecies` |
@@ -71,7 +71,7 @@ C'est ainsi qu'un trait de sous-espèce fait son entrée dans le monde sans que 
 | `spawn_random_trait_allowed` | S'il peut être tiré aléatoirement |
 | `rarity` | Probabilité qu'il soit sélectionné |
 
-La statistique `mutation` d'une unité régit la chance que de tels événements surviennent. Voir **[Référence des stats](#/nml/stats)**.
+La statistique (stats) `mutation` d'une unité régit la chance que de tels événements surviennent. Voir **[Référence des stats](#/nml/stats)**.
 
 > [!WARNING] La réserve n'est lue qu'une fois, au démarrage
 > Mettre `spawn_random_trait_allowed = true` ne suffit pas à lui seul. `BaseTraitLibrary.linkAssets()` construit la vraie réserve, `_pot_allowed_to_be_given_randomly`, pendant le chargement du jeu, avant que votre mod n'existe. Un trait enregistré après n'y est jamais, et aucune mutation ne le tire jamais. Ajoutez-le vous-même, pondéré comme le fait le vanilla :

@@ -8,7 +8,7 @@ order: 174
 
 # Ere del mondo e comportamenti :wbsunblessed:
 
-Due elementi appartengono al mondo stesso anziché a chiunque lo abiti. Un'**era del mondo** (world age) è l'epoca sulla ruota delle ere: l'Era della Speranza, l'Era delle Ceneri, con il loro meteo, la loro illuminazione e le loro regole. Un **comportamento del mondo** (world behaviour) è un frammento di codice che il mondo esegue a intervalli regolari, all'infinito: è così che il gioco programma disastri, migranti e usura delle strade.
+Due elementi appartengono al mondo stesso anziché a chiunque lo abiti. Un'**era del mondo** (world age) è l'epoca sulla ruota delle ere: l'Era della Speranza, l'Era delle Ceneri, con il loro meteo, la loro illuminazione e le loro regole. Un **comportamento (behaviour) del mondo** (world behaviour) è un frammento di codice che il mondo esegue a intervalli regolari, all'infinito: è così che il gioco programma disastri (disaster), migranti e usura delle strade.
 
 ```csharp Mods/HelloBox/Code/HelloAges.cs
 using System.Collections.Generic;
@@ -114,7 +114,7 @@ namespace HelloBox
 
 L'Era delle Braci fa piovere braci ogni otto secondi, scurisce lo schermo con la cenere, diffonde il fuoco a velocità raddoppiata e mantiene le città leggermente più leali. Un nuovo mondo può posizionarla sullo slot 4 della propria ruota, e il pulsante di selezione casuale della ruota può sorteggiarla ovunque. La discrezione non è mai stata il punto di HelloBox :wbfireskull:.
 
-> [!WARNING] Tre operazioni che la libreria ha svolto all'avvio
+> [!WARNING] Tre operazioni che la libreria (library) ha svolto all'avvio
 > `post_init()` imposta lo sfondo di ogni era a partire dal suo ID, e `linkAssets()` costruisce `list_only_normal` (il pool per l'era casuale sconosciuta) e `pool_by_slots` (i pool da cui un nuovo mondo riempie la ruota). Una nuova era non è presente in nessuno di essi. Ometti lo sfondo e la ruota mostrerà un tassello vuoto; ometti i pool e l'era esisterà, ma nessun mondo la sorteggerà mai.
 
 > [!NOTE] L'elenco delle ere tra cui scegliere
@@ -124,7 +124,7 @@ L'Era delle Braci fa piovere braci ogni otto secondi, scurisce lo schermo con la
 | --- | --- |
 | `rate` | Peso quando un'era viene sorteggiata casualmente |
 | `default_slots` | In quali slot della ruota (da 1 a 8) un nuovo mondo può inserirla |
-| `clouds` + `cloud_interval` | Quali nuvole genera e con quale frequenza |
+| `clouds` + `cloud_interval` | Quali nuvole (cloud) genera e con quale frequenza |
 | `special_effect_action` + `special_effect_interval` | Il tuo codice a tempo finché l'era è attiva |
 | `overlay_*`, `particles_*`, `era_effect_overlay_alpha` | Resa grafica: oscurità, pioggia, neve, cenere, sole |
 | `title_color`, `light_color` | Il colore del titolo e della luce ambientale |

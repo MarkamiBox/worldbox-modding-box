@@ -8,7 +8,7 @@ order: 202
 
 # Pestañas y botones de poder :wbfingerclick:
 
-Has registrado un poder divino. Nadie puede hacer clic en él, porque un `GodPower` son solo datos: lo que el jugador realmente presiona es un **PowerButton**, y los botones viven dentro de **pestañas** en la barra inferior.
+Has registrado un poder divino (GodPower). Nadie puede hacer clic en él, porque un `GodPower` son solo datos: lo que el jugador realmente presiona es un **PowerButton**, y los botones viven dentro de **pestañas** en la barra inferior.
 
 ## Crea tu propia pestaña
 
@@ -371,7 +371,7 @@ private static void Buttons()
 }
 ```
 
-Usa `CreateGodPowerButton` para cualquier cosa que el jugador apunte en el mapa (generar, golpear, inspeccionar una unidad, colocar un edificio), y `CreateSimpleButton` para acciones globales (abrir tu ventana, alternar un modo).
+Usa `CreateGodPowerButton` para cualquier cosa que el jugador apunte en el mapa (generar, golpear, inspeccionar una unidad, colocar un edificio (building)), y `CreateSimpleButton` para acciones globales (abrir tu ventana, alternar un modo).
 
 > [!WARNING] El poder debe existir primero
 > `CreateGodPowerButton` busca el poder por id. Si `AssetManager.powers` aún no lo tiene, obtendrás un botón vinculado a la nada. Registra el poder y **luego** crea el botón.
@@ -383,7 +383,7 @@ Los botones se disponen en el orden en que se crean, por lo que leer `Buttons()`
 
 ## Agrupar botones con PowersTabExtension
 
-Colocar diez botones en una sola fila funciona, pero a medida que tu mod crece parece un cajón desastre. NeoModLoader proporciona `PowersTabExtension` en `NeoModLoader.General.UI.Tab` para organizar botones en grupos como en las pestañas vanilla:
+Colocar diez botones en una sola fila funciona, pero a medida que tu mod crece parece un cajón desastre (disaster). NeoModLoader proporciona `PowersTabExtension` en `NeoModLoader.General.UI.Tab` para organizar botones en grupos como en las pestañas vanilla:
 
 ```csharp
 using NeoModLoader.General.UI.Tab;

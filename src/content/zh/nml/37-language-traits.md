@@ -8,7 +8,7 @@ order: 112
 
 # 语言特质 :wbconfused:
 
-**语言**归属于城镇与王国，随着人群扩散而发生演变漂变，并且最关键的是，它是**书籍**撰写所用的载体。语言特质是书面与口头言语本身的内在属性。
+**语言**归属于城镇与王国（kingdom），随着人群扩散而发生演变漂变，并且最关键的是，它是**书籍**撰写所用的载体。语言特质（trait）是书面与口头言语本身的内在属性（stats）。
 
 它是七大特质系统中最精简的一个，拥有最为独特的专用钩子：当有人**阅读该语言撰写的书籍**时所执行的回调代码。没错，真的 :wbscroll:。
 
@@ -76,7 +76,7 @@ trait.read_book_trait_action = delegate(Actor pActor, LanguageTrait pTrait, Book
 };
 ```
 
-原版的诅咒与神圣典籍完全就是这样运行的：`words_of_madness` 判定 `value` 概率赋予 `madness` 特质，`cursed_font` 附加状态效果，`font_of_gods` 附加更强大的正面状态。
+原版的诅咒与神圣典籍完全就是这样运行的：`words_of_madness` 判定 `value` 概率赋予 `madness` 特质，`cursed_font` 附加状态效果（status），`font_of_gods` 附加更强大的正面状态。
 
 从原版设计中借鉴两点：
 
@@ -186,7 +186,7 @@ foreach (Language language in World.world.languages)
 
 ## 允许新创建的语言随机获得该特质
 
-除了通过代码手动授予外，语言特质还可以设置 `spawn_random_trait_allowed` 标志，以便在创建新语言时被自动随机抽取——这与文化的特质抽取机制完全一致。和其他所有特质页面一样的坑：
+除了通过代码手动授予外，语言特质还可以设置 `spawn_random_trait_allowed` 标志，以便在创建新语言时被自动随机抽取——这与文化（culture）的特质抽取机制完全一致。和其他所有特质页面一样的坑：
 
 > [!WARNING] `spawn_random_trait_allowed` 仅在启动时读取一次
 > 新诞生的语言是从一个候选池中随机抽取初始特质的，而该池是在游戏启动阶段由 `BaseTraitLibrary.linkAssets()` 构建完成的——彼时你的模组尚未加载。仅仅在特质上设置此布尔标志没有任何效果：它永远不会进入该池，新语言也永远不会随机获得它。你必须手动将其以原版权重添加到池中：

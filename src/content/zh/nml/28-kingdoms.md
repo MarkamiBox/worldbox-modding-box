@@ -8,7 +8,7 @@ order: 178
 
 # 王国与阵营 :wbkingdoms:
 
-在 WorldBox 中，地图上的每一个单位都隶属于某个王国。绝不仅仅是文明种族：狼属于狼群王国，强盗属于强盗阵营，就连一只完全中立的野鸡也属于一个中立王国。`KingdomAsset` 是阵营的**底层类型**，而非地图上生成的某一个具体王国。
+在 WorldBox 中，地图上的每一个单位都隶属于某个王国（kingdom）。绝不仅仅是文明种族：狼属于狼群王国，强盗属于强盗阵营，就连一只完全中立的野鸡也属于一个中立王国。`KingdomAsset` 是阵营的**底层类型**，而非地图上生成的某一个具体王国。
 
 请务必分清这两者的界限：
 
@@ -62,7 +62,7 @@ namespace HelloBox
 }
 ```
 
-`$TEMPLATE_NOMAD$` 已经在内部为你设置好了 `nomads = true`、`civ = false` 以及 `mobs = true`。这里必须重点强调，因为很多人在此踩坑：**`civ`、`nomads`、`mobs` 等等是 `bool` 类型的属性字段，而不是标签（tag）。** `wild.nomads = true` 是真正的字段设置；而 `wild.addTag("nomads")` 只是一个游戏代码压根不读取的废标签，它不会报错，只会静默失效 :aPES_Liar:。
+`$TEMPLATE_NOMAD$` 已经在内部为你设置好了 `nomads = true`、`civ = false` 以及 `mobs = true`。这里必须重点强调，因为很多人在此踩坑：**`civ`、`nomads`、`mobs` 等等是 `bool` 类型的属性（stats）字段，而不是标签（tag）。** `wild.nomads = true` 是真正的字段设置；而 `wild.addTag("nomads")` 只是一个游戏代码压根不读取的废标签，它不会报错，只会静默失效 :aPES_Liar:。
 
 然后让你的角色资源指向它们，这也是将生物与王国绑定在一起的关键步骤：
 
@@ -80,7 +80,7 @@ asset.kingdom_id_civilization = HelloKingdoms.CIV;
 
 | 字段 | 作用 |
 | --- | --- |
-| `civ` | 建立城市、发动战争、拥有国王领袖 |
+| `civ` | 建立城市、发动战争（war）、拥有国王领袖 |
 | `nomads` | 建城定居前的游荡阶段 |
 | `nature` | 野生生物 |
 | `mobs` | 敌对怪物 |
@@ -98,7 +98,7 @@ asset.kingdom_id_civilization = HelloKingdoms.CIV;
 | `count_as_danger` | 其他阵营是否将其视为危险威胁。默认为 `true` |
 | `friendship_for_everyone` | 对地图上所有的阵营均保持和平友好 |
 | `force_look_all_chunks` | 单位搜索全图区块而非仅近邻区块。运算开销极大 |
-| `building_attractor_id` | 能吸引该阵营单位前往的建筑类型 |
+| `building_attractor_id` | 能吸引该阵营单位前往的建筑（building）类型 |
 
 ### 标签（Tag）：决定敌友关系
 
@@ -110,7 +110,7 @@ kingdom.addFriendlyTag("neutral"); // 我视为友方的标签
 kingdom.addEnemyTag("orc");        // 我视为仇敌的标签
 ```
 
-两个王国通过对撞彼此的标签集合来判定默认的外交态度。一个没有任何标签的阵营谁也不亲、谁也不恨，在游戏里不会产生任何有意思的行为。
+两个王国通过对撞彼此的标签集合来判定默认的外交态度。一个没有任何标签的阵营谁也不亲、谁也不恨，在游戏里不会产生任何有意思的行为（behaviour）。
 
 ### 外观
 
@@ -128,8 +128,8 @@ kingdom.addEnemyTag("orc");        // 我视为仇敌的标签
 | --- | --- | --- |
 | 旗帜纹章 | `AssetManager.kingdom_banners_library` | 程序化生成的王国旗帜 |
 | 配色 | `AssetManager.kingdom_colors_library` | 王国分配领土颜色所用的调色板 |
-| 王国特质 | `AssetManager.kingdoms_traits` | 国策（主要是税率）。参见 **[王国特质](#/nml/kingdom-traits)** |
-| 王国职位 | `AssetManager.job_kingdom` | 阵营宏观AI正在推进的战略任务 |
+| 王国特质（trait） | `AssetManager.kingdoms_traits` | 国策（主要是税率）。参见 **[王国特质](#/nml/kingdom-traits)** |
+| 王国职位 | `AssetManager.job_kingdom` | 阵营宏观AI正在推进的战略任务（task） |
 | 王国任务 | `AssetManager.tasks_kingdom` | 支撑这些职位的底层行为树 |
 | 战争类型 | `AssetManager.war_types_library` | 可以对外宣战的战争借口与规则 |
 | 建筑风格 | `AssetManager.architecture_library` | 房屋和城墙的贴图外观 |
@@ -280,7 +280,7 @@ namespace HelloBox
 
 ## 其他系统的纹章旗帜
 
-王国并不是唯一拥有旗帜的组织：文化、宗教、氏族、语言、亚种与家族均拥有各自的纹章部件库（`AssetManager.culture_banners_library` 等）。每个库均包含一个统一的 `main` 资产用于存储图案路径列表，新生成的文化会从中随机抽取对应图案的索引编号。
+王国并不是唯一拥有旗帜的组织：文化（culture）、宗教（religion）、氏族（clan）、语言、亚种（subspecies）与家族均拥有各自的纹章部件库（`AssetManager.culture_banners_library` 等）。每个库均包含一个统一的 `main` 资产（asset）用于存储图案路径列表，新生成的文化会从中随机抽取对应图案的索引编号。
 
 ```csharp Mods/HelloBox/Code/HelloBanners.cs
 namespace HelloBox

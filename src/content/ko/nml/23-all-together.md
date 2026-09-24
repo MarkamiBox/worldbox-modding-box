@@ -16,25 +16,25 @@ order: 222
 
 | 무엇 | 어디서 보이는지 |
 | --- | --- |
-| 액터 특성, 그리고 그걸 담을 나만의 탭 | 유닛 인스펙터, 특성 목록 |
-| 문화, 종교, 아종, 클랜, 언어, 왕국 특성 | 각자의 창, 시스템마다 하나씩 |
+| 액터 특성 (trait), 그리고 그걸 담을 나만의 탭 | 유닛 인스펙터, 특성 목록 |
+| 문화 (culture), 종교 (religion), 아종 (subspecies), 클랜, 언어, 왕국 (kingdom) 특성 | 각자의 창, 시스템마다 하나씩 |
 | 무기, 그 인챈트, 그리고 둘을 담을 카테고리 | 유닛의 손, 장비 탭 |
-| 상태 효과 | 생물 머리 위, 전용 아이콘과 함께 |
-| 드롭, 그것을 뿌리는 구름, 그리고 투사체 | 지도, 공중, 싸움 한복판 |
+| 상태 효과 (status) | 생물 머리 위, 전용 아이콘과 함께 |
+| 드롭, 그것을 뿌리는 구름 (cloud), 그리고 투사체 (projectile) | 지도, 공중, 싸움 한복판 |
 | 타일 | 지형, 모든 것의 아래 |
 | 음식 레시피 | 도시의 창고 |
 | 월드 법칙 | 월드 법칙 창 |
-| 신의 권능, 그 탭과 버튼 | 아래쪽 권능 바 |
+| 신의 권능 (GodPower), 그 탭과 버튼 | 아래쪽 권능 바 |
 | 창 | 당신이 두기로 한 곳 |
-| 건물 | 누군가 짓는 순간의 도시 |
+| 건물 (building) | 누군가 짓는 순간의 도시 |
 | 왕국과 거기 속한 생물 | 지도, 스폰하고 싸우는 모습 |
-| 재해 | 재해 메뉴 |
-| 자기만의 AI 작업 | 목적을 갖고 어딘가로 걸어가는 생물 |
-| 결정, 도시 직업, 손 도구 | 횃불을 들고 배회하는 위스프, 도시당 한 명의 지킴이 |
+| 재해 (disaster) | 재해 메뉴 |
+| 자기만의 AI 작업 (task) | 목적을 갖고 어딘가로 걸어가는 생물 |
+| 결정 (decision), 도시 직업 (job), 손 도구 | 횃불을 들고 배회하는 위스프, 도시당 한 명의 지킴이 |
 | 전투 액션 | 신속 특성을 가진 유닛이 접근 전 불씨를 투척 |
 | 유전자, 성격, 책 종류, 깃발 파츠 | 게놈, 통치자, 도서관, 깃발 |
 | 우호도, 충성도, 행복도 이벤트 | 외교 및 도시 세부 내역 |
-| 음모 | 지도자가 불씨 축제를 계획할 때 음모 목록에 표시 |
+| 음모 (plot) | 지도자가 불씨 축제를 계획할 때 음모 목록에 표시 |
 | 세계의 시대와 월드 비헤이비어 | 시대의 수레바퀴와 월드 자체 타이머 |
 | 도전 과제 | 위스프 10마리 달성 시 도전 과제 창 |
 | 브러시, 툴팁, 단축키 | 브러시 순환, 마우스 오버 툴팁, F6 키 |
@@ -170,6 +170,7 @@ namespace HelloBox
             Stage("drops", HelloDrops.Initialize);          // clouds rain drops, so drops go first
             Stage("clouds", HelloClouds.Initialize);
             Stage("tiles", HelloTiles.Initialize);
+            Stage("biomes", HelloBiomes.Initialize);       // after the tiles, before anything spawns in it
             Stage("resources", HelloResources.Initialize);  // items and buildings cost resources
             Stage("projectiles", HelloProjectiles.Initialize);
             Stage("modifiers", HelloModifiers.Initialize);
@@ -177,6 +178,7 @@ namespace HelloBox
             Stage("buildings", HelloBuildings.Initialize);
             Stage("kingdoms", HelloKingdoms.Initialize);    // actors point at kingdoms
             Stage("kingdom_traits", HelloKingdomTraits.Initialize);
+            Stage("names", HelloNames.Initialize);         // before the actors, so they can use its name set
             Stage("actors", HelloActors.Initialize);
             Stage("laws", HelloLaws.Initialize);
             Stage("ai", HelloAI.Initialize);
@@ -185,6 +187,7 @@ namespace HelloBox
             Stage("tools", HelloTools.Initialize);
             Stage("combat", HelloCombat.Initialize);        // after the trait that carries it
             Stage("politics", HelloPolitics.Initialize);
+            Stage("wars", HelloWars.Initialize);
             Stage("plots", HelloPlots.Initialize);
             Stage("ages", HelloAges.Initialize);            // after the cloud, the law and the status it uses
             Stage("achievements", HelloAchievements.Initialize);
@@ -240,12 +243,12 @@ namespace HelloBox
 1. **내용물보다 그룹이 먼저**: `group_id` 가 존재하지 않는 그룹을 가리키면 렌더링될 탭이 없어 에셋이 증발합니다.
 2. **구름보다 드롭이 먼저**: 구름은 자기가 떨어뜨릴 드롭의 id를 지정하기 때문입니다.
 3. **아이템/건물보다 자원이 먼저**: 둘 다 제작 및 건설 비용으로 자원을 요구하기 때문입니다.
-4. **아이템보다 수식어가 먼저**: 무기는 자신이 획득 가능한 수식어 목록을 참조하기 때문입니다.
+4. **아이템보다 수식어가 먼저**: 무기는 자신이 획득 가능한 수식어 (modifier) 목록을 참조하기 때문입니다.
 5. **액터보다 왕국이 먼저**: 액터는 야생 및 문명 상태의 소속 왕국 id를 가리키기 때문입니다.
 6. **버튼보다 권능이 먼저**: `PowerButtonCreator` 는 id로 권능을 조회하므로 권능이 없으면 빈 껍데기 버튼이 됩니다.
 7. **AI보다 AI가 참조할 모든 에셋이 먼저**: 태스크는 트레잇과 상태 효과를 id로 참조하기 때문입니다.
 8. **결정, 도시 직업, 손 도구보다 액터와 AI를 먼저 등록하기**: 이들이 가리키는 생명체와 태스크가 이미 존재해야 하기 때문입니다.
-9. **세계의 시대는 효과가 사용하는 구름, 세계 법칙, 상태 효과 뒤에 등록하기**: 음모, 정치, 도전 과제는 게임 실행 중에 대상을 조회하므로 의존성 뒤라면 어디에 두어도 괜찮습니다.
+9. **세계의 시대는 효과가 사용하는 구름, 세계 법칙 (world law), 상태 효과 뒤에 등록하기**: 음모, 정치, 도전 과제는 게임 실행 중에 대상을 조회하므로 의존성 뒤라면 어디에 두어도 괜찮습니다.
 
 게임에서 무언가 나타나지 않을 때, "로그에 에러가 떴는가?"에 이어 두 번째로 물어야 할 질문은 바로 "그것을 필요로 하는 에셋보다 나중에 등록하지 않았는가?"입니다 :PES2_HmmmmNoted:.
 

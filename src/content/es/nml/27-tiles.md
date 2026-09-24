@@ -8,7 +8,7 @@ order: 170
 
 # Casillas y terreno :wbrockies:
 
-El mapa es una cuadrícula de `WorldTile`, y cada casilla lleva **dos** capas apiladas una sobre otra:
+El mapa es una cuadrícula de `WorldTile`, y cada casilla (tile) lleva **dos** capas apiladas una sobre otra:
 
 | Capa | Campo en la casilla | Biblioteca | Clase | Ejemplos |
 | --- | --- | --- | --- | --- |
@@ -52,6 +52,11 @@ namespace HelloBox
             // biome_id to its BiomeAsset during startup, before your mod existed: link yours.
             moss.biome_asset = AssetManager.biome_library.get(moss.biome_id);
 
+            // color and has_biome_tags are [NonSerialized], so clone() skips them, and linkAssets()
+            // worked them out at startup. Without this the minimap draws your tile see-through.
+            moss.color = Toolbox.makeColor(moss.color_hex);
+            moss.has_biome_tags = moss.biome_tags != null && moss.biome_tags.Count > 0;
+
             // The variations in GameResources/tiles/hello_moss/ are loaded at startup too.
             Sprite[] variations = SpriteTextureLoader.getSpriteList("tiles/" + moss.id);
             if (variations.Length > 0)
@@ -67,7 +72,7 @@ namespace HelloBox
 }
 ```
 
-> [!WARNING] Un tile de bioma necesita su bioma enlazado
+> [!WARNING] Un tile de bioma (biome) necesita su bioma enlazado
 > Clonar un tile de hierba copia `is_biome = true` y el `biome_id`, pero el `BiomeAsset` en sí solo se busca en `TopTileLibrary.linkAssets()`, una vez, mientras carga el juego. Sáltate esa línea y todo funciona hasta que aparece un animal en tu tile: su nombre de especie recibe el sufijo del bioma, el bioma es `null`, y el spawn muere con `NullReferenceException` en `Subspecies.generateName()` :wbfacepalm:.
 >
 > Las imágenes tienen el mismo problema. `TopTileLibrary` convierte los PNG de `tiles/<id>/` en `sprites` al arrancar, así que sin el último bloque el tile se pinta bien y luego el renderizador del mapa lanza en `WorldTilemap.getVariation()` por cada tile suyo en pantalla.
@@ -98,7 +103,7 @@ Empieza aquí si tu casilla es una idea de jugabilidad y no solo un color nuevo.
 | `damaged_when_walked` | La propia casilla se desgasta al ser pisada |
 | `step_action`, `step_action_chance` | Tu propio código cada vez que algo la pisa |
 | `unit_death_action` | Tu propio código cuando algo muere sobre ella |
-| `can_be_set_on_fire`, `burnable`, `burn_rate` | Comportamiento frente al fuego |
+| `can_be_set_on_fire`, `burnable`, `burn_rate` | Comportamiento (behaviour) frente al fuego |
 | `can_be_frozen`, `forever_frozen`, `fast_freeze`, `remove_on_freeze` | Comportamiento frente al hielo |
 | `remove_on_heat`, `terraform_after_fire` | Qué dejan tras de sí el calor y el fuego |
 | `explodable`, `explodable_delayed`, `explodable_timed`, `explode_range` | Detonación |
@@ -193,13 +198,13 @@ Tanto `main_type` como `top_type` pueden ser `null`. Compruébalo antes de tocar
 
 ## Opciones de terraformación
 
-Un `TerraformOptions` en `AssetManager.terraform` es un paquete bautizado de "limpieza de casilla", utilizado por poderes divinos y proyectiles:
+Un `TerraformOptions` en `AssetManager.terraform` es un paquete bautizado de "limpieza de casilla", utilizado por poderes divinos (GodPower) y proyectiles (projectile):
 
 | Campo | Qué hace |
 | --- | --- |
 | `remove_top_tile`, `remove_roads`, `remove_borders` | Elimina estructuras |
 | `remove_trees_fully`, `remove_burned`, `remove_ruins` | Elimina restos |
-| `destroy_buildings`, `make_ruins` | Qué les ocurre a los edificios |
+| `destroy_buildings`, `make_ruins` | Qué les ocurre a los edificios (building) |
 | `remove_water`, `remove_fire`, `remove_frozen`, `remove_tornado` | Elimina estados |
 | `add_burned`, `add_heat`, `flash` | Añade estados |
 

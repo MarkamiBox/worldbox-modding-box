@@ -8,7 +8,7 @@ order: 28
 
 # Sprites et ressources :wbfanartist:
 
-Votre trait a un nom, des statistiques et une description impeccable. Mais il a aussi un gros point d'interrogation bien moche en guise d'icône. Il est temps de corriger cela.
+Votre trait a un nom, des statistiques (stats) et une description impeccable. Mais il a aussi un gros point d'interrogation bien moche en guise d'icône. Il est temps de corriger cela.
 
 ## Utiliser une icône déjà présente dans le jeu
 
@@ -65,7 +65,7 @@ sera chargé sous l'identifiant `ui/Icons/iconHelloSwift` et fonctionnera partou
 | Champ | Description |
 | --- | --- |
 | `PixelsPerUnit` | Laissez cette valeur à `1`, à moins de savoir exactement pourquoi la changer |
-| `PivotX` / `PivotY` | Le point d'ancrage. `0.5 / 0.0` correspond au bas-centre, requis pour les unités et bâtiments |
+| `PivotX` / `PivotY` | Le point d'ancrage. `0.5 / 0.0` correspond au bas-centre, requis pour les unités et bâtiments (building) |
 | `BorderL/R/T/B` | Bordures 9-slice pour les cadres de fenêtres et les boutons extensibles |
 | `Path` | Fichier particulier auquel s'applique cette configuration spécifique |
 
@@ -77,16 +77,16 @@ C'est le tableau auquel on revient sans cesse. Chaque asset pointe vers son imag
 
 | Asset | Champ | Le fichier va dans |
 | --- | --- | --- |
-| Trait, pouvoir divin, royaume, groupe | `path_icon` | `GameResources/` + exactement ce que vous avez écrit |
+| Trait, pouvoir divin (GodPower), royaume (kingdom), groupe | `path_icon` | `GameResources/` + exactement ce que vous avez écrit |
 | Objet, dans la main d'une unité | `path_gameplay_sprite` | `GameResources/` + exactement ce que vous avez écrit |
 | Bâtiment | `sprite_path` | Un **dossier** : `GameResources/` + `sprite_path` + `/`, contenant `main_0.png`, `construction_0.png`, `ruin_0.png`. Si `sprite_path` est vide, c'est `main_path` + id, et `main_path` vaut `buildings/` par défaut |
 | Drop | `path_texture` | Un **dossier** : `GameResources/` + exactement ce que vous avez écrit, un PNG par frame |
-| Nuage | `path_sprites` | `GameResources/` + chaque chemin de la liste |
-| Effet de statut | `texture` | Un **dossier** : `GameResources/effects/` + ce que vous avez écrit, un PNG par frame |
+| Nuage (cloud) | `path_sprites` | `GameResources/` + chaque chemin de la liste |
+| Effet de statut (status) | `texture` | Un **dossier** : `GameResources/effects/` + ce que vous avez écrit, un PNG par frame |
 | Projectile | `texture` | Un **dossier** : `GameResources/effects/projectiles/` + ce que vous avez écrit, un PNG par frame |
-| Ressource, portée en main | `path_gameplay_sprite` | Un **dossier** : `GameResources/items/resources/` + ce que vous avez écrit, un PNG par frame |
+| Ressource (resource), portée en main | `path_gameplay_sprite` | Un **dossier** : `GameResources/items/resources/` + ce que vous avez écrit, un PNG par frame |
 | Ressource, icône d'inventaire | `path_icon` | `GameResources/` + ce que vous avez écrit. Le vanilla utilise un nom nu comme `iconResBread`, donc le fichier est à la racine |
-| Tuile et tuile supérieure | *(aucun champ)* | `GameResources/tiles/<the tile's id>/` |
+| Tuile (tile) et tuile supérieure | *(aucun champ)* | `GameResources/tiles/<the tile's id>/` |
 
 > [!WARNING] "Un dossier" n'est pas une question de style
 > Chaque asset marqué **dossier** ci-dessus est lu avec `getSpriteList()`, qui renvoie les frames *à l'intérieur* d'un dossier. Pointez-le vers un seul PNG et il revient vide : un drop tombe invisible, un projectile lève `ArgumentOutOfRangeException` dans `QuantumSpriteLibrary.drawProjectiles()`, un statut plante à chaque frame. Une seule frame suffit, elle doit juste être dans son propre dossier : `drops/hello_ember/hello_ember_0.png` :wbfacepalm:.

@@ -10,7 +10,7 @@ order: 22
 
 Alles in diesem Guide baut auf **einer einzigen Mod** auf. Wir starten sie hier, und jede spätere Seite fügt ihr genau eine Datei hinzu.
 
-Am Ende besteht HelloBox aus rund vierzig Dateien, und du wirst jede einzelne Zeile selbst geschrieben haben: eine Akteurseigenschaft und eine Kultureigenschaft mit einem eigenen Reiter, eine Waffe samt Verzauberung, ein Statuseffekt, Beute-Drops, eine Wolke, ein Bodenfeld, ein Kochrezept, ein Projektil, ein Weltgesetz, eine göttliche Macht mit eigenem Button, ein Fenster, ein Einstellungsmenü, ein Gebäude, eine Fraktion, eine Kreatur, eine Katastrophe, eine eigene KI und ein Harmony-Patch, um eine Spielregel zu beugen, die das Spiel für unumstößlich hielt.
+Am Ende besteht HelloBox aus rund vierzig Dateien, und du wirst jede einzelne Zeile selbst geschrieben haben: eine Akteurseigenschaft und eine Kultureigenschaft mit einem eigenen Reiter, eine Waffe samt Verzauberung (modifier), ein Statuseffekt, Beute-Drops, eine Wolke (cloud), ein Bodenfeld, ein Kochrezept, ein Projektil (projectile), ein Weltgesetz (world law), eine göttliche Macht (GodPower) mit eigenem Button, ein Fenster, ein Einstellungsmenü, ein Gebäude (building), eine Fraktion, eine Kreatur, eine Katastrophe (disaster), eine eigene KI und ein Harmony-Patch, um eine Spielregel zu beugen, die das Spiel für unumstößlich hielt.
 
 Das ist weit mehr, als irgendeine echte Mod jemals braucht - und genau das ist der Punkt. Du nimmst dir die zwei oder drei Teile heraus, die du wirklich haben willst, und löschst den Rest einfach :PES4_DeleteThis:.
 

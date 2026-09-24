@@ -62,14 +62,14 @@ The five trait libraries are the friendly ones, each with its own page. Everythi
 | `language_traits` / `language_trait_groups` | `LanguageTrait` | Languages. **[Language traits](#/nml/language-traits)** |
 | `architecture_library` | `ArchitectureAsset` | What a culture's buildings look like |
 | `city_build_orders` | `CityBuildOrderAsset` | What a new city builds, in order |
-| `war_types_library` | `WarTypeAsset` | Kinds of war |
+| `war_types_library` | `WarTypeAsset` | Kinds of war. **[War types](#/nml/war-types)** |
 | `loyalty_library` | `LoyaltyAsset` | Loyalty sources |
 | `opinion_library` | `OpinionAsset` | Opinion sources |
 | `happiness_library` | `HappinessAsset` | Happiness sources |
 | `plots_library` / `plot_category_library` | `PlotAsset` | Schemes units and metas attempt |
 | `decisions_library` | `DecisionAsset` | AI decisions |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | What units talk about |
-| `book_types` | `BookTypeAsset` | Kinds of book |
+| `book_types` | `BookTypeAsset` | Kinds of book. **[Books](#/nml/books)** |
 | `knowledge_library` | `KnowledgeAsset` | The knowledge window |
 
 ## Things in the world
@@ -83,7 +83,7 @@ Everything that sits on the map, falls on it, or flies over it. `buildings` and 
 | `top_tiles` | `TopTileType` | Top layer |
 | `tile_tile_effects` | `TileEffectAsset` | Per-tile effects |
 | `terraform` | `TerraformOptions` | Named terrain clean-ups |
-| `biome_library` | `BiomeAsset` | Biomes |
+| `biome_library` | `BiomeAsset` | Biomes. **[Biomes](#/nml/biomes)** |
 | `resources` | `ResourceAsset` | Food, materials, currency. **[Resources & food](#/nml/resources)** |
 | `clouds` | `CloudAsset` | Weather. **[Clouds & weather](#/nml/clouds)** |
 | `drops` | `DropAsset` | Falling things. **[Drops & falling things](#/nml/drops-and-loot)** |
@@ -167,7 +167,7 @@ The part of the game that writes the history books. Holy amount of libraries for
 
 | Library | Asset | What it holds |
 | --- | --- | --- |
-| `name_generator` | `NameGeneratorAsset` | Name generators |
+| `name_generator` | `NameGeneratorAsset` | Name generators. **[Name generators](#/nml/name-generators)** |
 | `name_sets` | `NameSetAsset` | Name pools they draw from |
 | `onomastics_library` / `onomastics_evolution_library` | `OnomasticsAsset` | How names form and drift |
 | `linguistics_library` | `LinguisticsAsset` | Language construction |

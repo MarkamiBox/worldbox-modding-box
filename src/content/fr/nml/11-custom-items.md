@@ -10,7 +10,7 @@ order: 120
 
 Armes, armures, anneaux et amulettes résident tous dans `AssetManager.items` sous la classe `EquipmentAsset`.
 
-La première chose à comprendre est qu'**il n'existe aucun objet "épée" générique doté d'un champ matériau que l'on choisirait dynamiquement**. Il existe `sword_wood`, `sword_stone`, `sword_copper`, `sword_bronze`, `sword_silver`, `sword_iron`, `sword_steel`, `sword_mythril`, `sword_adamantine`. Neuf assets distincts, chacun avec ses coûts, ses statistiques et sa chaîne `material`. Même topo pour chaque pièce d'armure, chaque arc et chaque amulette.
+La première chose à comprendre est qu'**il n'existe aucun objet "épée" générique doté d'un champ matériau que l'on choisirait dynamiquement**. Il existe `sword_wood`, `sword_stone`, `sword_copper`, `sword_bronze`, `sword_silver`, `sword_iron`, `sword_steel`, `sword_mythril`, `sword_adamantine`. Neuf assets distincts, chacun avec ses coûts, ses statistiques (stats) et sa chaîne `material`. Même topo pour chaque pièce d'armure, chaque arc et chaque amulette.
 
 Voilà pourquoi le clonage n'est pas seulement le chemin facile ici : c'est le seul qui soit sensé.
 
@@ -105,7 +105,7 @@ namespace HelloBox
 | `equipment_type` | `Weapon`, `Helmet`, `Armor`, `Boots`, `Ring`, `Amulet`. L'emplacement d'équipement |
 | `equipment_subtype` | `sword`, `axe`, `bow`, … La classe d'arme. Les cultures ont des préférences par sous-type |
 | `group_id` | L'onglet d'équipement. Voir **[Groupes de traits et onglets](#/nml/trait-groups)** |
-| `attack_type` | Comportement en mêlée ou à distance |
+| `attack_type` | Comportement (behaviour) en mêlée ou à distance |
 | `quality` | La qualité minimale lors de la génération |
 | `rarity`, `pool_rate` | Fréquence de tirage par le générateur |
 | `is_pool_weapon` | Détermine si l'objet entre dans la réserve générale des armes |
@@ -139,15 +139,15 @@ C'est ici qu'un objet cesse d'être un tas de nombres.
 | --- | --- |
 | `action_attack_target` | S'exécute à chaque coup porté |
 | `action_special_effect` + `special_effect_interval` | S'exécute sur un minuteur tant qu'il est équipé |
-| `item_modifier_ids` | Les enchantements qu'il peut obtenir. Voir **[Enchantements d'armes](#/nml/item-modifiers)** |
+| `item_modifier_ids` | Les enchantements (modifier) qu'il peut obtenir. Voir **[Enchantements d'armes](#/nml/item-modifiers)** |
 | `addSpell(id)` + `linkSpells()` | Un sort que le porteur peut lancer. Le lien est à appeler vous-même, voir plus bas |
-| `addCombatAction(id)` | Compile, et ne fait rien sur un objet : une unité récupère ses actions de combat depuis ses traits (et sous-espèce, clan, religion), jamais depuis son équipement. Mettez-le sur un trait, voir **[Projectiles, sorts et effets](#/nml/projectiles-spells)** |
+| `addCombatAction(id)` | Compile, et ne fait rien sur un objet : une unité récupère ses actions de combat depuis ses traits (et sous-espèce (subspecies), clan, religion), jamais depuis son équipement. Mettez-le sur un trait, voir **[Projectiles, sorts et effets](#/nml/projectiles-spells)** |
 
 Le jeu transforme ces ids en objets une seule fois, au démarrage, avant que votre mod ne charge. Sur un objet que vous avez enregistré vous-même, terminez par `linkSpells()`, et remplissez `decisions_assets` à la main (il n'y a pas de méthode de liaison pour ça), sinon l'octroi ne fait rien. Voir **[IA personnalisée](#/nml/custom-ai)**.
 
 ## Un effet lorsqu'il est tenu en main
 
-"Quiconque tient la Lame de braise devient Rapide" ressemble à un trait attaché à un objet. Les objets ne portent pas de traits, mais ils exécutent du code sur un minuteur lorsqu'ils sont équipés (`action_special_effect` du tableau ci-dessus), et un **statut** expire de lui-même. L'objet réapplique donc en continu un statut court, et lorsque l'objet disparaît, le statut expire simplement :
+"Quiconque tient la Lame de braise devient Rapide" ressemble à un trait attaché à un objet. Les objets ne portent pas de traits, mais ils exécutent du code sur un minuteur lorsqu'ils sont équipés (`action_special_effect` du tableau ci-dessus), et un **statut** (status) expire de lui-même. L'objet réapplique donc en continu un statut court, et lorsque l'objet disparaît, le statut expire simplement :
 
 ```csharp Mods/HelloBox/Code/HelloItems.cs
 blade.special_effect_interval = 1f;
@@ -294,7 +294,7 @@ actor.equipment.setItem(item, actor);
 
 ## Outils en main
 
-Le marteau qu'un bâtisseur manie et le panier qu'un cueilleur transporte ne sont pas des objets d'équipement. Ce sont des **outils de main** : de simples visuels affichés tant qu'une tâche l'exige, et masqués dès qu'elle prend fin.
+Le marteau qu'un bâtisseur manie et le panier qu'un cueilleur transporte ne sont pas des objets d'équipement. Ce sont des **outils de main** : de simples visuels affichés tant qu'une tâche (task) l'exige, et masqués dès qu'elle prend fin.
 
 ```csharp Mods/HelloBox/Code/HelloTools.cs
 using ai.behaviours;   // BehaviourTaskActor
@@ -337,7 +337,7 @@ Une tâche affiche son outil via `force_hand_tool`, donc la torche apparaîtra d
 | --- | --- |
 | `path_gameplay_sprite` | Le dossier. Le jeu le renseigne à partir de l'ID : `items/tools/tool_<id>` |
 | `animated` | Joue les images en boucle, comme la tasse de café |
-| `colored` | Teinte l'outil avec la couleur du royaume, comme le drapeau |
+| `colored` | Teinte l'outil avec la couleur du royaume (kingdom), comme le drapeau |
 
 > [!TIP] Enchantements d'abord, armes ensuite
 > Une nouvelle arme nécessite des sprites, une lignée de matériaux, des coûts et de l'équilibrage. Un nouveau **modificateur** ne demande que vingt lignes et s'applique à toutes les armes du jeu, y compris celles d'autres mods. Si vous voulez transformer le jeu dès ce soir, lisez d'abord **[Enchantements d'armes](#/nml/item-modifiers)** :PESgn_DoIt:.

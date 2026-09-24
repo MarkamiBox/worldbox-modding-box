@@ -8,7 +8,7 @@ order: 180
 
 # Complots :wbrebellion:
 
-Un **complot** (plot) es un plan que un gobernante inicia, financia y desarrolla durante un tiempo: una rebelión, una nueva guerra, una alianza. Cuando la barra de progreso se llena, tu código se ejecuta. Todo lo que ocurre entre "alguien podría" y "alguien lo hizo" corre a cargo de la propia maquinaria del juego, y esa es la gran ventaja de usarlo: el jugador ve tu complot en la lista de intrigas, con su autor, su progreso y su estandarte, de forma totalmente nativa.
+Un **complot** (plot) es un plan que un gobernante inicia, financia y desarrolla durante un tiempo: una rebelión, una nueva guerra (war), una alianza. Cuando la barra de progreso se llena, tu código se ejecuta. Todo lo que ocurre entre "alguien podría" y "alguien lo hizo" corre a cargo de la propia maquinaria del juego, y esa es la gran ventaja de usarlo: el jugador ve tu complot en la lista de intrigas, con su autor, su progreso y su estandarte, de forma totalmente nativa.
 
 ## Añadir uno
 
@@ -74,7 +74,7 @@ Un líder con diez monedas, una ciudad y tiempo libre puede ahora organizar un f
 > `PlotAsset.checkIsPossible()` lo invoca sin comprobación de nulos cada vez que un líder evalúa tu complot. Si lo omites, el primer gobernante que lo mire lanzará una `NullReferenceException`. Si no tienes condiciones, devuelve simplemente `true`. Sí, incluso entonces.
 
 > [!WARNING] La lista básica se genera al iniciar el juego
-> Los líderes solo eligen complots de `plots_library.basic_plots` (más los ritos de su religión). `linkAssets()` llena esa lista con todos los complots marcados con `is_basic_plot` una sola vez, antes de que tu mod cargue. Marcar el flag no basta: añade el complot tú mismo a la lista.
+> Los líderes solo eligen complots de `plots_library.basic_plots` (más los ritos de su religión (religion)). `linkAssets()` llena esa lista con todos los complots marcados con `is_basic_plot` una sola vez, antes de que tu mod cargue. Marcar el flag no basta: añade el complot tú mismo a la lista.
 
 ## Los campos
 

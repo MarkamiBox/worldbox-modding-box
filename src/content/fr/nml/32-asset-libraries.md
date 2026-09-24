@@ -8,7 +8,7 @@ order: 90
 
 # Bibliothèques d'assets :wbbrain:
 
-Avant que les pages suivantes ne prennent tout leur sens, vous devez assimiler celle-ci. Absolument chaque élément dans WorldBox (un trait, une arme, un bâtiment, une tuile, un nuage, un royaume) est un **asset** résidant dans une **bibliothèque**, et chaque bibliothèque du jeu partage la même classe et les quatre mêmes méthodes.
+Avant que les pages suivantes ne prennent tout leur sens, vous devez assimiler celle-ci. Absolument chaque élément dans WorldBox (un trait, une arme, un bâtiment (building), une tuile (tile), un nuage (cloud), un royaume (kingdom)) est un **asset** résidant dans une **bibliothèque** (library), et chaque bibliothèque du jeu partage la même classe et les quatre mêmes méthodes.
 
 Apprenez-les une bonne fois ici, et les trente pages suivantes se résumeront à : « quelle bibliothèque, quels champs ».
 
@@ -70,7 +70,7 @@ Enregistre un nouvel asset. Trois opérations internes essentielles s'y produise
    ```
    C'est ainsi qu'un mod en écrase silencieusement un autre. Préfixez toujours vos ids.
 2. La méthode `create()` est exécutée sur l'asset.
-3. **La bibliothèque alloue le dictionnaire `base_stats`** (et `base_stats_meta` le cas échéant). Voilà pourquoi la consigne absolue de ce guide est « les statistiques après `add()` ».
+3. **La bibliothèque alloue le dictionnaire `base_stats`** (et `base_stats_meta` le cas échéant). Voilà pourquoi la consigne absolue de ce guide est « les statistiques (stats) après `add()` ».
 
 ```csharp
 ActorTrait swift = new ActorTrait { id = SWIFT, group_id = "physique" };

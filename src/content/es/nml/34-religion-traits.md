@@ -8,7 +8,7 @@ order: 108
 
 # Rasgos religiosos :wbpray:
 
-Una **religión** pertenece a ciudades y reinos, se expande mediante la conversión, escribe libros y puede oficiar **ritos**: complots que alteran el mundo y que sus creyentes intentan consumar por iniciativa propia. Un rasgo religioso es una creencia individual.
+Una **religión** (religion) pertenece a ciudades y reinos (kingdom), se expande mediante la conversión, escribe libros (book) y puede oficiar **ritos**: complots (plot) que alteran el mundo y que sus creyentes intentan consumar por iniciativa propia. Un rasgo (trait) religioso es una creencia individual.
 
 | | |
 | --- | --- |
@@ -19,8 +19,8 @@ Una **religión** pertenece a ciudades y reinos, se expande mediante la conversi
 | Prefijo de traducción | `religion_trait_` |
 | Carpeta de iconos por defecto | `ui/Icons/religion_traits/` |
 
-> [!WARNING] Las estadísticas de religión no llegan a las unidades
-> Este es el único sistema de rasgos cuyo `base_stats` nunca aterriza en un `Actor`. `Actor.updateStats()` fusiona subespecies, clanes, idiomas y culturas. **La religión no está en esa lista.**
+> [!WARNING] Las estadísticas (stats) de religión no llegan a las unidades
+> Este es el único sistema de rasgos cuyo `base_stats` nunca aterriza en un `Actor`. `Actor.updateStats()` fusiona subespecies (subspecies), clanes, idiomas y culturas (culture). **La religión no está en esa lista.**
 >
 > Por tanto, un rasgo religioso altera el mundo mediante lo que *hace* (un rito, una transformación, un hook de acción), no a través de números. Escribir `base_stats["damage"] = 10` en uno es una operación inerte, y representa la tarde perdida más habitual en esta página :PES4_BigSad:.
 
@@ -89,7 +89,7 @@ El complot determina quién puede iniciarlo y cuán arduo resulta:
 
 ## Transformaciones: el campo `transformation_biome_id`
 
-El otro campo exclusivo de los rasgos de religión. Marca el rasgo como una transformación e indica el bioma que la fe propaga por el entorno:
+El otro campo exclusivo de los rasgos de religión. Marca el rasgo como una transformación e indica el bioma (biome) que la fe propaga por el entorno:
 
 ```csharp
 trait.transformation_biome_id = "biome_desert";
@@ -117,7 +117,7 @@ trait.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 trait.action_death = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
 ```
 
-Un rasgo religioso también puede otorgar un hechizo o una decisión, lo cual suele encajar mucho mejor que un temporizador:
+Un rasgo religioso también puede otorgar un hechizo (spell) o una decisión (decision), lo cual suele encajar mucho mejor que un temporizador:
 
 ```csharp
 trait.addSpell("hello_bolt");           // consulta Proyectiles, hechizos y efectos

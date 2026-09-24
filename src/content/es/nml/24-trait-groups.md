@@ -8,7 +8,7 @@ order: 102
 
 # Grupos de rasgos y pestañas :wbfamilies:
 
-Cada rasgo pertenece a un **grupo**, y el grupo es lo que dibuja una pestaña en el libro de rasgos. Si añades seis rasgos y los tiras todos en `miscellaneous`, se esfuman en una lista por la que nadie hace scroll :PES4_Invisible:.
+Cada rasgo (trait) pertenece a un **grupo**, y el grupo es lo que dibuja una pestaña en el libro (book) de rasgos. Si añades seis rasgos y los tiras todos en `miscellaneous`, se esfuman en una lista por la que nadie hace scroll :PES4_Invisible:.
 
 Tener tu propia pestaña cuesta cuatro líneas.
 
@@ -117,7 +117,7 @@ Los rasgos de actor son uno de siete sistemas de rasgos, y cada uno tiene su pro
 | Actor | `AssetManager.trait_groups` | `ActorTraitGroupAsset` | esta página |
 | Cultura | `AssetManager.culture_trait_groups` | `CultureTraitGroupAsset` | **[Rasgos culturales](#/nml/culture-traits)** |
 | Religión | `AssetManager.religion_trait_groups` | `ReligionTraitGroupAsset` | **[Rasgos religiosos](#/nml/religion-traits)** |
-| Subespecie | `AssetManager.subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | **[Rasgos de subespecies](#/nml/subspecies-traits)** |
+| Subespecie (subspecies) | `AssetManager.subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | **[Rasgos de subespecies](#/nml/subspecies-traits)** |
 | Clan | `AssetManager.clan_trait_groups` | `ClanTraitGroupAsset` | **[Rasgos de clanes](#/nml/clan-traits)** |
 | Idioma | `AssetManager.language_trait_groups` | `LanguageTraitGroupAsset` | **[Rasgos de idioma](#/nml/language-traits)** |
 | Reino | `AssetManager.kingdoms_traits_groups` | `KingdomTraitGroupAsset` | **[Rasgos de reinos](#/nml/kingdom-traits)** |

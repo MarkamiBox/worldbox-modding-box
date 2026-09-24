@@ -8,7 +8,7 @@ order: 100
 
 # Traits personnalisés :wbstrongminded:
 
-Un trait est une étiquette permanente apposée sur une créature : *brave*, *rapide*, *immortel*. Il s'affiche dans l'inspecteur, peut modifier les statistiques de l'unité, exécuter du code à sa naissance, lors d'un coup reçu ou à sa mort, et les enfants peuvent en hériter.
+Un trait est une étiquette permanente apposée sur une créature : *brave*, *rapide*, *immortel*. Il s'affiche dans l'inspecteur, peut modifier les statistiques (stats) de l'unité, exécuter du code à sa naissance, lors d'un coup reçu ou à sa mort, et les enfants peuvent en hériter.
 
 C'est aussi l'élément le plus simple et accessible à créer dans tout le jeu, c'est pourquoi c'est le premier mod de tout le monde. Pas le mien : mon premier mod était une surcouche autour du mod de quelqu'un d'autre, ce qui est une forme de triche à part entière :trollface:.
 
@@ -16,7 +16,7 @@ C'est aussi l'élément le plus simple et accessible à créer dans tout le jeu,
 
 Chaque asset dans WorldBox vit dans une liste unique indexée par son `id`. Si vous enregistrez `fast` et qu'un autre mod enregistre aussi `fast`, le second **écrase** le premier et le log se contente d'une ligne d'avertissement que personne ne lit jamais.
 
-Donc : `hello_swift`, pas `swift`. Nom court du mod, tiret du bas, nom de l'élément. Faites cela pour les traits, objets, bâtiments, pouvoirs, statuts, pour absolument tout :aPES4_Noted:.
+Donc : `hello_swift`, pas `swift`. Nom court du mod, tiret du bas, nom de l'élément. Faites cela pour les traits, objets, bâtiments (building), pouvoirs, statuts (status), pour absolument tout :aPES4_Noted:.
 
 ## Le trait
 
@@ -69,9 +69,9 @@ protected override void OnModLoad()
 
 ### Ce que fait chaque partie
 
-- **`AssetManager.traits`** : La bibliothèque regroupant tous les traits de créature du jeu, vanilla comme moddés. `has`, `get`, `add` et `clone` sont les quatre méthodes que vous manipulerez sur toutes les bibliothèques du jeu.
+- **`AssetManager.traits`** : La bibliothèque (library) regroupant tous les traits de créature du jeu, vanilla comme moddés. `has`, `get`, `add` et `clone` sont les quatre méthodes que vous manipulerez sur toutes les bibliothèques du jeu.
 - **`path_icon`** : La petite image dans l'inspecteur. Un *chemin*, pas un fichier avec extension. Voir **[Sprites et ressources](#/nml/sprites-and-resources)**. Le jeu ne renseigne ceci automatiquement que pendant la création de ses propres bibliothèques de base, votre trait sera donc invisible si vous ne le définissez pas.
-- **`needs_to_be_explored`** : `true` par défaut, donc le trait reste verrouillé dans le livre des connaissances jusqu'à ce que le joueur le trouve dans un monde. `false` le rend disponible dès la première seconde. HelloBox le met partout, pour que tu voies ce que tu as construit sans le chercher.
+- **`needs_to_be_explored`** : `true` par défaut, donc le trait reste verrouillé dans le livre (book) des connaissances jusqu'à ce que le joueur le trouve dans un monde. `false` le rend disponible dès la première seconde. HelloBox le met partout, pour que tu voies ce que tu as construit sans le chercher.
 - **`group_id`** : L'onglet sous lequel il apparaît dans le livre des traits. La liste complète est donnée plus bas.
 - **`rate_birth`** : La probabilité qu'un nouveau-né l'obtienne naturellement. `0` signifie "uniquement si accordé explicitement".
 - **`can_be_given` / `can_be_removed`** : Détermine si le joueur peut l'ajouter ou le retirer dans l'éditeur de traits. Les deux valent `true` par défaut ; passez-en un à `false` pour un trait permanent ou réservé à votre propre code.
@@ -84,7 +84,7 @@ protected override void OnModLoad()
 > Même règle pour les statuts, objets, bâtiments et créatures. La seule exception est `clone()`, qui appelle `add()` pour vous.
 
 > [!TIP] Le même interrupteur existe sur presque tout ce que tu crées
-> `needs_to_be_explored` vit dans la classe de base que partagent tous les assets déblocables, donc il marche sur les acteurs, les sept types de traits, les objets, les modificateurs et les lois du monde. Pouvoirs divins, statuts, bâtiments, drops, nuages, tiles et projectiles n'ont aucune étape de découverte :wbsmirk:.
+> `needs_to_be_explored` vit dans la classe de base que partagent tous les assets déblocables, donc il marche sur les acteurs, les sept types de traits, les objets, les modificateurs (modifier) et les lois du monde (world law). Pouvoirs divins (GodPower), statuts, bâtiments, drops, nuages (cloud), tiles et projectiles n'ont aucune étape de découverte :wbsmirk:.
 
 ### Les groupes de traits vanilla
 
@@ -210,6 +210,6 @@ Les traits d'acteur ne sont que l'un des **sept** systèmes de traits. Chacun di
 | Subspecies | une branche d'une espèce | **[Traits de sous-espèce](#/nml/subspecies-traits)** |
 | Clan | une lignée généalogique | **[Traits de clan](#/nml/clan-traits)** |
 | Language | une langue et ses locuteurs | **[Traits de langue](#/nml/language-traits)** |
-| Kingdom | la politique d'un royaume | **[Traits de royaume](#/nml/kingdom-traits)** |
+| Kingdom | la politique d'un royaume (kingdom) | **[Traits de royaume](#/nml/kingdom-traits)** |
 
-Choisissez le porteur avant d'écrire le trait. "Les elfes tirent mieux à l'arc" est un trait de culture s'il doit essaimer avec leurs villes, un trait de sous-espèce s'il doit se transmettre par hérédité, et un trait d'acteur s'il appartient à une créature en particulier. Se tromper là-dessus, c'est la différence entre un mod qui transforme un monde en une heure et un mod qui ne fait strictement rien :PES_ThinkAboutIt:.
+Choisissez le porteur avant d'écrire le trait. "Les elfes tirent mieux à l'arc" est un trait de culture s'il doit essaimer avec leurs villes, un trait de sous-espèce (subspecies) s'il doit se transmettre par hérédité, et un trait d'acteur s'il appartient à une créature en particulier. Se tromper là-dessus, c'est la différence entre un mod qui transforme un monde en une heure et un mod qui ne fait strictement rien :PES_ThinkAboutIt:.

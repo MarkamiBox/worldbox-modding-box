@@ -57,7 +57,7 @@ Vous n'avez besoin que de ce fichier. La page liste aussi `nml-setup-win.exe` et
 
 C'est le dossier où Steam a installé le jeu. Vous n'avez jamais à le chercher :
 
-1. Ouvrez **Steam** et allez dans votre **Bibliothèque**.
+1. Ouvrez **Steam** et allez dans votre **Bibliothèque** (library).
 2. **Clic droit** sur WorldBox dans la liste à gauche.
 3. Cliquez sur **Gérer**, puis sur **Parcourir les fichiers locaux**.
 

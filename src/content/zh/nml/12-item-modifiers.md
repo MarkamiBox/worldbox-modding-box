@@ -81,7 +81,7 @@ namespace HelloBox
 | `mod_rank` | 在同族分类内部的等级。同时会提升整件武器的评分价值 |
 | `translation_key` | 玩家在装备面板上所看到的绿色词条文字的本地化键名 |
 | `rarity` | 随机刷出的概率权重。数字越大越常见 |
-| `base_stats` | 该词条提供的属性数值增益 |
+| `base_stats` | 该词条提供的属性（stats）数值增益 |
 | `quality` | 该词条允许附着出现的最低保底装备品质 |
 | `equipment_value` | 额外增加的 AI 装备评价值 |
 
@@ -110,7 +110,7 @@ ItemAssetCreator.CreateAndAddModifier(
 
 ```json Locales/en.json
 {
-  "hello_sharp": "Sharpened",
+  "mod_hello_sharp": "Sharpened",
   "hello_burning": "Burning"
 }
 ```

@@ -8,7 +8,7 @@ order: 28
 
 # 贴图与素材资源 :wbfanartist:
 
-你的特质已经有了名称、属性数值和优美的描述。但同时，它在游戏里还顶着一个巨大且难看的大问号作为图标。是时候把它解决掉了。
+你的特质（trait）已经有了名称、属性（stats）数值和优美的描述。但同时，它在游戏里还顶着一个巨大且难看的大问号作为图标。是时候把它解决掉了。
 
 ## 使用游戏本体已有的图标
 
@@ -21,7 +21,7 @@ Sprite[] frames = SpriteTextureLoader.getSpriteList("effects/projectiles/arrow")
 
 `getSprite` 相当于带缓存机制的 `Resources.Load`，而 `getSpriteList` 则是带缓存的 `Resources.LoadAll`。素材路径不带文件扩展名：永远写成 `ui/Icons/iconFly`，绝不能写成 `ui/Icons/iconFly.png`。
 
-绝大多数资源配置字段要求填入**文本路径字符串 (string)**，而不是已经加载好的 Sprite 实例对象：
+绝大多数资源（resource）配置字段要求填入**文本路径字符串 (string)**，而不是已经加载好的 Sprite 实例对象：
 
 ```csharp
 trait.path_icon = "ui/Icons/iconHelloSwift";
@@ -65,7 +65,7 @@ HelloBox/GameResources/ui/Icons/iconHelloSwift.png
 | 字段 | 作用说明 |
 | --- | --- |
 | `PixelsPerUnit` | 除非你明确知道为什么要改，否则保持为 `1` 即可 |
-| `PivotX` / `PivotY` | 锚点（中心点）位置。`0.5 / 0.0` 表示底部中心，通常是角色单位与建筑所需的定位点 |
+| `PivotX` / `PivotY` | 锚点（中心点）位置。`0.5 / 0.0` 表示底部中心，通常是角色单位与建筑（building）所需的定位点 |
 | `BorderL/R/T/B` | 九宫格拉伸边框（9-Slice），用于可拉伸缩放的窗口边框或按钮 |
 | `Path` | 指定该规则具体应用于哪个图片文件 |
 
@@ -77,16 +77,16 @@ HelloBox/GameResources/ui/Icons/iconHelloSwift.png
 
 | 资源 | 字段 | 文件放在 |
 | --- | --- | --- |
-| 特质、神力、王国、分组 | `path_icon` | `GameResources/` + 你写的原样路径 |
-| 物品（单位手里拿着的） | `path_gameplay_sprite` | `GameResources/` + 你写的原样路径 |
+| 特质、神力（GodPower）、王国（kingdom）、分组 | `path_icon` | `GameResources/` + 你写的原样路径 |
+| 物品（item）（单位手里拿着的） | `path_gameplay_sprite` | `GameResources/` + 你写的原样路径 |
 | 建筑 | `sprite_path` | 一个**文件夹**：`GameResources/` + `sprite_path` + `/`，里面放 `main_0.png`、`construction_0.png`、`ruin_0.png`。如果 `sprite_path` 为空，就用 `main_path` + id，而 `main_path` 默认是 `buildings/` |
 | 掉落物 | `path_texture` | 一个**文件夹**：`GameResources/` + 你写的原样路径，每帧一张 PNG |
 | 云 | `path_sprites` | `GameResources/` + 列表里的每个路径 |
-| 状态效果 | `texture` | 一个**文件夹**：`GameResources/effects/` + 你写的值，每帧一张 PNG |
-| 投射物 | `texture` | 一个**文件夹**：`GameResources/effects/projectiles/` + 你写的值，每帧一张 PNG |
+| 状态效果（status） | `texture` | 一个**文件夹**：`GameResources/effects/` + 你写的值，每帧一张 PNG |
+| 投射物（projectile） | `texture` | 一个**文件夹**：`GameResources/effects/projectiles/` + 你写的值，每帧一张 PNG |
 | 资源（拿在手里的） | `path_gameplay_sprite` | 一个**文件夹**：`GameResources/items/resources/` + 你写的值，每帧一张 PNG |
 | 资源（背包图标） | `path_icon` | `GameResources/` + 你写的值。原版只用 `iconResBread` 这样的纯名字，所以文件放在根目录 |
-| 地块和顶层地块 | *（没有字段）* | `GameResources/tiles/<the tile's id>/` |
+| 地块（tile）和顶层地块 | *（没有字段）* | `GameResources/tiles/<the tile's id>/` |
 
 > [!WARNING] “文件夹”不是风格问题
 > 上面所有标成**文件夹**的资源都是用 `getSpriteList()` 读取的，它返回的是文件夹*里面*的帧。指向单个 PNG 就会得到空结果：掉落物隐形落下，投射物在 `QuantumSpriteLibrary.drawProjectiles()` 里抛出 `ArgumentOutOfRangeException`，状态效果每一帧都报错。只有一帧也没问题，只要它放在自己的文件夹里：`drops/hello_ember/hello_ember_0.png` :wbfacepalm:。

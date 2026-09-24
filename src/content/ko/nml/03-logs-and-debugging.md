@@ -124,7 +124,7 @@ private static void Stage(string pName, System.Action pAction)
 }
 ```
 
-이제 특성 하나가 고장 나더라도 해당 특성만 비활성화될 뿐 모드 전체가 꺼지지 않으며, 로그에도 문제가 된 단계가 정확히 찍힙니다:
+이제 특성 (trait) 하나가 고장 나더라도 해당 특성만 비활성화될 뿐 모드 전체가 꺼지지 않으며, 로그에도 문제가 된 단계가 정확히 찍힙니다:
 
 ```text Player.log
 [NML]: [HelloBox]: stage 'items' failed: NullReferenceException ...

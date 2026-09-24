@@ -8,7 +8,7 @@ order: 126
 
 # Gotas y cosas que caen :wbloot:
 
-Una **gota** (drop) es un objeto pequeño que cae del cielo, aterriza en una casilla y hace algo: lluvia, sangre, semillas, fuego, ácido, monedas. Son la forma más barata de todo el juego para hacer que algo *ocurra* en el mapa, y vienen con su propia animación y sonido gratis.
+Una **gota** (drop) es un objeto pequeño que cae del cielo, aterriza en una casilla (tile) y hace algo: lluvia, sangre, semillas, fuego, ácido, monedas. Son la forma más barata de todo el juego para hacer que algo *ocurra* en el mapa, y vienen con su propia animación y sonido gratis.
 
 ## Registrar una
 
@@ -118,4 +118,4 @@ power.click_action = (WorldTile pTile, string pPowerID) =>
 ```
 
 > [!TIP] Las gotas son el efecto especial de los perezosos
-> Antes de escribir un sistema de partículas, pregúntate si una gota con un sprite y un `action_landed` hace el trabajo. Normalmente lo hace, en diez líneas y con sonido incluido :PESgn_Noice:.
+> Antes de escribir un sistema de partículas, pregúntate si una gota con un sprite y un `action_landed` hace el trabajo (job). Normalmente lo hace, en diez líneas y con sonido incluido :PESgn_Noice:.

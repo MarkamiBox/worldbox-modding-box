@@ -9,9 +9,9 @@ order: 140
 # 自定义生物（Actor） :wbhuman:
 
 > [!NOTE] 游戏里称为 Actor，而不是“种族”（Race）
-> 游戏将地图上的每一个活物统称为 **Actor**：人类、狼、巨龙、僵尸、螃蟹。它们全都派生自同一个基础类 `ActorAsset`，且全部存放在 `AssetManager.actor_library` 中。“种族”（Race）是早已废弃的历史旧词，唯一残留的地方是一个被标记为 `[Obsolete("use .original_actor_asset instead")]` 的 `race` 属性，它存在的唯一意义是兼容读取史前版本的旧存档。在任何地方都请使用 `actor`。
+> 游戏将地图上的每一个活物统称为 **Actor**：人类、狼、巨龙、僵尸、螃蟹。它们全都派生自同一个基础类 `ActorAsset`，且全部存放在 `AssetManager.actor_library` 中。“种族”（Race）是早已废弃的历史旧词，唯一残留的地方是一个被标记为 `[Obsolete("use .original_actor_asset instead")]` 的 `race` 属性（stats），它存在的唯一意义是兼容读取史前版本的旧存档。在任何地方都请使用 `actor`。
 
-添加一个全新的生物是每个 mod 开发者都想做、但几乎没人能做完的方向。因为一个 `ActorAsset` 承载着动画、贴图、音效、生物学分类、食性、AI 行为树、基因组、文化以及各项属性数值。只要漏填或者搞错其中一项，你就会在游戏里得到一个孤零零站在大洋深处的隐形单位 :PES4_Invisible:。
+添加一个全新的生物是每个 mod 开发者都想做、但几乎没人能做完的方向。因为一个 `ActorAsset` 承载着动画、贴图、音效、生物学分类、食性、AI 行为（behaviour）树、基因组、文化（culture）以及各项属性数值。只要漏填或者搞错其中一项，你就会在游戏里得到一个孤零零站在大洋深处的隐形单位 :PES4_Invisible:。
 
 好消息是：游戏本体自己也绝不会从零组装一个生物。原版创建精灵（Elf）的代码，字面上就只有这一句：
 
@@ -31,7 +31,7 @@ clone("elf", "$civ_advanced_unit$");
 | `$animal$` | 野生动物 |
 | `$mob$` | 敌对怪物 |
 | `$civ_unit$` | 基础文明生物 |
-| `$civ_advanced_unit$` | 具备城市、王国、文化、宗教的完整文明种族。人类、精灵、兽人、矮人皆基于此 |
+| `$civ_advanced_unit$` | 具备城市、王国（kingdom）、文化、宗教（religion）的完整文明种族。人类、精灵、兽人、矮人皆基于此 |
 
 你也可以直接克隆现成的成熟生物——例如 `human`、`wolf`、`zombie`——对于你的第一个生物 mod 来说，这是最轻松的路线，因为原主的外观贴图会一并继承下来，你的生物在游戏里立即可见。
 
@@ -184,19 +184,19 @@ namespace HelloBox
 | `name_locale` | 显示名称的翻译本地化键 |
 | `icon` | 在信息列表和生成按钮中显示的图标 |
 | `color_hex` | 应用在可变色生物身上的颜色着色值 |
-| `can_have_subspecies` | 世代繁衍中是否会变异产生亚种 |
+| `can_have_subspecies` | 世代繁衍中是否会变异产生亚种（subspecies） |
 | `has_ai_system` | 是否运行通用的 AI 行为逻辑树 |
 | `flying` / `hovering` | 是否能够离地浮空及其高度 |
 | `force_ocean_creature` / `force_land_creature` | 强制锁定适居地形为海洋或陆地 |
-| `can_attack_buildings` | 是否拥有攻击并拆毁建筑的能力 |
-| `has_soul`, `can_receive_traits`, `can_be_cloned` | 神力对其生效的白名单权限 |
+| `can_attack_buildings` | 是否拥有攻击并拆毁建筑（building）的能力 |
+| `has_soul`, `can_receive_traits`, `can_be_cloned` | 神力（GodPower）对其生效的白名单权限 |
 | `kingdom_id_wild` / `kingdom_id_civilization` | 归属阵营（未驯化的野生群体与定居建国后的文明群体） |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … 贴图所在的图集 |
 | `animation_walk` / `animation_idle` / `animation_swim` | 序列帧动画定义，各带独立的 `_speed` 播放速率 |
 | `sound_idle`, `sound_spawn`, `sound_death`, `sound_attack`, `sound_hit` | FMOD 音效事件路径 |
 | `name_taxonomic_*` | 界、门、纲、目、科、属、种，用于生物知识窗口 |
 | `collective_term` | 量词群体称谓（如“一**群**狼”） |
-| `allowed_status_tiers` | 允许被施加的状态效果阶级 |
+| `allowed_status_tiers` | 允许被施加的状态效果（status）阶级 |
 | `production` | 其城市能生产制造的物资品类 |
 | `zombie_id_internal`, `skeleton_id`, `mush_id`, `tumor_id` | 死亡或感染后的蜕变目标 |
 
@@ -247,7 +247,7 @@ Actor actor = World.world.units.spawnNewUnit("hello_sprite", tile, pSpawnSound: 
 
 ## 亚种（Subspecies）
 
-亚种是某个生物在经过数代繁衍后随环境分化出的变体。它们拥有自己独立的特质库（与普通生物特质分离）和专属分组：
+亚种是某个生物在经过数代繁衍后随环境分化出的变体。它们拥有自己独立的特质（trait）库（与普通生物特质分离）和专属分组：
 
 ```csharp
 SubspeciesTrait scales = new SubspeciesTrait

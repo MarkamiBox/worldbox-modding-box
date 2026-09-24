@@ -36,7 +36,7 @@ Nur die `mod.json` ist zwingend erforderlich. Die anderen Ordner erstellst du er
 - **`mod.json`**: Der Personalausweis. Ohne diese Datei tut NML so, als würde deine Mod gar nicht existieren.
 - **`icon.png`**: Das Vorschaubild, das im spielinternen Mod-Menü angezeigt wird.
 - **`Code/`**: Der Ordner, in den alle deine `.cs`-Quelldateien kommen (wie `Main.cs`). NML kompiliert eigentlich jede `.cs`-Datei, die es in deiner Mod findet (außer in `bin/`, `obj/` und Co.), aber sie in `Code/` zu legen verhindert, dass dein Projekt zur Müllhalde wird. **NML kompiliert sie bei jedem Spielstart**, du baust also nie selbst eine `.dll` und brauchst nie Visual Studio.
-- **`Locales/`**: Hier liegen deine Übersetzungsdateien (wie `en.json`). Ohne diesen Ordner erscheinen deine Gegenstände und Eigenschaften im Spiel als rohe Platzhalter-Keys.
+- **`Locales/`**: Hier liegen deine Übersetzungsdateien (wie `en.json`). Ohne diesen Ordner erscheinen deine Gegenstände (item) und Eigenschaften (trait) im Spiel als rohe Platzhalter-Keys.
 - **`GameResources/`**: Alle deine Texturen, Pixel-Art, Eigenschafts-Icons, Waffensprites und Soundeffekte. Der Ordner muss exakt so heißen, denn genau danach sucht NML. Siehe **[Sprites & Ressourcen](#/nml/sprites-and-resources)**.
 
 ### Das Manifest
@@ -101,7 +101,7 @@ Das ist keine vereinfachte Version für den Guide. Das ist der reale Startpunkt 
 - **`namespace MyCoolMod`**: Ein Nachname für deinen Code. Jemand anderes kann ebenfalls eine Klasse namens `Main` haben - der Namespace verhindert, dass beide kollidieren.
 - **`public class Main`**: In C# lebt aller Code in "Klassen". Eine Klasse ist einfach ein Bauplan mit einem Namen.
 - **`: BasicMod<Main>`**: das offizielle Abzeichen deiner Mod. Es sagt NML *"Ich bin eine echte Mod"*, und im Gegenzug gibt dir NML Logging, Einstellungen, gestuftes Laden und Übersetzungen gratis. Der `<Main>`-Teil wiederholt einfach deinen eigenen Klassennamen. Ja, das sieht seltsam aus, und ja, man schreibt es immer so.
-- **`protected override void OnModLoad()`**: Der große Moment. Wenn WorldBox startet, klopft NML einmal an diese Tür. Alles, was deine Mod registriert (Traits, Items, Mächte), kommt in diese `{ }`.
+- **`protected override void OnModLoad()`**: Der große Moment. Wenn WorldBox startet, klopft NML einmal an diese Tür. Alles, was deine Mod registriert (Traits, Items, Mächte (GodPower)), kommt in diese `{ }`.
 - **`LogInfo(...)`**: Schreibt eine Zeile ins Log, an der bereits automatisch dein Mod-Name angehängt ist. So erfährst du, ob dein Code überhaupt ausgeführt wurde. Siehe **[Logs & Debugging](#/nml/logs-and-debugging)**.
 
 > [!TIP] Der umständliche Weg

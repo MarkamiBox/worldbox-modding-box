@@ -49,7 +49,7 @@ Lancez le jeu avec le mod ci-dessus et cherchez `HelloBox` dans `Player.log`. Vo
 008: Init Mod HelloBox                   = 0,0014
 ```
 
-Ligne par ligne : NML a compilé les fichiers de `Code/`, chargé vos ressources, puis appelé `OnModLoad` qui a affiché votre ligne. Les lignes numérotées indiquent le temps mis par NML pour chaque étape : le chiffre après `=` représente les secondes, et certaines lignes apparaissent en rouge. **Le rouge ici ne signifie pas une erreur**, simplement que cette étape a été la plus lente :hmm:.
+Ligne par ligne : NML a compilé les fichiers de `Code/`, chargé vos ressources (resource), puis appelé `OnModLoad` qui a affiché votre ligne. Les lignes numérotées indiquent le temps mis par NML pour chaque étape : le chiffre après `=` représente les secondes, et certaines lignes apparaissent en rouge. **Le rouge ici ne signifie pas une erreur**, simplement que cette étape a été la plus lente :hmm:.
 
 La ligne qui compte est la vôtre. Si `[HelloBox]: HelloBox is alive!` manque à l'appel, continuez votre lecture.
 
@@ -84,7 +84,7 @@ C'est impressionnant, mais c'est une simple phrase :
 - **`in HelloTraits.cs:24`** : **ligne 24 de votre propre fichier**. Regardez cette ligne : un élément y vaut `null`.
 - Les lignes du dessous représentent la pile d'appels, de la plus récente à la plus ancienne. Ce sont vos propres fichiers qu'il faut examiner en priorité.
 
-La cause classique de cette erreur : toucher à `base_stats` d'un asset avant de l'avoir ajouté à sa bibliothèque. Détails sur la page **[Traits personnalisés](#/nml/custom-traits)**.
+La cause classique de cette erreur : toucher à `base_stats` d'un asset avant de l'avoir ajouté à sa bibliothèque (library). Détails sur la page **[Traits personnalisés](#/nml/custom-traits)**.
 
 ## Où se trouvent les logs
 

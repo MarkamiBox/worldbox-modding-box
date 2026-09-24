@@ -104,12 +104,12 @@ Das Spiel baut diese Schlüssel selbst, also müssen sie exakt passen, sonst ers
 | Was | Namensschlüssel | Beschreibungsschlüssel |
 | --- | --- | --- |
 | Merkmal | `trait_<id>` | `trait_<id>_info` |
-| Gegenstand | `translation_key`, falls gesetzt, sonst `item_<equipment_subtype or id>` | `<id>_description` (ohne `item_`-Präfix) |
-| Göttliche Macht | `<power_id>` | `<power_id>_description` |
+| Gegenstand (item) | `translation_key`, falls gesetzt, sonst `item_<equipment_subtype or id>` | `<id>_description` (ohne `item_`-Präfix) |
+| Göttliche Macht (GodPower) | `<power_id>` | `<power_id>_description` |
 | Macht-Tab | der `locale_key`, den du übergeben hast | der Beschreibungsschlüssel, den du übergeben hast |
 | Akteur-Aufgabe | `task_unit_<task_id>` | - |
 | Statuseffekt | das **Feld** `locale_id`, das du setzt | das **Feld** `locale_description`, das du setzt |
-| Weltgesetz | `<law_id>_title` (achte auf das Suffix) | `<law_id>_description` |
+| Weltgesetz (world law) | `<law_id>_title` (achte auf das Suffix) | `<law_id>_description` |
 
 > [!WARNING] IDs sind keine Namen
 > Deine ID ist für immer `hello_swift`, in jeder Sprache, und auf sie verweist der Rest deines Codes (und die Mods anderer Leute). Der **Lokalisierungstext** ist der Teil, der sich ändert. Benenne nie eine ID um, nur um einen Tippfehler im Anzeigenamen zu korrigieren :PESgn_Stop:.

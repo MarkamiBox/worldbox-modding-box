@@ -10,7 +10,7 @@ order: 22
 
 Tudo neste guia é construído em torno de **um único mod**. Nós o começamos aqui, e cada página posterior adicionará um novo arquivo a ele.
 
-Ao final, o HelloBox terá cerca de quarenta arquivos e você terá escrito cada linha por conta própria: um traço de unidade e um traço cultural com aba própria, uma arma e um encantamento para ela, um efeito de status, drops, uma nuvem, um ladrilho de terreno, uma receita de comida, um projétil, uma lei do mundo, um poder divino com seu próprio botão, uma janela, um painel de opções, uma construção, uma facção, uma criatura, um desastre, uma IA própria e um patch Harmony para dobrar uma regra que o jogo achava que estava consolidada.
+Ao final, o HelloBox terá cerca de quarenta arquivos e você terá escrito cada linha por conta própria: um traço (trait) de unidade e um traço cultural com aba própria, uma arma e um encantamento (modifier) para ela, um efeito de status, drops, uma nuvem (cloud), um ladrilho de terreno, uma receita de comida, um projétil (projectile), uma lei do mundo (world law), um poder divino (GodPower) com seu próprio botão, uma janela, um painel de opções, uma construção (building), uma facção, uma criatura, um desastre (disaster), uma IA própria e um patch Harmony para dobrar uma regra que o jogo achava que estava consolidada.
 
 Isso é muito mais do que qualquer mod real precisa, e esse é exatamente o objetivo. Você pega as duas ou três partes que realmente quer e descarta o restante :PES4_DeleteThis:.
 

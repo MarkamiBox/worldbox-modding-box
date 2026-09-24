@@ -8,19 +8,19 @@ order: 108
 
 # Tratti religiosi :wbpray:
 
-Una **religione** appartiene a città e regni, si diffonde tramite conversione, scrive libri e può compiere **riti**: complotti che alterano il mondo che i suoi seguaci tentano di attuare di propria iniziativa. Un tratto religioso è una singola credenza.
+Una **religione** (religion) appartiene a città e regni (kingdom), si diffonde tramite conversione, scrive libri (book) e può compiere **riti**: complotti (plot) che alterano il mondo che i suoi seguaci tentano di attuare di propria iniziativa. Un tratto (trait) religioso è una singola credenza.
 
 | | |
 | --- | --- |
-| Libreria | `AssetManager.religion_traits` |
+| Libreria (library) | `AssetManager.religion_traits` |
 | Classe | `ReligionTrait` |
 | Gruppi | `AssetManager.religion_trait_groups`, classe `ReligionTraitGroupAsset` |
 | Proprietario a runtime | `Religion`, in `World.world.religions` |
 | Prefisso di localizzazione | `religion_trait_` |
 | Cartella icone predefinita | `ui/Icons/religion_traits/` |
 
-> [!WARNING] Le statistiche della religione non raggiungono le unità
-> Questo è l'unico sistema di tratti i cui `base_stats` non arrivano mai a un `Actor`. `Actor.updateStats()` fonde sottospecie, clan, lingue e culture. **La religione non è in quella lista.**
+> [!WARNING] Le statistiche (stats) della religione non raggiungono le unità
+> Questo è l'unico sistema di tratti i cui `base_stats` non arrivano mai a un `Actor`. `Actor.updateStats()` fonde sottospecie (subspecies), clan, lingue e culture (culture). **La religione non è in quella lista.**
 >
 > Pertanto un tratto religioso trasforma il mondo attraverso ciò che *fa* (un rito, una trasformazione, un hook d'azione), non attraverso meri numeri. Scrivere `base_stats["damage"] = 10` su uno di essi non fa assolutamente nulla, ed è il pomeriggio sprecato più classico su questa pagina :PES4_BigSad:.
 
@@ -89,7 +89,7 @@ Il complotto decide chi può avviarlo e quanto impegno richiede:
 
 ## Trasformazioni: il campo `transformation_biome_id`
 
-L'altro campo riservato ai tratti di religione. Contrassegna il tratto come trasformazione e specifica il bioma che il culto diffonde nel territorio circostante:
+L'altro campo riservato ai tratti di religione. Contrassegna il tratto come trasformazione e specifica il bioma (biome) che il culto diffonde nel territorio circostante:
 
 ```csharp
 trait.transformation_biome_id = "biome_desert";
@@ -117,7 +117,7 @@ trait.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 trait.action_death = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
 ```
 
-Un tratto religioso può anche conferire un incantesimo o una decisione, che di norma è una soluzione migliore rispetto a un mero timer:
+Un tratto religioso può anche conferire un incantesimo (spell) o una decisione (decision), che di norma è una soluzione migliore rispetto a un mero timer:
 
 ```csharp
 trait.addSpell("hello_bolt");           // vedi Proiettili, incantesimi ed effetti

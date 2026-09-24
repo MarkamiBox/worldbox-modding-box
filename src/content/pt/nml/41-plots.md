@@ -8,7 +8,7 @@ order: 180
 
 # Complôs :wbrebellion:
 
-Um **complô** (plot) é um plano que um governante inicia, financia e desenvolve ao longo do tempo: uma rebelião, uma nova guerra, uma aliança. Quando a barra de progresso se enche, seu código é executado. Tudo o que acontece entre "alguém poderia" e "alguém fez" fica a cargo da própria mecânica do jogo, e é por isso que vale a pena usá-la: o jogador vê seu plano na lista de complôs, com autor, progresso e estandarte, de forma totalmente nativa.
+Um **complô** (plot) é um plano que um governante inicia, financia e desenvolve ao longo do tempo: uma rebelião, uma nova guerra (war), uma aliança. Quando a barra de progresso se enche, seu código é executado. Tudo o que acontece entre "alguém poderia" e "alguém fez" fica a cargo da própria mecânica do jogo, e é por isso que vale a pena usá-la: o jogador vê seu plano na lista de complôs, com autor, progresso e estandarte, de forma totalmente nativa.
 
 ## Adicionando um
 
@@ -74,7 +74,7 @@ Um líder com dez moedas, uma cidade e tempo livre agora pode organizar um festi
 > `PlotAsset.checkIsPossible()` o chama sem nenhuma verificação de nulos toda vez que um líder avalia seu complô. Se você omitir isso, o primeiro líder que o examinar causará um `NullReferenceException`. Se não tiver condições especiais, retorne simplesmente `true`. Sim, mesmo assim.
 
 > [!WARNING] A lista básica é construída na inicialização
-> Líderes escolhem apenas a partir de `plots_library.basic_plots` (além dos ritos de sua religião). `linkAssets()` preenche essa lista com todos os complôs marcados como `is_basic_plot` uma única vez, antes do carregamento do seu mod. Apenas definir a flag não basta: adicione o complô manualmente à lista.
+> Líderes escolhem apenas a partir de `plots_library.basic_plots` (além dos ritos de sua religião (religion)). `linkAssets()` preenche essa lista com todos os complôs marcados como `is_basic_plot` uma única vez, antes do carregamento do seu mod. Apenas definir a flag não basta: adicione o complô manualmente à lista.
 
 ## Os campos
 
@@ -84,7 +84,7 @@ Um líder com dez moedas, uma cidade e tempo livre agora pode organizar um festi
 | --- | --- |
 | `can_be_done_by_king` / `can_be_done_by_leader` / `can_be_done_by_clan_member` | Funções permitidas. Se nenhuma estiver ativa, ninguém poderá iniciar |
 | `min_level`, `min_renown_actor`, `min_renown_kingdom` | Requisitos mínimos do autor |
-| `min_intelligence`, `min_diplomacy`, `min_warfare`, `min_stewardship` | Limiares de atributos. O padrão é 2 |
+| `min_intelligence`, `min_diplomacy`, `min_warfare`, `min_stewardship` | Limiares de atributos (stats). O padrão é 2 |
 | `money_cost` | Custo de ouro ao iniciar, a menos que o complô seja forçado pelo jogador |
 | `requires_diplomacy` / `requires_rebellion` | Disponível apenas enquanto essa lei mundial estiver ativa |
 | `check_is_possible` | Sua condição de início. Obrigatória |

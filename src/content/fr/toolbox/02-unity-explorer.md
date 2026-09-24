@@ -40,7 +40,7 @@ worldbox/ (C:\Program Files (x86)\Steam\steamapps\common\worldbox\)
 
 Tu veux que ta propre fenêtre ressemble à celles du jeu. Alors :
 
-1. En jeu, ouvre la fenêtre qui t'intéresse (Lois du monde, par exemple).
+1. En jeu, ouvre la fenêtre qui t'intéresse (Lois du monde (world law), par exemple).
 2. Appuie sur F7, va dans **Object Explorer → Scene Explorer**, et déplie `CanvasMain` → `canvas_ui`.
 3. Clique à travers les éléments enfants jusqu'à ce que l'objet en surbrillance soit bien la fenêtre ouverte.
 4. Dans l'Inspector, examine ses composants : l'`Image` avec son sprite découpé en 9 tranches, les dimensions du `RectTransform`, le `ScrollRect`.

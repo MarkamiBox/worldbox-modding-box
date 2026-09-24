@@ -18,23 +18,23 @@ Gut zwanzig Dateien, und das kommt im Spiel dabei heraus. Jede Zeile ist eine Se
 | --- | --- |
 | Ein Actor-Trait, und ein eigener Tab dafür | Der Einheiten-Inspektor, Trait-Liste |
 | Kultur-, Religions-, Unterarten-, Clan-, Sprach- und Königreichs-Traits | Ihre eigenen Fenster, eins pro System |
-| Eine Waffe, ihre Verzauberung und eine Kategorie für beide | Die Hände einer Einheit, die Ausrüstungs-Tabs |
+| Eine Waffe, ihre Verzauberung (modifier) und eine Kategorie für beide | Die Hände einer Einheit, die Ausrüstungs-Tabs |
 | Ein Status-Effekt | Über dem Kopf der Kreatur, mit eigenem Icon |
-| Drops, eine Wolke die sie regnet, und ein Projektil | Die Karte, in der Luft, mitten im Kampf |
+| Drops, eine Wolke (cloud) die sie regnet, und ein Projektil (projectile) | Die Karte, in der Luft, mitten im Kampf |
 | Ein Tile | Das Gelände, unter allem anderen |
 | Ein Nahrungsrezept | Die Lager einer Stadt |
-| Ein Weltgesetz | Das Weltgesetze-Fenster |
+| Ein Weltgesetz (world law) | Das Weltgesetze-Fenster |
 | Eine Gottkraft, ihr Tab und ihr Button | Die Kraftleiste unten |
 | Ein Fenster | Wohin du es setzt |
-| Ein Gebäude | Eine Stadt, sobald es jemand baut |
-| Ein Königreich und eine Kreatur, die dazugehört | Die Karte, beim Spawnen und Kämpfen |
-| Eine Katastrophe | Das Katastrophen-Menü |
+| Ein Gebäude (building) | Eine Stadt, sobald es jemand baut |
+| Ein Königreich (kingdom) und eine Kreatur, die dazugehört | Die Karte, beim Spawnen und Kämpfen |
+| Eine Katastrophe (disaster) | Das Katastrophen-Menü |
 | Ein eigener KI-Job | Die Kreatur, die absichtlich irgendwohin läuft |
-| Eine Entscheidung, ein Stadtberuf und ein Werkzeug in der Hand | Umherwandernde Irrlichter mit Fackeln, ein Wächter pro Stadt |
+| Eine Entscheidung (decision), ein Stadtberuf und ein Werkzeug in der Hand | Umherwandernde Irrlichter mit Fackeln, ein Wächter pro Stadt |
 | Eine Kampfaktion | Einheiten mit dem Schnelligkeits-Merkmal werfen Funken vor dem Angriff |
-| Ein Gen, eine Persönlichkeit, ein Buchtyp, ein Banner-Element | Das Genom, Herrscher, Bibliotheken, Flaggen |
+| Ein Gen, eine Persönlichkeit, ein Buchtyp, ein Banner-Element | Das Genom, Herrscher, Bibliotheken (library), Flaggen |
 | Meinung, Loyalität und ein Zufriedenheitsereignis | Diplomatie- und Stadt-Aufschlüsselungen |
-| Ein Plan | Die Planliste, wenn ein Anführer ein Funkenfestival plant |
+| Ein Plan (plot) | Die Planliste, wenn ein Anführer ein Funkenfestival plant |
 | Ein Weltzeitalter und ein Weltverhalten | Das Zeitalter-Rad und der weltweite Timer |
 | Eine Errungenschaft | Das Errungenschaftsfenster, bei zehn Irrlichtern |
 | Ein Pinsel, ein Tooltip und ein Hotkey | Die Pinselrotation, der Tooltip beim Hovern, F6 |
@@ -170,6 +170,7 @@ namespace HelloBox
             Stage("drops", HelloDrops.Initialize);          // clouds rain drops, so drops go first
             Stage("clouds", HelloClouds.Initialize);
             Stage("tiles", HelloTiles.Initialize);
+            Stage("biomes", HelloBiomes.Initialize);       // after the tiles, before anything spawns in it
             Stage("resources", HelloResources.Initialize);  // items and buildings cost resources
             Stage("projectiles", HelloProjectiles.Initialize);
             Stage("modifiers", HelloModifiers.Initialize);
@@ -177,6 +178,7 @@ namespace HelloBox
             Stage("buildings", HelloBuildings.Initialize);
             Stage("kingdoms", HelloKingdoms.Initialize);    // actors point at kingdoms
             Stage("kingdom_traits", HelloKingdomTraits.Initialize);
+            Stage("names", HelloNames.Initialize);         // before the actors, so they can use its name set
             Stage("actors", HelloActors.Initialize);
             Stage("laws", HelloLaws.Initialize);
             Stage("ai", HelloAI.Initialize);
@@ -185,6 +187,7 @@ namespace HelloBox
             Stage("tools", HelloTools.Initialize);
             Stage("combat", HelloCombat.Initialize);        // after the trait that carries it
             Stage("politics", HelloPolitics.Initialize);
+            Stage("wars", HelloWars.Initialize);
             Stage("plots", HelloPlots.Initialize);
             Stage("ages", HelloAges.Initialize);            // after the cloud, the law and the status it uses
             Stage("achievements", HelloAchievements.Initialize);
@@ -239,12 +242,12 @@ Auch deine Texte brauchen keine eigene Stufe: NML lädt `Locales/en.json` bereit
 
 1. **Gruppen vor den Dingen darin**, denn ein Asset, dessen `group_id` ins Leere zeigt, hat keinen Tab, in dem es gezeichnet werden kann.
 2. **Drops vor Wolken**, weil eine Wolke den Drop benennt, den sie regnet.
-3. **Ressourcen vor Gegenständen und Gebäuden**, weil beides Ressourcen kostet.
+3. **Ressourcen (resource) vor Gegenständen (item) und Gebäuden**, weil beides Ressourcen kostet.
 4. **Modifikatoren vor Gegenständen**, weil eine Waffe die Modifikatoren auflistet, die sie würfeln kann.
 5. **Königreiche vor Akteuren**, weil ein Akteur seine wilden und zivilisierten Königreiche benennt.
 6. **Kräfte vor ihren Buttons**: `PowerButtonCreator` sucht die Kraft anhand ihrer ID, und ein Button ohne registrierte Kraft ist ein toter Button.
-7. **Alles, was die KI nutzt, vor der KI**, da ein Task Merkmale und Statusse per ID referenziert.
-8. **Akteure und die KI vor Entscheidungen, Stadtberufen und Werkzeugen**, da diese auf eine Kreatur und eine Aufgabe verweisen, die bereits existieren müssen.
+7. **Alles, was die KI nutzt, vor der KI**, da ein Task Merkmale (trait) und Statusse per ID referenziert.
+8. **Akteure und die KI vor Entscheidungen, Stadtberufen und Werkzeugen**, da diese auf eine Kreatur und eine Aufgabe (task) verweisen, die bereits existieren müssen.
 9. **Das Weltzeitalter nach der Wolke, dem Gesetz und dem Status**, die seine Effekte nutzen. Pläne, Politik und Errungenschaften greifen erst bei laufendem Spiel auf Dinge zu und können daher an beliebiger Stelle nach ihren Abhängigkeiten stehen.
 
 Wenn etwas im Spiel nicht auftaucht, ist "Habe ich es erst nach dem registriert, was es gebraucht hat?" die zweite Frage, direkt nach "Steht es im Log?" :PES2_HmmmmNoted:.

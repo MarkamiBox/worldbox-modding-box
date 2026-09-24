@@ -8,9 +8,9 @@ order: 42
 
 # Patchs Harmony :wbhammer:
 
-Tout ce qui se trouve sur les autres pages **ajoute** du contenu à WorldBox : un trait, une arme, un bâtiment. Harmony sert à l'autre moitié du modding : **modifier ce que le jeu fait déjà**.
+Tout ce qui se trouve sur les autres pages **ajoute** du contenu à WorldBox : un trait, une arme, un bâtiment (building). Harmony sert à l'autre moitié du modding : **modifier ce que le jeu fait déjà**.
 
-Vous ne pouvez pas modifier le code du jeu directement. Il est compilé, distribué sous forme de `Assembly-CSharp.dll`, et la moindre mise à jour écraserait vos changements. Harmony est la bibliothèque qui vous permet de greffer votre propre code sur une méthode existante pendant que le jeu tourne.
+Vous ne pouvez pas modifier le code du jeu directement. Il est compilé, distribué sous forme de `Assembly-CSharp.dll`, et la moindre mise à jour écraserait vos changements. Harmony est la bibliothèque (library) qui vous permet de greffer votre propre code sur une méthode existante pendant que le jeu tourne.
 
 > [!NOTE] Vous n'avez jamais écrit de code ?
 > Lisez "Qu'est-ce qu'une méthode" et "Le pense-bête", puis allez créer quelque chose depuis les pages **Contenu du jeu** avant de revenir. Harmony n'est pas difficile, mais c'est le premier outil capable de casser les mods *des autres*, et vos patchs seront bien meilleurs après avoir vu comment sont agencés les assets du jeu :PES_Wise:.
@@ -21,7 +21,7 @@ Une **méthode** est une action nommée au sein du code du jeu. Quelques exemple
 
 | Méthode | Quand le jeu l'exécute |
 | --- | --- |
-| `Actor.updateStats()` | Chaque fois que les statistiques d'une unité doivent être recalculées |
+| `Actor.updateStats()` | Chaque fois que les statistiques (stats) d'une unité doivent être recalculées |
 | `Actor.getHit(...)` | Chaque fois qu'une unité subit des dégâts |
 | `City.makeWarrior(...)` | Chaque fois qu'une ville transforme un citoyen en soldat |
 
@@ -29,7 +29,7 @@ Le jeu en appelle des milliers par seconde. Chacune d'elles est un point d'ancra
 
 ## Le post-it
 
-Imaginez une méthode comme une page dans le livre de recettes du jeu. Harmony ne réécrit pas la page : il y agrafe deux notes adhésives :
+Imaginez une méthode comme une page dans le livre (book) de recettes du jeu. Harmony ne réécrit pas la page : il y agrafe deux notes adhésives :
 
 ```text
 ┌─────────────────────────────┐

@@ -8,7 +8,7 @@ order: 200
 
 # Pouvoirs divins :wbgodfinger:
 
-Un pouvoir divin correspond à ce qui se produit lorsque le joueur sélectionne votre outil et clique sur le monde. Faire apparaître une entité, bénir quelqu'un, faire exploser quelque chose.
+Un pouvoir divin (GodPower) correspond à ce qui se produit lorsque le joueur sélectionne votre outil et clique sur le monde. Faire apparaître une entité, bénir quelqu'un, faire exploser quelque chose.
 
 Deux éléments distincts sont impliqués, et les confondre est l'erreur classique du débutant :
 

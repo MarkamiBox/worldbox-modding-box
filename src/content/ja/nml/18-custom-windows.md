@@ -260,7 +260,7 @@ namespace HelloBox
 }
 ```
 
-`HelloWindow` では背景に `HelloTooltipTarget` をアタッチしているため、パネルにマウスを乗せるとツールチップが表示されます。`Tooltip.show()` は対象の GameObject、ツールチップ ID、コールバックに渡される `TooltipData` を受け取ります。バニラでは対象のユニット、都市、特性などのデータが渡されます。標準の `"normal"` ツールチップであれば独自アセットの登録すら不要で、`tip_name` と `tip_description` のテキストキーを指定するだけで表示できます。
+`HelloWindow` では背景に `HelloTooltipTarget` をアタッチしているため、パネルにマウスを乗せるとツールチップが表示されます。`Tooltip.show()` は対象の GameObject、ツールチップ ID、コールバックに渡される `TooltipData` を受け取ります。バニラでは対象のユニット、都市、特性（trait）などのデータが渡されます。標準の `"normal"` ツールチップであれば独自アセットの登録すら不要で、`tip_name` と `tip_description` のテキストキーを指定するだけで表示できます。
 
 | `TooltipAsset` のフィールド | 効果 |
 | --- | --- |

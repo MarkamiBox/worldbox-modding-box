@@ -8,9 +8,9 @@ order: 172
 
 # Nubes y clima :wbtornado:
 
-Una nube es un sprite que se desplaza por el mapa dejando caer cosas sobre lo que esté debajo. Lluvia, ácido, lava, nieve, fuego: todos son el mismo asset con un color distinto y un `drop_id` diferente.
+Una nube (cloud) es un sprite que se desplaza por el mapa dejando caer cosas sobre lo que esté debajo. Lluvia, ácido, lava, nieve, fuego: todos son el mismo asset con un color distinto y un `drop_id` diferente.
 
-Las nubes ofrecen la mejor relación calidad-esfuerzo de todo el juego para un modder. Un solo asset, sin necesidad de dibujar nada, y se mueve, deja caer gotas, ilumina el suelo y aparece sola en la lista de desastres.
+Las nubes ofrecen la mejor relación calidad-esfuerzo de todo el juego para un modder. Un solo asset, sin necesidad de dibujar nada, y se mueve, deja caer gotas, ilumina el suelo y aparece sola en la lista de desastres (disaster).
 
 ## Registrar una
 
@@ -95,7 +95,7 @@ Una `CloudAction` recibe la nube viva y no devuelve nada:
 public delegate void CloudAction(Cloud pCloud);
 ```
 
-`CloudLibrary.dropAction` es la acción estándar de vanilla: elige una casilla aleatoria bajo el sprite de la nube y genera un `drop_id` en ella. El 90% de las veces es la única acción que necesitas: la asignas a `cloud_action_1` y listo. Vago y correcto, mi combinación favorita :pepeOK:.
+`CloudLibrary.dropAction` es la acción estándar de vanilla: elige una casilla (tile) aleatoria bajo el sprite de la nube y genera un `drop_id` en ella. El 90% de las veces es la única acción que necesitas: la asignas a `cloud_action_1` y listo. Vago y correcto, mi combinación favorita :pepeOK:.
 
 Para añadir algo especial, escribe tu propio método y asígnalo a `cloud_action_2`:
 
@@ -150,7 +150,7 @@ Las nubes se generan mediante el sistema de efectos, no a través de un gestor d
 EffectsLibrary.spawn("fx_cloud", tile, HelloClouds.EMBER);
 ```
 
-Eso es exactamente lo que hace cada poder de nube vanilla. Envuélvelo en un poder divino y el jugador dispondrá de una herramienta para invocarla:
+Eso es exactamente lo que hace cada poder de nube vanilla. Envuélvelo en un poder divino (GodPower) y el jugador dispondrá de una herramienta para invocarla:
 
 ```csharp
 GodPower power = new GodPower

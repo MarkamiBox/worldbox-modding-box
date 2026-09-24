@@ -8,7 +8,7 @@ order: 200
 
 # Poteri divini :wbgodfinger:
 
-Un potere divino è ciò che accade quando il giocatore seleziona il tuo strumento e fa clic sul mondo. Generare qualcosa, benedire qualcosa, far esplodere qualcosa.
+Un potere divino (GodPower) è ciò che accade quando il giocatore seleziona il tuo strumento e fa clic sul mondo. Generare qualcosa, benedire qualcosa, far esplodere qualcosa.
 
 Sono coinvolti due elementi distinti, e confonderli è il classico errore dei principianti:
 
@@ -70,7 +70,7 @@ Aggiungi `HelloPowers.Initialize();` a `Main.cs`.
 - **`rank = PowerRank.Rank0_free`**: disponibile da subito, niente da sbloccare.
 - **`path_icon`**: l'icona del cursore/strumento.
 - **`unselect_when_window`**: quando il giocatore apre una finestra, lo strumento si disarma da solo, così non fulmina per sbaglio la mappa dietro al pannello.
-- **`click_action`**: il tuo codice. Riceve la **casella cliccata** e l'**id del potere**, e restituisce `true` se ha fatto qualcosa.
+- **`click_action`**: il tuo codice. Riceve la **casella (tile) cliccata** e l'**id del potere**, e restituisce `true` se ha fatto qualcosa.
 
 > [!WARNING] La firma del clic è `(WorldTile, string)`
 > `click_action` è un `PowerActionWithID`, quindi il secondo argomento è l'**id del potere come stringa**, non un `GodPower`. Esiste un secondo campo, `click_power_action`, che prende `(WorldTile, GodPower)`. Usare la forma sbagliata ti dà un errore di compilazione che sembra senza senso :PES_DaFuq:.

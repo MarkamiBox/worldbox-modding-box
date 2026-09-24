@@ -8,7 +8,7 @@ order: 102
 
 # Groupes de traits et onglets :wbfamilies:
 
-Chaque trait appartient à un **groupe**, et ce groupe détermine quel onglet s'affiche dans le livre des traits. Si vous ajoutez six traits et les jetez tous dans `miscellaneous`, ils disparaissent dans une liste que personne ne fait défiler :PES4_Invisible:.
+Chaque trait appartient à un **groupe**, et ce groupe détermine quel onglet s'affiche dans le livre (book) des traits. Si vous ajoutez six traits et les jetez tous dans `miscellaneous`, ils disparaissent dans une liste que personne ne fait défiler :PES4_Invisible:.
 
 Créer votre propre onglet coûte quatre lignes.
 
@@ -91,7 +91,7 @@ if (group != null && index != -1)
 }
 ```
 
-`list` est une simple `List<T>` sur chaque bibliothèque, cette astuce fonctionne donc pour chacune d'elles. Voir **[Bibliothèques d'assets](#/nml/asset-libraries)**.
+`list` est une simple `List<T>` sur chaque bibliothèque (library), cette astuce fonctionne donc pour chacune d'elles. Voir **[Bibliothèques d'assets](#/nml/asset-libraries)**.
 
 ## Renommer ou recolorer un groupe vanilla
 
@@ -117,7 +117,7 @@ Les traits d'acteurs ne sont que l'un des sept systèmes de traits du jeu, et ch
 | Acteur | `AssetManager.trait_groups` | `ActorTraitGroupAsset` | cette page |
 | Culture | `AssetManager.culture_trait_groups` | `CultureTraitGroupAsset` | **[Traits culturels](#/nml/culture-traits)** |
 | Religion | `AssetManager.religion_trait_groups` | `ReligionTraitGroupAsset` | **[Traits religieux](#/nml/religion-traits)** |
-| Sous-espèce | `AssetManager.subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | **[Traits de sous-espèces](#/nml/subspecies-traits)** |
+| Sous-espèce (subspecies) | `AssetManager.subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | **[Traits de sous-espèces](#/nml/subspecies-traits)** |
 | Clan | `AssetManager.clan_trait_groups` | `ClanTraitGroupAsset` | **[Traits de clan](#/nml/clan-traits)** |
 | Langue | `AssetManager.language_trait_groups` | `LanguageTraitGroupAsset` | **[Traits de langue](#/nml/language-traits)** |
 | Royaume | `AssetManager.kingdoms_traits_groups` | `KingdomTraitGroupAsset` | **[Traits de royaume](#/nml/kingdom-traits)** |

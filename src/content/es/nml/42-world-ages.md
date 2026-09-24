@@ -8,7 +8,7 @@ order: 174
 
 # Edades del mundo y comportamientos :wbsunblessed:
 
-Dos elementos pertenecen al mundo en sí mismo más que a los seres que habitan en él. Una **edad del mundo** (world age) es la era en la rueda de edades: la Edad de la Esperanza, la Edad de la Ceniza, con su clima, su iluminación y sus reglas. Un **comportamiento del mundo** (world behaviour) es código que el mundo ejecuta mediante un temporizador continuo: es así como el juego programa desastres, migraciones y el desgaste de caminos.
+Dos elementos pertenecen al mundo en sí mismo más que a los seres que habitan en él. Una **edad del mundo** (world age) es la era en la rueda de edades: la Edad de la Esperanza, la Edad de la Ceniza, con su clima, su iluminación y sus reglas. Un **comportamiento (behaviour) del mundo** (world behaviour) es código que el mundo ejecuta mediante un temporizador continuo: es así como el juego programa desastres (disaster), migraciones y el desgaste de caminos.
 
 ```csharp Mods/HelloBox/Code/HelloAges.cs
 using System.Collections.Generic;
@@ -112,7 +112,7 @@ namespace HelloBox
 
 ## Edades del mundo
 
-La Edad de las Ascuas hace llover ascuas cada ocho segundos, oscurece la pantalla con ceniza, propaga el fuego el doble de rápido y mantiene a las ciudades algo más leales. Un mundo nuevo puede colocarla en la casilla 4 de su rueda, y el botón de aleatorizar de la rueda puede asignarla en cualquier parte. La sutileza nunca fue el objetivo de HelloBox :wbfireskull:.
+La Edad de las Ascuas hace llover ascuas cada ocho segundos, oscurece la pantalla con ceniza, propaga el fuego el doble de rápido y mantiene a las ciudades algo más leales. Un mundo nuevo puede colocarla en la casilla (tile) 4 de su rueda, y el botón de aleatorizar de la rueda puede asignarla en cualquier parte. La sutileza nunca fue el objetivo de HelloBox :wbfireskull:.
 
 > [!WARNING] Tres cosas que la librería realizó al inicio
 > `post_init()` establece el fondo de cada era a partir de su ID, y `linkAssets()` construye `list_only_normal` (la reserva para la era aleatoria desconocida) y `pool_by_slots` (las reservas con las que un mundo nuevo llena su rueda). Una era nueva no está en ninguna de ellas. Si omites el fondo, la rueda mostrará un hueco vacío; si omites las reservas, la era existirá pero ningún mundo la elegirá jamás.
@@ -124,7 +124,7 @@ La Edad de las Ascuas hace llover ascuas cada ocho segundos, oscurece la pantall
 | --- | --- |
 | `rate` | Peso cuando una era se elige al azar |
 | `default_slots` | En qué casillas de la rueda (1 a 8) puede colocarla un mundo nuevo |
-| `clouds` + `cloud_interval` | Las nubes que genera y con qué frecuencia |
+| `clouds` + `cloud_interval` | Las nubes (cloud) que genera y con qué frecuencia |
 | `special_effect_action` + `special_effect_interval` | Tu código periódico mientras dure la era |
 | `overlay_*`, `particles_*`, `era_effect_overlay_alpha` | El aspecto: oscuridad, lluvia, nieve, ceniza, sol |
 | `title_color`, `light_color` | El color de su nombre y el de la luz ambiental |

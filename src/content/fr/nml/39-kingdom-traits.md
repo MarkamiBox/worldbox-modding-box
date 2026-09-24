@@ -8,13 +8,13 @@ order: 114
 
 # Traits de royaume :wbcrown:
 
-Un **trait de royaume** relève de la politique. Ni une croyance, ni une lignée : un décret promulgué par la couronne qui s'applique à l'ensemble du royaume.
+Un **trait de royaume (kingdom)** relève de la politique. Ni une croyance, ni une lignée : un décret promulgué par la couronne qui s'applique à l'ensemble du royaume.
 
 Le jeu de base n'en use que pour une seule mécanique : les taux d'imposition. C'est donc le plus modeste et le plus désert des sept systèmes de traits, et par conséquent le terrain le plus propice pour implémenter du contenu inédit. Personne ne vous y conteste l'espace :wbsmirk:.
 
 | | |
 | --- | --- |
-| Bibliothèque | `AssetManager.kingdoms_traits` |
+| Bibliothèque (library) | `AssetManager.kingdoms_traits` |
 | Classe | `KingdomTrait` |
 | Groupes | `AssetManager.kingdoms_traits_groups`, classe `KingdomTraitGroupAsset` |
 | Propriétaire à l'exécution | `Kingdom`, dans `World.world.kingdoms` |
@@ -22,7 +22,7 @@ Le jeu de base n'en use que pour une seule mécanique : les taux d'imposition. C
 | Dossier d'icônes par défaut | `ui/Icons/kingdom_traits/` |
 
 > [!WARNING] Les stats de royaume n'atteignent pas les unités
-> À l'instar de la religion, `kingdom.base_stats` n'est jamais fusionné dans un `Actor`. Les chiffres du royaume visibles en jeu découlent des **statistiques propres au roi** (`king.stats["cities"]` et similaires), non du bloc de traits du royaume.
+> À l'instar de la religion, `kingdom.base_stats` n'est jamais fusionné dans un `Actor`. Les chiffres du royaume visibles en jeu découlent des **statistiques (stats) propres au roi** (`king.stats["cities"]` et similaires), non du bloc de traits du royaume.
 >
 > Un trait de royaume transforme donc l'État par ses champs dédiés et par le code, jamais via `base_stats`.
 
@@ -99,7 +99,7 @@ namespace HelloBox
 
 Puisque `base_stats` est hors de cause, un trait de royaume fait ses preuves de deux manières. Les deux demandent plus de travail qu'un nombre, et les deux en valent la peine.
 
-**Une décision**, la démarche élégante :
+**Une décision (decision)**, la démarche élégante :
 
 ```csharp
 trait.addDecision("some_decision_id");

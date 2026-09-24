@@ -11,7 +11,7 @@ order: 140
 > [!NOTE] Eles são chamados de atores, não raças
 > O jogo chama cada criatura viva de **ator** (actor): um humano, um lobo, um dragão, um zumbi, um caranguejo. Todos se originam da mesma classe, `ActorAsset`, e vivem em `AssetManager.actor_library`. "Raça" é o termo antigo. O único lugar onde ele sobrevive é em uma propriedade `race` marcada como `[Obsolete("use .original_actor_asset instead")]`, mantida apenas para carregar salvamentos antiquíssimos. Escreva `actor` em todos os lugares.
 
-Uma nova criatura é o mod que todo mundo sonha em fazer e quase ninguém termina, pois um `ActorAsset` carrega animações, texturas, sons, taxonomia, dieta, flags de IA, genoma, cultura e atributos. Errar um único desses itens resulta em uma unidade invisível parada estática no meio do oceano :PES4_Invisible:.
+Uma nova criatura é o mod que todo mundo sonha em fazer e quase ninguém termina, pois um `ActorAsset` carrega animações, texturas, sons, taxonomia, dieta, flags de IA, genoma, cultura (culture) e atributos (stats). Errar um único desses itens (item) resulta em uma unidade invisível parada estática no meio do oceano :PES4_Invisible:.
 
 A boa notícia: o jogo base também não monta criaturas do zero. Isto é literalmente como o vanilla cria um elfo:
 
@@ -31,7 +31,7 @@ Identificadores envoltos em `$` são **modelos** (templates): atores semiacabado
 | `$animal$` | Um animal selvagem |
 | `$mob$` | Um monstro hostil |
 | `$civ_unit$` | Uma criatura de civilização básica |
-| `$civ_advanced_unit$` | Uma criatura civilizada completa: cidades, reinos, cultura, religião. O que humanos, elfos, orcs e anões usam |
+| `$civ_advanced_unit$` | Uma criatura civilizada completa: cidades, reinos (kingdom), cultura, religião (religion). O que humanos, elfos, orcs e anões usam |
 
 Você também pode clonar um ator acabado - `human`, `wolf`, `zombie` - e esse é o caminho mais tranquilo para a sua primeira criatura, pois os sprites do doador acompanham a cópia e sua unidade já fica visível imediatamente.
 
@@ -84,7 +84,7 @@ namespace HelloBox
 > `loadShadow()` é `internal`, então isso precisa de um `Assembly-CSharp.dll` **publicizado** como o resto do guia. Se você não tiver um, use `asset.shadow = false;`: sem sombra, mas também sem erro.
 
 > [!WARNING] `clone()` já registra
-> `AssetManager.<library>.clone(newId, sourceId)` chama `add()` internamente. Todas as bibliotecas funcionam assim. Chamar `add()` você mesmo depois é um registro duplicado: a biblioteca remove a primeira cópia, registra um erro e adiciona de novo. Inofensivo, mas é ruído no seu log que dificulta achar os erros de verdade, e é a primeira coisa que um revisor vai notar.
+> `AssetManager.<library>.clone(newId, sourceId)` chama `add()` internamente. Todas as bibliotecas (library) funcionam assim. Chamar `add()` você mesmo depois é um registro duplicado: a biblioteca remove a primeira cópia, registra um erro e adiciona de novo. Inofensivo, mas é ruído no seu log que dificulta achar os erros de verdade, e é a primeira coisa que um revisor vai notar.
 >
 > O lado bom disso: **depois de um clone, `base_stats` já existe**, então a regra "atributos depois do add" de **[Traços personalizados](#/nml/custom-traits)** já está cumprida.
 
@@ -176,7 +176,7 @@ No primeiro dia só três importam: `civ`, `actor_size` e `name_locale`. O resto
 
 | Campo | O que faz |
 | --- | --- |
-| `civ` | Criatura de civilização: cidades, reinos, profissões, guerra. `false` = animal |
+| `civ` | Criatura de civilização: cidades, reinos, profissões, guerra (war). `false` = animal |
 | `auto_civ` | Se o jogo inicia a civilização delas de forma autônoma |
 | `default_animal` | Marca como fauna silvestre para as checagens internas |
 | `unit_other` | Nem civ nem animal: monstro hostil, constructo, especial |
@@ -184,12 +184,12 @@ No primeiro dia só três importam: `civ`, `actor_size` e `name_locale`. O resto
 | `name_locale` | Chave de exibição do nome |
 | `icon` | Ícone exibido em listas e botões de invocação |
 | `color_hex` | Coloração aplicada a unidades tingíveis |
-| `can_have_subspecies` | Se mutam em subespécies ao longo das gerações |
-| `has_ai_system` | Se executam o sistema geral de comportamento |
+| `can_have_subspecies` | Se mutam em subespécies (subspecies) ao longo das gerações |
+| `has_ai_system` | Se executam o sistema geral de comportamento (behaviour) |
 | `flying` / `hovering` | Se decolam do chão e a que altitude |
 | `force_ocean_creature` / `force_land_creature` | Trava com rigor o terreno onde habitam |
 | `can_attack_buildings` | Se atacam e destroem estruturas |
-| `has_soul`, `can_receive_traits`, `can_be_cloned` | O que os poderes divinos têm permissão de fazer com elas |
+| `has_soul`, `can_receive_traits`, `can_be_cloned` | O que os poderes divinos (GodPower) têm permissão de fazer com elas |
 | `kingdom_id_wild` / `kingdom_id_civilization` | Reino onde surgem (selvagens ou estabelecidas) |
 | `texture_atlas` | `UnitTextureAtlasID.Units`, `Boats`, `Zombies` … atlas onde residem os sprites |
 | `animation_walk` / `animation_idle` / `animation_swim` | Sequências de quadros com seus respectivos campos `_speed` |
@@ -247,7 +247,7 @@ Disponibilize um botão de poder divino para ela e você terá um invocador comp
 
 ## Subespécies
 
-Subespécies são as variantes em que um ator se diversifica ao longo das gerações. Elas possuem sua própria biblioteca de traços, separada dos traços dos atores, e sua própria lista de grupos:
+Subespécies são as variantes em que um ator se diversifica ao longo das gerações. Elas possuem sua própria biblioteca de traços (trait), separada dos traços dos atores, e sua própria lista de grupos:
 
 ```csharp
 SubspeciesTrait scales = new SubspeciesTrait
@@ -267,7 +267,7 @@ Traços de subespécie também podem incorporar **elementos visuais**: `sprite_p
 
 ## Seu próprio ícone
 
-Antes do trabalho pesado de animação adiante, a parte tranquila: o ícone nas listas e botões de invocação.
+Antes do trabalho (job) pesado de animação adiante, a parte tranquila: o ícone nas listas e botões de invocação.
 
 ```text Mods/HelloBox/
 HelloBox/

@@ -8,7 +8,7 @@ order: 174
 
 # Âges du monde et comportements :wbsunblessed:
 
-Deux concepts appartiennent au monde lui-même plutôt qu'à ses habitants. Un **âge du monde** (world age) est l'ère sur la roue des âges : l'Âge de l'Espoir, l'Âge des Cendres, avec leur météo, leur éclairage et leurs règles. Un **comportement du monde** (world behaviour) est un bloc de code que le monde exécute en boucle sur un minuteur : c'est ainsi que le jeu gère les catastrophes, les migrants et l'usure des routes.
+Deux concepts appartiennent au monde lui-même plutôt qu'à ses habitants. Un **âge du monde** (world age) est l'ère (world age) sur la roue des âges : l'Âge de l'Espoir, l'Âge des Cendres, avec leur météo, leur éclairage et leurs règles. Un **comportement (behaviour) du monde** (world behaviour) est un bloc de code que le monde exécute en boucle sur un minuteur : c'est ainsi que le jeu gère les catastrophes, les migrants et l'usure des routes.
 
 ```csharp Mods/HelloBox/Code/HelloAges.cs
 using System.Collections.Generic;
@@ -114,7 +114,7 @@ namespace HelloBox
 
 L'Âge des Braises fait pleuvoir des braises toutes les huit secondes, assombrit l'écran avec de la cendre, propage le feu deux fois plus vite et maintient les villes un peu plus loyales. Un nouveau monde peut le placer sur le slot 4 de sa roue, et le bouton aléatoire de la roue peut l'assigner n'importe où. La subtilité n'a jamais été le but de HelloBox :wbfireskull:.
 
-> [!WARNING] Trois opérations effectuées par la bibliothèque au démarrage
+> [!WARNING] Trois opérations effectuées par la bibliothèque (library) au démarrage
 > `post_init()` définit l'arrière-plan de chaque âge à partir de son ID, et `linkAssets()` construit `list_only_normal` (la sélection pour l'âge aléatoire inconnu) et `pool_by_slots` (les sélections avec lesquelles un nouveau monde remplit sa roue). Un nouvel âge ne figure dans aucune d'elles. Si vous oubliez l'arrière-plan, la roue affichera un quartier vide ; si vous oubliez les sélections, l'âge existera mais aucun monde ne le tirera jamais au sort.
 
 > [!NOTE] La liste des âges sélectionnables
@@ -124,7 +124,7 @@ L'Âge des Braises fait pleuvoir des braises toutes les huit secondes, assombrit
 | --- | --- |
 | `rate` | Poids lorsqu'un âge est choisi aléatoirement |
 | `default_slots` | Emplacements de la roue (1 à 8) où un nouveau monde peut l'assigner |
-| `clouds` + `cloud_interval` | Les nuages générés et leur fréquence |
+| `clouds` + `cloud_interval` | Les nuages (cloud) générés et leur fréquence |
 | `special_effect_action` + `special_effect_interval` | Votre code périodique tant que l'âge est actif |
 | `overlay_*`, `particles_*`, `era_effect_overlay_alpha` | Le rendu visuel : obscurité, pluie, neige, cendre, soleil |
 | `title_color`, `light_color` | Couleur du titre et de la lumière ambiante |

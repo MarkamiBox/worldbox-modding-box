@@ -8,9 +8,9 @@ order: 106
 
 # Tratti culturali :wbtiphat:
 
-Una **cultura** rappresenta le abitudini condivise da un gruppo di città. Decide cosa costruiscono, cosa forgiano, come ereditano, cosa leggono e a cosa danno valore. Un tratto culturale è una di queste abitudini.
+Una **cultura** (culture) rappresenta le abitudini condivise da un gruppo di città. Decide cosa costruiscono, cosa forgiano, come ereditano, cosa leggono e a cosa danno valore. Un tratto (trait) culturale è una di queste abitudini.
 
-Dei sette sistemi di tratti, la cultura è quello con la portata più ampia. Una cultura si diffonde con le città, sopravvive al suo fondatore e fonde le sue statistiche in ogni singola unità che vi appartiene. Se vuoi una mod il cui effetto si propaghi nel mondo durante un'ora di gioco, questa è la libreria ideale. Grande portata, grande responsabilità :PES5_Menace:.
+Dei sette sistemi di tratti, la cultura è quello con la portata più ampia. Una cultura si diffonde con le città, sopravvive al suo fondatore e fonde le sue statistiche (stats) in ogni singola unità che vi appartiene. Se vuoi una mod il cui effetto si propaghi nel mondo durante un'ora di gioco, questa è la libreria (library) ideale. Grande portata, grande responsabilità :PES5_Menace:.
 
 | | |
 | --- | --- |
@@ -146,5 +146,5 @@ foreach (Culture culture in World.world.cultures)
 if (actor.hasCultureTrait("hello_duellists")) { }
 ```
 
-> [!TIP] Cultura o sottospecie?
+> [!TIP] Cultura o sottospecie (subspecies)?
 > Entrambi si propagano, ma non nello stesso modo. Un tratto **culturale** si diffonde con le città e può essere adottato da chiunque vi si unisca. Un tratto di **sottospecie** si trasmette biologicamente e non può essere acquisito altrimenti. "Gli elfi tirano meglio perché sono stati addestrati così" è cultura; "gli elfi tirano meglio per via dei loro occhi" è sottospecie. Vedi **[Tratti delle sottospecie](#/nml/subspecies-traits)** :catnoted:.

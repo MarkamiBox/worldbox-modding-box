@@ -8,7 +8,7 @@ order: 26
 
 # Localización :wbscroll:
 
-Cada elemento que añades al juego (rasgos, objetos, poderes, pestañas, tareas) aparece como una clave sin formato como `trait_hello_swift` hasta que le asignas un texto. Es el capítulo más aburrido del modding, y saltárselo es la razón número uno por la que un mod parece a medio hacer. (Coff.. mis mods.. Coff Coff :pensiveanimated: )
+Cada elemento que añades al juego (rasgos (trait), objetos, poderes, pestañas, tareas (task)) aparece como una clave sin formato como `trait_hello_swift` hasta que le asignas un texto. Es el capítulo más aburrido del modding, y saltárselo es la razón número uno por la que un mod parece a medio hacer. (Coff.. mis mods.. Coff Coff :pensiveanimated: )
 
 ## El camino fácil: la carpeta Locales
 
@@ -105,10 +105,10 @@ El juego construye estas claves él mismo, así que tienen que coincidir exactam
 | --- | --- | --- |
 | Rasgo | `trait_<id>` | `trait_<id>_info` |
 | Objeto | `translation_key` si pones uno, si no `item_<equipment_subtype or id>` | `<id>_description` (sin el prefijo `item_`) |
-| Poder divino | `<power_id>` | `<power_id>_description` |
+| Poder divino (GodPower) | `<power_id>` | `<power_id>_description` |
 | Pestaña de poderes | el `locale_key` que pasaste | la clave de descripción que pasaste |
 | Tarea de actor | `task_unit_<task_id>` | - |
-| Efecto de estado | el **campo** `locale_id` que pongas | el **campo** `locale_description` que pongas |
+| Efecto de estado (status) | el **campo** `locale_id` que pongas | el **campo** `locale_description` que pongas |
 | Ley mundial | `<law_id>_title` (ojo al sufijo) | `<law_id>_description` |
 
 > [!WARNING] Los ids no son nombres

@@ -8,7 +8,7 @@ order: 108
 
 # 宗教特质 :wbpray:
 
-**宗教**属于城镇与王国，通过传教皈依传播，撰写圣典，并且能够举行**仪式（Rite）**：信徒们会自发尝试发动足以改变世界的阴谋企图。宗教特质就是其中的一项信仰。
+**宗教**（religion）属于城镇与王国（kingdom），通过传教皈依传播，撰写圣典，并且能够举行**仪式（Rite）**：信徒们会自发尝试发动足以改变世界的阴谋（plot）企图。宗教特质（trait）就是其中的一项信仰。
 
 | | |
 | --- | --- |
@@ -19,8 +19,8 @@ order: 108
 | 本地化前缀 | `religion_trait_` |
 | 默认图标路径 | `ui/Icons/religion_traits/` |
 
-> [!WARNING] 宗教属性不会传递给单位
-> 这是唯一一个其 `base_stats` 绝不会合并到 `Actor` 身上的特质系统。`Actor.updateStats()` 合并的范畴只有亚种、家族、语言和文化。**宗教根本不在该清单中。**
+> [!WARNING] 宗教属性（stats）不会传递给单位
+> 这是唯一一个其 `base_stats` 绝不会合并到 `Actor` 身上的特质系统。`Actor.updateStats()` 合并的范畴只有亚种（subspecies）、家族、语言和文化（culture）。**宗教根本不在该清单中。**
 >
 > 因此，宗教特质是通过其*实际行为*（仪式、地形转化、动作钩子）来改变世界的，而非通过数值加成。给它写上 `base_stats["damage"] = 10` 完全没有任何效果，而且这是本页面读者最常白白浪费一个下午的踩坑点 :PES4_BigSad:。
 
@@ -116,7 +116,7 @@ trait.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 trait.action_death = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
 ```
 
-宗教特质还可以赋予法术或 AI 决策，这通常比机械的定时器更加自然妥帖：
+宗教特质还可以赋予法术（spell）或 AI 决策（decision），这通常比机械的定时器更加自然妥帖：
 
 ```csharp
 trait.addSpell("hello_bolt");           // 参见 弹射物、法术与特效

@@ -8,13 +8,13 @@ order: 148
 
 # Proiettili, incantesimi ed effetti :wblightning:
 
-Tre librerie compatte che ritornano continuamente non appena inizi a far accadere cose sulla mappa:
+Tre librerie (library) compatte che ritornano continuamente non appena inizi a far accadere cose sulla mappa:
 
 | | |
 | --- | --- |
 | `AssetManager.projectiles` | Qualcosa che vola da A a B: una freccia, una bomba di fuoco, una torcia lanciata |
 | `AssetManager.spells` | Qualcosa che un'unità lancia da sola, con un costo in mana e una probabilità per l'IA |
-| `AssetManager.effects_library` | Pura resa visiva: un'esplosione, una nuvola, un lampo, una coltre di fumo |
+| `AssetManager.effects_library` | Pura resa visiva: un'esplosione, una nuvola (cloud), un lampo, una coltre di fumo |
 
 ## Proiettili
 
@@ -61,7 +61,7 @@ La maggior parte di questi arriva con ciò che hai clonato e non li guardi mai p
 | Campo | Cosa fa |
 | --- | --- |
 | `texture`, `texture_shadow` | Sprite e relativa ombra |
-| `animated`, `animation_speed`, `frames` | Se il proiettile è animato in volo |
+| `animated`, `animation_speed`, `frames` | Se il proiettile (projectile) è animato in volo |
 | `speed`, `speed_random` | Velocità di volo e deviazione casuale per colpo |
 | `look_at_target` | Se lo sprite ruota per puntare verso la traiettoria |
 | `scale_start`, `scale_target` | Dimensione al lancio e all'impatto |
@@ -89,7 +89,7 @@ World.world.projectiles.spawn(
     pTargetPosition: target.current_tile.posV3);
 ```
 
-Entrambe le posizioni sono di tipo `Vector3`. Il campo `posV3` di una casella è il più comodo; il campo `current_position` di un'unità è un `Vector2`, quindi richiede una conversione.
+Entrambe le posizioni sono di tipo `Vector3`. Il campo `posV3` di una casella (tile) è il più comodo; il campo `current_position` di un'unità è un `Vector2`, quindi richiede una conversione.
 
 ID vanilla consigliati per il clone: `arrow` · `snowball` · `firebomb` · `torch`.
 
@@ -116,7 +116,7 @@ Anche i proiettili si caricano come lista di sprite: una **cartella** col nome d
 
 ## Incantesimi
 
-Un incantesimo è ciò che un'unità lancia per propria iniziativa, senza input del giocatore. L'IA decide quando scagliarlo in base a `chance`, `cost_mana` e `min_distance`.
+Un incantesimo (spell) è ciò che un'unità lancia per propria iniziativa, senza input del giocatore. L'IA decide quando scagliarlo in base a `chance`, `cost_mana` e `min_distance`.
 
 ```csharp
 SpellAsset bolt = new SpellAsset
@@ -142,7 +142,7 @@ bolt.action = (BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile) =>
 AssetManager.spells.add(bolt);
 ```
 
-`action` è un `AttackAction`, la stessa firma delegata usata dai modificatori delle armi: il corpo di un incantesimo e quello di un incantamento sono quindi del tutto intercambiabili.
+`action` è un `AttackAction`, la stessa firma delegata usata dai modificatori (modifier) delle armi: il corpo di un incantesimo e quello di un incantamento sono quindi del tutto intercambiabili.
 
 ### Assegnare un incantesimo a un'entità
 
@@ -156,7 +156,7 @@ item.linkSpells();
 actorAsset.spell_ids = new List<string> { "hello_bolt" };
 ```
 
-`addSpell()` aggiunge solo un id. La libreria trasforma gli id in incantesimi in `linkAssets()`, all'avvio, prima della tua mod: salta `linkSpells()` su un tratto o un oggetto che hai registrato tu e non concede nulla, in silenzio.
+`addSpell()` aggiunge solo un id. La libreria trasforma gli id in incantesimi in `linkAssets()`, all'avvio, prima della tua mod: salta `linkSpells()` su un tratto (trait) o un oggetto che hai registrato tu e non concede nulla, in silenzio.
 
 Id di incantesimi vanilla che vale la pena leggere: `teleport` · `summon_lightning` · `summon_tornado` · `cast_curse` · `cast_fire` · `cast_silence`.
 
@@ -234,7 +234,7 @@ namespace HelloBox
 | `can_do_action` | La tua condizione, dato il bersaglio |
 
 > [!WARNING] Solo i tratti le distribuiscono
-> Un'unità raccoglie le azioni di combattimento dai suoi tratti e dalla sua sottospecie, clan e religione, mai dall'equipaggiamento. Il tratto conserva gli id, e il gioco ha trasformato gli id in oggetti all'avvio: chiama `linkCombatActions()` dopo `addCombatAction()`, altrimenti il tratto porta una mossa che nessuno fa mai :PES2_Shrug:.
+> Un'unità raccoglie le azioni di combattimento dai suoi tratti e dalla sua sottospecie (subspecies), clan e religione (religion), mai dall'equipaggiamento. Il tratto conserva gli id, e il gioco ha trasformato gli id in oggetti all'avvio: chiama `linkCombatActions()` dopo `addCombatAction()`, altrimenti il tratto porta una mossa che nessuno fa mai :PES2_Shrug:.
 
 ## Effetti
 

@@ -10,7 +10,7 @@ order: 8
 
 Der Code verrät dir, *was* du schreiben musst. **AssetRipper** zeigt dir, wie die Grafik aussieht und, noch viel wichtiger: **wie ihr genauer Pfad lautet**.
 
-Jedes Icon, jede Einheit, jedes Gebäude und jeder Effekt in WorldBox wird über einen String-Pfad wie `ui/Icons/iconFly` geladen. Wenn du diesen Pfad versemmelst, ist dein Button schlicht ein unsichtbares Loch in der UI. Mit AssetRipper musst du nicht mehr raten.
+Jedes Icon, jede Einheit, jedes Gebäude (building) und jeder Effekt in WorldBox wird über einen String-Pfad wie `ui/Icons/iconFly` geladen. Wenn du diesen Pfad versemmelst, ist dein Button schlicht ein unsichtbares Loch in der UI. Mit AssetRipper musst du nicht mehr raten.
 
 > [!TIP] Wenn du nur den Pfad brauchst, brauchst du das hier gar nicht
 > Die **[Icon-Suche](#/tools/icons)** auf dieser Website wurde genau aus diesem Export erstellt: jeder Pfad im Spiel, durchsuchbar. Rippe das Spiel selbst, wenn du die Grafik *sehen*, die richtige Größe wählen oder die Farbpalette abgleichen willst. Genau dafür ist der Rest dieser Seite da :PES4_HappyAwesome:.
@@ -39,10 +39,10 @@ Das sind die Ordner, die du am häufigsten brauchen wirst:
 | Ordner | Was darin liegt |
 | --- | --- |
 | `ui/Icons/` | Alle kleinen Interface-Icons: Traits, Gottkräfte, Buttons |
-| `ui/Icons/worldrules/` | Icons der Weltgesetze |
+| `ui/Icons/worldrules/` | Icons der Weltgesetze (world law) |
 | `actors/` | Einheiten und ihre einzelnen Animations-Frames |
 | `buildings/` | Häuser, Bäume, Erze |
-| `effects/` | Explosionen, Projektile, Statuseffekt-Sprites |
+| `effects/` | Explosionen, Projektile (projectile), Statuseffekt-Sprites |
 
 ## In deiner Mod verwenden
 

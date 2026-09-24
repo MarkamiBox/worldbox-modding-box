@@ -8,7 +8,7 @@ order: 124
 
 # Gruppi di oggetti e schede :wbgold:
 
-Un gruppo di oggetti è una categoria nella finestra dell'equipaggiamento: elmi, spade, amuleti. È lo stesso identico `BaseCategoryAsset` che disegna le schede dei tratti (vedi **[Gruppi di tratti e schede](#/nml/trait-groups)**), situato questa volta in `AssetManager.item_groups`.
+Un gruppo di oggetti è una categoria nella finestra dell'equipaggiamento: elmi, spade, amuleti. È lo stesso identico `BaseCategoryAsset` che disegna le schede dei tratti (trait) (vedi **[Gruppi di tratti e schede](#/nml/trait-groups)**), situato questa volta in `AssetManager.item_groups`.
 
 La differenza cruciale è che un gruppo di oggetti richiede un **pool**, e dimenticarsi di questo pool è la causa principale di crash del tuo mod :PESgn_Yikes:.
 
@@ -96,7 +96,7 @@ namespace HelloBox
 
 ## I pool
 
-Il gioco conserva un contenitore di equipaggiamento per gruppo e riempie tali contenitori mentre le sue librerie caricano, ovvero **prima ancora che il tuo mod esista**. Un gruppo nuovo di zecca non ha alcun contenitore associato, e la prima chiamata che ne richiede uno lancia un errore:
+Il gioco conserva un contenitore di equipaggiamento per gruppo e riempie tali contenitori mentre le sue librerie (library) caricano, ovvero **prima ancora che il tuo mod esista**. Un gruppo nuovo di zecca non ha alcun contenitore associato, e la prima chiamata che ne richiede uno lancia un errore:
 
 ```text
 KeyNotFoundException: The given key was not present in the dictionary.

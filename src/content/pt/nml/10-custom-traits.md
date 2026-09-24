@@ -8,7 +8,7 @@ order: 100
 
 # Traços personalizados :wbstrongminded:
 
-Um traço (trait) é um rótulo permanente em uma unidade: *corajoso*, *rápido*, *imortal*. Ele aparece no inspetor, pode alterar os atributos da unidade, pode executar código quando ela nasce, é atingida ou morre, e os filhos podem herdá-lo.
+Um traço (trait) é um rótulo permanente em uma unidade: *corajoso*, *rápido*, *imortal*. Ele aparece no inspetor, pode alterar os atributos (stats) da unidade, pode executar código quando ela nasce, é atingida ou morre, e os filhos podem herdá-lo.
 
 É também a coisa mais simples e leve de adicionar em todo o jogo, e é por isso que costuma ser o primeiro mod de todo mundo. O meu não: meu primeiro mod era um wrapper em volta do mod de outra pessoa, o que é um tipo próprio de trapaça :trollface:.
 
@@ -16,7 +16,7 @@ Um traço (trait) é um rótulo permanente em uma unidade: *corajoso*, *rápido*
 
 Todo asset no WorldBox vive em uma única lista plana indexada por `id`. Se você registrar `fast` e outro mod também registrar `fast`, o segundo **sobrescreve** o primeiro e o log recebe uma linha sobre isso que ninguém lê.
 
-Portanto: `hello_swift`, não `swift`. Nome curto do mod, underline, seu nome para o item. Faça isso para traços, itens, construções, poderes, status, absolutamente tudo :aPES4_Noted:.
+Portanto: `hello_swift`, não `swift`. Nome curto do mod, underline, seu nome para o item. Faça isso para traços, itens (item), construções (building), poderes, status, absolutamente tudo :aPES4_Noted:.
 
 ## O traço
 
@@ -69,9 +69,9 @@ protected override void OnModLoad()
 
 ### O que cada parte faz
 
-- **`AssetManager.traits`**: A biblioteca que contém todos os traços de criaturas do jogo, vanilla e modificados. `has`, `get`, `add` e `clone` são os quatro métodos que você usará em todas as bibliotecas a partir daqui.
+- **`AssetManager.traits`**: A biblioteca (library) que contém todos os traços de criaturas do jogo, vanilla e modificados. `has`, `get`, `add` e `clone` são os quatro métodos que você usará em todas as bibliotecas a partir daqui.
 - **`path_icon`**: A imagem pequena no inspetor. Um *caminho*, não um arquivo com extensão. Veja **[Sprites e recursos](#/nml/sprites-and-resources)**. O jogo só preenche isso automaticamente enquanto constrói suas próprias bibliotecas internas, então para o seu traço ele ficará vazio a menos que você defina.
-- **`needs_to_be_explored`**: `true` por padrão, ou seja, o traço fica bloqueado no livro de conhecimento até o jogador encontrá-lo num mundo. `false` deixa disponível desde o primeiro segundo. O HelloBox coloca em tudo, para você ver o que construiu sem precisar caçar.
+- **`needs_to_be_explored`**: `true` por padrão, ou seja, o traço fica bloqueado no livro (book) de conhecimento até o jogador encontrá-lo num mundo. `false` deixa disponível desde o primeiro segundo. O HelloBox coloca em tudo, para você ver o que construiu sem precisar caçar.
 - **`group_id`**: Em qual aba do livro de traços ele aparece. A lista completa está abaixo.
 - **`rate_birth`**: A chance de um recém-nascido adquiri-lo naturalmente. `0` significa "apenas se algo conceder explicitamente".
 - **`can_be_given` / `can_be_removed`**: Se o jogador pode colocar ou remover no editor de traços. Ambos vêm como `true` por padrão; coloque um em `false` para traços permanentes ou concedidos apenas pelo seu código.
@@ -84,7 +84,7 @@ protected override void OnModLoad()
 > A mesma regra vale para status, itens, construções e criaturas. A única exceção é `clone()`, que chama `add()` internamente por você.
 
 > [!TIP] O mesmo interruptor existe em quase tudo que você cria
-> `needs_to_be_explored` fica na classe base que todos os assets desbloqueáveis compartilham, então funciona em atores, nos sete tipos de traço, itens, modificadores e leis do mundo. Poderes divinos, status, construções, drops, nuvens, tiles e projéteis não têm etapa de descoberta :wbsmirk:.
+> `needs_to_be_explored` fica na classe base que todos os assets desbloqueáveis compartilham, então funciona em atores, nos sete tipos de traço, itens, modificadores (modifier) e leis do mundo (world law). Poderes divinos (GodPower), status, construções, drops, nuvens (cloud), tiles e projéteis (projectile) não têm etapa de descoberta :wbsmirk:.
 
 ### Os grupos de traços vanilla
 
@@ -205,11 +205,11 @@ Os traços de criatura são apenas um de **sete** sistemas de traços. Cada um t
 | Sistema | Pertence a | Página |
 | --- | --- | --- |
 | Actor | uma criatura | esta página |
-| Culture | uma cultura, compartilhada por suas cidades | **[Traços de cultura](#/nml/culture-traits)** |
-| Religion | uma religião e seus fiéis | **[Traços de religião](#/nml/religion-traits)** |
+| Culture | uma cultura (culture), compartilhada por suas cidades | **[Traços de cultura](#/nml/culture-traits)** |
+| Religion | uma religião (religion) e seus fiéis | **[Traços de religião](#/nml/religion-traits)** |
 | Subspecies | um ramo de uma espécie | **[Traços de subespécie](#/nml/subspecies-traits)** |
 | Clan | uma linhagem de sangue | **[Traços de clã](#/nml/clan-traits)** |
 | Language | um idioma e todos os seus falantes | **[Traços de idioma](#/nml/language-traits)** |
-| Kingdom | a política de um reino | **[Traços de reino](#/nml/kingdom-traits)** |
+| Kingdom | a política de um reino (kingdom) | **[Traços de reino](#/nml/kingdom-traits)** |
 
-Escolha o dono antes de escrever o traço. "Elfos atiram melhor" é um traço de cultura se deve se espalhar com suas cidades, um traço de subespécie se deve se propagar por reprodução, e um traço de criatura se pertence a um indivíduo específico. Errar nisso é a diferença entre um mod que transforma o mundo em uma hora e um que não faz absolutamente nada :PES_ThinkAboutIt:.
+Escolha o dono antes de escrever o traço. "Elfos atiram melhor" é um traço de cultura se deve se espalhar com suas cidades, um traço de subespécie (subspecies) se deve se propagar por reprodução, e um traço de criatura se pertence a um indivíduo específico. Errar nisso é a diferença entre um mod que transforma o mundo em uma hora e um que não faz absolutamente nada :PES_ThinkAboutIt:.

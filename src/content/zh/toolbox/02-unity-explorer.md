@@ -40,7 +40,7 @@ worldbox/ (C:\Program Files (x86)\Steam\steamapps\common\worldbox\)
 
 你想让自己制作的窗口看起来和游戏原版风格完全一致。那么：
 
-1. 在游戏里打开你喜欢的窗口（比如“世界法则”窗口）。
+1. 在游戏里打开你喜欢的窗口（比如“世界法则（world law）”窗口）。
 2. 按下 F7，进入 **Object Explorer → Scene Explorer**，依次展开 `CanvasMain` → `canvas_ui`。
 3. 逐层点击子节点，直到高亮选中的对象正好是你刚才打开的窗口。
 4. 在 Inspector 中查看它挂载的组件：带有九宫格切片精灵图的 `Image`、`RectTransform` 的尺寸、`ScrollRect` 滑动组件等。
@@ -65,7 +65,7 @@ UnityExplorer.ExplorerCore.Log(t.group_id);
 [Message:UnityExplorer] Invoked REPL (no return value)
 ```
 
-你刚刚直接从运行中的游戏里提取了原版特质的图标路径和所属分组。把它们抄进你自己的特质里，它就会规规矩矩地出现在 UI 的正确分类下，并且配有一个真实存在的图标。
+你刚刚直接从运行中的游戏里提取了原版特质（trait）的图标路径和所属分组。把它们抄进你自己的特质里，它就会规规矩矩地出现在 UI 的正确分类下，并且配有一个真实存在的图标。
 
 ## 示例 3：写 Mod 之前先测试验证想法
 

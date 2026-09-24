@@ -8,13 +8,13 @@ order: 112
 
 # Tratti linguistici :wbconfused:
 
-Una **lingua** appartiene a città e regni, muta con il diffondersi del suo uso ed è il mezzo con cui vengono scritti i **libri**. Un tratto linguistico è una proprietà intrinseca della parola scritta e parlata.
+Una **lingua** appartiene a città e regni (kingdom), muta con il diffondersi del suo uso ed è il mezzo con cui vengono scritti i **libri** (book). Un tratto (trait) linguistico è una proprietà intrinseca della parola scritta e parlata.
 
 È il più compatto dei sette sistemi di tratti e vanta l'hook più specifico in assoluto: codice che scatta nel momento in cui qualcuno **legge un libro** redatto in quella lingua. Sì, davvero :wbscroll:.
 
 | | |
 | --- | --- |
-| Libreria | `AssetManager.language_traits` |
+| Libreria (library) | `AssetManager.language_traits` |
 | Classe | `LanguageTrait` |
 | Gruppi | `AssetManager.language_trait_groups`, classe `LanguageTraitGroupAsset` |
 | Proprietario a runtime | `Language`, in `World.world.languages` |
@@ -186,7 +186,7 @@ Un'istanza di `Language` espone anche `cities`, `kingdoms` e `books`, fondamenta
 
 ## Nuove lingue che estraggono un tratto da sole
 
-Oltre ad assegnarlo manualmente, un tratto di lingua può impostare `spawn_random_trait_allowed` per essere estratto alla formazione di una nuova lingua, nello stesso modo in cui una cultura sceglie i suoi tratti iniziali. Stessa trappola di ogni altra pagina sui tratti:
+Oltre ad assegnarlo manualmente, un tratto di lingua può impostare `spawn_random_trait_allowed` per essere estratto alla formazione di una nuova lingua, nello stesso modo in cui una cultura (culture) sceglie i suoi tratti iniziali. Stessa trappola di ogni altra pagina sui tratti:
 
 > [!WARNING] `spawn_random_trait_allowed` viene letto una sola volta, all'avvio
 > Le nuove lingue pescano i loro tratti iniziali da un gruppo che `BaseTraitLibrary.linkAssets()` costruisce durante il caricamento del gioco, prima che la tua mod esista. Impostare il flag sul tuo tratto non cambia nulla da solo: il tuo tratto non è mai in quel gruppo e non apparirà mai per caso su una nuova lingua. Aggiungilo tu stesso, con il peso usato dal gioco vanilla:

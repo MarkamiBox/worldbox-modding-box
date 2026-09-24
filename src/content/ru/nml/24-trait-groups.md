@@ -8,7 +8,7 @@ order: 102
 
 # Группы черт и вкладки :wbfamilies:
 
-Каждая черта принадлежит к определенной **группе**, и именно группа рисует вкладку в книге черт. Если вы добавите шесть черт и свалите их в `miscellaneous`, они растворятся в списке, который никто никогда не листает :PES4_Invisible:.
+Каждая черта (trait) принадлежит к определенной **группе**, и именно группа рисует вкладку в книге (book) черт. Если вы добавите шесть черт и свалите их в `miscellaneous`, они растворятся в списке, который никто никогда не листает :PES4_Invisible:.
 
 Собственная вкладка стоит ровно четыре строки кода.
 
@@ -91,7 +91,7 @@ if (group != null && index != -1)
 }
 ```
 
-В любой библиотеке `list` является обычным `List<T>`, поэтому этот трюк работает абсолютно везде. См. **[Библиотеки ассетов](#/nml/asset-libraries)**.
+В любой библиотеке (library) `list` является обычным `List<T>`, поэтому этот трюк работает абсолютно везде. См. **[Библиотеки ассетов](#/nml/asset-libraries)**.
 
 ## Переименование или перекрашивание ванильной группы
 
@@ -117,7 +117,7 @@ if (fun != null)
 | Существо | `AssetManager.trait_groups` | `ActorTraitGroupAsset` | эта страница |
 | Культура | `AssetManager.culture_trait_groups` | `CultureTraitGroupAsset` | **[Черты культуры](#/nml/culture-traits)** |
 | Религия | `AssetManager.religion_trait_groups` | `ReligionTraitGroupAsset` | **[Черты религии](#/nml/religion-traits)** |
-| Подвид | `AssetManager.subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | **[Черты подвида](#/nml/subspecies-traits)** |
+| Подвид (subspecies) | `AssetManager.subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | **[Черты подвида](#/nml/subspecies-traits)** |
 | Клан | `AssetManager.clan_trait_groups` | `ClanTraitGroupAsset` | **[Черты клана](#/nml/clan-traits)** |
 | Язык | `AssetManager.language_trait_groups` | `LanguageTraitGroupAsset` | **[Черты языка](#/nml/language-traits)** |
 | Королевство | `AssetManager.kingdoms_traits_groups` | `KingdomTraitGroupAsset` | **[Черты королевства](#/nml/kingdom-traits)** |

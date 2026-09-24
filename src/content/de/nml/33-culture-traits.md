@@ -8,9 +8,9 @@ order: 106
 
 # Kultur-Eigenschaften :wbtiphat:
 
-Eine **Kultur** repräsentiert die gemeinsamen Bräuche und Gewohnheiten einer Gruppe von Städten. Sie bestimmt, was die Bürger bauen, was sie schmieden, wie geerbt wird, was sie lesen und welche Werte sie pflegen. Eine Kultur-Eigenschaft ist eine dieser Gewohnheiten.
+Eine **Kultur** (culture) repräsentiert die gemeinsamen Bräuche und Gewohnheiten einer Gruppe von Städten. Sie bestimmt, was die Bürger bauen, was sie schmieden, wie geerbt wird, was sie lesen und welche Werte (stats) sie pflegen. Eine Kultur-Eigenschaft ist eine dieser Gewohnheiten.
 
-Von den sieben Eigenschaftssystemen hat die Kultur die größte Reichweite. Eine Kultur breitet sich mit den Städten aus, überlebt ihren Gründer und überträgt ihre Statuswerte auf ausnahmslos jede einzelne Einheit, die ihr angehört. Wenn du eine Mod suchst, deren Auswirkungen sich über eine Stunde Spielzeit sanft durch die ganze Welt ziehen, ist dies die richtige Bibliothek. Große Reichweite, große Verantwortung :PES5_Menace:.
+Von den sieben Eigenschaftssystemen hat die Kultur die größte Reichweite. Eine Kultur breitet sich mit den Städten aus, überlebt ihren Gründer und überträgt ihre Statuswerte auf ausnahmslos jede einzelne Einheit, die ihr angehört. Wenn du eine Mod suchst, deren Auswirkungen sich über eine Stunde Spielzeit sanft durch die ganze Welt ziehen, ist dies die richtige Bibliothek (library). Große Reichweite, große Verantwortung :PES5_Menace:.
 
 | | |
 | --- | --- |
@@ -57,7 +57,7 @@ namespace HelloBox
 ```
 
 > [!WARNING] `spawn_random_trait_allowed` wird nur einmal gelesen, beim Start
-> Neue Kulturen würfeln ihre Startmerkmale aus einem Topf, den `BaseTraitLibrary.linkAssets()` beim Laden des Spiels baut, bevor deine Mod existiert. Den Schalter an deinem Merkmal zu setzen ändert allein nichts: Dein Merkmal ist nie in diesem Topf und taucht nie zufällig auf. Leg es selbst hinein, gewichtet wie in Vanilla:
+> Neue Kulturen würfeln ihre Startmerkmale aus einem Topf, den `BaseTraitLibrary.linkAssets()` beim Laden des Spiels baut, bevor deine Mod existiert. Den Schalter an deinem Merkmal (trait) zu setzen ändert allein nichts: Dein Merkmal ist nie in diesem Topf und taucht nie zufällig auf. Leg es selbst hinein, gewichtet wie in Vanilla:
 >
 > ```csharp
 > trait.spawn_random_trait_allowed = true;
@@ -146,5 +146,5 @@ foreach (Culture culture in World.world.cultures)
 if (actor.hasCultureTrait("hello_duellists")) { }
 ```
 
-> [!TIP] Kultur oder Unterart?
+> [!TIP] Kultur oder Unterart (subspecies)?
 > Beide verbreiten sich, aber auf völlig unterschiedliche Weise. Eine **Kultur**-Eigenschaft breitet sich mit Städten aus und kann von jedem übernommen werden, der beitritt. Eine **Unterart**-Eigenschaft verbreitet sich nur über Vererbung. "Elfen schießen besser, weil sie so erzogen wurden" ist Kultur; "Elfen schießen besser wegen ihrer Augen" ist Unterart. Siehe **[Unterarten-Eigenschaften](#/nml/subspecies-traits)** :catnoted:.

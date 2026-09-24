@@ -60,7 +60,7 @@ namespace HelloBox
 | --- | --- |
 | `type` | `ResType.Food`, `Ingredient_Food`, `Ingredient`, `Strategic`, `Currency` |
 | `food` | 유닛이 식사로 섭취 가능한지 여부 |
-| `wood`, `mineral` | 채집 도구 및 관련 직업 매칭 |
+| `wood`, `mineral` | 채집 도구 및 관련 직업 (job) 매칭 |
 | `path_icon` | 인벤토리와 목록에 표시되는 아이콘 |
 | `path_gameplay_sprite` | 운반 시 유닛이 손에 들고 있는 스프라이트 |
 
@@ -75,7 +75,7 @@ namespace HelloBox
 | `tastiness`, `favorite_food_chance` | 유닛이 가장 좋아하는 음식으로 선호할 확률 |
 | `diet` | 섭취 가능한 생물학적 식성 |
 | `eat_action` | 유닛이 섭취했을 때 실행되는 커스텀 코드 |
-| `give_trait_id`, `give_status_id`, `give_chance` | 섭취 시 부여되는 특성이나 상태 효과 |
+| `give_trait_id`, `give_status_id`, `give_chance` | 섭취 시 부여되는 특성이나 상태 효과 (status) |
 
 ### 생산 및 물류
 
@@ -87,7 +87,7 @@ namespace HelloBox
 | `drop_max`, `drop_per_mass` | 원천 오브젝트가 파괴될 때 떨어지는 드롭량 |
 | `stack_size`, `storage_max`, `maximum` | 운반 및 도시 저장 한도 |
 | `supply_give`, `supply_bound_give`, `supply_bound_take` | 군대 보급품 처리 규정 |
-| `trade_cost`, `trade_give`, `trade_bound` | 도시 간 교역 특성 |
+| `trade_cost`, `trade_give`, `trade_bound` | 도시 간 교역 특성 (trait) |
 | `money_cost`, `loot_value` | 화폐 가치 및 전리품 가치 |
 
 ## 바닐라 자원 목록
@@ -96,7 +96,7 @@ namespace HelloBox
 
 **음식 및 식재료:** `wheat` `bread` `berries` `bananas` `coconut` `mushrooms` `peppers` `herbs` `fish` `meat` `honey` `lemons` `worms` `pine_cones` `candy` `sushi` `jam` `cider` `ale` `burger` `pie` `tea` `crystal_salt` `desert_berries` `evil_beets` `snow_cucumbers` `celestial_avocado`
 
-**전략 자원 및 기타:** `wood` `stone` `common_metals` `silver` `mythril` `adamantine` `gems` `bones` `leather` `dragon_scales` `fertilizer` `gold`
+**전략 자원 (resource) 및 기타:** `wood` `stone` `common_metals` `silver` `mythril` `adamantine` `gems` `bones` `leather` `dragon_scales` `fertilizer` `gold`
 
 ## 나만의 스프라이트 등록하기
 

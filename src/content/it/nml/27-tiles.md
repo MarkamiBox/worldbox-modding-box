@@ -8,9 +8,9 @@ order: 170
 
 # Caselle e terreno :wbrockies:
 
-La mappa è una griglia di `WorldTile`, e ogni casella contiene **due** tipologie sovrapposte:
+La mappa è una griglia di `WorldTile`, e ogni casella (tile) contiene **due** tipologie sovrapposte:
 
-| Livello | Campo sulla casella | Libreria | Classe | Esempi |
+| Livello | Campo sulla casella | Libreria (library) | Classe | Esempi |
 | --- | --- | --- | --- | --- |
 | Terreno | `main_type` | `AssetManager.tiles` | `TileType` | terra, sabbia, rocce, oceano profondo, lava |
 | Superficie | `top_type` | `AssetManager.top_tiles` | `TopTileType` | `grass_low`, `grass_high`, `road`, `field`, `frozen_low`, mura |
@@ -52,6 +52,11 @@ namespace HelloBox
             // biome_id to its BiomeAsset during startup, before your mod existed: link yours.
             moss.biome_asset = AssetManager.biome_library.get(moss.biome_id);
 
+            // color and has_biome_tags are [NonSerialized], so clone() skips them, and linkAssets()
+            // worked them out at startup. Without this the minimap draws your tile see-through.
+            moss.color = Toolbox.makeColor(moss.color_hex);
+            moss.has_biome_tags = moss.biome_tags != null && moss.biome_tags.Count > 0;
+
             // The variations in GameResources/tiles/hello_moss/ are loaded at startup too.
             Sprite[] variations = SpriteTextureLoader.getSpriteList("tiles/" + moss.id);
             if (variations.Length > 0)
@@ -67,7 +72,7 @@ namespace HelloBox
 }
 ```
 
-> [!WARNING] Un tile di bioma ha bisogno del suo bioma collegato
+> [!WARNING] Un tile di bioma (biome) ha bisogno del suo bioma collegato
 > Clonare un tile d'erba copia `is_biome = true` e il `biome_id`, ma il `BiomeAsset` vero e proprio viene cercato solo in `TopTileLibrary.linkAssets()`, una volta, mentre il gioco carica. Salta quella riga e tutto funziona finché un animale non spawna sul tuo tile: il nome della specie prende il suffisso del bioma, il bioma è `null`, e lo spawn muore con `NullReferenceException` in `Subspecies.generateName()` :wbfacepalm:.
 >
 > Le immagini hanno lo stesso problema. `TopTileLibrary` trasforma i PNG in `tiles/<id>/` in `sprites` all'avvio, quindi senza l'ultimo blocco il tile si dipinge bene e poi il renderer della mappa lancia in `WorldTilemap.getVariation()` per ogni suo tile a schermo.
@@ -98,7 +103,7 @@ Parti da qui se la tua casella è un'idea di gameplay e non solo un nuovo colore
 | `damaged_when_walked` | La casella stessa si consuma quando viene calpestata |
 | `step_action`, `step_action_chance` | Il tuo codice a ogni singolo passo compiuto su di essa |
 | `unit_death_action` | Il tuo codice quando un'entità muore su di essa |
-| `can_be_set_on_fire`, `burnable`, `burn_rate` | Comportamento col fuoco |
+| `can_be_set_on_fire`, `burnable`, `burn_rate` | Comportamento (behaviour) col fuoco |
 | `can_be_frozen`, `forever_frozen`, `fast_freeze`, `remove_on_freeze` | Comportamento col gelo |
 | `remove_on_heat`, `terraform_after_fire` | Cosa lasciano il calore e il fuoco |
 | `explodable`, `explodable_delayed`, `explodable_timed`, `explode_range` | Detonazione |
@@ -193,13 +198,13 @@ Sia `main_type` che `top_type` possono essere `null`. Controllali prima di acced
 
 ## Opzioni di terraformazione
 
-Un `TerraformOptions` in `AssetManager.terraform` è un pacchetto di pulizia della casella con un nome assegnato, usato da poteri divini e proiettili:
+Un `TerraformOptions` in `AssetManager.terraform` è un pacchetto di pulizia della casella con un nome assegnato, usato da poteri divini (GodPower) e proiettili (projectile):
 
 | Campo | Cosa fa |
 | --- | --- |
 | `remove_top_tile`, `remove_roads`, `remove_borders` | Rimuove strutture |
 | `remove_trees_fully`, `remove_burned`, `remove_ruins` | Rimuove resti |
-| `destroy_buildings`, `make_ruins` | Cosa accade agli edifici |
+| `destroy_buildings`, `make_ruins` | Cosa accade agli edifici (building) |
 | `remove_water`, `remove_fire`, `remove_frozen`, `remove_tornado` | Rimuove stati |
 | `add_burned`, `add_heat`, `flash` | Aggiunge stati |
 

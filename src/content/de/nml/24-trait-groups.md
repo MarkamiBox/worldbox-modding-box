@@ -8,7 +8,7 @@ order: 102
 
 # Eigenschaftsgruppen & Tabs :wbfamilies:
 
-Jede Eigenschaft gehört zu einer **Gruppe**, und diese Gruppe zeichnet einen Tab im Eigenschaften-Buch. Wenn du sechs Eigenschaften hinzufügst und alle in `miscellaneous` wirfst, verschwinden sie in einer Liste, die niemand durchscrollt :PES4_Invisible:.
+Jede Eigenschaft (trait) gehört zu einer **Gruppe**, und diese Gruppe zeichnet einen Tab im Eigenschaften-Buch. Wenn du sechs Eigenschaften hinzufügst und alle in `miscellaneous` wirfst, verschwinden sie in einer Liste, die niemand durchscrollt :PES4_Invisible:.
 
 Ein eigener Tab kostet dich vier Zeilen.
 
@@ -91,7 +91,7 @@ if (group != null && index != -1)
 }
 ```
 
-`list` ist in jeder Bibliothek eine gewöhnliche `List<T>`, daher funktioniert dieser Trick für jede von ihnen. Siehe **[Asset-Bibliotheken](#/nml/asset-libraries)**.
+`list` ist in jeder Bibliothek (library) eine gewöhnliche `List<T>`, daher funktioniert dieser Trick für jede von ihnen. Siehe **[Asset-Bibliotheken](#/nml/asset-libraries)**.
 
 ## Eine Vanilla-Gruppe umbenennen oder umfärben
 
@@ -117,7 +117,7 @@ Akteurseigenschaften sind nur eines von sieben Eigenschaftssystemen, und jedes b
 | Akteur | `AssetManager.trait_groups` | `ActorTraitGroupAsset` | diese Seite |
 | Kultur | `AssetManager.culture_trait_groups` | `CultureTraitGroupAsset` | **[Kultureigenschaften](#/nml/culture-traits)** |
 | Religion | `AssetManager.religion_trait_groups` | `ReligionTraitGroupAsset` | **[Religionseigenschaften](#/nml/religion-traits)** |
-| Unterart | `AssetManager.subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | **[Unterarteigenschaften](#/nml/subspecies-traits)** |
+| Unterart (subspecies) | `AssetManager.subspecies_trait_groups` | `SubspeciesTraitGroupAsset` | **[Unterarteigenschaften](#/nml/subspecies-traits)** |
 | Clan | `AssetManager.clan_trait_groups` | `ClanTraitGroupAsset` | **[Claneigenschaften](#/nml/clan-traits)** |
 | Sprache | `AssetManager.language_trait_groups` | `LanguageTraitGroupAsset` | **[Spracheigenschaften](#/nml/language-traits)** |
 | Königreich | `AssetManager.kingdoms_traits_groups` | `KingdomTraitGroupAsset` | **[Königreicheigenschaften](#/nml/kingdom-traits)** |

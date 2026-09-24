@@ -10,7 +10,7 @@ order: 44
 
 Prima o poi il tuo mod avrà bisogno di ricordare qualcosa su una specifica unità: quante volte è stata colpita, se ha già ricevuto la sua ricompensa o presso quale santuario prega. Un dizionario statico indicizzato sull'unità dimentica ogni singola cosa nell'istante in cui il giocatore salva e ricarica :wbfacepalm:.
 
-Il gioco offre già una sede perfetta per questo. Ogni unità, città, regno, edificio, oggetto e libro conserva il proprio stato in un oggetto dati, e ciascuno di essi possiede un piccolo archivio di **dati personalizzati** (custom data) che viene salvato direttamente nel file di salvataggio.
+Il gioco offre già una sede perfetta per questo. Ogni unità, città, regno (kingdom), edificio (building), oggetto e libro (book) conserva il proprio stato in un oggetto dati, e ciascuno di essi possiede un piccolo archivio di **dati personalizzati** (custom data) che viene salvato direttamente nel file di salvataggio.
 
 ## Il contenitore
 
@@ -58,7 +58,7 @@ Dietro le quinte, NML serializza il tuo oggetto in JSON e lo infila nella tabell
 
 ## In HelloBox
 
-Un tratto che conta ogni colpo andato a segno del portatore e assegna una ricompensa speciale una sola volta, al cinquantesimo colpo:
+Un tratto (trait) che conta ogni colpo andato a segno del portatore e assegna una ricompensa speciale una sola volta, al cinquantesimo colpo:
 
 ```csharp Mods/HelloBox/Code/HelloMemory.cs
 namespace HelloBox
@@ -135,7 +135,7 @@ I suoi testi, come per qualsiasi tratto:
 | Una città | `city.data` |
 | Un regno | `kingdom.data` |
 | Un edificio | `building.data` |
-| Culture, religioni, clan, lingue, famiglie, eserciti, complotti | i rispettivi `data`, condividono tutti la stessa struttura |
+| Culture (culture), religioni (religion), clan, lingue, famiglie, eserciti, complotti (plot) | i rispettivi `data`, condividono tutti la stessa struttura |
 
 ## Cose da sapere
 

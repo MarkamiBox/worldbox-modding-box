@@ -14,7 +14,7 @@ Clan-Eigenschaften kommen einer vererbbaren Superkraft im Spiel am nächsten, un
 
 | | |
 | --- | --- |
-| Bibliothek | `AssetManager.clan_traits` |
+| Bibliothek (library) | `AssetManager.clan_traits` |
 | Klasse | `ClanTrait` |
 | Gruppen | `AssetManager.clan_trait_groups`, Klasse `ClanTraitGroupAsset` |
 | Besitzer zur Laufzeit | `Clan`, in `World.world.clans` |
@@ -69,14 +69,14 @@ trait.base_stats_female["intelligence"] = 4;   // Nur Frauen
 
 ## Entscheidungen: Was ein Clan *tut*
 
-Vanilla-Clan-Eigenschaften stützen sich vor allem auf Entscheidungen statt auf Aktionen, denn ein Clan ist ein soziales Konstrukt:
+Vanilla-Clan-Eigenschaften stützen sich vor allem auf Entscheidungen (decision) statt auf Aktionen, denn ein Clan ist ein soziales Konstrukt:
 
 ```csharp
 trait.addDecision("banish_unruly_clan_members");
 trait.addOpposite("hello_new_blood");
 ```
 
-Eine Entscheidung ist eine KI-Option in `AssetManager.decisions_library`. Zwei Vanilla-Clan-Eigenschaften, `blood_pact` und `deathbound`, sind im Grunde dieselbe Eigenschaft mit unterschiedlicher Entscheidung und als gegenseitige Gegensätze deklariert. Dieses Muster lohnt sich zu kopieren: zwei Eigenschaften, eine Achse, gegenseitig ausschließend.
+Eine Entscheidung ist eine KI-Option in `AssetManager.decisions_library`. Zwei Vanilla-Clan-Eigenschaften, `blood_pact` und `deathbound`, sind im Grunde dieselbe Eigenschaft (trait) mit unterschiedlicher Entscheidung und als gegenseitige Gegensätze deklariert. Dieses Muster lohnt sich zu kopieren: zwei Eigenschaften, eine Achse, gegenseitig ausschließend.
 
 ## Kampf- und Effekt-Hooks
 
@@ -110,7 +110,7 @@ Mehrere Clan-Eigenschaften von Vanilla sind Belohnungen statt Standard-Optionen:
 trait.setUnlockedWithAchievement("achievementSegregator");
 ```
 
-Eine gesperrte Eigenschaft existiert und funktioniert weiterhin völlig normal; der Spieler kann sie lediglich im Editor erst dann auswählen, wenn der Erfolg abgeschlossen ist. Beachte, dass `BaseTraitLibrary` bei allem, was so gesperrt wird, automatisch auch `rarity = R3_Legendary` setzt, damit deine Belohnung auch danach aussieht :gold_star:.
+Eine gesperrte Eigenschaft existiert und funktioniert weiterhin völlig normal; der Spieler kann sie lediglich im Editor erst dann auswählen, wenn der Erfolg (achievement) abgeschlossen ist. Beachte, dass `BaseTraitLibrary` bei allem, was so gesperrt wird, automatisch auch `rarity = R3_Legendary` setzt, damit deine Belohnung auch danach aussieht :gold_star:.
 
 ## Die Vanilla-Gruppen
 
@@ -146,7 +146,7 @@ foreach (Clan clan in World.world.clans)
 Der Clan einer Einheit liegt auf `actor.clan`, und `actor.hasClan()` verrät dir, ob die Einheit überhaupt einem angehört – etliche Einheiten treten niemals einem Clan bei.
 
 > [!TIP] Clans sind klein, sei also ruhig großzügig
-> Eine Kultur erstreckt sich über einen ganzen Kontinent; ein Clan umfasst eine Familie, und `limit_clan_members` deckelt seine Größe. Eine Clan-Eigenschaft darf bei gleicher Welten-Balance wesentlich stärker sein als eine Kultur-Eigenschaft. Das macht Clans zum perfekten Zuhause für dramatische Effekte :PES5_Menace:.
+> Eine Kultur (culture) erstreckt sich über einen ganzen Kontinent; ein Clan umfasst eine Familie, und `limit_clan_members` deckelt seine Größe. Eine Clan-Eigenschaft darf bei gleicher Welten-Balance wesentlich stärker sein als eine Kultur-Eigenschaft. Das macht Clans zum perfekten Zuhause für dramatische Effekte :PES5_Menace:.
 
 ## Neue Clans, die selbstständig Traits auswürfeln
 

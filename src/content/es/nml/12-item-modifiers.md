@@ -8,7 +8,7 @@ order: 122
 
 # Encantamientos de armas :wbmagehrm:
 
-Conoces esas pequeñas líneas verdes en una buena espada: *"+3 de daño"*, *"ardiente"*. Son **modificadores de objeto**, y son la forma más rápida de hacer que el botín sea emocionante, porque el juego los aplica automáticamente a las armas generadas.
+Conoces esas pequeñas líneas verdes en una buena espada: *"+3 de daño"*, *"ardiente"*. Son **modificadores (modifier) de objeto**, y son la forma más rápida de hacer que el botín sea emocionante, porque el juego los aplica automáticamente a las armas generadas.
 
 ## La forma sencilla: el creador de NML
 
@@ -81,7 +81,7 @@ Añade `HelloModifiers.Initialize();` a `Main.cs`, y a partir de ahí el juego p
 | `mod_rank` | Nivel dentro de la familia. También añade valor al arma |
 | `translation_key` | Clave de idioma para la línea verde que lee el jugador |
 | `rarity` | Frecuencia de aparición. Un número mayor es más común |
-| `base_stats` | La bonificación de estadísticas |
+| `base_stats` | La bonificación de estadísticas (stats) |
 | `quality` | Calidad mínima de arma en la que puede aparecer |
 | `equipment_value` | Puntuación extra de "lo bueno que es este objeto" |
 
@@ -110,7 +110,7 @@ Ahora cualquier arma que reciba "hello_burning" prenderá fuego al suelo cuando 
 
 ```json Locales/en.json
 {
-  "hello_sharp": "Sharpened",
+  "mod_hello_sharp": "Sharpened",
   "hello_burning": "Burning"
 }
 ```

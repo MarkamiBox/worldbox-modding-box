@@ -74,7 +74,7 @@ namespace HelloBox
 
 | 字段 | 作用 |
 | --- | --- |
-| `rate` | 抽取时的权重。越高，相对其他灾难就越常被选中 |
+| `rate` | 抽取时的权重。越高，相对其他灾难（disaster）就越常被选中 |
 | `chance` | 被选中之后的第二次判定 |
 | `min_world_population` / `min_world_cities` | 它能发生的前提条件 |
 | `type` | `DisasterType.Nature`、`Other`、… |
@@ -82,7 +82,7 @@ namespace HelloBox
 | `action` | 你的代码。这就是灾难本身 |
 | `spawn_asset_unit` + `units_min`/`units_max` | “生成 N 个这种生物”的快捷方式 |
 | `max_existing_units` | 已经存在这么多时就不再生成 |
-| `ages_allow` / `ages_forbid` | 把它限制在某些世界时代，比如只在灰烬时代 |
+| `ages_allow` / `ages_forbid` | 把它限制在某些世界时代（world age），比如只在灰烬时代 |
 
 限制时代要在构建资源之后进行：
 
@@ -120,7 +120,7 @@ AssetManager.disasters.add(wolves);
 
 ## 世界日志分录
 
-`world_log` 填写的不是直接的显示文本，而是 `AssetManager.world_log_library` 中的 **`WorldLogAsset` 资产 ID**，该资产才会指向具体的本地化文本键。如果填写了一个未注册的 ID，在灾害触发并记录日志时，`WorldLog.logDisaster()` 会基于 `null` 构建消息，从而抛出 `NullReferenceException` :wbfacepalm:。
+`world_log` 填写的不是直接的显示文本，而是 `AssetManager.world_log_library` 中的 **`WorldLogAsset` 资产（asset） ID**，该资产才会指向具体的本地化文本键。如果填写了一个未注册的 ID，在灾害触发并记录日志时，`WorldLog.logDisaster()` 会基于 `null` 构建消息，从而抛出 `NullReferenceException` :wbfacepalm:。
 
 原版灾害统一克隆自 `$basic_disaster$` 模板，该模板自带警告橙黄色调和 "disasters" 日志分组。上文的 `HelloDisasters` 也采取了相同的克隆方式：
 
@@ -130,7 +130,7 @@ log.locale_id = "worldlog_disaster_hello_ember_storm";   // the text key
 log.path_icon = "ui/Icons/iconHelloDisaster";            // the icon next to the line
 ```
 
-随后需要有代码将该行消息写入日志。原版生成器内部会自动调用 `WorldLog.logDisaster(pAsset, tile)`。自定义的 `action` 则不会自动记录，因此我们需要手动调用一次，并将风暴起始的地块传入：点击日志中的“定位”按钮时就会跳转到该地块。
+随后需要有代码将该行消息写入日志。原版生成器内部会自动调用 `WorldLog.logDisaster(pAsset, tile)`。自定义的 `action` 则不会自动记录，因此我们需要手动调用一次，并将风暴起始的地块（tile）传入：点击日志中的“定位”按钮时就会跳转到该地块。
 
 | `WorldLogAsset` 字段 | 作用说明 |
 | --- | --- |

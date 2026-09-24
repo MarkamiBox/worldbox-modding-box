@@ -8,7 +8,7 @@ order: 142
 
 # Eigene Gebäude :wbcities:
 
-Bei Gebäuden hört das WorldBox-Modding auf, ein simples "Ändere eine Zahl" zu sein, und wird zu "Dieses Asset hat einhundertvierzig Felder und die meisten davon tun für meinen Fall überhaupt nichts" :PES2_Weary:.
+Bei Gebäuden (building) hört das WorldBox-Modding auf, ein simples "Ändere eine Zahl" zu sein, und wird zu "Dieses Asset hat einhundertvierzig Felder und die meisten davon tun für meinen Fall überhaupt nichts" :PES2_Weary:.
 
 Wir bauen ein Gebäude also nicht von Grund auf neu. Wir klonen eines, das bereits funktioniert.
 
@@ -53,7 +53,7 @@ namespace HelloBox
 Alles, was du nicht setzt, bleibt genau so wie bei `temple_human`, und das ist ein funktionierendes Stadtgebäude. Das ist der ganze Trick.
 
 > [!WARNING] Ruf nach `clone()` nicht `add()` auf
-> `clone()` hat die Kopie bereits registriert. Rufst du danach `AssetManager.buildings.add(shrine)` auf, wird sie ein zweites Mal registriert, die Bibliothek wirft die erste Kopie weg und loggt `duplicate asset - overwriting...`. Es funktioniert trotzdem, aber es ist Rauschen in deinem Log und das Erste, worauf jeder zeigt, der deinen Code prüft.
+> `clone()` hat die Kopie bereits registriert. Rufst du danach `AssetManager.buildings.add(shrine)` auf, wird sie ein zweites Mal registriert, die Bibliothek (library) wirft die erste Kopie weg und loggt `duplicate asset - overwriting...`. Es funktioniert trotzdem, aber es ist Rauschen in deinem Log und das Erste, worauf jeder zeigt, der deinen Code prüft.
 
 ## Was als Klonbasis taugt
 
@@ -92,7 +92,7 @@ Das Klonen des nächstliegenden Verwandten kostet zehn Minuten Lektüre und ersp
 | --- | --- |
 | `max_houses`, `housing_slots`, `can_units_live_here` | Ob und wie viele Bürger darin wohnen |
 | `housing_happiness` | Zufriedenheitsbonus durch das Wohnen dort |
-| `storage`, `storage_only_food`, `is_stockpile` | Ob es Ressourcen lagert |
+| `storage`, `storage_only_food`, `is_stockpile` | Ob es Ressourcen (resource) lagert |
 | `book_slots` | Bibliothekskapazität für Bücher |
 | `docks`, `boat_types`, `boat_type_fishing`, `boat_type_trading`, `boat_type_transport` | Schiffsproduktion |
 | `spawn_units`, `spawn_units_asset` | Spawnt Einheiten und Kreaturen |

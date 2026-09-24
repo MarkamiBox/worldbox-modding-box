@@ -8,7 +8,7 @@ order: 146
 
 # 状态效果 :wbcursed:
 
-特质代表一个生物“**是**”什么，而状态效果则代表它“**此刻正经历着**”什么：燃烧、冻结、中毒、祝福。状态效果具有寿命并会自动消退，能在生物头顶动态覆盖一层视觉特效贴图，并且能够按计时器定时触发执行逻辑。
+特质（trait）代表一个生物“**是**”什么，而状态效果（status）则代表它“**此刻正经历着**”什么：燃烧、冻结、中毒、祝福。状态效果具有寿命并会自动消退，能在生物头顶动态覆盖一层视觉特效贴图，并且能够按计时器定时触发执行逻辑。
 
 ## 注册状态效果
 
@@ -89,7 +89,7 @@ namespace HelloBox
 | `affects_mind` | 标记为心智精神类状态（供原版特殊机制检测） |
 | `opposite_status` | 水火不容的互斥状态（不可共存） |
 | `remove_status` | 获得本状态时强制驱散剥夺的指定状态 |
-| `base_stats` | 状态生效期间提供的属性加成/减益 |
+| `base_stats` | 状态生效期间提供的属性（stats）加成/减益 |
 | `locale_id` / `locale_description` | 状态标题与悬浮描述的本地化键。**必填项** |
 | `path_icon` | 状态列表小图标路径 |
 | `texture`, `sprite_list`, `animated`, `loop`, `animation_speed` | 覆盖在生物头顶身上的特效图。`texture` 仅填写位于 `effects/` 下的纯文件名 |
@@ -145,7 +145,7 @@ StatusAsset asset = AssetManager.status.get(HelloStatus.CURSED);
 World.world.statuses.newStatus(actor, asset, 20f);   // 持续 20 秒（若传 0 则使用该资源自身的默认持续时间）
 ```
 
-在 AI 行为树节点中，原版也提供了现成的包装节点：`new BehActorAddStatus("hello_cursed", 20f)` 与 `new BehActorRemoveStatus("hello_cursed")`。
+在 AI 行为（behaviour）树节点中，原版也提供了现成的包装节点：`new BehActorAddStatus("hello_cursed", 20f)` 与 `new BehActorRemoveStatus("hello_cursed")`。
 
 ## 切记添加本地化文本
 

@@ -8,7 +8,7 @@ order: 146
 
 # Statuseffekte :wbcursed:
 
-Ein Merkmal definiert, wer eine Kreatur **ist**. Ein Statuseffekt definiert, was ihr **gerade jetzt** widerfährt: brennend, eingefroren, vergiftet, gesegnet. Sie laufen von selbst ab, legen ihr eigenes Sprite über die Einheit und können Aktionen auf einem Timer ausführen.
+Ein Merkmal (trait) definiert, wer eine Kreatur **ist**. Ein Statuseffekt definiert, was ihr **gerade jetzt** widerfährt: brennend, eingefroren, vergiftet, gesegnet. Sie laufen von selbst ab, legen ihr eigenes Sprite über die Einheit und können Aktionen auf einem Timer ausführen.
 
 ## Einen Statuseffekt registrieren
 

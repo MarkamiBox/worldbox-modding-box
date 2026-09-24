@@ -8,7 +8,7 @@ order: 142
 
 # Bâtiments personnalisés :wbcities:
 
-Les bâtiments sont le moment où le modding de WorldBox cesse d'être un simple "changement de chiffre" pour devenir "cet asset possède cent quarante champs et la plupart ne servent à rien dans mon cas" :PES2_Weary:.
+Les bâtiments (building) sont le moment où le modding de WorldBox cesse d'être un simple "changement de chiffre" pour devenir "cet asset possède cent quarante champs et la plupart ne servent à rien dans mon cas" :PES2_Weary:.
 
 Nous ne construisons donc pas un bâtiment de zéro. Nous clonons un bâtiment qui fonctionne déjà.
 
@@ -53,7 +53,7 @@ namespace HelloBox
 Tout ce que vous ne définissez pas reste exactement comme sur `temple_human`, qui est un bâtiment de ville fonctionnel. C'est tout le truc.
 
 > [!WARNING] N'appelez pas `add()` après `clone()`
-> `clone()` a déjà enregistré la copie. Appeler `AssetManager.buildings.add(shrine)` ensuite l'enregistre une deuxième fois, ce qui fait jeter la première copie à la bibliothèque et écrire `duplicate asset - overwriting...` dans le log. Ça marche quand même, mais c'est du bruit dans votre log et la première chose que pointera quiconque relit votre code.
+> `clone()` a déjà enregistré la copie. Appeler `AssetManager.buildings.add(shrine)` ensuite l'enregistre une deuxième fois, ce qui fait jeter la première copie à la bibliothèque (library) et écrire `duplicate asset - overwriting...` dans le log. Ça marche quand même, mais c'est du bruit dans votre log et la première chose que pointera quiconque relit votre code.
 
 ## Que cloner
 
@@ -63,7 +63,7 @@ La bibliothèque propose aussi bien des modèles `$…$` que des bâtiments ache
 | --- | --- |
 | `$building$` | La base dépouillée |
 | `$city_building$` | Tout ce qu'une ville construit. Utilisé par `well` et `mine` |
-| `$city_colored_building$` | Identique, mais teinté aux couleurs du royaume |
+| `$city_colored_building$` | Identique, mais teinté aux couleurs du royaume (kingdom) |
 | `$building_civ_human$` / `_elf$` / `_orc$` / `_dwarf$` | Bâtiments civils par culture |
 | `$building_creep$` | Structures invasives (creep) |
 | `$mineral$` | Roches et minerais exploitables |
@@ -92,7 +92,7 @@ Cloner le parent le plus proche ne prend que dix minutes de lecture et vous épa
 | --- | --- |
 | `max_houses`, `housing_slots`, `can_units_live_here` | Si des citoyens y logent et combien |
 | `housing_happiness` | Bonus de bonheur apporté aux résidents |
-| `storage`, `storage_only_food`, `is_stockpile` | S'il stocke des ressources |
+| `storage`, `storage_only_food`, `is_stockpile` | S'il stocke des ressources (resource) |
 | `book_slots` | Capacité d'accueil de livres dans les bibliothèques |
 | `docks`, `boat_types`, `boat_type_fishing`, `boat_type_trading`, `boat_type_transport` | Production de bateaux |
 | `spawn_units`, `spawn_units_asset` | Fait apparaître des créatures |
@@ -147,7 +147,7 @@ Cloner le parent le plus proche ne prend que dix minutes de lecture et vous épa
 | Champ | Ce qu'il fait |
 | --- | --- |
 | `step_action`, `has_step_action` | Votre propre code exécuté à chaque tick du bâtiment |
-| `base_stats` | Statistiques octroyées par le bâtiment |
+| `base_stats` | Statistiques (stats) octroyées par le bâtiment |
 | `priority` | Priorité dans la file de construction urbaine |
 
 ## Sprites
@@ -209,7 +209,7 @@ Appelez toujours `canBuildFrom` en premier lieu. Déposer un bâtiment sur l'eau
 
 ## Faire construire le bâtiment par les villes
 
-Un pouvoir divin qui fait apparaître votre sanctuaire est amusant pendant une heure. Un sanctuaire que les villes construisent d'elles-mêmes, lorsqu'elles sont assez grandes, c'est un mod. Les villes choisissent quoi construire à partir de deux éléments, et votre bâtiment ne figure encore dans aucun d'eux :
+Un pouvoir divin (GodPower) qui fait apparaître votre sanctuaire est amusant pendant une heure. Un sanctuaire que les villes construisent d'elles-mêmes, lorsqu'elles sont assez grandes, c'est un mod. Les villes choisissent quoi construire à partir de deux éléments, et votre bâtiment ne figure encore dans aucun d'eux :
 
 | | Ce qu'il contient |
 | --- | --- |

@@ -8,7 +8,7 @@ order: 178
 
 # Reinos e facções :wbkingdoms:
 
-Toda unidade em WorldBox pertence a um reino. Não apenas as civilizadas: lobos pertencem a um reino de lobos, bandidos a uma facção de bandidos, e uma galinha neutra pertence a um reino neutro. Um `KingdomAsset` é o **tipo** de facção, não um reino individual existente no mapa.
+Toda unidade em WorldBox pertence a um reino (kingdom). Não apenas as civilizadas: lobos pertencem a um reino de lobos, bandidos a uma facção de bandidos, e uma galinha neutra pertence a um reino neutro. Um `KingdomAsset` é o **tipo** de facção, não um reino individual existente no mapa.
 
 Essa é a distinção fundamental:
 
@@ -80,7 +80,7 @@ Sem isso, sua criatura vai surgir no reino utilizado pelo modelo doador do clone
 
 | Campo | O que faz |
 | --- | --- |
-| `civ` | Funda cidades, trava guerras, tem um líder |
+| `civ` | Funda cidades, trava guerras (war), tem um líder |
 | `nomads` | Estágio errante antes do assentamento |
 | `nature` | Vida selvagem |
 | `mobs` | Monstros hostis |
@@ -98,7 +98,7 @@ Sem isso, sua criatura vai surgir no reino utilizado pelo modelo doador do clone
 | `count_as_danger` | Se outras facções a tratam como ameaça. `true` por padrão |
 | `friendship_for_everyone` | Amigável com tudo e todos |
 | `force_look_all_chunks` | Unidades escaneiam o mapa inteiro, não só os arredores. Pesado |
-| `building_attractor_id` | Tipo de construção que atrai essas criaturas |
+| `building_attractor_id` | Tipo de construção (building) que atrai essas criaturas |
 
 ### Tags: quem luta contra quem
 
@@ -122,15 +122,15 @@ Dois reinos comparam suas tags para determinar sua postura diplomática padrão.
 
 ## O restante da estrutura de uma facção
 
-Um asset de reino isolado é apenas um rótulo. Um rótulo muito oficial, mas um rótulo. Estas são as outras bibliotecas com as quais uma facção completa se relaciona:
+Um asset de reino isolado é apenas um rótulo. Um rótulo muito oficial, mas um rótulo. Estas são as outras bibliotecas (library) com as quais uma facção completa se relaciona:
 
 | Elemento | Biblioteca | Utilização |
 | --- | --- | --- |
 | Estandartes | `AssetManager.kingdom_banners_library` | A bandeira gerada |
 | Cores | `AssetManager.kingdom_colors_library` | A paleta atribuída aos reinos |
-| Traços de reino | `AssetManager.kingdoms_traits` | Políticas, principalmente impostos. Veja **[Traços de reino](#/nml/kingdom-traits)** |
-| Trabalhos de reino | `AssetManager.job_kingdom` | No que a IA da facção está trabalhando |
-| Tarefas de reino | `AssetManager.tasks_kingdom` | A árvore de comportamento por trás desses trabalhos |
+| Traços (trait) de reino | `AssetManager.kingdoms_traits` | Políticas, principalmente impostos. Veja **[Traços de reino](#/nml/kingdom-traits)** |
+| Trabalhos (job) de reino | `AssetManager.job_kingdom` | No que a IA da facção está trabalhando |
+| Tarefas (task) de reino | `AssetManager.tasks_kingdom` | A árvore de comportamento (behaviour) por trás desses trabalhos |
 | Tipos de guerra | `AssetManager.war_types_library` | Os tipos de guerra que podem ser declarados |
 | Arquitetura | `AssetManager.architecture_library` | A aparência das construções |
 | Ordens de construção | `AssetManager.city_build_orders` | O que uma nova cidade constrói e em que ordem |
@@ -154,7 +154,7 @@ foreach (Kingdom kingdom in World.world.kingdoms)
 
 ## Personalidades
 
-Um rei e um líder de cidade recebem uma **personalidade**: um rótulo e alguns atributos `personality_*` que direcionam se o reino joga de forma agressiva ou diplomática. Registrar uma leva três linhas. Fazer com que alguém a *tenha* é o desafio: `Actor.updateStats()` escolhe um dos quatro IDs padrão por nome a cada atualização de atributos.
+Um rei e um líder de cidade recebem uma **personalidade**: um rótulo e alguns atributos (stats) `personality_*` que direcionam se o reino joga de forma agressiva ou diplomática. Registrar uma leva três linhas. Fazer com que alguém a *tenha* é o desafio: `Actor.updateStats()` escolhe um dos quatro IDs padrão por nome a cada atualização de atributos.
 
 ```csharp Mods/HelloBox/Code/HelloPersonality.cs
 using HarmonyLib;
@@ -280,7 +280,7 @@ Opinião e lealdade são somadas da lista inteira a cada avaliação, logo o `ad
 
 ## Estandartes para outros sistemas
 
-Reinos não são os únicos com estandarte: culturas, religiões, clãs, idiomas, subespécies e famílias possuem suas próprias bibliotecas de componentes (`AssetManager.culture_banners_library` e afins). Cada uma tem um asset `main` com listas de caminhos, e uma nova cultura sorteia um índice.
+Reinos não são os únicos com estandarte: culturas (culture), religiões (religion), clãs, idiomas, subespécies (subspecies) e famílias possuem suas próprias bibliotecas de componentes (`AssetManager.culture_banners_library` e afins). Cada uma tem um asset `main` com listas de caminhos, e uma nova cultura sorteia um índice.
 
 ```csharp Mods/HelloBox/Code/HelloBanners.cs
 namespace HelloBox

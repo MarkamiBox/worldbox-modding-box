@@ -342,7 +342,7 @@ namespace HelloBox
 `recalc()` はボタンに合わせてタブのサイズを決め、`sortButtons()` はボタンを並べ替えます。どちらも待つ必要があり、ゲームはその理由を親切には教えてくれません：
 
 > [!WARNING] `OnModLoad` の中でタブをレイアウトしない
-> `PowersTab` はUnityの `Start()` で自分の親を読みますが、`CreateTab` が渡したばかりのオブジェクトではまだ実行されていません。そこで `recalc()` を呼ぶと、ステージ全体が `PowersTab.setNewWidth()` で `NullReferenceException` を出して止まり、パワーは登録されず、タブも表示されません :wbfacepalm:。
+> `PowersTab` はUnityの `Start()` で自分の親を読みますが、`CreateTab` が渡したばかりのオブジェクトではまだ実行されていません。そこで `recalc()` を呼ぶと、ステージ全体が `PowersTab.setNewWidth()` で `NullReferenceException` を出して止まり、パワー（GodPower）は登録されず、タブも表示されません :wbfacepalm:。
 >
 > タブとボタンはロード時に作り、`PowerTabController.instance` が存在する最初のフレームで `Update()` からレイアウトしてください。上の `LayoutWhenReady` はそのためのもので、`Main.Update()` がそれを呼びます：
 >
@@ -371,7 +371,7 @@ private static void Buttons()
 }
 ```
 
-`CreateGodPowerButton` はプレイヤーが何かを狙う操作（スポーン、攻撃、ユニットの検査、建物の配置）に使い、`CreateSimpleButton` はグローバルな操作（ウィンドウを開く、モードの切り替え）に使います。
+`CreateGodPowerButton` はプレイヤーが何かを狙う操作（スポーン、攻撃、ユニットの検査、建物（building）の配置）に使い、`CreateSimpleButton` はグローバルな操作（ウィンドウを開く、モードの切り替え）に使います。
 
 > [!WARNING] パワーを先に登録しておく必要がある
 > `CreateGodPowerButton` はIDによってパワーを検索します。もし `AssetManager.powers` にまだ登録されていない場合、何にも結びついていない無効なボタンが生成されてしまいます。必ずパワーを登録し、**その後に** ボタンを作成してください。

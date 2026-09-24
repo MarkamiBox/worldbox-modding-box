@@ -8,7 +8,7 @@ order: 146
 
 # Effets de statut :wbcursed:
 
-Un trait définit ce qu'une créature **est**. Un effet de statut définit ce qui lui arrive **en ce moment même** : en feu, gelée, empoisonnée, bénie. Ils disparaissent d'eux-mêmes avec le temps, affichent leur propre sprite sur l'unité et peuvent exécuter une action cadencée par minuteur.
+Un trait définit ce qu'une créature **est**. Un effet de statut (status) définit ce qui lui arrive **en ce moment même** : en feu, gelée, empoisonnée, bénie. Ils disparaissent d'eux-mêmes avec le temps, affichent leur propre sprite sur l'unité et peuvent exécuter une action cadencée par minuteur.
 
 ## En enregistrer un
 
@@ -89,7 +89,7 @@ La liste courte. La vraie est plus longue et surtout ennuyeuse :wbyawn:.
 | `affects_mind` | Marque l'effet comme altération mentale |
 | `opposite_status` | Statuts mutuellement exclusifs |
 | `remove_status` | Statuts purgés lors de l'application de celui-ci |
-| `base_stats` | Modificateurs de statistiques pendant la durée |
+| `base_stats` | Modificateurs (modifier) de statistiques (stats) pendant la durée |
 | `locale_id` / `locale_description` | Clés de nom et d'infobulle. **Indispensables** |
 | `path_icon` | Icône dans la liste des statuts |
 | `texture`, `sprite_list`, `animated`, `loop`, `animation_speed` | Le sprite affiché sur l'unité. `texture` est un nom brut cherché dans `effects/` |
@@ -100,7 +100,7 @@ La liste courte. La vraie est plus longue et surtout ennuyeuse :wbyawn:.
 
 ## Ton propre sprite
 
-Celle-ci cache un piège, et tout le monde tombe dedans une fois :wbbre:. `texture` n'est **pas** un chemin complet : la bibliothèque des statuts ajoute `effects/` devant avant de charger, vous écrivez donc juste le nom.
+Celle-ci cache un piège, et tout le monde tombe dedans une fois :wbbre:. `texture` n'est **pas** un chemin complet : la bibliothèque (library) des statuts ajoute `effects/` devant avant de charger, vous écrivez donc juste le nom.
 
 ```text Mods/HelloBox/
 HelloBox/
@@ -145,7 +145,7 @@ StatusAsset asset = AssetManager.status.get(HelloStatus.CURSED);
 World.world.statuses.newStatus(actor, asset, 20f);   // 20s, ou 0 pour la durée de base de l'asset
 ```
 
-Dans les arbres de comportement, des nœuds tout prêts existent : `new BehActorAddStatus("hello_cursed", 20f)` et `new BehActorRemoveStatus("hello_cursed")`.
+Dans les arbres de comportement (behaviour), des nœuds tout prêts existent : `new BehActorAddStatus("hello_cursed", 20f)` et `new BehActorRemoveStatus("hello_cursed")`.
 
 ## N'oublie pas les textes
 
@@ -159,4 +159,4 @@ Dans les arbres de comportement, des nœuds tout prêts existent : `new BehActor
 Les clés correspondent à ce que vous avez configuré dans `locale_id` et `locale_description`. Respecter le format classique `status_title_<id>` / `status_description_<id>` garde vos fichiers clairs.
 
 > [!TIP] Les statuts sont la solution pour les effets temporaires
-> Tout ce qui est voué à s'estomper (un bonus de pouvoir divin, un débuff d'arme, un marqueur de cible) est un statut, pas un trait. Les traits sont permanents et se transmettent aux enfants, ce qui est rarement le but recherché :PES2_Uhm:.
+> Tout ce qui est voué à s'estomper (un bonus de pouvoir divin (GodPower), un débuff d'arme, un marqueur de cible) est un statut, pas un trait. Les traits sont permanents et se transmettent aux enfants, ce qui est rarement le but recherché :PES2_Uhm:.

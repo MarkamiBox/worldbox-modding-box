@@ -8,13 +8,13 @@ order: 112
 
 # Traits de langue :wbconfused:
 
-Une **langue** appartient à des cités et des royaumes, évolue au fil de sa diffusion et sert de support à la rédaction des **livres**. Un trait de langue caractérise la parole et l'écrit en eux-mêmes.
+Une **langue** appartient à des cités et des royaumes (kingdom), évolue au fil de sa diffusion et sert de support à la rédaction des **livres** (book). Un trait de langue caractérise la parole et l'écrit en eux-mêmes.
 
 C'est le plus compact des sept systèmes de traits et celui qui dispose du point d'ancrage le plus singulier : du code déclenché dès lors que quelqu'un **lit un livre** rédigé dans cette langue. Oui, vraiment :wbscroll:.
 
 | | |
 | --- | --- |
-| Bibliothèque | `AssetManager.language_traits` |
+| Bibliothèque (library) | `AssetManager.language_traits` |
 | Classe | `LanguageTrait` |
 | Groupes | `AssetManager.language_trait_groups`, classe `LanguageTraitGroupAsset` |
 | Propriétaire à l'exécution | `Language`, dans `World.world.languages` |
@@ -76,7 +76,7 @@ trait.read_book_trait_action = delegate(Actor pActor, LanguageTrait pTrait, Book
 };
 ```
 
-C'est exactement ainsi que fonctionnent les écrits maudits et bénis du jeu de base : `words_of_madness` tire contre `value` et confère le trait `madness`, `cursed_font` applique un statut, `font_of_gods` en octroie un meilleur.
+C'est exactement ainsi que fonctionnent les écrits maudits et bénis du jeu de base : `words_of_madness` tire contre `value` et confère le trait `madness`, `cursed_font` applique un statut (status), `font_of_gods` en octroie un meilleur.
 
 Deux habitudes à calquer sur le jeu de base :
 

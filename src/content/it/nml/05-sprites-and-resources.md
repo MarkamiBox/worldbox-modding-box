@@ -8,7 +8,7 @@ order: 28
 
 # Sprite e risorse :wbfanartist:
 
-Il tuo tratto ha un nome, statistiche e una splendida descrizione. Ma ha anche un grosso e orribile punto interrogativo come icona. È ora di rimediare.
+Il tuo tratto (trait) ha un nome, statistiche (stats) e una splendida descrizione. Ma ha anche un grosso e orribile punto interrogativo come icona. È ora di rimediare.
 
 ## Usare un'icona già presente nel gioco
 
@@ -65,7 +65,7 @@ Accanto alle tue immagini, un file `sprites.json` spiega a NML come ritagliare e
 | Campo | Cosa fa |
 | --- | --- |
 | `PixelsPerUnit` | Lascialo a `1`, a meno che tu non abbia un motivo ben preciso per cambiarlo |
-| `PivotX` / `PivotY` | Il punto di ancoraggio. `0.5 / 0.0` corrisponde a in basso al centro, necessario per unità ed edifici |
+| `PivotX` / `PivotY` | Il punto di ancoraggio. `0.5 / 0.0` corrisponde a in basso al centro, necessario per unità ed edifici (building) |
 | `BorderL/R/T/B` | Bordi per il 9-slice, per finestre e pulsanti ridimensionabili |
 | `Path` | Il file specifico a cui applicare questa configurazione |
 
@@ -77,16 +77,16 @@ Questa è la tabella a cui si torna sempre. Ogni asset punta alla sua grafica co
 
 | Asset | Campo | Il file va in |
 | --- | --- | --- |
-| Tratto, potere divino, regno, gruppo | `path_icon` | `GameResources/` + esattamente quello che hai scritto |
+| Tratto, potere divino (GodPower), regno (kingdom), gruppo | `path_icon` | `GameResources/` + esattamente quello che hai scritto |
 | Oggetto, in mano a un'unità | `path_gameplay_sprite` | `GameResources/` + esattamente quello che hai scritto |
 | Edificio | `sprite_path` | Una **cartella**: `GameResources/` + `sprite_path` + `/`, con dentro `main_0.png`, `construction_0.png`, `ruin_0.png`. Con `sprite_path` vuoto è `main_path` + id, e `main_path` di default è `buildings/` |
 | Drop | `path_texture` | Una **cartella**: `GameResources/` + esattamente quello che hai scritto, un PNG per frame |
-| Nuvola | `path_sprites` | `GameResources/` + ogni percorso della lista |
-| Effetto di stato | `texture` | Una **cartella**: `GameResources/effects/` + quello che hai scritto, un PNG per frame |
-| Proiettile | `texture` | Una **cartella**: `GameResources/effects/projectiles/` + quello che hai scritto, un PNG per frame |
-| Risorsa, portata in mano | `path_gameplay_sprite` | Una **cartella**: `GameResources/items/resources/` + quello che hai scritto, un PNG per frame |
+| Nuvola (cloud) | `path_sprites` | `GameResources/` + ogni percorso della lista |
+| Effetto di stato (status) | `texture` | Una **cartella**: `GameResources/effects/` + quello che hai scritto, un PNG per frame |
+| Proiettile (projectile) | `texture` | Una **cartella**: `GameResources/effects/projectiles/` + quello che hai scritto, un PNG per frame |
+| Risorsa (resource), portata in mano | `path_gameplay_sprite` | Una **cartella**: `GameResources/items/resources/` + quello che hai scritto, un PNG per frame |
 | Risorsa, icona dell'inventario | `path_icon` | `GameResources/` + quello che hai scritto. Vanilla usa un nome semplice come `iconResBread`, quindi il file sta nella radice |
-| Casella e casella superiore | *(nessun campo)* | `GameResources/tiles/<the tile's id>/` |
+| Casella (tile) e casella superiore | *(nessun campo)* | `GameResources/tiles/<the tile's id>/` |
 
 > [!WARNING] "Una cartella" non è una scelta di stile
 > Ogni asset segnato come **cartella** qui sopra viene letto con `getSpriteList()`, che restituisce i frame *dentro* una cartella. Puntalo a un singolo PNG e torna vuoto: un drop cade invisibile, un proiettile lancia `ArgumentOutOfRangeException` in `QuantumSpriteLibrary.drawProjectiles()`, uno stato va in errore a ogni frame. Un solo frame va benissimo, deve solo stare in una cartella tutta sua: `drops/hello_ember/hello_ember_0.png` :wbfacepalm:.

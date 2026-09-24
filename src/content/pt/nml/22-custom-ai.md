@@ -8,13 +8,13 @@ order: 144
 
 # IA e comportamentos personalizados :wbgoldenbrain:
 
-Aqui mergulhamos fundo. Todo o restante deste guia adiciona *coisas e dados* ao jogo. Esta seção adiciona **decisões**: o que uma criatura decide fazer a seguir, por conta própria, para sempre, em um mundo compartilhado com milhares de outras. Sem pressão :PES_MonkaSweat:.
+Aqui mergulhamos fundo. Todo o restante deste guia adiciona *coisas e dados* ao jogo. Esta seção adiciona **decisões** (decision): o que uma criatura decide fazer a seguir, por conta própria, para sempre, em um mundo compartilhado com milhares de outras. Sem pressão :PES_MonkaSweat:.
 
 ## Como o jogo pensa
 
 Três camadas, da maior para a menor, mais a que fica ao lado delas. Entender isso me levou mais tempo do que eu gosto de admitir:
 
-| Camada | O que é | Biblioteca |
+| Camada | O que é | Biblioteca (library) |
 | --- | --- | --- |
 | **Trabalho** (`ActorJob`) | O que essa criatura está fazendo no geral: "ser cidadão", "ser soldado" | `AssetManager.job_actor` |
 | **Tarefa** (`BehaviourTaskActor`) | Um objetivo concreto dentro de um trabalho: "ir comer", "construir aquilo" | `AssetManager.tasks_actor` |
@@ -119,7 +119,7 @@ namespace HelloBox
 > [!WARNING] `beh_tile_target` é internal
 > O campo em que o comportamento escreve está marcado como `internal` no assembly do jogo, então isso compila contra um `Assembly-CSharp.dll` **publicizado** (veja a nota em **[Efeitos de status](#/nml/status-effects)**). Sem um, o compilador recusa a linha e você precisa guardar o alvo num campo seu :PES5_Noted:.
 
-Repare no segundo comportamento: **reaproveite os nós vanilla**. O jogo tem comportamentos para andar até um tile, adicionar um status, encontrar uma construção, atacar um alvo. Escrever a decisão e pegar a execução emprestada é a diferença entre um fim de semana e um mês.
+Repare no segundo comportamento: **reaproveite os nós vanilla**. O jogo tem comportamentos para andar até um tile, adicionar um status, encontrar uma construção (building), atacar um alvo. Escrever a decisão e pegar a execução emprestada é a diferença entre um fim de semana e um mês.
 
 ## Fazendo uma criatura realmente usar o seu trabalho
 
@@ -200,7 +200,7 @@ namespace HelloBox
 > [!WARNING] Unidades existentes possuem apenas um slot livre
 > Cada unidade mantém suas recargas de decisões em um array dimensionado na criação da unidade (arredondado para potência de 2). O jogo padrão tem 127 decisões, logo o array tem 128: espaço para exatamente **mais uma**. Uma unidade antiga que receba uma segunda decisão de mod causará `IndexOutOfRangeException`. Novas unidades são dimensionadas corretamente, razão pela qual o HelloBox concede a decisão à sua própria criatura.
 
-Uma decisão chega a uma criatura através de quem a concede. Um `ActorAsset` a recebe com `addDecision()`. **Traços funcionam diferente**: resolvem IDs na inicialização, logo em um traço você atribui o array manualmente:
+Uma decisão chega a uma criatura através de quem a concede. Um `ActorAsset` a recebe com `addDecision()`. **Traços (trait) funcionam diferente**: resolvem IDs na inicialização, logo em um traço você atribui o array manualmente:
 
 ```csharp
 trait.addDecision("hello_decide_wander");

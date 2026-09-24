@@ -8,7 +8,7 @@ order: 146
 
 # Efectos de estado :wbcursed:
 
-Un rasgo define quién **es** una criatura. Un efecto de estado define lo que le está pasando **ahora mismo**: quemándose, congelada, envenenada, bendecida. Expiran por sí solos, colocan su propio sprite sobre la criatura y pueden ejecutar acciones periódicas con un temporizador.
+Un rasgo (trait) define quién **es** una criatura. Un efecto de estado (status) define lo que le está pasando **ahora mismo**: quemándose, congelada, envenenada, bendecida. Expiran por sí solos, colocan su propio sprite sobre la criatura y pueden ejecutar acciones periódicas con un temporizador.
 
 ## Registrar uno
 
@@ -89,7 +89,7 @@ La lista corta. La real es más larga y casi toda aburrida :wbyawn:.
 | `affects_mind` | Lo cataloga como efecto mental |
 | `opposite_status` | Estados que no pueden coexistir con este |
 | `remove_status` | Estados que este disipa al aplicarse |
-| `base_stats` | Modificadores de estadísticas mientras el estado esté activo |
+| `base_stats` | Modificadores (modifier) de estadísticas (stats) mientras el estado esté activo |
 | `locale_id` / `locale_description` | Claves de nombre y tooltip. **Obligatorias** |
 | `path_icon` | Icono en la lista de estados |
 | `texture`, `sprite_list`, `animated`, `loop`, `animation_speed` | El sprite visual sobre la unidad. `texture` es el nombre simple dentro de `effects/` |
@@ -145,7 +145,7 @@ StatusAsset asset = AssetManager.status.get(HelloStatus.CURSED);
 World.world.statuses.newStatus(actor, asset, 20f);   // 20s, o 0 para la duración del asset
 ```
 
-Dentro de un árbol de comportamiento hay nodos ya preparados: `new BehActorAddStatus("hello_cursed", 20f)` y `new BehActorRemoveStatus("hello_cursed")`.
+Dentro de un árbol de comportamiento (behaviour) hay nodos ya preparados: `new BehActorAddStatus("hello_cursed", 20f)` y `new BehActorRemoveStatus("hello_cursed")`.
 
 ## No olvides los textos
 
@@ -159,4 +159,4 @@ Dentro de un árbol de comportamiento hay nodos ya preparados: `new BehActorAddS
 Las claves son exactamente las que pusiste en `locale_id` y `locale_description`. Seguir el patrón vanilla `status_title_<id>` / `status_description_<id>` mantiene tus archivos limpios y ordenados.
 
 > [!TIP] Los estados son la forma idónea para efectos temporales
-> Cualquier cosa que deba disiparse (una mejora de tu poder divino, una debilidad de tu arma, una marca de seguimiento) es un estado, no un rasgo. Los rasgos son permanentes y se heredan a los hijos, lo cual casi nunca es lo deseado :PES2_Uhm:.
+> Cualquier cosa que deba disiparse (una mejora de tu poder divino (GodPower), una debilidad de tu arma, una marca de seguimiento) es un estado, no un rasgo. Los rasgos son permanentes y se heredan a los hijos, lo cual casi nunca es lo deseado :PES2_Uhm:.

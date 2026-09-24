@@ -8,7 +8,7 @@ order: 182
 
 # 资源与食物 :wbtomato:
 
-资源是指城镇所储存、交易、食用或锻造的一切物资：小麦、面包、石头、秘银、骨头、宝石。它们统一存放在 `AssetManager.resources` 中，是整个模拟经济的最底层骨架：农田种植什么、面包师烘焙什么、铁匠锻造需要什么，以及饥饿的居民吃下什么。在这种经济形势下，连面包都是一种数据结构 :PES2_Cash:。
+资源（resource）是指城镇所储存、交易、食用或锻造的一切物资：小麦、面包、石头、秘银、骨头、宝石。它们统一存放在 `AssetManager.resources` 中，是整个模拟经济的最底层骨架：农田种植什么、面包师烘焙什么、铁匠锻造需要什么，以及饥饿的居民吃下什么。在这种经济形势下，连面包都是一种数据结构 :PES2_Cash:。
 
 ## 从模板克隆
 
@@ -60,7 +60,7 @@ namespace HelloBox
 | --- | --- |
 | `type` | `ResType.Food`, `Ingredient_Food`, `Ingredient`, `Strategic`, `Currency` |
 | `food` | 单位是否会将其当成正餐食用 |
-| `wood`, `mineral` | 匹配哪种采集工具与对应的采集职业 |
+| `wood`, `mineral` | 匹配哪种采集工具与对应的采集职业（job） |
 | `path_icon` | 背包和统计列表中的图标 |
 | `path_gameplay_sprite` | 单位在地图上搬运该物资时手中捧着的贴图 |
 
@@ -75,18 +75,18 @@ namespace HelloBox
 | `tastiness`, `favorite_food_chance` | 被单位选为最爱食物的倾向与概率 |
 | `diet` | 允许摄入该食物的生物食性 |
 | `eat_action` | 当有生物吃下该食物时触发的自定义委托代码 |
-| `give_trait_id`, `give_status_id`, `give_chance` | 进食时有概率附带赋予的特质或状态效果 |
+| `give_trait_id`, `give_status_id`, `give_chance` | 进食时有概率附带赋予的特质（trait）或状态效果（status） |
 
 ### 生产与流转
 
 | 字段 | 作用 |
 | --- | --- |
-| `ingredients`, `ingredients_amount` | 烹饪或锻造该物品所需的原料配方及数量 |
+| `ingredients`, `ingredients_amount` | 烹饪或锻造该物品（item）所需的原料配方及数量 |
 | `produce_min` | 单次生产工作周期产出的最小数量 |
 | `mine_rate` | 采掘或收割的耗时效率 |
 | `drop_max`, `drop_per_mass` | 来源被摧毁时掉落该物资的数量 |
 | `stack_size`, `storage_max`, `maximum` | 单人搬运上限与城镇仓库储备上限 |
-| `supply_give`, `supply_bound_give`, `supply_bound_take` | 军队后勤补给行为 |
+| `supply_give`, `supply_bound_give`, `supply_bound_take` | 军队后勤补给行为（behaviour） |
 | `trade_cost`, `trade_give`, `trade_bound` | 城镇间商业贸易规则 |
 | `money_cost`, `loot_value` | 货币标价与战利品价值 |
 
@@ -144,4 +144,4 @@ asset.production = new string[] { "bread", "jam", "hello_cake" };
 它们之间的桥梁是材质对象上的 `cost_resources` 字段，该字段注明了制造所需消耗的资源ID及数量。
 
 > [!TIP] 优先添加新菜谱，而不是新食材
-> 一种全新的*食材*需要完整的生产链：有东西种植它、有生物群系孕育它、有职业专门收割它。而一道全新的*菜谱*只需要利用现成已有的食材，就能瞬间无缝融入现有的面包房和贸易商路。前者要耗费一周，后者只需一个下午 :PES_ChillPill:。
+> 一种全新的*食材*需要完整的生产链：有东西种植它、有生物群系（biome）孕育它、有职业专门收割它。而一道全新的*菜谱*只需要利用现成已有的食材，就能瞬间无缝融入现有的面包房和贸易商路。前者要耗费一周，后者只需一个下午 :PES_ChillPill:。

@@ -8,18 +8,18 @@ order: 104
 
 # Traços de subespécies :wbelf:
 
-Uma **subespécie** é um ramo de uma espécie que divergiu geneticamente: vida mais longa, escamas, postura de ovos ou bioluminescência. Ela se propaga pela **reprodução**, não pela educação, e é o único sistema de traços que traz seus próprios sprites; por isso uma subespécie pode parecer visualmente distinta da espécie original sem precisar ser um actor separado.
+Uma **subespécie** (subspecies) é um ramo de uma espécie que divergiu geneticamente: vida mais longa, escamas, postura de ovos ou bioluminescência. Ela se propaga pela **reprodução**, não pela educação, e é o único sistema de traços (trait) que traz seus próprios sprites; por isso uma subespécie pode parecer visualmente distinta da espécie original sem precisar ser um actor separado.
 
 | | |
 | --- | --- |
-| Biblioteca | `AssetManager.subspecies_traits` |
+| Biblioteca (library) | `AssetManager.subspecies_traits` |
 | Classe | `SubspeciesTrait` |
 | Grupos | `AssetManager.subspecies_trait_groups`, classe `SubspeciesTraitGroupAsset` |
 | Dono em tempo de execução | `Subspecies`, em `World.world.subspecies` |
 | Prefixo de localização | `subspecies_trait_` |
 | Pasta de ícones padrão | `ui/Icons/subspecies_traits/` |
 
-> [!WARNING] Uma subespécie **substitui** os atributos do asset do actor
+> [!WARNING] Uma subespécie **substitui** os atributos (stats) do asset do actor
 > Em `Actor.updateStats()`, uma unidade com subespécie mescla `subspecies.base_stats` e *ignora* completamente `asset.base_stats`. É uma substituição direta, não um acúmulo.
 >
 > Portanto, qualquer valor definido em `human` será invisível para qualquer humano com subespécie, o que em um mundo em execução há algum tempo representa a grande maioria :PES4_IDunnoMan:.
@@ -216,5 +216,5 @@ if (asset != null) asset.addSubspeciesTrait(HelloSubspecies.SCALES);
 
 Isso faz toda subespécie nova dessa criatura começar com ele. Se você deixar isso de fora e confiar em `in_mutation_pot_add`, ele aparece sozinho, em algum lugar, algum dia, que costuma ser a versão mais interessante.
 
-> [!TIP] Feitiços combinam com isso
+> [!TIP] Feitiços (spell) combinam com isso
 > As linhagens mágicas do vanilla são traços de subespécie que concedem um feitiço e mais nada: `trait.addSpell("summon_lightning")`, depois `trait.linkSpells()` porque a biblioteca resolveu os ids de feitiços na inicialização. Duas linhas, herdadas pelos filhos, e o resultado é uma linhagem visível de invocadores de tempestades atravessando um continente :PES5_CrazyPog:.

@@ -16,27 +16,27 @@ order: 222
 
 | 是什么 | 在哪能看到 |
 | --- | --- |
-| 一个角色特质，以及一个装它的自定义标签页 | 单位检视面板，特质列表 |
-| 文化、宗教、亚种、氏族、语言、王国特质 | 各自的窗口，一个系统一个 |
-| 一把武器、它的附魔，以及装它们的分类 | 单位的手里，装备标签页 |
-| 一个状态效果 | 生物头顶，带自己的图标 |
+| 一个角色特质（trait），以及一个装它的自定义标签页 | 单位检视面板，特质列表 |
+| 文化（culture）、宗教（religion）、亚种（subspecies）、氏族（clan）、语言、王国（kingdom）特质 | 各自的窗口，一个系统一个 |
+| 一把武器、它的附魔（modifier），以及装它们的分类 | 单位的手里，装备标签页 |
+| 一个状态效果（status） | 生物头顶，带自己的图标 |
 | 掉落物、把它们下成雨的云，还有弹射物 | 地图上、半空中、混战当中 |
-| 一种地块 | 地形，压在所有东西下面 |
+| 一种地块（tile） | 地形，压在所有东西下面 |
 | 一份食物配方 | 城市的仓库 |
-| 一条世界法则 | 世界法则窗口 |
-| 一个神力、它的标签页和按钮 | 底部的神力栏 |
+| 一条世界法则（world law） | 世界法则窗口 |
+| 一个神力（GodPower）、它的标签页和按钮 | 底部的神力栏 |
 | 一个窗口 | 你决定放哪就在哪 |
-| 一座建筑 | 有人盖起来之后的城市 |
+| 一座建筑（building） | 有人盖起来之后的城市 |
 | 一个王国，以及属于它的生物 | 地图上，生成和打架的时候 |
-| 一场灾难 | 灾难菜单 |
+| 一场灾难（disaster） | 灾难菜单 |
 | 一份自己的 AI 工作 | 那只生物，带着目的往某处走 |
-| 自主决策、城镇岗位及手持工具 | 手持火把四处漫游的小精灵，每座城镇 1 名守护者 |
-| 战斗动作 | 带有迅捷特质的生物在贴身近战前投掷余烬 |
+| 自主决策（decision）、城镇岗位及手持工具 | 手持火把四处漫游的小精灵，每座城镇 1 名守护者 |
+| 战斗动作（behaviour） | 带有迅捷特质的生物在贴身近战前投掷余烬 |
 | 基因、统治者性格、书籍类型、文化旗帜部件 | 基因组、领袖、图书馆、王国旗帜 |
 | 外交倾向、忠诚度与幸福感事件 | 外交好感度明细与城镇忠诚度面板 |
-| 阴谋策划分录 | 领袖密谋发起余烬狂欢节时的阴谋列表 |
-| 世界时代与世界行为 | 时代轮盘与世界行为计时器 |
-| 游戏成就 | 繁衍达到 10 只小精灵时的成就解锁窗口 |
+| 阴谋（plot）策划分录 | 领袖密谋发起余烬狂欢节时的阴谋列表 |
+| 世界时代（world age）与世界行为 | 时代轮盘与世界行为计时器 |
+| 游戏成就（achievement） | 繁衍达到 10 只小精灵时的成就解锁窗口 |
 | 画笔、悬停提示框与快捷键 | 画笔轮换、悬停动态数据显示、F6 一键呼出 |
 | 一个 Harmony 补丁 | 哪儿都看不到，这正是重点：它悄悄改掉一条规则 |
 
@@ -170,6 +170,7 @@ namespace HelloBox
             Stage("drops", HelloDrops.Initialize);          // clouds rain drops, so drops go first
             Stage("clouds", HelloClouds.Initialize);
             Stage("tiles", HelloTiles.Initialize);
+            Stage("biomes", HelloBiomes.Initialize);       // after the tiles, before anything spawns in it
             Stage("resources", HelloResources.Initialize);  // items and buildings cost resources
             Stage("projectiles", HelloProjectiles.Initialize);
             Stage("modifiers", HelloModifiers.Initialize);
@@ -177,6 +178,7 @@ namespace HelloBox
             Stage("buildings", HelloBuildings.Initialize);
             Stage("kingdoms", HelloKingdoms.Initialize);    // actors point at kingdoms
             Stage("kingdom_traits", HelloKingdomTraits.Initialize);
+            Stage("names", HelloNames.Initialize);         // before the actors, so they can use its name set
             Stage("actors", HelloActors.Initialize);
             Stage("laws", HelloLaws.Initialize);
             Stage("ai", HelloAI.Initialize);
@@ -185,6 +187,7 @@ namespace HelloBox
             Stage("tools", HelloTools.Initialize);
             Stage("combat", HelloCombat.Initialize);        // after the trait that carries it
             Stage("politics", HelloPolitics.Initialize);
+            Stage("wars", HelloWars.Initialize);
             Stage("plots", HelloPlots.Initialize);
             Stage("ages", HelloAges.Initialize);            // after the cloud, the law and the status it uses
             Stage("achievements", HelloAchievements.Initialize);
@@ -237,14 +240,14 @@ namespace HelloBox
 
 你的语言文件同样不需要单独注册：NML 在叩响 `OnModLoad` 之前就已经把 `Locales/en.json` 加载完毕了，所有文本键皆已就绪。除此之外的一切都具有硬性依赖关系：
 
-1. **先建组，后填物**：如果一个资源的 `group_id` 指向空无一物，它就没有容纳它的标签页来显示。
+1. **先建组，后填物**：如果一个资源（resource）的 `group_id` 指向空无一物，它就没有容纳它的标签页来显示。
 2. **先有水滴，后有云朵**：因为云朵在定义时必须写明它下落的坠落物名称。
 3. **先有资源，后有装备与建筑**：因为后两者都需要消耗基础资源作为成本。
 4. **先有附魔，后有装备**：因为武器在定义时需要列出它可能随机 roll 出来的词条池。
 5. **先有王国，后有生物**：因为生物需要明确声明其野生流民状态与定居建国后的王国类型。
 6. **先有神力，后有按钮**：`PowerButtonCreator` 是根据 id 查找神力的，绑定到不存在神力的按钮就是死按钮。
-7. **AI 所需的一切先于 AI 注册**：因为行为任务是根据 id 去引用特质与状态的。
-8. **生物资产与 AI 必须先于决策、城镇岗位及手持工具注册**，因为后者需要显式绑定已存在的生物实例与 AI 任务。
+7. **AI 所需的一切先于 AI 注册**：因为行为任务（task）是根据 id 去引用特质与状态的。
+8. **生物资产（asset）与 AI 必须先于决策、城镇岗位及手持工具注册**，因为后者需要显式绑定已存在的生物实例与 AI 任务。
 9. **世界时代必须在其效果所依赖的云朵、世界法则与状态效果之后注册**。阴谋、政治倾向与成就仅在游戏运行期进行动态检索，因此只要排在各自依赖项之后即可。
 
 如果某样东西在游戏里神秘失踪，“我把它注册在需要它的那个东西之后了吗？”是仅次于“控制台报错了吗？”的最关键追问 :PES2_HmmmmNoted:。

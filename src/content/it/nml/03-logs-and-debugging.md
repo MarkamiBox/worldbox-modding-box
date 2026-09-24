@@ -49,7 +49,7 @@ Avvia il gioco con la mod vista sopra e cerca `HelloBox` in `Player.log`. Dovres
 008: Init Mod HelloBox                   = 0,0014
 ```
 
-Riga per riga: NML ha compilato i file in `Code/`, ha caricato le tue risorse e ha chiamato `OnModLoad`, che ha stampato la tua riga. Le righe numerate indicano i tempi impiegati da NML per ogni fase: il numero dopo `=` rappresenta i secondi, e alcune righe appaiono in rosso nel log. **Il colore rosso qui non significa errore**, indica soltanto quale passaggio è stato più lento :hmm:.
+Riga per riga: NML ha compilato i file in `Code/`, ha caricato le tue risorse (resource) e ha chiamato `OnModLoad`, che ha stampato la tua riga. Le righe numerate indicano i tempi impiegati da NML per ogni fase: il numero dopo `=` rappresenta i secondi, e alcune righe appaiono in rosso nel log. **Il colore rosso qui non significa errore**, indica soltanto quale passaggio è stato più lento :hmm:.
 
 La riga fondamentale è la tua. Se `[HelloBox]: HelloBox is alive!` manca, continua a leggere.
 
@@ -84,7 +84,7 @@ Sembra spaventoso, ma è una frase chiarissima:
 - **`in HelloTraits.cs:24`**: **riga 24 del tuo stesso file**. Leggi quella riga: qualcosa lì dentro vale `null`.
 - Le righe sotto indicano la sequenza di chiamate, dalla più recente alla più vecchia. Concentrati sui nomi dei file appartenenti alla tua mod.
 
-La causa tipica di questo errore: modificare `base_stats` su un asset prima di averlo aggiunto alla sua libreria. Dettagli completi nella pagina **[Tratti personalizzati](#/nml/custom-traits)**.
+La causa tipica di questo errore: modificare `base_stats` su un asset prima di averlo aggiunto alla sua libreria (library). Dettagli completi nella pagina **[Tratti personalizzati](#/nml/custom-traits)**.
 
 ## Dove si trovano i log
 
@@ -124,7 +124,7 @@ private static void Stage(string pName, System.Action pAction)
 }
 ```
 
-Ora un tratto configurato male ti farà perdere soltanto quel tratto, non tutta la mod, e il log ti dirà subito qual è il passaggio colpevole:
+Ora un tratto (trait) configurato male ti farà perdere soltanto quel tratto, non tutta la mod, e il log ti dirà subito qual è il passaggio colpevole:
 
 ```text Player.log
 [NML]: [HelloBox]: stage 'items' failed: NullReferenceException ...

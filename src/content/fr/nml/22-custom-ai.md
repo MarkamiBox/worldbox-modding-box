@@ -8,13 +8,13 @@ order: 144
 
 # IA et comportements personnalisés :wbgoldenbrain:
 
-Nous plongeons ici dans le grand bain. Tout le reste dans ce guide ajoute des *éléments et des données* au jeu. Cette section ajoute des **décisions** : ce qu'une créature choisit de faire ensuite, de sa propre initiative, indéfiniment, au sein d'un monde partagé avec des milliers d'autres. Aucune pression :PES_MonkaSweat:.
+Nous plongeons ici dans le grand bain. Tout le reste dans ce guide ajoute des *éléments et des données* au jeu. Cette section ajoute des **décisions** (decision) : ce qu'une créature choisit de faire ensuite, de sa propre initiative, indéfiniment, au sein d'un monde partagé avec des milliers d'autres. Aucune pression :PES_MonkaSweat:.
 
 ## Comment le jeu réfléchit
 
 Trois couches, de la plus grande à la plus petite, plus celle qui se tient à côté. Ça m'a pris plus de temps que je ne veux l'admettre :
 
-| Couche | Ce que c'est | Bibliothèque |
+| Couche | Ce que c'est | Bibliothèque (library) |
 | --- | --- | --- |
 | **Métier** (`ActorJob`) | Ce que fait cette créature en général : "être un citoyen", "être un soldat" | `AssetManager.job_actor` |
 | **Tâche** (`BehaviourTaskActor`) | Un objectif concret dans un métier : "aller manger", "construire ça" | `AssetManager.tasks_actor` |
@@ -119,7 +119,7 @@ namespace HelloBox
 > [!WARNING] `beh_tile_target` est internal
 > Le champ dans lequel écrit le comportement est marqué `internal` dans l'assembly du jeu, donc ceci compile contre un `Assembly-CSharp.dll` **publicisé** (voir la note dans **[Effets de statut](#/nml/status-effects)**). Sans lui, le compilateur refuse la ligne et vous devez garder la cible dans votre propre champ :PES5_Noted:.
 
-Remarquez le deuxième comportement : **réutilisez les nœuds vanilla**. Le jeu a des comportements pour marcher jusqu'à une case, ajouter un statut, trouver un bâtiment, attaquer une cible. Écrire la décision et emprunter l'exécution, c'est la différence entre un week-end et un mois.
+Remarquez le deuxième comportement : **réutilisez les nœuds vanilla**. Le jeu a des comportements pour marcher jusqu'à une case, ajouter un statut (status), trouver un bâtiment (building), attaquer une cible. Écrire la décision et emprunter l'exécution, c'est la différence entre un week-end et un mois.
 
 ## Faire en sorte qu'une créature utilise votre métier
 

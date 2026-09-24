@@ -8,19 +8,19 @@ order: 108
 
 # Traços religiosos :wbpray:
 
-Uma **religião** pertence a cidades e reinos, propaga-se por conversão, escreve livros e pode realizar **ritos**: conspirações capazes de alterar o mundo que seus seguidores tentam executar por conta própria. Um traço religioso é uma crença individual.
+Uma **religião** (religion) pertence a cidades e reinos (kingdom), propaga-se por conversão, escreve livros (book) e pode realizar **ritos**: conspirações capazes de alterar o mundo que seus seguidores tentam executar por conta própria. Um traço (trait) religioso é uma crença individual.
 
 | | |
 | --- | --- |
-| Biblioteca | `AssetManager.religion_traits` |
+| Biblioteca (library) | `AssetManager.religion_traits` |
 | Classe | `ReligionTrait` |
 | Grupos | `AssetManager.religion_trait_groups`, classe `ReligionTraitGroupAsset` |
 | Dono em tempo de execução | `Religion`, em `World.world.religions` |
 | Prefixo de localização | `religion_trait_` |
 | Pasta de ícones padrão | `ui/Icons/religion_traits/` |
 
-> [!WARNING] Atributos de religião não chegam às unidades
-> Este é o único sistema de traços cujos `base_stats` nunca aterrissam em um `Actor`. `Actor.updateStats()` mescla subespécies, clãs, idiomas e culturas. **Religião não faz parte dessa lista.**
+> [!WARNING] Atributos (stats) de religião não chegam às unidades
+> Este é o único sistema de traços cujos `base_stats` nunca aterrissam em um `Actor`. `Actor.updateStats()` mescla subespécies (subspecies), clãs, idiomas e culturas (culture). **Religião não faz parte dessa lista.**
 >
 > Portanto, um traço religioso altera o mundo através daquilo que *faz* (um rito, uma transformação, um hook de ação), e não por meio de números. Escrever `base_stats["damage"] = 10` nele é uma operação inerte, e é a tarde desperdiçada mais clássica desta página :PES4_BigSad:.
 
@@ -89,7 +89,7 @@ A conspiração define quem pode iniciá-la e o quão difícil ela é:
 
 ## Transformações: o campo `transformation_biome_id`
 
-O outro campo exclusivo dos traços de religião. Ele marca o traço como uma transformação e nomeia o bioma que a fé espalha pelo território:
+O outro campo exclusivo dos traços de religião. Ele marca o traço como uma transformação e nomeia o bioma (biome) que a fé espalha pelo território:
 
 ```csharp
 trait.transformation_biome_id = "biome_desert";
@@ -117,7 +117,7 @@ trait.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 trait.action_death = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
 ```
 
-Um traço religioso também pode conceder uma magia ou uma decisão, o que normalmente é uma escolha bem melhor do que um temporizador fixo:
+Um traço religioso também pode conceder uma magia ou uma decisão (decision), o que normalmente é uma escolha bem melhor do que um temporizador fixo:
 
 ```csharp
 trait.addSpell("hello_bolt");           // veja Projéteis, magias e efeitos

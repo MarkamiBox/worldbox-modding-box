@@ -8,14 +8,14 @@ order: 200
 
 # Poderes divinos :wbgodfinger:
 
-Un poder divino es lo que sucede cuando el jugador selecciona tu herramienta y hace clic en el mundo. Generar algo, bendecir algo, hacer explotar algo.
+Un poder divino (GodPower) es lo que sucede cuando el jugador selecciona tu herramienta y hace clic en el mundo. Generar algo, bendecir algo, hacer explotar algo.
 
 Hay dos cosas independientes involucradas, y confundirlas es el clásico error de principiante:
 
 | | |
 | --- | --- |
 | El **poder** (`GodPower`) | Los datos: un id, un icono y el código que se ejecuta al hacer clic |
-| El **botón** (`PowerButton`) | La casilla en la barra que el jugador realmente puede presionar |
+| El **botón** (`PowerButton`) | La casilla (tile) en la barra que el jugador realmente puede presionar |
 
 Esta página crea el poder. La página de **[Pestañas y botones de poder](#/nml/power-buttons)** lo pone en la pantalla.
 

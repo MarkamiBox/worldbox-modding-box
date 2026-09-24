@@ -8,7 +8,7 @@ order: 26
 
 # 다국어 지원 :wbscroll:
 
-게임에 추가하는 모든 요소(특성, 아이템, 권능, 탭, 행동 작업)는 직접 텍스트를 지정해주지 않으면 `trait_hello_swift` 와 같은 원시 키 이름 그대로 노출됩니다. 모딩에서 가장 지루한 작업이지만, 이를 건너뛰는 순간 모드가 미완성된 것처럼 보이는 가장 큰 원인이 됩니다. (콜록.. 내 옛날 모드들.. 콜록콜록 :pensiveanimated: )
+게임에 추가하는 모든 요소(특성 (trait), 아이템, 권능 (GodPower), 탭, 행동 작업 (task))는 직접 텍스트를 지정해주지 않으면 `trait_hello_swift` 와 같은 원시 키 이름 그대로 노출됩니다. 모딩에서 가장 지루한 작업이지만, 이를 건너뛰는 순간 모드가 미완성된 것처럼 보이는 가장 큰 원인이 됩니다. (콜록.. 내 옛날 모드들.. 콜록콜록 :pensiveanimated: )
 
 ## 가장 게으르고 편한 방법: Locales 폴더
 
@@ -108,8 +108,8 @@ namespace HelloBox
 | 신의 권능 | `<power_id>` | `<power_id>_description` |
 | 권능 탭 | 전달한 `locale_key` | 전달한 설명 키 |
 | 액터 태스크 | `task_unit_<task_id>` | - |
-| 상태 효과 | 설정한 `locale_id` **필드** | 설정한 `locale_description` **필드** |
-| 세계 법칙 | `<law_id>_title` (접미사 주의) | `<law_id>_description` |
+| 상태 효과 (status) | 설정한 `locale_id` **필드** | 설정한 `locale_description` **필드** |
+| 세계 법칙 (world law) | `<law_id>_title` (접미사 주의) | `<law_id>_description` |
 
 > [!WARNING] ID는 이름이 아닙니다
 > 여러분의 ID는 어떤 언어에서든 영원히 `hello_swift`이고, 나머지 코드(와 다른 사람들의 모드)가 참조하는 것이 이것입니다. 바뀌는 건 **로컬라이즈된 텍스트** 쪽입니다. 표시 이름의 오타를 고치려고 ID를 바꾸는 일은 절대 하지 마세요 :PESgn_Stop:.

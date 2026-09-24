@@ -8,7 +8,7 @@ order: 174
 
 # Weltzeitalter & Weltverhalten :wbsunblessed:
 
-Zwei Dinge gehören der Welt selbst und nicht den Lebewesen auf ihr. Ein **Weltzeitalter** (World Age) ist eine Epoche auf dem Zeitalter-Rad: das Zeitalter der Hoffnung, das Zeitalter der Asche, samt Wetter, Licht und Gesetzen. Ein **Weltverhalten** (World Behaviour) ist ein Stück Code, das die Welt dauerhaft in festen Intervallen ausführt: So plant das Spiel Katastrophen, Zuwanderung und Straßenverfall.
+Zwei Dinge gehören der Welt selbst und nicht den Lebewesen auf ihr. Ein **Weltzeitalter** (World Age) ist eine Epoche auf dem Zeitalter-Rad: das Zeitalter (world age) der Hoffnung, das Zeitalter der Asche, samt Wetter, Licht und Gesetzen. Ein **Weltverhalten** (World Behaviour) ist ein Stück Code, das die Welt dauerhaft in festen Intervallen ausführt: So plant das Spiel Katastrophen (disaster), Zuwanderung und Straßenverfall.
 
 ```csharp Mods/HelloBox/Code/HelloAges.cs
 using System.Collections.Generic;
@@ -124,7 +124,7 @@ Das Zeitalter der Glut lässt alle acht Sekunden Glut regnen, verdunkelt den Bil
 | --- | --- |
 | `rate` | Gewichtung, wenn ein Zeitalter zufällig gewählt wird |
 | `default_slots` | Welche Rad-Slots (1 bis 8) eine neue Welt damit belegen darf |
-| `clouds` + `cloud_interval` | Welche Wolken es erzeugt und wie oft |
+| `clouds` + `cloud_interval` | Welche Wolken (cloud) es erzeugt und wie oft |
 | `special_effect_action` + `special_effect_interval` | Dein Timer-Code, solange das Zeitalter aktiv ist |
 | `overlay_*`, `particles_*`, `era_effect_overlay_alpha` | Das Erscheinungsbild: Dunkelheit, Regen, Schnee, Asche, Sonne |
 | `title_color`, `light_color` | Die Farbe des Namens und des Umgebungslichts |
@@ -141,7 +141,7 @@ Ein Weltverhalten besteht aus zwei Zahlen und einem Delegat: Führe `action` all
 > [!WARNING] Der Manager wird beim Spielstart erstellt
 > Die Welt verwaltet für jedes Verhalten einen `WorldBehaviour`-Timer, der von `createManagers()` beim ersten Erwachen der Karte vor deiner Mod erstellt wurde. Dein neues Verhalten hat `manager == null`, und die Update-Schleife der Welt ruft es trotzdem auf: `NullReferenceException`, in jedem einzelnen Frame, solange das Spiel läuft :wbfacepalm:. Die eine Zeile nach `add()` behebt das Problem.
 
-Das Verhalten in HelloBox tut nichts, solange sein Weltgesetz ausgeschaltet ist. Das ist das nachahmenswerte Muster: Die Prüfung ist extrem billig, also lass den Timer einfach laufen und triff die Entscheidung innerhalb der Action.
+Das Verhalten in HelloBox tut nichts, solange sein Weltgesetz (world law) ausgeschaltet ist. Das ist das nachahmenswerte Muster: Die Prüfung ist extrem billig, also lass den Timer einfach laufen und triff die Entscheidung innerhalb der Action.
 
 ```json Mods/HelloBox/Locales/en.json
 {

@@ -10,7 +10,7 @@ order: 44
 
 Früher oder später muss deine Mod sich etwas über eine bestimmte Einheit merken: wie oft sie getroffen wurde, ob sie ihre Belohnung schon erhalten hat oder an welchem Schrein sie betet. Ein statisches Dictionary mit der Einheit als Schlüssel vergisst im Moment des Speicherns und Neuladens einfach alles :wbfacepalm:.
 
-Das Spiel hat dafür bereits einen festen Platz. Jede Einheit, jede Stadt, jedes Königreich, jedes Gebäude, jeder Gegenstand und jedes Buch speichert seinen Zustand in einem Datenobjekt – und jedes dieser Objekte besitzt einen kleinen **benutzerdefinierten Datenspeicher** (Custom Data), der automatisch mit in die Speicherdatei wandert.
+Das Spiel hat dafür bereits einen festen Platz. Jede Einheit, jede Stadt, jedes Königreich (kingdom), jedes Gebäude (building), jeder Gegenstand (item) und jedes Buch (book) speichert seinen Zustand in einem Datenobjekt – und jedes dieser Objekte besitzt einen kleinen **benutzerdefinierten Datenspeicher** (Custom Data), der automatisch mit in die Speicherdatei wandert.
 
 ## Der Datenspeicher
 
@@ -58,7 +58,7 @@ Unter der Haube serialisiert NML dein Objekt zu JSON und packt es unter deinem S
 
 ## In HelloBox
 
-Ein Merkmal, das jeden Treffer seines Trägers mitzählt und beim fünfzigsten Treffer genau einmal eine Belohnung vergibt:
+Ein Merkmal (trait), das jeden Treffer seines Trägers mitzählt und beim fünfzigsten Treffer genau einmal eine Belohnung vergibt:
 
 ```csharp Mods/HelloBox/Code/HelloMemory.cs
 namespace HelloBox
@@ -135,7 +135,7 @@ Die Lokalisierungstexte, wie bei jedem Merkmal:
 | Eine Stadt | `city.data` |
 | Ein Königreich | `kingdom.data` |
 | Ein Gebäude | `building.data` |
-| Kulturen, Religionen, Clans, Sprachen, Familien, Armeen, Pläne | deren `data`, alles derselbe Speicher |
+| Kulturen (culture), Religionen, Clans, Sprachen, Familien, Armeen, Pläne (plot) | deren `data`, alles derselbe Speicher |
 
 ## Wissenswertes
 

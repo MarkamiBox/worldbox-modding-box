@@ -8,9 +8,9 @@ order: 170
 
 # Tuiles et terrain :wbrockies:
 
-La carte est une grille de `WorldTile`, et chaque tuile superpose **deux** types l'un sur l'autre :
+La carte est une grille de `WorldTile`, et chaque tuile (tile) superpose **deux** types l'un sur l'autre :
 
-| Couche | Champ sur la tuile | Bibliothèque | Classe | Exemples |
+| Couche | Champ sur la tuile | Bibliothèque (library) | Classe | Exemples |
 | --- | --- | --- | --- | --- |
 | Sol | `main_type` | `AssetManager.tiles` | `TileType` | terre, sable, roches, océan profond, lave |
 | Surface | `top_type` | `AssetManager.top_tiles` | `TopTileType` | `grass_low`, `grass_high`, `road`, `field`, `frozen_low`, murs |
@@ -51,6 +51,11 @@ namespace HelloBox
             // grass_low is a biome tile, so the clone says is_biome = true. The library links
             // biome_id to its BiomeAsset during startup, before your mod existed: link yours.
             moss.biome_asset = AssetManager.biome_library.get(moss.biome_id);
+
+            // color and has_biome_tags are [NonSerialized], so clone() skips them, and linkAssets()
+            // worked them out at startup. Without this the minimap draws your tile see-through.
+            moss.color = Toolbox.makeColor(moss.color_hex);
+            moss.has_biome_tags = moss.biome_tags != null && moss.biome_tags.Count > 0;
 
             // The variations in GameResources/tiles/hello_moss/ are loaded at startup too.
             Sprite[] variations = SpriteTextureLoader.getSpriteList("tiles/" + moss.id);
@@ -98,7 +103,7 @@ Commencez ici si votre tuile est une idée de gameplay et pas seulement une nouv
 | `damaged_when_walked` | La tuile s'abîme elle-même quand on marche dessus |
 | `step_action`, `step_action_chance` | Votre code exécuté chaque fois qu'une entité marche dessus |
 | `unit_death_action` | Votre code quand une créature meurt dessus |
-| `can_be_set_on_fire`, `burnable`, `burn_rate` | Comportement face au feu |
+| `can_be_set_on_fire`, `burnable`, `burn_rate` | Comportement (behaviour) face au feu |
 | `can_be_frozen`, `forever_frozen`, `fast_freeze`, `remove_on_freeze` | Comportement face au gel |
 | `remove_on_heat`, `terraform_after_fire` | Ce que laissent la chaleur et les flammes |
 | `explodable`, `explodable_delayed`, `explodable_timed`, `explode_range` | Détonation |
@@ -193,13 +198,13 @@ if (tile.hasBuilding()) { }
 
 ## Options de terraformation
 
-Un `TerraformOptions` dans `AssetManager.terraform` est un ensemble prédéfini de règles de nettoyage de tuile, utilisé par les pouvoirs divins et les projectiles :
+Un `TerraformOptions` dans `AssetManager.terraform` est un ensemble prédéfini de règles de nettoyage de tuile, utilisé par les pouvoirs divins (GodPower) et les projectiles :
 
 | Champ | Ce qu'il fait |
 | --- | --- |
 | `remove_top_tile`, `remove_roads`, `remove_borders` | Supprime les structures |
 | `remove_trees_fully`, `remove_burned`, `remove_ruins` | Nettoie les débris |
-| `destroy_buildings`, `make_ruins` | Ce qui arrive aux bâtiments construits |
+| `destroy_buildings`, `make_ruins` | Ce qui arrive aux bâtiments (building) construits |
 | `remove_water`, `remove_fire`, `remove_frozen`, `remove_tornado` | Nettoie les états |
 | `add_burned`, `add_heat`, `flash` | Ajoute des états |
 

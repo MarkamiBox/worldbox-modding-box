@@ -13,11 +13,11 @@ A BepInEx no le importan tus sentimientos :PES2_Shrug:. Es el marco de modding u
 
 ## BepInEx frente a NeoModLoader
 
-Antes de pasar una tarde entera configurando un entorno de compilación, elige la herramienta adecuada para el trabajo:
+Antes de pasar una tarde entera configurando un entorno de compilación, elige la herramienta adecuada para el trabajo (job):
 
 | Quieres... | Elige | Por qué |
 | --- | --- | --- |
-| Añadir rasgos, objetos, poderes divinos, criaturas o biomas | **NML** | NML incluye `AssetManager`, textos autolocalizados, sprites y guardado de datos gratis |
+| Añadir rasgos (trait), objetos, poderes divinos (GodPower), criaturas o biomas (biome) | **NML** | NML incluye `AssetManager`, textos autolocalizados, sprites y guardado de datos gratis |
 | Crear herramientas de desarrollo, superposiciones o hooks del motor | **BepInEx** | BepInEx se ejecuta a nivel de Mono antes de que WorldBox se inicialice |
 | Editar código solo con el Bloc de notas y guardar | **NML** | NML compila los archivos C# en tiempo de ejecución |
 | Distribuir un plugin binario precompilado con componentes de Unity puros | **BepInEx** | Tú controlas el compilador, las dependencias y la plataforma de destino |
