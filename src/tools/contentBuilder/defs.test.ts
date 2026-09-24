@@ -2,6 +2,18 @@
 // the same C# checker the code blocks use. A generator that emits broken code fails here.
 import { DEFS, type Values } from './defs.ts';
 import { checkCode } from '../../utils/csharpCheck.ts';
+import { TEMPLATES } from './templates.ts';
+// @ts-expect-error plain JS script
+import { buildTemplates } from '../../../scripts/build-builder-templates.mjs';
+
+// the templates must still match the guide pages they were copied from
+const fresh = buildTemplates() as Record<string, string>;
+for (const key of Object.keys(fresh)) {
+  if (fresh[key] !== TEMPLATES[key]) {
+    console.error(`contentBuilder: template "${key}" is out of date. Run node scripts/build-builder-templates.mjs`);
+    process.exit(1);
+  }
+}
 
 let failed = 0;
 for (const def of DEFS) {
@@ -19,7 +31,7 @@ for (const def of DEFS) {
       failed++;
       console.error(`${def.key}: ${errors.map((e) => `${e.line}: ${e.message}`).join('; ')}`);
     }
-    if (!out.code.includes('public static void Initialize()')) {
+    if (!def.template && !out.code.includes('public static void Initialize()')) {
       failed++;
       console.error(`${def.key}: no Initialize()`);
     }
@@ -29,4 +41,4 @@ if (failed) {
   console.error(`contentBuilder: ${failed} failures`);
   process.exit(1);
 }
-console.log(`contentBuilder: all ${DEFS.length} content types generate clean code`);
+console.log(`contentBuilder: all ${DEFS.length} content types generate clean code, templates match the guide`);

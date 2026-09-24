@@ -23,6 +23,10 @@ Start the game and check the log. If something is off, the **Full explanation** 
 > [!TIP] Change the defaults
 > Every id in the builder starts with `my_`. Change it to something that is yours, like `hello_` for HelloBox. Two mods that both add a `my_trait` fight over it, and only one of them wins :PESgn_Stop:.
 
+## Templates
+
+The last group in the picker, **Templates**, works differently. Creatures, buildings, disasters, AI, plots and windows are mostly your own logic, so there is no form that could write them for you. Instead you get the guide page's own working file, renamed to your namespace and your prefix. It compiles and runs as it is, and the page behind **Full explanation** walks through every line, so you know what to change.
+
 ## What it does not do
 
 The builder gives you content that **works**. What it cannot do is invent your idea for you. Where a feature needs your own logic, like a trait that does something special or a power that does something new, it leaves a clearly marked `// your code here` spot. The page behind the **Full explanation** link shows what you can put there.

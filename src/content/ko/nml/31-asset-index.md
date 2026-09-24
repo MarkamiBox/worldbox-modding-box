@@ -61,14 +61,14 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 | `language_traits` / `language_trait_groups` | `LanguageTrait` | 언어. **[언어 특성](#/nml/language-traits)** |
 | `architecture_library` | `ArchitectureAsset` | 문화별 건물 외형 양식 |
 | `city_build_orders` | `CityBuildOrderAsset` | 신생 도시의 건설 우선순위 |
-| `war_types_library` | `WarTypeAsset` | 전쟁 유형 |
+| `war_types_library` | `WarTypeAsset` | 전쟁 유형. **[전쟁 유형](#/nml/war-types)** |
 | `loyalty_library` | `LoyaltyAsset` | 충성도 증감 요인 |
 | `opinion_library` | `OpinionAsset` | 외교 호감도 요인 |
 | `happiness_library` | `HappinessAsset` | 행복도 증감 요인 |
 | `plots_library` / `plot_category_library` | `PlotAsset` | 유닛과 시스템이 꾸미는 음모 |
 | `decisions_library` | `DecisionAsset` | AI 의사결정 |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | 유닛 간 대화 주제 |
-| `book_types` | `BookTypeAsset` | 서적 종류 |
+| `book_types` | `BookTypeAsset` | 서적 종류. **[책](#/nml/books)** |
 | `knowledge_library` | `KnowledgeAsset` | 지식 창 항목 |
 
 ## 월드 내 오브젝트
@@ -80,7 +80,7 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 | `top_tiles` | `TopTileType` | 지표면 상층 레이어 |
 | `tile_tile_effects` | `TileEffectAsset` | 타일별 이펙트 |
 | `terraform` | `TerraformOptions` | 타일 정격 정리 규칙 |
-| `biome_library` | `BiomeAsset` | 바이옴 |
+| `biome_library` | `BiomeAsset` | 바이옴. **[생물 군계](#/nml/biomes)** |
 | `resources` | `ResourceAsset` | 음식, 자원, 화폐. **[자원 및 음식](#/nml/resources)** |
 | `clouds` | `CloudAsset` | 날씨 및 구름. **[구름 및 날씨](#/nml/clouds)** |
 | `drops` | `DropAsset` | 낙하물. **[드롭 및 낙하물](#/nml/drops-and-loot)** |
@@ -163,7 +163,7 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 
 | 라이브러리 | 에셋 | 담고 있는 내용 |
 | --- | --- | --- |
-| `name_generator` | `NameGeneratorAsset` | 이름 생성기 |
+| `name_generator` | `NameGeneratorAsset` | 이름 생성기. **[이름 생성기](#/nml/name-generators)** |
 | `name_sets` | `NameSetAsset` | 단어 풀 모음집 |
 | `onomastics_library` / `onomastics_evolution_library` | `OnomasticsAsset` | 고유명사 변화 규칙 |
 | `linguistics_library` | `LinguisticsAsset` | 언어 구조 |

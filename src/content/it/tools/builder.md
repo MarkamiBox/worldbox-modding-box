@@ -23,6 +23,10 @@ Avvia il gioco e controlla il log. Se qualcosa non va, il link **Spiegazione com
 > [!TIP] Cambia i valori predefiniti
 > Ogni id nel generatore inizia con `my_`. Cambialo con qualcosa di tuo, come `hello_` per HelloBox. Due mod che aggiungono entrambe un `my_trait` se lo contendono, e ne vince solo una :PESgn_Stop:.
 
+## Modelli
+
+L'ultimo gruppo del selettore, **Templates**, funziona in modo diverso. Creature, edifici, disastri, IA, complotti e finestre sono soprattutto logica tua, quindi nessun modulo potrebbe scriverli al posto tuo. Ricevi invece il file funzionante della pagina della guida, rinominato con il tuo namespace e il tuo prefisso. Compila e funziona così com'è, e la pagina dietro **Spiegazione completa** spiega ogni riga, così sai cosa cambiare.
+
 ## Cosa non fa
 
 Il generatore ti dà contenuti che **funzionano**. Quello che non può fare è inventare la tua idea al posto tuo. Dove una funzione ha bisogno della tua logica, come un tratto che fa qualcosa di speciale o un potere che fa qualcosa di nuovo, lascia uno spazio ben segnato `// your code here`. La pagina dietro il link **Spiegazione completa** mostra cosa puoi metterci.

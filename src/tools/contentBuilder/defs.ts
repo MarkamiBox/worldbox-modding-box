@@ -1,3 +1,5 @@
+import { TEMPLATES } from './templates.ts';
+
 // Every content type the Content builder can generate. Each generator writes the same code
 // its guide page teaches, so the two never disagree: when a page changes, change it here too.
 
@@ -49,6 +51,8 @@ export interface Def {
   page: string;
   /** Whether the type has a player-visible name and description. */
   text: 'both' | 'name' | 'none';
+  /** A guide file handed out renamed, rather than generated from a form. */
+  template?: boolean;
   fields: Field[];
   gen: (v: Values, ns: string) => Output;
 }
@@ -913,7 +917,7 @@ const resource: Def = {
   label: 'Food',
   cat: 'World',
   page: 'nml/resources',
-  text: 'none',
+  text: 'name',
   fields: [
     idField('my_cake'),
     { key: 'ingredients', label: 'ingredients (ids, comma separated)', kind: 'text', def: 'wheat, honey' },
@@ -951,7 +955,7 @@ ${ing.length ? `
     return {
       file: `Code/${cls}.cs`,
       code: wrap(ns, cls, body),
-      locale: [],
+      locale: [[id, '']],
       art: [
         { path: png(icon), what: 'inventory icon', folder: false },
         { path: `GameResources/items/resources/${sprite}/`, what: 'carried-in-hand frames', folder: true },
@@ -995,6 +999,10 @@ const tile: Def = {
 
             // The library links this at startup, before your mod existed.
             tile.biome_asset = AssetManager.biome_library.get(tile.biome_id);
+
+            // [NonSerialized] fields: clone() skips them and linkAssets() already ran.
+            tile.color = Toolbox.makeColor(tile.color_hex);
+            tile.has_biome_tags = tile.biome_tags != null && tile.biome_tags.Count > 0;
 
             // Your variations in GameResources/tiles/<id>/ are loaded at startup too.
             Sprite[] variations = SpriteTextureLoader.getSpriteList("tiles/" + tile.id);
@@ -1254,6 +1262,73 @@ ${lines.join('\n')}
   },
 };
 
+
+// ------------------------------------------------------------------ templates
+// These nine are the guide pages' own files, renamed. The interesting part of each one is your
+// own logic, so the builder hands out the working skeleton and the page explains the rest.
+
+interface TemplateKind {
+  key: string;
+  label: string;
+  page: string;
+  /** The class the template declares, e.g. HelloActors. */
+  cls: string;
+  /** How Main.cs uses it. */
+  main: (cls: string) => string;
+  /** Other HelloBox classes it talks to, which the reader has to make or replace. */
+  needs: string[];
+}
+
+const TEMPLATE_KINDS: TemplateKind[] = [
+  { key: 'actor', label: 'Creature', page: 'nml/custom-actors', cls: 'HelloActors', main: (c) => `${c}.Initialize();`, needs: [] },
+  { key: 'building', label: 'Building', page: 'nml/custom-buildings', cls: 'HelloBuildings', main: (c) => `${c}.Initialize();`, needs: [] },
+  { key: 'disaster', label: 'Disaster', page: 'nml/disasters', cls: 'HelloDisasters', main: (c) => `${c}.Initialize();`, needs: [] },
+  { key: 'combat', label: 'Combat action & spell', page: 'nml/projectiles-spells', cls: 'HelloCombat', main: (c) => `${c}.Initialize();`, needs: ['HelloProjectiles', 'HelloTraits'] },
+  { key: 'ai_job', label: 'AI job & task', page: 'nml/custom-ai', cls: 'HelloAI', main: (c) => `${c}.Initialize();`, needs: [] },
+  { key: 'decision', label: 'AI decision', page: 'nml/custom-ai', cls: 'HelloDecisions', main: (c) => `${c}.Initialize();   // after the job and task it uses`, needs: ['HelloAI'] },
+  { key: 'city_job', label: 'City job', page: 'nml/custom-ai', cls: 'HelloCityJobs', main: (c) => `${c}.Initialize();   // after the job and task it uses`, needs: ['HelloAI'] },
+  { key: 'plot', label: 'Plot', page: 'nml/plots', cls: 'HelloPlots', main: (c) => `${c}.Initialize();`, needs: ['HelloPolitics'] },
+  { key: 'window', label: 'Custom window', page: 'nml/custom-windows', cls: 'HelloWindow', main: (c) => `// no Initialize: open it from a button\nPowerButtonCreator.CreateSimpleButton("my_panel", ${c}.Toggle, Icon("iconMyPanel"), tab.transform);`, needs: [] },
+];
+
+/** HelloBox -> your namespace, Hello... -> your prefix, hello_ -> your prefix. */
+const rename = (code: string, ns: string, prefix: string): string => {
+  const lower = cleanId(prefix);
+  const upper = pascal(lower);
+  return code
+    .replace(/\bHelloBox\b/g, ns)
+    .replace(/Hello(?=[A-Z])/g, upper)
+    .replace(/\bhellobox_/g, `${lower}_`)
+    .replace(/\bhello_/g, `${lower}_`);
+};
+
+const templateDef = (k: TemplateKind): Def => ({
+  key: k.key,
+  label: k.label,
+  cat: 'Templates (your logic inside)',
+  page: k.page,
+  text: 'none',
+  template: true,
+  fields: [{ key: 'prefix', label: 'id prefix (replaces "hello")', kind: 'text', def: 'my' }],
+  gen: (v, ns) => {
+    const prefix = s(v, 'prefix') || 'my';
+    const cls = rename(k.cls, ns, prefix);
+    return {
+      file: `Code/${cls}.cs`,
+      code: rename(TEMPLATES[k.key], ns, prefix),
+      locale: [],
+      art: [],
+      main: [rename(k.main(k.cls), ns, prefix)],
+      notes: [
+        'This is the full working file from the guide page, renamed. The page explains every part and lists its text keys and art.',
+        ...(k.needs.length
+          ? [`It uses ${k.needs.map((n) => rename(n, ns, prefix)).join(' and ')} from other pages of the guide. Make those too, or swap in your own ids.`]
+          : []),
+      ],
+    };
+  },
+});
+
 export const DEFS: Def[] = [
   ...TRAIT_KINDS.map(traitDef),
   traitGroup,
@@ -1271,4 +1346,5 @@ export const DEFS: Def[] = [
   age,
   kingdom,
   achievement,
+  ...TEMPLATE_KINDS.map(templateDef),
 ];

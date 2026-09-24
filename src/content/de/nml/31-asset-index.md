@@ -61,14 +61,14 @@ Die ersten vier wirst du tatsächlich öffnen. Der Rest steht hier, damit du kei
 | `language_traits` / `language_trait_groups` | `LanguageTrait` | Sprachen. **[Spracheigenschaften](#/nml/language-traits)** |
 | `architecture_library` | `ArchitectureAsset` | Aussehen der Kulturgebäude |
 | `city_build_orders` | `CityBuildOrderAsset` | Was eine neue Stadt baut, der Reihe nach |
-| `war_types_library` | `WarTypeAsset` | Kriegsarten |
+| `war_types_library` | `WarTypeAsset` | Kriegsarten. **[Kriegsarten](#/nml/war-types)** |
 | `loyalty_library` | `LoyaltyAsset` | Loyalitätsquellen |
 | `opinion_library` | `OpinionAsset` | Meinungsquellen |
 | `happiness_library` | `HappinessAsset` | Zufriedenheitsquellen |
 | `plots_library` / `plot_category_library` | `PlotAsset` | Verschwörungen von Einheiten und Systemen |
 | `decisions_library` | `DecisionAsset` | KI-Entscheidungen |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | Worüber Einheiten sprechen |
-| `book_types` | `BookTypeAsset` | Bucharten |
+| `book_types` | `BookTypeAsset` | Bucharten. **[Bücher](#/nml/books)** |
 | `knowledge_library` | `KnowledgeAsset` | Das Wissensfenster |
 
 ## Dinge in der Welt
@@ -80,7 +80,7 @@ Die ersten vier wirst du tatsächlich öffnen. Der Rest steht hier, damit du kei
 | `top_tiles` | `TopTileType` | Oberflächenschicht |
 | `tile_tile_effects` | `TileEffectAsset` | Effekte pro Kachel |
 | `terraform` | `TerraformOptions` | Benannte Terrainbereinigungen |
-| `biome_library` | `BiomeAsset` | Biome |
+| `biome_library` | `BiomeAsset` | Biome. **[Biome](#/nml/biomes)** |
 | `resources` | `ResourceAsset` | Nahrung, Materialien, Währung. **[Ressourcen & Nahrung](#/nml/resources)** |
 | `clouds` | `CloudAsset` | Wetter. **[Wolken & Wetter](#/nml/clouds)** |
 | `drops` | `DropAsset` | Fallende Objekte. **[Drops & fallende Objekte](#/nml/drops-and-loot)** |
@@ -163,7 +163,7 @@ Jeweils eine Bibliothek, die alle dieselben zwei Asset-Typen enthalten:
 
 | Bibliothek | Asset | Was sie enthält |
 | --- | --- | --- |
-| `name_generator` | `NameGeneratorAsset` | Namensgeneratoren |
+| `name_generator` | `NameGeneratorAsset` | Namensgeneratoren. **[Namensgeneratoren](#/nml/name-generators)** |
 | `name_sets` | `NameSetAsset` | Namenspools, aus denen sie schöpfen |
 | `onomastics_library` / `onomastics_evolution_library` | `OnomasticsAsset` | Wie Namen entstehen und sich verändern |
 | `linguistics_library` | `LinguisticsAsset` | Sprachaufbau |

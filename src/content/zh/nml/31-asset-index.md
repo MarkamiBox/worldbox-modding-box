@@ -61,14 +61,14 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 | `language_traits` / `language_trait_groups` | `LanguageTrait` | 语言系统。**[语言特质](#/nml/language-traits)** |
 | `architecture_library` | `ArchitectureAsset` | 各文明建筑的贴图与建造风格 |
 | `city_build_orders` | `CityBuildOrderAsset` | 新城市建造设施的先后顺序规则 |
-| `war_types_library` | `WarTypeAsset` | 可以发动的战争种类 |
+| `war_types_library` | `WarTypeAsset` | 可以发动的战争种类。**[战争类型](#/nml/war-types)** |
 | `loyalty_library` | `LoyaltyAsset` | 影响城市忠诚度的因素 |
 | `opinion_library` | `OpinionAsset` | 影响外交关系的因素 |
 | `happiness_library` | `HappinessAsset` | 影响市民快乐度的因素 |
 | `plots_library` / `plot_category_library` | `PlotAsset` | 单位或宏观系统谋划的密谋与阴谋 |
 | `decisions_library` | `DecisionAsset` | 宏观决策项 |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | 单位之间交谈的话题 |
-| `book_types` | `BookTypeAsset` | 书籍分类 |
+| `book_types` | `BookTypeAsset` | 书籍分类。**[书籍](#/nml/books)** |
 | `knowledge_library` | `KnowledgeAsset` | 知识界面的解锁项 |
 
 ## 自然与世界万物
@@ -80,7 +80,7 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 | `top_tiles` | `TopTileType` | 表面地块图层 |
 | `tile_tile_effects` | `TileEffectAsset` | 作用于单地块的特效 |
 | `terraform` | `TerraformOptions` | 地表地形清理预设 |
-| `biome_library` | `BiomeAsset` | 生物群系 |
+| `biome_library` | `BiomeAsset` | 生物群系。**[生物群系](#/nml/biomes)** |
 | `resources` | `ResourceAsset` | 食物、工业原料、货币。**[资源与食物](#/nml/resources)** |
 | `clouds` | `CloudAsset` | 天气与云朵。**[云朵与天气](#/nml/clouds)** |
 | `drops` | `DropAsset` | 下落微粒与雨滴。**[下落物与掉落物品](#/nml/drops-and-loot)** |
@@ -163,7 +163,7 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 
 | 资源库 | 承载资源类型 | 存储内容说明 |
 | --- | --- | --- |
-| `name_generator` | `NameGeneratorAsset` | 随机起名生成器 |
+| `name_generator` | `NameGeneratorAsset` | 随机起名生成器。**[名字生成器](#/nml/name-generators)** |
 | `name_sets` | `NameSetAsset` | 词汇种子语料库 |
 | `onomastics_library` / `onomastics_evolution_library` | `OnomasticsAsset` | 专有名词演变规律 |
 | `linguistics_library` | `LinguisticsAsset` | 语言构词结构 |

@@ -61,14 +61,14 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 | `language_traits` / `language_trait_groups` | `LanguageTrait` | 言語。**[言語特性](#/nml/language-traits)** |
 | `architecture_library` | `ArchitectureAsset` | 各文化の建築スタイル |
 | `city_build_orders` | `CityBuildOrderAsset` | 新都市が建設する施設順序 |
-| `war_types_library` | `WarTypeAsset` | 戦争のカテゴリ |
+| `war_types_library` | `WarTypeAsset` | 戦争のカテゴリ。**[戦争の種類](#/nml/war-types)** |
 | `loyalty_library` | `LoyaltyAsset` | 忠誠度の算出要素 |
 | `opinion_library` | `OpinionAsset` | 外交感情の算出要素 |
 | `happiness_library` | `HappinessAsset` | 幸福度の算出要素 |
 | `plots_library` / `plot_category_library` | `PlotAsset` | ユニットや国家が企てる陰謀 |
 | `decisions_library` | `DecisionAsset` | AIの意思決定 |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | ユニット間の会話トピック |
-| `book_types` | `BookTypeAsset` | 書物の種類 |
+| `book_types` | `BookTypeAsset` | 書物の種類。**[本](#/nml/books)** |
 | `knowledge_library` | `KnowledgeAsset` | 知識ウィンドウの項目 |
 
 ## ワールド内のオブジェクト
@@ -80,7 +80,7 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 | `top_tiles` | `TopTileType` | 上層レイヤー |
 | `tile_tile_effects` | `TileEffectAsset` | タイル別エフェクト |
 | `terraform` | `TerraformOptions` | 地形整地・浄化ルール |
-| `biome_library` | `BiomeAsset` | バイオーム |
+| `biome_library` | `BiomeAsset` | バイオーム。**[バイオーム](#/nml/biomes)** |
 | `resources` | `ResourceAsset` | 食料、資材、通貨。**[資源と食料](#/nml/resources)** |
 | `clouds` | `CloudAsset` | 天候・雲。**[雲と天候](#/nml/clouds)** |
 | `drops` | `DropAsset` | 落下物・雨粒。**[ドロップと落下物](#/nml/drops-and-loot)** |
@@ -163,7 +163,7 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 
 | ライブラリ | アセット | 保持内容 |
 | --- | --- | --- |
-| `name_generator` | `NameGeneratorAsset` | 命名ジェネレーター |
+| `name_generator` | `NameGeneratorAsset` | 命名ジェネレーター。**[名前ジェネレーター](#/nml/name-generators)** |
 | `name_sets` | `NameSetAsset` | 命名用単語プール |
 | `onomastics_library` / `onomastics_evolution_library` | `OnomasticsAsset` | 人名・地名の変遷構造 |
 | `linguistics_library` | `LinguisticsAsset` | 言語生成構造 |

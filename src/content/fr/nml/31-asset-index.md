@@ -64,14 +64,14 @@ Ceux que vous ouvrirez vraiment sont les quatre premiers. Le reste est là pour 
 | `language_traits` / `language_trait_groups` | `LanguageTrait` | Langues. **[Traits de langue](#/nml/language-traits)** |
 | `architecture_library` | `ArchitectureAsset` | Style visuel des bâtiments d'une culture |
 | `city_build_orders` | `CityBuildOrderAsset` | Ce qu'une nouvelle cité bâtit, dans l'ordre |
-| `war_types_library` | `WarTypeAsset` | Motifs et types de guerres |
+| `war_types_library` | `WarTypeAsset` | Motifs et types de guerres. **[Types de guerre](#/nml/war-types)** |
 | `loyalty_library` | `LoyaltyAsset` | Facteurs de loyauté |
 | `opinion_library` | `OpinionAsset` | Facteurs d'opinion |
 | `happiness_library` | `HappinessAsset` | Facteurs de bonheur |
 | `plots_library` / `plot_category_library` | `PlotAsset` | Complots des unités et méta-systèmes |
 | `decisions_library` | `DecisionAsset` | Prises de décision de l'IA |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | Sujets de conversation entre unités |
-| `book_types` | `BookTypeAsset` | Genres de livres |
+| `book_types` | `BookTypeAsset` | Genres de livres. **[Livres](#/nml/books)** |
 | `knowledge_library` | `KnowledgeAsset` | Fenêtre du savoir |
 
 ## Éléments du monde
@@ -83,7 +83,7 @@ Ceux que vous ouvrirez vraiment sont les quatre premiers. Le reste est là pour 
 | `top_tiles` | `TopTileType` | Couche de surface |
 | `tile_tile_effects` | `TileEffectAsset` | Effets par tuile |
 | `terraform` | `TerraformOptions` | Règles de nettoyage de terrain |
-| `biome_library` | `BiomeAsset` | Biomes |
+| `biome_library` | `BiomeAsset` | Biomes. **[Biomes](#/nml/biomes)** |
 | `resources` | `ResourceAsset` | Nourriture, matériaux, monnaie. **[Ressources et nourriture](#/nml/resources)** |
 | `clouds` | `CloudAsset` | Météo. **[Nuages et météo](#/nml/clouds)** |
 | `drops` | `DropAsset` | Objets qui tombent. **[Gouttes et objets tombants](#/nml/drops-and-loot)** |
@@ -163,7 +163,7 @@ Une bibliothèque par thème, contenant toutes les deux mêmes types d'assets :
 
 | Bibliothèque | Asset | Contenu |
 | --- | --- | --- |
-| `name_generator` | `NameGeneratorAsset` | Générateurs de noms |
+| `name_generator` | `NameGeneratorAsset` | Générateurs de noms. **[Générateurs de noms](#/nml/name-generators)** |
 | `name_sets` | `NameSetAsset` | Banques de noms sources |
 | `onomastics_library` / `onomastics_evolution_library` | `OnomasticsAsset` | Formation et dérive des patronymes |
 | `linguistics_library` | `LinguisticsAsset` | Structure linguistique |

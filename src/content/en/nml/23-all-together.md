@@ -181,6 +181,7 @@ namespace HelloBox
             Stage("drops", HelloDrops.Initialize);          // clouds rain drops, so drops go first
             Stage("clouds", HelloClouds.Initialize);
             Stage("tiles", HelloTiles.Initialize);
+            Stage("biomes", HelloBiomes.Initialize);       // after the tiles, before anything spawns in it
             Stage("resources", HelloResources.Initialize);  // items and buildings cost resources
             Stage("projectiles", HelloProjectiles.Initialize);
             Stage("modifiers", HelloModifiers.Initialize);
@@ -188,6 +189,7 @@ namespace HelloBox
             Stage("buildings", HelloBuildings.Initialize);
             Stage("kingdoms", HelloKingdoms.Initialize);    // actors point at kingdoms
             Stage("kingdom_traits", HelloKingdomTraits.Initialize);
+            Stage("names", HelloNames.Initialize);         // before the actors, so they can use its name set
             Stage("actors", HelloActors.Initialize);
             Stage("laws", HelloLaws.Initialize);
             Stage("ai", HelloAI.Initialize);
@@ -196,6 +198,7 @@ namespace HelloBox
             Stage("tools", HelloTools.Initialize);
             Stage("combat", HelloCombat.Initialize);        // after the trait that carries it
             Stage("politics", HelloPolitics.Initialize);
+            Stage("wars", HelloWars.Initialize);
             Stage("plots", HelloPlots.Initialize);
             Stage("ages", HelloAges.Initialize);            // after the cloud, the law and the status it uses
             Stage("achievements", HelloAchievements.Initialize);

@@ -61,14 +61,14 @@ Los que realmente vas a abrir son los primeros cuatro. Los demás están aquí p
 | `language_traits` / `language_trait_groups` | `LanguageTrait` | Idiomas. **[Rasgos de idioma](#/nml/language-traits)** |
 | `architecture_library` | `ArchitectureAsset` | Apariencia de los edificios de una cultura |
 | `city_build_orders` | `CityBuildOrderAsset` | Qué construye una ciudad nueva y en qué orden |
-| `war_types_library` | `WarTypeAsset` | Tipos de guerra |
+| `war_types_library` | `WarTypeAsset` | Tipos de guerra. **[Tipos de guerra](#/nml/war-types)** |
 | `loyalty_library` | `LoyaltyAsset` | Fuentes de lealtad |
 | `opinion_library` | `OpinionAsset` | Fuentes de opinión |
 | `happiness_library` | `HappinessAsset` | Fuentes de felicidad |
 | `plots_library` / `plot_category_library` | `PlotAsset` | Conspiraciones que traman unidades y sistemas |
 | `decisions_library` | `DecisionAsset` | Decisiones de la IA |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | Temas de conversación entre unidades |
-| `book_types` | `BookTypeAsset` | Tipos de libros |
+| `book_types` | `BookTypeAsset` | Tipos de libros. **[Libros](#/nml/books)** |
 | `knowledge_library` | `KnowledgeAsset` | La ventana de conocimiento |
 
 ## Elementos en el mundo
@@ -80,7 +80,7 @@ Los que realmente vas a abrir son los primeros cuatro. Los demás están aquí p
 | `top_tiles` | `TopTileType` | Capa superior |
 | `tile_tile_effects` | `TileEffectAsset` | Efectos por casilla |
 | `terraform` | `TerraformOptions` | Reglas de limpieza de terreno |
-| `biome_library` | `BiomeAsset` | Biomas |
+| `biome_library` | `BiomeAsset` | Biomas. **[Biomas](#/nml/biomes)** |
 | `resources` | `ResourceAsset` | Comida, materiales, dinero. **[Recursos y comida](#/nml/resources)** |
 | `clouds` | `CloudAsset` | Clima. **[Nubes y clima](#/nml/clouds)** |
 | `drops` | `DropAsset` | Cosas que caen. **[Gotas y cosas que caen](#/nml/drops-and-loot)** |
@@ -163,7 +163,7 @@ Una biblioteca para cada ámbito, todas conteniendo los mismos dos tipos de asse
 
 | Biblioteca | Asset | Qué contiene |
 | --- | --- | --- |
-| `name_generator` | `NameGeneratorAsset` | Generadores de nombres |
+| `name_generator` | `NameGeneratorAsset` | Generadores de nombres. **[Generadores de nombres](#/nml/name-generators)** |
 | `name_sets` | `NameSetAsset` | Bancos de nombres de los que beben |
 | `onomastics_library` / `onomastics_evolution_library` | `OnomasticsAsset` | Evolución y formación de nombres |
 | `linguistics_library` | `LinguisticsAsset` | Construcción lingüística |

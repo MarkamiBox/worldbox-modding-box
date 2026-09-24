@@ -23,6 +23,10 @@ Abra o jogo e olhe o log. Se algo estiver errado, o link **Explicação completa
 > [!TIP] Mude os valores padrão
 > Todo id no construtor começa com `my_`. Troque por algo seu, como `hello_` no HelloBox. Dois mods que adicionam um `my_trait` brigam por ele, e só um ganha :PESgn_Stop:.
 
+## Modelos
+
+O último grupo do seletor, **Templates**, funciona diferente. Criaturas, construções, desastres, IA, tramas e janelas são principalmente a sua própria lógica, então nenhum formulário conseguiria escrever isso por você. Em vez disso, você recebe o arquivo que funciona da própria página do guia, renomeado com o seu namespace e o seu prefixo. Ele compila e roda do jeito que está, e a página por trás de **Explicação completa** explica cada linha, para você saber o que mudar.
+
 ## O que ele não faz
 
 O construtor te dá conteúdo que **funciona**. O que ele não consegue é inventar a sua ideia por você. Onde um recurso precisa da sua própria lógica, como um traço que faz algo especial ou um poder que faz algo novo, ele deixa um espaço bem marcado `// your code here`. A página por trás do link **Explicação completa** mostra o que você pode colocar ali.

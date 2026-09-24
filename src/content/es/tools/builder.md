@@ -23,6 +23,10 @@ Arranca el juego y mira el registro. Si algo falla, el enlace **Explicación com
 > [!TIP] Cambia los valores por defecto
 > Todos los ids del constructor empiezan por `my_`. Cámbialo por algo tuyo, como `hello_` en HelloBox. Dos mods que añaden los dos un `my_trait` se pelean por él, y solo gana uno :PESgn_Stop:.
 
+## Plantillas
+
+El último grupo del selector, **Templates**, funciona distinto. Criaturas, edificios, desastres, IA, tramas y ventanas son sobre todo tu propia lógica, así que no hay formulario que pueda escribirlos por ti. En su lugar recibes el archivo que funciona de la propia página de la guía, renombrado con tu namespace y tu prefijo. Compila y funciona tal cual, y la página detrás de **Explicación completa** repasa cada línea para que sepas qué cambiar.
+
 ## Lo que no hace
 
 El constructor te da contenido que **funciona**. Lo que no puede hacer es inventar tu idea por ti. Donde una función necesita tu propia lógica, como un rasgo que hace algo especial o un poder que hace algo nuevo, deja un hueco bien marcado `// your code here`. La página detrás del enlace **Explicación completa** muestra lo que puedes poner ahí.

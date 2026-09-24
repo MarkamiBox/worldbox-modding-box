@@ -23,6 +23,10 @@ Starte das Spiel und schau ins Log. Wenn etwas nicht stimmt, bringt dich der Lin
 > [!TIP] Ändere die Standardwerte
 > Jede ID im Builder fängt mit `my_` an. Ändere das in etwas, das dir gehört, wie `hello_` bei HelloBox. Zwei Mods, die beide ein `my_trait` hinzufügen, streiten sich darum, und nur eine gewinnt :PESgn_Stop:.
 
+## Vorlagen
+
+Die letzte Gruppe in der Auswahl, **Templates**, funktioniert anders. Kreaturen, Gebäude, Katastrophen, KI, Pläne und Fenster sind vor allem deine eigene Logik, also gibt es kein Formular, das sie für dich schreiben könnte. Stattdessen bekommst du die funktionierende Datei der Guide-Seite, umbenannt auf deinen Namespace und dein Präfix. Sie kompiliert und läuft so, wie sie ist, und die Seite hinter **Ganze Erklärung** geht jede Zeile durch, damit du weißt, was du ändern musst.
+
 ## Was er nicht kann
 
 Der Builder gibt dir Inhalte, die **funktionieren**. Was er nicht kann, ist deine Idee für dich zu erfinden. Wo eine Funktion deine eigene Logik braucht, etwa ein Merkmal, das etwas Besonderes tut, oder eine Macht, die etwas Neues macht, lässt er eine deutlich markierte Stelle `// your code here` frei. Die Seite hinter dem Link **Ganze Erklärung** zeigt, was du dort einsetzen kannst.

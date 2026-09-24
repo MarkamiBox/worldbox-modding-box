@@ -61,14 +61,14 @@ AssetManager.traits.dict;                          // каждый ассет п
 | `language_traits` / `language_trait_groups` | `LanguageTrait` | Языки. **[Черты языка](#/nml/language-traits)** |
 | `architecture_library` | `ArchitectureAsset` | Внешний вид зданий культур |
 | `city_build_orders` | `CityBuildOrderAsset` | Очередь построек нового города |
-| `war_types_library` | `WarTypeAsset` | Разновидности войн |
+| `war_types_library` | `WarTypeAsset` | Разновидности войн. **[Типы войн](#/nml/war-types)** |
 | `loyalty_library` | `LoyaltyAsset` | Источники лояльности |
 | `opinion_library` | `OpinionAsset` | Источники дипломатического мнения |
 | `happiness_library` | `HappinessAsset` | Источники счастья |
 | `plots_library` / `plot_category_library` | `PlotAsset` | Заговоры существ и мета-систем |
 | `decisions_library` | `DecisionAsset` | Решения ИИ |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | Темы разговоров между существами |
-| `book_types` | `BookTypeAsset` | Разновидности книг |
+| `book_types` | `BookTypeAsset` | Разновидности книг. **[Книги](#/nml/books)** |
 | `knowledge_library` | `KnowledgeAsset` | Окно знаний |
 
 ## Объекты мира
@@ -80,7 +80,7 @@ AssetManager.traits.dict;                          // каждый ассет п
 | `top_tiles` | `TopTileType` | Поверхностный слой |
 | `tile_tile_effects` | `TileEffectAsset` | Эффекты отдельных плиток |
 | `terraform` | `TerraformOptions` | Наборы правил очистки ландшафта |
-| `biome_library` | `BiomeAsset` | Биомы |
+| `biome_library` | `BiomeAsset` | Биомы. **[Биомы](#/nml/biomes)** |
 | `resources` | `ResourceAsset` | Пища, материалы, валюта. **[Ресурсы и еда](#/nml/resources)** |
 | `clouds` | `CloudAsset` | Погода. **[Облака и погода](#/nml/clouds)** |
 | `drops` | `DropAsset` | Падающие объекты. **[Капли и падающие объекты](#/nml/drops-and-loot)** |
@@ -163,7 +163,7 @@ AssetManager.traits.dict;                          // каждый ассет п
 
 | Библиотека | Ассет | Что содержит |
 | --- | --- | --- |
-| `name_generator` | `NameGeneratorAsset` | Генераторы имен |
+| `name_generator` | `NameGeneratorAsset` | Генераторы имен. **[Генераторы имён](#/nml/name-generators)** |
 | `name_sets` | `NameSetAsset` | Наборы имен, из которых они черпают слова |
 | `onomastics_library` / `onomastics_evolution_library` | `OnomasticsAsset` | Формирование и эволюция имен |
 | `linguistics_library` | `LinguisticsAsset` | Языковые структуры |

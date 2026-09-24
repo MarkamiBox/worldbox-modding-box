@@ -52,6 +52,11 @@ namespace HelloBox
             // biome_id to its BiomeAsset during startup, before your mod existed: link yours.
             moss.biome_asset = AssetManager.biome_library.get(moss.biome_id);
 
+            // color and has_biome_tags are [NonSerialized], so clone() skips them, and linkAssets()
+            // worked them out at startup. Without this the minimap draws your tile see-through.
+            moss.color = Toolbox.makeColor(moss.color_hex);
+            moss.has_biome_tags = moss.biome_tags != null && moss.biome_tags.Count > 0;
+
             // The variations in GameResources/tiles/hello_moss/ are loaded at startup too.
             Sprite[] variations = SpriteTextureLoader.getSpriteList("tiles/" + moss.id);
             if (variations.Length > 0)
