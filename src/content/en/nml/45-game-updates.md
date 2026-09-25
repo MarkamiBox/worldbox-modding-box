@@ -46,11 +46,27 @@ The old name is gone, so look for its replacement:
 
 The trick I use most: open the vanilla asset or method that does the same job as yours and see how **the game itself** writes it now. If the game changed how traits are built, its own traits already use the new way :PESgn_Noice:.
 
+### Names that no longer exist
+
+Old mods, old tutorials and old forum posts are full of these. None of them is in the current game, so each one is a compile error, or, for the template ids, a `clone()` that throws `KeyNotFoundException` at startup:
+
+| Old name | What to use now |
+| --- | --- |
+| `AssetManager.unitStats` | `AssetManager.actor_library`. Creatures are `ActorAsset`s, see **[Custom actors](#/nml/custom-actors)** |
+| `AssetManager.raceLibrary` | No direct replacement. What a race used to hold now lives on the `ActorAsset` itself |
+| `AssetManager.nameGenerator` | `AssetManager.name_generator`, see **[Name generators](#/nml/name-generators)** |
+| `AssetManager.items_material_weapon`, `items_material_accessory` | No replacement library. Each material is its own item in `AssetManager.items` (`sword_iron`, `sword_steel`), see **[Custom items](#/nml/custom-items)** |
+| `"!building"` (building template) | `"$building$"` in `AssetManager.buildings` |
+| `"_spawn_building"` (drop template) | `"$spawn_building$"` in `AssetManager.drops` |
+| `"_dropBuilding"` (god power template) | `"$template_drop_building$"` in `AssetManager.powers` |
+
+The pattern in the last three is the one to remember: templates are now wrapped in `$`. If an old `clone()` uses an id starting with `_` or `!`, look in the same library's `init()` for the `$...$` version.
+
 ## 4. Check your Harmony patches by hand
 
 A patch can also go wrong without any error at all. Go through each one and check the method in dnSpy:
 
-- **Parameter names.** Harmony fills parameters **by name**. If the game renamed `pDamage` to `pAmount`, your `float pDamage` silently gets nothing. See **[the magic parameter names](#/nml/harmony-patches)**.
+- **Parameter names.** Harmony fills parameters **by name**. If the game renamed `pDamage` to `pAmount`, your `float pDamage` no longer binds and Harmony fails while applying the patch. See **[the magic parameter names](#/nml/harmony-patches)**.
 - **Overloads.** A method that used to be unique may now have a twin, and your patch fails with `Ambiguous match found`.
 - **What the method does.** Sometimes the name stays but the logic moves somewhere else. Your patch runs and nothing changes. Put a `LogInfo` line in the patch: if it never prints, the game stopped calling that method.
 
@@ -76,5 +92,5 @@ Then answer the "is this updated??" comments, you earned it :wbsalut:.
 
 - **Patch less.** Every Harmony patch is a spot that can break. If an asset field or an NML feature can do the job, use that instead.
 - **Wrap your code in try/catch.** One broken feature logs an error, the rest of your mod keeps working. See **[Logs & debugging](#/nml/logs-and-debugging)**.
-- **One patch class per job.** When one patch breaks, only that one feature goes down, not all of them.
+- **One patch class per job.** It makes failures easier to isolate. It does not isolate `PatchAll` failures: a missing target can stop the scan before later patches are applied. Use guarded manual patching for optional targets.
 - **Keep your ids in one place.** Constants like `HelloTraits.SWIFT` mean a rename is one edit, not twenty.

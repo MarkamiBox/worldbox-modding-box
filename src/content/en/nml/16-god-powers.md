@@ -32,7 +32,7 @@ namespace HelloBox
 
         public static void Initialize()
         {
-            // Never register the same id twice: the game keeps the first one.
+            // Avoid replacing an asset already registered under this id.
             if (AssetManager.powers.get(STRIKE) != null) return;
 
             GodPower strike = new GodPower
@@ -106,6 +106,35 @@ Setting `hold_action = true` and a `click_interval` makes the power repeat while
 strike.hold_action = true;
 strike.click_interval = 0.15f;   // seconds between repeats
 ```
+
+## Which delegate paints the brush?
+
+| Field | What it does |
+| --- | --- |
+| `click_action` | `bool (WorldTile pTile, string pPowerID)` for a single tile |
+| `click_brush_action` | Same signature, called instead of `click_action` when assigned |
+| `click_power_action` | `bool (WorldTile pTile, GodPower pPower)` for a single tile |
+| `click_power_brush_action` | Same asset-based signature, called instead of `click_power_action` when assigned |
+
+The player's click path prefers the asset-based pair when either field is set. A brush delegate receives the centre tile. It does not magically run once per brush pixel. This optional replacement belongs inside the power setup, after `click_action` has been assigned:
+
+```csharp
+strike.show_tool_sizes = true;
+strike.click_brush_action = (WorldTile pTile, string pPowerID) =>
+{
+    if (pTile == null || World.world == null) return false;
+    GodPower power = AssetManager.powers.get(pPowerID);
+    if (power == null || power.click_action == null) return false;
+    World.world.loopWithBrush(pTile, Config.current_brush_data,
+        power.click_action, pPowerID);
+    return true;
+};
+```
+
+> [!WARNING] A bigger cursor is not a bigger effect
+> `show_tool_sizes` exposes brush selection. Your brush callback must still loop over the tiles. The vanilla `PowerLibrary.loopWithCurrentBrush` helper is private; the example uses the public world method instead. For the `(WorldTile, GodPower)` pair, `loopWithBrush` has a matching overload taking `PowerAction` and the power asset.
+
+For feedback after a click, see **[Messages & world log](#/nml/messages-and-world-log)**.
 
 ## Your own icon
 

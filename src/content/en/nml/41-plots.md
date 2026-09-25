@@ -38,12 +38,13 @@ namespace HelloBox
                 needs_to_be_explored = false,
 
                 // called with no null check: a plot without it crashes the first time anyone looks at it
-                check_is_possible = (Actor pActor) => pActor.hasCity() && !pActor.city.isInDanger(),
-                check_should_continue = (Actor pActor) => pActor.hasCity(),
+                check_is_possible = (Actor pActor) => pActor != null && pActor.isAlive() && pActor.hasCity() && !pActor.city.isInDanger(),
+                check_should_continue = (Actor pActor) => pActor != null && pActor.isAlive() && pActor.hasCity(),
 
                 // runs once, when the progress bar is full
                 action = (Actor pActor) =>
                 {
+                    if (pActor == null || !pActor.isAlive()) return false;
                     City city = pActor.city;
                     if (city == null) return false;
 
@@ -105,9 +106,40 @@ A leader with ten coins, a city and nothing better to do may now throw an ember 
 | Field | What it does |
 | --- | --- |
 | `path_icon` | Its icon in the plot list and on its banner |
-| `group_id` | The category: `diplomacy`, `culture`, `rites_wrathful`, `rites_summoning`, `rites_merciful` |
+| `group_id` | The category, from `plot_category_library`: `diplomacy`, `rites_wrathful`, `rites_summoning`, `rites_merciful`, `culture`, `language`, `religion`, `rites_various`, `plots_others` |
 | `pot_rate` | Weight against the other possible plots |
 | `is_basic_plot` | Any leader may try it. Otherwise it only happens as a religion's rite, see **[Religion traits](#/nml/religion-traits)** |
+
+### A category of your own
+
+The categories are `PlotCategoryAsset`s in `AssetManager.plot_category_library`, and they are what splits the plots window into sections. Same small `BaseCategoryAsset` as a trait tab (`id`, `name`, `color`, `show_counter`, see **[Trait groups & tabs](#/nml/trait-groups)**), plus one field of its own:
+
+| Field | What it does |
+| --- | --- |
+| `plot_retry_action` | Asked while a unit works on a plot of this category. `true` means "not now, try again later". Vanilla uses it to wait while the kingdom, city or religion lists are busy |
+
+```csharp Mods/HelloBox/Code/HelloPlots.cs
+public const string CATEGORY = "hello_plots";
+
+// before the plots that point at it
+if (!AssetManager.plot_category_library.has(CATEGORY))
+{
+    AssetManager.plot_category_library.add(new PlotCategoryAsset
+    {
+        id = CATEGORY,
+        name = "plot_group_" + CATEGORY,   // the locale key, not the text
+        color = "#FF9A3C",
+        show_counter = false,
+        // borrow vanilla's: it already knows which lists to wait for
+        plot_retry_action = PlotCategoryLibrary.culturePlotsRetryAction
+    });
+}
+```
+
+Then `group_id = HelloPlots.CATEGORY` on the festival, and `"plot_group_hello_plots": "HelloBox"` in the locale file. The plots window builds its sections from the library's list, so the new one shows up with no UI work.
+
+> [!WARNING] The category has to exist
+> The game fetches a plot's category with `get()` and reads `plot_retry_action` off it with no null check, every time a unit carrying the plot re-checks its task. A `group_id` nobody registered is a `NullReferenceException` in the middle of the AI, and it keeps coming back :PESgn_ToughLuck:.
 
 ## The text
 

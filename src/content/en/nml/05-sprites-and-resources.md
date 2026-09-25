@@ -68,8 +68,12 @@ Next to your images, a `sprites.json` tells NML how to slice them. Without it yo
 | `PivotX` / `PivotY` | The anchor point. `0.5 / 0.0` is bottom centre, which is what units and buildings usually want |
 | `BorderL/R/T/B` | Nine-slice borders, for stretchable window frames and buttons |
 | `Path` | Which file this specific entry applies to |
+| `RectX` / `RectY` | Sprite rectangle offsets. Both default to `0`; the NML documentation says to leave them at `0` |
 
 `Default` applies to every file that does not have a `Specific` entry.
+
+> [!NOTE] Offsets are not an atlas recipe
+> The documented `sprites.json` settings have no rectangle width or height fields. Do not invent those to slice a sheet. NML documents Unity `.meta` files for atlases and sprite sheets.
 
 ## Where each kind of art goes
 
@@ -174,3 +178,6 @@ private static Sprite Icon(string pName)
 ```
 
 A question mark tells you "the path is wrong". Nothing at all tells you "spend two hours wondering where your button went" :PES4_Invisible:.
+
+
+Next: **[Mod settings](#/nml/mod-config)** or **[Custom windows](#/nml/custom-windows)**.

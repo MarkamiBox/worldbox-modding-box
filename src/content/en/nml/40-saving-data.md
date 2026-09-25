@@ -27,11 +27,12 @@ Each type has its own table, so an `int` and a `string` under the same key do no
 
 ## Storing complex objects with NML
 
-If five primitives feel like 1995 and you actually need to save an entire class or list onto an actor, NML provides `DataExtension` in `NeoModLoader.General.Game.extensions`.
+If five primitives feel like 1995 and you actually need to save an entire class or list onto an actor, NML provides `DataExtension` in `NeoModLoader.General.Game.extensions`: two extension methods, `Set` and `TryGet`, on any of the data objects below.
 
 Wrap your data class in `BasicCustomData<T>`:
 
 ```csharp
+using System.Collections.Generic;
 using NeoModLoader.General.Game.extensions;
 
 public class QuestProgress
@@ -41,17 +42,30 @@ public class QuestProgress
     public List<string> completed_objectives = new List<string>();
 }
 
+```
+
+Inside a method with an `Actor actor`, create the value before saving it:
+
+```csharp
+if (actor == null || !actor.isAlive()) return;
+QuestProgress quest = new QuestProgress { quest_id = "hello_first_steps", step = 1 };
+
 // Saving it to the actor:
 actor.data.Set("hello_quest", new BasicCustomData<QuestProgress>(quest));
 
 // Reading it back:
 if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
 {
-    QuestProgress quest = saved.Data;
+    QuestProgress loadedQuest = saved.Data;
 }
 ```
 
-Under the hood, NML serializes your object to JSON and packs it into the vanilla `custom_data_string` table under your key. If you expect your data format to change across mod updates, implement `ICustomData` directly on your class instead of using `BasicCustomData<T>` - it gives you explicit `ModId` and `DataVersion` checks so an outdated save payload doesn't silently poison your new state :PES5_Hmmmm:.
+Under the hood, `Set` turns your object into JSON and stores it with the plain `data.set(key, string)` from the table above. So it is one string per key per unit, and the "keep it small" rule below applies double. Your class needs a parameterless constructor, and its public fields and properties are what gets saved.
+
+If you expect your data format to change across mod updates, implement `ICustomData` on your class instead. It is two methods: `Serialize()` returns a `SerializedCustomData(modId, dataVersion, jObject)`, and `Deserialize(SerializedCustomData)` gets it back. Checking `ModId` and `DataVersion` in there is your job, nobody does it for you. `BasicCustomData<T>` writes placeholder values into both and throws when it reads anything else, so do not mix the two on one key :PES5_Hmmmm:.
+
+> [!NOTE] Checked against NML 1.2.0
+> These names and signatures come from the NML assembly itself, not from its docs, which do not mention them. If a newer NML renames something, the compiler will tell you before your players do.
 
 ## In HelloBox
 
@@ -141,4 +155,92 @@ Its text, like any trait's:
 - **Empty stores cost nothing.** The game drops empty tables before it writes the save, so a key you removed is really gone.
 - **Keep it small.** It is saved with every unit. A counter or a flag per unit is free; a long string per unit on a world of ten thousand creatures is a bigger save for everybody.
 
-For everything that is not tied to one object, a whole-world setting for example, use your mod's settings instead: see **[Mod settings](#/nml/mod-config)** :PES_OkHand:.
+## The whole world
+
+Some state belongs to no unit at all: how many meteors your power has dropped on this world, whether the one-time blessing already happened. The world has the same store, in its map stats:
+
+```csharp
+// map_stats is internal: fine in an NML source mod, same deal as actor.data above
+SaveCustomData world = World.world?.map_stats?.custom_data;
+if (world == null) return;
+
+world.change("hello_meteors", 1, 0, 1000000);   // change() clamps to 1000 unless you say otherwise
+if (world.addFlag("hello_blessed")) { /* first time on this world only */ }
+```
+
+`SaveCustomData` is the same `BaseSystemData` store, so every call in the table at the top works, and so do NML's `Set` / `TryGet`. It is saved with the rest of the map stats, so each save slot has its own. A freshly generated world starts empty. The game creates the store whenever it builds or loads the map stats, so the null check should never fire; it costs nothing, keep it.
+
+> [!TIP] Settings or world data?
+> Ask whether the player would expect the value to change when they load a different save. "How strong is the meteor power" does not: that is **[Mod settings](#/nml/mod-config)**, shared by every world. "Has this world been blessed" does: that is `custom_data`.
+
+## Time that survives a save
+
+`Time.time` is seconds since the game was launched. Store it in a unit's data, save, restart, load, and every timestamp you wrote is from a previous life :wbfacepalm:.
+
+The world keeps its own clock, and it is saved with the map:
+
+```csharp
+if (World.world == null || World.world.map_stats == null || Config.worldLoading) return;
+if (actor == null || !actor.isAlive()) return;
+
+// double, in world seconds: 5 is a month, 60 is a year
+double now = World.world.getCurWorldTime();
+
+// the store has no double, a float is plenty for a timestamp
+actor.data.set("hello_blessed_at", (float)now);
+
+actor.data.get("hello_blessed_at", out float at, -1f);
+bool blessedThisYear = at >= 0f && now - at < 60.0;
+```
+
+It also stops when the game is paused and runs faster at higher speeds, which is nearly always what you meant. `Date.getYearsSince(at)` and `Date.getMonthsSince(at)` do the division for you.
+
+## Running code after a world loads
+
+Everything above is read on demand, so usually you do not need to know when a world loaded. When you do, say to rebuild a cache of your own, these are the methods mods hook with **[Harmony](#/nml/harmony-patches)**:
+
+| Method | When it runs |
+| --- | --- |
+| `MapBox.clearWorld` (public) | Before any world is generated or loaded. Drop your static caches here |
+| `SaveManager.loadActors` (private) | While loading a save, right after the units are rebuilt |
+| `MapBox.finishMakingWorld` (public) | Near the end of both generating and loading a world |
+| `SaveManager.saveWorldToDirectory` (public, static) | On a save, manual or auto. A Prefix is your last chance to write into the store |
+| `MapBox.addLastStep` (private) | Once, when the game starts. Not per world |
+| `MapBox.OnApplicationQuit` (private) | The game is closing |
+
+```csharp Mods/HelloBox/Code/HelloWorldCache.cs
+using HarmonyLib;
+
+namespace HelloBox
+{
+    [HarmonyPatch(typeof(MapBox), nameof(MapBox.finishMakingWorld))]
+    public static class HelloWorldCache
+    {
+        // a cached copy for code that reads it every frame; the save keeps the real one
+        public static int MeteorsThisWorld;
+
+        // runs for a brand new world and for a loaded save alike
+        public static void Postfix()
+        {
+            MeteorsThisWorld = 0;
+            SaveCustomData world = World.world?.map_stats?.custom_data;
+            if (world == null) return;
+
+            world.get("hello_meteors", out int meteors);
+            MeteorsThisWorld = meteors;
+        }
+    }
+}
+```
+
+Private methods take the name as a string, `[HarmonyPatch(typeof(SaveManager), "loadActors")]`, as the Harmony page explains. The loading screen is still up when `finishMakingWorld` runs; a couple of steps follow it.
+
+## Your own files
+
+Plenty of mods skip all of this and write a JSON file with `File.WriteAllText`, usually under `Application.persistentDataPath`, which is the `LocalLow\mkarpenko\WorldBox` folder next to `Player.log`. That is fine for things that belong to the **player**: a list of favourite units they exported, stats across every game they ever played.
+
+It is wrong for things that belong to a **world**. The file does not know which save slot is loaded. The player blesses a kingdom in slot 1, loads slot 2, and slot 2 is blessed too. Then they delete slot 1 and your file keeps its state forever :PES2_F:. If it should change when the save changes, it goes in the save, in one of the stores above.
+
+## Where next
+
+For values the player picks once and every world shares, see **[Mod settings](#/nml/mod-config)**. For code that checks something every frame, or every in-game month, see **[Every frame](#/nml/update-loops)** :PES_OkHand:.

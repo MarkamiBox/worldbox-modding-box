@@ -28,6 +28,11 @@ const c = {
 
 /** Files the guide shows as illustrations, not as part of the finished mod. */
 const NOT_PART_OF_THE_MOD = new Set([
+  // Optional advanced examples are added by the reader, not by the finished demo.
+  'Code/HelloManualPatches.cs',
+  'Code/HelloTicker.cs',
+  'Code/HelloShakes.cs',
+  'Code/HelloMapGen.cs',
   'Code/HelloSomething.cs', // the shape every page's file follows
   'Code/HelloLocale.cs', // the code alternative to Locales/en.json, never staged
   'Code/HelloNativeWindow.cs', // the NML AbstractWindow route; HelloBox itself uses HelloWindow

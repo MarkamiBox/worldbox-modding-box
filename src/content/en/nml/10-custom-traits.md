@@ -8,7 +8,7 @@ order: 100
 
 # Custom traits :wbstrongminded:
 
-A trait is a permanent label on a unit: *brave*, *fast*, *immortal*. It shows in the inspector, it can change the unit's stats, it can run code when the unit is born, hit, or dies, and children can inherit it.
+A trait is a permanent label on a unit: *brave*, *fast*, *immortal*. It shows in the inspector, it can change the unit's stats, it can run code when the unit attacks, gets hit or dies, and children can inherit it.
 
 It is also the cheapest thing in the game to add, which is why it is everybody's first mod. Mine was not: my first mod was a wrapper around somebody else's mod, which is its own kind of cheating :trollface:.
 
@@ -157,21 +157,96 @@ swift.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 // when the unit dies
 swift.action_death = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
 
-// when the unit is born
-swift.action_birth = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
-
 // when the unit takes a hit
 swift.action_get_hit = (BaseSimObject pSelf, BaseSimObject pAttacker, WorldTile pTile) => { return true; };
+
+// every time one of the unit's attacks lands, right after the damage
+swift.action_attack_target = (BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile) =>
+{
+    Actor self = pSelf as Actor;
+    // pTarget can be a building, and the hit may just have killed it
+    if (self == null || !self.isAlive() || pTarget == null) return false;
+
+    self.restoreHealth(2);
+    return true;
+};
 ```
 
 Two rules for all four: **check for null and check the unit is alive first**, and return `false` when you did nothing. These run on every unit that has the trait, forever.
 
-## Opposites and exclusions
+> [!NOTE] `action_birth` and `action_growth` exist, and never fire here
+> `ActorTrait` inherits both fields, so they compile. The game only reads them from **subspecies** traits: it merges a subspecies' traits into one birth callback and one growth callback and calls those. On an actor trait they sit there doing nothing, silently :wbreally:. If you want "when a unit is born", make it a subspecies trait: **[Subspecies traits](#/nml/subspecies-traits)**.
+
+### When the trait is gained, lost or loaded
+
+Three more hooks run once rather than all the time. They take a different delegate, `WorldActionTrait`, which hands you the owner as a `NanoObject` and the trait itself:
 
 ```csharp
-swift.addOpposite("slow");                            // the two can never coexist
-swift.traits_to_remove_ids = new string[] { "fat" };  // gaining this strips that
+// once, the moment addTrait() puts it on a unit
+swift.action_on_augmentation_add = (NanoObject pTarget, BaseAugmentationAsset pTrait) =>
+{
+    Actor actor = pTarget as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    actor.restoreHealth(actor.getMaxHealth());   // a welcome gift, once
+    return true;
+};
 ```
+
+| Field | When it runs |
+| --- | --- |
+| `action_on_augmentation_add` | `addTrait()` succeeded |
+| `action_on_augmentation_remove` | `removeTrait()` took it off, including when another trait pushed it out as an opposite or through `traits_to_remove` |
+| `action_on_augmentation_load` | A saved world loaded and the unit came back with the trait |
+
+A loaded unit gets its traits back **without** going through `addTrait()`, so `_add` does not run again. If `_add` sets something up that the save does not keep, redo it in `_load`.
+
+## Opposites and exclusions
+
+The vanilla way is `addOpposite("slow")` and `traits_to_remove_ids`. Both only write **ids**, and the game turns those ids into the sets it actually reads once, while it loads, before your mod exists. On your trait they do nothing :wbfacepalm:. Fill the resolved fields yourself, after `add()`:
+
+```csharp
+ActorTrait slow = AssetManager.traits.get("slow");
+if (slow != null)
+{
+    // addTrait() only checks the NEW trait's own set, so fill both sides:
+    // otherwise a slow unit refuses swift, but a swift unit happily turns slow
+    swift.opposite_traits = new HashSet<ActorTrait> { slow };
+    if (slow.opposite_traits == null) slow.opposite_traits = new HashSet<ActorTrait>();
+    slow.opposite_traits.Add(swift);
+}
+
+// gaining swift strips these; the game reads the array, not the ids
+ActorTrait fat = AssetManager.traits.get("fat");
+if (fat != null) swift.traits_to_remove = new ActorTrait[] { fat };
+```
+
+`HashSet` needs `using System.Collections.Generic;` at the top of the file.
+
+> [!WARNING] `opposite_trait_mod` needs `opposite_traits`
+> `opposite_trait_mod` changes how much two units like each other when one has an opposite of the other's trait. The social code loops over `opposite_traits` without a null check, so setting the mod and leaving the set `null` throws `NullReferenceException` the first time two units size each other up. Give the set a value, even an empty one.
+
+## Rarity
+
+`rarity` decides the colour of the name and the rarity line in the trait tooltip, and `Rarity.R3_Legendary` also gets the special legendary frame. The values are `R0_Normal`, `R1_Rare`, `R2_Epic` and `R3_Legendary`.
+
+For vanilla traits it is mostly automatic: while the game loads, the library counts what each trait does (actions, decisions, spells, combat actions, tags) and bumps anything that does something to `R1_Rare` or `R2_Epic`. Your trait arrives after that pass, so it keeps whatever you wrote, and if you wrote nothing that is the default, `R1_Rare`, however much it does. Set it yourself:
+
+```csharp
+swift.rarity = Rarity.R2_Epic;
+```
+
+## Unlocking it from code
+
+With `needs_to_be_explored = true` the trait starts locked in the knowledge book. `unlock()` is how the game discovers it:
+
+```csharp
+AssetManager.traits.get(HelloTraits.SWIFT)?.unlock();
+```
+
+It adds the id to the player's progress, shows the "new knowledge" tip, and saves the progress file. `unlock(false)` skips the save: use it when you unlock several things in a row, then call `GameProgress.saveData()` once at the end. It returns `false` and does nothing when the trait is already available, and a trait with `needs_to_be_explored = false` always is. Call it from gameplay, when the player earned it: it is their real progress file, and it stays unlocked in every world after.
+
+`unlocked_with_achievement` is already `false` by default. Writing `unlocked_with_achievement = false` changes nothing.
 
 ## Giving the trait out
 

@@ -451,3 +451,38 @@ A `null` sprite gives you a button that occupies space and draws nothing. The pl
 ```
 
 Button name and tooltip come from the **power id**, not from the button, which is why the keys above match the ids you passed to the creator.
+
+## Window and toggle helpers
+
+The installed NML assembly also exposes these helpers in `NeoModLoader.General`. Use them once, after the tab and target window or power exist:
+
+```csharp
+PowerButton windowButton = PowerButtonCreator.CreateWindowButton(
+    "hello_native_open", HelloNativeWindow.WindowId,
+    Icon("iconHelloPanel"), tab.transform, Vector2.zero);
+```
+
+`CreateWindowButton` sets the button's `open_window_id`. It does not create the window. `CreateSimpleButton` takes a `UnityAction`; use that for your own callback. `GetTab(string pId)` looks up a tab, and `AddButtonToTab(button, tab)` moves a button into one. Its overload also accepts a `Vector2` position and an optional sibling index.
+
+`CreateToggleButton(pGodPowerId, pIcon, pParent, pLocalPosition, pNoAutoSetToggleAction = false)` needs a registered `GodPower` with a non-empty `toggle_name`. That name identifies its `PlayerConfig` option. The helper creates a false Boolean option and player value when the player dictionary lacks the key. Prefer registering both yourself as shown in **[Game options & time scales](#/nml/game-options)**.
+
+> [!NOTE] The automatic toggle is part of the callback
+> NML appends its toggle-and-save action after an existing `toggle_action` by default. Pass `pNoAutoSetToggleAction: true` when your existing callback owns the state change. If the callback is null, this flag does not stop NML installing its default action. Calling the creator repeatedly can append repeated actions.
+
+## The game's PowerTabAsset
+
+`AssetManager.power_tab_library` stores native tab assets. It is separate from the `PowersTab` UI component returned by NML's `TabManager.CreateTab`.
+
+| Field | What it does |
+| --- | --- |
+| `locale_key` | Name key; `getDescriptionID()` returns this key plus `_info` |
+| `icon_path` | Sprite path used by `getIcon()` |
+| `get_power_tab` | Delegate returning the `PowersTab` to show |
+| `gameplay_tab` | Reference to a UI tab |
+| `window_id` | Associated window id |
+| `on_main_tab_select` / `on_main_info_click` | Main-tab callbacks |
+| `on_update_check_active` | Active-state check callback |
+
+`tryToShowPowerTab()` invokes `get_power_tab` and asks the returned component to show itself. Adding a bare asset is not a substitute for creating a UI tab. NML's explicit title and description arguments should not be confused with the native `_info` convention.
+
+Next: **[Custom windows](#/nml/custom-windows)** for the panel, or **[Game options & time scales](#/nml/game-options)** for its state.
