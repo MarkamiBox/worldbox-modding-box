@@ -10,7 +10,7 @@ order: 3
 Tout ce dont vous avez besoin avant d'écrire votre première ligne de code. Suivez ces étapes dans l'ordre, cela prend environ quinze minutes.
 
 > [!NOTE] Pas besoin de savoir programmer pour l'instant
-> Et vous n'avez **pas** besoin de Visual Studio, d'un compilateur ou de quoi que ce soit de ce genre. NML lit les fichiers texte `.cs` dans le dossier de votre mod et les compile pour vous à chaque lancement du jeu. **Le Bloc-notes est un moyen parfaitement valable d'écrire votre premier mod** :PES_OkHand:. Vous pourrez perfectionner vos outils plus tard, lorsque vous en ressentirez vraiment le besoin.
+> Et vous n'avez **pas** besoin de Visual Studio, d'un compilateur ou de quoi que ce soit de ce genre. NML lit les fichiers texte `.cs` dans le dossier de votre mod et les compile pour vous quand c'est nécessaire. **Le Bloc-notes est un moyen parfaitement valable d'écrire votre premier mod** :PES_OkHand:. Vous pourrez perfectionner vos outils plus tard, lorsque vous en ressentirez vraiment le besoin.
 
 ## 1. Trouvez votre dossier WorldBox
 
@@ -81,5 +81,7 @@ Vous n'en avez **pas** besoin pour créer un mod basique. Revenez ici lorsqu'une
 - **[AssetRipper](#/toolbox/getting-the-sprites)** : extrait les sprites et les sons du jeu afin que vous puissiez adapter votre style graphique.
 - **[Modding avec BepInEx](#/toolbox/bepinex-modding)** : compiler des plugins `.dll` si vous voulez des hooks bas niveau dans le moteur Unity plutôt que du contenu NML.
 
-> [!WARNING] NCMS est obsolète :sadcat:
-> NCMS n'est plus maintenu. Tous les guides de ce site ciblent NML. Vous pouvez toujours techniquement créer un mod pour NCMS, mais plus personne ne fait cela aujourd'hui :PES2_Shrug:.
+> [!NOTE] Lire d'anciens mods NCMS
+> NML inclut une couche de compatibilité NCMS, avec la prise en charge de l'ancien point d'entrée `[ModEntry]`. Cela ne répare pas les appels aux API du jeu qui ont changé. Testez un ancien mod avec vos versions du jeu et de NML avant de vous y fier. Démarrez HelloBox avec `BasicMod<Main>`, comme le fait ce guide.
+
+Suite : **[Structure d'un mod](#/nml/mod-structure)**.

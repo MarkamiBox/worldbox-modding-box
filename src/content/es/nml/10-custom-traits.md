@@ -8,7 +8,7 @@ order: 100
 
 # Rasgos personalizados :wbstrongminded:
 
-Un rasgo (trait) es una etiqueta permanente en una unidad: *valiente*, *rápido*, *inmortal*. Aparece en el inspector, puede alterar las estadísticas (stats) de la unidad, puede ejecutar código cuando la unidad nace, recibe daño o muere, y los hijos pueden heredarlo.
+Un rasgo (trait) es una etiqueta permanente en una unidad: *valiente*, *rápido*, *inmortal*. Aparece en el inspector, puede alterar las estadísticas (stats) de la unidad, puede ejecutar código cuando la unidad ataca, recibe daño o muere, y los hijos pueden heredarlo.
 
 También es lo más sencillo de añadir en todo el juego, razón por la cual es el primer mod de todo el mundo. El mío no: mi primer mod era un wrapper alrededor del mod de otra persona, que es su propia forma de hacer trampa :trollface:.
 
@@ -157,21 +157,96 @@ swift.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 // cuando la unidad muere
 swift.action_death = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
 
-// cuando la unidad nace
-swift.action_birth = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
-
 // cuando la unidad recibe un golpe
 swift.action_get_hit = (BaseSimObject pSelf, BaseSimObject pAttacker, WorldTile pTile) => { return true; };
+
+// cada vez que uno de los ataques de la unidad impacta, justo después del daño
+swift.action_attack_target = (BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile) =>
+{
+    Actor self = pSelf as Actor;
+    // pTarget puede ser un edificio, y el golpe puede acabar de destruirlo
+    if (self == null || !self.isAlive() || pTarget == null) return false;
+
+    self.restoreHealth(2);
+    return true;
+};
 ```
 
 Dos reglas para los cuatro: **comprueba si es null y comprueba si la unidad sigue viva primero**, y devuelve `false` cuando no hayas hecho nada. Estos callbacks corren en cada unidad que tenga el rasgo, para siempre.
 
-## Opuestos y exclusiones mutuas
+> [!NOTE] `action_birth` y `action_growth` existen, y aquí nunca se disparan
+> `ActorTrait` hereda ambos campos, así que compilan. El juego solo los lee de rasgos de **subespecie**: fusiona los rasgos de una subespecie en un único callback de nacimiento y uno de crecimiento, y llama a esos. En un rasgo de criatura se quedan ahí sin hacer nada, en silencio :wbreally:. Si quieres "cuando nace una unidad", conviértelo en un rasgo de subespecie: **[Rasgos de subespecie](#/nml/subspecies-traits)**.
+
+### Cuando el rasgo se gana, se pierde o se carga
+
+Otros tres ganchos se ejecutan una sola vez en lugar de todo el tiempo. Usan un delegado distinto, `WorldActionTrait`, que te entrega al propietario como `NanoObject` y el propio rasgo:
 
 ```csharp
-swift.addOpposite("slow");                            // ambos no pueden coexistir jamás
-swift.traits_to_remove_ids = new string[] { "fat" };  // obtener este rasgo elimina aquel
+// una sola vez, en el momento en que addTrait() lo pone en una unidad
+swift.action_on_augmentation_add = (NanoObject pTarget, BaseAugmentationAsset pTrait) =>
+{
+    Actor actor = pTarget as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    actor.restoreHealth(actor.getMaxHealth());   // un regalo de bienvenida, una sola vez
+    return true;
+};
 ```
+
+| Campo | Cuándo se ejecuta |
+| --- | --- |
+| `action_on_augmentation_add` | `addTrait()` tuvo éxito |
+| `action_on_augmentation_remove` | `removeTrait()` lo quitó, incluido cuando otro rasgo lo expulsó como opuesto o mediante `traits_to_remove` |
+| `action_on_augmentation_load` | Un mundo guardado cargó y la unidad volvió con el rasgo |
+
+Una unidad cargada recupera sus rasgos **sin** pasar por `addTrait()`, así que `_add` no se vuelve a ejecutar. Si `_add` configura algo que el guardado no conserva, vuelve a hacerlo en `_load`.
+
+## Opuestos y exclusiones mutuas
+
+La forma vanilla es `addOpposite("slow")` y `traits_to_remove_ids`. Ambas solo escriben **ids**, y el juego convierte esos ids en los conjuntos que realmente lee una sola vez, mientras carga, antes de que tu mod exista. En tu rasgo no hacen nada :wbfacepalm:. Rellena tú mismo los campos ya resueltos, después de `add()`:
+
+```csharp
+ActorTrait slow = AssetManager.traits.get("slow");
+if (slow != null)
+{
+    // addTrait() solo comprueba el propio conjunto del rasgo NUEVO, así que rellena ambos lados:
+    // si no, una unidad lenta rechaza swift, pero una unidad swift se vuelve lenta encantada
+    swift.opposite_traits = new HashSet<ActorTrait> { slow };
+    if (slow.opposite_traits == null) slow.opposite_traits = new HashSet<ActorTrait>();
+    slow.opposite_traits.Add(swift);
+}
+
+// obtener swift elimina estos; el juego lee el array, no los ids
+ActorTrait fat = AssetManager.traits.get("fat");
+if (fat != null) swift.traits_to_remove = new ActorTrait[] { fat };
+```
+
+`HashSet` necesita `using System.Collections.Generic;` al principio del archivo.
+
+> [!WARNING] `opposite_trait_mod` necesita `opposite_traits`
+> `opposite_trait_mod` cambia cuánto se aprecian dos unidades entre sí cuando una tiene un opuesto del rasgo de la otra. El código social recorre `opposite_traits` sin comprobar null, así que fijar el modificador y dejar el conjunto en `null` lanza `NullReferenceException` la primera vez que dos unidades se evalúan mutuamente. Dale un valor al conjunto, aunque sea uno vacío.
+
+## Rareza
+
+`rarity` decide el color del nombre y la línea de rareza en el tooltip del rasgo, y `Rarity.R3_Legendary` también obtiene el marco especial legendario. Los valores son `R0_Normal`, `R1_Rare`, `R2_Epic` y `R3_Legendary`.
+
+Para los rasgos vanilla es casi automático: mientras el juego carga, la biblioteca cuenta lo que hace cada rasgo (acciones, decisiones, hechizos, acciones de combate, etiquetas) y sube cualquier cosa que haga algo a `R1_Rare` o `R2_Epic`. Tu rasgo llega después de ese paso, así que conserva lo que hayas escrito, y si no escribiste nada ese es el valor por defecto, `R1_Rare`, por mucho que haga. Fíjalo tú mismo:
+
+```csharp
+swift.rarity = Rarity.R2_Epic;
+```
+
+## Desbloquearlo desde código
+
+Con `needs_to_be_explored = true` el rasgo empieza bloqueado en el libro de conocimiento. `unlock()` es cómo el juego lo descubre:
+
+```csharp
+AssetManager.traits.get(HelloTraits.SWIFT)?.unlock();
+```
+
+Añade el id al progreso del jugador, muestra el aviso de "nuevo conocimiento" y guarda el archivo de progreso. `unlock(false)` se salta el guardado: úsalo cuando desbloquees varias cosas seguidas, y luego llama a `GameProgress.saveData()` una vez al final. Devuelve `false` y no hace nada cuando el rasgo ya está disponible, y un rasgo con `needs_to_be_explored = false` siempre lo está. Llámalo desde la jugabilidad, cuando el jugador se lo haya ganado: es su archivo de progreso real, y sigue desbloqueado en cada mundo después.
+
+`unlocked_with_achievement` ya es `false` por defecto. Escribir `unlocked_with_achievement = false` no cambia nada.
 
 ## Asignar el rasgo a una unidad
 

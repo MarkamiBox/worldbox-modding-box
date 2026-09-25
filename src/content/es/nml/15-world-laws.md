@@ -25,6 +25,8 @@ namespace HelloBox
 
         public static void Initialize()
         {
+            if (AssetManager.world_laws_library.has(CHAOS)) return;
+
             AssetManager.world_laws_library.add(new WorldLawAsset
             {
                 id = CHAOS,
@@ -43,7 +45,7 @@ Añade `HelloLaws.Initialize();` a `Main.cs` y el interruptor estará en el jueg
 | Campo | Significado |
 | --- | --- |
 | `id` | El nombre de tu ley. También la clave de traducción |
-| `group_id` | La pestaña en la que aterriza: `units`, `civilizations`, `spawn`, `diplomacy`, `nature`, … |
+| `group_id` | La pestaña en la que aterriza. La lista completa está bajo **Las pestañas** más abajo, o crea la tuya propia |
 | `icon_path` | El icono, mismas reglas de ruta que en todas partes |
 | `default_state` | `true` = activo para mundos nuevos, `false` = desactivado |
 | `can_turn_off` | Por defecto `true`. Pon `false` para una ley que solo se pueda activar |
@@ -60,6 +62,14 @@ if (law != null && law.isEnabled())
     // el jugador quiere caos, dale caos
 }
 ```
+
+O el camino corto, directamente desde el mundo, sin buscar el asset:
+
+```csharp
+bool chaos = World.world.world_laws.isEnabled(HelloLaws.CHAOS);
+```
+
+`isEnabled(string)` devuelve `false` para un id que no conoce en lugar de lanzar una excepción, así que una errata se lee como "apagado" en vez de como un crash. Amable, y también terrible, porque nada te avisa :PES5_Hmmmm:. `World.world.world_laws` es `internal`, así que esto compila contra el ensamblado publicitado con el que NML construye tu mod (mira la nota en **[Efectos de estado](#/nml/status-effects)**). La vía del asset de arriba funciona en todas partes.
 
 Un ejemplo práctico: generar tus brasas solo cuando la ley esté activa:
 
@@ -99,12 +109,65 @@ new WorldLawAsset
 };
 ```
 
+## Las pestañas
+
+La ventana está dividida en pestañas, y `group_id` elige una. Estos son todos los grupos vanilla, en el orden en que la ventana los dibuja:
+
+`harmony` · `diplomacy` · `civilizations` · `units` · `mobs` · `spawn` · `nature` · `trees` · `plants` · `fungi` · `biomes` · `weather` · `disasters` · `other`
+
+### Una pestaña propia
+
+Sustituye el `Initialize()` del primer ejemplo por la versión de abajo, y añade `GROUP` junto a `CHAOS`.
+
+Un grupo es un `WorldLawGroupAsset` en `AssetManager.world_law_groups`. Es el mismo `BaseCategoryAsset` diminuto que usan las pestañas de rasgos, mira **[Grupos de rasgos y pestañas](#/nml/trait-groups)**:
+
+| Campo | Qué hace |
+| --- | --- |
+| `id` | A qué apunta el `group_id` de una ley |
+| `name` | La **clave de localización** del título de la pestaña. No el título en sí |
+| `color` | Cadena hexadecimal. Tiñe el título de la pestaña |
+
+```csharp Mods/HelloBox/Code/HelloLaws.cs
+public const string GROUP = "hello_laws";
+
+public static void Initialize()
+{
+    // primero el grupo: las leyes de abajo apuntan a él
+    if (!AssetManager.world_law_groups.has(GROUP))
+    {
+        AssetManager.world_law_groups.add(new WorldLawGroupAsset
+        {
+            id = GROUP,
+            name = "world_laws_tab_" + GROUP,   // la clave de localización, no el texto
+            color = "#FF9A3C"
+        });
+    }
+
+    if (AssetManager.world_laws_library.has(CHAOS)) return;
+
+    AssetManager.world_laws_library.add(new WorldLawAsset
+    {
+        id = CHAOS,
+        needs_to_be_explored = false,
+        group_id = GROUP,
+        icon_path = "ui/Icons/worldrules/icon_hello_law",
+        default_state = false
+    });
+}
+```
+
+Sin trabajo de UI: la ventana de Leyes del Mundo construye una pestaña por cada entrada en `world_law_groups.list`, y luego coloca cada ley en la pestaña que su `group_id` nombra. Lo hace una sola vez, cuando la ventana se crea por primera vez, y tu mod ya lleva tiempo cargado cuando el jugador llega ahí. Tu pestaña va al final, después de `other`.
+
+> [!WARNING] Un `group_id` que no existe rompe toda la ventana
+> La ventana busca la pestaña con un simple índice de diccionario. Una ley que apunta a un grupo que nadie registró lanza `KeyNotFoundException` mientras se construye la ventana, y todas las leyes registradas después de ella, las tuyas y las de otros mods, nunca llegan a la ventana. Registra el grupo antes que las leyes, y escríbelo igual las dos veces :PESgn_ToughLuck:.
+
 ## El texto
 
 ```json Mods/HelloBox/Locales/en.json
 {
   "world_law_hello_chaos_title": "Hello Chaos",
-  "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one."
+  "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one.",
+  "world_laws_tab_hello_laws": "HelloBox"
 }
 ```
 

@@ -147,3 +147,9 @@ public ModConfig GetConfig()
 ```
 
 Diese einzige Methode sorgt dafür, dass der Einstellungs-Button neben deiner Mod im Mod-Menü erscheint. Eine Methode, und niemand streitet sich mehr auf Discord mit dir. In der Theorie.
+
+## Mod-Einstellungen oder Spieloptionen?
+
+Behalte HelloBox' gewöhnliche Präferenzen in `default_config.json`. Die `AssetManager.options_library` des Spiels ist ein anderes System, gestützt von `PlayerConfig`, und nützlich, wenn du einen nativen Umschalter verdrahtest. Ein Options-Asset zu registrieren erzeugt allein noch keinen gespeicherten Wert dafür.
+
+Weiter geht's mit **[Spieloptionen & Zeitskalen](#/nml/game-options)** für diesen Weg, oder **[Power-Tabs & Buttons](#/nml/power-buttons)**, um ein Steuerelement auf den Bildschirm zu bringen.

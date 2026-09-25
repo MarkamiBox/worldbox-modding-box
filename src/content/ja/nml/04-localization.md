@@ -24,7 +24,7 @@ order: 26
 }
 ```
 
-ファイル名**そのもの**が言語を表します：`en.json`、`cz.json`（簡体字中国語）、`ru.json`、`ja.json` など。
+ファイル名**そのもの**が言語を表します：`en.json`、`cz.json`（簡体字中国語）、`ch.json`（繁体字中国語）、`ja.json`（日本語）、`ru.json` など。これらは `GameLanguageLibrary` に登録されているIDであり、推測したISOコードではありません。チェコ語は `cz` ではなく `cs` です。Modフォルダの名前は大文字の `Locales` のまま使ってください。ゲーム自身の `locales/` リソースパスとは別物です。
 
 もし `IMod` を手動で実装している場合は、`ILocalizable` インターフェースを実装してフォルダの場所を指定します：
 
@@ -113,3 +113,19 @@ namespace HelloBox
 
 > [!WARNING] IDは名前ではない
 > あなたのIDはどの言語でも永遠に `hello_swift` であり、残りのコード（や他人のMod）が参照するのはこれです。変わるのは **ローカライズされたテキスト** の方です。表示名のタイプミスを直すためだけにIDを変えてはいけません :PESgn_Stop:。
+
+## LMを使わないゲームAPI
+
+現在読み込まれている言語だけで必要な値なら：
+
+```csharp
+LocalizedTextManager.add("hello_notice", "Hello from HelloBox", pReplace: true);
+string notice = LocalizedTextManager.getText("hello_notice");
+```
+
+`add(string pKey, string pTranslation, bool pReplace = false, string pFileName = "", bool pCheckForCharacters = true)` は現在のテキスト辞書に書き込みます。`pReplace` が true でない限り、既存のキーは変更されません。キーは `Underscore()` によって正規化されるため、最初からアンダースコア区切りのキーを使ってください。`getText(string pKey, Text text = null, bool pForceEnglish = false)` はその辞書を読み取りますが、確認したソースでは `pForceEnglish` が英語を選択するためには使われていません。
+
+> [!NOTE] 現在のテキストは翻訳ファイルではない
+> 言語を切り替えると、ゲームのテキスト辞書は再構築されます。言語切り替えを生き延びる必要がある翻訳には、`Locales` か `LM.Add` を使ってください。直接 `add` を呼んでも、既存のテキストコンポーネントは自動で更新されません。
+
+次へ: **[スプライト＆リソース](#/nml/sprites-and-resources)**、または **[メッセージとワールドログ](#/nml/messages-and-world-log)** で画面にテキストを表示する方法。

@@ -451,3 +451,38 @@ private static Sprite Icon(string pName)
 ```
 
 ボタンの名前とツールチップはボタン自体からではなく **パワーID** から取得されます。そのため、上記のキーはクリエイターに渡したIDと一致しています。
+
+## ウィンドウとトグルのヘルパー
+
+インストール済みのNMLアセンブリは、`NeoModLoader.General` に以下のヘルパーも公開しています。タブと対象のウィンドウまたはパワーが存在した後に、一度だけ使います：
+
+```csharp
+PowerButton windowButton = PowerButtonCreator.CreateWindowButton(
+    "hello_native_open", HelloNativeWindow.WindowId,
+    Icon("iconHelloPanel"), tab.transform, Vector2.zero);
+```
+
+`CreateWindowButton` はボタンの `open_window_id` を設定します。ウィンドウ自体を作成するわけではありません。`CreateSimpleButton` は `UnityAction` を受け取るので、自作のコールバックにはそちらを使ってください。`GetTab(string pId)` はタブを検索し、`AddButtonToTab(button, tab)` はボタンを1つのタブへ移動させます。そのオーバーロードは `Vector2` の位置と、任意の兄弟インデックスも受け取れます。
+
+`CreateToggleButton(pGodPowerId, pIcon, pParent, pLocalPosition, pNoAutoSetToggleAction = false)` には、空でない `toggle_name` を持つ登録済みの `GodPower` が必要です。その名前が `PlayerConfig` のオプションを識別します。プレイヤーの辞書にそのキーがない場合、このヘルパーは false の真偽値オプションとプレイヤー値を作成します。**[ゲームオプション & 時間スケール](#/nml/game-options)** に示すように、両方とも自分で登録しておく方が望ましいです。
+
+> [!NOTE] 自動トグルはコールバックの一部
+> NMLはデフォルトで、既存の `toggle_action` の後ろに独自のトグル＆保存アクションを追加します。既存のコールバックが状態変更を自前で担っている場合は `pNoAutoSetToggleAction: true` を渡してください。コールバックが null の場合、このフラグはNMLのデフォルトアクションのインストールを止めません。クリエイターを繰り返し呼び出すと、アクションが重複して追加されることがあります。
+
+## ゲーム側の PowerTabAsset
+
+`AssetManager.power_tab_library` はネイティブのタブアセットを保持します。これはNMLの `TabManager.CreateTab` が返す `PowersTab` UIコンポーネントとは別物です。
+
+| フィールド | 役割 |
+| --- | --- |
+| `locale_key` | 名前キー。`getDescriptionID()` はこのキーに `_info` を付けたものを返す |
+| `icon_path` | `getIcon()` が使うスプライトのパス |
+| `get_power_tab` | 表示する `PowersTab` を返すデリゲート |
+| `gameplay_tab` | UIタブへの参照 |
+| `window_id` | 関連付けられたウィンドウID |
+| `on_main_tab_select` / `on_main_info_click` | メインタブのコールバック |
+| `on_update_check_active` | アクティブ状態を確認するコールバック |
+
+`tryToShowPowerTab()` は `get_power_tab` を呼び出し、返ってきたコンポーネントに自身を表示するよう求めます。素のアセットを追加するだけでは、UIタブを作成する代わりにはなりません。NMLの明示的なタイトルと説明の引数を、ネイティブの `_info` 規則と混同しないでください。
+
+次は: パネルには **[カスタムウィンドウ](#/nml/custom-windows)**、その状態には **[ゲームオプション & 時間スケール](#/nml/game-options)** をどうぞ。

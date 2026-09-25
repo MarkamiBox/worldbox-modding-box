@@ -147,3 +147,9 @@ public ModConfig GetConfig()
 ```
 
 이 메서드 하나 덕분에 모드 창에서 내 모드 옆에 설정 버튼이 나타나게 됩니다. 메서드 하나로, 더는 아무도 Discord에서 여러분과 싸우지 않습니다. 이론상으로는요.
+
+## 모드 설정이냐, 게임 옵션이냐?
+
+HelloBox의 평범한 설정값들은 `default_config.json`에 두세요. 게임의 `AssetManager.options_library`는 `PlayerConfig`가 뒷받침하는 별개의 시스템이며, 네이티브 토글을 연결할 때 유용합니다. 옵션 에셋을 등록하는 것만으로는 그 저장값이 자동으로 만들어지지 않습니다.
+
+다음: 그 경로를 위한 **[게임 옵션](#/nml/game-options)**, 또는 화면에 컨트롤을 올리는 **[권능 탭 & 버튼](#/nml/power-buttons)**.

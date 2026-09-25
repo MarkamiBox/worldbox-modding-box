@@ -8,7 +8,7 @@ order: 100
 
 # Traços personalizados :wbstrongminded:
 
-Um traço (trait) é um rótulo permanente em uma unidade: *corajoso*, *rápido*, *imortal*. Ele aparece no inspetor, pode alterar os atributos (stats) da unidade, pode executar código quando ela nasce, é atingida ou morre, e os filhos podem herdá-lo.
+Um traço (trait) é um rótulo permanente em uma unidade: *corajoso*, *rápido*, *imortal*. Ele aparece no inspetor, pode alterar os atributos (stats) da unidade, pode executar código quando ela ataca, é atingida ou morre, e os filhos podem herdá-lo.
 
 É também a coisa mais simples e leve de adicionar em todo o jogo, e é por isso que costuma ser o primeiro mod de todo mundo. O meu não: meu primeiro mod era um wrapper em volta do mod de outra pessoa, o que é um tipo próprio de trapaça :trollface:.
 
@@ -157,21 +157,96 @@ swift.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 // quando a unidade morre
 swift.action_death = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
 
-// quando a unidade nasce
-swift.action_birth = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
-
 // quando a unidade sofre dano
 swift.action_get_hit = (BaseSimObject pSelf, BaseSimObject pAttacker, WorldTile pTile) => { return true; };
+
+// toda vez que um dos ataques da unidade acerta, logo depois do dano
+swift.action_attack_target = (BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile) =>
+{
+    Actor self = pSelf as Actor;
+    // pTarget pode ser uma construção, e o golpe pode tê-la acabado de destruir
+    if (self == null || !self.isAlive() || pTarget == null) return false;
+
+    self.restoreHealth(2);
+    return true;
+};
 ```
 
 Duas regras fundamentais: **verifique se é null e verifique se a unidade está viva antes de tudo**, e retorne `false` se você não fez nada. Esses callbacks rodam em todas as unidades que têm o traço, para sempre.
 
-## Opostos e exclusões mútuas
+> [!NOTE] `action_birth` e `action_growth` existem, e nunca disparam aqui
+> `ActorTrait` herda os dois campos, então eles compilam. O jogo só os lê de traços de **subespécie**: ele funde os traços de uma subespécie em um único callback de nascimento e um único callback de crescimento e chama esses. Num traço de criatura eles ficam ali sem fazer nada, em silêncio :wbreally:. Se você quer "quando uma unidade nasce", faça um traço de subespécie: **[Traços de subespécie](#/nml/subspecies-traits)**.
+
+### Quando o traço é ganho, perdido ou carregado
+
+Mais três ganchos rodam uma única vez em vez de o tempo todo. Eles usam um delegate diferente, `WorldActionTrait`, que entrega o dono como um `NanoObject` e o próprio traço:
 
 ```csharp
-swift.addOpposite("slow");                            // os dois nunca poderão coexistir
-swift.traits_to_remove_ids = new string[] { "fat" };  // ganhar este traço remove aquele
+// uma única vez, no momento em que addTrait() o coloca numa unidade
+swift.action_on_augmentation_add = (NanoObject pTarget, BaseAugmentationAsset pTrait) =>
+{
+    Actor actor = pTarget as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    actor.restoreHealth(actor.getMaxHealth());   // um presente de boas-vindas, uma vez só
+    return true;
+};
 ```
+
+| Campo | Quando roda |
+| --- | --- |
+| `action_on_augmentation_add` | `addTrait()` teve sucesso |
+| `action_on_augmentation_remove` | `removeTrait()` o tirou, inclusive quando outro traço o expulsou por ser oposto ou via `traits_to_remove` |
+| `action_on_augmentation_load` | Um mundo salvo carregou e a unidade voltou com o traço |
+
+Uma unidade carregada recupera seus traços **sem** passar por `addTrait()`, então `_add` não roda de novo. Se `_add` configura algo que o save não mantém, refaça em `_load`.
+
+## Opostos e exclusões mútuas
+
+O jeito vanilla é `addOpposite("slow")` e `traits_to_remove_ids`. Os dois só escrevem **ids**, e o jogo converte esses ids nos conjuntos que ele realmente lê uma única vez, durante o carregamento, antes de o seu mod existir. No seu traço eles não fazem nada :wbfacepalm:. Preencha os campos já resolvidos você mesmo, depois do `add()`:
+
+```csharp
+ActorTrait slow = AssetManager.traits.get("slow");
+if (slow != null)
+{
+    // addTrait() só verifica o conjunto do NOVO traço, então preencha os dois lados:
+    // senão uma unidade lenta recusa swift, mas uma unidade swift vira lenta de boa
+    swift.opposite_traits = new HashSet<ActorTrait> { slow };
+    if (slow.opposite_traits == null) slow.opposite_traits = new HashSet<ActorTrait>();
+    slow.opposite_traits.Add(swift);
+}
+
+// ganhar swift remove estes; o jogo lê o array, não os ids
+ActorTrait fat = AssetManager.traits.get("fat");
+if (fat != null) swift.traits_to_remove = new ActorTrait[] { fat };
+```
+
+`HashSet` precisa de `using System.Collections.Generic;` no topo do arquivo.
+
+> [!WARNING] `opposite_trait_mod` precisa de `opposite_traits`
+> `opposite_trait_mod` muda o quanto duas unidades gostam uma da outra quando uma tem um oposto do traço da outra. O código social percorre `opposite_traits` sem checagem de nulo, então definir o modificador e deixar o conjunto `null` lança `NullReferenceException` na primeira vez que duas unidades se avaliarem. Dê um valor ao conjunto, mesmo que vazio.
+
+## Raridade
+
+`rarity` decide a cor do nome e a linha de raridade no tooltip do traço, e `Rarity.R3_Legendary` também ganha a moldura especial lendária. Os valores são `R0_Normal`, `R1_Rare`, `R2_Epic` e `R3_Legendary`.
+
+Para traços vanilla isso é praticamente automático: enquanto o jogo carrega, a biblioteca conta o que cada traço faz (ações, decisões, feitiços, ações de combate, tags) e eleva qualquer coisa que faça algo para `R1_Rare` ou `R2_Epic`. Seu traço chega depois dessa passagem, então mantém o que você escreveu, e se você não escreveu nada esse é o padrão, `R1_Rare`, por mais que ele faça. Defina você mesmo:
+
+```csharp
+swift.rarity = Rarity.R2_Epic;
+```
+
+## Desbloqueando pelo código
+
+Com `needs_to_be_explored = true` o traço começa trancado no livro de conhecimento. `unlock()` é como o jogo o descobre:
+
+```csharp
+AssetManager.traits.get(HelloTraits.SWIFT)?.unlock();
+```
+
+Isso adiciona o id ao progresso do jogador, mostra a dica de "novo conhecimento", e salva o arquivo de progresso. `unlock(false)` pula o salvamento: use quando você desbloqueia várias coisas seguidas, e chame `GameProgress.saveData()` uma vez no final. Ele retorna `false` e não faz nada quando o traço já está disponível, e um traço com `needs_to_be_explored = false` sempre está. Chame a partir da jogabilidade, quando o jogador realmente ganhou: é o arquivo de progresso de verdade dele, e continua desbloqueado em todo mundo depois.
+
+`unlocked_with_achievement` já é `false` por padrão. Escrever `unlocked_with_achievement = false` não muda nada.
 
 ## Atribuindo o traço a uma unidade
 

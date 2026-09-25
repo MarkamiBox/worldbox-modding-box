@@ -24,7 +24,7 @@ order: 26
 }
 ```
 
-파일 이름 **자체**가 언어 코드가 됩니다: `en.json`, `cz.json` (중국어 간체), `ru.json`, `ko.json` 등.
+파일 이름 **자체**가 언어 코드가 됩니다: `en.json`, `cz.json` (중국어 간체), `ch.json` (중국어 번체), `ja.json` (일본어), `ru.json` 등. 이는 `GameLanguageLibrary`에 등록된 ID이지, 추측한 ISO 코드가 아닙니다. 체코어는 `cz`가 아니라 `cs`입니다. 모드 폴더 이름은 대문자 L을 쓴 `Locales`로 유지하세요. 게임 자체의 `locales/` 리소스 경로는 이것과 별개입니다.
 
 만약 `IMod` 인터페이스를 직접 구현했다면, `ILocalizable` 을 추가하고 폴더 위치를 지정해 줍니다:
 
@@ -113,3 +113,19 @@ namespace HelloBox
 
 > [!WARNING] ID는 이름이 아닙니다
 > 여러분의 ID는 어떤 언어에서든 영원히 `hello_swift`이고, 나머지 코드(와 다른 사람들의 모드)가 참조하는 것이 이것입니다. 바뀌는 건 **로컬라이즈된 텍스트** 쪽입니다. 표시 이름의 오타를 고치려고 ID를 바꾸는 일은 절대 하지 마세요 :PESgn_Stop:.
+
+## LM 없이 게임 API 사용하기
+
+현재 로드된 언어에서만 필요한 값이라면:
+
+```csharp
+LocalizedTextManager.add("hello_notice", "Hello from HelloBox", pReplace: true);
+string notice = LocalizedTextManager.getText("hello_notice");
+```
+
+`add(string pKey, string pTranslation, bool pReplace = false, string pFileName = "", bool pCheckForCharacters = true)`는 현재 텍스트 딕셔너리에 씁니다. `pReplace`가 true가 아니면 기존 키는 그대로 유지됩니다. 키는 내부적으로 `Underscore()`를 거쳐 정규화되므로, 처음부터 밑줄 키를 쓰세요. `getText(string pKey, Text text = null, bool pForceEnglish = false)`는 그 딕셔너리를 읽습니다. 여기서 확인한 소스 기준으로는 `pForceEnglish`가 영어를 선택하는 데 쓰이지 않습니다.
+
+> [!NOTE] 현재 텍스트는 번역 파일이 아닙니다
+> 언어를 바꾸면 게임의 텍스트 딕셔너리가 다시 만들어집니다. 언어 전환 이후에도 살아남아야 하는 번역이라면 `Locales`나 `LM.Add`를 쓰세요. 직접 `add`를 호출해도 이미 화면에 있는 텍스트 컴포넌트를 알아서 새로고침해주지는 않습니다.
+
+다음: **[스프라이트 및 리소스](#/nml/sprites-and-resources)**, 또는 화면에 텍스트를 띄우는 **[메시지 및 세계 기록](#/nml/messages-and-world-log)**.

@@ -282,6 +282,30 @@ sprite.icon = "iconHelloSprites";
 
 A arte do **corpo** da criatura é um assunto completamente diferente e encerra esta seção.
 
+## Barcos
+
+Um barco também é uma unidade, uma com `is_boat = true`, e os templates são `$boat_trading$` e `$boat_transport$`. Clone um pronto, `boat_trading_human` ou `boat_transport_human`, e você ganha de graça os atributos, o canhão e a IA de barco. Uma civilização não escolhe seus barcos por espécie: sua **arquitetura** os nomeia, em `actor_asset_id_trading`, `actor_asset_id_transport` e `actor_asset_id_boat_fishing`.
+
+O que você não ganha de graça é a arte. A imagem de um barco não vem de `texture_asset`: o jogo a carrega de `actors/boats/<id do barco>/`, pelo nome do sprite, na primeira vez que desenha um:
+
+```text Mods/HelloBox/
+HelloBox/
+└── GameResources/
+    └── actors/boats/hello_boat_trading/
+        ├── normal.png      # enquanto suspenso ou no ímã, e o padrão de reserva
+        ├── broken.png      # o naufrágio
+        ├── 0@0.png         # navegando, um par por direção:
+        ├── 0@1.png         # <ângulo>@0 e <ângulo>@1
+        └── ...             # para 0, 45, 90, 135, 180, -45, -90, -135
+```
+
+`normal` e `broken` são obrigatórios: sem eles o carregador lança `KeyNotFoundException`. Na água o jogo cai para o ângulo mais próximo que você desenhou, mas o avatar da unidade no inspetor pede os oito, então desenhe os oito.
+
+`ActorAnimationLoader.loadAnimationBoat("hello_boat_trading")` é público e é a chamada que o jogo faz. Você nunca precisa dela, mas chamá-la uma vez logo depois do clone transforma um sprite ausente num erro no carregamento, no seu próprio código, em vez de no meio de uma guerra naval :wbsmirk:.
+
+> [!NOTE] Sem marca no mapa para o seu barco
+> Os pequenos ícones de barco no mapa afastado vêm de `AssetManager.actor_library.list_only_boat_assets`, uma lista que a biblioteca constrói uma vez no carregamento. Adicione seu barco a ela se quiser a marca.
+
 ## Sprites são a parte difícil
 
 Tudo o que foi visto acima se resume a uma página de código. O verdadeiro trabalho está na arte, e é aqui que a maioria dos mods de criaturas morre em silêncio: uma criatura exige um conjunto completo de animações, no atlas correto, na escala exata e com os pivôs perfeitamente alinhados. Há duas saídas sinceras:

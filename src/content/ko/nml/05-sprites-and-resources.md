@@ -68,8 +68,12 @@ HelloBox/GameResources/ui/Icons/iconHelloSwift.png
 | `PivotX` / `PivotY` | 기준 앵커 포인트. `0.5 / 0.0` 은 하단 중앙을 뜻하며, 유닛과 건물에 주로 사용됩니다 |
 | `BorderL/R/T/B` | 늘어나는 창 테두리와 버튼을 위한 9-슬라이스 여백 설정 |
 | `Path` | 이 특정 규칙을 적용할 개별 파일명 |
+| `RectX` / `RectY` | 스프라이트 사각형 오프셋. 둘 다 기본값은 `0`이며, NML 문서는 `0`으로 두라고 안내합니다 |
 
 `Default` 는 `Specific` 에 명시되지 않은 해당 폴더 내의 모든 파일에 공통 적용됩니다.
+
+> [!NOTE] 오프셋은 아틀라스 레시피가 아닙니다
+> 문서화된 `sprites.json` 설정에는 사각형의 너비나 높이 필드가 없습니다. 시트를 자르기 위해 그런 필드를 지어내지 마세요. 아틀라스와 스프라이트 시트에 대해서는 NML이 Unity `.meta` 파일 방식을 문서화하고 있습니다.
 
 ## 각 그래픽 유형별 파일 저장 위치
 
@@ -174,3 +178,6 @@ private static Sprite Icon(string pName)
 ```
 
 경고 아이콘이 뜨면 "경로가 잘못되었구나" 하고 즉시 알 수 있습니다. 완전히 사라진 투명 구멍은 버튼이 어디로 증발했는지 2시간 동안 헤매게 만듭니다 :PES4_Invisible:.
+
+
+다음: **[모드 설정](#/nml/mod-config)** 또는 **[커스텀 창](#/nml/custom-windows)**.

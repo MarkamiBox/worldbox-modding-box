@@ -22,7 +22,7 @@ order: 94
 AssetManager.traits.has("hello_swift");            // 登録済みか？
 AssetManager.traits.get("hello_swift");            // 取得（存在しなければnull）
 AssetManager.traits.add(myTrait);                  // 新規登録
-AssetManager.traits.clone("hello_new", "brave");   // 既存を複製して登録まで行う
+AssetManager.traits.clone("hello_new", "strong");   // 既存を複製して登録まで行う
 AssetManager.traits.list;                          // 登録順の全アセット
 AssetManager.traits.dict;                          // ID引きの全アセット
 ```
@@ -65,7 +65,8 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 | `loyalty_library` | `LoyaltyAsset` | 忠誠度の算出要素 |
 | `opinion_library` | `OpinionAsset` | 外交感情の算出要素 |
 | `happiness_library` | `HappinessAsset` | 幸福度の算出要素 |
-| `plots_library` / `plot_category_library` | `PlotAsset` | ユニットや国家が企てる陰謀 |
+| `plots_library` | `PlotAsset` | 統治者が始め、代償を払う陰謀。**[陰謀](#/nml/plots)** |
+| `plot_category_library` | `PlotCategoryAsset` | 陰謀ウィンドウの区分。**[陰謀](#/nml/plots)** |
 | `decisions_library` | `DecisionAsset` | AIの意思決定（decision） |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | ユニット間の会話トピック |
 | `book_types` | `BookTypeAsset` | 書物の種類。**[本](#/nml/books)** |
@@ -89,9 +90,10 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 | `effects_library` | `EffectAsset` | 視覚効果エフェクト |
 | `months` | `MonthAsset` | 暦・月 |
 | `era_library` | `WorldAgeAsset` | 世界の時代（world age）区分 |
-| `time_scales` | `WorldTimeScaleAsset` | ゲーム進行速度 |
-| `map_sizes` | `MapSizeAsset` | マップサイズ定義 |
-| `map_gen_settings` / `map_gen_templates` | `MapGenSettingsAsset` | ワールド自動生成設定 |
+| `time_scales` | `WorldTimeScaleAsset` | ゲーム進行速度。「速く」ボタンは `list` を順番にたどり、デバッグモード以外では最後の項目（バニラの `x40`）には決して到達しません。追加した速度はその到達不能な項目になってしまうので、最後の項目の手前に `Insert` してください |
+| `map_sizes` | `MapSizeAsset` | 新規ワールド作成ウィンドウのサイズ一覧。**[マップ生成](#/nml/map-generation)** |
+| `map_gen_templates` | `MapGenTemplate` | ワールドの形状：`continent`、`islands`、`donut`など。**[マップ生成](#/nml/map-generation)** |
+| `map_gen_settings` | `MapGenSettingsAsset` | テンプレートの下にあるスライダーとスイッチ。**[マップ生成](#/nml/map-generation)** |
 | `world_behaviours` | `WorldBehaviourAsset` | ワールド全体の背景挙動 |
 | `sim_globals_library` | `SimGlobalAsset` | シミュレーションの大域定数 |
 
@@ -114,7 +116,8 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 | --- | --- | --- |
 | `powers` | `GodPower` | 神の力。**[神の力（God powers）](#/nml/god-powers)** |
 | `power_tab_library` | `PowerTabAsset` | 下部ツールバーのタブ。**[パワーのタブとボタン](#/nml/power-buttons)** |
-| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | 世界の法則（world law）。**[世界の法則](#/nml/world-laws)** |
+| `world_laws_library` | `WorldLawAsset` | 世界の法則（world law）。**[世界の法則](#/nml/world-laws)** |
+| `world_law_groups` | `WorldLawGroupAsset` | 世界の法則ウィンドウのタブ。**[世界の法則](#/nml/world-laws)** |
 | `brush_library` | `BrushData` | ブラシサイズ |
 | `hotkey_library` | `HotkeyAsset` | キーボードショートカット |
 | `debug_tool_library` | `DebugToolAsset` | デバッグツール群 |
@@ -132,7 +135,7 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 
 ## ユーザーインターフェース
 
-専用ページがあるのは window_library だけです :PES5_Hmmmm:。
+専用ページがあるのは `window_library` と `options_library` です :PES5_Hmmmm:。
 
 
 | ライブラリ | アセット | 保持内容 |
@@ -140,8 +143,8 @@ AssetManager.traits.dict;                          // ID引きの全アセット
 | `window_library` | `WindowAsset` | ウィンドウ。**[カスタムウィンドウ](#/nml/custom-windows)** |
 | `list_window_library` | `ListWindowAsset` | 一覧ウィンドウ（王国（kingdom）リスト、都市リスト等） |
 | `tooltips` | `TooltipAsset` | ツールチップレイアウト |
-| `nameplates_library` | `NameplateAsset` | 頭上のネームプレート |
-| `options_library` | `OptionAsset` | ゲーム設定項目 |
+| `nameplates_library` | `NameplateAsset` | マップモードが王国、都市、氏族などの上に描くネームバナー。`MetaType` ごとに1つで、`add()` は既にプレートがある`MetaType`に対して例外を投げるため、バニラのプレートを編集するには `get()` を使う |
+| `options_library` | `OptionAsset` | ゲーム自身の設定画面。**[ゲームオプション](#/nml/game-options)** |
 | `color_style_library` | `ColorStyleAsset` | UIカラースタイル |
 | `dynamic_sprites_library` | `DynamicSpritesAsset` | 動的生成スプライト |
 | `quantum_sprites` | `QuantumSpriteAsset` | スプライトバリエーション |

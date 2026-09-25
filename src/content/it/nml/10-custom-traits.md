@@ -8,7 +8,7 @@ order: 100
 
 # Tratti personalizzati :wbstrongminded:
 
-Un tratto (trait) è un'etichetta permanente su un'unità: *coraggioso*, *veloce*, *immortale*. Compare nell'inspector, può modificare le statistiche (stats) dell'unità, può eseguire codice quando l'unità nasce, viene colpita o muore, e i figli possono ereditarlo.
+Un tratto (trait) è un'etichetta permanente su un'unità: *coraggioso*, *veloce*, *immortale*. Compare nell'inspector, può modificare le statistiche (stats) dell'unità, può eseguire codice quando l'unità attacca, viene colpita o muore, e i figli possono ereditarlo.
 
 È anche la cosa più semplice e immediata da aggiungere nell'intero gioco, motivo per cui è il primo mod di chiunque. Il mio no: la mia prima mod era un wrapper attorno alla mod di qualcun altro, che è un modo tutto suo di barare :trollface:.
 
@@ -157,21 +157,96 @@ swift.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 // quando l'unità muore
 swift.action_death = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
 
-// quando l'unità nasce
-swift.action_birth = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
-
 // quando l'unità subisce un colpo
 swift.action_get_hit = (BaseSimObject pSelf, BaseSimObject pAttacker, WorldTile pTile) => { return true; };
+
+// ogni volta che uno degli attacchi dell'unità va a segno, subito dopo il danno
+swift.action_attack_target = (BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile) =>
+{
+    Actor self = pSelf as Actor;
+    // pTarget può essere un edificio, e il colpo potrebbe averlo appena distrutto
+    if (self == null || !self.isAlive() || pTarget == null) return false;
+
+    self.restoreHealth(2);
+    return true;
+};
 ```
 
-Due regole ferree: **controlla il null e controlla che l'unità sia viva come primissima cosa**, e restituisci `false` quando non hai fatto nulla. Questi delegati vengono eseguiti per ogni unità che ha il tratto, per sempre.
+Due regole ferree per tutti e quattro: **controlla il null e controlla che l'unità sia viva come primissima cosa**, e restituisci `false` quando non hai fatto nulla. Questi delegati vengono eseguiti per ogni unità che ha il tratto, per sempre.
+
+> [!NOTE] `action_birth` e `action_growth` esistono, e qui non scattano mai
+> `ActorTrait` eredita entrambi i campi, quindi compilano. Il gioco li legge solo dai tratti di **sottospecie** (subspecies): unisce i tratti di una sottospecie in un unico callback di nascita e uno di crescita e chiama quelli. Su un tratto di creatura restano lì senza fare nulla, silenziosamente :wbreally:. Se vuoi "quando un'unità nasce", rendilo un tratto di sottospecie: **[Tratti di sottospecie](#/nml/subspecies-traits)**.
+
+### Quando il tratto viene ottenuto, perso o caricato
+
+Altri tre hook girano una volta sola invece che di continuo. Usano un delegato diverso, `WorldActionTrait`, che ti passa il possessore come `NanoObject` e il tratto stesso:
+
+```csharp
+// una volta sola, nel momento in cui addTrait() lo mette su un'unità
+swift.action_on_augmentation_add = (NanoObject pTarget, BaseAugmentationAsset pTrait) =>
+{
+    Actor actor = pTarget as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    actor.restoreHealth(actor.getMaxHealth());   // un regalo di benvenuto, una volta sola
+    return true;
+};
+```
+
+| Campo | Quando gira |
+| --- | --- |
+| `action_on_augmentation_add` | `addTrait()` è andato a buon fine |
+| `action_on_augmentation_remove` | `removeTrait()` lo ha tolto, anche quando un altro tratto lo ha espulso come opposto o tramite `traits_to_remove` |
+| `action_on_augmentation_load` | Un mondo salvato è stato caricato e l'unità è tornata con il tratto |
+
+Un'unità caricata riottiene i suoi tratti **senza** passare da `addTrait()`, quindi `_add` non gira di nuovo. Se `_add` prepara qualcosa che il salvataggio non conserva, rifallo in `_load`.
 
 ## Opposti ed esclusioni reciproche
 
+Il modo vanilla è `addOpposite("slow")` e `traits_to_remove_ids`. Entrambi scrivono solo **id**, e il gioco trasforma quegli id negli insiemi che legge davvero una volta sola, durante il caricamento, prima che la tua mod esista. Sul tuo tratto non fanno nulla :wbfacepalm:. Riempi tu stesso i campi risolti, dopo `add()`:
+
 ```csharp
-swift.addOpposite("slow");                            // i due non potranno mai coesistere
-swift.traits_to_remove_ids = new string[] { "fat" };  // ottenere questo tratto rimuove quello
+ActorTrait slow = AssetManager.traits.get("slow");
+if (slow != null)
+{
+    // addTrait() controlla solo l'insieme del NUOVO tratto, quindi riempi entrambi i lati:
+    // altrimenti un'unità lenta rifiuta swift, ma un'unità swift diventa lenta senza problemi
+    swift.opposite_traits = new HashSet<ActorTrait> { slow };
+    if (slow.opposite_traits == null) slow.opposite_traits = new HashSet<ActorTrait>();
+    slow.opposite_traits.Add(swift);
+}
+
+// ottenere swift rimuove questi; il gioco legge l'array, non gli id
+ActorTrait fat = AssetManager.traits.get("fat");
+if (fat != null) swift.traits_to_remove = new ActorTrait[] { fat };
 ```
+
+`HashSet` richiede `using System.Collections.Generic;` in cima al file.
+
+> [!WARNING] `opposite_trait_mod` richiede `opposite_traits`
+> `opposite_trait_mod` cambia quanto due unità si piacciono quando una ha un opposto del tratto dell'altra. Il codice sociale scorre `opposite_traits` senza un controllo di nullità, quindi impostare il modificatore e lasciare l'insieme `null` lancia `NullReferenceException` la prima volta che due unità si valutano a vicenda. Dai un valore all'insieme, anche vuoto.
+
+## Rarità
+
+`rarity` decide il colore del nome e la riga di rarità nel tooltip del tratto, e `Rarity.R3_Legendary` ottiene anche la cornice speciale leggendaria. I valori sono `R0_Normal`, `R1_Rare`, `R2_Epic` e `R3_Legendary`.
+
+Per i tratti vanilla è quasi automatico: mentre il gioco carica, la libreria conta cosa fa ciascun tratto (azioni, decisioni, incantesimi, azioni di combattimento, tag) e alza a `R1_Rare` o `R2_Epic` tutto ciò che fa qualcosa. Il tuo tratto arriva dopo quel passaggio, quindi mantiene ciò che hai scritto, e se non hai scritto nulla quello è il valore predefinito, `R1_Rare`, per quanto faccia. Impostalo tu stesso:
+
+```csharp
+swift.rarity = Rarity.R2_Epic;
+```
+
+## Sbloccarlo da codice
+
+Con `needs_to_be_explored = true` il tratto parte bloccato nel libro della conoscenza. `unlock()` è il modo in cui il gioco lo scopre:
+
+```csharp
+AssetManager.traits.get(HelloTraits.SWIFT)?.unlock();
+```
+
+Aggiunge l'id ai progressi del giocatore, mostra il suggerimento "nuova conoscenza" e salva il file dei progressi. `unlock(false)` salta il salvataggio: usalo quando sblocchi più cose di fila, poi chiama `GameProgress.saveData()` una volta sola alla fine. Restituisce `false` e non fa nulla quando il tratto è già disponibile, e un tratto con `needs_to_be_explored = false` lo è sempre. Chiamalo dal gameplay, quando il giocatore se lo è guadagnato: è il suo vero file di progressi, e resta sbloccato in ogni mondo successivo.
+
+`unlocked_with_achievement` è già `false` di default. Scrivere `unlocked_with_achievement = false` non cambia nulla.
 
 ## Assegnare il tratto a un'unità
 

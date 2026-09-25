@@ -147,3 +147,9 @@ public ModConfig GetConfig()
 ```
 
 このメソッド1つで、Mod一覧画面のModの横に設定ボタンが現れるようになります。メソッド1つで、もうDiscordで誰もあなたと口論しなくなります。理論上は。
+
+## Mod設定か、ゲームオプションか
+
+HelloBoxの普通の設定項目は `default_config.json` に置いておきましょう。ゲーム本体の `AssetManager.options_library` は別のシステムで、`PlayerConfig` に支えられており、ネイティブのトグルを配線したい場合に役立ちます。オプションアセットを登録するだけでは、その保存値までは作られません。
+
+次へ: そちらの方法については **[ゲームオプションと時間スケール](#/nml/game-options)**、画面にコントロールを配置するなら **[パワータブとボタン](#/nml/power-buttons)**。

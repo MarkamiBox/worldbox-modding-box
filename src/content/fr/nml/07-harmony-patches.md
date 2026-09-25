@@ -87,7 +87,7 @@ namespace HelloBox
         {
             public static void Postfix(Actor __instance)
             {
-                if (!__instance.hasTrait(HelloTraits.SWIFT)) return;
+                if (__instance == null || !__instance.hasTrait(HelloTraits.SWIFT)) return;
 
                 __instance.stats["speed"] += 20f;
             }
@@ -100,7 +100,7 @@ Six choses se passent :
 
 - **`[HarmonyPatch(typeof(Actor), "updateStats")]`** : l'adresse. "La méthode appelée `updateStats`, dans la classe appelée `Actor`." Une ligne entre crochets est un *attribut* : une étiquette que l'ordinateur lit, pas du code qui s'exécute.
 - **`public static class Patch_Actor_UpdateStats`** : un conteneur. Le nom est à vous et ne change rien, mais votre futur vous remerciera pour `Patch_<Class>_<Method>`.
-- **`public static void Postfix(...)`** : ce nom n'est **pas** à vous. Harmony cherche une méthode qui s'appelle exactement `Prefix`, `Postfix` ou `Finalizer`. Écrivez `postfix` et rien ne se passe, sans aucune erreur :PESgn_ButWhy:.
+- **`public static void Postfix(...)`** : ce nom n'est **pas** à vous, à moins de l'étiqueter. Sans étiquette, Harmony cherche une méthode qui s'appelle exactement `Prefix`, `Postfix` ou `Finalizer`. Écrivez `postfix` et rien ne se passe, sans aucune erreur :PESgn_ButWhy:. La solution, c'est l'étiquette, dans "Nommer les méthodes de patch vous-même" plus bas.
 - **`Actor __instance`** : **deux** underscores. C'est l'unité précise sur laquelle le jeu travaille en ce moment. Sans lui, vous savez *qu*'une unité a vu ses stats recalculées, mais pas *laquelle*.
 - **`if (!__instance.hasTrait(...)) return;`** : sortez tôt. Votre patch tourne pour chaque unité du monde, pour toujours. Faites du cas courant une vérification et un `return`.
 - **`stats["speed"] += 20f;`** : le vrai changement. `updateStats` vide et reconstruit le bloc de stats au début, donc ajouter dans un Postfix tombe sur une page blanche au lieu de s'accumuler à chaque tick.
@@ -217,7 +217,7 @@ public static class Patch_Actor_GetHit
 Observez bien la structure : le cas particulier renvoie `false`, et **tous les autres cas renvoient `true`**. Oubliez ce `return true` et vous venez de désactiver les dégâts pour le monde entier.
 
 > [!WARNING] `return false` est l'option nucléaire
-> Cela n'annule pas seulement *votre* vision de la méthode. Cela annule celle de **tout le monde** : le code du jeu ainsi que tous les Prefix et Postfix des autres mods sur cette méthode. Une méthode vanilla fait souvent cinq choses insoupçonnées, et l'annuler les désactive toutes en silence.
+> Cela n'annule pas seulement *votre* vision de la méthode. Cela annule le code du jeu **pour tout le monde**. Le Postfix de chaque autre mod sur cette méthode s'exécute quand même, en réagissant à un appel qui n'a jamais eu lieu. Une méthode vanilla fait souvent cinq choses insoupçonnées, et l'annuler les désactive toutes en silence.
 >
 > Avant d'écrire `return false`, vérifiez si un Postfix ne suffirait pas. "Soigner les dégâts après coup" casse bien moins de choses que "les dégâts n'ont jamais existé" :PES3_Balance:.
 
@@ -230,13 +230,41 @@ Observez bien la structure : le cas particulier renvoie `false`, et **tous les a
 
 `nameof` est préférable car une coquille devient une erreur de compilation au lieu d'un patch qui ne s'applique jamais en silence. Mais `nameof` ne fonctionne que sur les membres visibles par votre code, et une grande partie de WorldBox est `internal` ou `private`. Pour ceux-là, la chaîne de caractères brute est la seule option : vérifiez l'orthographe dans le code réel via **[Lire le code du jeu](#/toolbox/reading-the-game-code)**.
 
-## Quand deux méthodes partagent le même nom
+## Nommer les méthodes de patch vous-même
 
-Si deux méthodes partagent le même nom, classe + nom devient ambigu et Harmony refuse de deviner. Précisez les types de paramètres :
+Les noms magiques `Prefix` et `Postfix` sont une convention, pas une obligation. Mettez une étiquette sur la méthode et appelez-la comme vous voulez :
 
 ```csharp
-[HarmonyPatch(typeof(World), "GetTile", new System.Type[] { typeof(int), typeof(int) })]
+[HarmonyPatch(typeof(Actor), "updateStats")]
+public static class Patch_Actor_UpdateStats
+{
+    [HarmonyPostfix]
+    public static void AddSwiftSpeed(Actor __instance)
+    {
+        if (__instance == null || !__instance.hasTrait(HelloTraits.SWIFT)) return;
+        __instance.stats["speed"] += 20f;
+    }
+}
 ```
+
+`[HarmonyPrefix]`, `[HarmonyPostfix]` et `[HarmonyFinalizer]` existent tous les trois. Avec l'étiquette, le nom de la méthode n'est plus que pour vous, et le problème du "`Postfix` mal orthographié, rien ne se passe" disparaît. Ça vous permet aussi de garder un Prefix et un Postfix pour des cibles différentes dans une seule classe sans que les noms ne s'affrontent. Environ la moitié des mods existants procède ainsi, et c'est la moitié qui ne perd jamais une soirée à cause d'un `p` minuscule.
+
+## Quand deux méthodes partagent le même nom
+
+Alors classe + nom est ambigu. Harmony refuse de deviner et votre mod meurt au démarrage avec une `AmbiguousMatchException`. `Actor` a deux méthodes `addTrait` :
+
+```csharp Assembly-CSharp / Actor
+public bool addTrait(string pTraitID, bool pRemoveOpposites = false)
+public bool addTrait(ActorTrait pTrait, bool pRemoveOpposites = false)
+```
+
+Précisez les types de paramètres de celle que vous visez, **tous**, y compris ceux qui ont une valeur par défaut :
+
+```csharp
+[HarmonyPatch(typeof(Actor), nameof(Actor.addTrait), new System.Type[] { typeof(string), typeof(bool) })]
+```
+
+D'autres vraies surcharges qui piègent les gens : `TileZone.isGoodForNewCity()` et `isGoodForNewCity(Actor pActor)`, et `SaveManager.loadWorld()` et `loadWorld(string pPath, bool pLoadWorkshop = false)` (toutes deux `internal`, donc uniquement des chaînes de caractères). En cas de doute, cherchez le nom de la méthode dans la classe avant d'écrire l'attribut.
 
 ## Patchs nécessitant un avant et un après
 
@@ -258,15 +286,164 @@ public static class Patch_Actor_StatDelta
 }
 ```
 
+## Propriétés et constructeurs
+
+Tout n'est pas une simple méthode. `Actor.is_moving` est une propriété : ça ressemble à un champ, mais un bloc `get` s'exécute à chaque fois que quelqu'un la lit. Indiquez à Harmony quelle moitié vous voulez :
+
+```csharp
+[HarmonyPatch(typeof(Actor), nameof(Actor.is_moving), MethodType.Getter)]
+```
+
+Après ça, c'est un patch normal, et `ref bool __result` est ce que le lecteur récupère. `MethodType.Setter` est l'autre moitié. `MethodType.Constructor` patche le constructeur d'une classe, où `__instance` est l'objet en cours de construction ; si la classe a plusieurs constructeurs, ajoutez le `Type[]` après, exactement comme une surcharge.
+
+## Champs et méthodes privés
+
+Votre patch peut voir un champ privé de `__instance` en le demandant comme paramètre : **trois** tirets du bas, puis le nom du champ orthographié exactement comme dans le jeu. Le jeu fait précéder la plupart de ses champs privés de son propre `_`, donc le `_hover_timer` privé de l'unité devient **quatre** :
+
+```csharp
+public static void Postfix(Actor __instance, ref float ____hover_timer)
+```
+
+`ref` si vous voulez y écrire. C'est fastidieux à lire et parfaitement correct.
+
+En dehors d'un patch, `AccessTools` et `Traverse` (tous deux dans `HarmonyLib`) accèdent aux mêmes choses :
+
+```csharp
+// once in a while: Traverse is short and slow
+float timer = Traverse.Create(pActor).Field("_hover_timer").GetValue<float>();
+
+// every frame: build the accessor once, then it is almost as fast as a normal field
+static readonly AccessTools.FieldRef<Actor, float> hover_timer = AccessTools.FieldRefAccess<Actor, float>("_hover_timer");
+hover_timer(pActor) = 0f;   // it is a ref, so this writes
+
+// a private method: reflection wants every argument, defaults included
+AccessTools.Method(typeof(Actor), "die").Invoke(pActor, new object[] { false, AttackType.Other, true, true });
+```
+
+Une chaîne de caractères nomme quelque chose que le compilateur ne peut pas vérifier. Si une mise à jour renomme `_hover_timer`, vous le découvrez à l'exécution. L'alternative est une `Assembly-CSharp.dll` **publicisée**, où `internal` et `private` deviennent visibles et un renommage redevient une erreur de compilation.
+
+## Patcher à la main
+
+`[HarmonyPatch]` plus `PatchAll` est la voie facile. L'autre voie consiste à trouver la méthode vous-même et à appeler `Patch` :
+
+```csharp Mods/HelloBox/Code/HelloManualPatches.cs
+using System.Reflection;
+using HarmonyLib;
+
+namespace HelloBox
+{
+    public static class HelloManualPatches
+    {
+        private static readonly Harmony harmony = new Harmony("com.yourname.hellobox");
+
+        public static void Initialize()
+        {
+            // two addTrait overloads exist, so the types are not optional
+            MethodInfo original = AccessTools.Method(typeof(Actor), nameof(Actor.addTrait), new[] { typeof(string), typeof(bool) });
+
+            // null means an update renamed it: lose one feature, not the whole mod
+            if (original == null)
+            {
+                Main.LogWarning("Actor.addTrait(string, bool) not found, skipping that patch");
+                return;
+            }
+
+            harmony.Patch(original, postfix: new HarmonyMethod(typeof(HelloManualPatches), nameof(AddTraitPostfix)));
+        }
+
+        public static void AddTraitPostfix(Actor __instance, string pTraitID, bool __result)
+        {
+            // __result is false when the unit already had it or an opposite blocked it
+            if (!__result || pTraitID != HelloTraits.SWIFT) return;
+
+            Main.LogInfo("Another unit got swift");
+        }
+    }
+}
+```
+
+Même identifiant Harmony que votre `PatchAll`, mêmes règles pour les noms de paramètres. Ce que vous gagnez, c'est le `if` au milieu. Recourez-y quand :
+
+- **La cible pourrait ne pas exister.** Une méthode que vous soupçonnez la prochaine mise à jour de déplacer, ou qui vit dans *un autre mod*. `AccessTools.TypeByName("TheirNamespace.TheirClass")` renvoie `null` quand ce mod n'est pas installé, et vous sautez simplement le patch. Voir **[Les autres mods](#/nml/other-mods)**.
+- **Le patch dépend d'un réglage.** Ne patchez que si le joueur a activé la fonctionnalité dans **[Réglages du mod](#/nml/mod-config)**.
+- **Vous voulez savoir si ça a marché.** Une cible manquante pour `PatchAll` lève une exception, et les patchs pas encore atteints ne sont jamais appliqués. Ici, une méthode manquante, c'est une ligne de log.
+
+## Quand plusieurs mods patchent la même méthode
+
+Au sein de chaque type de patch, Harmony ordonne les patchs par priorité, **la plus haute en premier**, `Normal` étant la valeur par défaut. Des dépendances explicites `[HarmonyBefore]` et `[HarmonyAfter]` peuvent changer cet ordre :
+
+```csharp
+[HarmonyPatch(typeof(City), nameof(City.getZoneRange))]
+public static class Patch_City_ZoneRange
+{
+    [HarmonyPostfix]
+    [HarmonyPriority(Priority.Last)]
+    public static void HalveZones(ref int __result) { /* ... */ }
+}
+```
+
+Les priorités courantes sont `First`, `High`, `Normal`, `Low`, `Last`. Ça compte quand l'ordre change le résultat :
+
+- Un Postfix qui **plafonne** un résultat (`Mathf.Min(__result, 20)`) veut `Priority.Last`, pour plafonner normalement après les Postfix de priorité plus haute. Il ne peut pas garantir d'être vraiment le dernier face à un autre patch `Last` ou à des dépendances d'ordre explicites.
+- Un Prefix qui **vérifie** quelque chose et peut faire `return false` veut `Priority.First` ou `High`, pour décider tôt. Ne l'utilisez pas comme garantie que les autres Prefix seront sautés : NML embarque HarmonyX, qui [exécute tous les Prefix](https://github.com/BepInEx/HarmonyX/wiki/Prefix-changes) même quand l'un d'eux renvoie `false`.
+
+Ne la définissez que lorsque vous avez une raison. Si chaque mod demande `First`, on revient à la case départ où personne n'est premier :PES3_Balance:.
+
+## Finalizers : intercepter ce que le jeu lève
+
+Un Finalizer s'exécute après tout le reste, **même si la méthode a levé une exception**. Il reçoit l'exception, et ce qu'il renvoie est ce qui sera levé :
+
+```csharp
+[HarmonyPatch(typeof(Actor), nameof(Actor.setAttackTarget))]
+public static class Patch_Actor_SetAttackTarget_Log
+{
+    public static System.Exception Finalizer(System.Exception __exception)
+    {
+        if (__exception != null) Main.LogError("setAttackTarget threw: " + __exception);
+
+        // preserve the failure after logging it
+        return __exception;
+    }
+}
+```
+
+Ceci enregistre l'échec sans le cacher. Renvoyer `null` supprimerait l'exception, y compris les échecs venant d'autres patchs. Ne faites ça que pour un échec précis dont vous pouvez réellement vous remettre. Une méthode qui a levé une exception à mi-chemin a déjà fait la moitié de son travail, et avaler l'exception laisse le monde dans cet état-là :PESgn_Yikes:.
+
+## Les méthodes que les mods patchent le plus
+
+Parmi les mods que j'ai parcourus, ces méthodes reviennent sans cesse. Les signatures viennent directement du code du jeu.
+
+| Cible | Ce qu'il faut savoir |
+| --- | --- |
+| `City.update(float pElapsed)` | Publique. Tourne à chaque frame pour chaque ville. Vérification bon marché d'abord |
+| `MapBox.Update()` | **Privée**, donc `"Update"` en chaîne de caractères. Tourne à chaque frame, une fois. Voir **[Chaque frame](#/nml/update-loops)** avant de la patcher |
+| `Actor.updateStats()` | **Interne**. Tourne dans une tâche parallèle, voir l'avertissement en haut de page |
+| `Actor.getHit(float pDamage, bool pFlash, AttackType pAttackType, BaseSimObject pAttacker = null, ...)` | **Interne**. Chaque coup reçu par chaque unité |
+| `Actor.die(bool pDestroy = false, AttackType pType = AttackType.Other, bool pCountDeath = true, bool pLogFavorite = true)` | **Privée**, `"die"` en chaîne de caractères |
+| `Actor.setAttackTarget(BaseSimObject pAttackTarget)` | Publique |
+| `ItemCrafting.tryToCraftRandomWeapon(Actor pActor, City pCity)` | Publique statique, renvoie un `bool`. Pas de `__instance` |
+| `DiplomacyManager.startWar(Kingdom pAttacker, Kingdom pDefender, WarTypeAsset pAsset, bool pLog = true)` | **Interne**, renvoie la `War` |
+| `WarManager.newWar(Kingdom pAttacker, Kingdom pDefender, WarTypeAsset pType)` | Publique, renvoie la `War` |
+| `Kingdom.setKing(Actor pActor, bool pFromLoad = false)` | Publique. Tourne aussi pendant le chargement d'une sauvegarde, vérifiez `pFromLoad` |
+| `City.setLeader(Actor pActor, bool pNew)` | Publique |
+| `BabyMaker.makeBaby(Actor pParent1, Actor pParent2, ...)` | Publique statique, renvoie le bébé |
+| `ActorManager.createNewUnit(string pStatsID, WorldTile pTile, ...)` | Publique, renvoie le nouvel `Actor`. Chaque apparition passe par là |
+
+Les cibles `private` et `internal` se patchent très bien avec un nom en chaîne de caractères, et vos paramètres se lient toujours par leur nom. Ce que vous ne pouvez pas faire sans une assembly publicisée, c'est écrire `nameof(...)` pour elles, ou toucher leurs membres `internal` à l'intérieur du corps de votre patch.
+
+> [!NOTE] `World` est le contenant, `MapBox` est la cible
+> `typeof(World)` est du C# valide, même si `World` est statique. C'est la mauvaise cible Harmony pour `Update` ou `finishMakingWorld` : ces méthodes appartiennent à `MapBox`, le type renvoyé par `World.world`. Une mauvaise cible échoue quand Harmony applique le patch, pas quand C# compile `typeof`.
+
 ## Quand ça ne fonctionne pas
 
 Avant d'accuser Harmony, lisez le log. C'est rarement Harmony :PES5_Noted:.
 
 | Ce que vous voyez | La cause la plus probable |
 | --- | --- |
-| Rien ne se passe, rien dans les logs | `Postfix` mal orthographié, ou `PatchAll` jamais appelé |
+| Rien ne se passe, rien dans les logs | `Postfix` mal orthographié sans étiquette `[HarmonyPostfix]`, ou `PatchAll` jamais appelé |
 | `HarmonyException` / `MissingMethodException` au démarrage | Cette classe ou cette méthode n'existe pas. Vérifiez dans dnSpy |
-| `Ambiguous match found` | Plusieurs surcharges. Ajoutez l'argument `Type[]` montré plus haut |
+| `AmbiguousMatchException` / `Ambiguous match found` | Plusieurs surcharges. Ajoutez l'argument `Type[]` montré plus haut |
+| Un plantage qui n'arrive que sur les machines des autres | Un Postfix sur `Actor.updateStats` qui touche Unity, `Randy` ou une liste partagée depuis un thread de travail |
 | `NullReferenceException` dans votre patch | `__instance` ou l'un de ses champs est null. Les patchs tournent dans des états hors-jeu : pendant le chargement, à la mort, sur des objets détruits |
 | Le jeu tourne à 3 FPS | Vous avez patché une méthode appelée des milliers de fois par seconde avec des calculs lourds |
 | Fonctionne seul, casse avec un autre mod | L'un de vous renvoie `false`, ou les deux écrasent `__result` sans ajustement |
@@ -276,13 +453,34 @@ Avant d'accuser Harmony, lisez le log. C'est rarement Harmony :PES5_Noted:.
 - **Postfix par défaut.** N'utilisez un Prefix que si vous devez changer un argument ou arrêter la méthode.
 - **Ajustez, n'assignez jamais.** `+=`, `*=`, `Math.Min(...)`. Quelqu'un d'autre a aussi patché ça.
 - **Vérifiez null, toujours.** Votre patch tournera pendant le chargement du monde et pendant la mort d'une unité.
-- **La vérification bon marché d'abord.** La première ligne d'un patch très sollicité doit être le test qui vous permet de faire `return`.
+- **La vérification bon marché d'abord.** La première ligne d'un patch très sollicité doit être le test qui vous permet de faire `return`. `City.update` et `MapBox.Update` sont les deux méthodes que les mods patchent le plus, et toutes deux tournent à chaque frame. Une recherche dans un dictionnaire là-dedans, ça va. Une boucle sur chaque unité, non.
 - **Patchez la méthode la plus étroite qui fait le travail.** Patcher `Actor.updateStats` pour la vitesse d'un trait, ça va. Patcher la mise à jour du monde pour la même chose, c'est comme ça qu'un mod se fait désinstaller.
 - **Gardez vos patchs dans un seul fichier.** Quand quelqu'un signale un conflit, vous voulez lire un fichier, pas douze. Soyez gentil avec votre futur vous. Faites ce que je dis, pas ce que font mes vieux mods :trollface:.
 
 > [!NOTE] Patcher `has`, `get`, `add`, `clone` ou `post_init` d'une bibliothèque ne sert à rien
 > Cela n'affecte que les appels faits après le chargement de votre mod, jamais l'enregistrement vanilla déjà effectué à ce moment-là. Voir **[Bibliothèques d'assets](#/nml/asset-libraries)**.
 
-## Ce que nous n'aborderons pas ici
+## Transpilers : modifier les instructions
 
-Les **Transpilers** réécrivent les instructions IL compilées d'une méthode instruction par instruction. C'est extrêmement puissant, c'est l'unique moyen de modifier un chiffre enfoui au milieu d'une méthode fermée, et ils cassent à presque chaque mise à jour du jeu. Si vous atteignez un jour le niveau où vous en avez besoin, vous n'aurez plus besoin de ce guide :PES5_BigBrain:.
+Un transpiler réécrit l'IL, les instructions compilées à l'intérieur d'une méthode. Utilisez-le quand le changement se trouve au milieu et que ni un Prefix ni un Postfix ne peuvent l'exprimer. Il s'exécute quand Harmony construit la méthode de remplacement, pas à chaque tick du jeu, et peut s'exécuter à nouveau quand un autre transpiler est ajouté.
+
+Voici la signature, à l'intérieur de votre classe de patch. Elle laisse délibérément tout passer :
+
+```csharp
+public static System.Collections.Generic.IEnumerable<HarmonyLib.CodeInstruction> Transpiler(
+    System.Collections.Generic.IEnumerable<HarmonyLib.CodeInstruction> instructions)
+{
+    return instructions;
+}
+```
+
+Pour une vraie réécriture :
+
+1. Inspectez l'IL de la cible dans dnSpy. Repérez une séquence d'opcodes et l'opérande précis d'un champ ou d'une méthode, pas "l'instruction 42" ni chaque occurrence d'un nombre.
+2. Collectez les correspondances **avant** de modifier quoi que ce soit. Vérifiez explicitement le nombre attendu. Si vous en attendez une et en trouvez zéro ou deux, enregistrez l'anomalie et renvoyez l'entrée non modifiée. N'émettez jamais une réécriture à moitié faite.
+3. Préservez les étiquettes de branchement, les blocs d'exception, ainsi que les types et l'équilibre de la pile d'évaluation. Un remplacement qui a l'air correct en C# peut rester un IL invalide.
+4. Testez le chemin où il y a correspondance et celui où il n'y en a pas, puis testez avec d'autres patchs sur la même méthode.
+
+La [documentation des transpilers Harmony](https://harmony.pardeike.net/articles/patching-transpiler.html) couvre l'API d'instructions. Une mise à jour du jeu est une raison de revérifier le motif, pas de déplacer l'index magique de trois :PES5_BigBrain:.
+
+NML embarque **HarmonyX**, un fork de Harmony. L'API de patch principale est partagée, mais le comportement peut différer, y compris pour le saut des Prefix. Prochaine étape, si plus d'un mod va toucher à la même chose : **[Les autres mods](#/nml/other-mods)**.

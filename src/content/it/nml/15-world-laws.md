@@ -25,6 +25,8 @@ namespace HelloBox
 
         public static void Initialize()
         {
+            if (AssetManager.world_laws_library.has(CHAOS)) return;
+
             AssetManager.world_laws_library.add(new WorldLawAsset
             {
                 id = CHAOS,
@@ -43,7 +45,7 @@ Aggiungi `HelloLaws.Initialize();` a `Main.cs` e l'interruttore è nel gioco. È
 | Campo | Significato |
 | --- | --- |
 | `id` | Il nome della tua legge. Anche la chiave di traduzione |
-| `group_id` | La scheda in cui finisce: `units`, `civilizations`, `spawn`, `diplomacy`, `nature`, … |
+| `group_id` | La scheda in cui finisce. L'elenco completo è sotto **Le schede**, oppure creane una tua |
 | `icon_path` | L'icona, stesse regole di percorso di tutto il resto |
 | `default_state` | `true` = attiva per i nuovi mondi, `false` = spenta |
 | `can_turn_off` | Di default a `true`. Imposta `false` per una legge che può solo essere attivata |
@@ -60,6 +62,14 @@ if (law != null && law.isEnabled())
     // il giocatore vuole il caos, dagli il caos
 }
 ```
+
+Oppure la via breve, direttamente dal mondo, senza recuperare l'asset:
+
+```csharp
+bool chaos = World.world.world_laws.isEnabled(HelloLaws.CHAOS);
+```
+
+`isEnabled(string)` restituisce `false` per un id sconosciuto invece di lanciare un'eccezione, quindi un refuso si legge come "spenta" invece che come un crash. Gentile, e anche terribile, perché nulla te lo dice :PES5_Hmmmm:. `World.world.world_laws` è `internal`, quindi questo compila contro l'assembly pubblicizzato con cui NML costruisce la tua mod (vedi la nota in **[Effetti di stato](#/nml/status-effects)**). La via dell'asset sopra funziona ovunque.
 
 Un esempio pratico: generare le tue braci solo finché la legge è attiva:
 
@@ -99,12 +109,65 @@ new WorldLawAsset
 };
 ```
 
+## Le schede
+
+La finestra è divisa in schede, e `group_id` ne sceglie una. Questi sono tutti i gruppi vanilla, nell'ordine in cui la finestra li disegna:
+
+`harmony` · `diplomacy` · `civilizations` · `units` · `mobs` · `spawn` · `nature` · `trees` · `plants` · `fungi` · `biomes` · `weather` · `disasters` · `other`
+
+### Una scheda tutta tua
+
+Sostituisci l'`Initialize()` del primo esempio con la versione qui sotto, e aggiungi `GROUP` accanto a `CHAOS`.
+
+Un gruppo è un `WorldLawGroupAsset` in `AssetManager.world_law_groups`. È lo stesso piccolo `BaseCategoryAsset` usato dalle schede dei tratti, vedi **[Gruppi di tratti e schede](#/nml/trait-groups)**:
+
+| Campo | Cosa fa |
+| --- | --- |
+| `id` | Ciò a cui punta il `group_id` di una legge |
+| `name` | La **chiave di localizzazione** per il titolo della scheda. Non il titolo stesso |
+| `color` | Stringa esadecimale. Colora il titolo della scheda |
+
+```csharp Mods/HelloBox/Code/HelloLaws.cs
+public const string GROUP = "hello_laws";
+
+public static void Initialize()
+{
+    // prima il gruppo: le leggi sotto puntano a lui
+    if (!AssetManager.world_law_groups.has(GROUP))
+    {
+        AssetManager.world_law_groups.add(new WorldLawGroupAsset
+        {
+            id = GROUP,
+            name = "world_laws_tab_" + GROUP,   // la chiave di localizzazione, non il testo
+            color = "#FF9A3C"
+        });
+    }
+
+    if (AssetManager.world_laws_library.has(CHAOS)) return;
+
+    AssetManager.world_laws_library.add(new WorldLawAsset
+    {
+        id = CHAOS,
+        needs_to_be_explored = false,
+        group_id = GROUP,
+        icon_path = "ui/Icons/worldrules/icon_hello_law",
+        default_state = false
+    });
+}
+```
+
+Nessun lavoro sull'UI: la finestra delle Leggi del mondo costruisce una scheda per ogni voce in `world_law_groups.list`, poi mette ogni legge nella scheda che il suo `group_id` indica. Lo fa una volta sola, quando la finestra viene creata per la prima volta, e la tua mod si è già caricata molto prima che il giocatore ci arrivi. La tua scheda finisce in fondo, dopo `other`.
+
+> [!WARNING] Un `group_id` inesistente rompe l'intera finestra
+> La finestra cerca la scheda con un semplice indice di dizionario. Una legge che punta a un gruppo che nessuno ha registrato lancia `KeyNotFoundException` mentre la finestra viene costruita, e ogni legge registrata dopo di essa, la tua e quella di altre mod, non arriva mai nella finestra. Registra il gruppo prima delle leggi, e scrivilo allo stesso modo entrambe le volte :PESgn_ToughLuck:.
+
 ## I testi
 
 ```json Mods/HelloBox/Locales/en.json
 {
   "world_law_hello_chaos_title": "Hello Chaos",
-  "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one."
+  "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one.",
+  "world_laws_tab_hello_laws": "HelloBox"
 }
 ```
 

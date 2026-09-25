@@ -25,6 +25,8 @@ namespace HelloBox
 
         public static void Initialize()
         {
+            if (AssetManager.world_laws_library.has(CHAOS)) return;
+
             AssetManager.world_laws_library.add(new WorldLawAsset
             {
                 id = CHAOS,
@@ -43,7 +45,7 @@ Adicione `HelloLaws.Initialize();` ao `Main.cs` e o interruptor estará no jogo.
 | Campo | Significado |
 | --- | --- |
 | `id` | O nome da sua lei. Também a chave de tradução |
-| `group_id` | A aba onde ela fica: `units`, `civilizations`, `spawn`, `diplomacy`, `nature`, … |
+| `group_id` | A aba onde ela fica. A lista completa está em **As abas** abaixo, ou crie a sua própria |
 | `icon_path` | O ícone, as mesmas regras de caminho de todo o resto |
 | `default_state` | `true` = ativado em mundos novos, `false` = desativado |
 | `can_turn_off` | Padrão `true`. Defina `false` para uma lei que só pode ser ligada |
@@ -60,6 +62,14 @@ if (law != null && law.isEnabled())
     // o jogador quer caos, dê a ele caos
 }
 ```
+
+Ou o jeito rápido, direto do mundo, sem buscar o asset:
+
+```csharp
+bool chaos = World.world.world_laws.isEnabled(HelloLaws.CHAOS);
+```
+
+`isEnabled(string)` retorna `false` para um id que não conhece em vez de lançar exceção, então um erro de digitação aparece como "desligado" em vez de um crash. Gentil, e também terrível, porque nada avisa você :PES5_Hmmmm:. `World.world.world_laws` é `internal`, então isso compila contra o assembly publicizado com o qual o NML constrói o seu mod (veja a nota em **[Efeitos de status](#/nml/status-effects)**). A rota pelo asset acima funciona em qualquer lugar.
 
 Um exemplo prático: gerando suas brasas apenas enquanto a lei estiver ativa:
 
@@ -99,12 +109,65 @@ new WorldLawAsset
 };
 ```
 
+## As abas
+
+A janela é dividida em abas, e `group_id` escolhe uma. Estes são todos os grupos vanilla, na ordem em que a janela os desenha:
+
+`harmony` · `diplomacy` · `civilizations` · `units` · `mobs` · `spawn` · `nature` · `trees` · `plants` · `fungi` · `biomes` · `weather` · `disasters` · `other`
+
+### Uma aba própria
+
+Substitua o `Initialize()` do primeiro exemplo pela versão abaixo, e adicione `GROUP` ao lado de `CHAOS`.
+
+Um grupo é um `WorldLawGroupAsset` em `AssetManager.world_law_groups`. É o mesmo `BaseCategoryAsset` pequeno que as abas de traços usam, veja **[Grupos de traços e abas](#/nml/trait-groups)**:
+
+| Campo | O que faz |
+| --- | --- |
+| `id` | O que o `group_id` de uma lei aponta |
+| `name` | A **chave de localização** do título da aba. Não o título em si |
+| `color` | String hex. Tinge o título da aba |
+
+```csharp Mods/HelloBox/Code/HelloLaws.cs
+public const string GROUP = "hello_laws";
+
+public static void Initialize()
+{
+    // o grupo primeiro: as leis abaixo apontam para ele
+    if (!AssetManager.world_law_groups.has(GROUP))
+    {
+        AssetManager.world_law_groups.add(new WorldLawGroupAsset
+        {
+            id = GROUP,
+            name = "world_laws_tab_" + GROUP,   // a chave de localização, não o texto
+            color = "#FF9A3C"
+        });
+    }
+
+    if (AssetManager.world_laws_library.has(CHAOS)) return;
+
+    AssetManager.world_laws_library.add(new WorldLawAsset
+    {
+        id = CHAOS,
+        needs_to_be_explored = false,
+        group_id = GROUP,
+        icon_path = "ui/Icons/worldrules/icon_hello_law",
+        default_state = false
+    });
+}
+```
+
+Nenhum trabalho de UI: a janela de Leis do Mundo constrói uma aba por entrada em `world_law_groups.list`, depois coloca cada lei na aba que seu `group_id` nomeia. Ela faz isso uma vez, quando a janela é criada pela primeira vez, e o seu mod já carregou bem antes de o jogador chegar lá. Sua aba fica no final, depois de `other`.
+
+> [!WARNING] Um `group_id` que não existe quebra a janela inteira
+> A janela procura a aba com um índice de dicionário simples. Uma lei apontando para um grupo que ninguém registrou lança `KeyNotFoundException` enquanto a janela está sendo construída, e toda lei registrada depois dela, sua e de outros mods, nunca chega na janela. Registre o grupo antes das leis, e escreva o nome igual nas duas vezes :PESgn_ToughLuck:.
+
 ## O texto
 
 ```json Mods/HelloBox/Locales/en.json
 {
   "world_law_hello_chaos_title": "Hello Chaos",
-  "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one."
+  "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one.",
+  "world_laws_tab_hello_laws": "HelloBox"
 }
 ```
 

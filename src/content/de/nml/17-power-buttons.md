@@ -451,3 +451,38 @@ Ein `null`-Sprite erzeugt einen Button, der Platz belegt, aber nichts zeichnet. 
 ```
 
 Button-Name und Tooltip stammen von der **Power-ID**, nicht vom Button selbst. Deshalb stimmen die obigen Schlüssel mit den IDs überein, die du an den Creator übergeben hast.
+
+## Fenster- und Umschalt-Helfer
+
+Die installierte NML-Assembly stellt außerdem diese Helfer in `NeoModLoader.General` bereit. Nutze sie einmal, nachdem der Tab und das Zielfenster oder die Kraft existieren:
+
+```csharp
+PowerButton windowButton = PowerButtonCreator.CreateWindowButton(
+    "hello_native_open", HelloNativeWindow.WindowId,
+    Icon("iconHelloPanel"), tab.transform, Vector2.zero);
+```
+
+`CreateWindowButton` setzt das `open_window_id` des Buttons. Es erstellt das Fenster nicht. `CreateSimpleButton` nimmt eine `UnityAction`; nutze das für deinen eigenen Callback. `GetTab(string pId)` schlägt einen Tab nach, und `AddButtonToTab(button, tab)` verschiebt einen Button in einen hinein. Ihre Überladung akzeptiert außerdem eine `Vector2`-Position und einen optionalen Geschwister-Index.
+
+`CreateToggleButton(pGodPowerId, pIcon, pParent, pLocalPosition, pNoAutoSetToggleAction = false)` braucht eine registrierte `GodPower` mit nicht-leerem `toggle_name`. Dieser Name identifiziert ihre `PlayerConfig`-Option. Der Helfer erstellt eine `false`-Boolean-Option und einen Spielerwert, wenn das Spieler-Dictionary den Schlüssel nicht hat. Registriere lieber beides selbst, wie in **[Spieloptionen & Zeitskalen](#/nml/game-options)** gezeigt.
+
+> [!NOTE] Der automatische Umschalter ist Teil des Callbacks
+> NML hängt standardmäßig seine Umschalt-und-Speichern-Aktion an eine bestehende `toggle_action` an. Übergib `pNoAutoSetToggleAction: true`, wenn dein bestehender Callback die Zustandsänderung selbst übernimmt. Ist der Callback `null`, hindert dieses Flag NML nicht daran, seine Standardaktion zu installieren. Den Creator wiederholt aufzurufen kann wiederholte Aktionen anhängen.
+
+## Das PowerTabAsset des Spiels
+
+`AssetManager.power_tab_library` speichert native Tab-Assets. Es ist getrennt von der `PowersTab`-UI-Komponente, die NMLs `TabManager.CreateTab` zurückgibt.
+
+| Feld | Bedeutung |
+| --- | --- |
+| `locale_key` | Namensschlüssel; `getDescriptionID()` gibt diesen Schlüssel plus `_info` zurück |
+| `icon_path` | Sprite-Pfad, genutzt von `getIcon()` |
+| `get_power_tab` | Delegat, der die zu zeigende `PowersTab` zurückgibt |
+| `gameplay_tab` | Referenz auf einen UI-Tab |
+| `window_id` | Zugehörige Fenster-ID |
+| `on_main_tab_select` / `on_main_info_click` | Callbacks für den Haupt-Tab |
+| `on_update_check_active` | Callback zur Prüfung des Aktiv-Zustands |
+
+`tryToShowPowerTab()` ruft `get_power_tab` auf und bittet die zurückgegebene Komponente, sich selbst zu zeigen. Ein bloßes Asset hinzuzufügen ersetzt nicht das Erstellen eines UI-Tabs. NMLs ausdrückliche Titel- und Beschreibungsargumente sollten nicht mit der nativen `_info`-Konvention verwechselt werden.
+
+Weiter geht's mit **[Eigene Fenster](#/nml/custom-windows)** für das Panel, oder **[Spieloptionen & Zeitskalen](#/nml/game-options)** für dessen Zustand.

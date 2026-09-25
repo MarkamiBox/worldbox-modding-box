@@ -94,7 +94,8 @@ namespace HelloBox
 | `path_icon` | ステータス一覧に並ぶ小さなアイコン |
 | `texture`, `sprite_list`, `animated`, `loop`, `animation_speed` | ユニットに重なるスプライト。`texture` は `effects/` から読み込まれる単純名 |
 | `offset_x`, `offset_y`, `scale`, `rotation_z`, `render_priority` | 描画位置と拡大率 |
-| `opposite_traits`, `opposite_tags` | 付与を無効化する特性やタグ |
+| `opposite_traits` | **アクター特性**IDの `string[]`。これらのいずれかを持つユニットはこのステータスを絶対に受けない：`burning` は `fire_proof` を、`poisoned` は `poison_immune` を挙げている。プレーンなIDで、毎回チェックされるため、自作の `hello_` 特性もここで機能する |
+| `opposite_tags` | 同じ仕組みを、`immunity_fire` のようなステータスタグに対して適用する：いずれかを持つユニットは免疫を得る |
 | `action_on_receive`, `action_get_hit` | 付与時および被弾時の追加コールバック |
 | `sound_idle` | 効果持続中にループ再生されるFMODサウンドイベント |
 
@@ -138,14 +139,19 @@ cursed.action = (BaseSimObject pTarget, WorldTile pTile) =>
 
 ## ユニットに効果を付与する
 
-一番直感的に思える `actor.addStatusEffect("hello_cursed")` は、ゲーム本体のアセンブリで `internal` に設定されています。公開化 (publicized) 済みの `Assembly-CSharp.dll` に対してなら問題なくコンパイルでき、普通のNML modはすでにそれを使っています。NMLはあなたの `Code/*.cs` を自前の公開化コピーに対してコンパイルするので、このガイドの `internal` メンバーはすべてそのまま通ります。使えなくなるのは、Visual Studioで元のアセンブリに対して自分の `.dll` をビルドするときだけです。その場合は、常に使えるパブリックな方法を使います：
+一番直感的に思える `actor.addStatusEffect("hello_cursed")` は、ゲーム本体のアセンブリで `internal` に設定されています。公開化 (publicized) 済みの `Assembly-CSharp.dll` に対してなら問題なくコンパイルでき、普通のNML modはすでにそれを使っています。NMLはあなたの `Code/*.cs` を自前の公開化コピーに対してコンパイルするので、このガイドの `internal` メンバーはすべてそのまま通ります。使えなくなるのは、Visual Studioで元のアセンブリに対して自分の `.dll` をビルドするときだけです。その場合は、コンストラクタと `execute()` の両方がpublicで、内部で `addStatusEffect` を呼んでくれる、ゲーム自身の行動ノード（behaviour node）を借りてきます：
 
 ```csharp
-StatusAsset asset = AssetManager.status.get(HelloStatus.CURSED);
-World.world.statuses.newStatus(actor, asset, 20f);   // 20秒（0を指定するとアセット自身の規定時間）
+if (actor == null || !actor.isAlive() || World.world == null || Config.worldLoading) return;
+new ai.behaviours.BehActorAddStatus(HelloStatus.CURSED, 20f).execute(actor);   // 20秒。アセット自身の規定時間を使うなら0fを渡す
 ```
 
-AI行動ツリー内部であれば、標準で用意されている `new BehActorAddStatus("hello_cursed", 20f)` や `new BehActorRemoveStatus("hello_cursed")` を使えます。
+> [!WARNING] `World.world.statuses.newStatus()` は仕事の半分しかやらない
+> これはpublicで、一見すると入口のように見えます。しかし実際には `Status` オブジェクトを生成しタイマーを開始するだけで、ユニット自身のステータス一覧には決して追加されず、`opposite_traits` を含むあらゆるチェックをすべて飛ばします。ユニット側はそのステータスを持っているとは認識しません：`hasStatus()` は「いいえ」と答え、`base_stats` も一切適用されません。直接、または上のノード経由で `addStatusEffect` を通してください。
+
+両方のノードは `ai.behaviours` にあります。短い名前で使うには `using ai.behaviours;` を追加してください。アセットの規定時間を使うには明示的に `0f` を渡してください：追加ノードのデフォルトは `-1f` で、これは規定時間としてではなく上書き値として渡されてしまいます。
+
+AI行動ツリー内部であれば、これらと同じノードがそのまま使えるステップとして用意されています：`new BehActorAddStatus("hello_cursed", 20f)` と `new BehActorRemoveStatus("hello_cursed")`。
 
 ## テキストの追加を忘れずに
 

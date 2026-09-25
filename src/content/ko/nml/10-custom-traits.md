@@ -8,7 +8,7 @@ order: 100
 
 # 커스텀 특성 :wbstrongminded:
 
-특성(Trait)은 유닛에게 영구적으로 부여되는 라벨입니다: *용감함*, *빠름*, *불멸*. 인스펙터 창에 표시되고, 유닛의 스탯을 변경하며, 유닛이 태어나거나 피격당하거나 죽을 때 코드를 실행할 수 있고, 자식에게 유전될 수도 있습니다.
+특성(Trait)은 유닛에게 영구적으로 부여되는 라벨입니다: *용감함*, *빠름*, *불멸*. 인스펙터 창에 표시되고, 유닛의 스탯을 변경하며, 유닛이 공격하거나 피격당하거나 죽을 때 코드를 실행할 수 있고, 자식에게 유전될 수도 있습니다.
 
 또한 게임 전체에서 가장 구현하기 쉬운 요소이기도 하여, 모든 모더의 첫 번째 모드가 되는 이유이기도 합니다. 제 경우는 아니었습니다. 제 첫 모드는 다른 사람 모드를 감싼 래퍼였는데, 그것도 나름의 반칙이죠 :trollface:.
 
@@ -157,21 +157,96 @@ swift.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 // 유닛이 사망할 때
 swift.action_death = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
 
-// 유닛이 태어날 때
-swift.action_birth = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
-
 // 유닛이 피격당할 때
 swift.action_get_hit = (BaseSimObject pSelf, BaseSimObject pAttacker, WorldTile pTile) => { return true; };
+
+// every time one of the unit's attacks lands, right after the damage
+swift.action_attack_target = (BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile) =>
+{
+    Actor self = pSelf as Actor;
+    // pTarget can be a building, and the hit may just have killed it
+    if (self == null || !self.isAlive() || pTarget == null) return false;
+
+    self.restoreHealth(2);
+    return true;
+};
 ```
 
 네 가지 모두에 적용되는 두 가지 철칙: **가장 먼저 null 검사와 유닛 생존 검사를 수행할 것**, 그리고 아무 작업도 하지 않았다면 `false`를 반환할 것. 이 델리게이트들은 해당 특성을 가진 모든 유닛에 대해 영원히 실행됩니다.
 
-## 반대 특성 및 상호 배제
+> [!NOTE] `action_birth`와 `action_growth`는 존재하지만, 여기서는 절대 발동하지 않습니다
+> `ActorTrait`는 두 필드 모두 상속하므로 컴파일은 됩니다. 다만 게임은 이 필드들을 **아종(subspecies)** 특성에서만 읽습니다: 아종의 특성들을 하나의 출생 콜백과 하나의 성장 콜백으로 합쳐서 그것만 호출합니다. 액터 특성에서는 조용히 아무 일도 하지 않은 채 그냥 놓여 있습니다 :wbreally:. "유닛이 태어날 때"가 필요하다면 아종 특성으로 만드세요: **[아종 특성](#/nml/subspecies-traits)**.
+
+### 특성을 얻거나, 잃거나, 불러올 때
+
+세 가지 훅이 더 있는데, 이들은 계속이 아니라 한 번만 실행됩니다. 이들은 다른 델리게이트인 `WorldActionTrait`를 받으며, 소유자를 `NanoObject`로, 그리고 특성 자체를 함께 건네줍니다:
 
 ```csharp
-swift.addOpposite("slow");                            // 두 특성은 절대 함께 공존할 수 없음
-swift.traits_to_remove_ids = new string[] { "fat" };  // 이 특성을 얻으면 저 특성을 즉시 제거함
+// once, the moment addTrait() puts it on a unit
+swift.action_on_augmentation_add = (NanoObject pTarget, BaseAugmentationAsset pTrait) =>
+{
+    Actor actor = pTarget as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    actor.restoreHealth(actor.getMaxHealth());   // a welcome gift, once
+    return true;
+};
 ```
+
+| 필드 | 실행 시점 |
+| --- | --- |
+| `action_on_augmentation_add` | `addTrait()`가 성공했을 때 |
+| `action_on_augmentation_remove` | `removeTrait()`가 이걸 제거했을 때. 다른 특성이 반대 특성으로 밀어냈거나 `traits_to_remove`로 제거된 경우 포함 |
+| `action_on_augmentation_load` | 저장된 세계가 로드되어, 유닛이 이 특성을 가진 채로 돌아왔을 때 |
+
+로드된 유닛은 `addTrait()`를 거치지 **않고** 특성을 되찾으므로, `_add`는 다시 실행되지 않습니다. `_add`가 저장에 남지 않는 무언가를 설정한다면, `_load`에서 다시 해주세요.
+
+## 반대 특성 및 상호 배제
+
+바닐라 방식은 `addOpposite("slow")`와 `traits_to_remove_ids`입니다. 둘 다 **id**만 기록하며, 게임은 그 id들을 실제로 읽는 세트로 변환하는 작업을 로딩 중에, 즉 여러분의 모드가 존재하기도 전에 딱 한 번 수행합니다. 여러분의 특성에서는 아무 일도 일어나지 않습니다 :wbfacepalm:. `add()` 이후에 처리된(resolved) 필드를 직접 채우세요:
+
+```csharp
+ActorTrait slow = AssetManager.traits.get("slow");
+if (slow != null)
+{
+    // addTrait() only checks the NEW trait's own set, so fill both sides:
+    // otherwise a slow unit refuses swift, but a swift unit happily turns slow
+    swift.opposite_traits = new HashSet<ActorTrait> { slow };
+    if (slow.opposite_traits == null) slow.opposite_traits = new HashSet<ActorTrait>();
+    slow.opposite_traits.Add(swift);
+}
+
+// gaining swift strips these; the game reads the array, not the ids
+ActorTrait fat = AssetManager.traits.get("fat");
+if (fat != null) swift.traits_to_remove = new ActorTrait[] { fat };
+```
+
+`HashSet`을 쓰려면 파일 상단에 `using System.Collections.Generic;`이 필요합니다.
+
+> [!WARNING] `opposite_trait_mod`에는 `opposite_traits`가 필요합니다
+> `opposite_trait_mod`는 한 유닛이 다른 유닛의 특성에 대한 반대 특성을 가지고 있을 때, 둘이 서로를 얼마나 좋아하는지를 바꿉니다. 사회적 관계 코드는 null 체크 없이 `opposite_traits`를 순회하므로, mod 값만 설정하고 세트를 `null`로 두면 두 유닛이 처음 서로를 가늠하는 순간 `NullReferenceException`이 발생합니다. 세트에는 빈 것이라도 값을 넣어두세요.
+
+## 희귀도(Rarity)
+
+`rarity`는 특성 툴팁의 이름 색상과 희귀도 줄을 결정하며, `Rarity.R3_Legendary`는 전용 전설 테두리도 얻습니다. 값은 `R0_Normal`, `R1_Rare`, `R2_Epic`, `R3_Legendary`입니다.
+
+바닐라 특성에서는 대부분 자동입니다: 게임이 로드되는 동안 라이브러리는 각 특성이 무엇을 하는지(행동, 결정, 주문, 전투 행동, 태그) 세어서, 무언가를 하는 특성은 `R1_Rare`나 `R2_Epic`으로 올립니다. 여러분의 특성은 그 처리 이후에 등록되므로 여러분이 작성한 값을 그대로 유지하며, 아무것도 쓰지 않았다면 무엇을 하든 상관없이 기본값인 `R1_Rare`가 됩니다. 직접 설정하세요:
+
+```csharp
+swift.rarity = Rarity.R2_Epic;
+```
+
+## 코드에서 잠금 해제하기
+
+`needs_to_be_explored = true`이면 특성은 지식의 책에서 잠긴 채 시작합니다. `unlock()`이 게임이 무언가를 발견했다고 알리는 방법입니다:
+
+```csharp
+AssetManager.traits.get(HelloTraits.SWIFT)?.unlock();
+```
+
+이것은 플레이어의 진행 상황에 id를 추가하고, "새로운 지식" 팁을 보여주고, 진행 파일을 저장합니다. `unlock(false)`는 저장을 건너뜁니다: 여러 가지를 연달아 잠금 해제할 때 쓰고, 마지막에 `GameProgress.saveData()`를 한 번만 호출하세요. 특성이 이미 사용 가능하면 `false`를 반환하고 아무 일도 하지 않으며, `needs_to_be_explored = false`인 특성은 항상 그 상태입니다. 플레이어가 실제로 얻어냈을 때, 게임플레이 중에 호출하세요: 그것이 그들의 진짜 진행 파일이고, 이후 모든 세계에서 잠금 해제 상태로 유지됩니다.
+
+`unlocked_with_achievement`는 기본값이 이미 `false`입니다. `unlocked_with_achievement = false`라고 써봐야 바뀌는 건 없습니다.
 
 ## 유닛에게 특성 부여하기
 

@@ -30,11 +30,12 @@ Cada tipo possui sua própria tabela interna, portanto um `int` e uma `string` s
 
 ## Salvando objetos complexos com NML
 
-Se cinco tipos primitivos parecem coisa de 1995 e você realmente precisa salvar uma classe ou lista inteira num ator, o NML oferece `DataExtension` em `NeoModLoader.General.Game.extensions`.
+Se cinco tipos primitivos parecem coisa de 1995 e você realmente precisa salvar uma classe ou lista inteira num ator, o NML oferece `DataExtension` em `NeoModLoader.General.Game.extensions`: dois métodos de extensão, `Set` e `TryGet`, em qualquer um dos objetos de dados abaixo.
 
 Embrulhe sua classe de dados em `BasicCustomData<T>`:
 
 ```csharp
+using System.Collections.Generic;
 using NeoModLoader.General.Game.extensions;
 
 public class QuestProgress
@@ -44,17 +45,30 @@ public class QuestProgress
     public List<string> completed_objectives = new List<string>();
 }
 
+```
+
+Dentro de um método com um `Actor actor`, crie o valor antes de salvá-lo:
+
+```csharp
+if (actor == null || !actor.isAlive()) return;
+QuestProgress quest = new QuestProgress { quest_id = "hello_first_steps", step = 1 };
+
 // Salvando no actor:
 actor.data.Set("hello_quest", new BasicCustomData<QuestProgress>(quest));
 
 // Lendo de volta:
 if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
 {
-    QuestProgress quest = saved.Data;
+    QuestProgress loadedQuest = saved.Data;
 }
 ```
 
-Por baixo dos panos, o NML serializa seu objeto em JSON e guarda na tabela vanilla `custom_data_string` sob a sua chave. Se você espera que o formato dos dados mude entre atualizações do mod, implemente `ICustomData` diretamente na sua classe em vez de usar `BasicCustomData<T>`: isso te dá verificações explícitas de `ModId` e `DataVersion`, para que um save antigo não envenene em silêncio o seu estado novo :PES5_Hmmmm:.
+Por baixo dos panos, `Set` transforma seu objeto em JSON e guarda com o `data.set(key, string)` simples da tabela acima. Então é uma string por chave por unidade, e a regra de "mantenha pequeno" abaixo vale em dobro. Sua classe precisa de um construtor sem parâmetros, e seus campos e propriedades públicos são o que é salvo.
+
+Se você espera que o formato dos dados mude entre atualizações do mod, implemente `ICustomData` na sua classe em vez disso. São dois métodos: `Serialize()` retorna um `SerializedCustomData(modId, dataVersion, jObject)`, e `Deserialize(SerializedCustomData)` o recupera de volta. Verificar `ModId` e `DataVersion` ali é trabalho seu, ninguém faz isso por você. `BasicCustomData<T>` escreve valores de placeholder nos dois e lança exceção ao ler qualquer outra coisa, então não misture os dois na mesma chave :PES5_Hmmmm:.
+
+> [!NOTE] Verificado contra o NML 1.2.0
+> Esses nomes e assinaturas vêm do próprio assembly do NML, não da sua documentação, que não os menciona. Se um NML mais novo renomear algo, o compilador vai te avisar antes dos seus jogadores.
 
 ## No HelloBox
 
@@ -144,4 +158,92 @@ Seus textos, como em qualquer traço:
 - **Armazenamentos vazios não custam nada.** O jogo descarta tabelas vazias antes de salvar, então uma chave removida realmente desaparece.
 - **Mantenha os dados pequenos.** Eles são salvos com cada unidade. Um contador ou uma flag por criatura é levíssimo; uma string longa por unidade em um mundo com dez mil criaturas aumentará o save para todos.
 
-Para tudo o que não estiver vinculado a um único objeto (como uma configuração global para todo o mundo), use as configurações do seu mod: veja **[Configurações do mod](#/nml/mod-config)** :PES_OkHand:.
+## O mundo inteiro
+
+Alguns estados não pertencem a nenhuma unidade: quantos meteoros o seu poder já derrubou neste mundo, se a bênção única já aconteceu. O mundo tem o mesmo armazenamento, nas suas estatísticas de mapa:
+
+```csharp
+// map_stats é internal: tranquilo num mod de código-fonte NML, mesma situação do actor.data acima
+SaveCustomData world = World.world?.map_stats?.custom_data;
+if (world == null) return;
+
+world.change("hello_meteors", 1, 0, 1000000);   // change() limita a 1000 a menos que você diga o contrário
+if (world.addFlag("hello_blessed")) { /* só na primeira vez neste mundo */ }
+```
+
+`SaveCustomData` é o mesmo armazenamento `BaseSystemData`, então toda chamada na tabela do topo funciona, e o `Set` / `TryGet` do NML também. É salvo junto com o resto das estatísticas de mapa, então cada slot de save tem o seu próprio. Um mundo recém-gerado começa vazio. O jogo cria o armazenamento sempre que constrói ou carrega as estatísticas de mapa, então a checagem de nulo nunca deveria disparar; não custa nada, mantenha-a.
+
+> [!TIP] Configurações ou dados do mundo?
+> Pergunte se o jogador esperaria que o valor mudasse ao carregar outro save. "Quão forte é o poder do meteoro" não muda: isso é **[Configurações do mod](#/nml/mod-config)**, compartilhado por todo mundo. "Este mundo já foi abençoado" muda: isso é `custom_data`.
+
+## Tempo que sobrevive a um save
+
+`Time.time` é segundos desde que o jogo foi iniciado. Guarde isso nos dados de uma unidade, salve, reinicie, carregue, e todo timestamp que você escreveu é de uma vida anterior :wbfacepalm:.
+
+O mundo mantém seu próprio relógio, e ele é salvo com o mapa:
+
+```csharp
+if (World.world == null || World.world.map_stats == null || Config.worldLoading) return;
+if (actor == null || !actor.isAlive()) return;
+
+// double, em segundos do mundo: 5 é um mês, 60 é um ano
+double now = World.world.getCurWorldTime();
+
+// o armazenamento não tem double, um float é suficiente para um timestamp
+actor.data.set("hello_blessed_at", (float)now);
+
+actor.data.get("hello_blessed_at", out float at, -1f);
+bool blessedThisYear = at >= 0f && now - at < 60.0;
+```
+
+Ele também para quando o jogo está pausado e roda mais rápido em velocidades maiores, que é quase sempre o que você queria. `Date.getYearsSince(at)` e `Date.getMonthsSince(at)` fazem a divisão para você.
+
+## Rodando código depois que um mundo carrega
+
+Tudo acima é lido sob demanda, então geralmente você não precisa saber quando um mundo carregou. Quando precisa, digamos para reconstruir um cache seu, estes são os métodos que os mods engancham com **[Harmony](#/nml/harmony-patches)**:
+
+| Método | Quando roda |
+| --- | --- |
+| `MapBox.clearWorld` (público) | Antes de qualquer mundo ser gerado ou carregado. Descarte seus caches estáticos aqui |
+| `SaveManager.loadActors` (privado) | Durante o carregamento de um save, logo depois de as unidades serem reconstruídas |
+| `MapBox.finishMakingWorld` (público) | Perto do fim tanto de gerar quanto de carregar um mundo |
+| `SaveManager.saveWorldToDirectory` (público, estático) | Ao salvar, manual ou automático. Um Prefix é sua última chance de escrever no armazenamento |
+| `MapBox.addLastStep` (privado) | Uma única vez, quando o jogo inicia. Não por mundo |
+| `MapBox.OnApplicationQuit` (privado) | O jogo está fechando |
+
+```csharp Mods/HelloBox/Code/HelloWorldCache.cs
+using HarmonyLib;
+
+namespace HelloBox
+{
+    [HarmonyPatch(typeof(MapBox), nameof(MapBox.finishMakingWorld))]
+    public static class HelloWorldCache
+    {
+        // uma cópia em cache para código que a lê todo frame; o save guarda a de verdade
+        public static int MeteorsThisWorld;
+
+        // roda tanto para um mundo novo quanto para um save carregado
+        public static void Postfix()
+        {
+            MeteorsThisWorld = 0;
+            SaveCustomData world = World.world?.map_stats?.custom_data;
+            if (world == null) return;
+
+            world.get("hello_meteors", out int meteors);
+            MeteorsThisWorld = meteors;
+        }
+    }
+}
+```
+
+Métodos privados recebem o nome como string, `[HarmonyPatch(typeof(SaveManager), "loadActors")]`, como a página do Harmony explica. A tela de carregamento ainda está aberta quando `finishMakingWorld` roda; alguns passos vêm depois dela.
+
+## Seus próprios arquivos
+
+Muitos mods pulam tudo isso e escrevem um arquivo JSON com `File.WriteAllText`, geralmente sob `Application.persistentDataPath`, que é a pasta `LocalLow\mkarpenko\WorldBox` ao lado do `Player.log`. Isso é bom para coisas que pertencem ao **jogador**: uma lista de unidades favoritas que ele exportou, estatísticas de todas as partidas que ele já jogou.
+
+É errado para coisas que pertencem a um **mundo**. O arquivo não sabe qual slot de save está carregado. O jogador abençoa um reino no slot 1, carrega o slot 2, e o slot 2 também fica abençoado. Depois ele apaga o slot 1 e o seu arquivo mantém o estado para sempre :PES2_F:. Se deve mudar quando o save muda, vai no save, em um dos armazenamentos acima.
+
+## Para onde ir agora
+
+Para valores que o jogador escolhe uma vez e todo mundo compartilha, veja **[Configurações do mod](#/nml/mod-config)**. Para código que verifica algo todo frame, ou todo mês do jogo, veja **[Todo frame](#/nml/update-loops)** :PES_OkHand:.

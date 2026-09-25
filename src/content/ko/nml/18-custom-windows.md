@@ -266,7 +266,11 @@ namespace HelloBox
 | --- | --- |
 | `callback` | 툴팁 내용 구성: `name.text`, `setDescription()`, `setBottomDescription()` |
 | `prefab_id` | 사용할 툴팁 레이아웃 프리팹. 기본값은 `tooltips/tooltip_normal` |
+| `sound` / `color` | public 문자열 필드지만, 제공된 툴팁 표시 구현체는 이 값들을 소비하지 않음 |
 | `callback_text_animated` | 툴팁이 열려 있는 동안 0.08초마다 반복 호출되어 동적인 텍스트 갱신에 사용 |
+
+> [!NOTE] 필드가 아니라 그걸 실제로 쓰는 쪽을 확인하세요
+> `TooltipAsset.sound`나 `color`가 소리나 색을 자동으로 처리해 줄 거라 기대하지 마세요. 제목에 색을 입히려면 public 메서드인 `pTooltip.setTitle("HelloBox", "", "#43FF43")`로 명시적으로 지정하세요. `setDescription`과 `setBottomDescription`은 확인한 게임 소스에서 internal이므로, 위 예제에는 publicize된 `Assembly-CSharp.dll`이 필요합니다.
 
 ## 창을 여는 단축키
 
@@ -323,3 +327,6 @@ namespace HelloBox
 
 > [!TIP] 게임 원본에서 먼저 복사해 오세요
 > **UnityExplorer**를 열고 계층 구조에서 바니라 창을 찾아 컴포넌트와 속성값을 확인하세요. 이미 잘 작동하는 구조를 그대로 따오는 것이 앵커 좌표를 맞추느라 3시간 동안 헤매는 것보다 훨씬 낫습니다 :PES2_GaSmart:.
+
+
+다음: 팁과 지도 명패를 위한 **[메시지 및 세계 기록](#/nml/messages-and-world-log)**, 또는 네이티브 옵션 상태를 위한 **[게임 옵션](#/nml/game-options)**.

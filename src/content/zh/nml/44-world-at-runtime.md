@@ -1,7 +1,7 @@
 ---
 title: 运行时的游戏世界
-group: Game Content
-subgroup: Architecture & Stats
+group: 游戏内容
+subgroup: 底层架构与属性
 icon: :wbworld:
 order: 96
 ---
@@ -10,11 +10,13 @@ order: 96
 
 指南前面的所有页面都在讲解如何在游戏启动加载期注册新的游戏内容。而本页则聚焦于下半部分：如何在正在运行的游戏世界中与已有对象进行交互并修改它们。摧毁一座城市、将其转让给另一个国家、发动战争（war），或者用城市自身的居民重新填充它。
 
-所有这些操作都应该在神力（GodPower）的 `click_action`、`Update()` 循环或世界行为 (world behaviour) 中执行，**绝不能**在 `OnModLoad` 中调用——因为此时游戏世界甚至还不存在。关于安全的调用时机检查，参见 **[日志与调试](#/nml/logs-and-debugging)**。
+所有这些操作都应该在神力（GodPower）的 `click_action`、`Update()` 循环或世界行为 (world behaviour) 中执行，**绝不能**在 `OnModLoad` 中调用——因为此时游戏世界甚至还不存在。关于安全的调用时机检查，参见 **[日志与调试](#/nml/logs-and-debugging)**；关于如何在 `Update()` 里做这件事而不拖垮玩家的帧率，参见 **[每一帧](#/nml/update-loops)**。
 
 ## 遍历世界中现有的对象
 
 ```csharp
+if (World.world == null || Config.worldLoading) return;
+
 foreach (City city in World.world.cities)
 {
     if (city == null || city.isRekt()) continue;
@@ -28,6 +30,8 @@ foreach (Building building in World.world.buildings)
 ```
 
 `World.world.kingdoms` 的用法完全相同，参见 **[王国与阵营](#/nml/kingdoms)**。遍历这些列表时**务必**对每个元素调用 `isRekt()`：这些列表中可能包含正在被销毁或死亡的对象 :PES2_F:。
+
+这样的循环偶尔在一次点击时跑一遍没问题。但如果每一帧都遍历一遍所有建筑，那就不行了：请放到计时器上运行，参见 **[每一帧](#/nml/update-loops)**。
 
 ## 将城市转让给另一个国家
 
@@ -49,6 +53,7 @@ building.startDestroyBuilding(); // 如果建筑配有废墟贴图则先变为�
 ## 发动战争
 
 ```csharp
+if (World.world == null || Config.worldLoading || pAttacker == null || pDefender == null) return;
 World.world.diplomacy.startWar(pAttacker, pDefender, WarTypeLibrary.normal);
 ```
 
@@ -57,6 +62,8 @@ World.world.diplomacy.startWar(pAttacker, pDefender, WarTypeLibrary.normal);
 ## 用城市自身的居民填充城市
 
 ```csharp
+if (World.world == null || Config.worldLoading || city == null || city.isRekt()) return;
+
 Subspecies main = city.getMainSubspecies();
 WorldTile tile = city.getTile();
 if (main == null || tile == null) return;
@@ -78,4 +85,4 @@ foreach (Actor parent in actor.getParents())
 long first = actor.data.parent_id_1;   // 即使死后 ID 也会一直保留
 ```
 
-`getParents()` 仅返回依然存活的父母：它使用 `World.world.units.get(id)` 查找每个 ID 并跳过所有缺失或死亡的对象。ID 会永远保留在单位的数据中，但游戏并不会保留死者背后的具体信息。想要记住死者的族谱树，就必须在每个孩子出生时将其需要的信息直接写入其自身的数据中，参见 **[保存数据](#/nml/saving-data)**，因为在整个游戏世界中并没有专门用来存放全局记录的地方 :PES_ThinkAboutIt:。
+`getParents()` 仅返回依然存活的父母：它使用 `World.world.units.get(id)` 查找每个 ID 并跳过所有缺失或死亡的对象。ID 会永远保留在单位的数据中，但游戏并不会保留死者背后的具体信息。想要记住死者的族谱树，就必须在每个孩子出生时将其需要的信息直接写入其自身的数据中，参见 **[保存数据](#/nml/saving-data)**。世界本身也有一份自己的存储，但那只是一个平铺的键值列表，不是用来存放一万棵族谱树的地方 :PES_ThinkAboutIt:。

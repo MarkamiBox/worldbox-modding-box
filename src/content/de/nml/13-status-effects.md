@@ -94,7 +94,8 @@ Die kurze Liste. Die echte ist länger und größtenteils langweilig :wbyawn:.
 | `path_icon` | Das Icon in der Statusliste |
 | `texture`, `sprite_list`, `animated`, `loop`, `animation_speed` | Das auf die Einheit gezeichnete Sprite. `texture` ist ein reiner Name aus `effects/` |
 | `offset_x`, `offset_y`, `scale`, `rotation_z`, `render_priority` | Position und Darstellung |
-| `opposite_traits`, `opposite_tags` | Merkmale und Tags, die diesen Status abwehren |
+| `opposite_traits` | Ein `string[]` von **Actor-Merkmal**-IDs. Eine Einheit mit einer davon bekommt den Status nie: `burning` listet `fire_proof`, `poisoned` listet `poison_immune`. Reine IDs, jedes Mal geprüft, also funktionieren deine eigenen `hello_`-Merkmale hier |
+| `opposite_tags` | Dasselbe, für Werte-Tags wie `immunity_fire`: eine Einheit mit einem davon ist immun |
 | `action_on_receive`, `action_get_hit` | Zusätzliche Hooks beim Erhalt und bei Treffern |
 | `sound_idle` | Ein FMOD-Sound-Loop während der Wirkungsdauer |
 
@@ -138,14 +139,19 @@ cursed.action = (BaseSimObject pTarget, WorldTile pTile) =>
 
 ## Auf eine Einheit anwenden
 
-Hier stolpern viele. Die offensichtliche Methode, `actor.addStatusEffect("hello_cursed")`, ist im Spiel-Assembly als `internal` markiert. Gegen eine **publicized** `Assembly-CSharp.dll` kompiliert sie sauber, und eine normale NML-Mod hat schon eine: NML kompiliert dein `Code/*.cs` gegen seine eigene publicized Kopie, deshalb kompiliert jedes `internal`-Mitglied in diesem Guide bei dir. Du verlierst das nur, wenn du in Visual Studio eine eigene `.dll` gegen das normale Assembly baust. Für diesen Fall funktioniert der öffentliche Weg immer:
+Hier stolpern viele. Die offensichtliche Methode, `actor.addStatusEffect("hello_cursed")`, ist im Spiel-Assembly als `internal` markiert. Gegen eine **publicized** `Assembly-CSharp.dll` kompiliert sie sauber, und eine normale NML-Mod hat schon eine: NML kompiliert dein `Code/*.cs` gegen seine eigene publicized Kopie, deshalb kompiliert jedes `internal`-Mitglied in diesem Guide bei dir. Du verlierst das nur, wenn du in Visual Studio eine eigene `.dll` gegen das normale Assembly baust. Für diesen Fall leih dir den spieleigenen Verhaltensknoten, dessen Konstruktor und `execute()` beide öffentlich sind und der `addStatusEffect` für dich aufruft:
 
 ```csharp
-StatusAsset asset = AssetManager.status.get(HelloStatus.CURSED);
-World.world.statuses.newStatus(actor, asset, 20f);   // 20s, oder 0 für die eigene Dauer des Assets
+if (actor == null || !actor.isAlive() || World.world == null || Config.worldLoading) return;
+new ai.behaviours.BehActorAddStatus(HelloStatus.CURSED, 20f).execute(actor);   // 20s; pass 0f for the asset's own duration
 ```
 
-In einem Verhaltenselement gibt es vorgefertigte Knoten: `new BehActorAddStatus("hello_cursed", 20f)` und `new BehActorRemoveStatus("hello_cursed")`.
+> [!WARNING] `World.world.statuses.newStatus()` erledigt nur die halbe Arbeit
+> Sie ist öffentlich und sieht wie der richtige Weg aus. Sie erzeugt nur das `Status`-Objekt und startet dessen Timer: Sie trägt es nie in die eigene Statusliste der Einheit ein, und sie überspringt jede Prüfung, `opposite_traits` eingeschlossen. Die Einheit weiß nicht, dass sie den Status hat: `hasStatus()` sagt nein, und ihre `base_stats` greifen nie. Geh über `addStatusEffect`, direkt oder über den Knoten oben.
+
+Beide Knoten leben in `ai.behaviours`; füge `using ai.behaviours;` für die kurzen Namen hinzu. Übergib `0f` ausdrücklich, um die Asset-Dauer zu nutzen: Der Add-Knoten hat standardmäßig `-1f`, was als Override weitergereicht wird, nicht als Standarddauer behandelt.
+
+In einem Verhaltensbaum sind dieselben Knoten vorgefertigte Schritte: `new BehActorAddStatus("hello_cursed", 20f)` und `new BehActorRemoveStatus("hello_cursed")`.
 
 ## Die Texte nicht vergessen
 

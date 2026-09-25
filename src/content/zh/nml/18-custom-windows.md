@@ -278,7 +278,11 @@ namespace HelloBox
 | --- | --- |
 | `callback` | 组装填充提示框内容：`name.text`、`setDescription()`、`setBottomDescription()` |
 | `prefab_id` | 指定所使用的提示框 UI 预制件。默认为 `tooltips/tooltip_normal` |
+| `sound` / `color` | 公开的字符串字段，但所提供的提示框显示实现并不会读取它们 |
 | `callback_text_animated` | 在提示框显示期间每 0.08 秒循环回调一次，用于刷新动态跳动的文本内容 |
+
+> [!NOTE] 要核实的是谁在用它，不只是字段本身
+> 不要指望 `TooltipAsset.sound` 或 `color` 会自动带来声音或配色。想要标题颜色，公开的 `pTooltip.setTitle("HelloBox", "", "#43FF43")` 可以显式指定。`setDescription` 和 `setBottomDescription` 在所提供的游戏源码里是 `internal` 的，所以上面的示例需要一个公开化的 `Assembly-CSharp.dll`。
 
 ## 绑定快捷键打开窗口
 
@@ -335,3 +339,5 @@ namespace HelloBox
 
 > [!TIP] 优先参考原版窗口实现
 > 在游戏中使用 **UnityExplorer** 在 UI 树中选中一个原版窗口，直接查看其挂载的组件和坐标数值。直接参考一套已经被验证可行的 UI 结构，远比自己花三个小时盲猜 RectTransform 的锚点参数靠谱得多 :PES2_GaSmart:.
+
+接下来：想了解提示信息和地图铭牌，请看 **[消息与世界日志](#/nml/messages-and-world-log)**；想了解原生选项状态，请看 **[游戏选项与时间倍速](#/nml/game-options)**。

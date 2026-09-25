@@ -38,12 +38,13 @@ namespace HelloBox
                 needs_to_be_explored = false,
 
                 // called with no null check: a plot without it crashes the first time anyone looks at it
-                check_is_possible = (Actor pActor) => pActor.hasCity() && !pActor.city.isInDanger(),
-                check_should_continue = (Actor pActor) => pActor.hasCity(),
+                check_is_possible = (Actor pActor) => pActor != null && pActor.isAlive() && pActor.hasCity() && !pActor.city.isInDanger(),
+                check_should_continue = (Actor pActor) => pActor != null && pActor.isAlive() && pActor.hasCity(),
 
                 // runs once, when the progress bar is full
                 action = (Actor pActor) =>
                 {
+                    if (pActor == null || !pActor.isAlive()) return false;
                     City city = pActor.city;
                     if (city == null) return false;
 
@@ -105,9 +106,40 @@ Ein Anführer mit zehn Goldmünzen, einer Stadt und etwas Freizeit kann nun ein 
 | Feld | Funktion |
 | --- | --- |
 | `path_icon` | Das Icon in der Planliste und auf dem Banner |
-| `group_id` | Die Kategorie: `diplomacy`, `culture`, `rites_wrathful`, `rites_summoning`, `rites_merciful` |
+| `group_id` | Die Kategorie aus `plot_category_library`: `diplomacy`, `rites_wrathful`, `rites_summoning`, `rites_merciful`, `culture`, `language`, `religion`, `rites_various`, `plots_others` |
 | `pot_rate` | Gewichtung gegenüber anderen möglichen Plänen |
 | `is_basic_plot` | Jeder Anführer darf ihn versuchen. Andernfalls tritt er nur als Religionsritus auf, siehe **[Religionsmerkmale](#/nml/religion-traits)** |
+
+### Eine eigene Kategorie
+
+Die Kategorien sind `PlotCategoryAsset`s in `AssetManager.plot_category_library`, und sie teilen das Pläne-Fenster in Abschnitte auf. Dasselbe kleine `BaseCategoryAsset` wie ein Merkmals-Tab (`id`, `name`, `color`, `show_counter`, siehe **[Merkmalsgruppen & Tabs](#/nml/trait-groups)**), plus ein eigenes Feld:
+
+| Feld | Funktion |
+| --- | --- |
+| `plot_retry_action` | Wird abgefragt, während eine Einheit an einem Plan dieser Kategorie arbeitet. `true` bedeutet "nicht jetzt, später erneut versuchen". Vanilla nutzt dies, um zu warten, wenn Listen von Königreich, Stadt oder Religion beschäftigt sind |
+
+```csharp Mods/HelloBox/Code/HelloPlots.cs
+public const string CATEGORY = "hello_plots";
+
+// before the plots that point at it
+if (!AssetManager.plot_category_library.has(CATEGORY))
+{
+    AssetManager.plot_category_library.add(new PlotCategoryAsset
+    {
+        id = CATEGORY,
+        name = "plot_group_" + CATEGORY,   // the locale key, not the text
+        color = "#FF9A3C",
+        show_counter = false,
+        // borrow vanilla's: it already knows which lists to wait for
+        plot_retry_action = PlotCategoryLibrary.culturePlotsRetryAction
+    });
+}
+```
+
+Setze dann `group_id = HelloPlots.CATEGORY` am Festival und `"plot_group_hello_plots": "HelloBox"` in der Lokalisierungsdatei. Das Pläne-Fenster baut seine Abschnitte aus der Liste der Bibliothek auf, sodass die neue Kategorie ohne jegliche UI-Arbeit erscheint.
+
+> [!WARNING] Die Kategorie muss existieren
+> Das Spiel holt die Kategorie eines Plans mit `get()` und liest `plot_retry_action` darauf ohne Null-Prüfung aus – jedes Mal, wenn eine Einheit mit dem Plan ihre Aufgabe neu prüft. Eine nicht registrierte `group_id` führt zu einer `NullReferenceException` mitten in der KI, und sie kehrt ständig zurück :PESgn_ToughLuck:.
 
 ## Die Texte
 

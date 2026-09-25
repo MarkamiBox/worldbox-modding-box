@@ -282,6 +282,30 @@ sprite.icon = "iconHelloSprites";
 
 クリーチャーの **身体本体** のスプライト制作は全く別の難関であり、この後の項目で解説します。
 
+## ボート
+
+ボートもアクターの一種で、`is_boat = true` が立っており、テンプレートは `$boat_trading$` と `$boat_transport$` です。完成済みの `boat_trading_human` や `boat_transport_human` をクローンすれば、ステータス・大砲・ボートAIをまとめて無料で手に入ります。国家がどのボートを使うかは種族では決まらず、**建築（architecture）** が `actor_asset_id_trading`、`actor_asset_id_transport`、`actor_asset_id_boat_fishing` でそれを指定します。
+
+無料で手に入らないのはアートです。ボートの見た目は `texture_asset` からは来ません。ゲームは初めて描画する際に `actors/boats/<boat id>/` からスプライト名で読み込みます:
+
+```text Mods/HelloBox/
+HelloBox/
+└── GameResources/
+    └── actors/boats/hello_boat_trading/
+        ├── normal.png      # while lifted or in the magnet, and the fallback
+        ├── broken.png      # the wreck
+        ├── 0@0.png         # sailing, one pair per direction:
+        ├── 0@1.png         # <angle>@0 and <angle>@1
+        └── ...             # for 0, 45, 90, 135, 180, -45, -90, -135
+```
+
+`normal` と `broken` は必須です。これらがないとローダーが `KeyNotFoundException` を投げます。水上では、描いた中で最も近い角度にフォールバックしますが、インスペクターに表示されるユニットのアバターは8方向すべてを要求するので、8枚とも描いてください。
+
+`ActorAnimationLoader.loadAnimationBoat("hello_boat_trading")` は public であり、ゲーム自身が呼んでいるのと同じ呼び出しです。あなたが呼ぶ必要は本来ありませんが、クローン直後に一度呼んでおけば、スプライトの欠落が海戦の真っ最中ではなく読み込み時のエラーとして、しかも自分のコードの中で発覚します :wbsmirk:。
+
+> [!NOTE] ボートに地図上のマークが付かない
+> 縮小マップ上に出る小さなボートアイコンは `AssetManager.actor_library.list_only_boat_assets` から来ます。これはライブラリが起動時に一度だけ構築するリストです。マークを表示したいなら、自分のボートをそこに追加してください。
+
 ## スプライトこそが最難関
 
 ここまでの解説は、コードにすればわずか1ページ分にすぎません。本当の重労働は美術作業で、ほとんどのクリーチャーModはここで静かに息絶えます。クリーチャーを動かすには、適切なアトラス内に、適切なサイズとピボット位置で、完全なアニメーションフレーム群を描き起こす必要があります。現実的な選択肢は2つあります:

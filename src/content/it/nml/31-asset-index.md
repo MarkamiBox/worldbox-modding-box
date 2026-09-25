@@ -22,7 +22,7 @@ La sintesi pratica:
 AssetManager.traits.has("hello_swift");            // è registrato?
 AssetManager.traits.get("hello_swift");            // recuperalo (null se assente)
 AssetManager.traits.add(myTrait);                  // registrame uno nuovo
-AssetManager.traits.clone("hello_new", "brave");   // copia un esistente E registra la copia
+AssetManager.traits.clone("hello_new", "strong");   // copia un esistente E registra la copia
 AssetManager.traits.list;                          // ogni asset, in ordine
 AssetManager.traits.dict;                          // ogni asset, per id
 ```
@@ -65,7 +65,8 @@ Quelli che aprirai davvero sono i primi quattro. Gli altri sono qui per non fart
 | `loyalty_library` | `LoyaltyAsset` | Fonti di lealtà |
 | `opinion_library` | `OpinionAsset` | Fonti di opinione |
 | `happiness_library` | `HappinessAsset` | Fonti di felicità |
-| `plots_library` / `plot_category_library` | `PlotAsset` | Cospirazioni ordite da unità e sistemi |
+| `plots_library` | `PlotAsset` | Cospirazioni che i sovrani avviano e finanziano. **[Cospirazioni](#/nml/plots)** |
+| `plot_category_library` | `PlotCategoryAsset` | Le sezioni della finestra delle cospirazioni. **[Cospirazioni](#/nml/plots)** |
 | `decisions_library` | `DecisionAsset` | Decisioni (decision) prese dall'IA |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | Argomenti di discussione delle unità |
 | `book_types` | `BookTypeAsset` | Tipi di libri. **[Libri](#/nml/books)** |
@@ -89,16 +90,14 @@ Quelli che aprirai davvero sono i primi quattro. Gli altri sono qui per non fart
 | `effects_library` | `EffectAsset` | Effetti visivi |
 | `months` | `MonthAsset` | Il calendario |
 | `era_library` | `WorldAgeAsset` | Ere (world age) del mondo |
-| `time_scales` | `WorldTimeScaleAsset` | Velocità di scorrimento del tempo |
-| `map_sizes` | `MapSizeAsset` | Dimensioni delle mappe |
-| `map_gen_settings` / `map_gen_templates` | `MapGenSettingsAsset` | Generazione del mondo |
+| `time_scales` | `WorldTimeScaleAsset` | Velocità di gioco. "Più veloce" scorre `list` in ordine e, fuori dalla modalità debug, non raggiunge mai l'ultima voce (`x40` vanilla). Una velocità che aggiungi in coda diventa quella irraggiungibile: inseriscila con `Insert` prima dell'ultima |
+| `map_sizes` | `MapSizeAsset` | Le dimensioni nella finestra del nuovo mondo. **[Generazione della mappa](#/nml/map-generation)** |
+| `map_gen_templates` | `MapGenTemplate` | Forme del mondo: `continent`, `islands`, `donut`... **[Generazione della mappa](#/nml/map-generation)** |
+| `map_gen_settings` | `MapGenSettingsAsset` | Gli slider e gli interruttori sotto un template. **[Generazione della mappa](#/nml/map-generation)** |
 | `world_behaviours` | `WorldBehaviourAsset` | Comportamenti (behaviour) di fondo del mondo |
 | `sim_globals_library` | `SimGlobalAsset` | Costanti globali di simulazione |
 
 ## Oggetti ed equipaggiamento
-
-Solo `window_library` ha una pagina dedicata qui. Il resto funziona, ma toccalo solo se sai esattamente cosa fai :PES5_Hmmmm:.
-
 
 | Libreria | Asset | Cosa contiene |
 | --- | --- | --- |
@@ -117,7 +116,8 @@ Solo `window_library` ha una pagina dedicata qui. Il resto funziona, ma toccalo 
 | --- | --- | --- |
 | `powers` | `GodPower` | Poteri divini (GodPower). **[Poteri divini](#/nml/god-powers)** |
 | `power_tab_library` | `PowerTabAsset` | Schede della barra inferiore. **[Schede e pulsanti dei poteri](#/nml/power-buttons)** |
-| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | Leggi del mondo (world law). **[Leggi del mondo](#/nml/world-laws)** |
+| `world_laws_library` | `WorldLawAsset` | Leggi del mondo (world law). **[Leggi del mondo](#/nml/world-laws)** |
+| `world_law_groups` | `WorldLawGroupAsset` | Le schede della finestra delle Leggi del mondo. **[Leggi del mondo](#/nml/world-laws)** |
 | `brush_library` | `BrushData` | Dimensioni dei pennelli |
 | `hotkey_library` | `HotkeyAsset` | Scorciatoie da tastiera |
 | `debug_tool_library` | `DebugToolAsset` | Strumenti di debug |
@@ -135,13 +135,15 @@ Solo `window_library` ha una pagina dedicata qui. Il resto funziona, ma toccalo 
 
 ## Interfaccia
 
+`window_library` e `options_library` hanno una pagina dedicata qui. Il resto funziona, ma toccalo solo se sai esattamente cosa fai :PES5_Hmmmm:.
+
 | Libreria | Asset | Cosa contiene |
 | --- | --- | --- |
 | `window_library` | `WindowAsset` | Finestre. **[Finestre personalizzate](#/nml/custom-windows)** |
 | `list_window_library` | `ListWindowAsset` | Finestre di elenchi (regni, città, …) |
 | `tooltips` | `TooltipAsset` | Layout dei tooltip |
-| `nameplates_library` | `NameplateAsset` | Targhette col nome sopra le unità |
-| `options_library` | `OptionAsset` | Impostazioni di gioco |
+| `nameplates_library` | `NameplateAsset` | I banner col nome che le modalità mappa disegnano sopra regni, città, clan... Uno per `MetaType`: il suo `add()` lancia un'eccezione per una modalità mappa che ne ha già uno, quindi modifica il cartiglio vanilla con `get()` |
+| `options_library` | `OptionAsset` | La finestra delle impostazioni native del gioco. **[Opzioni di gioco](#/nml/game-options)** |
 | `color_style_library` | `ColorStyleAsset` | Stili di colore dell'interfaccia |
 | `dynamic_sprites_library` | `DynamicSpritesAsset` | Sprite generati a runtime |
 | `quantum_sprites` | `QuantumSpriteAsset` | Varianti di sprite |

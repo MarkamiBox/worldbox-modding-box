@@ -266,7 +266,11 @@ namespace HelloBox
 | --- | --- |
 | `callback` | Remplit l'info-bulle : `name.text`, `setDescription()`, `setBottomDescription()` |
 | `prefab_id` | Quel préfabriqué d'info-bulle utiliser. Par défaut : `tooltips/tooltip_normal` |
+| `sound` / `color` | Des champs de type chaîne publics, mais l'implémentation d'affichage d'info-bulle fournie ne les utilise pas |
 | `callback_text_animated` | Rappelé toutes les 0,08 seconde tant qu'elle est ouverte, pour les textes animés |
+
+> [!NOTE] Vérifiez ce qui les lit, pas juste le champ
+> Ne promettez pas de son ou de couleur automatique via `TooltipAsset.sound` ou `color`. Pour une couleur de titre, la méthode publique `pTooltip.setTitle("HelloBox", "", "#43FF43")` la formate explicitement. `setDescription` et `setBottomDescription` sont internes dans le code source du jeu fourni, donc l'exemple ci-dessus nécessite une `Assembly-CSharp.dll` publicisée.
 
 ## Un raccourci clavier dédié
 
@@ -323,3 +327,6 @@ Les drapeaux `check_*` permettent d'éviter simplement les conflits : `check_con
 
 > [!TIP] Inspirez-vous du jeu en premier
 > Ouvrez **UnityExplorer**, trouvez une fenêtre standard dans la hiérarchie et inspectez ses composants et valeurs. Copier une structure déjà fonctionnelle vaut bien mieux que de deviner les ancres pendant trois heures :PES2_GaSmart:.
+
+
+Suite : **[Messages et journal du monde](#/nml/messages-and-world-log)** pour les info-bulles et les étiquettes de carte, ou **[Options de jeu et vitesses](#/nml/game-options)** pour l'état des options natives.

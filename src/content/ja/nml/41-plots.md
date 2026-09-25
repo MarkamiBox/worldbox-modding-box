@@ -38,12 +38,13 @@ namespace HelloBox
                 needs_to_be_explored = false,
 
                 // called with no null check: a plot without it crashes the first time anyone looks at it
-                check_is_possible = (Actor pActor) => pActor.hasCity() && !pActor.city.isInDanger(),
-                check_should_continue = (Actor pActor) => pActor.hasCity(),
+                check_is_possible = (Actor pActor) => pActor != null && pActor.isAlive() && pActor.hasCity() && !pActor.city.isInDanger(),
+                check_should_continue = (Actor pActor) => pActor != null && pActor.isAlive() && pActor.hasCity(),
 
                 // runs once, when the progress bar is full
                 action = (Actor pActor) =>
                 {
+                    if (pActor == null || !pActor.isAlive()) return false;
                     City city = pActor.city;
                     if (city == null) return false;
 
@@ -105,9 +106,40 @@ namespace HelloBox
 | フィールド | 役割 |
 | --- | --- |
 | `path_icon` | 陰謀一覧および専用バナーに表示されるアイコン |
-| `group_id` | カテゴリ：`diplomacy`, `culture`, `rites_wrathful`, `rites_summoning`, `rites_merciful` |
+| `group_id` | カテゴリ。`plot_category_library` の中の値：`diplomacy`, `rites_wrathful`, `rites_summoning`, `rites_merciful`, `culture`, `language`, `religion`, `rites_various`, `plots_others` |
 | `pot_rate` | 他の陰謀候補と比較した際の抽選ウェイト |
 | `is_basic_plot` | すべての指導者が実行可能。false の場合は宗教の儀式としてのみ発生（**[宗教特性](#/nml/religion-traits)** を参照） |
+
+### 自分だけのカテゴリ
+
+カテゴリは `AssetManager.plot_category_library` の中の `PlotCategoryAsset` で、陰謀ウィンドウのセクション分けを担っています。特性タブと同じ小さな `BaseCategoryAsset`（`id`、`name`、`color`、`show_counter`。**[特性グループとタブ](#/nml/trait-groups)** 参照）に加えて、独自のフィールドが1つあります：
+
+| フィールド | 役割 |
+| --- | --- |
+| `plot_retry_action` | このカテゴリの陰謀に取り組んでいる間、ユニットに毎回尋ねられる。`true` は「今はダメ、後でまた試して」という意味。バニラでは王国・都市・宗教のリストが処理中の間、これで待たせている |
+
+```csharp Mods/HelloBox/Code/HelloPlots.cs
+public const string CATEGORY = "hello_plots";
+
+// before the plots that point at it
+if (!AssetManager.plot_category_library.has(CATEGORY))
+{
+    AssetManager.plot_category_library.add(new PlotCategoryAsset
+    {
+        id = CATEGORY,
+        name = "plot_group_" + CATEGORY,   // the locale key, not the text
+        color = "#FF9A3C",
+        show_counter = false,
+        // borrow vanilla's: it already knows which lists to wait for
+        plot_retry_action = PlotCategoryLibrary.culturePlotsRetryAction
+    });
+}
+```
+
+その上で祝祭には `group_id = HelloPlots.CATEGORY`、ローカライズファイルには `"plot_group_hello_plots": "HelloBox"` を書きます。陰謀ウィンドウはこのライブラリのリストからセクションを組み立てるので、UI側の作業なしに新しいカテゴリが表示されます。
+
+> [!WARNING] カテゴリは存在していなければなりません
+> ゲームは陰謀のカテゴリを `get()` で取得し、null チェックなしで `plot_retry_action` を読み出します。しかもそれは陰謀を持つユニットがタスクを再チェックするたびに毎回です。誰も登録していない `group_id` は AI の真っ最中に `NullReferenceException` を引き起こし、何度でも戻ってきます :PESgn_ToughLuck:。
 
 ## テキスト設定
 

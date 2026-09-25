@@ -266,7 +266,11 @@ namespace HelloBox
 | --- | --- |
 | `callback` | ツールチップの内容を設定：`name.text`, `setDescription()`, `setBottomDescription()` |
 | `prefab_id` | 使用するツールチップのレイアウト。デフォルトは `tooltips/tooltip_normal` |
+| `sound` / `color` | 公開されている文字列フィールドですが、同梱のツールチップ表示実装はこれらを一切使用しません |
 | `callback_text_animated` | 表示中に0.08秒ごとに再呼び出し。変化するアニメーションテキスト用 |
+
+> [!NOTE] フィールドだけでなく、それを使う側を確認する
+> `TooltipAsset.sound` や `color` から音や色が自動的に適用されると期待しないでください。タイトルの色を変えたいなら、公開メソッドの `pTooltip.setTitle("HelloBox", "", "#43FF43")` で明示的に指定できます。`setDescription` と `setBottomDescription` は同梱のゲームソースでは internal のため、上記の例には publicize済みの `Assembly-CSharp.dll` が必要です。
 
 ## ウィンドウを開くショートカットキー
 
@@ -323,3 +327,6 @@ namespace HelloBox
 
 > [!TIP] まずはバニラから構造を拝借する
 > ゲーム内で **UnityExplorer** を開き、バニラのウィンドウを階層ツリーから探してコンポーネントとプロパティを確認しましょう。すでに動いている構造をコピーする方が、アンカーの位置合わせで3時間悩むよりはるかに確実です :PES2_GaSmart:。
+
+
+次は: ヒントとマップのネームプレートを扱う **[メッセージとワールドログ](#/nml/messages-and-world-log)**、またはネイティブなオプション状態を扱う **[ゲームオプションと時間スケール](#/nml/game-options)** へ。

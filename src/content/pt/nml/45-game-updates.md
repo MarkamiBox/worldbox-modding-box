@@ -36,7 +36,9 @@ Depois de uma atualização você vai ver principalmente estes:
 
 O último é o traiçoeiro. Um patch que escreve o nome do método como texto simples, tipo `"updateStats"`, só é verificado quando o jogo abre. Então uma mudança de nome não impede o mod de compilar, impede de funcionar. Patches escritos com `nameof` dão um erro de compilação normal, mais um motivo para usar sempre que der (**[duas formas de escrever o nome do método](#/nml/harmony-patches)**).
 
-## 3. Encontre o nome novo
+## 3. Encontrando o nome novo
+
+A quebra mais comum: um método ou campo de asset agora tem outro nome. O seu código não compila com `does not contain a definition for '...'`.
 
 O nome velho sumiu, então procure o substituto:
 
@@ -44,13 +46,29 @@ O nome velho sumiu, então procure o substituto:
 - **[Campos dos assets](#/tools/fields)** para os campos dos assets. Procure a parte do nome que você lembra.
 - **dnSpy**, que sempre está certo, porque lê o jogo que você realmente tem. As ferramentas de busca daqui são refeitas depois das atualizações, mas podem ficar alguns dias atrás de uma recém-lançada. Como usar: **[Lendo o código do jogo](#/toolbox/reading-the-game-code)**.
 
-O truque que eu mais uso: abra o asset ou método vanilla que faz o mesmo trabalho (job) que o seu e veja como **o próprio jogo** escreve agora. Se o jogo mudou o jeito de criar traços (trait), os traços dele já usam o jeito novo :PESgn_Noice:.
+O truque que eu mais uso: abra o asset ou método vanilla que faz o mesmo trabalho que o seu e veja como **o próprio jogo** escreve agora. Se o jogo mudou o jeito de criar traços, os traços dele já usam o jeito novo :PESgn_Noice:.
+
+### Nomes que não existem mais
+
+Mods antigos, tutoriais antigos e postagens antigas em fóruns estão cheios disso. Nenhum deles existe no jogo atual, portanto cada um gera um erro de compilação ou, no caso dos IDs de modelo (template), um `clone()` que lança `KeyNotFoundException` na inicialização:
+
+| Nome antigo | O que usar agora |
+| --- | --- |
+| `AssetManager.unitStats` | `AssetManager.actor_library`. Criaturas são `ActorAsset`s, veja **[Criaturas customizadas](#/nml/custom-actors)** |
+| `AssetManager.raceLibrary` | Sem substituto direto. O que uma raça guardava agora fica diretamente no `ActorAsset` |
+| `AssetManager.nameGenerator` | `AssetManager.name_generator`, veja **[Geradores de nomes](#/nml/name-generators)** |
+| `AssetManager.items_material_weapon`, `items_material_accessory` | Nenhuma biblioteca substituta. Cada material é seu próprio item em `AssetManager.items` (`sword_iron`, `sword_steel`), veja **[Itens customizados](#/nml/custom-items)** |
+| `"!building"` (modelo de edifício) | `"$building$"` em `AssetManager.buildings` |
+| `"_spawn_building"` (modelo de drop) | `"$spawn_building$"` em `AssetManager.drops` |
+| `"_dropBuilding"` (modelo de poder divino) | `"$template_drop_building$"` em `AssetManager.powers` |
+
+O padrão dos três últimos é o que você deve memorizar: os modelos agora são envolvidos em `$`. Se um `clone()` antigo usa um ID que começa com `_` ou `!`, procure na função `init()` da mesma biblioteca pela versão `$...$`.
 
 ## 4. Confira seus patches do Harmony na mão
 
 Um patch também pode dar errado sem erro nenhum. Passe um por um e confira o método no dnSpy:
 
-- **Nomes dos parâmetros.** O Harmony preenche os parâmetros **pelo nome**. Se o jogo renomeou `pDamage` para `pAmount`, o seu `float pDamage` não recebe nada, em silêncio. Veja **[os nomes de parâmetro mágicos](#/nml/harmony-patches)**.
+- **Nomes dos parâmetros.** O Harmony preenche os parâmetros **pelo nome**. Se o jogo renomeou `pDamage` para `pAmount`, o seu `float pDamage` não se vincula mais e o Harmony falha ao aplicar o patch. Veja **[os nomes de parâmetro mágicos](#/nml/harmony-patches)**.
 - **Sobrecargas.** Um método que era único pode ter ganhado um gêmeo, e o seu patch falha com `Ambiguous match found`.
 - **O que o método faz.** Às vezes o nome fica, mas a lógica vai para outro lugar. O patch roda e nada muda. Coloque uma linha `LogInfo` no patch: se ela nunca aparecer, o jogo não chama mais esse método.
 
@@ -58,7 +76,7 @@ Um patch também pode dar errado sem erro nenhum. Passe um por um e confira o m�
 
 Compilar de novo não é a linha de chegada. Carregue um mundo e confira se cada parte ainda funciona: o traço mostra o ícone, o item cai, o poder cria o que deveria.
 
-Uma atualização pode adicionar um campo que os assets vanilla agora preenchem e os seus não. O asset carrega, sem erro, e simplesmente não faz nada. Compare o seu asset campo por campo com o vanilla mais parecido no `init()` da biblioteca (library) dele. O que o jogo agora define e você não é o seu suspeito.
+Uma atualização pode adicionar um campo que os assets vanilla agora preenchem e os seus não. O asset carrega, sem erro, e simplesmente não faz nada. Compare o seu asset campo por campo com o vanilla mais parecido no `init()` da biblioteca dele. O que o jogo agora define e você não é o seu suspeito.
 
 ## 6. Teste um save antigo também
 
@@ -76,5 +94,5 @@ Depois responda os comentários de "tá atualizado??", você mereceu :wbsalut:.
 
 - **Faça menos patches.** Cada patch do Harmony é um ponto que pode quebrar. Se um campo de asset ou um recurso do NML resolve, use isso.
 - **Coloque seu código em try/catch.** Um recurso quebrado escreve um erro no log, e o resto do mod continua funcionando. Veja **[Logs e depuração](#/nml/logs-and-debugging)**.
-- **Uma classe de patch por tarefa.** Quando um patch quebra, só aquele recurso cai, não todos.
+- **Uma classe de patch por tarefa.** Isso torna as falhas mais fáceis de isolar. Isso não isola falhas do `PatchAll`: um alvo ausente pode interromper a verificação antes que os patches posteriores sejam aplicados. Use patches manuais protegidos para alvos opcionais.
 - **Deixe seus ids num lugar só.** Constantes como `HelloTraits.SWIFT` fazem uma renomeação ser uma edição, não vinte.

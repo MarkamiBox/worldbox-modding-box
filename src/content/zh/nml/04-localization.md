@@ -24,7 +24,7 @@ order: 26
 }
 ```
 
-文件名**本身就是**语言代码：`en.json`、`cz.json`（简体中文）、`ru.json` 等等。
+文件名**本身就是**语言代码：`en.json`、`cz.json`（简体中文）、`ch.json`（繁体中文）、`ja.json`（日语）、`ru.json` 等等。这些是 `GameLanguageLibrary` 里注册的 id，不是靠猜的 ISO 代码。捷克语是 `cs`，不是 `cz`。模组里的这个文件夹名要保持首字母大写的 `Locales`；游戏自身的 `locales/` 资源路径是另外一回事。
 
 如果你选择手动实现 `IMod`，则需要实现 `ILocalizable` 接口并指定该目录：
 
@@ -113,3 +113,19 @@ namespace HelloBox
 
 > [!WARNING] id 不是名字
 > 你的 id 在任何语言里都永远是 `hello_swift`，你其余的代码（以及别人的模组）引用的都是它。会变的是**本地化文本**。千万别为了修正显示名称里的错字就去改 id :PESgn_Stop:。
+
+## 不经过 LM 的游戏原生 API
+
+如果一个值只在当前已加载的语言中用得上：
+
+```csharp
+LocalizedTextManager.add("hello_notice", "Hello from HelloBox", pReplace: true);
+string notice = LocalizedTextManager.getText("hello_notice");
+```
+
+`add(string pKey, string pTranslation, bool pReplace = false, string pFileName = "", bool pCheckForCharacters = true)` 会写入当前的文本字典。除非 `pReplace` 为 `true`，否则已存在的键保持不变。它会用 `Underscore()` 对键做归一化处理，所以从一开始就用下划线风格的键。`getText(string pKey, Text text = null, bool pForceEnglish = false)` 读取的就是这个字典；所提供的源码里，`pForceEnglish` 并不会用来强制选择英文。
+
+> [!NOTE] 当前文本不是翻译文件
+> 切换语言会重建游戏的文本字典。对于需要在切换语言后依然存在的翻译，请使用 `Locales` 或 `LM.Add`。直接调用 `add` 也不会替你刷新已经显示出来的文本组件。
+
+接下来：**[精灵与资源](#/nml/sprites-and-resources)**，或者用 **[消息与世界日志](#/nml/messages-and-world-log)** 把文字显示到屏幕上。

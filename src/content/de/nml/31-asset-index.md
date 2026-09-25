@@ -22,7 +22,7 @@ Die Kurzfassung:
 AssetManager.traits.has("hello_swift");            // ist es registriert?
 AssetManager.traits.get("hello_swift");            // abrufen (null, falls nicht vorhanden)
 AssetManager.traits.add(myTrait);                  // ein neues registrieren
-AssetManager.traits.clone("hello_new", "brave");   // ein bestehendes kopieren UND die Kopie registrieren
+AssetManager.traits.clone("hello_new", "strong");   // ein bestehendes kopieren UND die Kopie registrieren
 AssetManager.traits.list;                          // jedes Asset, der Reihe nach
 AssetManager.traits.dict;                          // jedes Asset, nach ID
 ```
@@ -65,7 +65,8 @@ Die ersten vier wirst du tatsächlich öffnen. Der Rest steht hier, damit du kei
 | `loyalty_library` | `LoyaltyAsset` | Loyalitätsquellen |
 | `opinion_library` | `OpinionAsset` | Meinungsquellen |
 | `happiness_library` | `HappinessAsset` | Zufriedenheitsquellen |
-| `plots_library` / `plot_category_library` | `PlotAsset` | Verschwörungen von Einheiten und Systemen |
+| `plots_library` | `PlotAsset` | Ränke, die Herrscher beginnen und bezahlen. **[Pläne & Intrigen](#/nml/plots)** |
+| `plot_category_library` | `PlotCategoryAsset` | Die Abschnitte des Ränke-Fensters. **[Pläne & Intrigen](#/nml/plots)** |
 | `decisions_library` | `DecisionAsset` | KI-Entscheidungen |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | Worüber Einheiten sprechen |
 | `book_types` | `BookTypeAsset` | Bucharten. **[Bücher](#/nml/books)** |
@@ -89,9 +90,10 @@ Die ersten vier wirst du tatsächlich öffnen. Der Rest steht hier, damit du kei
 | `effects_library` | `EffectAsset` | Visuelle Effekte |
 | `months` | `MonthAsset` | Der Kalender |
 | `era_library` | `WorldAgeAsset` | Zeitalter (world age) der Welt |
-| `time_scales` | `WorldTimeScaleAsset` | Spielgeschwindigkeiten |
-| `map_sizes` | `MapSizeAsset` | Kartengrößen |
-| `map_gen_settings` / `map_gen_templates` | `MapGenSettingsAsset` | Weltgenerierung |
+| `time_scales` | `WorldTimeScaleAsset` | Spielgeschwindigkeiten. "Schneller" durchläuft `list` der Reihe nach und erreicht außerhalb des Debug-Modus nie den letzten Eintrag (bei Vanilla `x40`). Eine angehängte Geschwindigkeit wird zu dieser unerreichbaren: füge sie mit `Insert` vor dem letzten Eintrag ein |
+| `map_sizes` | `MapSizeAsset` | Die Größen im Fenster für eine neue Welt. **[Kartengenerierung](#/nml/map-generation)** |
+| `map_gen_templates` | `MapGenTemplate` | Weltformen: `continent`, `islands`, `donut`... **[Kartengenerierung](#/nml/map-generation)** |
+| `map_gen_settings` | `MapGenSettingsAsset` | Die Schieberegler und Schalter unter einem Template. **[Kartengenerierung](#/nml/map-generation)** |
 | `world_behaviours` | `WorldBehaviourAsset` | Hintergrundverhalten auf Weltebene |
 | `sim_globals_library` | `SimGlobalAsset` | Globale Simulationskonstanten |
 
@@ -114,7 +116,8 @@ Die ersten vier wirst du tatsächlich öffnen. Der Rest steht hier, damit du kei
 | --- | --- | --- |
 | `powers` | `GodPower` | Gotteskräfte. **[Gotteskräfte](#/nml/god-powers)** |
 | `power_tab_library` | `PowerTabAsset` | Leisten-Tabs unten. **[Kräfte-Tabs & Buttons](#/nml/power-buttons)** |
-| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | Weltgesetze (world law). **[Weltgesetze](#/nml/world-laws)** |
+| `world_laws_library` | `WorldLawAsset` | Weltgesetze (world law). **[Weltgesetze](#/nml/world-laws)** |
+| `world_law_groups` | `WorldLawGroupAsset` | Die Tabs des Weltgesetze-Fensters. **[Weltgesetze](#/nml/world-laws)** |
 | `brush_library` | `BrushData` | Pinselgrößen |
 | `hotkey_library` | `HotkeyAsset` | Tastaturkürzel |
 | `debug_tool_library` | `DebugToolAsset` | Debug-Werkzeuge |
@@ -132,7 +135,7 @@ Die ersten vier wirst du tatsächlich öffnen. Der Rest steht hier, damit du kei
 
 ## Benutzeroberfläche
 
-Nur `window_library` hat hier eine eigene Seite. Der Rest funktioniert, aber fasse ihn nur mit Bedacht an :PES5_Hmmmm:.
+`window_library` und `options_library` haben hier eigene Seiten. Der Rest funktioniert, aber fasse ihn nur mit Bedacht an :PES5_Hmmmm:.
 
 
 | Bibliothek | Asset | Was sie enthält |
@@ -140,8 +143,8 @@ Nur `window_library` hat hier eine eigene Seite. Der Rest funktioniert, aber fas
 | `window_library` | `WindowAsset` | Fenster. **[Eigene Fenster](#/nml/custom-windows)** |
 | `list_window_library` | `ListWindowAsset` | Die Listenfenster (Königreiche (kingdom), Städte, …) |
 | `tooltips` | `TooltipAsset` | Tooltip-Layouts |
-| `nameplates_library` | `NameplateAsset` | Namensschilder über Einheiten |
-| `options_library` | `OptionAsset` | Spieleinstellungen |
+| `nameplates_library` | `NameplateAsset` | Die Namensbanner, die Kartenmodi über Königreiche, Städte, Clans... zeichnen. Eines pro `MetaType`: `add()` wirft für einen Kartenmodus, der schon eines hat, bearbeite das Vanilla-Schild also mit `get()` |
+| `options_library` | `OptionAsset` | Das eigene Einstellungsfenster des Spiels. **[Spieloptionen](#/nml/game-options)** |
 | `color_style_library` | `ColorStyleAsset` | Farbpaletten für UI |
 | `dynamic_sprites_library` | `DynamicSpritesAsset` | Zur Laufzeit generierte Sprites |
 | `quantum_sprites` | `QuantumSpriteAsset` | Sprite-Varianten |

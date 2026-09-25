@@ -282,6 +282,30 @@ sprite.icon = "iconHelloSprites";
 
 La resa grafica del **corpo** della creatura è un'altra questione e costituisce l'argomento della parte finale di questa guida.
 
+## Barche
+
+Anche una barca è un attore, con `is_boat = true`, e i template sono `$boat_trading$` e `$boat_transport$`. Clona una già completa, `boat_trading_human` o `boat_transport_human`, e ottieni gratis le statistiche, il cannone e l'IA della barca. Una civiltà non sceglie le sue barche in base alla specie: è la sua **architettura** a nominarle, in `actor_asset_id_trading`, `actor_asset_id_transport` e `actor_asset_id_boat_fishing`.
+
+Quello che non ottieni gratis è la grafica. L'immagine di una barca non proviene da `texture_asset`: il gioco la carica da `actors/boats/<id barca>/`, per nome dello sprite, la prima volta che ne disegna una:
+
+```text Mods/HelloBox/
+HelloBox/
+└── GameResources/
+    └── actors/boats/hello_boat_trading/
+        ├── normal.png      # mentre viene sollevata o nella calamita, e il fallback
+        ├── broken.png      # il relitto
+        ├── 0@0.png         # in navigazione, una coppia per direzione:
+        ├── 0@1.png         # <angolo>@0 e <angolo>@1
+        └── ...             # per 0, 45, 90, 135, 180, -45, -90, -135
+```
+
+`normal` e `broken` sono obbligatori: senza di essi il caricatore lancia `KeyNotFoundException`. Sull'acqua il gioco ripiega sull'angolo più vicino che hai disegnato, ma l'avatar dell'unità nell'inspector li richiede tutti e otto, quindi disegnali tutti e otto.
+
+`ActorAnimationLoader.loadAnimationBoat("hello_boat_trading")` è pubblico ed è la chiamata che fa il gioco. Non ti serve mai chiamarlo tu, ma farlo una volta subito dopo il clone trasforma uno sprite mancante in un errore al caricamento, nel tuo codice, invece che nel bel mezzo di una guerra navale :wbsmirk:.
+
+> [!NOTE] Nessun segno sulla mappa per la tua barca
+> Le piccole icone di barca sulla mappa rimpicciolita provengono da `AssetManager.actor_library.list_only_boat_assets`, una lista che la libreria costruisce una volta sola al caricamento. Aggiungi la tua barca se vuoi il segno.
+
 ## Gli sprite sono la parte difficile
 
 Tutto quanto visto sopra si riduce a una pagina di codice. Il vero lavoro sta nell'arte grafica, ed è qui che la maggior parte delle mod di creature muore in silenzio: una creatura necessita di un ciclo completo di animazioni, nell'atlas corretto, alle dimensioni giuste e con i pivot appropriati. Ci sono due strade sincere:

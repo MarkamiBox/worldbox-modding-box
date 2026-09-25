@@ -38,6 +38,8 @@ NML 자체가 로드되지 않는다면 아직 모드 차례가 아닙니다. �
 
 ## 3. 새 이름 찾기
 
+가장 흔한 고장: 메서드나 에셋 필드의 이름이 바뀐 경우입니다. `does not contain a definition for '...'` 라는 메시지와 함께 컴파일이 실패합니다.
+
 옛 이름은 사라졌으니 대신할 것을 찾으세요:
 
 - 이 사이트의 **[메서드 검색](#/tools/methods)**. 메서드 이름이 아니라 그 메서드가 *하던 일*을 입력하세요. "add trait to unit" 이라고 쓰면 이름이 바뀌었어도 찾아 줍니다.
@@ -46,11 +48,27 @@ NML 자체가 로드되지 않는다면 아직 모드 차례가 아닙니다. �
 
 제가 가장 많이 쓰는 요령: 여러분의 것과 같은 일을 하는 바닐라 에셋이나 메서드를 열어서, **게임 자신**이 지금 어떻게 쓰는지 보세요. 게임이 특성을 만드는 방식을 바꿨다면, 게임의 특성들은 이미 새 방식을 쓰고 있습니다 :PESgn_Noice:.
 
+### 더 이상 존재하지 않는 이름들
+
+오래된 모드, 옛날 튜토리얼, 과거 포럼 게시물에는 이런 이름들이 가득합니다. 현재 게임에는 이 중 어느 것도 존재하지 않으므로 각각 컴파일 오류를 일으키거나, 템플릿 ID의 경우 시작 시 `clone()` 에서 `KeyNotFoundException` 을 발생시킵니다:
+
+| 옛 이름 | 지금 사용할 이름 |
+| --- | --- |
+| `AssetManager.unitStats` | `AssetManager.actor_library`. 생명체는 `ActorAsset`입니다. **[커스텀 액터](#/nml/custom-actors)** 참고 |
+| `AssetManager.raceLibrary` | 직접적인 대체 항목이 없습니다. 예전에 race가 가지고 있던 정보는 이제 `ActorAsset` 자체에 있습니다 |
+| `AssetManager.nameGenerator` | `AssetManager.name_generator`. **[이름 생성기](#/nml/name-generators)** 참고 |
+| `AssetManager.items_material_weapon`, `items_material_accessory` | 대체 라이브러리가 없습니다. 각 재료는 `AssetManager.items` 내의 개별 아이템입니다 (`sword_iron`, `sword_steel`). **[커스텀 아이템](#/nml/custom-items)** 참고 |
+| `"!building"` (건물 템플릿) | `AssetManager.buildings` 의 `"$building$"` |
+| `"_spawn_building"` (드롭 템플릿) | `AssetManager.drops` 의 `"$spawn_building$"` |
+| `"_dropBuilding"` (신의 권능 템플릿) | `AssetManager.powers` 의 `"$template_drop_building$"` |
+
+마지막 세 항목의 패턴을 기억해 두세요: 템플릿은 이제 `$` 기호로 감싸집니다. 예전 `clone()` 에서 `_` 나 `!` 로 시작하는 ID를 쓰고 있다면, 같은 라이브러리의 `init()` 안에서 `$...$` 형태의 버전을 찾으세요.
+
 ## 4. Harmony 패치를 직접 확인하기
 
 패치는 오류 하나 없이 망가질 수도 있습니다. 하나씩 보면서 dnSpy에서 메서드를 확인하세요:
 
-- **매개변수 이름.** Harmony는 매개변수를 **이름으로** 채웁니다. 게임이 `pDamage` 를 `pAmount` 로 바꿨다면, 여러분의 `float pDamage` 에는 아무 말 없이 아무것도 들어오지 않습니다. **[마법의 매개변수 이름](#/nml/harmony-patches)** 참고.
+- **매개변수 이름.** Harmony는 매개변수를 **이름으로** 채웁니다. 게임이 `pDamage` 를 `pAmount` 로 바꿨다면, 여러분의 `float pDamage` 가 더 이상 바인딩되지 않아 Harmony가 패치를 적용할 때 실패합니다. **[마법의 매개변수 이름](#/nml/harmony-patches)** 참고.
 - **오버로드.** 전에는 하나뿐이던 메서드에 쌍둥이가 생겨서, 패치가 `Ambiguous match found` 로 실패할 수 있습니다.
 - **메서드가 하는 일.** 이름은 그대로인데 로직만 다른 곳으로 옮겨가기도 합니다. 패치는 실행되는데 아무것도 바뀌지 않습니다. 패치에 `LogInfo` 한 줄을 넣어 보세요. 한 번도 찍히지 않는다면, 게임이 더 이상 그 메서드를 부르지 않는 겁니다.
 
@@ -76,5 +94,5 @@ NML 자체가 로드되지 않는다면 아직 모드 차례가 아닙니다. �
 
 - **패치를 줄이세요.** Harmony 패치 하나하나가 망가질 수 있는 지점입니다. 에셋 필드나 NML 기능으로 해결된다면 그걸 쓰세요.
 - **코드를 try/catch 로 감싸세요.** 망가진 기능은 로그에 오류를 하나 남길 뿐이고, 모드의 나머지는 계속 작동합니다. **[로그와 디버깅](#/nml/logs-and-debugging)** 참고.
-- **작업 하나에 패치 클래스 하나.** 패치 하나가 망가지면 그 기능만 멈추고, 전부가 멈추지는 않습니다.
+- **작업 하나에 패치 클래스 하나.** 이렇게 하면 오류를 격리하기 쉬워집니다. 다만 `PatchAll` 오류까지 격리하지는 못합니다: 대상이 하나 누락되면 이후 패치가 적용되기 전에 스캔이 중단될 수 있습니다. 선택적 대상에는 방어 처리가 된 수동 패치를 사용하세요.
 - **ID는 한곳에 모아 두세요.** `HelloTraits.SWIFT` 같은 상수가 있으면 이름 변경이 스무 군데가 아니라 한 군데 수정으로 끝납니다.

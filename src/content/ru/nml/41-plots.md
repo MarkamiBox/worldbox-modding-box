@@ -38,12 +38,13 @@ namespace HelloBox
                 needs_to_be_explored = false,
 
                 // called with no null check: a plot without it crashes the first time anyone looks at it
-                check_is_possible = (Actor pActor) => pActor.hasCity() && !pActor.city.isInDanger(),
-                check_should_continue = (Actor pActor) => pActor.hasCity(),
+                check_is_possible = (Actor pActor) => pActor != null && pActor.isAlive() && pActor.hasCity() && !pActor.city.isInDanger(),
+                check_should_continue = (Actor pActor) => pActor != null && pActor.isAlive() && pActor.hasCity(),
 
                 // runs once, when the progress bar is full
                 action = (Actor pActor) =>
                 {
+                    if (pActor == null || !pActor.isAlive()) return false;
                     City city = pActor.city;
                     if (city == null) return false;
 
@@ -105,9 +106,40 @@ namespace HelloBox
 | Поле | Что делает |
 | --- | --- |
 | `path_icon` | Иконка в списке заговоров и на знамени |
-| `group_id` | Категория: `diplomacy`, `culture`, `rites_wrathful`, `rites_summoning`, `rites_merciful` |
+| `group_id` | Категория из `plot_category_library`: `diplomacy`, `rites_wrathful`, `rites_summoning`, `rites_merciful`, `culture`, `language`, `religion`, `rites_various`, `plots_others` |
 | `pot_rate` | Вес при случайном выборе среди других заговоров |
 | `is_basic_plot` | Доступен любому лидеру. Иначе происходит только как религиозный обряд, см. **[Черты религий](#/nml/religion-traits)** |
+
+### Собственная категория
+
+Категории - это `PlotCategoryAsset` в `AssetManager.plot_category_library`, и именно они делят окно заговоров на разделы. Тот же маленький `BaseCategoryAsset`, что и у вкладки черт (`id`, `name`, `color`, `show_counter`, см. **[Группы черт и вкладки](#/nml/trait-groups)**), плюс одно собственное поле:
+
+| Поле | Назначение |
+| --- | --- |
+| `plot_retry_action` | Спрашивается, пока юнит работает над заговором этой категории. `true` означает "не сейчас, попробовать позже". Ваниль использует его, чтобы подождать, пока заняты списки королевства, города или религии |
+
+```csharp Mods/HelloBox/Code/HelloPlots.cs
+public const string CATEGORY = "hello_plots";
+
+// раньше заговоров, которые на неё указывают
+if (!AssetManager.plot_category_library.has(CATEGORY))
+{
+    AssetManager.plot_category_library.add(new PlotCategoryAsset
+    {
+        id = CATEGORY,
+        name = "plot_group_" + CATEGORY,   // ключ локализации, не сам текст
+        color = "#FF9A3C",
+        show_counter = false,
+        // одолжите ванильный: он уже знает, каких списков ждать
+        plot_retry_action = PlotCategoryLibrary.culturePlotsRetryAction
+    });
+}
+```
+
+Затем `group_id = HelloPlots.CATEGORY` у фестиваля и `"plot_group_hello_plots": "HelloBox"` в файле локализации. Окно заговоров строит свои разделы из списка библиотеки, так что новый раздел появится без работы с UI.
+
+> [!WARNING] Категория обязана существовать
+> Игра получает категорию заговора через `get()` и читает `plot_retry_action` без проверки на null, каждый раз, когда юнит, ведущий заговор, перепроверяет свою задачу. `group_id`, который никто не зарегистрировал, - это `NullReferenceException` посреди работы ИИ, и он будет возвращаться снова и снова :PESgn_ToughLuck:.
 
 ## Тексты локализации
 

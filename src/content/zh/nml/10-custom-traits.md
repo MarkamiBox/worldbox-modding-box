@@ -8,7 +8,7 @@ order: 100
 
 # 自定义特质 :wbstrongminded:
 
-特质 (Trait) 是打在生物身上的永久属性（stats）标签：*勇敢*、*神速*、*永生*。它会直接显示在生物面板上，能够修改单位的基础属性数值，可以在生物诞生、受击或死亡时执行你编写的代码，甚至能像遗传基因一样传给下一代。
+特质 (Trait) 是打在生物身上的永久属性（stats）标签：*勇敢*、*神速*、*永生*。它会直接显示在生物面板上，能够修改单位的基础属性数值，可以在生物发起攻击、受击或死亡时执行你编写的代码，甚至能像遗传基因一样传给下一代。
 
 它同时也是整个游戏里制作成本最低的模组内容，正因如此，几乎所有人的第一个 WorldBox 模组都是从特质起步的。我的不是：我的第一个模组只是套在别人模组外面的一层包装，这本身就是一种作弊 :trollface:。
 
@@ -157,21 +157,96 @@ swift.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 // 当生物死亡结算时
 swift.action_death = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
 
-// 当生物刚诞生降临世界时
-swift.action_birth = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
-
 // 当生物遭受攻击受击时
 swift.action_get_hit = (BaseSimObject pSelf, BaseSimObject pAttacker, WorldTile pTile) => { return true; };
+
+// every time one of the unit's attacks lands, right after the damage
+swift.action_attack_target = (BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile) =>
+{
+    Actor self = pSelf as Actor;
+    // pTarget can be a building, and the hit may just have killed it
+    if (self == null || !self.isAlive() || pTarget == null) return false;
+
+    self.restoreHealth(2);
+    return true;
+};
 ```
 
 四个回调必须共同遵守的两条黄金法则：**永远首先检查 null 判空并检查生物是否还活着**，以及没有做任何实际操作时请返回 `false`。这些委托逻辑会在全地图每一个持有该特质的生物身上永久运行。
 
-## 互斥与对立特质
+> [!NOTE] `action_birth` 和 `action_growth` 确实存在，但在这里永远不会触发
+> `ActorTrait` 继承了这两个字段，所以能编译通过。但游戏只会从**亚种（subspecies）**特质里读取它们：它会把一个亚种所有特质的这两个回调合并成一个出生回调和一个成长回调，然后调用合并后的那个。放在生物个体特质上，它们只会悄无声息地待在那里什么都不做 :wbreally:。如果你想要“单位出生时”这样的效果，请做成亚种特质：**[亚种特质](#/nml/subspecies-traits)**。
+
+### 特质被获得、失去或读档时
+
+还有三个钩子只会触发一次，而不是持续运行。它们用的是另一种委托 `WorldActionTrait`，会把宿主对象以 `NanoObject` 的形式和特质本身一起交给你：
 
 ```csharp
-swift.addOpposite("slow");                            // 两者水火不容，绝不可同时共存
-swift.traits_to_remove_ids = new string[] { "fat" };  // 获得本特质时，强制自动剥夺该特质
+// once, the moment addTrait() puts it on a unit
+swift.action_on_augmentation_add = (NanoObject pTarget, BaseAugmentationAsset pTrait) =>
+{
+    Actor actor = pTarget as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    actor.restoreHealth(actor.getMaxHealth());   // a welcome gift, once
+    return true;
+};
 ```
+
+| 字段 | 触发时机 |
+| --- | --- |
+| `action_on_augmentation_add` | `addTrait()` 成功执行之后 |
+| `action_on_augmentation_remove` | `removeTrait()` 将其移除时，包括被另一个特质当作对立特质挤掉，或是通过 `traits_to_remove` 被剥夺的情况 |
+| `action_on_augmentation_load` | 存档世界被加载，该单位带着这个特质重新出现时 |
+
+读档载入的单位重新获得特质时**不会**经过 `addTrait()`，所以 `_add` 不会再次触发。如果 `_add` 建立了某些存档不会保留的东西，就在 `_load` 里重新建立一遍。
+
+## 互斥与对立特质
+
+原版的写法是 `addOpposite("slow")` 和 `traits_to_remove_ids`。这两者写入的都只是 **id**，而游戏会在加载期间、在你的模组还不存在的时候，把这些 id 一次性转换成它真正会读取的集合。放在你的特质上，它们什么都不会做 :wbfacepalm:。请在 `add()` 之后自己填好那些真正生效的字段：
+
+```csharp
+ActorTrait slow = AssetManager.traits.get("slow");
+if (slow != null)
+{
+    // addTrait() only checks the NEW trait's own set, so fill both sides:
+    // otherwise a slow unit refuses swift, but a swift unit happily turns slow
+    swift.opposite_traits = new HashSet<ActorTrait> { slow };
+    if (slow.opposite_traits == null) slow.opposite_traits = new HashSet<ActorTrait>();
+    slow.opposite_traits.Add(swift);
+}
+
+// gaining swift strips these; the game reads the array, not the ids
+ActorTrait fat = AssetManager.traits.get("fat");
+if (fat != null) swift.traits_to_remove = new ActorTrait[] { fat };
+```
+
+`HashSet` 需要在文件顶部加上 `using System.Collections.Generic;`。
+
+> [!WARNING] `opposite_trait_mod` 离不开 `opposite_traits`
+> `opposite_trait_mod` 改变的是当一个单位拥有另一个单位所带特质的对立特质时，两者之间好感度的变化幅度。社交相关代码在遍历 `opposite_traits` 时不做空判断，所以只设置了这个数值却把集合留成 `null`，就会在两个单位第一次互相打量对方时抛出 `NullReferenceException`。请务必给这个集合一个值，哪怕是空集合。
+
+## 稀有度
+
+`rarity` 决定特质提示框里名字的颜色和稀有度那一行文字，而 `Rarity.R3_Legendary` 还会额外获得专属的传说级边框。可选值是 `R0_Normal`、`R1_Rare`、`R2_Epic` 和 `R3_Legendary`。
+
+对原版特质来说，这基本是自动的：游戏加载期间，资源库会统计每个特质实际做了多少事（动作回调、决策、法术、战斗招式、标签），凡是有实际效果的都会被提升到 `R1_Rare` 或 `R2_Epic`。你的特质是在这一步之后才出现的，所以它会保留你写的值；如果你什么都没写，默认值就是 `R1_Rare`，不管它实际做了多少事。请自己显式设置：
+
+```csharp
+swift.rarity = Rarity.R2_Epic;
+```
+
+## 用代码解锁它
+
+`needs_to_be_explored = true` 时，特质在知识之书里一开始是锁着的。`unlock()` 就是游戏用来让它变为已发现状态的方法：
+
+```csharp
+AssetManager.traits.get(HelloTraits.SWIFT)?.unlock();
+```
+
+它会把这个 id 加进玩家的进度记录里，显示“获得新知识”的提示，并保存进度文件。`unlock(false)` 会跳过保存：如果你要连续解锁好几样东西，就用这个，最后统一调用一次 `GameProgress.saveData()`。如果该特质已经可用，它会返回 `false` 且什么都不做；而 `needs_to_be_explored = false` 的特质永远处于已可用状态。请在玩法过程中、玩家真正赚到它的时候调用它：这是玩家真实的进度文件，解锁之后在之后的每一个世界里都会保持解锁状态。
+
+`unlocked_with_achievement` 默认本来就是 `false`。写 `unlocked_with_achievement = false` 不会改变任何东西。
 
 ## 将特质赋予生物单位
 

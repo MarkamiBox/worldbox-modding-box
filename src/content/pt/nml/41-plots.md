@@ -38,12 +38,13 @@ namespace HelloBox
                 needs_to_be_explored = false,
 
                 // called with no null check: a plot without it crashes the first time anyone looks at it
-                check_is_possible = (Actor pActor) => pActor.hasCity() && !pActor.city.isInDanger(),
-                check_should_continue = (Actor pActor) => pActor.hasCity(),
+                check_is_possible = (Actor pActor) => pActor != null && pActor.isAlive() && pActor.hasCity() && !pActor.city.isInDanger(),
+                check_should_continue = (Actor pActor) => pActor != null && pActor.isAlive() && pActor.hasCity(),
 
                 // runs once, when the progress bar is full
                 action = (Actor pActor) =>
                 {
+                    if (pActor == null || !pActor.isAlive()) return false;
                     City city = pActor.city;
                     if (city == null) return false;
 
@@ -105,9 +106,40 @@ Um líder com dez moedas, uma cidade e tempo livre agora pode organizar um festi
 | Campo | O que faz |
 | --- | --- |
 | `path_icon` | Seu ícone na lista de complôs e no estandarte |
-| `group_id` | A categoria: `diplomacy`, `culture`, `rites_wrathful`, `rites_summoning`, `rites_merciful` |
+| `group_id` | A categoria, de `plot_category_library`: `diplomacy`, `rites_wrathful`, `rites_summoning`, `rites_merciful`, `culture`, `language`, `religion`, `rites_various`, `plots_others` |
 | `pot_rate` | Peso em relação a outros complôs possíveis |
 | `is_basic_plot` | Qualquer líder pode tentar. Caso contrário, só ocorre como rito religioso, veja **[Traços de religião](#/nml/religion-traits)** |
+
+### Uma categoria própria
+
+As categorias são `PlotCategoryAsset`s em `AssetManager.plot_category_library`, e são o que divide a janela de complôs em seções. O mesmo pequeno `BaseCategoryAsset` de uma aba de traços (`id`, `name`, `color`, `show_counter`, veja **[Grupos de traços e abas](#/nml/trait-groups)**), mais um campo próprio:
+
+| Campo | O que faz |
+| --- | --- |
+| `plot_retry_action` | Perguntado enquanto uma unidade trabalha num complô dessa categoria. `true` significa "não agora, tente de novo depois". O vanilla usa isso para esperar enquanto as listas de reino, cidade ou religião estão ocupadas |
+
+```csharp Mods/HelloBox/Code/HelloPlots.cs
+public const string CATEGORY = "hello_plots";
+
+// antes dos complôs que apontam para ela
+if (!AssetManager.plot_category_library.has(CATEGORY))
+{
+    AssetManager.plot_category_library.add(new PlotCategoryAsset
+    {
+        id = CATEGORY,
+        name = "plot_group_" + CATEGORY,   // a chave de localização, não o texto
+        color = "#FF9A3C",
+        show_counter = false,
+        // empresta a do vanilla: ela já sabe quais listas esperar
+        plot_retry_action = PlotCategoryLibrary.culturePlotsRetryAction
+    });
+}
+```
+
+Depois `group_id = HelloPlots.CATEGORY` no festival, e `"plot_group_hello_plots": "HelloBox"` no arquivo de locale. A janela de complôs constrói suas seções a partir da lista da biblioteca, então a nova aparece sem nenhum trabalho de UI.
+
+> [!WARNING] A categoria precisa existir
+> O jogo busca a categoria de um complô com `get()` e lê `plot_retry_action` dela sem checagem de nulo, toda vez que uma unidade carregando o complô reavalia sua tarefa. Um `group_id` que ninguém registrou é uma `NullReferenceException` no meio da IA, e ela continua voltando :PESgn_ToughLuck:.
 
 ## Os textos
 

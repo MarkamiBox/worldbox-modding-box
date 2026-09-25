@@ -25,6 +25,8 @@ namespace HelloBox
 
         public static void Initialize()
         {
+            if (AssetManager.world_laws_library.has(CHAOS)) return;
+
             AssetManager.world_laws_library.add(new WorldLawAsset
             {
                 id = CHAOS,
@@ -43,7 +45,7 @@ Ajoutez `HelloLaws.Initialize();` dans `Main.cs` et l'interrupteur est dans le j
 | Champ | Signification |
 | --- | --- |
 | `id` | Le nom de votre loi. Sert aussi de clé de traduction |
-| `group_id` | L'onglet dans lequel elle atterrit : `units`, `civilizations`, `spawn`, `diplomacy`, `nature`, … |
+| `group_id` | L'onglet dans lequel elle atterrit. La liste complète se trouve sous **Les onglets** plus bas, ou créez le vôtre |
 | `icon_path` | L'icône, mêmes règles de chemin que partout ailleurs |
 | `default_state` | `true` = activé pour les nouveaux mondes, `false` = désactivé |
 | `can_turn_off` | Par défaut à `true`. Mettez `false` pour une loi qui ne peut être qu'activée |
@@ -60,6 +62,14 @@ if (law != null && law.isEnabled())
     // le joueur veut le chaos, donnez-lui le chaos
 }
 ```
+
+Ou la voie courte, directement depuis le monde, sans récupérer l'asset :
+
+```csharp
+bool chaos = World.world.world_laws.isEnabled(HelloLaws.CHAOS);
+```
+
+`isEnabled(string)` renvoie `false` pour un id inconnu au lieu de lever une exception, donc une faute de frappe se lit comme "désactivé" plutôt que comme un crash. Gentil, et aussi terrible, parce que rien ne vous prévient :PES5_Hmmmm:. `World.world.world_laws` est `internal`, donc ceci compile contre l'assembly publicisée avec laquelle NML compile votre mod (voir la note dans **[Effets de statut](#/nml/status-effects)**). La voie de l'asset ci-dessus fonctionne partout.
 
 Un exemple concret, en ne faisant tomber vos braises que lorsque la loi est activée :
 
@@ -99,12 +109,65 @@ new WorldLawAsset
 };
 ```
 
+## Les onglets
+
+La fenêtre est divisée en onglets, et `group_id` en choisit un. Voici tous les groupes vanilla, dans l'ordre où la fenêtre les dessine :
+
+`harmony` · `diplomacy` · `civilizations` · `units` · `mobs` · `spawn` · `nature` · `trees` · `plants` · `fungi` · `biomes` · `weather` · `disasters` · `other`
+
+### Un onglet à vous
+
+Remplacez le `Initialize()` du premier exemple par la version ci-dessous, et ajoutez `GROUP` à côté de `CHAOS`.
+
+Un groupe est un `WorldLawGroupAsset` dans `AssetManager.world_law_groups`. C'est le même petit `BaseCategoryAsset` que les onglets de traits utilisent, voir **[Groupes de traits et onglets](#/nml/trait-groups)** :
+
+| Champ | Ce qu'il fait |
+| --- | --- |
+| `id` | Ce vers quoi le `group_id` d'une loi pointe |
+| `name` | La **clé de locale** pour le titre de l'onglet. Pas le titre lui-même |
+| `color` | Chaîne hexadécimale. Teinte le titre de l'onglet |
+
+```csharp Mods/HelloBox/Code/HelloLaws.cs
+public const string GROUP = "hello_laws";
+
+public static void Initialize()
+{
+    // the group first: the laws below point at it
+    if (!AssetManager.world_law_groups.has(GROUP))
+    {
+        AssetManager.world_law_groups.add(new WorldLawGroupAsset
+        {
+            id = GROUP,
+            name = "world_laws_tab_" + GROUP,   // the locale key, not the text
+            color = "#FF9A3C"
+        });
+    }
+
+    if (AssetManager.world_laws_library.has(CHAOS)) return;
+
+    AssetManager.world_laws_library.add(new WorldLawAsset
+    {
+        id = CHAOS,
+        needs_to_be_explored = false,
+        group_id = GROUP,
+        icon_path = "ui/Icons/worldrules/icon_hello_law",
+        default_state = false
+    });
+}
+```
+
+Aucun travail d'UI : la fenêtre des Lois du monde construit un onglet par entrée dans `world_law_groups.list`, puis dépose chaque loi dans l'onglet que nomme son `group_id`. Elle fait ça une seule fois, à la première création de la fenêtre, et votre mod est déjà chargé depuis longtemps quand le joueur y arrive. Votre onglet se place à la fin, après `other`.
+
+> [!WARNING] Un `group_id` inexistant casse toute la fenêtre
+> La fenêtre cherche l'onglet avec un simple index de dictionnaire. Une loi pointant vers un groupe que personne n'a enregistré lève une `KeyNotFoundException` pendant la construction de la fenêtre, et chaque loi enregistrée après elle, la vôtre comme celles des autres mods, n'arrive jamais dans la fenêtre. Enregistrez le groupe avant les lois, et orthographiez-le de la même façon les deux fois :PESgn_ToughLuck:.
+
 ## Le texte
 
 ```json Mods/HelloBox/Locales/en.json
 {
   "world_law_hello_chaos_title": "Hello Chaos",
-  "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one."
+  "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one.",
+  "world_laws_tab_hello_laws": "HelloBox"
 }
 ```
 

@@ -94,7 +94,8 @@ namespace HelloBox
 | `path_icon` | Маленькая иконка в интерфейсном списке статусов |
 | `texture`, `sprite_list`, `animated`, `loop`, `animation_speed` | Спрайт поверх существа. В `texture` указывается простое имя из `effects/` |
 | `offset_x`, `offset_y`, `scale`, `rotation_z`, `render_priority` | Настройки отображения и смещения |
-| `opposite_traits`, `opposite_tags` | Черты и теги, блокирующие получение этого статуса |
+| `opposite_traits` | `string[]` из id **черт существа**. Юнит с любой из них никогда не получит статус: у `burning` в списке `fire_proof`, у `poisoned` - `poison_immune`. Обычные id, проверяются каждый раз, так что ваши собственные черты `hello_` тоже сюда подойдут |
+| `opposite_tags` | То же самое, но для тегов характеристик вроде `immunity_fire`: юнит с одним из них получает иммунитет |
 | `action_on_receive`, `action_get_hit` | Дополнительные колбэки при наложении и получении урона |
 | `sound_idle` | Зацикленный звук FMOD во время действия статуса |
 
@@ -138,14 +139,19 @@ cursed.action = (BaseSimObject pTarget, WorldTile pTile) =>
 
 ## Наложение эффекта на юнита
 
-Самый очевидный метод, `actor.addStatusEffect("hello_cursed")`, помечен в коде игры как `internal`. Он спокойно компилируется против публицизированной `Assembly-CSharp.dll`, и у обычного мода NML она уже есть: NML компилирует ваш `Code/*.cs` против своей публицизированной копии, поэтому каждый `internal`-член из этого гайда у вас компилируется. Теряете вы это только когда собираете собственную `.dll` в Visual Studio против оригинальной сборки. Для этого случая публичный путь работает всегда:
+Самый очевидный метод, `actor.addStatusEffect("hello_cursed")`, помечен в коде игры как `internal`. Он спокойно компилируется против публицизированной `Assembly-CSharp.dll`, и у обычного мода NML она уже есть: NML компилирует ваш `Code/*.cs` против своей публицизированной копии, поэтому каждый `internal`-член из этого гайда у вас компилируется. Теряете вы это только когда собираете собственную `.dll` в Visual Studio против оригинальной сборки. Для этого случая одолжите готовый узел поведения игры, у которого и конструктор, и `execute()` публичные и который сам вызывает `addStatusEffect`:
 
 ```csharp
-StatusAsset asset = AssetManager.status.get(HelloStatus.CURSED);
-World.world.statuses.newStatus(actor, asset, 20f);   // 20 сек (или 0 для стандартного времени ассета)
+if (actor == null || !actor.isAlive() || World.world == null || Config.worldLoading) return;
+new ai.behaviours.BehActorAddStatus(HelloStatus.CURSED, 20f).execute(actor);   // 20 сек; передайте 0f для стандартного времени ассета
 ```
 
-В деревьях поведения для этого есть готовые узлы: `new BehActorAddStatus("hello_cursed", 20f)` и `new BehActorRemoveStatus("hello_cursed")`.
+> [!WARNING] `World.world.statuses.newStatus()` - это только половина работы
+> Он публичный и выглядит как путь внутрь. На деле он только создаёт объект `Status` и запускает его таймер: он никогда не кладёт его в собственный список статусов юнита и пропускает все проверки, включая `opposite_traits`. Юнит не знает, что у него есть статус: `hasStatus()` ответит "нет", а его `base_stats` никогда не применятся. Идите через `addStatusEffect`, напрямую или через узел выше.
+
+Оба узла живут в `ai.behaviours`; добавьте `using ai.behaviours;` для коротких имён. Передавайте `0f` явно, чтобы использовать длительность ассета: у узла добавления по умолчанию `-1f`, который передаётся как переопределение, а не трактуется как длительность по умолчанию.
+
+Внутри дерева поведения те же узлы - готовые шаги: `new BehActorAddStatus("hello_cursed", 20f)` и `new BehActorRemoveStatus("hello_cursed")`.
 
 ## Не забудьте про тексты
 

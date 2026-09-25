@@ -282,6 +282,30 @@ sprite.icon = "iconHelloSprites";
 
 而生物本身的**身体躯干**美术则是完全另一码事，这也是本节最后要解决的核心问题。
 
+## 船只
+
+船只也是一种生物（actor），只不过它的 `is_boat = true`，对应的模板是 `$boat_trading$` 和 `$boat_transport$`。克隆一艘做好的船，比如 `boat_trading_human` 或 `boat_transport_human`，属性、大炮和船只 AI 就全都免费拿到了。一个文明不是按物种挑选自己的船只：而是由它的**建筑风格（architecture）**来命名，字段是 `actor_asset_id_trading`、`actor_asset_id_transport` 和 `actor_asset_id_boat_fishing`。
+
+美术资源可不是免费的。船只的贴图并不来自 `texture_asset`：游戏是第一次要绘制某艘船时，按精灵图名字从 `actors/boats/<船只 id>/` 里加载的：
+
+```text Mods/HelloBox/
+HelloBox/
+└── GameResources/
+    └── actors/boats/hello_boat_trading/
+        ├── normal.png      # while lifted or in the magnet, and the fallback
+        ├── broken.png      # the wreck
+        ├── 0@0.png         # sailing, one pair per direction:
+        ├── 0@1.png         # <angle>@0 and <angle>@1
+        └── ...             # for 0, 45, 90, 135, 180, -45, -90, -135
+```
+
+`normal` 和 `broken` 是必需的：缺了它们，加载器会抛出 `KeyNotFoundException`。在水面上航行时，游戏会退回到你画出来的最接近的角度，但检查器里的单位头像需要全部八个方向，所以八个都画齐。
+
+`ActorAnimationLoader.loadAnimationBoat("hello_boat_trading")` 是公开方法，也正是游戏自己调用的那个。你并不需要自己调用它，但在克隆之后立刻手动调用一次，能让缺失的精灵图在加载阶段就在你自己的代码里报错，而不是在一场海战打到一半时才出问题 :wbsmirk:。
+
+> [!NOTE] 船只在地图上没有标记
+> 缩小地图上那些小小的船只图标，来自 `AssetManager.actor_library.list_only_boat_assets`，这是资源库在加载时构建一次的列表。想让你的船只也有标记，就把它加进这个列表。
+
 ## 贴图精灵才是真正的硬骨头
 
 上面介绍的所有内容，写成代码不过区区一页。真正折磨人的是画画，大多数生物模组就是在这里悄无声息地夭折的：一个生物需要一整套完整的动画帧、正确的图集、适宜的尺寸以及精确的锚点轴心。摆在面前的只有两条诚实的道路：

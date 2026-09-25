@@ -282,6 +282,30 @@ sprite.icon = "iconHelloSprites";
 
 L'aspect visuel du **corps** de la créature représente un défi d'un tout autre calibre, auquel est consacrée la fin de cette page.
 
+## Les bateaux
+
+Un bateau est aussi un acteur, avec `is_boat = true`, et les modèles sont `$boat_trading$` et `$boat_transport$`. Clonez un bateau achevé, `boat_trading_human` ou `boat_transport_human`, et vous obtenez gratuitement les stats, le canon et l'IA de bateau. Une civilisation ne choisit pas ses bateaux selon l'espèce : c'est son **architecture** qui les nomme, dans `actor_asset_id_trading`, `actor_asset_id_transport` et `actor_asset_id_boat_fishing`.
+
+Ce que vous n'obtenez pas gratuitement, c'est le dessin. L'image d'un bateau ne vient pas de `texture_asset` : le jeu la charge depuis `actors/boats/<id du bateau>/`, par nom de sprite, la première fois qu'il en dessine un :
+
+```text Mods/HelloBox/
+HelloBox/
+└── GameResources/
+    └── actors/boats/hello_boat_trading/
+        ├── normal.png      # while lifted or in the magnet, and the fallback
+        ├── broken.png      # the wreck
+        ├── 0@0.png         # sailing, one pair per direction:
+        ├── 0@1.png         # <angle>@0 and <angle>@1
+        └── ...             # for 0, 45, 90, 135, 180, -45, -90, -135
+```
+
+`normal` et `broken` sont obligatoires : sans eux, le chargeur lève une `KeyNotFoundException`. Sur l'eau, le jeu se replie sur l'angle le plus proche que vous avez dessiné, mais l'avatar de l'unité dans l'inspecteur demande les huit, dessinez donc les huit.
+
+`ActorAnimationLoader.loadAnimationBoat("hello_boat_trading")` est publique et c'est l'appel que fait le jeu. Vous n'en avez jamais besoin, mais l'appeler une fois juste après le clonage transforme un sprite manquant en erreur au chargement, dans votre propre code, plutôt qu'en pleine guerre navale :wbsmirk:.
+
+> [!NOTE] Pas de marque sur la carte pour votre bateau
+> Les petites icônes de bateau sur la carte dézoomée viennent de `AssetManager.actor_library.list_only_boat_assets`, une liste que la bibliothèque construit une seule fois au chargement. Ajoutez-y votre bateau si vous voulez la marque.
+
 ## Les sprites sont la partie difficile
 
 Tout ce qui précède se résume à une page de code. Le véritable labeur réside dans le dessin, et c'est là que la plupart des mods de créatures meurent en silence : une créature exige un cycle d'animation complet, dans le bon atlas, aux dimensions adéquates et avec les bons pivots. Deux choix honnêtes s'offrent à vous :

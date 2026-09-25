@@ -68,8 +68,12 @@ Junto a tus imágenes, un archivo `sprites.json` le explica a NML cómo recortar
 | `PivotX` / `PivotY` | El punto de anclaje. `0.5 / 0.0` es abajo al centro, que es lo habitual para unidades y edificios (building) |
 | `BorderL/R/T/B` | Bordes de 9-slice para marcos de ventana y botones reescalables |
 | `Path` | Archivo específico al que se aplica esta regla |
+| `RectX` / `RectY` | Desplazamientos del rectángulo del sprite. Ambos valen `0` por defecto; la documentación de NML dice que se dejen en `0` |
 
 `Default` se aplica a cualquier archivo de esa carpeta que no tenga una regla en `Specific`.
+
+> [!NOTE] Los desplazamientos no son una receta de atlas
+> Los ajustes documentados de `sprites.json` no tienen campos de ancho o alto de rectángulo. No los inventes para trocear una hoja de sprites. NML documenta los archivos `.meta` de Unity para atlas y hojas de sprites.
 
 ## Dónde va cada tipo de arte
 
@@ -174,3 +178,6 @@ private static Sprite Icon(string pName)
 ```
 
 Un icono de aviso te alerta de que "la ruta está mal". La nada absoluta te condena a pasar dos horas preguntándote a dónde fue a parar tu botón :PES4_Invisible:.
+
+
+Siguiente: **[Ajustes del mod](#/nml/mod-config)** o **[Ventanas personalizadas](#/nml/custom-windows)**.

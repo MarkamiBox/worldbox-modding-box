@@ -147,3 +147,9 @@ public ModConfig GetConfig()
 ```
 
 就这一个方法，便能让模组列表里你的模组旁边冒出齿轮设置按钮。一个方法，从此再也没人在 Discord 上跟你吵了。理论上是这样。
+
+## 模组设置还是游戏选项？
+
+把 HelloBox 那些普普通通的偏好设置留在 `default_config.json` 里。游戏自己的 `AssetManager.options_library` 是另外一套系统，底层由 `PlayerConfig` 支撑，适合用来接一个原生开关。仅仅注册一个选项资源，并不会自动创建它存储的值。
+
+接下来：走原生这条路请看 **[游戏选项与时间倍速](#/nml/game-options)**，想把一个控件摆到屏幕上请看 **[神力标签页与按钮](#/nml/power-buttons)**。

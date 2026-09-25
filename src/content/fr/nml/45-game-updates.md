@@ -46,11 +46,27 @@ L'ancien nom a disparu, cherchez donc son remplaçant :
 
 L'astuce que j'utilise le plus : ouvrez l'asset ou la méthode vanilla qui fait le même travail que le vôtre, et regardez comment **le jeu lui-même** l'écrit maintenant. Si le jeu a changé la façon de créer les traits, ses propres traits utilisent déjà la nouvelle :PESgn_Noice:.
 
+### Des noms qui n'existent plus
+
+Les vieux mods, les vieux tutoriels et les vieux posts de forum en sont pleins. Aucun n'existe dans le jeu actuel, donc chacun devient une erreur de compilation, ou, pour les ids de templates, un `clone()` qui lève une `KeyNotFoundException` au démarrage :
+
+| Ancien nom | À utiliser maintenant |
+| --- | --- |
+| `AssetManager.unitStats` | `AssetManager.actor_library`. Les créatures sont des `ActorAsset`, voir **[Acteurs personnalisés](#/nml/custom-actors)** |
+| `AssetManager.raceLibrary` | Pas de remplacement direct. Ce qu'une race contenait autrefois vit maintenant sur `ActorAsset` lui-même |
+| `AssetManager.nameGenerator` | `AssetManager.name_generator`, voir **[Générateurs de noms](#/nml/name-generators)** |
+| `AssetManager.items_material_weapon`, `items_material_accessory` | Pas de bibliothèque de remplacement. Chaque matériau est son propre objet dans `AssetManager.items` (`sword_iron`, `sword_steel`), voir **[Objets personnalisés](#/nml/custom-items)** |
+| `"!building"` (template de bâtiment) | `"$building$"` dans `AssetManager.buildings` |
+| `"_spawn_building"` (template de drop) | `"$spawn_building$"` dans `AssetManager.drops` |
+| `"_dropBuilding"` (template de pouvoir divin) | `"$template_drop_building$"` dans `AssetManager.powers` |
+
+Le motif des trois derniers est celui à retenir : les templates sont maintenant enveloppés dans des `$`. Si un vieux `clone()` utilise un id commençant par `_` ou `!`, cherchez dans le `init()` de la même bibliothèque la version `$...$`.
+
 ## 4. Vérifiez vos patchs Harmony à la main
 
 Un patch peut aussi mal tourner sans la moindre erreur. Passez-les un par un et vérifiez la méthode dans dnSpy :
 
-- **Noms des paramètres.** Harmony remplit les paramètres **par leur nom**. Si le jeu a renommé `pDamage` en `pAmount`, votre `float pDamage` ne reçoit plus rien, en silence. Voir **[les noms de paramètres magiques](#/nml/harmony-patches)**.
+- **Noms des paramètres.** Harmony remplit les paramètres **par leur nom**. Si le jeu a renommé `pDamage` en `pAmount`, votre `float pDamage` ne se lie plus et Harmony échoue en appliquant le patch. Voir **[les noms de paramètres magiques](#/nml/harmony-patches)**.
 - **Surcharges.** Une méthode qui était unique a peut-être maintenant une jumelle, et votre patch échoue avec `Ambiguous match found`.
 - **Ce que fait la méthode.** Parfois le nom reste mais la logique part ailleurs. Votre patch s'exécute et rien ne change. Mettez une ligne `LogInfo` dans le patch : si elle n'apparaît jamais, le jeu n'appelle plus cette méthode.
 
@@ -76,5 +92,5 @@ Ensuite, répondez aux commentaires "c'est à jour ??", vous l'avez bien mérit�
 
 - **Patchez moins.** Chaque patch Harmony est un endroit qui peut casser. Si un champ d'asset ou une fonction de NML peut faire le travail, utilisez-la.
 - **Entourez votre code de try/catch.** Une fonction cassée écrit une erreur dans le log, le reste de votre mod continue de marcher. Voir **[Logs et débogage](#/nml/logs-and-debugging)**.
-- **Une classe de patch par tâche.** Quand un patch casse, seule cette fonction tombe, pas toutes.
+- **Une classe de patch par tâche.** Ça facilite l'isolation des pannes. Ça n'isole pas les échecs de `PatchAll` : une cible manquante peut arrêter le scan avant que les patchs suivants ne soient appliqués. Utilisez le patch manuel protégé pour les cibles optionnelles.
 - **Gardez vos ids au même endroit.** Des constantes comme `HelloTraits.SWIFT` font d'un renommage une seule modification, pas vingt.

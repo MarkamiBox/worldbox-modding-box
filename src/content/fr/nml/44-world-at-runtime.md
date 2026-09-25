@@ -10,11 +10,13 @@ order: 96
 
 Toutes les autres pages enregistrent des éléments pendant le chargement du jeu. Celle-ci est dédiée à l'autre moitié : manipuler ce qui existe déjà dans un monde en cours d'exécution et le modifier. Détruire une ville, la transférer à un autre royaume (kingdom), déclencher une guerre (war), remplir une ville avec ses propres habitants.
 
-Tout cela s'exécute à partir du `click_action` d'un pouvoir divin (GodPower), depuis `Update()`, ou depuis un world behaviour, et **jamais** depuis `OnModLoad`, où aucun monde n'existe encore. Consultez **[Logs et débogage](#/nml/logs-and-debugging)** pour connaître la condition de garde.
+Tout cela s'exécute à partir du `click_action` d'un pouvoir divin (GodPower), depuis `Update()`, ou depuis un world behaviour, et **jamais** depuis `OnModLoad`, où aucun monde n'existe encore. Consultez **[Logs et débogage](#/nml/logs-and-debugging)** pour connaître la condition de garde, et **[Chaque frame](#/nml/update-loops)** pour le faire depuis `Update()` sans coûter au joueur son nombre d'images par seconde.
 
 ## Parcourir ce qui existe
 
 ```csharp
+if (World.world == null || Config.worldLoading) return;
+
 foreach (City city in World.world.cities)
 {
     if (city == null || city.isRekt()) continue;
@@ -28,6 +30,8 @@ foreach (Building building in World.world.buildings)
 ```
 
 `World.world.kingdoms` fonctionne de la même manière, voir **[Royaumes et factions](#/nml/kingdoms)**. Utilisez `isRekt()` sur chaque élément, systématiquement : ces listes contiennent des objets qui sont en train de mourir au moment même où vous les lisez :PES2_F:.
+
+Une boucle comme celle-ci convient très bien une fois, sur un clic. À chaque frame sur chaque bâtiment, ça ne convient pas : exécutez-la selon une horloge, voir **[Chaque frame](#/nml/update-loops)**.
 
 ## Déplacer une ville vers un autre royaume
 
@@ -49,6 +53,7 @@ building.startDestroyBuilding(); // tombe en ruines s'il possède un sprite de r
 ## Déclencher une guerre
 
 ```csharp
+if (World.world == null || Config.worldLoading || pAttacker == null || pDefender == null) return;
 World.world.diplomacy.startWar(pAttacker, pDefender, WarTypeLibrary.normal);
 ```
 
@@ -57,6 +62,8 @@ World.world.diplomacy.startWar(pAttacker, pDefender, WarTypeLibrary.normal);
 ## Remplir une ville avec ses propres habitants
 
 ```csharp
+if (World.world == null || Config.worldLoading || city == null || city.isRekt()) return;
+
 Subspecies main = city.getMainSubspecies();
 WorldTile tile = city.getTile();
 if (main == null || tile == null) return;
@@ -78,4 +85,4 @@ foreach (Actor parent in actor.getParents())
 long first = actor.data.parent_id_1;   // les identifiants subsistent après la mort
 ```
 
-`getParents()` ne renvoie que les parents encore en vie : il recherche chaque identifiant avec `World.world.units.get(id)` et ignore tout ce qui est manquant ou mort. Les identifiants restent dans les données de l'unité pour toujours, mais le jeu ne garde aucune trace des personnes qui se trouvent derrière eux. Un arbre généalogique qui se souvient des morts doit inscrire ce dont il a besoin dans les données de chaque enfant à la naissance, voir **[Sauvegarder des données](#/nml/saving-data)**, car il n'existe aucun endroit pour stocker quelque chose pour le monde entier :PES_ThinkAboutIt:.
+`getParents()` ne renvoie que les parents encore en vie : il recherche chaque identifiant avec `World.world.units.get(id)` et ignore tout ce qui est manquant ou mort. Les identifiants restent dans les données de l'unité pour toujours, mais le jeu ne garde aucune trace des personnes qui se trouvent derrière eux. Un arbre généalogique qui se souvient des morts doit inscrire ce dont il a besoin dans les données de chaque enfant à la naissance, voir **[Mémoriser des données](#/nml/saving-data)**. Le monde possède aussi son propre stockage, mais c'est une simple liste plate de clés, pas un endroit pour conserver dix mille arbres généalogiques :PES_ThinkAboutIt:.

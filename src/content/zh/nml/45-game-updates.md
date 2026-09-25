@@ -46,11 +46,27 @@ WorldBox 更新了，你的 mod 在列表里变红了。欢迎来到模组开发
 
 我最常用的技巧：打开跟你的东西做同样事情的原版资产或方法，看看**游戏自己**现在是怎么写的。如果游戏改了特质（trait）的创建方式，它自己的特质已经在用新写法了 :PESgn_Noice:。
 
+### 已经不存在的名字
+
+旧模组、旧教程、旧论坛帖子里到处都是这些。它们没有一个存在于当前的游戏里，所以每一个要么是编译错误，要么——对于模板 id 来说——是启动时抛出 `KeyNotFoundException` 的 `clone()`：
+
+| 旧名字 | 现在该用什么 |
+| --- | --- |
+| `AssetManager.unitStats` | `AssetManager.actor_library`。生物现在是 `ActorAsset`，见 **[自定义生物](#/nml/custom-actors)** |
+| `AssetManager.raceLibrary` | 没有直接替代品。以前种族（race）身上的东西，现在直接放在 `ActorAsset` 本体上 |
+| `AssetManager.nameGenerator` | `AssetManager.name_generator`，见 **[名称生成器](#/nml/name-generators)** |
+| `AssetManager.items_material_weapon`、`items_material_accessory` | 没有替代库。每种材质现在是 `AssetManager.items` 里自己独立的一件物品（`sword_iron`、`sword_steel`），见 **[自定义物品](#/nml/custom-items)** |
+| `"!building"`（建筑模板） | `AssetManager.buildings` 里的 `"$building$"` |
+| `"_spawn_building"`（掉落物模板） | `AssetManager.drops` 里的 `"$spawn_building$"` |
+| `"_dropBuilding"`（神力模板） | `AssetManager.powers` 里的 `"$template_drop_building$"` |
+
+最后这三条的规律值得记住：模板现在都用 `$` 包起来了。如果一个旧的 `clone()` 用的 id 是以 `_` 或 `!` 开头的，就去同一个库的 `init()` 里找对应的 `$...$` 版本。
+
 ## 4. 手动检查你的 Harmony 补丁
 
 补丁也可能在没有任何报错的情况下出问题。逐个检查，并在 dnSpy 里核对方法：
 
-- **参数名。** Harmony **按名字**填充参数。如果游戏把 `pDamage` 改成了 `pAmount`，你的 `float pDamage` 就会悄无声息地什么都拿不到。见 **[神奇的参数名](#/nml/harmony-patches)**。
+- **参数名。** Harmony **按名字**填充参数。如果游戏把 `pDamage` 改成了 `pAmount`，你的 `float pDamage` 就再也绑定不上，Harmony 会在应用补丁时直接失败。见 **[神奇的参数名](#/nml/harmony-patches)**。
 - **重载。** 以前唯一的方法现在可能多了一个同名的，你的补丁会报 `Ambiguous match found`。
 - **方法做的事。** 有时候名字没变，逻辑却搬去了别处。补丁照常运行，但什么也没改变。在补丁里加一行 `LogInfo`：如果它从来不出现，说明游戏已经不再调用这个方法了。
 
@@ -76,5 +92,5 @@ WorldBox 更新了，你的 mod 在列表里变红了。欢迎来到模组开发
 
 - **少打补丁。** 每个 Harmony 补丁都是一个可能坏掉的点。如果资产字段或 NML 的功能能做到，就用它们。
 - **把代码包进 try/catch。** 一个功能坏了只会在日志里写一条错误，mod 的其余部分照常工作。见 **[日志与调试](#/nml/logs-and-debugging)**。
-- **一个任务一个补丁类。** 一个补丁坏了，只会掉一个功能，而不是全部。
+- **一个任务一个补丁类。** 这能让问题更容易被单独定位。但它并不能隔离 `PatchAll` 本身的失败：一个缺失的目标可能会在后续补丁被应用之前就中断整个扫描。对于可选目标，请使用带守卫的手动打补丁。
 - **把 id 放在一个地方。** 像 `HelloTraits.SWIFT` 这样的常量，让改名只需要改一处，而不是二十处。

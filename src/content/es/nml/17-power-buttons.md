@@ -451,3 +451,38 @@ Un sprite `null` produce un botón que ocupa espacio pero no dibuja nada. El jug
 ```
 
 El nombre y la descripción emergente del botón provienen del **id del poder**, no del botón en sí, por lo que las claves anteriores coinciden con los ids que pasaste al creador.
+
+## Ayudantes de ventana e interruptor
+
+El ensamblado de NML instalado también expone estos ayudantes en `NeoModLoader.General`. Úsalos una vez, después de que existan la pestaña y la ventana o el poder de destino:
+
+```csharp
+PowerButton windowButton = PowerButtonCreator.CreateWindowButton(
+    "hello_native_open", HelloNativeWindow.WindowId,
+    Icon("iconHelloPanel"), tab.transform, Vector2.zero);
+```
+
+`CreateWindowButton` fija el `open_window_id` del botón. No crea la ventana. `CreateSimpleButton` recibe una `UnityAction`; úsalo para tu propio callback. `GetTab(string pId)` busca una pestaña, y `AddButtonToTab(button, tab)` mueve un botón a una de ellas. Su sobrecarga también acepta una posición `Vector2` y un índice de hermano opcional.
+
+`CreateToggleButton(pGodPowerId, pIcon, pParent, pLocalPosition, pNoAutoSetToggleAction = false)` necesita un `GodPower` registrado con un `toggle_name` no vacío. Ese nombre identifica su opción de `PlayerConfig`. El ayudante crea una opción booleana en falso y el valor del jugador cuando el diccionario del jugador no tiene la clave. Prefiere registrar ambas cosas tú mismo, como se muestra en **[Opciones del juego y escalas de tiempo](#/nml/game-options)**.
+
+> [!NOTE] El interruptor automático forma parte del callback
+> NML añade su acción de interruptor-y-guardado después de un `toggle_action` existente por defecto. Pasa `pNoAutoSetToggleAction: true` cuando tu callback existente ya se encargue del cambio de estado. Si el callback es null, este indicador no impide que NML instale su acción por defecto. Llamar al creador repetidamente puede añadir acciones repetidas.
+
+## El PowerTabAsset del juego
+
+`AssetManager.power_tab_library` guarda los assets de pestaña nativos. Es independiente del componente de UI `PowersTab` que devuelve el `TabManager.CreateTab` de NML.
+
+| Campo | Qué hace |
+| --- | --- |
+| `locale_key` | Clave de nombre; `getDescriptionID()` devuelve esta clave más `_info` |
+| `icon_path` | Ruta del sprite usada por `getIcon()` |
+| `get_power_tab` | Delegado que devuelve el `PowersTab` a mostrar |
+| `gameplay_tab` | Referencia a una pestaña de UI |
+| `window_id` | Id de ventana asociado |
+| `on_main_tab_select` / `on_main_info_click` | Callbacks de la pestaña principal |
+| `on_update_check_active` | Callback de comprobación del estado activo |
+
+`tryToShowPowerTab()` invoca `get_power_tab` y le pide al componente devuelto que se muestre. Añadir un asset a secas no sustituye a crear una pestaña de UI. Los argumentos explícitos de título y descripción de NML no deben confundirse con la convención nativa `_info`.
+
+Siguiente: **[Ventanas personalizadas](#/nml/custom-windows)** para el panel, o **[Opciones del juego y escalas de tiempo](#/nml/game-options)** para su estado.

@@ -32,7 +32,7 @@ namespace HelloBox
 
         public static void Initialize()
         {
-            // 同じIDを二重に登録しないこと: ゲーム側は最初に登録された方を保持します。
+            // このIDですでに登録済みのアセットを上書きしないようにする。
             if (AssetManager.powers.get(STRIKE) != null) return;
 
             GodPower strike = new GodPower
@@ -106,6 +106,35 @@ WorldTip.showNow("The gods are displeased.", false, "top", 3f);
 strike.hold_action = true;
 strike.click_interval = 0.15f;   // 連続発動の間隔（秒）
 ```
+
+## どのデリゲートがブラシを塗るのか
+
+| フィールド | 役割 |
+| --- | --- |
+| `click_action` | 1タイル分の `bool (WorldTile pTile, string pPowerID)` |
+| `click_brush_action` | 同じシグネチャ。設定されている場合は `click_action` の代わりに呼ばれる |
+| `click_power_action` | 1タイル分の `bool (WorldTile pTile, GodPower pPower)` |
+| `click_power_brush_action` | 同じアセットベースのシグネチャ。設定されている場合は `click_power_action` の代わりに呼ばれる |
+
+プレイヤーのクリック処理は、どちらか一方でも設定されていればアセットベースの組を優先します。ブラシデリゲートは中心タイルを受け取ります。ブラシのピクセルごとに1回ずつ勝手に実行されるわけではありません。この任意の置き換えは、パワーの設定内、`click_action` を代入した後に置きます：
+
+```csharp
+strike.show_tool_sizes = true;
+strike.click_brush_action = (WorldTile pTile, string pPowerID) =>
+{
+    if (pTile == null || World.world == null) return false;
+    GodPower power = AssetManager.powers.get(pPowerID);
+    if (power == null || power.click_action == null) return false;
+    World.world.loopWithBrush(pTile, Config.current_brush_data,
+        power.click_action, pPowerID);
+    return true;
+};
+```
+
+> [!WARNING] カーソルが大きくなっても効果範囲が大きくなるわけではない
+> `show_tool_sizes` はブラシ選択を表示するだけです。あなたのブラシコールバック自身が、タイルをループする処理を持っていなければなりません。バニラの `PowerLibrary.loopWithCurrentBrush` ヘルパーは private なので、この例ではパブリックなワールドのメソッドを代わりに使っています。`(WorldTile, GodPower)` の組には、`PowerAction` とパワーアセットを取る対応するオーバーロードが `loopWithBrush` にあります。
+
+クリック後のフィードバックについては **[メッセージ & ワールドログ](#/nml/messages-and-world-log)** を参照してください。
 
 ## 独自のアイコン
 

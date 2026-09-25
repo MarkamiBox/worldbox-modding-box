@@ -94,7 +94,8 @@ A lista curta. A de verdade é maior e quase toda chata :wbyawn:.
 | `path_icon` | O ícone na lista de status |
 | `texture`, `sprite_list`, `animated`, `loop`, `animation_speed` | O sprite desenhado sobre a unidade. `texture` é o nome direto sob `effects/` |
 | `offset_x`, `offset_y`, `scale`, `rotation_z`, `render_priority` | Posição e renderização |
-| `opposite_traits`, `opposite_tags` | Traços e tags que barram este status |
+| `opposite_traits` | Um `string[]` de ids de **traço de criatura**. Uma unidade com qualquer um deles nunca recebe o status: `burning` lista `fire_proof`, `poisoned` lista `poison_immune`. Ids simples, verificados toda vez, então seus próprios traços `hello_` funcionam aqui |
+| `opposite_tags` | O mesmo, para tags de atributo como `immunity_fire`: uma unidade que carrega uma delas fica imune |
 | `action_on_receive`, `action_get_hit` | Callbacks ao receber o status e ao ser atingido |
 | `sound_idle` | Efeito sonoro FMOD em loop enquanto ativo |
 
@@ -138,14 +139,19 @@ cursed.action = (BaseSimObject pTarget, WorldTile pTile) =>
 
 ## Aplicando a uma unidade
 
-O método mais óbvio, `actor.addStatusEffect("hello_cursed")`, é `internal` no assembly do jogo. Ele compila sem problemas contra uma `Assembly-CSharp.dll` **publicizada**, e um mod NML normal já tem uma: o NML compila seu `Code/*.cs` contra a própria cópia publicizada, por isso todo membro `internal` deste guia compila para você. Você só perde isso quando compila sua própria `.dll` no Visual Studio contra o assembly original. Nesse caso, a rota pública sempre funciona:
+O método mais óbvio, `actor.addStatusEffect("hello_cursed")`, é `internal` no assembly do jogo. Ele compila sem problemas contra uma `Assembly-CSharp.dll` **publicizada**, e um mod NML normal já tem uma: o NML compila seu `Code/*.cs` contra a própria cópia publicizada, por isso todo membro `internal` deste guia compila para você. Você só perde isso quando compila sua própria `.dll` no Visual Studio contra o assembly original. Nesse caso, use o próprio nó de comportamento do jogo, cujo construtor e `execute()` são públicos e que chama `addStatusEffect` para você:
 
 ```csharp
-StatusAsset asset = AssetManager.status.get(HelloStatus.CURSED);
-World.world.statuses.newStatus(actor, asset, 20f);   // 20s, ou 0 para a duração original do asset
+if (actor == null || !actor.isAlive() || World.world == null || Config.worldLoading) return;
+new ai.behaviours.BehActorAddStatus(HelloStatus.CURSED, 20f).execute(actor);   // 20s; passe 0f para a duração original do asset
 ```
 
-Dentro de árvores de comportamento (behaviour) há nós prontos: `new BehActorAddStatus("hello_cursed", 20f)` e `new BehActorRemoveStatus("hello_cursed")`.
+> [!WARNING] `World.world.statuses.newStatus()` é só metade do trabalho
+> É público, e parece o caminho certo. Ele só cria o objeto `Status` e inicia seu timer: nunca o coloca na lista de status da própria unidade, e pula toda verificação, `opposite_traits` incluído. A unidade não sabe que tem o status: `hasStatus()` diz que não, e seus `base_stats` nunca se aplicam. Passe por `addStatusEffect`, diretamente ou através do nó acima.
+
+Os dois nós vivem em `ai.behaviours`; adicione `using ai.behaviours;` para usar os nomes curtos. Passe `0f` explicitamente para usar a duração do asset: o nó de adicionar tem padrão `-1f`, que é repassado como uma sobreposição, não tratado como a duração padrão.
+
+Dentro de uma árvore de comportamento os mesmos nós são passos prontos: `new BehActorAddStatus("hello_cursed", 20f)` e `new BehActorRemoveStatus("hello_cursed")`.
 
 ## Não esqueça dos textos
 

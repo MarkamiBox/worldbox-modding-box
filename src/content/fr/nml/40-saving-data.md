@@ -30,11 +30,12 @@ Chaque type possède sa propre table interne, donc un `int` et une `string` sous
 
 ## Sauvegarder des objets complexes avec NML
 
-Si cinq types primitifs vous semblent dater de 1995 et que vous devez vraiment sauvegarder une classe ou une liste entière sur un acteur, NML fournit `DataExtension` dans `NeoModLoader.General.Game.extensions`.
+Si cinq types primitifs vous semblent dater de 1995 et que vous devez vraiment sauvegarder une classe ou une liste entière sur un acteur, NML fournit `DataExtension` dans `NeoModLoader.General.Game.extensions` : deux méthodes d'extension, `Set` et `TryGet`, sur n'importe lequel des objets de données ci-dessous.
 
 Enveloppez votre classe de données dans `BasicCustomData<T>` :
 
 ```csharp
+using System.Collections.Generic;
 using NeoModLoader.General.Game.extensions;
 
 public class QuestProgress
@@ -44,17 +45,30 @@ public class QuestProgress
     public List<string> completed_objectives = new List<string>();
 }
 
+```
+
+À l'intérieur d'une méthode avec un `Actor actor`, créez la valeur avant de la sauvegarder :
+
+```csharp
+if (actor == null || !actor.isAlive()) return;
+QuestProgress quest = new QuestProgress { quest_id = "hello_first_steps", step = 1 };
+
 // Sauvegarde sur l'actor :
 actor.data.Set("hello_quest", new BasicCustomData<QuestProgress>(quest));
 
 // Lecture :
 if (actor.data.TryGet("hello_quest", out BasicCustomData<QuestProgress> saved))
 {
-    QuestProgress quest = saved.Data;
+    QuestProgress loadedQuest = saved.Data;
 }
 ```
 
-En coulisses, NML sérialise votre objet en JSON et le range dans la table vanilla `custom_data_string` sous votre clé. Si vous prévoyez que votre format de données change entre les mises à jour du mod, implémentez `ICustomData` directement sur votre classe au lieu d'utiliser `BasicCustomData<T>` : cela vous donne des vérifications explicites de `ModId` et `DataVersion`, pour qu'une vieille sauvegarde n'empoisonne pas en silence votre nouvel état :PES5_Hmmmm:.
+En coulisses, `Set` transforme votre objet en JSON et le stocke avec le simple `data.set(key, string)` du tableau ci-dessus. Donc c'est une chaîne par clé par unité, et la règle "restez concis" plus bas s'applique doublement. Votre classe a besoin d'un constructeur sans paramètre, et ce sont ses champs et propriétés publics qui sont sauvegardés.
+
+Si vous prévoyez que votre format de données change entre les mises à jour du mod, implémentez plutôt `ICustomData` sur votre classe. Ce sont deux méthodes : `Serialize()` renvoie un `SerializedCustomData(modId, dataVersion, jObject)`, et `Deserialize(SerializedCustomData)` le récupère. Vérifier `ModId` et `DataVersion` là-dedans, c'est votre travail, personne ne le fait pour vous. `BasicCustomData<T>` écrit des valeurs de substitution dans les deux et lève une exception si elle lit autre chose, donc ne mélangez pas les deux sur une même clé :PES5_Hmmmm:.
+
+> [!NOTE] Vérifié avec NML 1.2.0
+> Ces noms et signatures viennent de l'assembly NML elle-même, pas de sa documentation, qui ne les mentionne pas. Si une version plus récente de NML renomme quelque chose, le compilateur vous le dira avant vos joueurs.
 
 ## Dans HelloBox
 
@@ -144,4 +158,92 @@ Ses textes de localisation, comme pour n'importe quel trait :
 - **Les stockages vides ne coûtent rien.** Le jeu supprime les tables vides avant d'écrire la sauvegarde, donc une clé supprimée disparaît réellement.
 - **Restez concis.** Ces données sont enregistrées avec chaque unité. Un compteur ou un drapeau par créature est quasi invisible ; une longue chaîne de texte par unité sur un monde de dix mille créatures alourdira inutilement la sauvegarde de tout le monde.
 
-Pour tout ce qui n'est pas rattaché à un objet individuel (comme un paramètre global pour le monde entier), utilisez plutôt la configuration de votre mod : voir **[Configuration du mod](#/nml/mod-config)** :PES_OkHand:.
+## Le monde entier
+
+Certains états n'appartiennent à aucune unité : combien de météorites votre pouvoir a fait tomber sur ce monde, si la bénédiction unique a déjà eu lieu. Le monde possède le même stockage, dans ses statistiques de carte :
+
+```csharp
+// map_stats is internal: fine in an NML source mod, same deal as actor.data above
+SaveCustomData world = World.world?.map_stats?.custom_data;
+if (world == null) return;
+
+world.change("hello_meteors", 1, 0, 1000000);   // change() clamps to 1000 unless you say otherwise
+if (world.addFlag("hello_blessed")) { /* first time on this world only */ }
+```
+
+`SaveCustomData` est le même stockage `BaseSystemData`, donc chaque appel du tableau du début fonctionne, tout comme le `Set` / `TryGet` de NML. Il est sauvegardé avec le reste des statistiques de carte, donc chaque emplacement de sauvegarde a le sien. Un monde fraîchement généré démarre vide. Le jeu crée le stockage à chaque fois qu'il construit ou charge les statistiques de carte, donc la vérification de nullité ne devrait jamais se déclencher ; elle ne coûte rien, gardez-la.
+
+> [!TIP] Réglages ou données du monde ?
+> Demandez-vous si le joueur s'attendrait à ce que la valeur change en chargeant une autre sauvegarde. "À quel point le pouvoir météorite est puissant" ne devrait pas changer : c'est **[Réglages du mod](#/nml/mod-config)**, partagé par tous les mondes. "Ce monde a-t-il été béni" devrait changer : c'est `custom_data`.
+
+## Le temps qui survit à une sauvegarde
+
+`Time.time` correspond aux secondes écoulées depuis le lancement du jeu. Stockez-le dans les données d'une unité, sauvegardez, redémarrez, chargez, et chaque horodatage que vous avez écrit vient d'une vie précédente :wbfacepalm:.
+
+Le monde garde sa propre horloge, et elle est sauvegardée avec la carte :
+
+```csharp
+if (World.world == null || World.world.map_stats == null || Config.worldLoading) return;
+if (actor == null || !actor.isAlive()) return;
+
+// double, in world seconds: 5 is a month, 60 is a year
+double now = World.world.getCurWorldTime();
+
+// the store has no double, a float is plenty for a timestamp
+actor.data.set("hello_blessed_at", (float)now);
+
+actor.data.get("hello_blessed_at", out float at, -1f);
+bool blessedThisYear = at >= 0f && now - at < 60.0;
+```
+
+Elle s'arrête aussi quand le jeu est en pause et tourne plus vite aux vitesses élevées, ce qui est presque toujours ce que vous vouliez. `Date.getYearsSince(at)` et `Date.getMonthsSince(at)` font la division pour vous.
+
+## Exécuter du code après le chargement d'un monde
+
+Tout ce qui précède se lit à la demande, donc en général vous n'avez pas besoin de savoir quand un monde a été chargé. Quand c'est le cas, disons pour reconstruire un cache à vous, voici les méthodes que les mods accrochent avec **[Harmony](#/nml/harmony-patches)** :
+
+| Méthode | Quand elle s'exécute |
+| --- | --- |
+| `MapBox.clearWorld` (publique) | Avant qu'un monde ne soit généré ou chargé. Videz vos caches statiques ici |
+| `SaveManager.loadActors` (privée) | Pendant le chargement d'une sauvegarde, juste après la reconstruction des unités |
+| `MapBox.finishMakingWorld` (publique) | Vers la fin de la génération et du chargement d'un monde |
+| `SaveManager.saveWorldToDirectory` (publique, statique) | À la sauvegarde, manuelle ou automatique. Un Prefix est votre dernière chance d'écrire dans le stockage |
+| `MapBox.addLastStep` (privée) | Une fois, au démarrage du jeu. Pas par monde |
+| `MapBox.OnApplicationQuit` (privée) | Le jeu se ferme |
+
+```csharp Mods/HelloBox/Code/HelloWorldCache.cs
+using HarmonyLib;
+
+namespace HelloBox
+{
+    [HarmonyPatch(typeof(MapBox), nameof(MapBox.finishMakingWorld))]
+    public static class HelloWorldCache
+    {
+        // a cached copy for code that reads it every frame; the save keeps the real one
+        public static int MeteorsThisWorld;
+
+        // runs for a brand new world and for a loaded save alike
+        public static void Postfix()
+        {
+            MeteorsThisWorld = 0;
+            SaveCustomData world = World.world?.map_stats?.custom_data;
+            if (world == null) return;
+
+            world.get("hello_meteors", out int meteors);
+            MeteorsThisWorld = meteors;
+        }
+    }
+}
+```
+
+Les méthodes privées prennent le nom sous forme de chaîne, `[HarmonyPatch(typeof(SaveManager), "loadActors")]`, comme l'explique la page sur Harmony. L'écran de chargement est encore affiché quand `finishMakingWorld` s'exécute ; quelques étapes le suivent.
+
+## Vos propres fichiers
+
+Beaucoup de mods sautent tout ça et écrivent un fichier JSON avec `File.WriteAllText`, généralement sous `Application.persistentDataPath`, qui correspond au dossier `LocalLow\mkarpenko\WorldBox` juste à côté de `Player.log`. C'est très bien pour ce qui appartient au **joueur** : une liste d'unités favorites qu'il a exportée, des statistiques cumulées sur toutes ses parties.
+
+C'est une erreur pour ce qui appartient à un **monde**. Le fichier ne sait pas quel emplacement de sauvegarde est chargé. Le joueur bénit un royaume dans l'emplacement 1, charge l'emplacement 2, et l'emplacement 2 est béni aussi. Puis il supprime l'emplacement 1 et votre fichier garde cet état pour toujours :PES2_F:. Si ça doit changer quand la sauvegarde change, ça va dans la sauvegarde, dans l'un des stockages ci-dessus.
+
+## Et ensuite
+
+Pour des valeurs que le joueur choisit une fois et que tous les mondes partagent, voir **[Réglages du mod](#/nml/mod-config)**. Pour du code qui vérifie quelque chose à chaque frame, ou chaque mois en jeu, voir **[Chaque frame](#/nml/update-loops)** :PES_OkHand:.

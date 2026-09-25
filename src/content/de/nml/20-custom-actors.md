@@ -282,6 +282,30 @@ sprite.icon = "iconHelloSprites";
 
 Die **Körpergrafik** der Kreatur ist ein völlig anderes Thema und füllt den Rest dieses Abschnitts.
 
+## Boote
+
+Ein Boot ist ebenfalls ein Actor, eines mit `is_boat = true`, und die Vorlagen sind `$boat_trading$` und `$boat_transport$`. Klone ein fertiges, `boat_trading_human` oder `boat_transport_human`, und du bekommst die Werte, die Kanone und die Boots-KI gratis dazu. Eine Zivilisation wählt ihre Boote nicht nach Spezies: Ihre **Architektur** benennt sie, in `actor_asset_id_trading`, `actor_asset_id_transport` und `actor_asset_id_boat_fishing`.
+
+Was du nicht gratis bekommst, ist die Grafik. Das Bild eines Boots kommt nicht aus `texture_asset`: Das Spiel lädt es aus `actors/boats/<boat id>/`, nach Sprite-Namen, beim ersten Zeichnen:
+
+```text Mods/HelloBox/
+HelloBox/
+└── GameResources/
+    └── actors/boats/hello_boat_trading/
+        ├── normal.png      # while lifted or in the magnet, and the fallback
+        ├── broken.png      # the wreck
+        ├── 0@0.png         # sailing, one pair per direction:
+        ├── 0@1.png         # <angle>@0 and <angle>@1
+        └── ...             # for 0, 45, 90, 135, 180, -45, -90, -135
+```
+
+`normal` und `broken` sind Pflicht: ohne sie wirft der Loader `KeyNotFoundException`. Auf dem Wasser fällt das Spiel auf den nächstliegenden gezeichneten Winkel zurück, aber der Avatar der Einheit im Inspektor verlangt alle acht, zeichne also alle acht.
+
+`ActorAnimationLoader.loadAnimationBoat("hello_boat_trading")` ist öffentlich und ist der Aufruf, den das Spiel selbst macht. Du brauchst ihn nie, aber ihn direkt nach dem Klonen einmal aufzurufen verwandelt ein fehlendes Sprite in einen Fehler beim Laden, in deinem eigenen Code, statt mitten in einem Seekrieg :wbsmirk:.
+
+> [!NOTE] Keine Kartenmarkierung für dein Boot
+> Die kleinen Boot-Icons auf der herausgezoomten Karte kommen aus `AssetManager.actor_library.list_only_boat_assets`, einer Liste, die die Bibliothek einmal beim Laden baut. Füge dein Boot hinzu, wenn du die Markierung willst.
+
 ## Sprites sind der harte Teil
 
 Alles oben Beschriebene ist nur eine Seite Code. Die eigentliche Arbeit ist die Kunst, und hier sterben die meisten Kreaturen-Mods still und leise: Eine Kreatur braucht ein komplettes Animationsset, im richtigen Atlas, in der richtigen Größe und mit den richtigen Drehpunkten. Es gibt zwei ehrliche Wege:

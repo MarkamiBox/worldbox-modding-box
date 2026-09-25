@@ -14,7 +14,7 @@ Cette page en dresse l'inventaire intégral. Vous n'en toucherez jamais la major
 
 ## Prérequis
 
-Seule `window_library` a une page ici. Le reste fonctionne, mais ne le modifiez que si vous savez ce que vous faites :PES2_Shrug:.
+`window_library` et `options_library` ont chacune une page ici. Le reste fonctionne, mais ne le modifiez que si vous savez ce que vous faites :PES2_Shrug:.
 
 
 **[Bibliothèques d'assets](#/nml/asset-libraries)** détaille leur fonctionnement commun : `has`, `get`, `add`, `clone`, modèles, réordonnancement et les quatre règles universelles. Consultez cette page d'abord. La présente page n'est qu'un répertoire.
@@ -25,7 +25,7 @@ Le résumé :
 AssetManager.traits.has("hello_swift");            // est-il enregistré ?
 AssetManager.traits.get("hello_swift");            // le récupérer (null si absent)
 AssetManager.traits.add(myTrait);                  // en enregistrer un nouveau
-AssetManager.traits.clone("hello_new", "brave");   // cloner l'existant ET enregistrer la copie
+AssetManager.traits.clone("hello_new", "strong");   // cloner l'existant ET enregistrer la copie
 AssetManager.traits.list;                          // chaque asset, dans l'ordre
 AssetManager.traits.dict;                          // chaque asset, par id
 ```
@@ -68,7 +68,8 @@ Ceux que vous ouvrirez vraiment sont les quatre premiers. Le reste est là pour 
 | `loyalty_library` | `LoyaltyAsset` | Facteurs de loyauté |
 | `opinion_library` | `OpinionAsset` | Facteurs d'opinion |
 | `happiness_library` | `HappinessAsset` | Facteurs de bonheur |
-| `plots_library` / `plot_category_library` | `PlotAsset` | Complots des unités et méta-systèmes |
+| `plots_library` | `PlotAsset` | Complots que les dirigeants lancent et financent. **[Complots](#/nml/plots)** |
+| `plot_category_library` | `PlotCategoryAsset` | Les sections de la fenêtre des complots. **[Complots](#/nml/plots)** |
 | `decisions_library` | `DecisionAsset` | Prises de décision (decision) de l'IA |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | Sujets de conversation entre unités |
 | `book_types` | `BookTypeAsset` | Genres de livres. **[Livres](#/nml/books)** |
@@ -92,9 +93,10 @@ Ceux que vous ouvrirez vraiment sont les quatre premiers. Le reste est là pour 
 | `effects_library` | `EffectAsset` | Effets visuels |
 | `months` | `MonthAsset` | Le calendrier |
 | `era_library` | `WorldAgeAsset` | Âges du monde |
-| `time_scales` | `WorldTimeScaleAsset` | Vitesses de jeu |
-| `map_sizes` | `MapSizeAsset` | Tailles de carte |
-| `map_gen_settings` / `map_gen_templates` | `MapGenSettingsAsset` | Génération de cartes |
+| `time_scales` | `WorldTimeScaleAsset` | Vitesses de jeu. "Plus vite" parcourt `list` dans l'ordre et, hors mode débogage, n'atteint jamais la dernière entrée (le `x40` vanilla). Une vitesse que vous ajoutez à la fin devient celle-là, inatteignable : insérez-la avant la dernière avec `Insert` |
+| `map_sizes` | `MapSizeAsset` | Les tailles dans la fenêtre de nouveau monde. **[Génération de carte](#/nml/map-generation)** |
+| `map_gen_templates` | `MapGenTemplate` | Les formes de monde : `continent`, `islands`, `donut`... **[Génération de carte](#/nml/map-generation)** |
+| `map_gen_settings` | `MapGenSettingsAsset` | Les curseurs et interrupteurs sous un template. **[Génération de carte](#/nml/map-generation)** |
 | `world_behaviours` | `WorldBehaviourAsset` | Comportements (behaviour) globaux d'arrière-plan |
 | `sim_globals_library` | `SimGlobalAsset` | Constantes générales de simulation |
 
@@ -117,7 +119,8 @@ Ceux que vous ouvrirez vraiment sont les quatre premiers. Le reste est là pour 
 | --- | --- | --- |
 | `powers` | `GodPower` | Pouvoirs divins (GodPower). **[Pouvoirs divins](#/nml/god-powers)** |
 | `power_tab_library` | `PowerTabAsset` | Onglets de la barre inférieure. **[Onglets et boutons de pouvoirs](#/nml/power-buttons)** |
-| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | Lois du monde (world law). **[Lois du monde](#/nml/world-laws)** |
+| `world_laws_library` | `WorldLawAsset` | Lois du monde (world law). **[Lois du monde](#/nml/world-laws)** |
+| `world_law_groups` | `WorldLawGroupAsset` | Les onglets de la fenêtre des Lois du monde. **[Lois du monde](#/nml/world-laws)** |
 | `brush_library` | `BrushData` | Tailles de pinceaux |
 | `hotkey_library` | `HotkeyAsset` | Raccourcis clavier |
 | `debug_tool_library` | `DebugToolAsset` | Outils de débogage |
@@ -140,8 +143,8 @@ Ceux que vous ouvrirez vraiment sont les quatre premiers. Le reste est là pour 
 | `window_library` | `WindowAsset` | Fenêtres. **[Fenêtres personnalisées](#/nml/custom-windows)** |
 | `list_window_library` | `ListWindowAsset` | Fenêtres de listes (royaumes, cités, …) |
 | `tooltips` | `TooltipAsset` | Agencements des infobulles |
-| `nameplates_library` | `NameplateAsset` | Plaques de nom au-dessus des unités |
-| `options_library` | `OptionAsset` | Paramètres du jeu |
+| `nameplates_library` | `NameplateAsset` | Les bannières de nom que les modes de carte dessinent au-dessus des royaumes, cités, clans... Une par `MetaType` : son `add()` lève une exception pour un mode de carte qui en a déjà une, donc modifiez la plaque vanilla avec `get()` |
+| `options_library` | `OptionAsset` | La propre fenêtre de réglages du jeu. **[Options de jeu](#/nml/game-options)** |
 | `color_style_library` | `ColorStyleAsset` | Styles de couleur de l'interface |
 | `dynamic_sprites_library` | `DynamicSpritesAsset` | Sprites créés dynamiquement |
 | `quantum_sprites` | `QuantumSpriteAsset` | Variantes de sprites |
