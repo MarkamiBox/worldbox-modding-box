@@ -147,3 +147,9 @@ public ModConfig GetConfig()
 ```
 
 C'est cette méthode unique qui fait apparaître le bouton d'engrenage à côté de votre mod dans la liste des mods. Une seule méthode, et plus personne ne se dispute avec vous sur Discord. En théorie.
+
+## Réglages du mod ou options du jeu ?
+
+Gardez les préférences ordinaires de HelloBox dans `default_config.json`. Le `AssetManager.options_library` du jeu est un système différent, soutenu par `PlayerConfig`, et il est utile quand vous câblez un interrupteur natif. Enregistrer un asset d'option seul ne crée pas sa valeur stockée.
+
+Suite : **[Options de jeu et vitesses](#/nml/game-options)** pour cette voie, ou **[Onglets et boutons de pouvoir](#/nml/power-buttons)** pour placer un contrôle à l'écran.

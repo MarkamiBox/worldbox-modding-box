@@ -22,7 +22,7 @@ order: 94
 AssetManager.traits.has("hello_swift");            // зарегистрирован ли?
 AssetManager.traits.get("hello_swift");            // получить объект (null, если отсутствует)
 AssetManager.traits.add(myTrait);                  // зарегистрировать новый
-AssetManager.traits.clone("hello_new", "brave");   // скопировать существующий И сразу зарегистрировать копию
+AssetManager.traits.clone("hello_new", "strong");   // скопировать существующий И сразу зарегистрировать копию
 AssetManager.traits.list;                          // каждый ассет по порядку
 AssetManager.traits.dict;                          // каждый ассет по id
 ```
@@ -65,7 +65,8 @@ AssetManager.traits.dict;                          // каждый ассет п
 | `loyalty_library` | `LoyaltyAsset` | Источники лояльности |
 | `opinion_library` | `OpinionAsset` | Источники дипломатического мнения |
 | `happiness_library` | `HappinessAsset` | Источники счастья |
-| `plots_library` / `plot_category_library` | `PlotAsset` | Заговоры существ и мета-систем |
+| `plots_library` | `PlotAsset` | Заговоры, которые начинают и оплачивают правители. **[Заговоры](#/nml/plots)** |
+| `plot_category_library` | `PlotCategoryAsset` | Разделы окна заговоров. **[Заговоры](#/nml/plots)** |
 | `decisions_library` | `DecisionAsset` | Решения (decision) ИИ |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | Темы разговоров между существами |
 | `book_types` | `BookTypeAsset` | Разновидности книг. **[Книги](#/nml/books)** |
@@ -89,9 +90,10 @@ AssetManager.traits.dict;                          // каждый ассет п
 | `effects_library` | `EffectAsset` | Визуальные эффекты |
 | `months` | `MonthAsset` | Календарь |
 | `era_library` | `WorldAgeAsset` | Эпохи (world age) мира |
-| `time_scales` | `WorldTimeScaleAsset` | Скорости течения времени |
-| `map_sizes` | `MapSizeAsset` | Размеры карт |
-| `map_gen_settings` / `map_gen_templates` | `MapGenSettingsAsset` | Генерация мира |
+| `time_scales` | `WorldTimeScaleAsset` | Скорости игры. Кнопка "быстрее" обходит `list` по порядку и, вне отладочного режима, никогда не доходит до последней записи (ванильной `x40`). Скорость, добавленная в конец, станет этой недостижимой: вставляйте её через `Insert` перед последней |
+| `map_sizes` | `MapSizeAsset` | Размеры в окне нового мира. **[Генерация карты](#/nml/map-generation)** |
+| `map_gen_templates` | `MapGenTemplate` | Формы мира: `continent`, `islands`, `donut`... **[Генерация карты](#/nml/map-generation)** |
+| `map_gen_settings` | `MapGenSettingsAsset` | Ползунки и переключатели под шаблоном. **[Генерация карты](#/nml/map-generation)** |
 | `world_behaviours` | `WorldBehaviourAsset` | Фоновые глобальные процессы |
 | `sim_globals_library` | `SimGlobalAsset` | Глобальные константы симуляции |
 
@@ -114,7 +116,8 @@ AssetManager.traits.dict;                          // каждый ассет п
 | --- | --- | --- |
 | `powers` | `GodPower` | Божественные силы (GodPower). **[Божественные силы](#/nml/god-powers)** |
 | `power_tab_library` | `PowerTabAsset` | Вкладки нижней панели. **[Вкладки и кнопки сил](#/nml/power-buttons)** |
-| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | Законы мира (world law). **[Законы мира](#/nml/world-laws)** |
+| `world_laws_library` | `WorldLawAsset` | Законы мира (world law). **[Законы мира](#/nml/world-laws)** |
+| `world_law_groups` | `WorldLawGroupAsset` | Вкладки окна законов мира. **[Законы мира](#/nml/world-laws)** |
 | `brush_library` | `BrushData` | Размеры кистей |
 | `hotkey_library` | `HotkeyAsset` | Горячие клавиши |
 | `debug_tool_library` | `DebugToolAsset` | Инструменты отладки |
@@ -132,7 +135,7 @@ AssetManager.traits.dict;                          // каждый ассет п
 
 ## Интерфейс
 
-Только у `window_library` есть своя страница. Остальное работает, но трогайте это, только если точно уверены :PES5_Hmmmm:.
+У `window_library` и `options_library` есть свои страницы. Остальное работает, но трогайте это, только если точно уверены :PES5_Hmmmm:.
 
 
 | Библиотека | Ассет | Что содержит |
@@ -140,8 +143,8 @@ AssetManager.traits.dict;                          // каждый ассет п
 | `window_library` | `WindowAsset` | Окна. **[Кастомные окна](#/nml/custom-windows)** |
 | `list_window_library` | `ListWindowAsset` | Окна списков (государства, города, …) |
 | `tooltips` | `TooltipAsset` | Разметка всплывающих подсказок |
-| `nameplates_library` | `NameplateAsset` | Таблички с именами над головами |
-| `options_library` | `OptionAsset` | Настройки игры |
+| `nameplates_library` | `NameplateAsset` | Именные баннеры, которые режимы карты рисуют над королевствами, городами, кланами... По одному на `MetaType`: его `add()` бросает исключение для режима карты, у которого уже есть баннер, так что редактируйте ванильную табличку через `get()` |
+| `options_library` | `OptionAsset` | Собственное окно настроек игры. **[Настройки игры](#/nml/game-options)** |
 | `color_style_library` | `ColorStyleAsset` | Цветовые схемы интерфейса |
 | `dynamic_sprites_library` | `DynamicSpritesAsset` | Спрайты, генерируемые в реальном времени |
 | `quantum_sprites` | `QuantumSpriteAsset` | Разновидности спрайтов |

@@ -25,6 +25,8 @@ namespace HelloBox
 
         public static void Initialize()
         {
+            if (AssetManager.world_laws_library.has(CHAOS)) return;
+
             AssetManager.world_laws_library.add(new WorldLawAsset
             {
                 id = CHAOS,
@@ -43,7 +45,7 @@ namespace HelloBox
 | 字段 | 含义 |
 | --- | --- |
 | `id` | 法则名称，同时也是翻译键 |
-| `group_id` | 所在标签页：`units`, `civilizations`, `spawn`, `diplomacy`, `nature`, … |
+| `group_id` | 所在标签页。完整列表见下方的 **标签页** 一节，也可以自己新建一个 |
 | `icon_path` | 图标，路径规则与其他地方相同 |
 | `default_state` | `true` = 新世界默认开启，`false` = 默认关闭 |
 | `can_turn_off` | 默认为 `true`。设为 `false` 则该法则一旦开启就无法关闭 |
@@ -60,6 +62,14 @@ if (law != null && law.isEnabled())
     // 玩家想要混乱，那就赐予他们混乱
 }
 ```
+
+还有一种更简短的写法，直接从世界对象上读取，不用先取出资源实例：
+
+```csharp
+bool chaos = World.world.world_laws.isEnabled(HelloLaws.CHAOS);
+```
+
+`isEnabled(string)` 对于一个它不认识的 id 会返回 `false` 而不是抛出异常，所以拼错了看起来只是“关闭”，而不是崩溃。这很贴心，但也很要命，因为没有任何提示告诉你出了问题 :PES5_Hmmmm:。`World.world.world_laws` 是 `internal` 的，所以它能编译通过，是因为 NML 用来构建你模组的是公开化的程序集（参见 **[状态效果](#/nml/status-effects)** 中的说明）。上面用资源对象的写法则到处都能用。
 
 实战示例：仅在法则开启时蔓延火星余烬：
 
@@ -99,12 +109,65 @@ new WorldLawAsset
 };
 ```
 
+## 标签页
+
+窗口被分成若干个标签页，`group_id` 决定落到哪一个。以下是全部原版分组，按窗口实际绘制的顺序排列：
+
+`harmony` · `diplomacy` · `civilizations` · `units` · `mobs` · `spawn` · `nature` · `trees` · `plants` · `fungi` · `biomes` · `weather` · `disasters` · `other`
+
+### 自己的一个标签页
+
+把第一个示例里的 `Initialize()` 替换成下面这个版本，并在 `CHAOS` 旁边加上 `GROUP`。
+
+分组是 `AssetManager.world_law_groups` 里的一个 `WorldLawGroupAsset`。它和特质标签页用的是同一个小型 `BaseCategoryAsset`，参见 **[特质分组与标签页](#/nml/trait-groups)**：
+
+| 字段 | 含义 |
+| --- | --- |
+| `id` | 法则的 `group_id` 指向的目标 |
+| `name` | 标签页标题的**本地化键**。不是标题本身 |
+| `color` | 十六进制颜色字符串。给标签页标题上色 |
+
+```csharp Mods/HelloBox/Code/HelloLaws.cs
+public const string GROUP = "hello_laws";
+
+public static void Initialize()
+{
+    // the group first: the laws below point at it
+    if (!AssetManager.world_law_groups.has(GROUP))
+    {
+        AssetManager.world_law_groups.add(new WorldLawGroupAsset
+        {
+            id = GROUP,
+            name = "world_laws_tab_" + GROUP,   // the locale key, not the text
+            color = "#FF9A3C"
+        });
+    }
+
+    if (AssetManager.world_laws_library.has(CHAOS)) return;
+
+    AssetManager.world_laws_library.add(new WorldLawAsset
+    {
+        id = CHAOS,
+        needs_to_be_explored = false,
+        group_id = GROUP,
+        icon_path = "ui/Icons/worldrules/icon_hello_law",
+        default_state = false
+    });
+}
+```
+
+不需要任何 UI 工作：世界法则窗口会为 `world_law_groups.list` 里的每一项生成一个标签页，然后把每条法则丢进它 `group_id` 所指名的那个标签页里。这一切只在窗口第一次创建时发生一次，而你的模组早在玩家看到窗口之前就已经加载完毕。你的标签页会排在最后，`other` 之后。
+
+> [!WARNING] 一个不存在的 `group_id` 会拖垮整个窗口
+> 窗口是用一个普普通通的字典索引来查找标签页的。一条法则如果指向了一个没人注册过的分组，就会在窗口构建期间抛出 `KeyNotFoundException`，而且注册在它之后的每一条法则——不管是你的还是别的模组的——都永远进不了这个窗口。请先注册分组再注册法则，并且两处的拼写要完全一致 :PESgn_ToughLuck:。
+
 ## 文本与本地化
 
 ```json Mods/HelloBox/Locales/en.json
 {
   "world_law_hello_chaos_title": "Hello Chaos",
-  "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one."
+  "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one.",
+  "world_laws_tab_hello_laws": "HelloBox"
 }
 ```
 

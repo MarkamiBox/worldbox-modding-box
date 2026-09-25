@@ -22,7 +22,7 @@ The short version:
 AssetManager.traits.has("hello_swift");            // is it registered?
 AssetManager.traits.get("hello_swift");            // fetch it (null if missing)
 AssetManager.traits.add(myTrait);                  // register a new one
-AssetManager.traits.clone("hello_new", "brave");   // copy an existing one AND register the copy
+AssetManager.traits.clone("hello_new", "strong");   // copy an existing one AND register the copy
 AssetManager.traits.list;                          // every asset, in order
 AssetManager.traits.dict;                          // every asset, by id
 ```
@@ -66,7 +66,8 @@ The five trait libraries are the friendly ones, each with its own page. Everythi
 | `loyalty_library` | `LoyaltyAsset` | Loyalty sources |
 | `opinion_library` | `OpinionAsset` | Opinion sources |
 | `happiness_library` | `HappinessAsset` | Happiness sources |
-| `plots_library` / `plot_category_library` | `PlotAsset` | Schemes units and metas attempt |
+| `plots_library` | `PlotAsset` | Schemes rulers start and pay for. **[Plots](#/nml/plots)** |
+| `plot_category_library` | `PlotCategoryAsset` | The sections of the plots window. **[Plots](#/nml/plots)** |
 | `decisions_library` | `DecisionAsset` | AI decisions |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | What units talk about |
 | `book_types` | `BookTypeAsset` | Kinds of book. **[Books](#/nml/books)** |
@@ -92,9 +93,10 @@ Everything that sits on the map, falls on it, or flies over it. `buildings` and 
 | `effects_library` | `EffectAsset` | Visual effects |
 | `months` | `MonthAsset` | The calendar |
 | `era_library` | `WorldAgeAsset` | World ages |
-| `time_scales` | `WorldTimeScaleAsset` | Game speeds |
-| `map_sizes` | `MapSizeAsset` | Map sizes |
-| `map_gen_settings` / `map_gen_templates` | `MapGenSettingsAsset` | World generation |
+| `time_scales` | `WorldTimeScaleAsset` | Game speeds. "Faster" walks `list` in order and, outside debug mode, never reaches the last entry (vanilla's `x40`). A speed you append becomes that unreachable one: `Insert` it before the last |
+| `map_sizes` | `MapSizeAsset` | The sizes in the new-world window. **[Map generation](#/nml/map-generation)** |
+| `map_gen_templates` | `MapGenTemplate` | World shapes: `continent`, `islands`, `donut`... **[Map generation](#/nml/map-generation)** |
+| `map_gen_settings` | `MapGenSettingsAsset` | The sliders and switches under a template. **[Map generation](#/nml/map-generation)** |
 | `world_behaviours` | `WorldBehaviourAsset` | World-level background behaviour |
 | `sim_globals_library` | `SimGlobalAsset` | Global simulation constants |
 
@@ -117,7 +119,8 @@ Everything that sits on the map, falls on it, or flies over it. `buildings` and 
 | --- | --- | --- |
 | `powers` | `GodPower` | God powers. **[God powers](#/nml/god-powers)** |
 | `power_tab_library` | `PowerTabAsset` | Bottom-bar tabs. **[Power tabs & buttons](#/nml/power-buttons)** |
-| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | World laws. **[World laws](#/nml/world-laws)** |
+| `world_laws_library` | `WorldLawAsset` | World laws. **[World laws](#/nml/world-laws)** |
+| `world_law_groups` | `WorldLawGroupAsset` | The tabs of the World Laws window. **[World laws](#/nml/world-laws)** |
 | `brush_library` | `BrushData` | Brush sizes |
 | `hotkey_library` | `HotkeyAsset` | Keyboard shortcuts |
 | `debug_tool_library` | `DebugToolAsset` | Debug tools |
@@ -135,15 +138,15 @@ Everything that sits on the map, falls on it, or flies over it. `buildings` and 
 
 ## Interface
 
-Only `window_library` has a page here. The rest works, but touch it only when you really mean it :PES5_Hmmmm:.
+`window_library` and `options_library` have pages here. The rest works, but touch it only when you really mean it :PES5_Hmmmm:.
 
 | Library | Asset | What it holds |
 | --- | --- | --- |
 | `window_library` | `WindowAsset` | Windows. **[Custom windows](#/nml/custom-windows)** |
 | `list_window_library` | `ListWindowAsset` | The list windows (kingdoms, cities, …) |
 | `tooltips` | `TooltipAsset` | Tooltip layouts |
-| `nameplates_library` | `NameplateAsset` | Nameplates above units |
-| `options_library` | `OptionAsset` | The game's own settings |
+| `nameplates_library` | `NameplateAsset` | The name banners map modes draw over kingdoms, cities, clans... One per `MetaType`: its `add()` throws for a map mode that already has one, so edit the vanilla plate with `get()` |
+| `options_library` | `OptionAsset` | The game's own settings window. **[Game options](#/nml/game-options)** |
 | `color_style_library` | `ColorStyleAsset` | UI colour styles |
 | `dynamic_sprites_library` | `DynamicSpritesAsset` | Runtime-generated sprites |
 | `quantum_sprites` | `QuantumSpriteAsset` | Sprite variants |

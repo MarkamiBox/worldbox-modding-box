@@ -68,8 +68,12 @@ Neben deinen Bilddateien teilt eine `sprites.json` dem NML-Loader mit, wie die B
 | `PivotX` / `PivotY` | Der Ankerpunkt. `0.5 / 0.0` bedeutet unten zentriert, was Einheiten und Gebäude (building) normalerweise verlangen |
 | `BorderL/R/T/B` | 9-Slice-Ränder für dehnbare Fensterrahmen und Schaltflächen |
 | `Path` | Auf welche konkrete Datei sich dieser spezifische Eintrag bezieht |
+| `RectX` / `RectY` | Sprite-Rechteck-Versätze. Beide sind standardmäßig `0`; die NML-Dokumentation sagt, sie auf `0` zu belassen |
 
 `Default` gilt für jede Datei im selben Ordner, die keinen eigenen `Specific`-Eintrag besitzt.
+
+> [!NOTE] Versätze sind kein Atlas-Rezept
+> Die dokumentierten `sprites.json`-Einstellungen haben keine Felder für Rechteckbreite oder -höhe. Erfinde solche nicht, um ein Spritesheet aufzuteilen. NML dokumentiert Unity-`.meta`-Dateien für Atlanten und Spritesheets.
 
 ## Wo welche Grafikart hingehört
 
@@ -174,3 +178,6 @@ private static Sprite Icon(string pName)
 ```
 
 Ein Warnsymbol sagt dir sofort: "Der Pfad ist falsch". Ein komplett unsichtbarer Button sorgt dagegen dafür, dass du zwei Stunden lang verzweifelt suchst, wo dein Button hin ist :PES4_Invisible:.
+
+
+Weiter geht's mit **[Mod-Einstellungen](#/nml/mod-config)** oder **[Eigene Fenster](#/nml/custom-windows)**.

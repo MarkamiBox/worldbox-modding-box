@@ -94,7 +94,8 @@ namespace HelloBox
 | `path_icon` | 상태 이상 목록에 뜰 작은 아이콘 경로 |
 | `texture`, `sprite_list`, `animated`, `loop`, `animation_speed` | 유닛 위에 표시될 스프라이트. `texture`는 `effects/` 내부의 파일 이름만 적음 |
 | `offset_x`, `offset_y`, `scale`, `rotation_z`, `render_priority` | 위치 오프셋 및 렌더링 스케일 |
-| `opposite_traits`, `opposite_tags` | 이 상태 이상을 차단하는 특성이나 태그 |
+| `opposite_traits` | **액터 특성** id들의 `string[]`. 이 중 하나라도 가진 유닛은 절대 이 상태에 걸리지 않음: `burning`은 `fire_proof`를, `poisoned`는 `poison_immune`을 나열함. 순수 id이며 매번 확인되므로, 여러분의 `hello_` 특성도 여기서 작동함 |
+| `opposite_tags` | 위와 동일하되 `immunity_fire` 같은 스탯 태그용: 그중 하나를 가진 유닛은 면역 |
 | `action_on_receive`, `action_get_hit` | 부여 시 및 피격 시 실행될 훅 |
 | `sound_idle` | 적용되어 있는 동안 무한 반복 재생될 FMOD 사운드 이벤트 |
 
@@ -138,14 +139,19 @@ cursed.action = (BaseSimObject pTarget, WorldTile pTile) =>
 
 ## 유닛에게 상태 효과 부여하기
 
-가장 직관적인 `actor.addStatusEffect("hello_cursed")`는 게임 어셈블리에서 `internal`로 잠겨 있습니다. 공개화(publicized)된 `Assembly-CSharp.dll`에 대고는 문제없이 컴파일되고, 보통 NML 모드는 이미 그걸 씁니다. NML은 당신의 `Code/*.cs`를 자체 공개화 사본에 대고 컴파일하므로, 이 가이드의 모든 `internal` 멤버가 그대로 컴파일됩니다. Visual Studio에서 원본 어셈블리에 대고 자기 `.dll`을 빌드할 때만 이게 안 됩니다. 그 경우에는 항상 되는 public 방법을 쓰세요:
+가장 직관적인 `actor.addStatusEffect("hello_cursed")`는 게임 어셈블리에서 `internal`로 잠겨 있습니다. 공개화(publicized)된 `Assembly-CSharp.dll`에 대고는 문제없이 컴파일되고, 보통 NML 모드는 이미 그걸 씁니다. NML은 당신의 `Code/*.cs`를 자체 공개화 사본에 대고 컴파일하므로, 이 가이드의 모든 `internal` 멤버가 그대로 컴파일됩니다. Visual Studio에서 원본 어셈블리에 대고 자기 `.dll`을 빌드할 때만 이게 안 됩니다. 그 경우에는 생성자와 `execute()`가 둘 다 public이고 내부적으로 `addStatusEffect`를 호출해 주는, 게임 자체의 행동(behaviour) 노드를 빌려 쓰세요:
 
 ```csharp
-StatusAsset asset = AssetManager.status.get(HelloStatus.CURSED);
-World.world.statuses.newStatus(actor, asset, 20f);   // 20초 (0을 주면 에셋 기본 지속시간)
+if (actor == null || !actor.isAlive() || World.world == null || Config.worldLoading) return;
+new ai.behaviours.BehActorAddStatus(HelloStatus.CURSED, 20f).execute(actor);   // 20초. 에셋 기본 지속시간을 쓰려면 0f
 ```
 
-AI 행동 (behaviour) 트리 내부에서는 사전 제작된 노드를 사용할 수 있습니다: `new BehActorAddStatus("hello_cursed", 20f)` 및 `new BehActorRemoveStatus("hello_cursed")`.
+> [!WARNING] `World.world.statuses.newStatus()`는 절반짜리 작업입니다
+> 이건 public이고, 마치 정공법처럼 보입니다. 하지만 이건 `Status` 객체를 만들고 타이머를 시작할 뿐입니다: 유닛 자신의 상태 목록에는 절대 들어가지 않고, `opposite_traits`를 포함한 모든 검사를 건너뜁니다. 유닛은 자신이 그 상태를 가졌다는 걸 모릅니다: `hasStatus()`는 아니라고 답하고, `base_stats`도 절대 적용되지 않습니다. 위의 노드를 통하거나 직접 `addStatusEffect`를 거치세요.
+
+두 노드 모두 `ai.behaviours`에 있습니다. 짧은 이름을 쓰려면 `using ai.behaviours;`를 추가하세요. 에셋 기본 지속시간을 쓰려면 `0f`를 명시적으로 넘기세요: add 노드의 기본값은 `-1f`이며, 이는 기본 지속시간이 아니라 오버라이드 값으로 그대로 전달됩니다.
+
+AI 행동 (behaviour) 트리 내부에서는 같은 노드들이 이미 만들어진 단계로 준비돼 있습니다: `new BehActorAddStatus("hello_cursed", 20f)` 및 `new BehActorRemoveStatus("hello_cursed")`.
 
 ## 텍스트 등록을 잊지 마세요
 

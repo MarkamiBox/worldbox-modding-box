@@ -22,7 +22,7 @@ order: 94
 AssetManager.traits.has("hello_swift");            // 是否已被注册？
 AssetManager.traits.get("hello_swift");            // 获取实例（若不存在则返回 null）
 AssetManager.traits.add(myTrait);                  // 注册一个新资源
-AssetManager.traits.clone("hello_new", "brave");   // 克隆现有资源并自动完成注册
+AssetManager.traits.clone("hello_new", "strong");   // 克隆现有资源并自动完成注册
 AssetManager.traits.list;                          // 按注册顺序排列的全部资源列表
 AssetManager.traits.dict;                          // 按 ID 索引的全部资源字典
 ```
@@ -65,7 +65,8 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 | `loyalty_library` | `LoyaltyAsset` | 影响城市忠诚度的因素 |
 | `opinion_library` | `OpinionAsset` | 影响外交关系的因素 |
 | `happiness_library` | `HappinessAsset` | 影响市民快乐度的因素 |
-| `plots_library` / `plot_category_library` | `PlotAsset` | 单位或宏观系统谋划的密谋与阴谋 |
+| `plots_library` | `PlotAsset` | 统治者发起并付出代价的阴谋。**[阴谋](#/nml/plots)** |
+| `plot_category_library` | `PlotCategoryAsset` | 阴谋窗口里的分区。**[阴谋](#/nml/plots)** |
 | `decisions_library` | `DecisionAsset` | 宏观决策（decision）项 |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | 单位之间交谈的话题 |
 | `book_types` | `BookTypeAsset` | 书籍分类。**[书籍](#/nml/books)** |
@@ -89,9 +90,10 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 | `effects_library` | `EffectAsset` | 视觉粒子特效 |
 | `months` | `MonthAsset` | 月份历法 |
 | `era_library` | `WorldAgeAsset` | 时代（world age）纪元 |
-| `time_scales` | `WorldTimeScaleAsset` | 游戏运行速度挡位 |
-| `map_sizes` | `MapSizeAsset` | 地图尺寸规格 |
-| `map_gen_settings` / `map_gen_templates` | `MapGenSettingsAsset` | 世界生成算法配置 |
+| `time_scales` | `WorldTimeScaleAsset` | 游戏运行速度挡位。“加速”按钮按顺序遍历 `list`，非调试模式下永远到不了最后一项（原版的 `x40`）。你追加的速度档位就会变成那个够不到的最后一项：请把它 `Insert` 在最后一项之前 |
+| `map_sizes` | `MapSizeAsset` | 新建世界窗口里的地图尺寸档位。**[地图生成](#/nml/map-generation)** |
+| `map_gen_templates` | `MapGenTemplate` | 世界形状：`continent`、`islands`、`donut`……**[地图生成](#/nml/map-generation)** |
+| `map_gen_settings` | `MapGenSettingsAsset` | 模板下方的滑条与开关。**[地图生成](#/nml/map-generation)** |
 | `world_behaviours` | `WorldBehaviourAsset` | 全局后台宏观模拟逻辑 |
 | `sim_globals_library` | `SimGlobalAsset` | 全局底层仿真常量 |
 
@@ -114,7 +116,8 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 | --- | --- | --- |
 | `powers` | `GodPower` | 上帝能力。**[上帝能力（God powers）](#/nml/god-powers)** |
 | `power_tab_library` | `PowerTabAsset` | 底部工具栏标签页。**[能力标签页与按钮](#/nml/power-buttons)** |
-| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | 世界法则（world law）。**[世界法则](#/nml/world-laws)** |
+| `world_laws_library` | `WorldLawAsset` | 世界法则（world law）。**[世界法则](#/nml/world-laws)** |
+| `world_law_groups` | `WorldLawGroupAsset` | 世界法则窗口里的标签页。**[世界法则](#/nml/world-laws)** |
 | `brush_library` | `BrushData` | 笔刷尺寸 |
 | `hotkey_library` | `HotkeyAsset` | 键盘快捷键 |
 | `debug_tool_library` | `DebugToolAsset` | 调试开发工具 |
@@ -132,7 +135,7 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 
 ## 用户界面
 
-这里只有 `window_library` 拥有专属教程页面，其余的虽然能用，但非必要请勿随意改动 :PES5_Hmmmm:。
+这里 `window_library` 和 `options_library` 都拥有专属教程页面，其余的虽然能用，但非必要请勿随意改动 :PES5_Hmmmm:。
 
 
 | 资源库 | 承载资源类型 | 存储内容说明 |
@@ -140,8 +143,8 @@ AssetManager.traits.dict;                          // 按 ID 索引的全部资�
 | `window_library` | `WindowAsset` | 弹出窗口。**[自定义窗口](#/nml/custom-windows)** |
 | `list_window_library` | `ListWindowAsset` | 列表视窗（王国列表、城市列表等） |
 | `tooltips` | `TooltipAsset` | 提示框排版布局 |
-| `nameplates_library` | `NameplateAsset` | 单位头顶铭牌 |
-| `options_library` | `OptionAsset` | 游戏设置菜单选项 |
+| `nameplates_library` | `NameplateAsset` | 地图模式在王国、城市、家族等对象上方绘制的名称横幅。每个 `MetaType` 只能有一个：对已经有铭牌的地图模式调用 `add()` 会抛出异常，所以要改原版铭牌就用 `get()` |
+| `options_library` | `OptionAsset` | 游戏自己的设置窗口。**[游戏选项](#/nml/game-options)** |
 | `color_style_library` | `ColorStyleAsset` | UI界面配色方案 |
 | `dynamic_sprites_library` | `DynamicSpritesAsset` | 运行时动态合成精灵图 |
 | `quantum_sprites` | `QuantumSpriteAsset` | 贴图变体 |

@@ -450,3 +450,38 @@ private static Sprite Icon(string pName)
 ```
 
 按钮名称与悬浮提示直接来源于 **神力 id**，而不是按钮对象本身。这就是为什么上面的本地化键与你传递给创建方法的 id 完全匹配。
+
+## 窗口与开关辅助方法
+
+已安装的 NML 程序集还在 `NeoModLoader.General` 里暴露了以下辅助方法。等标签页和目标窗口或神力都已存在之后，调用一次即可：
+
+```csharp
+PowerButton windowButton = PowerButtonCreator.CreateWindowButton(
+    "hello_native_open", HelloNativeWindow.WindowId,
+    Icon("iconHelloPanel"), tab.transform, Vector2.zero);
+```
+
+`CreateWindowButton` 设置的是按钮的 `open_window_id`。它并不会创建窗口本身。`CreateSimpleButton` 接受一个 `UnityAction`；如果是你自己的回调逻辑就用这个。`GetTab(string pId)` 查找某个标签页，`AddButtonToTab(button, tab)` 把一个按钮移入某个标签页。它的重载还接受一个 `Vector2` 位置参数和一个可选的同级索引。
+
+`CreateToggleButton(pGodPowerId, pIcon, pParent, pLocalPosition, pNoAutoSetToggleAction = false)` 需要一个已注册、且 `toggle_name` 非空的 `GodPower`。这个名字对应的是它的 `PlayerConfig` 选项。当玩家字典里缺少这个键时，该辅助方法会创建一个默认为 `false` 的布尔选项和玩家数值。更推荐按照 **[游戏选项与时间倍速](#/nml/game-options)** 中所示，自己把两者都注册好。
+
+> [!NOTE] 自动切换逻辑本身就是回调的一部分
+> NML 默认会在已有的 `toggle_action` 之后追加自己的切换并保存的动作。如果你已有的回调本身就负责状态变更，就传入 `pNoAutoSetToggleAction: true`。如果回调是 `null`，这个标志位并不能阻止 NML 安装它默认的动作。反复调用这个创建方法可能会重复追加动作。
+
+## 游戏自身的 PowerTabAsset
+
+`AssetManager.power_tab_library` 存放的是原生的标签页资源。它和 NML 的 `TabManager.CreateTab` 返回的 `PowersTab` UI 组件是两回事。
+
+| 字段 | 含义 |
+| --- | --- |
+| `locale_key` | 名称键；`getDescriptionID()` 返回的就是这个键加上 `_info` |
+| `icon_path` | `getIcon()` 使用的精灵图路径 |
+| `get_power_tab` | 返回要显示的 `PowersTab` 的委托 |
+| `gameplay_tab` | 对某个 UI 标签页的引用 |
+| `window_id` | 关联的窗口 id |
+| `on_main_tab_select` / `on_main_info_click` | 主标签页的回调 |
+| `on_update_check_active` | 激活状态检查回调 |
+
+`tryToShowPowerTab()` 会调用 `get_power_tab`，并让返回的组件自行显示出来。单纯添加一个资源，并不能替代创建一个真正的 UI 标签页。NML 那两个显式的标题与描述参数，不要和原生的 `_info` 命名约定混为一谈。
+
+接下来：面板部分请看 **[自定义窗口](#/nml/custom-windows)**，它的状态部分请看 **[游戏选项与时间倍速](#/nml/game-options)**。

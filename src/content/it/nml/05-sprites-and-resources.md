@@ -68,8 +68,12 @@ Accanto alle tue immagini, un file `sprites.json` spiega a NML come ritagliare e
 | `PivotX` / `PivotY` | Il punto di ancoraggio. `0.5 / 0.0` corrisponde a in basso al centro, necessario per unità ed edifici (building) |
 | `BorderL/R/T/B` | Bordi per il 9-slice, per finestre e pulsanti ridimensionabili |
 | `Path` | Il file specifico a cui applicare questa configurazione |
+| `RectX` / `RectY` | Offset del rettangolo dello sprite. Entrambi predefiniti a `0`; la documentazione di NML dice di lasciarli a `0` |
 
 `Default` si applica a qualsiasi file nella cartella che non abbia una voce in `Specific`.
+
+> [!NOTE] Gli offset non sono una ricetta per un atlante
+> Le impostazioni documentate di `sprites.json` non hanno campi di larghezza o altezza del rettangolo. Non inventarli per ritagliare un foglio di sprite. NML documenta i file `.meta` di Unity per atlanti e fogli di sprite.
 
 ## Dove va posizionato ciascun tipo di grafica
 
@@ -174,3 +178,6 @@ private static Sprite Icon(string pName)
 ```
 
 Un'icona di avviso ti fa capire subito: "il percorso è sbagliato". Il nulla assoluto ti condanna a passare due ore a chiederti dove sia finito il tuo pulsante :PES4_Invisible:.
+
+
+Prossima pagina: **[Impostazioni del mod](#/nml/mod-config)** oppure **[Finestre personalizzate](#/nml/custom-windows)**.

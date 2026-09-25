@@ -52,6 +52,8 @@ Unos veinte archivos, y esto es en lo que se convierten dentro del juego. Cada f
 
 Se genera a partir de los bloques de código de esta guía, así que es el mismo código que has estado copiando, no una copia aparte que se desvía con el tiempo. Léelo, rómpelo, borra los dos tercios que no querías.
 
+Las páginas avanzadas también muestran recetas opcionales: **[parches manuales](#/nml/harmony-patches)**, **[temporizadores y corrutinas](#/nml/update-loops)**, **[generación de mapas](#/nml/map-generation)**, **[opciones del juego](#/nml/game-options)** y **[trabajar con otros mods](#/nml/other-mods)**. Esas son cosas que añadir cuando las necesites. No están activadas en esta descarga.
+
 > [!WARNING] Es una demo, no un producto
 > Publicar HelloBox tal cual no ayuda a nadie: son veinte funciones que hacen cada una una cosita mal a propósito. Cambia los ids, cambia el nombre, quédate con las partes que de verdad querías  :wbbru:.
 

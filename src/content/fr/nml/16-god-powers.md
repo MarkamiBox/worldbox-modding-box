@@ -32,7 +32,7 @@ namespace HelloBox
 
         public static void Initialize()
         {
-            // Ne jamais enregistrer deux fois le même id : le jeu ne conserve que le premier.
+            // Évite de remplacer un asset déjà enregistré sous cet id.
             if (AssetManager.powers.get(STRIKE) != null) return;
 
             GodPower strike = new GodPower
@@ -106,6 +106,35 @@ Définir `hold_action = true` ainsi qu'un `click_interval` permet au pouvoir de 
 strike.hold_action = true;
 strike.click_interval = 0.15f;   // secondes entre chaque répétition
 ```
+
+## Quel délégué peint le pinceau ?
+
+| Champ | Ce qu'il fait |
+| --- | --- |
+| `click_action` | `bool (WorldTile pTile, string pPowerID)` pour une seule case |
+| `click_brush_action` | Même signature, appelé à la place de `click_action` quand il est défini |
+| `click_power_action` | `bool (WorldTile pTile, GodPower pPower)` pour une seule case |
+| `click_power_brush_action` | Même signature basée sur l'asset, appelé à la place de `click_power_action` quand il est défini |
+
+Le chemin de clic du joueur préfère la paire basée sur l'asset quand l'un ou l'autre champ est défini. Un délégué de pinceau reçoit la case centrale. Il ne s'exécute pas magiquement une fois par pixel du pinceau. Ce remplacement optionnel se place à l'intérieur de la configuration du pouvoir, après que `click_action` a été assigné :
+
+```csharp
+strike.show_tool_sizes = true;
+strike.click_brush_action = (WorldTile pTile, string pPowerID) =>
+{
+    if (pTile == null || World.world == null) return false;
+    GodPower power = AssetManager.powers.get(pPowerID);
+    if (power == null || power.click_action == null) return false;
+    World.world.loopWithBrush(pTile, Config.current_brush_data,
+        power.click_action, pPowerID);
+    return true;
+};
+```
+
+> [!WARNING] Un curseur plus grand n'est pas un effet plus grand
+> `show_tool_sizes` expose la sélection de taille du pinceau. Votre callback de pinceau doit quand même boucler sur les cases. L'assistant vanilla `PowerLibrary.loopWithCurrentBrush` est privé ; l'exemple utilise à la place la méthode publique du monde. Pour la paire `(WorldTile, GodPower)`, `loopWithBrush` a une surcharge correspondante prenant `PowerAction` et l'asset du pouvoir.
+
+Pour du retour après un clic, voir **[Messages et journal du monde](#/nml/messages-and-world-log)**.
 
 ## Votre propre icône
 

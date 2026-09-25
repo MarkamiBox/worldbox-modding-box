@@ -24,7 +24,7 @@ If your main class inherits from `BasicMod<T>`, create a `Locales/` folder in yo
 }
 ```
 
-The filename **is** the language: `en.json`, `cz.json` (Simplified Chinese), `ru.json`, and so on.
+The filename **is** the language: `en.json`, `cz.json` (Simplified Chinese), `ch.json` (Traditional Chinese), `ja.json` (Japanese), `ru.json`, and so on. These are the ids registered by `GameLanguageLibrary`, not guessed ISO codes. Czech is `cs`, not `cz`. Keep the mod folder named `Locales` with a capital L; the game's own `locales/` resource paths are a separate thing.
 
 If you implement `IMod` by hand instead, add `ILocalizable` and point it at the folder:
 
@@ -113,3 +113,19 @@ The game builds these keys itself, so they have to match exactly or nothing show
 
 > [!WARNING] Ids are not names
 > Your id is `hello_swift` forever, in every language, and it is what the rest of your code (and other people's mods) reference. The **locale text** is the part that changes. Never rename an id just to fix a typo in the display name :PESgn_Stop:.
+
+## The game API without LM
+
+For a value needed only in the currently loaded language:
+
+```csharp
+LocalizedTextManager.add("hello_notice", "Hello from HelloBox", pReplace: true);
+string notice = LocalizedTextManager.getText("hello_notice");
+```
+
+`add(string pKey, string pTranslation, bool pReplace = false, string pFileName = "", bool pCheckForCharacters = true)` writes to the current text dictionary. Existing keys stay unchanged unless `pReplace` is true. It normalises the key through `Underscore()`, so use underscore keys from the start. `getText(string pKey, Text text = null, bool pForceEnglish = false)` reads that dictionary; the supplied source does not use `pForceEnglish` to select English.
+
+> [!NOTE] Current text is not a translation file
+> Changing language rebuilds the game's text dictionaries. Use `Locales` or `LM.Add` for translations that must survive a language switch. Direct `add` also does not refresh existing text components for you.
+
+Next: **[Sprites & resources](#/nml/sprites-and-resources)** or put text on screen with **[Messages & world log](#/nml/messages-and-world-log)**.

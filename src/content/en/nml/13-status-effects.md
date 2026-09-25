@@ -94,7 +94,8 @@ The short list. The real one is longer and mostly boring :wbyawn:.
 | `path_icon` | The icon in the status list |
 | `texture`, `sprite_list`, `animated`, `loop`, `animation_speed` | The sprite drawn on the unit. `texture` is a bare name, loaded from `effects/` |
 | `offset_x`, `offset_y`, `scale`, `rotation_z`, `render_priority` | Where and how it draws |
-| `opposite_traits`, `opposite_tags` | Traits and tags that block it |
+| `opposite_traits` | A `string[]` of **actor trait** ids. A unit with any of them never gets the status: `burning` lists `fire_proof`, `poisoned` lists `poison_immune`. Plain ids, checked every time, so your own `hello_` traits work here |
+| `opposite_tags` | The same, for stat tags such as `immunity_fire`: a unit carrying one of them is immune |
 | `action_on_receive`, `action_get_hit` | Extra hooks, on apply and on being hit |
 | `sound_idle` | A looping FMOD event while it is on |
 
@@ -138,14 +139,19 @@ cursed.action = (BaseSimObject pTarget, WorldTile pTile) =>
 
 ## Applying it to a unit
 
-This is the part that trips people up. The obvious method, `actor.addStatusEffect("hello_cursed")`, is marked `internal` in the game assembly. It compiles fine against a **publicized** `Assembly-CSharp.dll`, and a normal NML mod already has one: NML compiles your `Code/*.cs` against its own publicized copy, which is why every `internal` member in this guide compiles for you. You only lose it when you build a `.dll` of your own in Visual Studio against the stock assembly. For that case, the public route always works:
+This is the part that trips people up. The obvious method, `actor.addStatusEffect("hello_cursed")`, is marked `internal` in the game assembly. It compiles fine against a **publicized** `Assembly-CSharp.dll`, and a normal NML mod already has one: NML compiles your `Code/*.cs` against its own publicized copy, which is why every `internal` member in this guide compiles for you. You only lose it when you build a `.dll` of your own in Visual Studio against the stock assembly. For that case, borrow the game's own behaviour node, whose constructor and `execute()` are both public and which calls `addStatusEffect` for you:
 
 ```csharp
-StatusAsset asset = AssetManager.status.get(HelloStatus.CURSED);
-World.world.statuses.newStatus(actor, asset, 20f);   // 20s, or 0 for the asset's own duration
+if (actor == null || !actor.isAlive() || World.world == null || Config.worldLoading) return;
+new ai.behaviours.BehActorAddStatus(HelloStatus.CURSED, 20f).execute(actor);   // 20s; pass 0f for the asset's own duration
 ```
 
-Inside a behaviour tree you have ready-made nodes instead: `new BehActorAddStatus("hello_cursed", 20f)` and `new BehActorRemoveStatus("hello_cursed")`.
+> [!WARNING] `World.world.statuses.newStatus()` is only half the job
+> It is public, and it looks like the way in. It only creates the `Status` object and starts its timer: it never puts it in the unit's own status list, and it skips every check, `opposite_traits` included. The unit does not know it has the status: `hasStatus()` says no, and its `base_stats` never apply. Go through `addStatusEffect`, directly or through the node above.
+
+Both nodes live in `ai.behaviours`; add `using ai.behaviours;` for the short names. Pass `0f` explicitly to use the asset duration: the add node defaults to `-1f`, which is forwarded as an override, not treated as the default duration.
+
+Inside a behaviour tree the same nodes are ready-made steps: `new BehActorAddStatus("hello_cursed", 20f)` and `new BehActorRemoveStatus("hello_cursed")`.
 
 ## Don't forget the text
 

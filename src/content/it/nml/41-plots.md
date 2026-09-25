@@ -38,12 +38,13 @@ namespace HelloBox
                 needs_to_be_explored = false,
 
                 // called with no null check: a plot without it crashes the first time anyone looks at it
-                check_is_possible = (Actor pActor) => pActor.hasCity() && !pActor.city.isInDanger(),
-                check_should_continue = (Actor pActor) => pActor.hasCity(),
+                check_is_possible = (Actor pActor) => pActor != null && pActor.isAlive() && pActor.hasCity() && !pActor.city.isInDanger(),
+                check_should_continue = (Actor pActor) => pActor != null && pActor.isAlive() && pActor.hasCity(),
 
                 // runs once, when the progress bar is full
                 action = (Actor pActor) =>
                 {
+                    if (pActor == null || !pActor.isAlive()) return false;
                     City city = pActor.city;
                     if (city == null) return false;
 
@@ -105,9 +106,40 @@ Un leader con dieci monete, una città e nulla di meglio da fare può ora organi
 | Campo | Cosa fa |
 | --- | --- |
 | `path_icon` | La sua icona nell'elenco dei complotti e sullo stendardo |
-| `group_id` | La categoria: `diplomacy`, `culture`, `rites_wrathful`, `rites_summoning`, `rites_merciful` |
+| `group_id` | La categoria, presa da `plot_category_library`: `diplomacy`, `rites_wrathful`, `rites_summoning`, `rites_merciful`, `culture`, `language`, `religion`, `rites_various`, `plots_others` |
 | `pot_rate` | Peso rispetto agli altri possibili complotti |
 | `is_basic_plot` | Qualsiasi leader può tentarlo. Altrimenti si verifica solo come rito religioso, vedi **[Tratti religiosi](#/nml/religion-traits)** |
+
+### Una categoria tutta tua
+
+Le categorie sono `PlotCategoryAsset` in `AssetManager.plot_category_library`, e sono ciò che divide la finestra dei complotti in sezioni. Lo stesso piccolo `BaseCategoryAsset` di una scheda di tratti (`id`, `name`, `color`, `show_counter`, vedi **[Gruppi di tratti e schede](#/nml/trait-groups)**), più un campo tutto suo:
+
+| Campo | Cosa fa |
+| --- | --- |
+| `plot_retry_action` | Interrogato mentre un'unità lavora a un complotto di questa categoria. `true` significa "non adesso, riprova più tardi". Vanilla lo usa per aspettare mentre le liste di regno, città o religione sono occupate |
+
+```csharp Mods/HelloBox/Code/HelloPlots.cs
+public const string CATEGORY = "hello_plots";
+
+// prima dei complotti che vi puntano
+if (!AssetManager.plot_category_library.has(CATEGORY))
+{
+    AssetManager.plot_category_library.add(new PlotCategoryAsset
+    {
+        id = CATEGORY,
+        name = "plot_group_" + CATEGORY,   // la chiave di localizzazione, non il testo
+        color = "#FF9A3C",
+        show_counter = false,
+        // prendi in prestito quella vanilla: sa già quali liste aspettare
+        plot_retry_action = PlotCategoryLibrary.culturePlotsRetryAction
+    });
+}
+```
+
+Poi `group_id = HelloPlots.CATEGORY` sul festival, e `"plot_group_hello_plots": "HelloBox"` nel file di localizzazione. La finestra dei complotti costruisce le sue sezioni dalla lista della libreria, quindi quella nuova compare senza alcun lavoro sull'UI.
+
+> [!WARNING] La categoria deve esistere
+> Il gioco recupera la categoria di un complotto con `get()` e legge `plot_retry_action` da essa senza alcun controllo di nullità, ogni volta che un'unità che porta il complotto ricontrolla il suo compito. Un `group_id` che nessuno ha registrato è una `NullReferenceException` nel bel mezzo dell'IA, e continua a ripresentarsi :PESgn_ToughLuck:.
 
 ## I testi
 

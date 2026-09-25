@@ -10,7 +10,7 @@ order: 3
 Alles, was du brauchst, bevor du deine erste Zeile Code schreibst. Arbeite die Schritte der Reihe nach ab – es dauert etwa fünfzehn Minuten.
 
 > [!NOTE] Du musst noch nicht programmieren können
-> Und du brauchst **weder** Visual Studio noch einen Compiler oder ähnliches. NML liest die `.cs`-Dateien in deinem Mod-Ordner und kompiliert sie bei jedem Spielstart automatisch für dich. **Der normale Windows-Editor (Notepad) reicht für deine erste Mod völlig aus** :PES_OkHand:. Bessere Werkzeuge kannst du dir später holen, sobald du etwas vermisst.
+> Und du brauchst **weder** Visual Studio noch einen Compiler oder ähnliches. NML liest die `.cs`-Dateien in deinem Mod-Ordner und kompiliert sie bei Bedarf automatisch für dich. **Der normale Windows-Editor (Notepad) reicht für deine erste Mod völlig aus** :PES_OkHand:. Bessere Werkzeuge kannst du dir später holen, sobald du etwas vermisst.
 
 ## 1. Finde deinen WorldBox-Ordner
 
@@ -81,5 +81,7 @@ Du brauchst diese Tools **nicht**, um eine Mod zu schreiben. Komm erst hierher z
 - **[AssetRipper](#/toolbox/getting-the-sprites)**: Extrahiert Sprites und Sounds aus dem Spiel, damit du dich an den originalen Stil anpassen kannst.
 - **[Modding mit BepInEx](#/toolbox/bepinex-modding)**: vorkompilierte `.dll`-Plugins bauen, wenn du Low-Level-Hooks in die Unity-Engine willst statt NML-Inhalten.
 
-> [!WARNING] NCMS ist veraltet :sadcat:
-> NCMS wird nicht mehr gepflegt. Jeder Guide hier zielt auf NML ab. Technisch gesehen kannst du immer noch eine Mod für NCMS schreiben, aber das macht heutzutage niemand mehr :PES2_Shrug:.
+> [!NOTE] Ältere NCMS-Mods lesen
+> NML enthält eine NCMS-Kompatibilitätsschicht, inklusive Unterstützung für den alten `[ModEntry]`-Einstiegspunkt. Das repariert aber keine Aufrufe von Spiel-APIs, die sich geändert haben. Teste eine ältere Mod gegen deine Spiel- und NML-Version, bevor du dich darauf verlässt. Starte HelloBox mit `BasicMod<Main>`, wie es dieser Guide tut.
+
+Weiter geht's mit **[Mod-Struktur](#/nml/mod-structure)**.

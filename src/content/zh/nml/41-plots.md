@@ -38,12 +38,13 @@ namespace HelloBox
                 needs_to_be_explored = false,
 
                 // called with no null check: a plot without it crashes the first time anyone looks at it
-                check_is_possible = (Actor pActor) => pActor.hasCity() && !pActor.city.isInDanger(),
-                check_should_continue = (Actor pActor) => pActor.hasCity(),
+                check_is_possible = (Actor pActor) => pActor != null && pActor.isAlive() && pActor.hasCity() && !pActor.city.isInDanger(),
+                check_should_continue = (Actor pActor) => pActor != null && pActor.isAlive() && pActor.hasCity(),
 
                 // runs once, when the progress bar is full
                 action = (Actor pActor) =>
                 {
+                    if (pActor == null || !pActor.isAlive()) return false;
                     City city = pActor.city;
                     if (city == null) return false;
 
@@ -105,9 +106,40 @@ namespace HelloBox
 | 字段 | 功能作用 |
 | --- | --- |
 | `path_icon` | 阴谋在列表与旗帜上显示的图标路径 |
-| `group_id` | 所属类别：`diplomacy`, `culture`, `rites_wrathful`, `rites_summoning`, `rites_merciful` |
+| `group_id` | 所属类别，取自 `plot_category_library`：`diplomacy`, `rites_wrathful`, `rites_summoning`, `rites_merciful`, `culture`, `language`, `religion`, `rites_various`, `plots_others` |
 | `pot_rate` | 在同类候选阴谋池中的抽取权重 |
 | `is_basic_plot` | 是否允许任何普通领袖发起。若为 false 则仅能作为宗教仪式出现（参见 **[宗教特质](#/nml/religion-traits)**） |
+
+### 拥有一个自己的分类
+
+这些分类是 `AssetManager.plot_category_library` 里的 `PlotCategoryAsset`，正是它们把阴谋窗口划分成不同的区块。和特质标签页用的是同一个小型 `BaseCategoryAsset`（`id`、`name`、`color`、`show_counter`，参见 **[特质分组与标签页](#/nml/trait-groups)**），只是多了一个自己特有的字段：
+
+| 字段 | 功能作用 |
+| --- | --- |
+| `plot_retry_action` | 当某个单位正在推进该分类下的阴谋时会被询问。返回 `true` 意味着“现在不行，稍后再试”。原版用它来等待王国、城市或宗教相关的列表处理完毕 |
+
+```csharp Mods/HelloBox/Code/HelloPlots.cs
+public const string CATEGORY = "hello_plots";
+
+// before the plots that point at it
+if (!AssetManager.plot_category_library.has(CATEGORY))
+{
+    AssetManager.plot_category_library.add(new PlotCategoryAsset
+    {
+        id = CATEGORY,
+        name = "plot_group_" + CATEGORY,   // the locale key, not the text
+        color = "#FF9A3C",
+        show_counter = false,
+        // borrow vanilla's: it already knows which lists to wait for
+        plot_retry_action = PlotCategoryLibrary.culturePlotsRetryAction
+    });
+}
+```
+
+然后把节日阴谋的 `group_id = HelloPlots.CATEGORY`，并在本地化文件里加上 `"plot_group_hello_plots": "HelloBox"`。阴谋窗口是根据资源库的列表来构建各个分区的，所以新分类无需任何 UI 改动就会自动出现。
+
+> [!WARNING] 这个分类必须存在
+> 每当携带某个阴谋的单位重新检查自己的任务时，游戏都会用 `get()` 取出该阴谋的分类，并且不做任何空判断就直接读取它的 `plot_retry_action`。一个没人注册过的 `group_id`，就是 AI 运转过程中的一次 `NullReferenceException`，而且会反复出现 :PESgn_ToughLuck:。
 
 ## 本地化文本
 

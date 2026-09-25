@@ -283,6 +283,30 @@ sprite.icon = "iconHelloSprites";
 
 The creature's **body** art is a different problem entirely, and it is the rest of this section.
 
+## Boats
+
+A boat is an actor too, one with `is_boat = true`, and the templates are `$boat_trading$` and `$boat_transport$`. Clone a finished one, `boat_trading_human` or `boat_transport_human`, and you get the stats, the cannon and the boat AI for free. A civ does not pick its boats by species: its **architecture** names them, in `actor_asset_id_trading`, `actor_asset_id_transport` and `actor_asset_id_boat_fishing`.
+
+What you do not get for free is the art. A boat's picture does not come from `texture_asset`: the game loads it from `actors/boats/<boat id>/`, by sprite name, the first time it draws one:
+
+```text Mods/HelloBox/
+HelloBox/
+└── GameResources/
+    └── actors/boats/hello_boat_trading/
+        ├── normal.png      # while lifted or in the magnet, and the fallback
+        ├── broken.png      # the wreck
+        ├── 0@0.png         # sailing, one pair per direction:
+        ├── 0@1.png         # <angle>@0 and <angle>@1
+        └── ...             # for 0, 45, 90, 135, 180, -45, -90, -135
+```
+
+`normal` and `broken` are required: without them the loader throws `KeyNotFoundException`. On the water the game falls back to the nearest angle you drew, but the unit's avatar in the inspector asks for all eight, so draw all eight.
+
+`ActorAnimationLoader.loadAnimationBoat("hello_boat_trading")` is public and is the call the game makes. You never need it, but calling it once right after the clone turns a missing sprite into an error at load, in your own code, instead of in the middle of a naval war :wbsmirk:.
+
+> [!NOTE] No map mark on your boat
+> The little boat icons on the zoomed-out map come from `AssetManager.actor_library.list_only_boat_assets`, a list the library builds once at load. Add your boat to it if you want the mark.
+
 ## Sprites are the hard part
 
 Everything above is a page of code. The work is the art, and this is where most creature mods quietly die: a creature needs a full animation set, in the right atlas, at the right size, with the right pivots. Two honest options:

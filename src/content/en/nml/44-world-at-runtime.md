@@ -10,11 +10,13 @@ order: 96
 
 Every other page registers things while the game loads. This one is for the other half: grabbing what already exists in a running world and changing it. Destroy a town, hand it to another kingdom, start a war, fill a city with its own people.
 
-All of it runs from a god power's `click_action`, from `Update()`, or from a world behaviour, and **never** from `OnModLoad`, where there is no world yet. See **[Logs & debugging](#/nml/logs-and-debugging)** for the guard.
+All of it runs from a god power's `click_action`, from `Update()`, or from a world behaviour, and **never** from `OnModLoad`, where there is no world yet. See **[Logs & debugging](#/nml/logs-and-debugging)** for the guard, and **[Every frame](#/nml/update-loops)** for doing it from `Update()` without costing the player their frame rate.
 
 ## Looping over what exists
 
 ```csharp
+if (World.world == null || Config.worldLoading) return;
+
 foreach (City city in World.world.cities)
 {
     if (city == null || city.isRekt()) continue;
@@ -28,6 +30,8 @@ foreach (Building building in World.world.buildings)
 ```
 
 `World.world.kingdoms` works the same way, see **[Kingdoms & factions](#/nml/kingdoms)**. `isRekt()` on every item, every time: these lists hold objects that are dying right now :PES2_F:.
+
+A loop like this is fine once, on a click. Every frame over every building, it is not: run it on a timer, see **[Every frame](#/nml/update-loops)**.
 
 ## Moving a city to another kingdom
 
@@ -49,6 +53,7 @@ building.startDestroyBuilding(); // falls into ruins if it has ruin art, then di
 ## Starting a war
 
 ```csharp
+if (World.world == null || Config.worldLoading || pAttacker == null || pDefender == null) return;
 World.world.diplomacy.startWar(pAttacker, pDefender, WarTypeLibrary.normal);
 ```
 
@@ -57,6 +62,8 @@ World.world.diplomacy.startWar(pAttacker, pDefender, WarTypeLibrary.normal);
 ## Filling a city with its own people
 
 ```csharp
+if (World.world == null || Config.worldLoading || city == null || city.isRekt()) return;
+
 Subspecies main = city.getMainSubspecies();
 WorldTile tile = city.getTile();
 if (main == null || tile == null) return;
@@ -78,4 +85,4 @@ foreach (Actor parent in actor.getParents())
 long first = actor.data.parent_id_1;   // the ids stay after death
 ```
 
-`getParents()` only returns parents that are still alive: it looks each id up with `World.world.units.get(id)` and skips anything that is missing or dead. The ids stay in the unit's data forever, but the game keeps no record of the people behind them. A family tree that remembers the dead has to write what it needs into each child's own data at birth, see **[Remembering things](#/nml/saving-data)**, because there is no place to keep something for the whole world :PES_ThinkAboutIt:.
+`getParents()` only returns parents that are still alive: it looks each id up with `World.world.units.get(id)` and skips anything that is missing or dead. The ids stay in the unit's data forever, but the game keeps no record of the people behind them. A family tree that remembers the dead has to write what it needs into each child's own data at birth, see **[Remembering things](#/nml/saving-data)**. The world has a store of its own too, but it is one flat list of keys, not a place to keep ten thousand family trees :PES_ThinkAboutIt:.

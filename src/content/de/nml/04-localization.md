@@ -24,7 +24,7 @@ Wenn deine Hauptklasse von `BasicMod<T>` erbt, erstelle einfach einen Ordner nam
 }
 ```
 
-Der Dateiname **ist** die Sprache: `en.json`, `cz.json` (Vereinfachtes Chinesisch), `ru.json`, `de.json` und so weiter.
+Der Dateiname **ist** die Sprache: `en.json`, `cz.json` (Vereinfachtes Chinesisch), `ch.json` (Traditionelles Chinesisch), `ja.json` (Japanisch), `ru.json` und so weiter. Das sind die IDs, die `GameLanguageLibrary` registriert, keine geratenen ISO-Codes. Tschechisch ist `cs`, nicht `cz`. Behalte den Mod-Ordnernamen `Locales` mit großem L; die spieleigenen `locales/`-Ressourcenpfade sind eine eigene Sache.
 
 Wenn du `IMod` stattdessen von Hand implementierst, füge `ILocalizable` hinzu und verweise auf den Ordner:
 
@@ -113,3 +113,19 @@ Das Spiel baut diese Schlüssel selbst, also müssen sie exakt passen, sonst ers
 
 > [!WARNING] IDs sind keine Namen
 > Deine ID ist für immer `hello_swift`, in jeder Sprache, und auf sie verweist der Rest deines Codes (und die Mods anderer Leute). Der **Lokalisierungstext** ist der Teil, der sich ändert. Benenne nie eine ID um, nur um einen Tippfehler im Anzeigenamen zu korrigieren :PESgn_Stop:.
+
+## Die Spiel-API ohne LM
+
+Für einen Wert, der nur in der gerade geladenen Sprache gebraucht wird:
+
+```csharp
+LocalizedTextManager.add("hello_notice", "Hello from HelloBox", pReplace: true);
+string notice = LocalizedTextManager.getText("hello_notice");
+```
+
+`add(string pKey, string pTranslation, bool pReplace = false, string pFileName = "", bool pCheckForCharacters = true)` schreibt in das aktuelle Text-Dictionary. Bestehende Schlüssel bleiben unverändert, außer `pReplace` ist `true`. Es normalisiert den Schlüssel über `Underscore()`, verwende also von Anfang an Schlüssel mit Unterstrichen. `getText(string pKey, Text text = null, bool pForceEnglish = false)` liest aus diesem Dictionary; die geprüfte Quelle nutzt `pForceEnglish` nicht, um Englisch auszuwählen.
+
+> [!NOTE] Aktueller Text ist keine Übersetzungsdatei
+> Ein Sprachwechsel baut die Text-Dictionaries des Spiels neu auf. Nutze `Locales` oder `LM.Add` für Übersetzungen, die einen Sprachwechsel überleben müssen. Direktes `add` aktualisiert außerdem nicht automatisch bestehende Text-Komponenten für dich.
+
+Weiter geht's mit **[Sprites & Ressourcen](#/nml/sprites-and-resources)** oder bring Text auf den Bildschirm mit **[Nachrichten & Weltprotokoll](#/nml/messages-and-world-log)**.

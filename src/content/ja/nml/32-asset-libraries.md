@@ -30,7 +30,7 @@ public abstract class AssetLibrary<T> : BaseAssetLibrary where T : Asset
 AssetManager.traits.has("hello_swift");            // このIDは既に使われているか？
 AssetManager.traits.get("hello_swift");            // 取得（なければnull）
 AssetManager.traits.add(myTrait);                  // 新規アセットを登録
-AssetManager.traits.clone("hello_new", "brave");   // 既存を複製して登録まで行う
+AssetManager.traits.clone("hello_new", "strong");   // 既存を複製して登録まで行う
 ```
 
 ### `has(id)`
@@ -48,8 +48,8 @@ if (AssetManager.traits.has(SWIFT)) return;
 メモリ上の生のアセットオブジェクトを返します（存在しない場合は `null`）。例外を投げるわけでは**ない**ため、nullチェックを怠ると問題の発生場所から遠く離れた場所でクラッシュします：
 
 ```csharp
-ActorTrait brave = AssetManager.traits.get("brave");
-if (brave == null) return;   // 常に。例外なく毎回。
+ActorTrait strong = AssetManager.traits.get("strong");
+if (strong == null) return;   // 常に。例外なく毎回。
 ```
 
 `get` が*生きている実体*を返すという仕様は、このページで最も有用な知識です。バニラのコンテンツを丸ごと置き換えることなく、一部だけを直接変更できることを意味します：
@@ -151,6 +151,43 @@ if (group != null && index != -1)
 
 > [!NOTE] これらのメソッドにパッチを当ててもバニラの内容には触れない
 > `has`、`get`、`add`、`clone`、`post_init` は、NMLがModを1つも読み込む前、ゲームの起動中に129個のライブラリ上で実行されます。どれかにHarmonyパッチを当てても、影響するのはあなたのModが読み込まれた*後*の呼び出しだけです。その時点で済んでいるバニラの登録には決して触れません。バニラの内容を変えたいなら？このページの他の部分と同じように、後から `get()` で変更してください。
+
+## やってしまいがちな3つの間違い
+
+どれもコンパイルは通り、どれも一見もっともらしく見えます。私は3つとも自分でやったことがあります。
+
+### バニラのアセットを削除して自分のバージョンに差し替える
+
+```csharp
+// don't
+AssetManager.traits.list.RemoveAll(a => a.id == "strong");
+AssetManager.traits.add(myStrong);
+```
+
+`RemoveAll` が触るのは `list` だけです。`dict` には古い `strong` がまだ残っているので、`add()` は重複を検知し、`duplicate asset - overwriting...` をログに出しつつそのまま差し替えます。つまり1行目は何の役にも立っていません。本当の問題は、起動時に古いオブジェクトを掴んでしまった側です：`WorldLawLibrary.world_law_hunger` のような静的フィールドや、あなたのModが存在するより前に `linkAssets()` でそれにリンクしたすべてのアセットです。それらは古い方を持ち続けます。結果、同じIDのアセットが2つ存在することになり、どちらをゲームが使うかは誰が何をキャッシュしたか次第になります :PESgn_Really:。
+
+バニラの内容を変えたいなら、すでに存在するオブジェクトそのものを変更してください：
+
+```csharp
+ActorTrait strong = AssetManager.traits.get("strong");
+if (strong == null) return;
+strong.base_stats["damage"] = 10f;   // same object, every cached reference sees it
+```
+
+### クローンを編集したつもりが元のアセットまで変わってしまう
+
+`clone()` はリストを新しいリストにコピーし、`ICloneable`（`base_stats` など）であるものはクローンします。それ以外のオブジェクトは**参照渡し**でコピーされます。例えば `MapGenTemplate.values` は単なるクラスなので、`continent` をクローンして自分のコピーの `values` のフラグを1つ変えると、バニラの大陸まで一緒に変わってしまいます。フィールドがオブジェクトを保持している場合は、編集する前にクローン側へ新しいオブジェクトを与えてください。具体的なケースは **[マップ生成](#/nml/map-generation)** にあります。
+
+### 他のModが追加したアセットをクローンする
+
+`clone("hello_new", "their_id")` は何のチェックもなしに `dict[pFrom]` を実行します。相手のModがまだ `Initialize()` を実行していない、あるいはインストールされていない場合、それは `KeyNotFoundException` になり、その行で `OnModLoad` 全体が止まります。フォルダの並び順に頼らないでください。依存関係を宣言した上で、それでもクローン前にアセットの存在を確認してください。相手のModがidを変えているかもしれません。
+
+```csharp
+if (!AssetManager.buildings.has("their_id")) return;   // not there (yet): skip, don't crash
+AssetManager.buildings.clone("hello_new", "their_id");
+```
+
+他のModの検出と読み込み順序の正しい扱い方は **[他のModと連携する](#/nml/other-mods)** にあります。
 
 ## 今後のすべてのページで使用される基本パターン
 

@@ -10,7 +10,7 @@ order: 3
 Lo que necesitas antes de escribir tu primera línea de código. Sigue estos pasos en orden, te llevará unos quince minutos.
 
 > [!NOTE] Aún no necesitas saber programar
-> Y **no** necesitas Visual Studio, un compilador ni nada parecido. NML lee los archivos de texto `.cs` en la carpeta de tu mod y los compila por ti cada vez que arranca el juego. **El Bloc de notas es una forma perfectamente válida de escribir tu primer mod** :PES_OkHand:. Ya mejorarás tus herramientas más adelante, cuando realmente eches algo en falta.
+> Y **no** necesitas Visual Studio, un compilador ni nada parecido. NML lee los archivos de texto `.cs` en la carpeta de tu mod y los compila por ti cuando hace falta. **El Bloc de notas es una forma perfectamente válida de escribir tu primer mod** :PES_OkHand:. Ya mejorarás tus herramientas más adelante, cuando realmente eches algo en falta.
 
 ## 1. Encuentra tu carpeta de WorldBox
 
@@ -81,5 +81,7 @@ Pasa a **[Estructura de un mod](#/nml/mod-structure)** en la sección NML Moddin
 - **[AssetRipper](#/toolbox/getting-the-sprites)**: extrae los sprites y sonidos del juego para que puedas igualar su estilo gráfico.
 - **[Modding con BepInEx](#/toolbox/bepinex-modding)**: compilar plugins `.dll` si quieres hooks de bajo nivel en el motor de Unity en lugar de contenido de NML.
 
-> [!WARNING] NCMS está obsoleto :sadcat:
-> NCMS ya no recibe actualizaciones. Todas las guías de este sitio están dirigidas a NML. Técnicamente aún puedes escribir un mod para NCMS, pero ya nadie hace eso :PES2_Shrug:.
+> [!NOTE] Leer mods antiguos de NCMS
+> NML incluye una capa de compatibilidad con NCMS, incluido soporte para el punto de entrada antiguo `[ModEntry]`. Eso no repara las llamadas a las API del juego que hayan cambiado. Prueba un mod antiguo contra tus versiones de juego y de NML antes de confiar en él. Arranca HelloBox con `BasicMod<Main>`, como hace esta guía.
+
+Siguiente: **[Estructura de un mod](#/nml/mod-structure)**.

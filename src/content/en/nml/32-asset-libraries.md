@@ -30,7 +30,7 @@ That is it. A list and a dictionary, both public, both yours to read and change.
 AssetManager.traits.has("hello_swift");            // is this id taken?
 AssetManager.traits.get("hello_swift");            // fetch it, or null
 AssetManager.traits.add(myTrait);                  // register a new asset
-AssetManager.traits.clone("hello_new", "brave");   // copy an existing one and register the copy
+AssetManager.traits.clone("hello_new", "strong");   // copy an existing one and register the copy
 ```
 
 ### `has(id)`
@@ -48,8 +48,8 @@ Without it, a mod reload registers everything twice.
 Returns the live asset, or `null` if there is no such id. It does **not** throw, so the null lands somewhere further away from the mistake:
 
 ```csharp
-ActorTrait brave = AssetManager.traits.get("brave");
-if (brave == null) return;   // always. every time.
+ActorTrait strong = AssetManager.traits.get("strong");
+if (strong == null) return;   // always. every time.
 ```
 
 `get` returning the *live* object is the most useful thing on this page. It means you can change vanilla content without replacing it:
@@ -151,6 +151,43 @@ The game builds all 129 libraries at startup, then runs `post_init()` on them, *
 
 > [!NOTE] Patching these methods does not touch vanilla content
 > `has`, `get`, `add`, `clone` and `post_init` all run on the 129 libraries during game startup, before NML loads a single mod. A Harmony patch on any of them only affects calls made *after* your mod loads. It never touches the vanilla registration that already happened by then. Want different vanilla content? Change it afterward with `get()`, the way the rest of this page does.
+
+## Three ways to get it wrong
+
+All three compile, all three look reasonable, and I have done all three.
+
+### Deleting a vanilla asset to add your own version
+
+```csharp
+// don't
+AssetManager.traits.list.RemoveAll(a => a.id == "strong");
+AssetManager.traits.add(myStrong);
+```
+
+`RemoveAll` only touches `list`. `dict` still holds the old `strong`, so `add()` sees a duplicate, logs `duplicate asset - overwriting...` and swaps it anyway, which means the first line did nothing useful. The real problem is everything that grabbed the old object at startup: static fields like `WorldLawLibrary.world_law_hunger`, and every asset that linked to it in `linkAssets()`, before your mod existed. They keep the old one. Now there are two assets with the same id, and which one the game uses depends on who cached what :PESgn_Really:.
+
+To change vanilla content, change the object that is already there:
+
+```csharp
+ActorTrait strong = AssetManager.traits.get("strong");
+if (strong == null) return;
+strong.base_stats["damage"] = 10f;   // same object, every cached reference sees it
+```
+
+### Editing a clone and changing the original too
+
+`clone()` copies lists into new lists and clones anything that is `ICloneable` (like `base_stats`). Any other object is copied **by reference**. `MapGenTemplate.values`, for instance, is a plain class: clone `continent`, flip a flag on your copy's `values`, and vanilla continents change with it. When a field holds an object, give your clone a new one before you edit it. **[Map generation](#/nml/map-generation)** has the concrete case.
+
+### Cloning an asset another mod adds
+
+`clone("hello_new", "their_id")` does `dict[pFrom]` with no check. If the other mod has not run its `Initialize()` yet, or is not installed, that is a `KeyNotFoundException` and your whole `OnModLoad` stops at that line. Do not rely on folder order. Declare the dependency and still check that the asset exists before cloning it; the other mod may have changed its ids.
+
+```csharp
+if (!AssetManager.buildings.has("their_id")) return;   // not there (yet): skip, don't crash
+AssetManager.buildings.clone("hello_new", "their_id");
+```
+
+Detecting other mods and dealing with load order properly is in **[Working alongside other mods](#/nml/other-mods)**.
 
 ## The pattern every page after this one uses
 

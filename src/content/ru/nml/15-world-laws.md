@@ -25,6 +25,8 @@ namespace HelloBox
 
         public static void Initialize()
         {
+            if (AssetManager.world_laws_library.has(CHAOS)) return;
+
             AssetManager.world_laws_library.add(new WorldLawAsset
             {
                 id = CHAOS,
@@ -43,7 +45,7 @@ namespace HelloBox
 | Поле | Назначение |
 | --- | --- |
 | `id` | Имя вашего закона. Оно же ключ перевода |
-| `group_id` | Вкладка, куда он попадает: `units`, `civilizations`, `spawn`, `diplomacy`, `nature`, … |
+| `group_id` | Вкладка, куда он попадает. Полный список - в разделе **Вкладки** ниже, либо сделайте свою |
 | `icon_path` | Иконка, правила путей те же, что и везде |
 | `default_state` | `true` = включен для новых миров, `false` = выключен |
 | `can_turn_off` | По умолчанию `true`. Укажите `false` для закона, который можно только включить |
@@ -60,6 +62,14 @@ if (law != null && law.isEnabled())
     // игрок хочет хаоса - дайте ему хаос
 }
 ```
+
+Или коротким путём, прямо из мира, без получения ассета:
+
+```csharp
+bool chaos = World.world.world_laws.isEnabled(HelloLaws.CHAOS);
+```
+
+`isEnabled(string)` возвращает `false` для неизвестного id вместо того, чтобы бросить исключение, так что опечатка читается как "выключено", а не как краш. Это удобно, но и ужасно, потому что вас никто не предупредит :PES5_Hmmmm:. `World.world.world_laws` - это `internal`, так что это компилируется против публицизированной сборки, с которой NML собирает ваш мод (см. примечание в **[Эффекты статуса](#/nml/status-effects)**). Путь через ассет выше работает везде.
 
 Практический пример: спавнить угли только тогда, когда закон активен:
 
@@ -99,12 +109,65 @@ new WorldLawAsset
 };
 ```
 
+## Вкладки
+
+Окно разделено на вкладки, и `group_id` выбирает одну из них. Вот все ванильные группы, в том порядке, в котором окно их рисует:
+
+`harmony` · `diplomacy` · `civilizations` · `units` · `mobs` · `spawn` · `nature` · `trees` · `plants` · `fungi` · `biomes` · `weather` · `disasters` · `other`
+
+### Собственная вкладка
+
+Замените `Initialize()` из первого примера версией ниже и добавьте `GROUP` рядом с `CHAOS`.
+
+Группа - это `WorldLawGroupAsset` в `AssetManager.world_law_groups`. Это тот же крошечный `BaseCategoryAsset`, что используют вкладки черт, см. **[Группы черт и вкладки](#/nml/trait-groups)**:
+
+| Поле | Назначение |
+| --- | --- |
+| `id` | То, на что указывает `group_id` закона |
+| `name` | **Ключ локализации** для названия вкладки. Не само название |
+| `color` | Строка hex. Окрашивает заголовок вкладки |
+
+```csharp Mods/HelloBox/Code/HelloLaws.cs
+public const string GROUP = "hello_laws";
+
+public static void Initialize()
+{
+    // сначала группа: законы ниже указывают на неё
+    if (!AssetManager.world_law_groups.has(GROUP))
+    {
+        AssetManager.world_law_groups.add(new WorldLawGroupAsset
+        {
+            id = GROUP,
+            name = "world_laws_tab_" + GROUP,   // ключ локализации, не сам текст
+            color = "#FF9A3C"
+        });
+    }
+
+    if (AssetManager.world_laws_library.has(CHAOS)) return;
+
+    AssetManager.world_laws_library.add(new WorldLawAsset
+    {
+        id = CHAOS,
+        needs_to_be_explored = false,
+        group_id = GROUP,
+        icon_path = "ui/Icons/worldrules/icon_hello_law",
+        default_state = false
+    });
+}
+```
+
+Никакой работы с UI: окно законов мира строит по одной вкладке на каждую запись в `world_law_groups.list`, а затем раскладывает каждый закон по вкладке, названной в его `group_id`. Оно делает это один раз, при первом создании окна, а ваш мод к тому моменту уже давно загружен. Ваша вкладка окажется в самом конце, после `other`.
+
+> [!WARNING] Несуществующий `group_id` ломает всё окно
+> Окно ищет вкладку обычным индексом по словарю. Закон, указывающий на группу, которую никто не зарегистрировал, бросает `KeyNotFoundException` прямо во время построения окна, и каждый закон, зарегистрированный после него - ваш и чужих модов - никогда не попадает в окно. Регистрируйте группу раньше законов и пишите её id одинаково оба раза :PESgn_ToughLuck:.
+
 ## Тексты
 
 ```json Mods/HelloBox/Locales/en.json
 {
   "world_law_hello_chaos_title": "Hello Chaos",
-  "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one."
+  "world_law_hello_chaos_description": "Embers spread to the neighbouring tiles instead of falling on one.",
+  "world_laws_tab_hello_laws": "HelloBox"
 }
 ```
 

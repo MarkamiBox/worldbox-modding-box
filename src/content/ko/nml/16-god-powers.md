@@ -32,7 +32,7 @@ namespace HelloBox
 
         public static void Initialize()
         {
-            // 동일한 id를 중복 등록하지 마세요. 게임은 첫 번째 등록된 것만 유지합니다.
+            // 이 id로 이미 등록된 에셋을 덮어쓰지 않도록 함
             if (AssetManager.powers.get(STRIKE) != null) return;
 
             GodPower strike = new GodPower
@@ -106,6 +106,35 @@ WorldTip.showNow("The gods are displeased.", false, "top", 3f);
 strike.hold_action = true;
 strike.click_interval = 0.15f;   // 발동 간격(초)
 ```
+
+## 어떤 델리게이트가 브러시를 칠하는가?
+
+| 필드 | 의미 |
+| --- | --- |
+| `click_action` | 타일 하나에 대한 `bool (WorldTile pTile, string pPowerID)` |
+| `click_brush_action` | 같은 시그니처, 지정돼 있으면 `click_action` 대신 호출됨 |
+| `click_power_action` | 타일 하나에 대한 `bool (WorldTile pTile, GodPower pPower)` |
+| `click_power_brush_action` | 같은 에셋 기반 시그니처, 지정돼 있으면 `click_power_action` 대신 호출됨 |
+
+플레이어의 클릭 경로는 둘 중 하나가 설정돼 있으면 에셋 기반 쌍을 우선합니다. 브러시 델리게이트는 중심 타일 하나를 받습니다. 브러시 픽셀마다 알아서 한 번씩 실행되는 게 아닙니다. 이 선택적 대체는 `click_action`을 지정한 뒤, 권능 설정 안에 넣습니다:
+
+```csharp
+strike.show_tool_sizes = true;
+strike.click_brush_action = (WorldTile pTile, string pPowerID) =>
+{
+    if (pTile == null || World.world == null) return false;
+    GodPower power = AssetManager.powers.get(pPowerID);
+    if (power == null || power.click_action == null) return false;
+    World.world.loopWithBrush(pTile, Config.current_brush_data,
+        power.click_action, pPowerID);
+    return true;
+};
+```
+
+> [!WARNING] 커서가 커진다고 효과 범위까지 커지지는 않습니다
+> `show_tool_sizes`는 브러시 크기 선택을 노출시킬 뿐입니다. 브러시 콜백은 여전히 타일들을 직접 순회해야 합니다. 바닐라의 `PowerLibrary.loopWithCurrentBrush` 헬퍼는 private이므로, 위 예제는 대신 public인 월드 메서드를 씁니다. `(WorldTile, GodPower)` 쌍의 경우, `loopWithBrush`에는 `PowerAction`과 권능 에셋을 받는 대응 오버로드가 있습니다.
+
+클릭 이후 피드백을 주는 방법은 **[메시지 및 세계 기록](#/nml/messages-and-world-log)**을 참고하세요.
 
 ## 커스텀 아이콘
 

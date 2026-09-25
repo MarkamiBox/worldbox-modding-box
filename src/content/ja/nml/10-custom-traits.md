@@ -8,7 +8,7 @@ order: 100
 
 # カスタム特性 :wbstrongminded:
 
-特性（Trait）とは、ユニットに付与される永続的なラベルのことです（「勇敢」「俊足」「不死」など）。インスペクターに表示され、ユニットのステータスを変動させ、誕生時・被弾時・死亡時にコードを実行でき、子どもへと遺伝することもあります。
+特性（Trait）とは、ユニットに付与される永続的なラベルのことです（「勇敢」「俊足」「不死」など）。インスペクターに表示され、ユニットのステータスを変動させ、攻撃時・被弾時・死亡時にコードを実行でき、子どもへと遺伝することもあります。
 
 ゲーム内で最も簡単に追加できる要素でもあり、誰もが最初に作るModとなる理由です。私は違いました。私の最初のModは他人のModのラッパーで、それはそれで一種のズルです :trollface:。
 
@@ -38,7 +38,7 @@ namespace HelloBox
             {
                 id = SWIFT,
                 needs_to_be_explored = false,   // already discovered, no exploring needed
-                path_icon = "ui/Icons/iconSpeed",   // バニラのアイコン。後で自作画像に差し替え可能
+                path_icon = "ui/Icons/iconHelloSwift",   // 自分のファイル。詳細は後述
                 group_id = "physique",              // 特性図鑑のどのタブに配置するか
                 rate_birth = 0,                     // 0 = 自然発生しない
                 can_be_given = true,                // 特性エディタで付与可能
@@ -157,21 +157,96 @@ swift.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 // 死亡時
 swift.action_death = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
 
-// 誕生時
-swift.action_birth = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
-
 // 被弾時
 swift.action_get_hit = (BaseSimObject pSelf, BaseSimObject pAttacker, WorldTile pTile) => { return true; };
+
+// ユニットの攻撃がヒットするたびに、ダメージ処理の直後に呼ばれる
+swift.action_attack_target = (BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile) =>
+{
+    Actor self = pSelf as Actor;
+    // pTarget は建物（building）の場合もあり、この一撃でちょうど破壊されたかもしれない
+    if (self == null || !self.isAlive() || pTarget == null) return false;
+
+    self.restoreHealth(2);
+    return true;
+};
 ```
 
 4つのデリゲート共通の2つの鉄則：**最初に必ずnullチェックと生存チェックを行うこと**、そして何も処理しなかった場合は `false` を返すこと。これらはその特性を持つ世界中の全ユニットに対して毎秒走り続けます。
 
-## 対立関係と排他設定
+> [!NOTE] `action_birth` と `action_growth` は存在するが、ここでは絶対に発火しない
+> `ActorTrait` はこの2つのフィールドを継承しているため、コンパイルは通ります。しかしゲームがこれらを実際に読むのは**亜種（subspecies）**特性からだけです：ゲームは亜種の全特性を1つの誕生コールバックと1つの成長コールバックにまとめてから呼び出します。アクター特性の上では、これらは何もせずに、静かに座っているだけです :wbreally:。「ユニットが誕生したとき」を実現したいなら、亜種特性として作ってください：**[亜種特性](#/nml/subspecies-traits)**。
+
+### 特性を得たとき・失ったとき・ロードされたとき
+
+もう3つのフックがあり、こちらは常時ではなく一度きり実行されます。これらは異なるデリゲート `WorldActionTrait` を受け取り、所有者を `NanoObject` として、そして特性自体を渡してきます：
 
 ```csharp
-swift.addOpposite("slow");                            // 2つの特性が同時に存在できなくなる
-swift.traits_to_remove_ids = new string[] { "fat" };  // この特性を獲得した瞬間にあちらを剥奪する
+// addTrait() がユニットに特性を付与した瞬間、一度だけ
+swift.action_on_augmentation_add = (NanoObject pTarget, BaseAugmentationAsset pTrait) =>
+{
+    Actor actor = pTarget as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    actor.restoreHealth(actor.getMaxHealth());   // 歓迎のプレゼント、一度だけ
+    return true;
+};
 ```
+
+| フィールド | 実行されるタイミング |
+| --- | --- |
+| `action_on_augmentation_add` | `addTrait()` が成功したとき |
+| `action_on_augmentation_remove` | `removeTrait()` が特性を剥奪したとき（別の特性が対立関係や `traits_to_remove` によって押し出した場合も含む） |
+| `action_on_augmentation_load` | セーブされたワールドがロードされ、そのユニットが特性を持ったまま復帰したとき |
+
+ロードされたユニットは `addTrait()` を経由**せずに**特性を取り戻すため、`_add` は再度実行されません。`_add` がセーブに保存されない何かをセットアップしている場合は、`_load` で同じ処理をやり直してください。
+
+## 対立関係と排他設定
+
+バニラのやり方は `addOpposite("slow")` と `traits_to_remove_ids` です。どちらも**ID**しか書き込みません。そしてゲームは、ロード中に一度だけ、あなたのModが存在するよりも前のタイミングで、それらのIDを実際に読み取る集合に変換します。あなたの特性の上では、これらは何もしません :wbfacepalm:。解決済みのフィールドは `add()` の後に自分で埋めてください：
+
+```csharp
+ActorTrait slow = AssetManager.traits.get("slow");
+if (slow != null)
+{
+    // addTrait() は新しい特性側の集合しかチェックしないため、両側を埋める必要がある：
+    // そうしないと、slowなユニットはswiftを拒否するのに、swiftなユニットは平気でslowになれてしまう
+    swift.opposite_traits = new HashSet<ActorTrait> { slow };
+    if (slow.opposite_traits == null) slow.opposite_traits = new HashSet<ActorTrait>();
+    slow.opposite_traits.Add(swift);
+}
+
+// swiftを獲得するとこれらを剥奪する。ゲームが読むのはIDではなく配列
+ActorTrait fat = AssetManager.traits.get("fat");
+if (fat != null) swift.traits_to_remove = new ActorTrait[] { fat };
+```
+
+`HashSet` を使うにはファイル先頭に `using System.Collections.Generic;` が必要です。
+
+> [!WARNING] `opposite_trait_mod` には `opposite_traits` が必要
+> `opposite_trait_mod` は、一方が相手の特性の対立関係を持っている場合に、2ユニット間の好感度がどれだけ変化するかを決めます。社交関係のコードはnullチェックなしで `opposite_traits` をループするため、このmodを設定したまま集合を `null` のままにしておくと、2ユニットが初めて互いを値踏みした瞬間に `NullReferenceException` が発生します。空の集合であっても、必ず値を与えてください。
+
+## レア度
+
+`rarity` は名前の色と、特性ツールチップ内のレア度表示を決めます。`Rarity.R3_Legendary` はさらに専用の伝説フレームも得ます。値は `R0_Normal`、`R1_Rare`、`R2_Epic`、`R3_Legendary` です。
+
+バニラの特性についてはほぼ自動化されています：ゲームのロード中、ライブラリは各特性が何をするか（アクション、決定（decision）、呪文、戦闘アクション、タグ）を数え、何かしら処理をするものを `R1_Rare` または `R2_Epic` に引き上げます。あなたの特性はそのパス処理の後に到着するため、書いた通りの値を保持します。もし何も書かなければ、どれだけ多くの処理をしていてもデフォルトの `R1_Rare` のままです。自分で設定してください：
+
+```csharp
+swift.rarity = Rarity.R2_Epic;
+```
+
+## コードからアンロックする
+
+`needs_to_be_explored = true` にすると、特性は知識の書の中でロックされた状態から始まります。`unlock()` がゲームにその特性を「発見」させる方法です：
+
+```csharp
+AssetManager.traits.get(HelloTraits.SWIFT)?.unlock();
+```
+
+これはプレイヤーの進行状況にIDを追加し、「新しい知識」のヒントを表示し、進行状況ファイルを保存します。`unlock(false)` はその保存をスキップします：複数のものを連続してアンロックする場合に使い、最後に一度だけ `GameProgress.saveData()` を呼んでください。特性がすでに利用可能な場合は `false` を返して何もしません。`needs_to_be_explored = false` の特性は常に利用可能な扱いです。プレイヤーが本当に獲得したタイミングで、ゲームプレイ中から呼び出してください：これは本物の進行状況ファイルであり、以降どのワールドでもアンロックされたままになります。
+
+`unlocked_with_achievement` はデフォルトですでに `false` です。`unlocked_with_achievement = false` と書いても何も変わりません。
 
 ## ユニットにトレイトを付与する
 

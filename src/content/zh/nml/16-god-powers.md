@@ -32,7 +32,7 @@ namespace HelloBox
 
         public static void Initialize()
         {
-            // 切勿重复注册相同 id：游戏只会保留第一个。
+            // 避免用同一个 id 替换掉已经注册的资源。
             if (AssetManager.powers.get(STRIKE) != null) return;
 
             GodPower strike = new GodPower
@@ -106,6 +106,35 @@ WorldTip.showNow("The gods are displeased.", false, "top", 3f);
 strike.hold_action = true;
 strike.click_interval = 0.15f;   // 连续触发的时间间隔（秒）
 ```
+
+## 到底是哪个委托在画笔刷？
+
+| 字段 | 含义 |
+| --- | --- |
+| `click_action` | `bool (WorldTile pTile, string pPowerID)`，作用于单个地块 |
+| `click_brush_action` | 签名相同，一旦被赋值就会取代 `click_action` 被调用 |
+| `click_power_action` | `bool (WorldTile pTile, GodPower pPower)`，作用于单个地块 |
+| `click_power_brush_action` | 同样基于资源对象的签名，一旦被赋值就会取代 `click_power_action` 被调用 |
+
+玩家点击的调用路径上，只要这两个字段中任意一个被设置了，就会优先使用基于资源对象的那一对。笔刷委托拿到的是笔刷**中心**那一格地块，它并不会神奇地对笔刷覆盖的每一个像素各跑一次。这个可选的替换逻辑，应该写在 `click_action` 已经赋值之后、能力设置的内部：
+
+```csharp
+strike.show_tool_sizes = true;
+strike.click_brush_action = (WorldTile pTile, string pPowerID) =>
+{
+    if (pTile == null || World.world == null) return false;
+    GodPower power = AssetManager.powers.get(pPowerID);
+    if (power == null || power.click_action == null) return false;
+    World.world.loopWithBrush(pTile, Config.current_brush_data,
+        power.click_action, pPowerID);
+    return true;
+};
+```
+
+> [!WARNING] 光标变大不等于作用范围变大
+> `show_tool_sizes` 只是把笔刷尺寸的选择暴露出来。你的笔刷回调依然必须自己遍历地块。原版的 `PowerLibrary.loopWithCurrentBrush` 辅助方法是 `private` 的；上面的示例改用了公开的世界方法。对于 `(WorldTile, GodPower)` 这一对，`loopWithBrush` 也有对应的重载，接收 `PowerAction` 和该神力资源。
+
+关于点击后的反馈提示，见 **[消息与世界日志](#/nml/messages-and-world-log)**。
 
 ## 自定义图标
 

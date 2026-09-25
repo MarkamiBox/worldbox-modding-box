@@ -32,7 +32,7 @@ namespace HelloBox
 
         public static void Initialize()
         {
-            // Non registrare mai lo stesso id due volte: il gioco tiene solo il primo.
+            // Evita di sostituire un asset già registrato con questo id.
             if (AssetManager.powers.get(STRIKE) != null) return;
 
             GodPower strike = new GodPower
@@ -106,6 +106,35 @@ Impostare `hold_action = true` e un `click_interval` fa sì che il potere si rip
 strike.hold_action = true;
 strike.click_interval = 0.15f;   // secondi tra ogni ripetizione
 ```
+
+## Quale delegato disegna il pennello?
+
+| Campo | Cosa fa |
+| --- | --- |
+| `click_action` | `bool (WorldTile pTile, string pPowerID)` per una singola casella |
+| `click_brush_action` | Stessa firma, chiamato al posto di `click_action` quando assegnato |
+| `click_power_action` | `bool (WorldTile pTile, GodPower pPower)` per una singola casella |
+| `click_power_brush_action` | Stessa firma basata sull'asset, chiamato al posto di `click_power_action` quando assegnato |
+
+Il percorso del clic del giocatore preferisce la coppia basata sull'asset quando uno dei due campi è impostato. Un delegato di pennello riceve la casella centrale. Non gira magicamente una volta per ogni pixel del pennello. Questa sostituzione opzionale va dentro la configurazione del potere, dopo che `click_action` è stato assegnato:
+
+```csharp
+strike.show_tool_sizes = true;
+strike.click_brush_action = (WorldTile pTile, string pPowerID) =>
+{
+    if (pTile == null || World.world == null) return false;
+    GodPower power = AssetManager.powers.get(pPowerID);
+    if (power == null || power.click_action == null) return false;
+    World.world.loopWithBrush(pTile, Config.current_brush_data,
+        power.click_action, pPowerID);
+    return true;
+};
+```
+
+> [!WARNING] Un cursore più grande non è un effetto più grande
+> `show_tool_sizes` espone la selezione del pennello. Il tuo callback del pennello deve comunque scorrere le caselle. L'helper vanilla `PowerLibrary.loopWithCurrentBrush` è privato; l'esempio usa invece il metodo pubblico del mondo. Per la coppia `(WorldTile, GodPower)`, `loopWithBrush` ha un overload corrispondente che prende `PowerAction` e l'asset del potere.
+
+Per il riscontro dopo un clic, vedi **[Messaggi e registro del mondo](#/nml/messages-and-world-log)**.
 
 ## La tua icona personale
 

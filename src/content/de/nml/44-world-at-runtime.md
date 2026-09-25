@@ -10,11 +10,13 @@ order: 96
 
 Alle anderen Seiten registrieren Dinge während des Spielstarts. Diese Seite widmet sich der anderen Hälfte: Bestehendes in einer laufenden Welt zu manipulieren. Eine Stadt zerstören, sie einem anderen Königreich (kingdom) übergeben, einen Krieg (war) entfachen, eine Stadt mit ihren eigenen Bewohnern bevölkern.
 
-All das wird aus der `click_action` einer Gotteskraft, aus `Update()` oder aus einem World Behaviour ausgeführt – und **niemals** aus `OnModLoad`, wo noch gar keine Welt existiert. Siehe **[Logs & Debugging](#/nml/logs-and-debugging)** für die Sicherheitsabfrage.
+All das wird aus der `click_action` einer Gotteskraft, aus `Update()` oder aus einem World Behaviour ausgeführt – und **niemals** aus `OnModLoad`, wo noch gar keine Welt existiert. Siehe **[Logs & Debugging](#/nml/logs-and-debugging)** für die Sicherheitsabfrage und **[Jeder Frame](#/nml/update-loops)**, um es aus `Update()` auszuführen, ohne die Framerate des Spielers zu belasten.
 
 ## Durch Bestehendes iterieren
 
 ```csharp
+if (World.world == null || Config.worldLoading) return;
+
 foreach (City city in World.world.cities)
 {
     if (city == null || city.isRekt()) continue;
@@ -28,6 +30,8 @@ foreach (Building building in World.world.buildings)
 ```
 
 `World.world.kingdoms` funktioniert genauso, siehe **[Königreiche & Fraktionen](#/nml/kingdoms)**. Führe `isRekt()` auf jedem Element aus, ausnahmslos: Diese Listen enthalten Objekte, die genau in diesem Moment sterben :PES2_F:.
+
+Eine Schleife wie diese ist einmalig bei einem Klick völlig in Ordnung. In jedem Frame über jedes Gebäude ist sie das nicht: Führe sie über einen Timer aus, siehe **[Jeder Frame](#/nml/update-loops)**.
 
 ## Eine Stadt an ein anderes Königreich übergeben
 
@@ -49,6 +53,7 @@ building.startDestroyBuilding(); // zerfällt zu Ruinen, falls Ruinengrafik exis
 ## Einen Krieg entfachen
 
 ```csharp
+if (World.world == null || Config.worldLoading || pAttacker == null || pDefender == null) return;
 World.world.diplomacy.startWar(pAttacker, pDefender, WarTypeLibrary.normal);
 ```
 
@@ -57,6 +62,8 @@ World.world.diplomacy.startWar(pAttacker, pDefender, WarTypeLibrary.normal);
 ## Eine Stadt mit ihren eigenen Bewohnern füllen
 
 ```csharp
+if (World.world == null || Config.worldLoading || city == null || city.isRekt()) return;
+
 Subspecies main = city.getMainSubspecies();
 WorldTile tile = city.getTile();
 if (main == null || tile == null) return;
@@ -78,4 +85,4 @@ foreach (Actor parent in actor.getParents())
 long first = actor.data.parent_id_1;   // IDs bleiben nach dem Tod erhalten
 ```
 
-`getParents()` gibt nur noch lebende Eltern zurück: Es schlägt jede ID über `World.world.units.get(id)` und überspringt fehlende oder tote. Die IDs verbleiben für immer in den Einheitsdaten, aber das Spiel führt keine Historie über die Personen dahinter. Ein Stammbaum, der sich an Tote erinnern soll, muss die nötigen Informationen bei der Geburt in die Daten jedes Kindes schreiben, siehe **[Daten speichern](#/nml/saving-data)**, da es keinen globalen Speicherort für die gesamte Welt gibt :PES_ThinkAboutIt:.
+`getParents()` gibt nur noch lebende Eltern zurück: Es schlägt jede ID über `World.world.units.get(id)` nach und überspringt fehlende oder tote. Die IDs verbleiben für immer in den Einheitsdaten, aber das Spiel führt keine Historie über die Personen dahinter. Ein Stammbaum, der sich an Tote erinnern soll, muss die nötigen Informationen bei der Geburt in die Daten jedes Kindes schreiben, siehe **[Daten speichern](#/nml/saving-data)**. Die Welt verfügt zwar auch über einen eigenen Speicher, aber das ist eine einfache flache Liste von Schlüsseln und kein Ort, um zehntausend Stammbäume zu verwalten :PES_ThinkAboutIt:.

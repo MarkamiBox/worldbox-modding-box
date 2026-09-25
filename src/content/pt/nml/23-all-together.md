@@ -52,6 +52,8 @@ Uns vinte arquivos, e é nisso que eles dão no jogo. Cada linha é uma página 
 
 Ele é gerado a partir dos blocos de código deste guia, então é o mesmo código que você vem copiando, não uma cópia separada que desanda com o tempo. Leia, quebre, apague os dois terços que você não quer.
 
+As páginas avançadas também mostram receitas opcionais: **[patches manuais](#/nml/harmony-patches)**, **[timers e coroutines](#/nml/update-loops)**, **[geração de mapa](#/nml/map-generation)**, **[opções de jogo](#/nml/game-options)** e **[trabalhando com outros mods](#/nml/other-mods)**. Essas são coisas para adicionar quando você precisar delas. Não estão ativadas neste download.
+
 > [!WARNING] É uma demo, não um produto
 > Publicar o HelloBox do jeito que está não ajuda ninguém: são vinte recursos (resource) que fazem, cada um, uma coisinha mal feita de propósito. Troque os ids, troque o nome, fique com as partes que você realmente queria  :wbbru:.
 

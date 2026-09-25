@@ -30,7 +30,7 @@ Das ist schon alles. Eine Liste und ein Dictionary - beide öffentlich, beide f�
 AssetManager.traits.has("hello_swift");            // ist diese ID vergeben?
 AssetManager.traits.get("hello_swift");            // abrufen oder null
 AssetManager.traits.add(myTrait);                  // ein neues Asset registrieren
-AssetManager.traits.clone("hello_new", "brave");   // ein bestehendes kopieren und die Kopie registrieren
+AssetManager.traits.clone("hello_new", "strong");   // ein bestehendes kopieren und die Kopie registrieren
 ```
 
 ### `has(id)`
@@ -48,8 +48,8 @@ Ohne diese Zeile registriert ein Neuladen der Mod alles doppelt.
 Gibt das aktive Live-Asset zurück oder `null`, falls keine solche ID existiert. Es wirft **keine** Exception, sodass der Null-Fehler erst irgendwo weit entfernt vom eigentlichen Versehen knallt:
 
 ```csharp
-ActorTrait brave = AssetManager.traits.get("brave");
-if (brave == null) return;   // immer. ausnahmslos jedes Mal.
+ActorTrait strong = AssetManager.traits.get("strong");
+if (strong == null) return;   // immer. ausnahmslos jedes Mal.
 ```
 
 Dass `get` das *echte, aktive* Objekt zurückgibt, ist das Nützlichste auf dieser ganzen Seite. Es bedeutet, dass du Vanilla-Inhalte anpassen kannst, ohne sie ersetzen zu müssen:
@@ -151,6 +151,43 @@ Das Spiel baut beim Start alle 129 Bibliotheken, führt dann `post_init()` auf i
 
 > [!NOTE] Diese Methoden zu patchen berührt keine Vanilla-Inhalte
 > `has`, `get`, `add`, `clone` und `post_init` laufen alle beim Spielstart auf den 129 Bibliotheken, bevor NML auch nur eine Mod lädt. Ein Harmony-Patch auf eine davon betrifft nur Aufrufe *nach* dem Laden deiner Mod. Er berührt nie die Vanilla-Registrierung, die bis dahin schon passiert ist. Willst du andere Vanilla-Inhalte? Ändere sie danach mit `get()`, so wie der Rest dieser Seite es macht.
+
+## Drei Wege, es falsch zu machen
+
+Alle drei kompilieren, alle drei sehen vernünftig aus, und ich habe alle drei gemacht.
+
+### Ein Vanilla-Asset löschen, um deine eigene Version hinzuzufügen
+
+```csharp
+// don't
+AssetManager.traits.list.RemoveAll(a => a.id == "strong");
+AssetManager.traits.add(myStrong);
+```
+
+`RemoveAll` fasst nur `list` an. `dict` behält das alte `strong`, `add()` sieht also ein Duplikat, loggt `duplicate asset - overwriting...` und tauscht es trotzdem aus, die erste Zeile hat also nichts Sinnvolles bewirkt. Das eigentliche Problem ist alles, was das alte Objekt beim Start schon gegriffen hat: statische Felder wie `WorldLawLibrary.world_law_hunger`, und jedes Asset, das sich in `linkAssets()` damit verlinkt hat, bevor deine Mod existierte. Die behalten das alte. Jetzt gibt es zwei Assets mit derselben ID, und welches das Spiel nutzt, hängt davon ab, wer was zwischengespeichert hat :PESgn_Really:.
+
+Um Vanilla-Inhalte zu ändern, ändere das Objekt, das schon da ist:
+
+```csharp
+ActorTrait strong = AssetManager.traits.get("strong");
+if (strong == null) return;
+strong.base_stats["damage"] = 10f;   // same object, every cached reference sees it
+```
+
+### Einen Klon bearbeiten und dabei das Original mitändern
+
+`clone()` kopiert Listen in neue Listen und klont alles, was `ICloneable` ist (wie `base_stats`). Jedes andere Objekt wird **per Referenz** kopiert. `MapGenTemplate.values` zum Beispiel ist eine einfache Klasse: klone `continent`, kipp ein Flag an den `values` deiner Kopie um, und Vanilla-Kontinente ändern sich mit. Hält ein Feld ein Objekt, gib deinem Klon ein neues, bevor du es bearbeitest. **[Kartengenerierung](#/nml/map-generation)** hat den konkreten Fall.
+
+### Ein Asset klonen, das eine andere Mod hinzufügt
+
+`clone("hello_new", "their_id")` macht `dict[pFrom]` ohne Prüfung. Hat die andere Mod ihr `Initialize()` noch nicht ausgeführt, oder ist sie nicht installiert, ist das eine `KeyNotFoundException`, und dein ganzes `OnModLoad` stoppt an dieser Zeile. Verlass dich nicht auf die Ordnerreihenfolge. Deklariere die Abhängigkeit und prüfe trotzdem, ob das Asset existiert, bevor du es klonst; die andere Mod könnte ihre IDs geändert haben.
+
+```csharp
+if (!AssetManager.buildings.has("their_id")) return;   // not there (yet): skip, don't crash
+AssetManager.buildings.clone("hello_new", "their_id");
+```
+
+Andere Mods zu erkennen und die Ladereihenfolge richtig zu behandeln steht in **[Mit anderen Mods zusammenarbeiten](#/nml/other-mods)**.
 
 ## Das Standardmuster aller folgenden Seiten
 

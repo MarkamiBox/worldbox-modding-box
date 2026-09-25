@@ -68,8 +68,12 @@ HelloBox/GameResources/ui/Icons/iconHelloSwift.png
 | `PivotX` / `PivotY` | 锚点（中心点）位置。`0.5 / 0.0` 表示底部中心，通常是角色单位与建筑（building）所需的定位点 |
 | `BorderL/R/T/B` | 九宫格拉伸边框（9-Slice），用于可拉伸缩放的窗口边框或按钮 |
 | `Path` | 指定该规则具体应用于哪个图片文件 |
+| `RectX` / `RectY` | 精灵图矩形的偏移量。两者默认都是 `0`；NML 文档建议保持为 `0` |
 
 `Default` 规则会自动应用于同目录下所有未在 `Specific` 列表中单独声明的文件。
+
+> [!NOTE] 偏移量不是图集切割配方
+> 目前有文档记录的 `sprites.json` 设置里，并没有矩形宽度或高度这类字段。不要为了切割一整张图集而臆造出这些字段。图集与精灵表相关的内容，NML 记录的是 Unity 自己的 `.meta` 文件。
 
 ## 各种游戏素材的具体存放路径规范
 
@@ -174,3 +178,5 @@ private static Sprite Icon(string pName)
 ```
 
 一个显眼的警告图标能即刻提醒你“路径写错了”。而彻底消失的空白隐形洞只会让你抓狂两个小时，怀疑自己的按钮到底加载到了哪片虚空之中 :PES4_Invisible:。
+
+接下来：**[模组设置](#/nml/mod-config)** 或 **[自定义窗口](#/nml/custom-windows)**。

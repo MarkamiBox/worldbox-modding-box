@@ -282,6 +282,30 @@ sprite.icon = "iconHelloSprites";
 
 생명체의 **몸체** 아트를 그리는 작업은 차원이 다른 영역이며, 본 문서의 마지막 파트에서 다룹니다.
 
+## 보트
+
+보트도 액터입니다. `is_boat = true`가 붙은 액터이고, 템플릿은 `$boat_trading$`과 `$boat_transport$`입니다. 완성된 것 하나, `boat_trading_human`이나 `boat_transport_human`을 clone 하면 스탯, 대포, 보트 AI를 공짜로 얻습니다. 문명은 종에 따라 보트를 고르지 않습니다: **건축양식(architecture)**이 `actor_asset_id_trading`, `actor_asset_id_transport`, `actor_asset_id_boat_fishing`에서 보트를 지정합니다.
+
+공짜로 얻지 못하는 건 아트입니다. 보트의 그림은 `texture_asset`에서 오지 않습니다: 게임은 처음 그릴 때 `actors/boats/<보트 id>/`에서 스프라이트 이름으로 로드합니다:
+
+```text Mods/HelloBox/
+HelloBox/
+└── GameResources/
+    └── actors/boats/hello_boat_trading/
+        ├── normal.png      # while lifted or in the magnet, and the fallback
+        ├── broken.png      # the wreck
+        ├── 0@0.png         # sailing, one pair per direction:
+        ├── 0@1.png         # <angle>@0 and <angle>@1
+        └── ...             # for 0, 45, 90, 135, 180, -45, -90, -135
+```
+
+`normal`과 `broken`은 필수입니다: 없으면 로더가 `KeyNotFoundException`을 던집니다. 물 위에서는 게임이 여러분이 그린 것 중 가장 가까운 각도로 대체해 주지만, 인스펙터의 유닛 아바타는 여덟 개를 전부 요구하므로 여덟 개 모두 그리세요.
+
+`ActorAnimationLoader.loadAnimationBoat("hello_boat_trading")`는 public이며 게임이 실제로 호출하는 것과 같습니다. 여러분이 직접 호출할 필요는 없지만, clone 직후에 한 번 호출해두면 스프라이트 누락이 해전 한복판이 아니라 로드 시점에, 여러분의 코드 안에서 에러로 드러납니다 :wbsmirk:.
+
+> [!NOTE] 보트에는 지도 마크가 없습니다
+> 축소된 지도에 뜨는 작은 보트 아이콘들은 `AssetManager.actor_library.list_only_boat_assets`에서 오는데, 이건 라이브러리가 로드 시점에 한 번만 만드는 리스트입니다. 마크가 필요하다면 여러분의 보트를 이 리스트에 직접 추가하세요.
+
 ## 스프라이트 제작이 진짜 난관입니다
 
 위에서 다룬 모든 내용은 코드로 따지면 고작 한 페이지 분량에 불과합니다. 진짜 고난은 아트 작업에 있고, 대부분의 생명체 모드는 여기서 조용히 죽습니다. 생명체 하나를 완성하려면 적절한 아틀라스에, 올바른 크기와 정확한 피벗을 맞춘 완전한 애니메이션 프레임 세트가 필요합니다. 현실적인 선택지는 두 가지입니다:

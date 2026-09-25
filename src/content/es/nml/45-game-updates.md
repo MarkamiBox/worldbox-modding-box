@@ -46,11 +46,27 @@ El nombre viejo ya no está, así que busca su sustituto:
 
 El truco que más uso: abre el asset o el método vanilla que hace lo mismo que el tuyo y mira cómo lo escribe **el propio juego** ahora. Si el juego cambió la forma de crear rasgos (trait), sus propios rasgos ya usan la forma nueva :PESgn_Noice:.
 
+### Nombres que ya no existen
+
+Los mods viejos, los tutoriales viejos y los posts viejos de foros están llenos de estos. Ninguno está en el juego actual, así que cada uno es un error de compilación, o, para los ids de plantilla, un `clone()` que lanza `KeyNotFoundException` al arrancar:
+
+| Nombre viejo | Qué usar ahora |
+| --- | --- |
+| `AssetManager.unitStats` | `AssetManager.actor_library`. Las criaturas son `ActorAsset`, ver **[Actores personalizados](#/nml/custom-actors)** |
+| `AssetManager.raceLibrary` | Sin sustituto directo. Lo que una raza solía contener ahora vive en el propio `ActorAsset` |
+| `AssetManager.nameGenerator` | `AssetManager.name_generator`, ver **[Generadores de nombres](#/nml/name-generators)** |
+| `AssetManager.items_material_weapon`, `items_material_accessory` | Sin biblioteca sustituta. Cada material es su propio objeto en `AssetManager.items` (`sword_iron`, `sword_steel`), ver **[Objetos personalizados](#/nml/custom-items)** |
+| `"!building"` (plantilla de edificio) | `"$building$"` en `AssetManager.buildings` |
+| `"_spawn_building"` (plantilla de drop) | `"$spawn_building$"` en `AssetManager.drops` |
+| `"_dropBuilding"` (plantilla de poder divino) | `"$template_drop_building$"` en `AssetManager.powers` |
+
+El patrón de las tres últimas es el que conviene recordar: las plantillas ahora van envueltas en `$`. Si un `clone()` viejo usa un id que empieza por `_` o `!`, busca en el `init()` de esa misma biblioteca la versión `$...$`.
+
 ## 4. Revisa tus parches de Harmony a mano
 
 Un parche también puede fallar sin ningún error. Repásalos uno por uno y comprueba el método en dnSpy:
 
-- **Nombres de parámetros.** Harmony rellena los parámetros **por nombre**. Si el juego renombró `pDamage` a `pAmount`, tu `float pDamage` no recibe nada, sin avisar. Mira **[los nombres de parámetro mágicos](#/nml/harmony-patches)**.
+- **Nombres de parámetros.** Harmony rellena los parámetros **por nombre**. Si el juego renombró `pDamage` a `pAmount`, tu `float pDamage` ya no se enlaza y Harmony falla al aplicar el parche. Mira **[los nombres de parámetro mágicos](#/nml/harmony-patches)**.
 - **Sobrecargas.** Un método que antes era único puede tener ahora un gemelo, y tu parche falla con `Ambiguous match found`.
 - **Lo que hace el método.** A veces el nombre se queda pero la lógica se va a otro sitio. Tu parche se ejecuta y no cambia nada. Pon una línea `LogInfo` en el parche: si nunca aparece, el juego ya no llama a ese método.
 
@@ -76,5 +92,5 @@ Luego responde a los comentarios de "¿¿está actualizado??", te lo has ganado 
 
 - **Parchea menos.** Cada parche de Harmony es un punto que se puede romper. Si un campo de asset o una función de NML puede hacer el trabajo (job), usa eso.
 - **Envuelve tu código en try/catch.** Una función rota escribe un error en el registro y el resto de tu mod sigue funcionando. Mira **[Registros y depuración](#/nml/logs-and-debugging)**.
-- **Una clase de parches por tarea.** Cuando un parche se rompe, solo cae esa función, no todas.
+- **Una clase de parches por tarea.** Hace que los fallos sean más fáciles de aislar. No aísla los fallos de `PatchAll`: un objetivo que falta puede detener el escaneo antes de que se apliquen parches posteriores. Usa parcheo manual con guardas para objetivos opcionales.
 - **Guarda tus ids en un solo sitio.** Constantes como `HelloTraits.SWIFT` hacen que renombrar sea un cambio, no veinte.

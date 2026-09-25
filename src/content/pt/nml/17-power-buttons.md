@@ -450,3 +450,38 @@ Um sprite `null` resulta em um botão que ocupa espaço físico mas não desenha
 ```
 
 O nome do botão e a dica de contexto vêm do **id do poder**, não do botão em si, razão pela qual as chaves acima coincidem com os ids passados para o criador.
+
+## Ajudantes de janela e alternância
+
+O assembly do NML instalado também expõe esses ajudantes em `NeoModLoader.General`. Use-os uma vez, depois que a aba e a janela ou poder alvo já existirem:
+
+```csharp
+PowerButton windowButton = PowerButtonCreator.CreateWindowButton(
+    "hello_native_open", HelloNativeWindow.WindowId,
+    Icon("iconHelloPanel"), tab.transform, Vector2.zero);
+```
+
+`CreateWindowButton` define o `open_window_id` do botão. Ele não cria a janela. `CreateSimpleButton` recebe uma `UnityAction`; use isso para o seu próprio callback. `GetTab(string pId)` procura uma aba, e `AddButtonToTab(button, tab)` move um botão para dentro de uma. Sua sobrecarga também aceita uma posição `Vector2` e um índice de irmão opcional.
+
+`CreateToggleButton(pGodPowerId, pIcon, pParent, pLocalPosition, pNoAutoSetToggleAction = false)` precisa de um `GodPower` registrado com um `toggle_name` não vazio. Esse nome identifica a opção dele em `PlayerConfig`. O ajudante cria uma opção booleana falsa e o valor do jogador quando o dicionário do jogador não tem a chave. Prefira registrar os dois você mesmo, como mostrado em **[Opções de jogo e escalas de tempo](#/nml/game-options)**.
+
+> [!NOTE] A alternância automática faz parte do callback
+> Por padrão, o NML adiciona sua ação de alternar-e-salvar depois de um `toggle_action` existente. Passe `pNoAutoSetToggleAction: true` quando seu callback existente já for dono da mudança de estado. Se o callback for nulo, esse flag não impede o NML de instalar sua ação padrão. Chamar o criador repetidamente pode adicionar ações repetidas.
+
+## O PowerTabAsset do jogo
+
+`AssetManager.power_tab_library` armazena assets de aba nativos. É separado do componente de UI `PowersTab` retornado por `TabManager.CreateTab` do NML.
+
+| Campo | O que faz |
+| --- | --- |
+| `locale_key` | Chave de nome; `getDescriptionID()` retorna essa chave mais `_info` |
+| `icon_path` | Caminho do sprite usado por `getIcon()` |
+| `get_power_tab` | Delegate que retorna a `PowersTab` a mostrar |
+| `gameplay_tab` | Referência para uma aba de UI |
+| `window_id` | Id da janela associada |
+| `on_main_tab_select` / `on_main_info_click` | Callbacks da aba principal |
+| `on_update_check_active` | Callback de verificação de estado ativo |
+
+`tryToShowPowerTab()` invoca `get_power_tab` e pede ao componente retornado para se mostrar. Adicionar um asset simples não substitui criar uma aba de UI. Os argumentos explícitos de título e descrição do NML não devem ser confundidos com a convenção nativa `_info`.
+
+Próximo: **[Janelas personalizadas](#/nml/custom-windows)** para o painel, ou **[Opções de jogo e escalas de tempo](#/nml/game-options)** para o seu estado.

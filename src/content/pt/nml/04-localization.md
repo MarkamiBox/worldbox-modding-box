@@ -24,7 +24,7 @@ Se sua classe principal herda de `BasicMod<T>`, crie uma pasta chamada `Locales/
 }
 ```
 
-O nome do arquivo **é** o idioma: `en.json`, `cz.json` (chinês simplificado), `ru.json`, `pt.json` e assim por diante.
+O nome do arquivo **é** o idioma: `en.json`, `cz.json` (chinês simplificado), `ch.json` (chinês tradicional), `ja.json` (japonês), `ru.json` e assim por diante. Esses são os ids registrados pela `GameLanguageLibrary`, não códigos ISO adivinhados. Tcheco é `cs`, não `cz`. Mantenha a pasta do mod com o nome `Locales`, com L maiúsculo; os caminhos de recurso `locales/` do próprio jogo são uma coisa separada.
 
 Se preferir implementar a `IMod` manualmente, adicione a interface `ILocalizable` e aponte para a pasta:
 
@@ -113,3 +113,19 @@ O próprio jogo monta essas chaves, então elas precisam bater exatamente ou nad
 
 > [!WARNING] Ids não são nomes
 > Seu id é `hello_swift` para sempre, em todos os idiomas, e é a ele que o resto do seu código (e os mods dos outros) se referem. O **texto de localização** é a parte que muda. Nunca renomeie um id só para corrigir um erro de digitação no nome exibido :PESgn_Stop:.
+
+## A API do jogo sem o LM
+
+Para um valor necessário apenas no idioma carregado no momento:
+
+```csharp
+LocalizedTextManager.add("hello_notice", "Hello from HelloBox", pReplace: true);
+string notice = LocalizedTextManager.getText("hello_notice");
+```
+
+`add(string pKey, string pTranslation, bool pReplace = false, string pFileName = "", bool pCheckForCharacters = true)` escreve no dicionário de texto atual. Chaves existentes permanecem inalteradas a menos que `pReplace` seja true. Ele normaliza a chave através de `Underscore()`, então use chaves com underscore desde o início. `getText(string pKey, Text text = null, bool pForceEnglish = false)` lê esse dicionário; a fonte verificada não usa `pForceEnglish` para selecionar inglês.
+
+> [!NOTE] Texto atual não é um arquivo de tradução
+> Trocar de idioma reconstrói os dicionários de texto do jogo. Use `Locales` ou `LM.Add` para traduções que precisam sobreviver a uma troca de idioma. O `add` direto também não atualiza os componentes de texto existentes para você.
+
+Próximo: **[Sprites e recursos](#/nml/sprites-and-resources)** ou coloque texto na tela com **[Mensagens e registro do mundo](#/nml/messages-and-world-log)**.

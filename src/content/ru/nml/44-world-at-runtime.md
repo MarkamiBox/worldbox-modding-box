@@ -10,11 +10,13 @@ order: 96
 
 Все остальные страницы регистрируют вещи во время загрузки игры. Эта страница посвящена второй половине: работе с тем, что уже существует в запущенном мире, и его изменению. Уничтожить город, передать его другому королевству (kingdom), начать войну (war), заселить город его собственными жителями.
 
-Всё это выполняется из `click_action` божественной силы (GodPower), из `Update()` или из world behaviour, и **никогда** из `OnModLoad`, где мира ещё не существует. См. **[Логи и отладка](#/nml/logs-and-debugging)** для проверки условий безопасности.
+Всё это выполняется из `click_action` божественной силы (GodPower), из `Update()` или из world behaviour, и **никогда** из `OnModLoad`, где мира ещё не существует. См. **[Логи и отладка](#/nml/logs-and-debugging)** для проверки условий безопасности, и **[Каждый кадр](#/nml/update-loops)** для вызова из `Update()` без вреда для частоты кадров игрока.
 
 ## Перебор существующих объектов
 
 ```csharp
+if (World.world == null || Config.worldLoading) return;
+
 foreach (City city in World.world.cities)
 {
     if (city == null || city.isRekt()) continue;
@@ -28,6 +30,8 @@ foreach (Building building in World.world.buildings)
 ```
 
 `World.world.kingdoms` работает аналогично, см. **[Королевства и фракции](#/nml/kingdoms)**. Вызывайте `isRekt()` для каждого элемента без исключения: эти списки содержат объекты, которые могут умирать прямо в этот момент :PES2_F:.
+
+Подобный цикл вполне нормален однократно по клику. Каждый кадр по всем зданиям — уже нет: запускайте его по таймеру, см. **[Каждый кадр](#/nml/update-loops)**.
 
 ## Передача города другому королевству
 
@@ -49,6 +53,7 @@ building.startDestroyBuilding(); // превращается в руины пр�
 ## Начало войны
 
 ```csharp
+if (World.world == null || Config.worldLoading || pAttacker == null || pDefender == null) return;
 World.world.diplomacy.startWar(pAttacker, pDefender, WarTypeLibrary.normal);
 ```
 
@@ -57,6 +62,8 @@ World.world.diplomacy.startWar(pAttacker, pDefender, WarTypeLibrary.normal);
 ## Заселение города его собственными жителями
 
 ```csharp
+if (World.world == null || Config.worldLoading || city == null || city.isRekt()) return;
+
 Subspecies main = city.getMainSubspecies();
 WorldTile tile = city.getTile();
 if (main == null || tile == null) return;
@@ -78,4 +85,4 @@ foreach (Actor parent in actor.getParents())
 long first = actor.data.parent_id_1;   // идентификаторы сохраняются после смерти
 ```
 
-`getParents()` возвращает только живых родителей: метод ищет каждый ID через `World.world.units.get(id)` и пропускает отсутствующих или мёртвых. Идентификаторы остаются в данных юнита навсегда, но игра не сохраняет информацию об умерших персонажах. Генеалогическое древо, помнящее умерших, должно записывать нужные данные в каждого ребёнка при рождении, см. **[Сохранение данных](#/nml/saving-data)**, поскольку единого глобального хранилища для всего мира не существует :PES_ThinkAboutIt:.
+`getParents()` возвращает только живых родителей: метод ищет каждый ID через `World.world.units.get(id)` и пропускает отсутствующих или мёртвых. Идентификаторы остаются в данных юнита навсегда, но игра не сохраняет информацию об умерших персонажах. Генеалогическое древо, помнящее умерших, должно записывать нужные данные в каждого ребёнка при рождении, см. **[Сохранение данных](#/nml/saving-data)**. У мира также есть собственное хранилище, но это один плоский список ключей, а не место для хранения десяти тысяч генеалогических деревьев :PES_ThinkAboutIt:.

@@ -32,7 +32,7 @@ namespace HelloBox
 
         public static void Initialize()
         {
-            // Registriere dieselbe ID niemals doppelt: Das Spiel behält die erste.
+            // Vermeide, ein bereits unter dieser ID registriertes Asset zu ersetzen.
             if (AssetManager.powers.get(STRIKE) != null) return;
 
             GodPower strike = new GodPower
@@ -106,6 +106,35 @@ Das Setzen von `hold_action = true` und einem `click_interval` sorgt dafür, das
 strike.hold_action = true;
 strike.click_interval = 0.15f;   // Sekunden zwischen Wiederholungen
 ```
+
+## Welcher Delegat malt den Pinsel?
+
+| Feld | Bedeutung |
+| --- | --- |
+| `click_action` | `bool (WorldTile pTile, string pPowerID)` für ein einzelnes Feld |
+| `click_brush_action` | Dieselbe Signatur, wird statt `click_action` aufgerufen, wenn gesetzt |
+| `click_power_action` | `bool (WorldTile pTile, GodPower pPower)` für ein einzelnes Feld |
+| `click_power_brush_action` | Dieselbe asset-basierte Signatur, wird statt `click_power_action` aufgerufen, wenn gesetzt |
+
+Der Klickpfad des Spielers bevorzugt das asset-basierte Paar, sobald eines der Felder gesetzt ist. Ein Pinsel-Delegat bekommt das zentrale Feld. Er läuft nicht von selbst einmal pro Pinsel-Pixel. Dieser optionale Ersatz gehört in die Kraft-Einrichtung, nach der `click_action` bereits zugewiesen wurde:
+
+```csharp
+strike.show_tool_sizes = true;
+strike.click_brush_action = (WorldTile pTile, string pPowerID) =>
+{
+    if (pTile == null || World.world == null) return false;
+    GodPower power = AssetManager.powers.get(pPowerID);
+    if (power == null || power.click_action == null) return false;
+    World.world.loopWithBrush(pTile, Config.current_brush_data,
+        power.click_action, pPowerID);
+    return true;
+};
+```
+
+> [!WARNING] Ein größerer Cursor ist kein größerer Effekt
+> `show_tool_sizes` schaltet die Pinselgrößen-Auswahl frei. Dein Pinsel-Callback muss trotzdem selbst über die Felder iterieren. Der Vanilla-Helfer `PowerLibrary.loopWithCurrentBrush` ist `private`; das Beispiel nutzt stattdessen die öffentliche `World`-Methode. Für das `(WorldTile, GodPower)`-Paar hat `loopWithBrush` eine passende Überladung, die `PowerAction` und das Kraft-Asset entgegennimmt.
+
+Für Rückmeldung nach einem Klick siehe **[Nachrichten & Weltprotokoll](#/nml/messages-and-world-log)**.
 
 ## Dein eigenes Icon
 

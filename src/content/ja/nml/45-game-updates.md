@@ -46,11 +46,27 @@ NML自体が読み込まれないなら、まだあなたのmodの段階では�
 
 私がいちばん使うコツ：あなたのものと同じ役割のバニラのアセットやメソッドを開いて、**ゲーム自身**が今どう書いているかを見ることです。ゲームが特性（trait）の作り方を変えたなら、ゲーム自身の特性はすでに新しい書き方を使っています :PESgn_Noice:。
 
+### もう存在しない名前
+
+古いmod、古いチュートリアル、古いフォーラムの投稿にはこういうものがたくさん出てきます。今のゲームにはどれ一つ存在しないので、それぞれコンパイルエラーになるか、テンプレートidの場合は起動時に `clone()` が `KeyNotFoundException` を投げます：
+
+| 古い名前 | 今使うもの |
+| --- | --- |
+| `AssetManager.unitStats` | `AssetManager.actor_library`。生物は `ActorAsset` です。**[カスタムアクター](#/nml/custom-actors)** を参照 |
+| `AssetManager.raceLibrary` | 直接の代わりはありません。かつて race が持っていたものは今 `ActorAsset` 自体にあります |
+| `AssetManager.nameGenerator` | `AssetManager.name_generator`。**[名前生成器](#/nml/name-generators)** を参照 |
+| `AssetManager.items_material_weapon`, `items_material_accessory` | 代わりのライブラリはありません。各素材は `AssetManager.items` の中の独立したアイテムです（`sword_iron`、`sword_steel`）。**[カスタムアイテム](#/nml/custom-items)** を参照 |
+| `"!building"`（建物テンプレート） | `AssetManager.buildings` の `"$building$"` |
+| `"_spawn_building"`（ドロップテンプレート） | `AssetManager.drops` の `"$spawn_building$"` |
+| `"_dropBuilding"`（神の力テンプレート） | `AssetManager.powers` の `"$template_drop_building$"` |
+
+最後の3つに共通するパターンが覚えておくべきポイントです。テンプレートは今 `$` で囲まれるようになりました。古い `clone()` が `_` や `!` で始まるidを使っているなら、同じライブラリの `init()` の中で `$...$` 版を探してください。
+
 ## 4. Harmonyパッチを手で確認する
 
 パッチは、エラーがひとつも出ないまま壊れることもあります。ひとつずつ見て、dnSpyでメソッドを確認してください：
 
-- **パラメータ名。** Harmonyはパラメータを**名前で**埋めます。ゲームが `pDamage` を `pAmount` に変えたら、あなたの `float pDamage` には黙って何も入りません。**[魔法のパラメータ名](#/nml/harmony-patches)** を参照。
+- **パラメータ名。** Harmonyはパラメータを**名前で**埋めます。ゲームが `pDamage` を `pAmount` に変えたら、あなたの `float pDamage` はもう結び付かず、Harmonyはパッチの適用時に失敗します。**[魔法のパラメータ名](#/nml/harmony-patches)** を参照。
 - **オーバーロード。** 以前はひとつだけだったメソッドに双子ができて、パッチが `Ambiguous match found` で失敗することがあります。
 - **メソッドがやっていること。** 名前はそのままで、処理だけが別の場所に移ることもあります。パッチは動くのに何も変わりません。パッチに `LogInfo` を1行入れてください。一度も表示されないなら、ゲームはもうそのメソッドを呼んでいません。
 
@@ -76,5 +92,5 @@ NML自体が読み込まれないなら、まだあなたのmodの段階では�
 
 - **パッチを減らす。** Harmonyのパッチはひとつひとつが壊れうる場所です。アセットのフィールドやNMLの機能で済むなら、そちらを使いましょう。
 - **コードを try/catch で包む。** 壊れた機能はログにエラーをひとつ書くだけで、modの残りは動き続けます。**[ログとデバッグ](#/nml/logs-and-debugging)** を参照。
-- **ひとつの仕事にひとつのパッチクラス。** パッチがひとつ壊れても、落ちるのはその機能だけで、全部ではありません。
+- **ひとつの仕事にひとつのパッチクラス。** 失敗の切り分けがしやすくなります。ただし `PatchAll` の失敗そのものは切り分けられません。対象がひとつ見つからないだけで、それより後のパッチが適用される前にスキャンが止まることがあります。任意対象には手動でガード付きパッチを使ってください。
 - **IDは一か所にまとめる。** `HelloTraits.SWIFT` のような定数があれば、名前の変更は20か所ではなく1か所の修正で済みます。

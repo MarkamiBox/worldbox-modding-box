@@ -147,3 +147,9 @@ public ModConfig GetConfig()
 ```
 
 Quel singolo metodo è ciò che fa apparire il pulsante delle impostazioni accanto al tuo mod nella finestra dei mod. Un solo metodo, e nessuno litiga più con te su Discord. In teoria.
+
+## Impostazioni della mod o opzioni di gioco?
+
+Tieni le normali preferenze di HelloBox in `default_config.json`. `AssetManager.options_library` del gioco è un sistema diverso, sostenuto da `PlayerConfig`, ed è utile quando colleghi un interruttore nativo. Registrare da solo un asset di opzione non crea il suo valore memorizzato.
+
+Prossima pagina: **[Opzioni di gioco e scale temporali](#/nml/game-options)** per quella via, oppure **[Schede e pulsanti di potere](#/nml/power-buttons)** per mettere un controllo a schermo.

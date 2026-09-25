@@ -10,11 +10,13 @@ order: 96
 
 다른 모든 페이지는 게임이 로드되는 동안 무언가를 등록하는 이야기였습니다. 이 페이지는 그 반대, 즉 이미 존재하는 실행 중인 월드에서 무언가를 가져와 바꾸는 이야기입니다. 마을을 파괴하고, 다른 왕국에 넘기고, 전쟁을 시작하고, 도시를 그 종족 주민으로 채우는 것.
 
-이 모든 작업은 신의 권능의 `click_action`, `Update()`, 또는 월드 행동에서 실행하세요. **절대 `OnModLoad`에서 실행하지 마세요**, 그 시점에는 아직 월드가 존재하지 않습니다. 가드 작성법은 **[로그 및 디버깅](#/nml/logs-and-debugging)** 참고.
+이 모든 작업은 신의 권능의 `click_action`, `Update()`, 또는 월드 행동에서 실행하세요. **절대 `OnModLoad`에서 실행하지 마세요**, 그 시점에는 아직 월드가 존재하지 않습니다. 가드 작성법은 **[로그 및 디버깅](#/nml/logs-and-debugging)** 참고, 플레이어의 프레임레이트를 떨어뜨리지 않고 `Update()`에서 실행하는 법은 **[매 프레임](#/nml/update-loops)** 참고.
 
 ## 존재하는 것들 순회하기
 
 ```csharp
+if (World.world == null || Config.worldLoading) return;
+
 foreach (City city in World.world.cities)
 {
     if (city == null || city.isRekt()) continue;
@@ -28,6 +30,8 @@ foreach (Building building in World.world.buildings)
 ```
 
 `World.world.kingdoms`도 똑같이 사용합니다, **[왕국 및 세력](#/nml/kingdoms)** 참고. 매번 모든 항목에 `isRekt()`를 거세요. 이 목록들에는 지금 막 소멸 중인 객체도 들어 있습니다 :PES2_F:.
+
+이러한 루프는 클릭 시 한 번 실행할 때는 괜찮습니다. 매 프레임 모든 건물에 대해 실행하면 안 됩니다: 타이머를 활용해 실행하세요, **[매 프레임](#/nml/update-loops)** 참고.
 
 ## 도시를 다른 왕국으로 옮기기
 
@@ -49,6 +53,7 @@ building.startDestroyBuilding(); // 폐허 그래픽이 있으면 폐허가 된 
 ## 전쟁 시작하기
 
 ```csharp
+if (World.world == null || Config.worldLoading || pAttacker == null || pDefender == null) return;
 World.world.diplomacy.startWar(pAttacker, pDefender, WarTypeLibrary.normal);
 ```
 
@@ -57,6 +62,8 @@ World.world.diplomacy.startWar(pAttacker, pDefender, WarTypeLibrary.normal);
 ## 도시를 자기 종족 주민으로 채우기
 
 ```csharp
+if (World.world == null || Config.worldLoading || city == null || city.isRekt()) return;
+
 Subspecies main = city.getMainSubspecies();
 WorldTile tile = city.getTile();
 if (main == null || tile == null) return;
@@ -78,4 +85,4 @@ foreach (Actor parent in actor.getParents())
 long first = actor.data.parent_id_1;   // id는 사망 후에도 남습니다
 ```
 
-`getParents()`는 살아 있는 부모만 반환합니다. 각 id를 `World.world.units.get(id)`로 조회해서 없거나 죽어 있으면 건너뜁니다. id는 유닛 데이터에 영원히 남지만, 게임은 그 인물에 대한 기록을 전혀 보관하지 않습니다. 죽은 조상까지 기억하는 가계도를 만들려면, 태어나는 순간 필요한 정보를 자식 자신의 데이터에 직접 적어 두는 수밖에 없습니다. **[데이터 저장 및 기억하기](#/nml/saving-data)** 참고, 월드 전체를 위해 무언가를 보관할 장소가 어디에도 없기 때문입니다 :PES_ThinkAboutIt:.
+`getParents()`는 살아 있는 부모만 반환합니다. 각 id를 `World.world.units.get(id)`로 조회해서 없거나 죽어 있으면 건너뜁니다. id는 유닛 데이터에 영원히 남지만, 게임은 그 인물에 대한 기록을 전혀 보관하지 않습니다. 죽은 조상까지 기억하는 가계도를 만들려면, 태어나는 순간 필요한 정보를 자식 자신의 데이터에 직접 적어 두는 수밖에 없습니다. **[데이터 저장 및 기억하기](#/nml/saving-data)** 참고. 월드 자체에도 저장소가 있지만, 이는 키가 나열된 하나의 평면 목록일 뿐 수만 개의 가계도를 보관할 장소는 아닙니다 :PES_ThinkAboutIt:.

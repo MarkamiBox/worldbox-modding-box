@@ -38,6 +38,8 @@ Die letzte ist die gemeine. Ein Patch, der seine Methode als einfachen String ne
 
 ## 3. Den neuen Namen finden
 
+Der häufigste Bruch: Eine Methode oder ein Asset-Feld heißt jetzt anders. Dein Code kompiliert nicht mit `does not contain a definition for '...'`.
+
 Der alte Name ist weg, also such seinen Ersatz:
 
 - **[Methodensuche](#/tools/methods)** auf dieser Seite. Tipp ein, was die Methode *gemacht* hat, nicht wie sie hieß: "add trait to unit" findet sie, auch wenn sich der Name geändert hat.
@@ -46,11 +48,27 @@ Der alte Name ist weg, also such seinen Ersatz:
 
 Der Trick, den ich am meisten benutze: Öffne das Vanilla-Asset oder die Methode, die denselben Job wie deine macht, und schau, wie **das Spiel selbst** es jetzt schreibt. Wenn das Spiel geändert hat, wie Merkmale (trait) gebaut werden, benutzen seine eigenen Merkmale schon den neuen Weg :PESgn_Noice:.
 
+### Namen, die nicht mehr existieren
+
+Alte Mods, alte Tutorials und alte Forenbeiträge sind voll davon. Keiner davon existiert im aktuellen Spiel, daher führt jeder einzelne zu einem Kompilierfehler oder bei Template-IDs zu einem `clone()`, das beim Start `KeyNotFoundException` auslöst:
+
+| Alter Name | Was jetzt zu verwenden ist |
+| --- | --- |
+| `AssetManager.unitStats` | `AssetManager.actor_library`. Kreaturen sind `ActorAsset`s, siehe **[Eigene Kreaturen](#/nml/custom-actors)** |
+| `AssetManager.raceLibrary` | Kein direkter Ersatz. Was früher eine Rasse enthielt, liegt jetzt direkt auf `ActorAsset` |
+| `AssetManager.nameGenerator` | `AssetManager.name_generator`, siehe **[Namensgeneratoren](#/nml/name-generators)** |
+| `AssetManager.items_material_weapon`, `items_material_accessory` | Keine Ersatzbibliothek. Jedes Material ist ein eigener Gegenstand in `AssetManager.items` (`sword_iron`, `sword_steel`), siehe **[Eigene Gegenstände](#/nml/custom-items)** |
+| `"!building"` (Gebäude-Template) | `"$building$"` in `AssetManager.buildings` |
+| `"_spawn_building"` (Drop-Template) | `"$spawn_building$"` in `AssetManager.drops` |
+| `"_dropBuilding"` (Gotteskraft-Template) | `"$template_drop_building$"` in `AssetManager.powers` |
+
+Das Muster bei den letzten dreien sollte man sich merken: Templates sind jetzt in `$` eingefasst. Wenn ein altes `clone()` eine ID verwendet, die mit `_` oder `!` beginnt, suche im `init()` derselben Bibliothek nach der `$...$`-Version.
+
 ## 4. Deine Harmony-Patches von Hand prüfen
 
 Ein Patch kann auch ganz ohne Fehler schiefgehen. Geh jeden einzeln durch und prüf die Methode in dnSpy:
 
-- **Parameternamen.** Harmony füllt Parameter **nach Namen**. Wenn das Spiel `pDamage` in `pAmount` umbenannt hat, bekommt dein `float pDamage` stillschweigend nichts. Siehe **[die magischen Parameternamen](#/nml/harmony-patches)**.
+- **Parameternamen.** Harmony füllt Parameter **nach Namen**. Wenn das Spiel `pDamage` in `pAmount` umbenannt hat, bindet dein `float pDamage` nicht mehr und Harmony schlägt beim Anwenden des Patches fehl. Siehe **[die magischen Parameternamen](#/nml/harmony-patches)**.
 - **Überladungen.** Eine Methode, die früher einzigartig war, hat jetzt vielleicht einen Zwilling, und dein Patch scheitert mit `Ambiguous match found`.
 - **Was die Methode tut.** Manchmal bleibt der Name, aber die Logik wandert woandershin. Dein Patch läuft und nichts ändert sich. Setz eine `LogInfo`-Zeile in den Patch: Wenn sie nie erscheint, ruft das Spiel diese Methode nicht mehr auf.
 
@@ -76,5 +94,5 @@ Dann beantworte die "ist das aktualisiert??"-Kommentare, das hast du dir verdien
 
 - **Weniger patchen.** Jeder Harmony-Patch ist eine Stelle, die brechen kann. Wenn ein Asset-Feld oder eine NML-Funktion den Job erledigen kann, nimm das stattdessen.
 - **Pack deinen Code in try/catch.** Eine kaputte Funktion schreibt einen Fehler ins Log, der Rest deiner Mod läuft weiter. Siehe **[Logs & Debugging](#/nml/logs-and-debugging)**.
-- **Eine Patch-Klasse pro Aufgabe.** Wenn ein Patch bricht, fällt nur diese eine Funktion aus, nicht alle.
+- **Eine Patch-Klasse pro Aufgabe.** Das erleichtert das Isolieren von Fehlern. Es isoliert jedoch keine `PatchAll`-Fehler: Ein fehlendes Ziel kann den Scan stoppen, bevor spätere Patches angewendet werden. Verwende abgesicherte manuelle Patches für optionale Ziele.
 - **Halt deine IDs an einem Ort.** Konstanten wie `HelloTraits.SWIFT` bedeuten, dass eine Umbenennung eine Änderung ist, nicht zwanzig.

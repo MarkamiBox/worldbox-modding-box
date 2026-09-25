@@ -266,7 +266,11 @@ O `HelloWindow` adiciona um `HelloTooltipTarget` ao seu fundo, portanto passar o
 | --- | --- |
 | `callback` | Preenche a dica: `name.text`, `setDescription()`, `setBottomDescription()` |
 | `prefab_id` | Qual layout de dica usar. O padrão é `tooltips/tooltip_normal` |
+| `sound` / `color` | Campos de string públicos, mas a implementação de exibição de dica fornecida não os consome |
 | `callback_text_animated` | Chamado novamente a cada 0,08 segundos enquanto aberto, para texto dinâmico |
+
+> [!NOTE] Verifique quem consome, não só o campo
+> Não prometa som ou cor automáticos vindos de `TooltipAsset.sound` ou `color`. Para uma cor de título, o método público `pTooltip.setTitle("HelloBox", "", "#43FF43")` a formata explicitamente. `setDescription` e `setBottomDescription` são internal no código-fonte do jogo fornecido, então o exemplo acima precisa de uma `Assembly-CSharp.dll` publicizada.
 
 ## Uma tecla de atalho para a janela
 
@@ -323,3 +327,6 @@ As flags `check_*` são o jeito mais simples de evitar conflitos: `check_control
 
 > [!TIP] Copie do jogo primeiro
 > Abra o **UnityExplorer**, localize uma janela padrão na hierarquia e copie seus componentes e valores. Copiar uma estrutura funcional poupa horas tentando adivinhar âncoras :PES2_GaSmart:.
+
+
+Próximo: **[Mensagens e registro do mundo](#/nml/messages-and-world-log)** para dicas e etiquetas no mapa, ou **[Opções de jogo e escalas de tempo](#/nml/game-options)** para o estado de opções nativas.

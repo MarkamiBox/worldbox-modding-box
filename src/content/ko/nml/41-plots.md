@@ -38,12 +38,13 @@ namespace HelloBox
                 needs_to_be_explored = false,
 
                 // called with no null check: a plot without it crashes the first time anyone looks at it
-                check_is_possible = (Actor pActor) => pActor.hasCity() && !pActor.city.isInDanger(),
-                check_should_continue = (Actor pActor) => pActor.hasCity(),
+                check_is_possible = (Actor pActor) => pActor != null && pActor.isAlive() && pActor.hasCity() && !pActor.city.isInDanger(),
+                check_should_continue = (Actor pActor) => pActor != null && pActor.isAlive() && pActor.hasCity(),
 
                 // runs once, when the progress bar is full
                 action = (Actor pActor) =>
                 {
+                    if (pActor == null || !pActor.isAlive()) return false;
                     City city = pActor.city;
                     if (city == null) return false;
 
@@ -105,9 +106,40 @@ namespace HelloBox
 | 필드 | 기능 |
 | --- | --- |
 | `path_icon` | 음모 목록 및 깃발에 표시될 아이콘 |
-| `group_id` | 카테고리: `diplomacy`, `culture`, `rites_wrathful`, `rites_summoning`, `rites_merciful` |
+| `group_id` | 카테고리(`plot_category_library`): `diplomacy`, `rites_wrathful`, `rites_summoning`, `rites_merciful`, `culture`, `language`, `religion`, `rites_various`, `plots_others` |
 | `pot_rate` | 다른 음모 후보들과 비교한 선택 가중치 |
 | `is_basic_plot` | 모든 지도자가 시도 가능. false인 경우 종교 (religion) 의식으로만 발생 (**[종교 특성](#/nml/religion-traits)** 참조) |
+
+### 나만의 카테고리 만들기
+
+카테고리는 `AssetManager.plot_category_library`의 `PlotCategoryAsset`이며, 음모 창의 섹션을 나누는 역할을 합니다. 특성 탭과 같은 작은 `BaseCategoryAsset`(`id`, `name`, `color`, `show_counter`, **[특성 그룹 및 탭](#/nml/trait-groups)** 참조)에 고유 필드 하나가 추가된 구조입니다:
+
+| 필드 | 기능 |
+| --- | --- |
+| `plot_retry_action` | 유닛이 이 카테고리의 음모를 진행하는 동안 호출됩니다. `true`는 "지금은 불가, 나중에 다시 시도"를 뜻합니다. 바닐라에서는 왕국, 도시 또는 종교 목록이 사용 중일 때 대기하도록 하는 데 쓰입니다 |
+
+```csharp Mods/HelloBox/Code/HelloPlots.cs
+public const string CATEGORY = "hello_plots";
+
+// before the plots that point at it
+if (!AssetManager.plot_category_library.has(CATEGORY))
+{
+    AssetManager.plot_category_library.add(new PlotCategoryAsset
+    {
+        id = CATEGORY,
+        name = "plot_group_" + CATEGORY,   // the locale key, not the text
+        color = "#FF9A3C",
+        show_counter = false,
+        // borrow vanilla's: it already knows which lists to wait for
+        plot_retry_action = PlotCategoryLibrary.culturePlotsRetryAction
+    });
+}
+```
+
+그런 다음 축제에 `group_id = HelloPlots.CATEGORY`를 지정하고, 로케일 파일에 `"plot_group_hello_plots": "HelloBox"`를 추가합니다. 음모 창은 라이브러리 목록을 기반으로 섹션을 빌드하므로, 별도의 UI 작업 없이 새 카테고리가 표시됩니다.
+
+> [!WARNING] 카테고리가 반드시 존재해야 합니다
+> 게임은 음모의 카테고리를 `get()`으로 가져온 뒤 null 확인 없이 `plot_retry_action`을 읽어냅니다. 음모를 가진 유닛이 자신의 작업을 다시 확인할 때마다 매번 그렇습니다. 아무도 등록하지 않은 `group_id`는 AI 한가운데에서 `NullReferenceException`을 일으키며 끊임없이 반복됩니다 :PESgn_ToughLuck:.
 
 ## 텍스트 설정
 

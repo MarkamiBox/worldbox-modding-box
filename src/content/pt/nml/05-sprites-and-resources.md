@@ -68,8 +68,12 @@ Ao lado de suas imagens, um arquivo `sprites.json` explica ao NML como fatiar e 
 | `PivotX` / `PivotY` | O ponto de ancoragem. `0.5 / 0.0` significa centro-inferior, exigido para unidades e construções (building) |
 | `BorderL/R/T/B` | Bordas de 9-slice para molduras de janelas e botões redimensionáveis |
 | `Path` | O arquivo específico ao qual esta regra se aplica |
+| `RectX` / `RectY` | Deslocamentos do retângulo do sprite. Ambos são `0` por padrão; a documentação do NML diz para deixá-los em `0` |
 
 `Default` é aplicado a qualquer arquivo da pasta que não possua uma regra personalizada em `Specific`.
+
+> [!NOTE] Os deslocamentos não são uma receita de atlas
+> As configurações documentadas do `sprites.json` não têm campos de largura ou altura de retângulo. Não invente esses campos para fatiar uma folha de sprites. O NML documenta arquivos `.meta` da Unity para atlas e folhas de sprites.
 
 ## Onde cada tipo de arte deve ficar
 
@@ -174,3 +178,6 @@ private static Sprite Icon(string pName)
 ```
 
 Um ícone de aviso deixa evidente que "o caminho está incorreto". Já um buraco invisível faz você passar duas horas tentando adivinhar onde seu botão foi parar :PES4_Invisible:.
+
+
+Próximo: **[Configurações do mod](#/nml/mod-config)** ou **[Janelas personalizadas](#/nml/custom-windows)**.

@@ -32,7 +32,7 @@ namespace HelloBox
 
         public static void Initialize()
         {
-            // Никогда не регистрируйте один и тот же id дважды: игра сохранит только первый.
+            // Избегайте замены ассета, уже зарегистрированного под этим id.
             if (AssetManager.powers.get(STRIKE) != null) return;
 
             GodPower strike = new GodPower
@@ -106,6 +106,35 @@ WorldTip.showNow("The gods are displeased.", false, "top", 3f);
 strike.hold_action = true;
 strike.click_interval = 0.15f;   // интервал в секундах между срабатываниями
 ```
+
+## Какой делегат рисует кистью?
+
+| Поле | Назначение |
+| --- | --- |
+| `click_action` | `bool (WorldTile pTile, string pPowerID)` для одного тайла |
+| `click_brush_action` | Та же сигнатура, вызывается вместо `click_action`, когда задан |
+| `click_power_action` | `bool (WorldTile pTile, GodPower pPower)` для одного тайла |
+| `click_power_brush_action` | Та же сигнатура на основе ассета, вызывается вместо `click_power_action`, когда задан |
+
+Путь клика игрока предпочитает пару на основе ассета, если задано любое из этих полей. Делегат кисти получает центральный тайл. Он не запускается волшебным образом по разу на каждый пиксель кисти. Эта опциональная замена размещается внутри настройки силы, после того как назначен `click_action`:
+
+```csharp
+strike.show_tool_sizes = true;
+strike.click_brush_action = (WorldTile pTile, string pPowerID) =>
+{
+    if (pTile == null || World.world == null) return false;
+    GodPower power = AssetManager.powers.get(pPowerID);
+    if (power == null || power.click_action == null) return false;
+    World.world.loopWithBrush(pTile, Config.current_brush_data,
+        power.click_action, pPowerID);
+    return true;
+};
+```
+
+> [!WARNING] Больший курсор - не значит больший эффект
+> `show_tool_sizes` открывает выбор размера кисти. Ваш колбэк кисти всё равно обязан пройти циклом по тайлам. Ванильный помощник `PowerLibrary.loopWithCurrentBrush` приватный; в примере вместо него используется публичный метод мира. Для пары `(WorldTile, GodPower)` у `loopWithBrush` есть соответствующая перегрузка, принимающая `PowerAction` и ассет силы.
+
+Про обратную связь после клика см. **[Сообщения и журнал мира](#/nml/messages-and-world-log)**.
 
 ## Своя собственная иконка
 

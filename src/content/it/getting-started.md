@@ -10,7 +10,7 @@ order: 3
 Tutto quello che ti serve prima di scrivere la tua prima riga di codice. Segui questi passaggi nell'ordine, ci vorranno circa quindici minuti.
 
 > [!NOTE] Non serve saper programmare, per ora
-> E **non** ti serve Visual Studio, un compilatore o roba del genere. NML legge i file di testo `.cs` nella cartella della tua mod e li compila al posto tuo a ogni avvio del gioco. **Il Blocco note è uno strumento perfettamente valido per scrivere la tua prima mod** :PES_OkHand:. Potrai passare a strumenti migliori più avanti, quando ne sentirai davvero la mancanza.
+> E **non** ti serve Visual Studio, un compilatore o roba del genere. NML legge i file di testo `.cs` nella cartella della tua mod e li compila al posto tuo quando serve. **Il Blocco note è uno strumento perfettamente valido per scrivere la tua prima mod** :PES_OkHand:. Potrai passare a strumenti migliori più avanti, quando ne sentirai davvero la mancanza.
 
 ## 1. Trova la cartella di WorldBox
 
@@ -81,5 +81,7 @@ Queste cose **non** ti servono per scrivere una mod. Torna qui quando una pagina
 - **[AssetRipper](#/toolbox/getting-the-sprites)**: estrae sprite e suoni del gioco per permetterti di adattare il tuo stile grafico.
 - **[Modding con BepInEx](#/toolbox/bepinex-modding)**: creare plugin `.dll` precompilati se vuoi hook di basso livello nel motore Unity invece di contenuti NML.
 
-> [!WARNING] NCMS è deprecato :sadcat:
-> NCMS non riceve più aggiornamenti. Ogni guida qui fa riferimento a NML. Tecnicamente puoi ancora scrivere una mod per NCMS, ma ormai non lo fa più nessuno :PES2_Shrug:.
+> [!NOTE] Leggere vecchie mod NCMS
+> NML include uno strato di compatibilità per NCMS, incluso il supporto per il vecchio punto d'ingresso `[ModEntry]`. Questo non ripara però le chiamate alle API di gioco che sono cambiate. Testa una mod più vecchia contro le tue versioni del gioco e di NML prima di farci affidamento. Avvia HelloBox con `BasicMod<Main>`, come fa questa guida.
+
+Prossima pagina: **[Struttura di una mod](#/nml/mod-structure)**.

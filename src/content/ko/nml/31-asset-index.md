@@ -22,7 +22,7 @@ order: 94
 AssetManager.traits.has("hello_swift");            // 등록되어 있는가?
 AssetManager.traits.get("hello_swift");            // 가져오기 (없으면 null)
 AssetManager.traits.add(myTrait);                  // 새로 등록하기
-AssetManager.traits.clone("hello_new", "brave");   // 기존 에셋을 복제하고 복제본 자동 등록까지 완료
+AssetManager.traits.clone("hello_new", "strong");   // 기존 에셋을 복제하고 복제본 자동 등록까지 완료
 AssetManager.traits.list;                          // 순서대로 정렬된 모든 에셋
 AssetManager.traits.dict;                          // ID로 매핑된 모든 에셋
 ```
@@ -65,7 +65,8 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 | `loyalty_library` | `LoyaltyAsset` | 충성도 증감 요인 |
 | `opinion_library` | `OpinionAsset` | 외교 호감도 요인 |
 | `happiness_library` | `HappinessAsset` | 행복도 증감 요인 |
-| `plots_library` / `plot_category_library` | `PlotAsset` | 유닛과 시스템이 꾸미는 음모 |
+| `plots_library` | `PlotAsset` | 통치자가 시작하고 대가를 치르는 음모. **[음모](#/nml/plots)** |
+| `plot_category_library` | `PlotCategoryAsset` | 음모 창의 구획들. **[음모](#/nml/plots)** |
 | `decisions_library` | `DecisionAsset` | AI 의사결정 |
 | `communication_library` / `communication_topic_library` | `CommunicationAsset` | 유닛 간 대화 주제 |
 | `book_types` | `BookTypeAsset` | 서적 종류. **[책](#/nml/books)** |
@@ -89,9 +90,10 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 | `effects_library` | `EffectAsset` | 시각 특수효과 |
 | `months` | `MonthAsset` | 달력 및 월 |
 | `era_library` | `WorldAgeAsset` | 세계의 시대 (world age) 구분 |
-| `time_scales` | `WorldTimeScaleAsset` | 게임 진행 속도 |
-| `map_sizes` | `MapSizeAsset` | 맵 크기 정의 |
-| `map_gen_settings` / `map_gen_templates` | `MapGenSettingsAsset` | 월드 생성 설정 |
+| `time_scales` | `WorldTimeScaleAsset` | 게임 진행 속도. "더 빠르게"는 `list`를 순서대로 훑으며, 디버그 모드가 아니면 마지막 항목(바닐라의 `x40`)에는 절대 도달하지 않습니다. 뒤에 추가한 속도는 그 도달 불가능한 항목이 되므로, 마지막 항목 앞에 `Insert` 하세요 |
+| `map_sizes` | `MapSizeAsset` | 새 월드 창의 크기들. **[맵 생성](#/nml/map-generation)** |
+| `map_gen_templates` | `MapGenTemplate` | 월드 모양: `continent`, `islands`, `donut`... **[맵 생성](#/nml/map-generation)** |
+| `map_gen_settings` | `MapGenSettingsAsset` | 템플릿 아래의 슬라이더와 스위치. **[맵 생성](#/nml/map-generation)** |
 | `world_behaviours` | `WorldBehaviourAsset` | 월드 단위 백그라운드 동작 |
 | `sim_globals_library` | `SimGlobalAsset` | 전역 시뮬레이션 상수 |
 
@@ -114,7 +116,8 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 | --- | --- | --- |
 | `powers` | `GodPower` | 신의 권능 (GodPower). **[신의 권능](#/nml/god-powers)** |
 | `power_tab_library` | `PowerTabAsset` | 하단 바 탭. **[파워 탭 및 버튼](#/nml/power-buttons)** |
-| `world_laws_library` / `world_law_groups` | `WorldLawAsset` | 세계의 법칙. **[세계의 법칙](#/nml/world-laws)** |
+| `world_laws_library` | `WorldLawAsset` | 세계의 법칙. **[세계의 법칙](#/nml/world-laws)** |
+| `world_law_groups` | `WorldLawGroupAsset` | 세계 법칙 창의 탭들. **[세계의 법칙](#/nml/world-laws)** |
 | `brush_library` | `BrushData` | 브러시 크기 |
 | `hotkey_library` | `HotkeyAsset` | 단축키 |
 | `debug_tool_library` | `DebugToolAsset` | 디버그 도구 모음 |
@@ -132,16 +135,16 @@ AssetManager.traits.dict;                          // ID로 매핑된 모든 에
 
 ## 유저 인터페이스
 
-여기서는 window_library만 별도 페이지로 설명합니다 :PES5_Hmmmm:。
+`window_library`와 `options_library`는 이 가이드에 전용 페이지가 있습니다. 나머지도 작동하지만, 정말 필요할 때만 건드리세요 :PES5_Hmmmm:.
 
 
 | 라이브러리 | 에셋 | 담고 있는 내용 |
 | --- | --- | --- |
-| `window_library` | `WindowAsset` | 팝업 창. **[커스텀 창](#/nml/custom-windows)** |
+| `window_library` | `WindowAsset` | 창. **[커스텀 창](#/nml/custom-windows)** |
 | `list_window_library` | `ListWindowAsset` | 목록 창 (왕국 목록, 도시 목록 등) |
 | `tooltips` | `TooltipAsset` | 툴팁 레이아웃 |
-| `nameplates_library` | `NameplateAsset` | 머리 위 이름표 |
-| `options_library` | `OptionAsset` | 게임 설정 옵션 |
+| `nameplates_library` | `NameplateAsset` | 지도 모드가 왕국, 도시, 씨족 위에 그리는 이름 배너. `MetaType`마다 하나뿐이라 이미 있는 지도 모드에 대해 `add()`를 하면 예외가 나므로, 바닐라 배너는 `get()`으로 가져와 수정하세요 |
+| `options_library` | `OptionAsset` | 게임 자체의 설정 창. **[게임 옵션](#/nml/game-options)** |
 | `color_style_library` | `ColorStyleAsset` | UI 색상 테마 |
 | `dynamic_sprites_library` | `DynamicSpritesAsset` | 런타임 생성 스프라이트 |
 | `quantum_sprites` | `QuantumSpriteAsset` | 스프라이트 변형군 |

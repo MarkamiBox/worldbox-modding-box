@@ -8,7 +8,7 @@ order: 100
 
 # Traits personnalisés :wbstrongminded:
 
-Un trait est une étiquette permanente apposée sur une créature : *brave*, *rapide*, *immortel*. Il s'affiche dans l'inspecteur, peut modifier les statistiques (stats) de l'unité, exécuter du code à sa naissance, lors d'un coup reçu ou à sa mort, et les enfants peuvent en hériter.
+Un trait est une étiquette permanente apposée sur une créature : *brave*, *rapide*, *immortel*. Il s'affiche dans l'inspecteur, peut modifier les statistiques (stats) de l'unité, exécuter du code quand elle attaque, reçoit un coup ou meurt, et les enfants peuvent en hériter.
 
 C'est aussi l'élément le plus simple et accessible à créer dans tout le jeu, c'est pourquoi c'est le premier mod de tout le monde. Pas le mien : mon premier mod était une surcouche autour du mod de quelqu'un d'autre, ce qui est une forme de triche à part entière :trollface:.
 
@@ -157,21 +157,96 @@ swift.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 // à la mort de l'unité
 swift.action_death = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
 
-// à la naissance de l'unité
-swift.action_birth = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
-
 // quand l'unité reçoit un coup
 swift.action_get_hit = (BaseSimObject pSelf, BaseSimObject pAttacker, WorldTile pTile) => { return true; };
+
+// every time one of the unit's attacks lands, right after the damage
+swift.action_attack_target = (BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile) =>
+{
+    Actor self = pSelf as Actor;
+    // pTarget can be a building, and the hit may just have killed it
+    if (self == null || !self.isAlive() || pTarget == null) return false;
+
+    self.restoreHealth(2);
+    return true;
+};
 ```
 
 Deux règles d'or : **vérifiez le null et vérifiez que l'unité est bien vivante en tout premier lieu**, puis retournez `false` si vous n'avez rien fait. Ces délégués tournent en boucle sur chaque créature porteuse du trait.
 
-## Opposés et exclusions mutuelles
+> [!NOTE] `action_birth` et `action_growth` existent, et ne se déclenchent jamais ici
+> `ActorTrait` hérite des deux champs, donc ça compile. Le jeu ne les lit que depuis les traits de **sous-espèce** : il fusionne les traits d'une sous-espèce en un seul callback de naissance et un seul callback de croissance, et appelle ceux-là. Sur un trait d'acteur, ils restent là sans rien faire, en silence :wbreally:. Si vous voulez "quand une unité naît", faites-en un trait de sous-espèce : **[Traits de sous-espèce](#/nml/subspecies-traits)**.
+
+### Quand le trait est gagné, perdu ou chargé
+
+Trois autres accroches s'exécutent une seule fois plutôt qu'en continu. Elles utilisent un délégué différent, `WorldActionTrait`, qui vous donne le porteur en tant que `NanoObject` ainsi que le trait lui-même :
 
 ```csharp
-swift.addOpposite("slow");                            // les deux ne peuvent jamais coexister
-swift.traits_to_remove_ids = new string[] { "fat" };  // obtenir ce trait retire automatiquement celui-ci
+// once, the moment addTrait() puts it on a unit
+swift.action_on_augmentation_add = (NanoObject pTarget, BaseAugmentationAsset pTrait) =>
+{
+    Actor actor = pTarget as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    actor.restoreHealth(actor.getMaxHealth());   // a welcome gift, once
+    return true;
+};
 ```
+
+| Champ | Quand il s'exécute |
+| --- | --- |
+| `action_on_augmentation_add` | `addTrait()` a réussi |
+| `action_on_augmentation_remove` | `removeTrait()` l'a retiré, y compris quand un autre trait l'a chassé comme opposé ou via `traits_to_remove` |
+| `action_on_augmentation_load` | Un monde sauvegardé s'est chargé et l'unité est revenue avec le trait |
+
+Une unité chargée récupère ses traits **sans** passer par `addTrait()`, donc `_add` ne s'exécute pas à nouveau. Si `_add` met en place quelque chose que la sauvegarde ne conserve pas, refaites-le dans `_load`.
+
+## Opposés et exclusions mutuelles
+
+La méthode vanilla est `addOpposite("slow")` et `traits_to_remove_ids`. Les deux n'écrivent que des **ids**, et le jeu transforme ces ids en les ensembles qu'il lit réellement une seule fois, pendant son chargement, avant que votre mod n'existe. Sur votre trait, ils ne font rien :wbfacepalm:. Remplissez vous-même les champs résolus, après `add()` :
+
+```csharp
+ActorTrait slow = AssetManager.traits.get("slow");
+if (slow != null)
+{
+    // addTrait() only checks the NEW trait's own set, so fill both sides:
+    // otherwise a slow unit refuses swift, but a swift unit happily turns slow
+    swift.opposite_traits = new HashSet<ActorTrait> { slow };
+    if (slow.opposite_traits == null) slow.opposite_traits = new HashSet<ActorTrait>();
+    slow.opposite_traits.Add(swift);
+}
+
+// gaining swift strips these; the game reads the array, not the ids
+ActorTrait fat = AssetManager.traits.get("fat");
+if (fat != null) swift.traits_to_remove = new ActorTrait[] { fat };
+```
+
+`HashSet` a besoin de `using System.Collections.Generic;` en haut du fichier.
+
+> [!WARNING] `opposite_trait_mod` a besoin de `opposite_traits`
+> `opposite_trait_mod` change à quel point deux unités s'apprécient quand l'une a un opposé du trait de l'autre. Le code social boucle sur `opposite_traits` sans vérification de nullité, donc définir le mod et laisser l'ensemble à `null` lève une `NullReferenceException` dès que deux unités s'évaluent l'une l'autre. Donnez une valeur à l'ensemble, même vide.
+
+## Rareté
+
+`rarity` décide la couleur du nom et la ligne de rareté dans l'infobulle du trait, et `Rarity.R3_Legendary` obtient aussi le cadre spécial légendaire. Les valeurs sont `R0_Normal`, `R1_Rare`, `R2_Epic` et `R3_Legendary`.
+
+Pour les traits vanilla, c'est en grande partie automatique : pendant le chargement du jeu, la bibliothèque compte ce que fait chaque trait (actions, décisions, sorts, actions de combat, tags) et fait passer à `R1_Rare` ou `R2_Epic` tout ce qui fait quelque chose. Votre trait arrive après cette passe, donc il garde ce que vous avez écrit, et si vous n'avez rien écrit c'est la valeur par défaut, `R1_Rare`, peu importe ce qu'il fait. Définissez-la vous-même :
+
+```csharp
+swift.rarity = Rarity.R2_Epic;
+```
+
+## Le déverrouiller depuis le code
+
+Avec `needs_to_be_explored = true`, le trait démarre verrouillé dans le livre des connaissances. `unlock()` est la façon dont le jeu le découvre :
+
+```csharp
+AssetManager.traits.get(HelloTraits.SWIFT)?.unlock();
+```
+
+Ça ajoute l'id à la progression du joueur, affiche l'info-bulle "nouvelle connaissance", et sauvegarde le fichier de progression. `unlock(false)` saute la sauvegarde : utilisez-le quand vous déverrouillez plusieurs choses d'affilée, puis appelez `GameProgress.saveData()` une seule fois à la fin. Ça renvoie `false` et ne fait rien quand le trait est déjà disponible, et un trait avec `needs_to_be_explored = false` l'est toujours. Appelez-le depuis le gameplay, quand le joueur l'a mérité : c'est son vrai fichier de progression, et ça reste déverrouillé dans chaque monde par la suite.
+
+`unlocked_with_achievement` vaut déjà `false` par défaut. Écrire `unlocked_with_achievement = false` ne change rien.
 
 ## Donner le trait à une unité
 

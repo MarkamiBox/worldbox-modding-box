@@ -30,7 +30,7 @@ public abstract class AssetLibrary<T> : BaseAssetLibrary where T : Asset
 AssetManager.traits.has("hello_swift");            // 该 ID 是否已被占用？
 AssetManager.traits.get("hello_swift");            // 获取其实例，不存在则返回 null
 AssetManager.traits.add(myTrait);                  // 注册一个全新资源
-AssetManager.traits.clone("hello_new", "brave");   // 克隆现有资源并自动完成注册
+AssetManager.traits.clone("hello_new", "strong");   // 克隆现有资源并自动完成注册
 ```
 
 ### `has(id)`
@@ -48,8 +48,8 @@ if (AssetManager.traits.has(SWIFT)) return;
 返回内存中处于运行状态的实时对象；若找不到该 ID 则返回 `null`。它**不会**抛出异常，因此空引用错误往往会在距此极远的下游代码中猝不及防地引爆：
 
 ```csharp
-ActorTrait brave = AssetManager.traits.get("brave");
-if (brave == null) return;   // 永远如此。每一次调用都必须判空。
+ActorTrait strong = AssetManager.traits.get("strong");
+if (strong == null) return;   // 永远如此。每一次调用都必须判空。
 ```
 
 `get` 返回的是内存中的*活对象*，这是本页中最具杀伤力的特性。这意味着你可以直接就地修改原版游戏内容，而完全不需要整盘推翻替换：
@@ -151,6 +151,43 @@ if (group != null && index != -1)
 
 > [!NOTE] 给这些方法打补丁不会影响原版内容
 > `has`、`get`、`add`、`clone` 和 `post_init` 都是在游戏启动期间、在 NML 加载任何模组之前，在这 129 个资源库上运行的。给其中任何一个打 Harmony 补丁，都只会影响你的模组加载*之后*的调用，永远碰不到那时已经完成的原版注册。想要不一样的原版内容？像本页其他部分那样，之后用 `get()` 去改。
+
+## 三种会翻车的写法
+
+这三种写法都能编译通过，看起来都挺合理，而且我三个都踩过。
+
+### 删掉一个原版资源，好换上自己的版本
+
+```csharp
+// don't
+AssetManager.traits.list.RemoveAll(a => a.id == "strong");
+AssetManager.traits.add(myStrong);
+```
+
+`RemoveAll` 只动了 `list`。`dict` 里那个旧的 `strong` 还在，所以 `add()` 会发现一个重复项，打印一条 `duplicate asset - overwriting...`，然后照样把它换掉——也就是说第一行等于白做了。真正的问题在于那些在启动阶段就已经抓到了旧对象引用的一切：像 `WorldLawLibrary.world_law_hunger` 这样的静态字段，以及所有在 `linkAssets()` 里关联过它的资源，这一切都发生在你的模组存在之前。它们手里握着的依然是旧的那个。现在同一个 id 对应着两个资源，游戏用哪一个，完全取决于是谁在什么时候缓存了什么 :PESgn_Really:。
+
+想要修改原版内容，正确做法是直接改那个已经存在的对象：
+
+```csharp
+ActorTrait strong = AssetManager.traits.get("strong");
+if (strong == null) return;
+strong.base_stats["damage"] = 10f;   // same object, every cached reference sees it
+```
+
+### 编辑克隆体，结果原件也跟着变了
+
+`clone()` 会把列表复制成新的列表，并且会克隆任何实现了 `ICloneable` 的对象（比如 `base_stats`）。除此之外的其他对象都是**按引用**复制的。比如 `MapGenTemplate.values` 就是一个普通的类：克隆 `continent`，在你副本的 `values` 上翻转一个开关，结果原版的所有大陆地图都会跟着一起变。只要某个字段存的是一个对象，就要在编辑它之前先给你的克隆体换一个全新的实例。**[地图生成](#/nml/map-generation)** 里有具体的案例。
+
+### 克隆另一个模组添加的资源
+
+`clone("hello_new", "their_id")` 内部做的是不带检查的 `dict[pFrom]`。如果对方模组还没运行过它的 `Initialize()`，或者压根没装，这里就是一个 `KeyNotFoundException`，你的整个 `OnModLoad` 会在这一行直接中断。不要依赖文件夹的加载顺序。声明依赖关系，并且在克隆之前依然要检查该资源是否存在；对方模组也可能已经改过它的 id 了。
+
+```csharp
+if (!AssetManager.buildings.has("their_id")) return;   // not there (yet): skip, don't crash
+AssetManager.buildings.clone("hello_new", "their_id");
+```
+
+正确检测其他模组、处理好加载顺序的方法，见 **[与其他模组协作](#/nml/other-mods)**。
 
 ## 后续所有页面通用的标准骨架
 

@@ -53,6 +53,8 @@ Forty-odd files, and this is what they add up to in game. Every row is a page or
 
 It is generated from the code blocks in this guide, so it is the same code you have been copying, not a separate copy that drifts. Read it, break it, delete the two thirds you do not want.
 
+The advanced pages also show optional recipes: **[manual patches](#/nml/harmony-patches)**, **[timers and coroutines](#/nml/update-loops)**, **[map generation](#/nml/map-generation)**, **[game options](#/nml/game-options)** and **[working with other mods](#/nml/other-mods)**. Those are things to add when you need them. They are not enabled in this download.
+
 > [!WARNING] It's a demo
 > Publishing HelloBox as-is helps nobody: it is twenty features that each do one small thing badly on purpose. Change the ids, change the name, keep the parts you actually wanted  :wbbru:.
 

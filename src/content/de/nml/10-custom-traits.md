@@ -8,7 +8,7 @@ order: 100
 
 # Eigene Merkmale :wbstrongminded:
 
-Ein Merkmal (Trait) ist eine dauerhafte Eigenschaft einer Einheit: *mutig*, *schnell*, *unsterblich*. Es erscheint im Inspektor, kann die Werte (stats) der Einheit verändern, Code ausführen wenn die Einheit geboren wird, Schaden nimmt oder stirbt, und Kinder können es erben.
+Ein Merkmal (Trait) ist eine dauerhafte Eigenschaft einer Einheit: *mutig*, *schnell*, *unsterblich*. Es erscheint im Inspektor, kann die Werte (stats) der Einheit verändern, Code ausführen wenn die Einheit angreift, Schaden nimmt oder stirbt, und Kinder können es erben.
 
 Es ist außerdem das am leichtesten hinzuzufügende Ding im ganzen Spiel, weshalb es jedermanns erste Mod ist. Meine nicht: Meine erste Mod war ein Wrapper um die Mod von jemand anderem, was auf seine eigene Art geschummelt ist :trollface:.
 
@@ -157,21 +157,96 @@ swift.action_special_effect = (BaseSimObject pSelf, WorldTile pTile) =>
 // wenn die Einheit stirbt
 swift.action_death = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
 
-// wenn die Einheit geboren wird
-swift.action_birth = (BaseSimObject pSelf, WorldTile pTile) => { return true; };
-
 // wenn die Einheit Schaden nimmt
 swift.action_get_hit = (BaseSimObject pSelf, BaseSimObject pAttacker, WorldTile pTile) => { return true; };
+
+// every time one of the unit's attacks lands, right after the damage
+swift.action_attack_target = (BaseSimObject pSelf, BaseSimObject pTarget, WorldTile pTile) =>
+{
+    Actor self = pSelf as Actor;
+    // pTarget can be a building, and the hit may just have killed it
+    if (self == null || !self.isAlive() || pTarget == null) return false;
+
+    self.restoreHealth(2);
+    return true;
+};
 ```
 
 Zwei Regeln für alle vier: **zuerst auf null prüfen und prüfen, ob die Einheit lebt**, und gib `false` zurück, wenn du nichts getan hast. Diese Aktionen laufen für jede Einheit mit diesem Merkmal, für immer.
 
-## Gegensätze und Ausschlüsse
+> [!NOTE] `action_birth` und `action_growth` existieren und feuern hier nie
+> `ActorTrait` erbt beide Felder, sie kompilieren also. Das Spiel liest sie nur von **Subspezies**-Merkmalen: Es fasst die Merkmale einer Subspezies zu einem Geburts- und einem Wachstums-Callback zusammen und ruft nur diese auf. An einem Actor-Merkmal liegen sie einfach da und tun nichts, lautlos :wbreally:. Willst du "wenn eine Einheit geboren wird", mach es zu einem Subspezies-Merkmal: **[Subspezies-Merkmale](#/nml/subspecies-traits)**.
+
+### Wenn das Merkmal erhalten, verloren oder geladen wird
+
+Drei weitere Hooks laufen einmal statt ständig. Sie nutzen einen anderen Delegaten, `WorldActionTrait`, der dir den Besitzer als `NanoObject` und das Merkmal selbst übergibt:
 
 ```csharp
-swift.addOpposite("slow");                            // die beiden können niemals koexistieren
-swift.traits_to_remove_ids = new string[] { "fat" };  // dieses Merkmal zu erhalten entfernt jenes
+// once, the moment addTrait() puts it on a unit
+swift.action_on_augmentation_add = (NanoObject pTarget, BaseAugmentationAsset pTrait) =>
+{
+    Actor actor = pTarget as Actor;
+    if (actor == null || !actor.isAlive()) return false;
+
+    actor.restoreHealth(actor.getMaxHealth());   // a welcome gift, once
+    return true;
+};
 ```
+
+| Feld | Wann es läuft |
+| --- | --- |
+| `action_on_augmentation_add` | `addTrait()` war erfolgreich |
+| `action_on_augmentation_remove` | `removeTrait()` hat es entfernt, auch wenn ein anderes Merkmal es als Gegensatz verdrängt hat oder über `traits_to_remove` |
+| `action_on_augmentation_load` | Eine gespeicherte Welt wurde geladen und die Einheit kam mit dem Merkmal zurück |
+
+Eine geladene Einheit bekommt ihre Merkmale zurück, **ohne** dass `addTrait()` durchlaufen wird, `_add` läuft also nicht erneut. Richtet `_add` etwas ein, das der Spielstand nicht hält, mach es in `_load` erneut.
+
+## Gegensätze und Ausschlüsse
+
+Der Vanilla-Weg ist `addOpposite("slow")` und `traits_to_remove_ids`. Beide schreiben nur **IDs**, und das Spiel wandelt diese IDs einmal beim Laden in die Sets um, die es tatsächlich liest, bevor deine Mod existiert. An deinem Merkmal tun sie nichts :wbfacepalm:. Fülle die aufgelösten Felder selbst, nach `add()`:
+
+```csharp
+ActorTrait slow = AssetManager.traits.get("slow");
+if (slow != null)
+{
+    // addTrait() only checks the NEW trait's own set, so fill both sides:
+    // otherwise a slow unit refuses swift, but a swift unit happily turns slow
+    swift.opposite_traits = new HashSet<ActorTrait> { slow };
+    if (slow.opposite_traits == null) slow.opposite_traits = new HashSet<ActorTrait>();
+    slow.opposite_traits.Add(swift);
+}
+
+// gaining swift strips these; the game reads the array, not the ids
+ActorTrait fat = AssetManager.traits.get("fat");
+if (fat != null) swift.traits_to_remove = new ActorTrait[] { fat };
+```
+
+`HashSet` braucht `using System.Collections.Generic;` am Dateianfang.
+
+> [!WARNING] `opposite_trait_mod` braucht `opposite_traits`
+> `opposite_trait_mod` ändert, wie sehr sich zwei Einheiten mögen, wenn eine den Gegensatz des Merkmals der anderen hat. Der Sozialcode iteriert ohne Null-Prüfung über `opposite_traits`, den Mod zu setzen und das Set `null` zu lassen wirft also eine `NullReferenceException`, sobald sich zwei Einheiten das erste Mal einschätzen. Gib dem Set einen Wert, und sei es ein leeres.
+
+## Seltenheit (Rarity)
+
+`rarity` entscheidet über die Farbe des Namens und die Seltenheitszeile im Merkmals-Tooltip, und `Rarity.R3_Legendary` bekommt zusätzlich den besonderen legendären Rahmen. Die Werte sind `R0_Normal`, `R1_Rare`, `R2_Epic` und `R3_Legendary`.
+
+Bei Vanilla-Merkmalen läuft das größtenteils automatisch: Während das Spiel lädt, zählt die Bibliothek, was jedes Merkmal tut (Aktionen, Entscheidungen, Zaubersprüche, Kampfaktionen, Tags), und hebt alles, was etwas tut, auf `R1_Rare` oder `R2_Epic` an. Dein Merkmal kommt nach diesem Durchgang an, es behält also, was du geschrieben hast, und hast du nichts geschrieben, ist das der Standard, `R1_Rare`, egal wie viel es tut. Setz es selbst:
+
+```csharp
+swift.rarity = Rarity.R2_Epic;
+```
+
+## Es aus Code freischalten
+
+Mit `needs_to_be_explored = true` startet das Merkmal gesperrt im Wissensbuch. `unlock()` ist, wie das Spiel es entdeckt:
+
+```csharp
+AssetManager.traits.get(HelloTraits.SWIFT)?.unlock();
+```
+
+Es fügt die ID zum Fortschritt des Spielers hinzu, zeigt den "neues Wissen"-Hinweis und speichert die Fortschrittsdatei. `unlock(false)` überspringt das Speichern: nutze es, wenn du mehrere Dinge nacheinander freischaltest, und ruf am Ende einmal `GameProgress.saveData()` auf. Es gibt `false` zurück und tut nichts, wenn das Merkmal bereits verfügbar ist, und ein Merkmal mit `needs_to_be_explored = false` ist das immer. Ruf es aus dem Gameplay heraus auf, wenn der Spieler es sich verdient hat: Es ist seine echte Fortschrittsdatei, und es bleibt danach in jeder Welt freigeschaltet.
+
+`unlocked_with_achievement` ist standardmäßig bereits `false`. `unlocked_with_achievement = false` zu schreiben ändert nichts.
 
 ## Das Trait einer Einheit verleihen
 

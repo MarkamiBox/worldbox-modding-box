@@ -451,3 +451,38 @@ private static Sprite Icon(string pName)
 ```
 
 버튼의 이름과 툴팁은 버튼 자체가 아니라 **권능 id**에서 가져옵니다. 그렇기 때문에 위의 키들이 생성 메서드에 전달한 id와 일치하는 것입니다.
+
+## 창 및 토글 헬퍼
+
+설치된 NML 어셈블리는 `NeoModLoader.General`에서 이런 헬퍼들도 제공합니다. 탭과 대상 창 또는 권능이 이미 존재하는 상태에서 한 번만 쓰세요:
+
+```csharp
+PowerButton windowButton = PowerButtonCreator.CreateWindowButton(
+    "hello_native_open", HelloNativeWindow.WindowId,
+    Icon("iconHelloPanel"), tab.transform, Vector2.zero);
+```
+
+`CreateWindowButton`은 버튼의 `open_window_id`를 설정합니다. 창 자체를 만들어주지는 않습니다. `CreateSimpleButton`은 `UnityAction`을 받으므로, 나만의 콜백에는 이걸 쓰세요. `GetTab(string pId)`는 탭을 찾고, `AddButtonToTab(button, tab)`은 버튼을 그 탭 안으로 옮깁니다. 이 오버로드는 `Vector2` 위치와 선택적 형제 인덱스도 받습니다.
+
+`CreateToggleButton(pGodPowerId, pIcon, pParent, pLocalPosition, pNoAutoSetToggleAction = false)`은 비어있지 않은 `toggle_name`을 가진 등록된 `GodPower`가 필요합니다. 그 이름이 해당 버튼의 `PlayerConfig` 옵션을 식별합니다. 이 헬퍼는 플레이어 딕셔너리에 그 키가 없으면 false 값의 Boolean 옵션과 플레이어 값을 만들어줍니다. **[게임 옵션](#/nml/game-options)**에 나온 것처럼 둘 다 직접 등록하는 편을 권합니다.
+
+> [!NOTE] 자동 토글도 콜백의 일부입니다
+> NML은 기본적으로 기존 `toggle_action` 뒤에 자신의 토글-및-저장 동작을 덧붙입니다. 기존 콜백이 상태 변경을 직접 책임진다면 `pNoAutoSetToggleAction: true`를 넘기세요. 콜백이 null이라면, 이 플래그를 줘도 NML이 기본 동작을 설치하는 걸 막지 못합니다. 생성 메서드를 반복 호출하면 동작이 중복으로 쌓일 수 있습니다.
+
+## 게임의 PowerTabAsset
+
+`AssetManager.power_tab_library`는 네이티브 탭 에셋을 저장합니다. NML의 `TabManager.CreateTab`이 반환하는 `PowersTab` UI 컴포넌트와는 별개입니다.
+
+| 필드 | 의미 |
+| --- | --- |
+| `locale_key` | 이름 키. `getDescriptionID()`는 이 키에 `_info`를 붙여 반환함 |
+| `icon_path` | `getIcon()`이 사용하는 스프라이트 경로 |
+| `get_power_tab` | 표시할 `PowersTab`을 반환하는 델리게이트 |
+| `gameplay_tab` | UI 탭에 대한 참조 |
+| `window_id` | 연결된 창 id |
+| `on_main_tab_select` / `on_main_info_click` | 메인 탭 콜백들 |
+| `on_update_check_active` | 활성 상태 확인 콜백 |
+
+`tryToShowPowerTab()`은 `get_power_tab`을 호출하고, 반환된 컴포넌트에게 스스로를 표시하라고 요청합니다. 빈 에셋만 추가하는 것으로는 UI 탭을 만드는 걸 대신할 수 없습니다. NML의 명시적인 제목/설명 인자를 네이티브 `_info` 관례와 혼동하지 마세요.
+
+다음: 패널을 위한 **[커스텀 창](#/nml/custom-windows)**, 또는 그 상태를 위한 **[게임 옵션](#/nml/game-options)**.

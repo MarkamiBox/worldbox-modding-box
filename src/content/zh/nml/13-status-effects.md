@@ -94,7 +94,8 @@ namespace HelloBox
 | `path_icon` | 状态列表小图标路径 |
 | `texture`, `sprite_list`, `animated`, `loop`, `animation_speed` | 覆盖在生物头顶身上的特效图。`texture` 仅填写位于 `effects/` 下的纯文件名 |
 | `offset_x`, `offset_y`, `scale`, `rotation_z`, `render_priority` | 特效图的锚点偏移与渲染参数 |
-| `opposite_traits`, `opposite_tags` | 免疫阻断该状态的特质或标签 |
+| `opposite_traits` | 一个 **actor trait** id 的 `string[]`。只要单位拥有其中任意一个，就永远不会挂上该状态：`burning` 列出的是 `fire_proof`，`poisoned` 列出的是 `poison_immune`。写的是纯 id，每次都会检查，所以你自己的 `hello_` 前缀特质在这里同样有效 |
+| `opposite_tags` | 作用相同，只是针对的是像 `immunity_fire` 这样的属性标签：携带其中任意一个标签的单位就免疫 |
 | `action_on_receive`, `action_get_hit` | 挂载生效时及受击时的额外委托回调 |
 | `sound_idle` | 状态存续期间循环播放的 FMOD 环境音效 |
 
@@ -138,14 +139,19 @@ cursed.action = (BaseSimObject pTarget, WorldTile pTile) =>
 
 ## 将状态效果附加到单位身上
 
-这里很多人会踩雷。最直观的 `actor.addStatusEffect("hello_cursed")` 方法在游戏程序集中被声明为 `internal`。针对公开化 (publicized) 的 `Assembly-CSharp.dll` 它能顺利编译，而普通的 NML 模组本来就有一份：NML 会用自己的公开化副本来编译你的 `Code/*.cs`，所以本指南里的每个 `internal` 成员在你这里都能编译通过。只有当你在 Visual Studio 里针对原版程序集自己编译 `.dll` 时才会失去它。那种情况下，公开的入口永远可用：
+这里很多人会踩雷。最直观的 `actor.addStatusEffect("hello_cursed")` 方法在游戏程序集中被声明为 `internal`。针对公开化 (publicized) 的 `Assembly-CSharp.dll` 它能顺利编译，而普通的 NML 模组本来就有一份：NML 会用自己的公开化副本来编译你的 `Code/*.cs`，所以本指南里的每个 `internal` 成员在你这里都能编译通过。只有当你在 Visual Studio 里针对原版程序集自己编译 `.dll` 时才会失去它。遇到那种情况，就借用游戏自己的行为节点：它的构造函数和 `execute()` 都是公开的，并且会替你调用 `addStatusEffect`：
 
 ```csharp
-StatusAsset asset = AssetManager.status.get(HelloStatus.CURSED);
-World.world.statuses.newStatus(actor, asset, 20f);   // 持续 20 秒（若传 0 则使用该资源自身的默认持续时间）
+if (actor == null || !actor.isAlive() || World.world == null || Config.worldLoading) return;
+new ai.behaviours.BehActorAddStatus(HelloStatus.CURSED, 20f).execute(actor);   // 20s; pass 0f for the asset's own duration
 ```
 
-在 AI 行为（behaviour）树节点中，原版也提供了现成的包装节点：`new BehActorAddStatus("hello_cursed", 20f)` 与 `new BehActorRemoveStatus("hello_cursed")`。
+> [!WARNING] `World.world.statuses.newStatus()` 只做了一半的工作
+> 它确实是公开的，看起来也像是正确的入口。但它只会创建 `Status` 对象并启动计时器：它从不会把这个状态放进单位自己的状态列表，也会跳过所有检查，包括 `opposite_traits`。这个单位根本不知道自己身上有这个状态：`hasStatus()` 会返回否，`base_stats` 也永远不会生效。请通过 `addStatusEffect`，直接调用或通过上面的节点来调用。
+
+这两个节点都在 `ai.behaviours` 命名空间下；加上 `using ai.behaviours;` 就能用简短的类名。想使用该资源自身的默认持续时间，要显式传入 `0f`：添加节点默认是 `-1f`，这个值会被当作覆盖值原样传下去，而不会被当成“使用默认持续时间”处理。
+
+在 AI 行为（behaviour）树节点中，同样是这两个节点作为现成的步骤：`new BehActorAddStatus("hello_cursed", 20f)` 与 `new BehActorRemoveStatus("hello_cursed")`。
 
 ## 切记添加本地化文本
 

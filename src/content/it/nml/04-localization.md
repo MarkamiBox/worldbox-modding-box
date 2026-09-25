@@ -24,7 +24,7 @@ Se la tua classe principale eredita da `BasicMod<T>`, crea una cartella `Locales
 }
 ```
 
-Il nome del file **è** la lingua: `en.json`, `cz.json` (cinese semplificato), `ru.json`, `it.json` e così via.
+Il nome del file **è** la lingua: `en.json`, `cz.json` (cinese semplificato), `ch.json` (cinese tradizionale), `ja.json` (giapponese), `ru.json`, `it.json` e così via. Questi sono gli id registrati da `GameLanguageLibrary`, non codici ISO indovinati. Il ceco è `cs`, non `cz`. Tieni la cartella della mod chiamata `Locales` con la L maiuscola; i percorsi delle risorse `locales/` del gioco stesso sono una cosa separata.
 
 Se invece implementi `IMod` manualmente, aggiungi `ILocalizable` e punta alla cartella:
 
@@ -113,3 +113,19 @@ Il gioco costruisce queste chiavi da solo, quindi devono combaciare alla perfezi
 
 > [!WARNING] Gli ID non sono nomi
 > Il tuo ID è `hello_swift` per sempre, in qualunque lingua, ed è ciò a cui fa riferimento il resto del tuo codice (e le mod di altri). Il **testo di localizzazione** è la parte che cambia. Non rinominare mai un ID solo per correggere un refuso nel nome visualizzato :PESgn_Stop:.
+
+## L'API di gioco senza LM
+
+Per un valore che serve solo nella lingua attualmente caricata:
+
+```csharp
+LocalizedTextManager.add("hello_notice", "Hello from HelloBox", pReplace: true);
+string notice = LocalizedTextManager.getText("hello_notice");
+```
+
+`add(string pKey, string pTranslation, bool pReplace = false, string pFileName = "", bool pCheckForCharacters = true)` scrive nel dizionario di testo corrente. Le chiavi esistenti restano invariate a meno che `pReplace` non sia vero. Normalizza la chiave tramite `Underscore()`, quindi usa fin da subito chiavi con underscore. `getText(string pKey, Text text = null, bool pForceEnglish = false)` legge quel dizionario; il sorgente verificato non usa `pForceEnglish` per selezionare l'inglese.
+
+> [!NOTE] Il testo corrente non è un file di traduzione
+> Cambiare lingua ricostruisce i dizionari di testo del gioco. Usa `Locales` o `LM.Add` per traduzioni che devono sopravvivere a un cambio di lingua. `add` diretto inoltre non aggiorna per te i componenti di testo già esistenti.
+
+Prossima pagina: **[Sprite e risorse](#/nml/sprites-and-resources)** oppure metti testo a schermo con **[Messaggi e registro del mondo](#/nml/messages-and-world-log)**.

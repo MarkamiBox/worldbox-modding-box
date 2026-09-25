@@ -147,3 +147,9 @@ public ModConfig GetConfig()
 ```
 
 Ese único método es lo que hace que el botón de configuración aparezca junto a tu mod en la ventana de mods. Un solo método, y nadie vuelve a discutir contigo en Discord. En teoría.
+
+## ¿Ajustes del mod u opciones del juego?
+
+Guarda las preferencias normales de HelloBox en `default_config.json`. `AssetManager.options_library` del juego es un sistema distinto, respaldado por `PlayerConfig`, y resulta útil cuando conectas un interruptor nativo. Registrar solo el asset de la opción no crea su valor guardado.
+
+Siguiente: **[Opciones del juego y escalas de tiempo](#/nml/game-options)** para esa ruta, o **[Pestañas y botones de poder](#/nml/power-buttons)** para poner un control en pantalla.

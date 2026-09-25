@@ -68,8 +68,12 @@ sera chargé sous l'identifiant `ui/Icons/iconHelloSwift` et fonctionnera partou
 | `PivotX` / `PivotY` | Le point d'ancrage. `0.5 / 0.0` correspond au bas-centre, requis pour les unités et bâtiments (building) |
 | `BorderL/R/T/B` | Bordures 9-slice pour les cadres de fenêtres et les boutons extensibles |
 | `Path` | Fichier particulier auquel s'applique cette configuration spécifique |
+| `RectX` / `RectY` | Décalages du rectangle du sprite. Les deux valent `0` par défaut ; la documentation de NML recommande de les laisser à `0` |
 
 `Default` s'applique à tous les fichiers du dossier qui ne disposent pas d'une entrée dédiée dans `Specific`.
+
+> [!NOTE] Les décalages ne sont pas une recette d'atlas
+> Les réglages documentés de `sprites.json` n'ont aucun champ de largeur ou de hauteur de rectangle. N'en inventez pas pour découper une planche de sprites. NML documente les fichiers `.meta` d'Unity pour les atlas et les feuilles de sprites.
 
 ## Où doit se trouver chaque type d'élément graphique
 
@@ -174,3 +178,6 @@ private static Sprite Icon(string pName)
 ```
 
 Une icône d'avertissement vous indique clairement : "le chemin est erroné". L'absence totale de sprite vous condamne à passer deux heures à chercher où est passé votre bouton :PES4_Invisible:.
+
+
+Suite : **[Réglages du mod](#/nml/mod-config)** ou **[Fenêtres personnalisées](#/nml/custom-windows)**.

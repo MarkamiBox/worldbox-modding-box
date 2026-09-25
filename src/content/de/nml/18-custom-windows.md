@@ -266,7 +266,11 @@ namespace HelloBox
 | --- | --- |
 | `callback` | Befüllt den Tooltip: `name.text`, `setDescription()`, `setBottomDescription()` |
 | `prefab_id` | Welches Tooltip-Layout verwendet wird. Standard ist `tooltips/tooltip_normal` |
+| `sound` / `color` | Öffentliche String-Felder, aber die mitgelieferte Tooltip-Anzeige-Implementierung nutzt sie nicht |
 | `callback_text_animated` | Wird während der Anzeige alle 0,08 Sekunden erneut aufgerufen, für animierte Texte |
+
+> [!NOTE] Prüfe den Verbraucher, nicht nur das Feld
+> Versprich keinen automatischen Sound oder keine automatische Farbe durch `TooltipAsset.sound` oder `color`. Für eine Titelfarbe formatiert das öffentliche `pTooltip.setTitle("HelloBox", "", "#43FF43")` sie ausdrücklich. `setDescription` und `setBottomDescription` sind in der mitgelieferten Spielquelle `internal`, das obige Beispiel braucht also eine publizierte `Assembly-CSharp.dll`.
 
 ## Ein Hotkey dafür
 
@@ -323,3 +327,6 @@ Die `check_*`-Flags sind der einfachste Weg, Konflikte zu vermeiden: `check_cont
 
 > [!TIP] Kopiere zuerst aus dem Spiel
 > Öffne **UnityExplorer**, suche ein vanilla Fenster in der Hierarchie und lies die Komponenten und Werte (stats) direkt ab. Eine funktionierende Struktur zu kopieren ist unendlich besser, als drei Stunden lang Ankerpunkte zu erraten :PES2_GaSmart:.
+
+
+Weiter geht's mit **[Nachrichten & Weltprotokoll](#/nml/messages-and-world-log)** für Hinweise und Kartenbeschriftungen, oder **[Spieloptionen & Zeitskalen](#/nml/game-options)** für native Options-Zustände.

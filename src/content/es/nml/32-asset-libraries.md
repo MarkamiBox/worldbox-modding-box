@@ -30,7 +30,7 @@ Eso es todo. Una lista y un diccionario, ambos públicos, ambos a tu disposició
 AssetManager.traits.has("hello_swift");            // ¿este id ya está ocupado?
 AssetManager.traits.get("hello_swift");            // obtenerlo, o null
 AssetManager.traits.add(myTrait);                  // registrar un asset nuevo
-AssetManager.traits.clone("hello_new", "brave");   // copiar uno existente y registrar la copia
+AssetManager.traits.clone("hello_new", "strong");   // copiar uno existente y registrar la copia
 ```
 
 ### `has(id)`
@@ -48,8 +48,8 @@ Sin ella, cualquier recarga de mods registrará todo dos veces.
 Devuelve el asset vivo en memoria, o `null` si no existe tal id. **No** lanza excepciones, por lo que el fallo por null estalla lejos del error inicial:
 
 ```csharp
-ActorTrait brave = AssetManager.traits.get("brave");
-if (brave == null) return;   // siempre. todas y cada una de las veces.
+ActorTrait strong = AssetManager.traits.get("strong");
+if (strong == null) return;   // siempre. todas y cada una de las veces.
 ```
 
 Que `get` devuelva el objeto *vivo* es lo más potente de esta página. Significa que puedes alterar contenido vanilla sin reemplazarlo:
@@ -151,6 +151,43 @@ El juego construye las 129 bibliotecas al arrancar, luego ejecuta `post_init()` 
 
 > [!NOTE] Parchear estos métodos no toca el contenido vanilla
 > `has`, `get`, `add`, `clone` y `post_init` se ejecutan sobre las 129 bibliotecas durante el arranque del juego, antes de que NML cargue un solo mod. Un parche de Harmony sobre cualquiera de ellos solo afecta a las llamadas hechas *después* de que cargue tu mod. Nunca toca el registro vanilla que ya ocurrió para entonces. ¿Quieres contenido vanilla distinto? Cámbialo después con `get()`, como hace el resto de esta página.
+
+## Tres formas de hacerlo mal
+
+Las tres compilan, las tres parecen razonables, y las tres las he cometido yo.
+
+### Borrar un asset vanilla para añadir tu propia versión
+
+```csharp
+// no hagas esto
+AssetManager.traits.list.RemoveAll(a => a.id == "strong");
+AssetManager.traits.add(myStrong);
+```
+
+`RemoveAll` solo toca `list`. `dict` sigue teniendo el `strong` antiguo, así que `add()` ve un duplicado, registra `duplicate asset - overwriting...` y lo cambia de todas formas, lo que significa que la primera línea no sirvió de nada. El problema real es todo lo que capturó el objeto antiguo al arrancar: campos estáticos como `WorldLawLibrary.world_law_hunger`, y cada asset que se vinculó a él en `linkAssets()`, antes de que tu mod existiera. Todos ellos conservan el antiguo. Ahora hay dos assets con el mismo id, y cuál usa el juego depende de quién cacheó qué :PESgn_Really:.
+
+Para cambiar contenido vanilla, cambia el objeto que ya está ahí:
+
+```csharp
+ActorTrait strong = AssetManager.traits.get("strong");
+if (strong == null) return;
+strong.base_stats["damage"] = 10f;   // mismo objeto, cada referencia cacheada lo ve
+```
+
+### Editar un clon y cambiar también el original
+
+`clone()` copia las listas en listas nuevas y clona cualquier cosa que sea `ICloneable` (como `base_stats`). Cualquier otro objeto se copia **por referencia**. `MapGenTemplate.values`, por ejemplo, es una clase plana: clona `continent`, cambia un indicador en el `values` de tu copia, y los continentes vanilla cambian con él. Cuando un campo contiene un objeto, dale a tu clon uno nuevo antes de editarlo. **[Generación de mapas](#/nml/map-generation)** tiene el caso concreto.
+
+### Clonar un asset que añade otro mod
+
+`clone("hello_new", "their_id")` hace `dict[pFrom]` sin ninguna comprobación. Si el otro mod aún no ha ejecutado su `Initialize()`, o no está instalado, eso es una `KeyNotFoundException` y todo tu `OnModLoad` se detiene en esa línea. No dependas del orden de las carpetas. Declara la dependencia y aun así comprueba que el asset existe antes de clonarlo; el otro mod podría haber cambiado sus ids.
+
+```csharp
+if (!AssetManager.buildings.has("their_id")) return;   // no está (todavía): omite, no colapses
+AssetManager.buildings.clone("hello_new", "their_id");
+```
+
+Detectar otros mods y gestionar bien el orden de carga está en **[Trabajar junto a otros mods](#/nml/other-mods)**.
 
 ## El patrón que utilizan todas las páginas siguientes
 
