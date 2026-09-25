@@ -696,7 +696,7 @@ function checkWorldBoxApi(code: string, mask: string, text: string): Diagnostic[
   // AssetManager.<library>
   scanAll(/\bAssetManager\s*\.\s*([A-Za-z_]\w*)/g, (m) => {
     const name = m[1];
-    if (ASSET_LIBRARIES.has(name)) return null;
+    if (ASSET_LIBRARIES.has(name) || ASSET_MANAGER_MEMBERS.has(name)) return null;
     const guess = nearest(name, ASSET_LIBRARIES);
     return {
       ...lineAt(m.index),
@@ -827,6 +827,12 @@ function checkJson(code: string): Diagnostic[] {
  * Check a snippet. Reports real problems only: it never rewrites the code, and it never
  * reports a "fix", because a wrong autofix is worse than no check at all.
  */
+/** AssetManager's own public static members that are not libraries (from the game code). */
+const ASSET_MANAGER_MEMBERS = new Set([
+  'missing_locale_keys', 'init', 'initMain', 'clear', 'has', 'load', 'loadAutoTester',
+  'changeSex', 'newKingdomColors', 'setRandomKingdomColor',
+]);
+
 export function checkCode(code: string, language = 'csharp'): Diagnostic[] {
   if (!code.trim()) return [];
   if (language === 'json') return checkJson(code);

@@ -7,38 +7,40 @@ order: 1
 
 # BepInEx 模组开发 :PES5_BigBrain:
 
-本指南的大多数章节都在教你如何为 **NeoModLoader** 开发模组。NML 允许你在记事本里直接编写 `.cs` 源码文件，启动游戏即可实时自动编译。
+这份指南大部分内容教你为 **NeoModLoader** 写 mod。用 NML，你在记事本里写普通的 `.cs` 文件，启动游戏，代码就会自动编译。
 
-而 BepInEx 可不会照顾你的小情绪 :PES2_Shrug:。它是 Unity 领域老牌且通用的底层模组加载框架。开发 BepInEx 模组意味着你需要搭建一个正经的 C# 工程，自行编译生成 `.dll` 二进制文件并放入 `BepInEx/plugins/` 目录。虽然你失去了 NML 的热重载与便捷的资源管理 API，但你获得了在 WorldBox 甚至还没意识到自己已启动之前就接管 Unity 进程的底层掌控力。
+BepInEx 才不管你的感受 :PES2_Shrug:。它是老牌的、通用的 Unity 模组框架。写 BepInEx mod 意味着搭一个真正的 C# 项目，自己编译 `.dll`，然后放进 `BepInEx/plugins/`。你会失去即时热重载和方便的资产（asset）工具，但能在游戏还没意识到自己醒来之前，就完全掌控 Unity 进程。
 
-## BepInEx 与 NeoModLoader 对比
+指南的这一部分有三页：这一页让插件跑起来，**[用 BepInEx 添加内容](#/toolbox/bepinex-content)** 让它往游戏里加真正的东西，**[调试与发布](#/toolbox/bepinex-publishing)** 把它交到别人手上。
 
-在花费一整个下午配置编译环境前，先挑对适合你需求的工具：
+## BepInEx 还是 NeoModLoader
 
-| 开发目标 | 推荐选择 | 核心理由 |
+在花一下午搭构建流程之前，先选对工具：
+
+| 你想要... | 选 | 原因 |
 | --- | --- | --- |
-| 添加特质（trait）、装备、神力（GodPower）、生物或地形群落 | **NML** | NML 开箱即用提供 `AssetManager`、多语言支持、贴图加载与存档扩展存储 |
-| 制作开发者工具、UI 悬浮窗或引擎级底层 Hook | **BepInEx** | BepInEx 在 Mono 运行时级别加载，早于 WorldBox 的主逻辑初始化 |
-| 只用记事本写代码，保存即生效 | **NML** | NML 在运行时自动调用 Roslyn 编译源码 |
-| 分发包含原生 Unity 组件的预编译二进制插件 | **BepInEx** | 你可以完全自主控制编译器标志、项目依赖项与构建目标 |
+| 添加特质（trait）、物品（item）、神力（GodPower）、生物或群系 | **NML** | NML 免费给你：正确时机的 `AssetManager`、`Locales` 文件夹、`GameResources/`、按钮和存档工具 |
+| 做开发者工具、叠加界面或引擎钩子 | **BepInEx** | BepInEx 在 Mono 层启动，早于 WorldBox 初始化 |
+| 只用记事本改代码然后保存 | **NML** | NML 在运行时编译 C# 源文件 |
+| 发布一个预编译的、只用 Unity 组件的插件 | **BepInEx** | 编译选项、依赖和构建目标都由你自己掌控 |
 
-如果是为游戏添加玩法内容，直接使用 NML。如果是开发类似 UnityExplorer 的底层辅助工具，BepInEx 才是最佳战场。
+如果你要加游戏内容，就写 NML mod。如果你在做 UnityExplorer 这样的工具，或者真心喜欢看终端里的 MSBuild 输出，那 BepInEx 就是你的归宿。用 BepInEx *也能*加内容，下一页会讲怎么做，但 NML 白送的东西你得自己手搓。
 
-## 1. 前置准备
+## 1. 准备工作
 
-1. 按照 **[实时控制台 (BepInEx)](#/toolbox/bepinex-console)** 的教程安装 **BepInEx 5 (Mono x64)** 并开启日志控制台。
-2. 安装 **[.NET SDK](https://dotnet.microsoft.com/)**（或安装带 .NET 桌面开发组件的 Visual Studio）。开发 BepInEx 插件需要真正的 C# 编译器。
+1. 安装 **BepInEx 5 (Mono x64)**，并按照 **[实时控制台（BepInEx）](#/toolbox/bepinex-console)** 里的说明打开控制台。启动一次游戏，让 BepInEx 创建它的文件夹。
+2. 安装 **[.NET SDK](https://dotnet.microsoft.com/)**（或装了 .NET 桌面开发的 Visual Studio）。BepInEx 插件需要真正的 C# 编译器。
 
-## 2. 创建并配置项目
+## 2. 搭建项目
 
-在终端中进入你的工作目录，创建一个新的类库项目：
+在你存放项目的文件夹里打开终端，新建一个类库：
 
 ```bash
-dotnet new classlib -n HelloBepInEx -f net472
+dotnet new classlib -n HelloBepInEx
 cd HelloBepInEx
 ```
 
-在代码编辑器中打开 `HelloBepInEx.csproj`，配置对游戏核心程序集与 BepInEx 的引用：
+然后把 `HelloBepInEx.csproj` 的内容全部换成下面这些。它使用和游戏相同的 .NET 版本，只需写一次 WorldBox 文件夹路径，并且每次构建都会替你做三件事：
 
 ```xml HelloBepInEx.csproj
 <Project Sdk="Microsoft.NET.Sdk">
@@ -47,41 +49,44 @@ cd HelloBepInEx
     <AssemblyName>HelloBepInEx</AssemblyName>
     <Version>1.0.0</Version>
     <LangVersion>latest</LangVersion>
+    <!-- Your WorldBox folder. Change this one line if Steam lives on another drive. -->
+    <GameDir>C:\Program Files (x86)\Steam\steamapps\common\worldbox</GameDir>
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Game assemblies from worldbox_Data/Managed -->
-    <Reference Include="Assembly-CSharp">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\worldbox\worldbox_Data\Managed\Assembly-CSharp.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\worldbox\worldbox_Data\Managed\UnityEngine.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\worldbox\worldbox_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <!-- BepInEx and Harmony from BepInEx/core -->
-    <Reference Include="BepInEx">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\worldbox\BepInEx\core\BepInEx.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="0Harmony">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\worldbox\BepInEx\core\0Harmony.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
+    <!-- Lets you build for net472 without installing the old .NET Framework developer pack -->
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <!-- Makes internal and private game code visible to your compiler, like NML does -->
+    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.3" PrivateAssets="all" />
   </ItemGroup>
+
+  <ItemGroup>
+    <!-- The game, publicized -->
+    <Reference Include="$(GameDir)\worldbox_Data\Managed\Assembly-CSharp.dll" Publicize="true" Private="false" />
+    <!-- Every Unity module: UnityEngine.dll alone does not have Input, UI or ImageConversion -->
+    <Reference Include="$(GameDir)\worldbox_Data\Managed\UnityEngine*.dll" Private="false" />
+    <!-- BepInEx and Harmony -->
+    <Reference Include="$(GameDir)\BepInEx\core\BepInEx.dll" Private="false" />
+    <Reference Include="$(GameDir)\BepInEx\core\0Harmony.dll" Private="false" />
+  </ItemGroup>
+
+  <!-- After every build, copy the plugin straight into the game -->
+  <Target Name="CopyToGame" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(GameDir)\BepInEx\plugins\$(AssemblyName)\" />
+  </Target>
 </Project>
 ```
 
-如果你的 Steam 游戏安装在其他盘符，请相应调整路径。将引用的 `<Private>false</Private>` 属性设为 false，可以避免将游戏自带的巨大引擎程序集重复复制到最终输出目录中 :PESgn_SMH:。
+每一部分的作用：
 
-## 3. 插件核心结构
+- 每个游戏引用上的 **`Private="false"`**：构建输出不会把游戏的整个引擎复制一份进去 :PESgn_SMH:。
+- **`Publicize="true"`**：指南里的 NML 页面经常用到游戏的 `internal` 成员，因为 NML 是对着"公开化"（publicized）的游戏编译的。你的 BepInEx 项目默认不会这样，除非你要求。加上这个，同样的代码在这里也能编译。`PackageReference` 里的版本号是我写这页时最新的稳定版；如果 NuGet 报错，就用它提供的最新版。
+- **`UnityEngine*.dll`**：Unity 被拆成很多模块文件。`Input` 在 `UnityEngine.InputLegacyModule.dll` 里，界面在 `UnityEngine.UI.dll` 里，等等。全部引用可以省掉找"类型不存在"的麻烦。
+- **`CopyToGame`**：不用再手动复制 `.dll`。构建、启动游戏，完事。
 
-一个标准的 BepInEx 插件必须继承自 `BaseUnityPlugin`，并附带 `[BepInPlugin]` 属性标记：
+## 3. 插件骨架
+
+BepInEx 插件是一个继承 `BaseUnityPlugin` 并带有 `[BepInPlugin]` 特性的类：
 
 ```csharp Plugin.cs
 using BepInEx;
@@ -92,17 +97,20 @@ using UnityEngine;
 namespace HelloBepInEx
 {
     [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
+    [BepInProcess("worldbox.exe")]
     public class HelloPlugin : BaseUnityPlugin
     {
         public const string PLUGIN_GUID = "com.example.hellobepinex";
         public const string PLUGIN_NAME = "HelloBepInEx";
         public const string PLUGIN_VERSION = "1.0.0";
 
+        // BepInEx manages configuration files automatically
         private ConfigEntry<bool> configEnableLogs;
         private ConfigEntry<KeyCode> configHotkey;
 
         private void Awake()
         {
+            // Bind configuration: section, key, default value, description
             configEnableLogs = Config.Bind(
                 "General",
                 "EnableLogs",
@@ -122,12 +130,14 @@ namespace HelloBepInEx
                 Logger.LogInfo($"{PLUGIN_NAME} loaded successfully!");
             }
 
+            // Apply any Harmony patches in this assembly
             Harmony harmony = new Harmony(PLUGIN_GUID);
             harmony.PatchAll();
         }
 
         private void Update()
         {
+            // Standard Unity Update cycle
             if (Input.GetKeyDown(configHotkey.Value))
             {
                 Logger.LogInfo("Hotkey pressed from BepInEx!");
@@ -137,16 +147,17 @@ namespace HelloBepInEx
 }
 ```
 
-### 关键代码解析
+### 逐个拆解
 
-- **`BaseUnityPlugin`**：直接继承自 Unity 的 `MonoBehaviour`。你的模组类本质上是一个常驻后台且在场景切换时不被销毁的活体 `GameObject` 组件。
-- **`[BepInPlugin(guid, name, version)]`**：声明模组名称与全局唯一的 GUID。通常推荐使用反向域名格式（如 `com.author.modname`）。
-- **`Logger.LogInfo()`**：日志输出会实时同步刷新至黑色的 BepInEx 控制台窗口，并记录到 `BepInEx/LogOutput.log` 文件中。
-- **`Config.Bind()`**：创建强类型配置项。首次运行插件时，BepInEx 会自动在 `BepInEx/config/com.example.hellobepinex.cfg` 生成人类可读的配置文件供玩家修改。
+- **`BaseUnityPlugin`**：直接继承 Unity 的 `MonoBehaviour`。你的插件是挂在一个常驻 `GameObject` 上的活动组件，切换场景也不会消失。
+- **`[BepInPlugin(guid, name, version)]`**：告诉 BepInEx 你的 mod 叫什么、唯一标识是什么。用反向域名格式（`com.author.modname`），并且发布后永远不要改 GUID：配置文件和其他插件的依赖都靠它。
+- **`[BepInProcess("worldbox.exe")]`**：只在 WorldBox 里加载。这里无害，还能避免有人把你的插件放进别的游戏的 BepInEx 里时出现莫名其妙的崩溃。
+- **`Logger.LogInfo()`**：直接输出到 BepInEx 的实时控制台，并写入 `BepInEx/LogOutput.log`。
+- **`Config.Bind()`**：创建一个带类型的设置项。插件第一次运行时，BepInEx 会生成一个干净的 `BepInEx/config/com.example.hellobepinex.cfg` 文件，玩家可以编辑。
 
-## 4. 使用 Harmony 补丁修改游戏
+## 4. 用 Harmony 挂钩游戏
 
-BepInEx 已在 `BepInEx/core/0Harmony.dll` 中内置了 Harmony 库。直接在项目中新建补丁类：
+在 BepInEx 里，Harmony 直接自带在 `BepInEx/core/0Harmony.dll`。在项目任意位置加一个补丁类：
 
 ```csharp Patches.cs
 using HarmonyLib;
@@ -154,33 +165,30 @@ using UnityEngine;
 
 namespace HelloBepInEx
 {
-    [HarmonyPatch(typeof(World), nameof(World.init))]
-    public static class WorldInitPatch
+    // MapBox.startTheGame runs once the world exists: it is where the game sets Config.game_loaded
+    [HarmonyPatch(typeof(MapBox), nameof(MapBox.startTheGame))]
+    public static class StartTheGamePatch
     {
         [HarmonyPostfix]
         public static void Postfix()
         {
-            Debug.Log("[HelloBepInEx] World initialized from BepInEx patch!");
+            Debug.Log("[HelloBepInEx] The world is ready!");
         }
     }
 }
 ```
 
-由于在 `Plugin.cs` 中执行了 `harmony.PatchAll()`，BepInEx 启动时会自动扫描你的整个程序集并完成 Hook 注入。
+因为 `Plugin.cs` 调用了 `harmony.PatchAll()`，Harmony 会扫描你编译出的程序集，应用里面所有的补丁类。你在 **[Harmony 补丁](#/nml/harmony-patches)** 里学到的一切在这里同样适用：神奇的参数名、Prefix 和 Postfix、不要破坏其他 mod 的规则。
 
-## 5. 编译与安装运行
+## 5. 构建与部署
 
-从命令行编译你的项目：
+在命令行编译项目：
 
 ```bash
 dotnet build -c Release
 ```
 
-编译好的 `.dll` 会生成在 `bin/Release/net472/HelloBepInEx.dll`。
-
-1. 打开你的 WorldBox 文件夹：`C:\Program Files (x86)\Steam\steamapps\common\worldbox\`。
-2. 在 `BepInEx/plugins/` 里新建一个名为 `HelloBepInEx` 的文件夹。
-3. 把 `HelloBepInEx.dll` 复制到 `BepInEx/plugins/HelloBepInEx/`。
+你的 `.dll` 会生成在 `bin/Release/net472/HelloBepInEx.dll`，`CopyToGame` 这一步会把它直接放进游戏：
 
 ```text
 worldbox/
@@ -190,16 +198,19 @@ worldbox/
             └── HelloBepInEx.dll
 ```
 
-开启控制台后启动游戏。你会看到 BepInEx 找到并加载你的程序集：
+打开控制台启动游戏。你会看到 BepInEx 找到并加载了你的程序集：
 
 ```text BepInEx console
 [Info   :   BepInEx] Loading [HelloBepInEx 1.0.0]
 [Info   :HelloBepInEx] HelloBepInEx loaded successfully!
 ```
 
-## BepInEx 开发的残酷真相
+> [!WARNING] 构建前先关闭游戏
+> WorldBox 运行时会占用你的 `.dll`，复制步骤会报错 "the process cannot access the file"。关游戏、构建、再启动。这就是 BepInEx 的整个开发循环 :PES2_Weary:。
 
-- **无热重载支持**：每次修改代码都必须完全退出游戏、重新运行 `dotnet build` 编译、然后再重新开游戏。
-- **`HideManagerGameObject`**：在 `BepInEx/config/BepInEx.cfg` 中，务必将 `HideManagerGameObject = true` 打开，否则 Unity 的清理机制可能会静默销毁 BepInEx 管理器导致插件停止运作 :PES5_Hmmmm:。
-- **与 NML 完美共存**：NML 与 BepInEx 可以在同一游戏目录下和平相处，完全不会相互冲突。
-- **访问游戏数据资产（asset）**：BepInEx 运行在纯 Unity 层。如果要操作 WorldBox 内部的单位或装备，必须等待游戏的 `AssetManager` 完成初始化，或者直接引用 `NeoModLoader.dll`。
+## BepInEx 模组开发的残酷真相
+
+- **没有热重载**：改一行代码就得关掉 WorldBox、运行 `dotnet build`、再启动游戏。如果你在调战斗平衡或特质数值，很快就会烦。**[调试与发布](#/toolbox/bepinex-publishing)** 里有一个半解决方案。
+- **`HideManagerGameObject`**：在 `BepInEx/config/BepInEx.cfg` 的 `[Chainloader]` 下设置 `HideManagerGameObject = true`。不设的话，Unity 的某些清理流程可能会销毁 BepInEx 的根对象，悄无声息地干掉你的插件 :PES5_Hmmmm:。
+- **与 NML 共存**：NML 和 BepInEx 可以和平共处在同一个游戏文件夹里。内容 mod 用 NML，UnityExplorer 这类开发工具用 BepInEx，互不打架。
+- **访问游戏资产**：你的插件醒来时，游戏还没建好它的资产库（library）。在 `Awake()` 里碰 `AssetManager` 只会拿到 null。下一页 **[用 BepInEx 添加内容](#/toolbox/bepinex-content)** 会告诉你挂钩的准确时机。
