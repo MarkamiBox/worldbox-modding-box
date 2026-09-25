@@ -7,38 +7,40 @@ order: 1
 
 # Моддинг с BepInEx :PES5_BigBrain:
 
-Большая часть этого руководства посвящена созданию модов для **NeoModLoader**. NML позволяет писать обычные файлы `.cs` в Блокноте, запускать игру и наблюдать за мгновенной компиляцией.
+Почти всё руководство учит писать моды для **NeoModLoader**. С NML вы пишете обычные файлы `.cs` в Блокноте, запускаете игру, и код компилируется сам.
 
-BepInEx плевать хотел на ваши чувства :PES2_Shrug:. Это проверенный временем универсальный фреймворк для моддинга Unity. Создание мода на BepInEx требует настройки полноценного C#-проекта, компиляции собственной `.dll` и размещения ее в `BepInEx/plugins/`. Вы теряете горячую перезагрузку и готовые вспомогательные методы ассетов, но получаете полный контроль над движком Unity еще до того, как игра поймет, что она запущена.
+BepInEx всё равно, что вы чувствуете :PES2_Shrug:. Это старый универсальный фреймворк для моддинга Unity. Мод на BepInEx означает: настроить настоящий C#-проект, скомпилировать свою `.dll` и положить её в `BepInEx/plugins/`. Вы теряете мгновенную перезагрузку и удобные помощники для ассетов, но получаете полный контроль над процессом Unity ещё до того, как игра поймёт, что проснулась.
 
-## BepInEx против NeoModLoader
+В этой части руководства три страницы: эта запускает плагин, **[Добавление контента через BepInEx](#/toolbox/bepinex-content)** учит его добавлять в игру настоящие вещи, а **[Отладка и публикация](#/toolbox/bepinex-publishing)** доводит его до других людей.
 
-Прежде чем тратить целый вечер на настройку сборки, выберите подходящий инструмент:
+## BepInEx или NeoModLoader
 
-| Задача | Выбор | Почему |
+Прежде чем тратить полдня на сборочный конвейер, выберите правильный инструмент:
+
+| Вы хотите... | Берите | Почему |
 | --- | --- | --- |
-| Черты (trait), предметы (item), силы, существа, биомы (biome) | **NML** | NML предоставляет `AssetManager`, локализацию, спрайты и сохранение данных из коробки |
-| Инструменты разработчика, оверлеи, низкоуровневые хуки | **BepInEx** | BepInEx стартует на уровне Mono еще до инициализации WorldBox |
-| Правка кода в Блокноте и сохранение | **NML** | NML компилирует исходники C# прямо во время запуска игры |
-| Распространение готового бинарного плагина с чистыми компонентами Unity | **BepInEx** | Вы сами контролируете компилятор, зависимости и параметры сборки |
+| Добавить черты (trait), предметы (item), божественные силы (GodPower), существ или биомы | **NML** | NML даёт `AssetManager` в нужный момент, папку `Locales`, `GameResources/`, кнопки и помощники для сохранений бесплатно |
+| Сделать инструменты разработчика, оверлеи или хуки движка | **BepInEx** | BepInEx стартует на уровне Mono, до инициализации WorldBox |
+| Править код в Блокноте и просто сохранять | **NML** | NML компилирует исходники C# во время работы |
+| Выпустить готовый скомпилированный плагин с чистыми компонентами Unity | **BepInEx** | Флаги компилятора, зависимости и цель сборки вы контролируете сами |
 
-Для игрового контента используйте NML. Для инструментов вроде UnityExplorer идеально подходит BepInEx.
+Если добавляете игровой контент, пишите мод на NML. Если делаете инструмент вроде UnityExplorer или просто любите смотреть на вывод MSBuild в терминале, ваше место в BepInEx. Добавлять контент через BepInEx *можно*, следующая страница показывает как, но вы вручную собираете то, что NML даёт бесплатно.
 
-## 1. Предварительные требования
+## 1. Что нужно заранее
 
-1. Установите **BepInEx 5 (Mono x64)** и включите консоль, как описано в разделе **[Живая консоль (BepInEx)](#/toolbox/bepinex-console)**.
-2. Установите **[.NET SDK](https://dotnet.microsoft.com/)** (или Visual Studio). Для сборки плагинов BepInEx требуется настоящий компилятор C#.
+1. Установите **BepInEx 5 (Mono x64)** и включите консоль, как описано на странице **[Консоль в реальном времени (BepInEx)](#/toolbox/bepinex-console)**. Запустите игру один раз, чтобы BepInEx создал свои папки.
+2. Установите **[.NET SDK](https://dotnet.microsoft.com/)** (или Visual Studio с разработкой классических приложений .NET). Для плагинов BepInEx нужен настоящий компилятор C#.
 
 ## 2. Настройка проекта
 
-Откройте командную строку в папке проектов и создайте новую библиотеку (library) классов:
+Откройте терминал в папке, где храните проекты, и создайте новую библиотеку классов:
 
 ```bash
-dotnet new classlib -n HelloBepInEx -f net472
+dotnet new classlib -n HelloBepInEx
 cd HelloBepInEx
 ```
 
-Откройте `HelloBepInEx.csproj` в редакторе и добавьте ссылки на библиотеки игры и BepInEx:
+Затем замените всё содержимое `HelloBepInEx.csproj` на это. Файл нацелен на ту же версию .NET, что и игра, один раз указывает на вашу папку WorldBox и при каждой сборке делает за вас три дела:
 
 ```xml HelloBepInEx.csproj
 <Project Sdk="Microsoft.NET.Sdk">
@@ -47,41 +49,44 @@ cd HelloBepInEx
     <AssemblyName>HelloBepInEx</AssemblyName>
     <Version>1.0.0</Version>
     <LangVersion>latest</LangVersion>
+    <!-- Your WorldBox folder. Change this one line if Steam lives on another drive. -->
+    <GameDir>C:\Program Files (x86)\Steam\steamapps\common\worldbox</GameDir>
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Game assemblies from worldbox_Data/Managed -->
-    <Reference Include="Assembly-CSharp">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\worldbox\worldbox_Data\Managed\Assembly-CSharp.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\worldbox\worldbox_Data\Managed\UnityEngine.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\worldbox\worldbox_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <!-- BepInEx and Harmony from BepInEx/core -->
-    <Reference Include="BepInEx">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\worldbox\BepInEx\core\BepInEx.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="0Harmony">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\worldbox\BepInEx\core\0Harmony.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
+    <!-- Lets you build for net472 without installing the old .NET Framework developer pack -->
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <!-- Makes internal and private game code visible to your compiler, like NML does -->
+    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.3" PrivateAssets="all" />
   </ItemGroup>
+
+  <ItemGroup>
+    <!-- The game, publicized -->
+    <Reference Include="$(GameDir)\worldbox_Data\Managed\Assembly-CSharp.dll" Publicize="true" Private="false" />
+    <!-- Every Unity module: UnityEngine.dll alone does not have Input, UI or ImageConversion -->
+    <Reference Include="$(GameDir)\worldbox_Data\Managed\UnityEngine*.dll" Private="false" />
+    <!-- BepInEx and Harmony -->
+    <Reference Include="$(GameDir)\BepInEx\core\BepInEx.dll" Private="false" />
+    <Reference Include="$(GameDir)\BepInEx\core\0Harmony.dll" Private="false" />
+  </ItemGroup>
+
+  <!-- After every build, copy the plugin straight into the game -->
+  <Target Name="CopyToGame" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(GameDir)\BepInEx\plugins\$(AssemblyName)\" />
+  </Target>
 </Project>
 ```
 
-Скорректируйте пути, если библиотека Steam находится на другом диске. Тег `<Private>false</Private>` предотвратит копирование файлов движка в папку сборки :PESgn_SMH:.
+Зачем нужна каждая часть:
+
+- **`Private="false"`** у каждой ссылки на игру: папка сборки не копирует в себя весь движок игры :PESgn_SMH:.
+- **`Publicize="true"`**: страницы про NML постоянно используют `internal`-члены игры, потому что NML компилирует против "публицированной" игры. Ваш проект BepInEx так не делает, пока вы не попросите. С этой строкой тот же код компилируется и здесь. Номера версий в `PackageReference` были самыми новыми стабильными на момент написания; если NuGet ругается, берите самую новую, которую он предлагает.
+- **`UnityEngine*.dll`**: Unity разбит на много модулей. `Input` живёт в `UnityEngine.InputLegacyModule.dll`, интерфейс в `UnityEngine.UI.dll` и так далее. Если сослаться на все, не придётся искать, где "тип не найден".
+- **`CopyToGame`**: больше не нужно копировать `.dll` вручную. Собрали, запустили игру, готово.
 
 ## 3. Каркас плагина
 
-Плагин BepInEx представляет собой класс, наследуемый от `BaseUnityPlugin` и помеченный атрибутом `[BepInPlugin]`:
+Плагин BepInEx это класс, унаследованный от `BaseUnityPlugin` и помеченный атрибутом `[BepInPlugin]`:
 
 ```csharp Plugin.cs
 using BepInEx;
@@ -92,17 +97,20 @@ using UnityEngine;
 namespace HelloBepInEx
 {
     [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
+    [BepInProcess("worldbox.exe")]
     public class HelloPlugin : BaseUnityPlugin
     {
         public const string PLUGIN_GUID = "com.example.hellobepinex";
         public const string PLUGIN_NAME = "HelloBepInEx";
         public const string PLUGIN_VERSION = "1.0.0";
 
+        // BepInEx manages configuration files automatically
         private ConfigEntry<bool> configEnableLogs;
         private ConfigEntry<KeyCode> configHotkey;
 
         private void Awake()
         {
+            // Bind configuration: section, key, default value, description
             configEnableLogs = Config.Bind(
                 "General",
                 "EnableLogs",
@@ -122,12 +130,14 @@ namespace HelloBepInEx
                 Logger.LogInfo($"{PLUGIN_NAME} loaded successfully!");
             }
 
+            // Apply any Harmony patches in this assembly
             Harmony harmony = new Harmony(PLUGIN_GUID);
             harmony.PatchAll();
         }
 
         private void Update()
         {
+            // Standard Unity Update cycle
             if (Input.GetKeyDown(configHotkey.Value))
             {
                 Logger.LogInfo("Hotkey pressed from BepInEx!");
@@ -137,16 +147,17 @@ namespace HelloBepInEx
 }
 ```
 
-### Разбор ключевых элементов
+### По частям
 
-- **`BaseUnityPlugin`**: наследуется от `MonoBehaviour` движка Unity. Плагин становится активным компонентом на постоянном `GameObject`, сохраняющемся между сценами.
-- **`[BepInPlugin(guid, name, version)]`**: сообщает BepInEx имя и уникальный идентификатор мода в формате обратного домена (`com.author.modname`).
-- **`Logger.LogInfo()`**: выводит строки напрямую в живую консоль BepInEx и записывает их в `BepInEx/LogOutput.log`.
-- **`Config.Bind()`**: регистрирует типизированный параметр. При первом запуске BepInEx сам создаст файл конфигурации `BepInEx/config/com.example.hellobepinex.cfg`.
+- **`BaseUnityPlugin`**: наследуется прямо от `MonoBehaviour` из Unity. Ваш плагин это активный компонент на постоянном `GameObject`, который переживает смену сцен.
+- **`[BepInPlugin(guid, name, version)]`**: говорит BepInEx, как называется ваш мод и какой у него уникальный идентификатор. Используйте обратную доменную запись (`com.author.modname`) и никогда не меняйте GUID после выпуска: к нему привязаны файл настроек и зависимости других плагинов.
+- **`[BepInProcess("worldbox.exe")]`**: загружаться только внутри WorldBox. Здесь безвредно, а если кто-то положит ваш плагин в BepInEx другой игры, это спасёт от непонятного краша.
+- **`Logger.LogInfo()`**: пишет прямо в консоль BepInEx и в `BepInEx/LogOutput.log`.
+- **`Config.Bind()`**: создаёт типизированную настройку. При первом запуске плагина BepInEx создаёт аккуратный файл `BepInEx/config/com.example.hellobepinex.cfg`, который игроки могут править.
 
-## 4. Патчинг игры через Harmony
+## 4. Подключаемся к игре через Harmony
 
-В BepInEx библиотека Harmony уже встроена в `BepInEx/core/0Harmony.dll`. Добавьте класс патча в проект:
+В BepInEx Harmony уже лежит в `BepInEx/core/0Harmony.dll`. Добавьте класс патча в любое место проекта:
 
 ```csharp Patches.cs
 using HarmonyLib;
@@ -154,19 +165,20 @@ using UnityEngine;
 
 namespace HelloBepInEx
 {
-    [HarmonyPatch(typeof(World), nameof(World.init))]
-    public static class WorldInitPatch
+    // MapBox.startTheGame runs once the world exists: it is where the game sets Config.game_loaded
+    [HarmonyPatch(typeof(MapBox), nameof(MapBox.startTheGame))]
+    public static class StartTheGamePatch
     {
         [HarmonyPostfix]
         public static void Postfix()
         {
-            Debug.Log("[HelloBepInEx] World initialized from BepInEx patch!");
+            Debug.Log("[HelloBepInEx] The world is ready!");
         }
     }
 }
 ```
 
-Поскольку в `Plugin.cs` был вызван `harmony.PatchAll()`, BepInEx автоматически найдет и применит все патчи при старте.
+Раз `Plugin.cs` вызвал `harmony.PatchAll()`, Harmony просматривает вашу скомпилированную сборку и применяет все классы патчей в ней. Всё, что вы знаете со страницы **[Патчи Harmony](#/nml/harmony-patches)**, работает так же: магические имена параметров, Prefix и Postfix, правила, как не ломать чужие моды.
 
 ## 5. Сборка и установка
 
@@ -176,11 +188,7 @@ namespace HelloBepInEx
 dotnet build -c Release
 ```
 
-Скомпилированная `.dll` появится в `bin/Release/net472/HelloBepInEx.dll`.
-
-1. Откройте папку WorldBox: `C:\Program Files (x86)\Steam\steamapps\common\worldbox\`.
-2. Внутри `BepInEx/plugins/` создайте папку с именем `HelloBepInEx`.
-3. Скопируйте `HelloBepInEx.dll` в `BepInEx/plugins/HelloBepInEx/`.
+`.dll` появится в `bin/Release/net472/HelloBepInEx.dll`, а шаг `CopyToGame` сразу положит её в игру:
 
 ```text
 worldbox/
@@ -197,9 +205,12 @@ worldbox/
 [Info   :HelloBepInEx] HelloBepInEx loaded successfully!
 ```
 
+> [!WARNING] Закройте игру перед сборкой
+> Пока WorldBox запущен, он держит вашу `.dll` открытой, и копирование падает с "the process cannot access the file". Закрыть игру, собрать, запустить снова. Это и есть весь цикл разработки на BepInEx :PES2_Weary:.
+
 ## Суровая правда о моддинге на BepInEx
 
-- **Нет горячей перезагрузки**: любое изменение требует закрытия игры, компиляции через `dotnet build` и нового запуска.
-- **`HideManagerGameObject`**: в `BepInEx/config/BepInEx.cfg` убедитесь, что включен параметр `HideManagerGameObject = true`, иначе стандартная очистка Unity может удалить объект BepInEx :PES5_Hmmmm:.
-- **Совместимость с NML**: NML и BepInEx отлично уживаются в одной папке игры и не мешают друг другу.
-- **Доступ к ресурсам игры**: BepInEx работает на чистом уровне Unity. Чтобы спавнить юнитов или регистрировать предметы, дождитесь инициализации `AssetManager` или подключите `NeoModLoader.dll`.
+- **Нет горячей перезагрузки**: поменять одну строчку значит закрыть WorldBox, выполнить `dotnet build` и снова запустить игру. Если вы подбираете баланс боя или числа черт, это быстро надоедает. Частичный обход есть на странице **[Отладка и публикация](#/toolbox/bepinex-publishing)**.
+- **`HideManagerGameObject`**: в `BepInEx/config/BepInEx.cfg` в разделе `[Chainloader]` поставьте `HideManagerGameObject = true`. Без этого некоторые процедуры очистки Unity могут уничтожить корневой объект BepInEx и тихо убить ваш плагин :PES5_Hmmmm:.
+- **Вместе с NML**: NML и BepInEx спокойно живут в одной папке игры. Можно использовать NML для контентных модов, а BepInEx для инструментов вроде UnityExplorer, и они не будут драться.
+- **Доступ к ассетам игры**: ваш плагин просыпается до того, как игра построит свои библиотеки (library) ассетов. Тронете `AssetManager` в `Awake()` и получите null. Следующая страница, **[Добавление контента через BepInEx](#/toolbox/bepinex-content)**, показывает точный момент, когда подключаться.

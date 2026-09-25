@@ -72,6 +72,7 @@ expect(
   checkCode('AssetManager.trait.add(t);')[0]?.message,
 );
 expect('valid library is quiet', !has('AssetManager.subspecies_traits.add(t);', 'WB001'));
+expect('AssetManager methods are quiet', !has('[HarmonyPatch(typeof(AssetManager), nameof(AssetManager.init))]\nAssetManager.missing_locale_keys.Add("x");', 'WB001'));
 
 expect('unknown stat key', has('trait.base_stats["dammage"] = 5;', 'WB002'));
 expect(

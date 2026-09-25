@@ -218,7 +218,6 @@ export function getNav(lang: Lang): NavGroup[] {
         pages: sortedDirectPages,
         subgroups: sortedSubgroups.length > 0 ? sortedSubgroups : undefined,
         allPages,
-        tag: g.name === 'BepInEx Modding' ? 'Working on...' : undefined,
       };
       return mapped;
     });
@@ -232,7 +231,6 @@ export function getNav(lang: Lang): NavGroup[] {
       items: [],
       pages: [],
       allPages: [],
-      tag: 'Working on...',
       isComingSoon: false,
     });
   }
