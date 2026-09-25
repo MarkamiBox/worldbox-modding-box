@@ -57,9 +57,13 @@ namespace HelloBox
             moss.color = Toolbox.makeColor(moss.color_hex);
             moss.has_biome_tags = moss.biome_tags != null && moss.biome_tags.Count > 0;
 
+            // Inherit source tile sprites so rendering never encounters a null TileSprites
+            TopTileType source = AssetManager.top_tiles.get("grass_low");
+            if (source != null) moss.sprites = source.sprites;
+
             // The variations in GameResources/tiles/hello_moss/ are loaded at startup too.
             Sprite[] variations = SpriteTextureLoader.getSpriteList("tiles/" + moss.id);
-            if (variations.Length > 0)
+            if (variations != null && variations.Length > 0)
             {
                 moss.sprites = new TileSprites();
                 foreach (Sprite variation in variations)

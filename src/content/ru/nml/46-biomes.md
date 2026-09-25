@@ -114,9 +114,13 @@ namespace HelloBox
             tile.color = Toolbox.makeColor(tile.color_hex);
             tile.has_biome_tags = tile.biome_tags != null && tile.biome_tags.Count > 0;
 
+            // Inherit source tile sprites so rendering never encounters a null TileSprites
+            TopTileType source = AssetManager.top_tiles.get(pFrom);
+            if (source != null) tile.sprites = source.sprites;
+
             // your art in GameResources/tiles/<id>/, loaded at startup in the vanilla case
             Sprite[] variations = SpriteTextureLoader.getSpriteList("tiles/" + tile.id);
-            if (variations.Length > 0)
+            if (variations != null && variations.Length > 0)
             {
                 tile.sprites = new TileSprites();
                 foreach (Sprite variation in variations)

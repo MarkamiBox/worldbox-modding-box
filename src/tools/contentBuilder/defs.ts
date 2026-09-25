@@ -1004,9 +1004,13 @@ const tile: Def = {
             tile.color = Toolbox.makeColor(tile.color_hex);
             tile.has_biome_tags = tile.biome_tags != null && tile.biome_tags.Count > 0;
 
+            // Inherit source tile sprites so rendering never encounters a null TileSprites
+            TopTileType source = AssetManager.top_tiles.get("grass_low");
+            if (source != null) tile.sprites = source.sprites;
+
             // Your variations in GameResources/tiles/<id>/ are loaded at startup too.
             Sprite[] variations = SpriteTextureLoader.getSpriteList("tiles/" + tile.id);
-            if (variations.Length > 0)
+            if (variations != null && variations.Length > 0)
             {
                 tile.sprites = new TileSprites();
                 foreach (Sprite variation in variations)
@@ -1393,6 +1397,56 @@ const TEMPLATE_KINDS: TemplateKind[] = [
       const upper = pascal(cleanId(p));
       return [
         { path: `GameResources/ui/Icons/icon${upper}Panel.png`, what: 'power button icon to toggle window', folder: false },
+      ];
+    },
+  },
+  {
+    key: 'biome',
+    label: 'Biome',
+    page: 'nml/biomes',
+    cls: 'HelloBiomes',
+    main: (c) => `${c}.Initialize();`,
+    needs: ['HelloTraits'],
+    art: (p) => {
+      const upper = pascal(cleanId(p));
+      return [
+        { path: `GameResources/ui/Icons/icon${upper}Seeds.png`, what: 'seeds power button icon', folder: false },
+      ];
+    },
+  },
+  {
+    key: 'names',
+    label: 'Name generator',
+    page: 'nml/name-generators',
+    cls: 'HelloNames',
+    main: (c) => `${c}.Initialize();`,
+    needs: [],
+  },
+  {
+    key: 'book',
+    label: 'Book type',
+    page: 'nml/books',
+    cls: 'HelloBooks',
+    main: (c) => `${c}.Initialize();`,
+    needs: ['HelloTraits', 'HelloStatus'],
+    art: (p) => {
+      const lower = cleanId(p);
+      return [
+        { path: `GameResources/books/book_icons/${lower}_almanac/`, what: 'book icon frames folder', folder: true },
+      ];
+    },
+  },
+  {
+    key: 'war',
+    label: 'War type',
+    page: 'nml/war-types',
+    cls: 'HelloWars',
+    main: (c) => `${c}.Initialize();`,
+    needs: [],
+    art: (p) => {
+      const lower = cleanId(p);
+      return [
+        { path: `GameResources/wars/war_${lower}_feud.png`, what: 'war type icon in wars list', folder: false },
       ];
     },
   },

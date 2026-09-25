@@ -36,6 +36,16 @@ const NOT_PART_OF_THE_MOD = new Set([
   'Code/HelloSomething.cs', // the shape every page's file follows
   'Code/HelloLocale.cs', // the code alternative to Locales/en.json, never staged
   'Code/HelloNativeWindow.cs', // the NML AbstractWindow route; HelloBox itself uses HelloWindow
+  'Code/HelloWorldCache.cs',
+  'Code/HelloIntegration.cs',
+  'Code/HelloCrossPatch.cs',
+  'Code/HelloOptions.cs',
+  'Code/HelloSpeed.cs',
+  'Code/HelloHistory.cs',
+  'Code/HelloKingdomAI.cs',
+  'Code/HelloBuildOrders.cs',
+  'Code/HelloPhenotypes.cs',
+  'Code/HelloHUD.cs',
 ]);
 
 const walk = (dir) =>

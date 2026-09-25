@@ -22,6 +22,10 @@ export const SOURCES = {
   city_job: ['22-custom-ai', 'HelloCityJobs.cs'],
   plot: ['41-plots', 'HelloPlots.cs'],
   window: ['18-custom-windows', 'HelloWindow.cs'],
+  biome: ['46-biomes', 'HelloBiomes.cs'],
+  names: ['47-name-generators', 'HelloNames.cs'],
+  book: ['48-books', 'HelloBooks.cs'],
+  war: ['49-war-types', 'HelloWars.cs'],
 };
 
 export function buildTemplates() {
