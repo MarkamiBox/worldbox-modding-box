@@ -1450,6 +1450,38 @@ const TEMPLATE_KINDS: TemplateKind[] = [
       ];
     },
   },
+  {
+    key: 'kingdom_ai',
+    label: 'Kingdom AI',
+    page: 'nml/kingdom-ai',
+    cls: 'HelloKingdomAI',
+    main: (c) => `${c}.Initialize();`,
+    needs: [],
+  },
+  {
+    key: 'build_order',
+    label: 'Build order (city expansion)',
+    page: 'nml/architecture-and-build-orders',
+    cls: 'HelloBuildOrders',
+    main: (c) => `${c}.Initialize();`,
+    needs: ['HelloBuildings'],
+  },
+  {
+    key: 'phenotype',
+    label: 'Phenotype (genetics)',
+    page: 'nml/phenotypes',
+    cls: 'HelloPhenotypes',
+    main: (c) => `${c}.Initialize();`,
+    needs: [],
+  },
+  {
+    key: 'hud',
+    label: 'Custom HUD (screen UI)',
+    page: 'nml/canvas-and-hud',
+    cls: 'HelloHUD',
+    main: (c) => `${c}.Initialize();`,
+    needs: [],
+  },
 ];
 
 /** HelloBox -> your namespace, Hello... -> your prefix, hello_ -> your prefix. */
@@ -1460,7 +1492,8 @@ const rename = (code: string, ns: string, prefix: string): string => {
     .replace(/\bHelloBox\b/g, ns)
     .replace(/Hello(?=[A-Z])/g, upper)
     .replace(/\bhellobox_/g, `${lower}_`)
-    .replace(/\bhello_/g, `${lower}_`);
+    .replace(/\bhello_/g, `${lower}_`)
+    .replace(/_hello_/g, `_${lower}_`);
 };
 
 const templateDef = (k: TemplateKind): Def => ({

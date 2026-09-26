@@ -26,6 +26,10 @@ export const SOURCES = {
   names: ['47-name-generators', 'HelloNames.cs'],
   book: ['48-books', 'HelloBooks.cs'],
   war: ['49-war-types', 'HelloWars.cs'],
+  kingdom_ai: ['55-kingdom-ai', 'HelloKingdomAI.cs'],
+  build_order: ['56-architecture-and-build-orders', 'HelloBuildOrders.cs'],
+  phenotype: ['57-phenotypes', 'HelloPhenotypes.cs'],
+  hud: ['58-canvas-and-hud', 'HelloHUD.cs'],
 };
 
 export function buildTemplates() {
